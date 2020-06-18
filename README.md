@@ -2,7 +2,7 @@
 
 ### Requirements
 
-1. MAMP, ZAMP, Valet (Any server that runs php), Laragon (Recommended)
+1. MAMP, [XAMPP](https://www.apachefriends.org/), Valet (Any server that runs php), Laragon (Recommended)
 2. Node
 3. NPM
 
@@ -29,11 +29,11 @@ Step 6: Check out to the task branch | <code>git checkout -b <NAME_OF_THE_TASK><
 
 Step 1: cd into sentry-my-customer-frontend
 
-Step 2: Create .env and copy .env.example to it the .env | On terminal <code> cp .env.example .env
+Step 2: Create .env and copy .env.example to it the .env | On terminal <code> cp .env.example .env</code>
 
-Step 3: <code> php artisan key:generate </code>
+Step 3: <code>composer install </code>
 
-Step 4: <code>composer install </code>
+Step 4: <code> php artisan key:generate </code>
 
 Step 5: <code>npm install </code>
 
