@@ -44,7 +44,7 @@ Step 2: Run: git commit -m "<COMMIT MESSAGE>"
 
 Step 3: git push origin <BRANCH_NAME>
 
-Go to the repository https://github.com/ekpono/santry-customerapp
+Go to the repository https://github.com/hngi/sentry-my-customer-frontend
 
 As soon as you get there, you are going to see a green ‘compare and create a pull request’
 
