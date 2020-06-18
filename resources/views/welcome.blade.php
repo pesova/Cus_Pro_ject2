@@ -16,17 +16,17 @@
     <nav>
         <div class="navigation-bar container">
             <div class="brand-name">
-                <a href="./index.html">
+                <a href="/">
                     <h6>MyCustomer</h6>
                 </a>
             </div>
             <ul class="nav-links">
-                <li><a href="./about-us">About Us</a></li>
-                <li><a href="./index.html#aim">What We Do</a></li>
-                <li><a href="./index.html#feature">Features</a></li>
+                <li><a href="/about-us">About Us</a></li>
+                <li><a href="{{route('home')."#aim"}}">What We Do</a></li>
+                <li><a href="{{route('home')."#feature"}}">Features</a></li>
                 <li><a href="./contact">Contact Us</a></li>
                 <a href="/register"><button class="btn-register">Register</button></a>
-                <a href="./login"><button class="btn-login">Login</button></a>
+                <a href="/login"><button class="btn-login">Login</button></a>
             </ul>
             <a onclick="iconMenu()" class="hamburger-icon" href="#"><i class="fas fa-bars" style="color: #fff;"></i></a>
         </div>
