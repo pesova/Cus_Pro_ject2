@@ -2,9 +2,14 @@
 
 ### Requirements
 
-1. MAMP, ZAMP, Valet (Any server that runs php)
+1. MAMP, ZAMP, Valet (Any server that runs php), Laragon (Recommended)
 2. Node
 3. NPM
+
+Install Laragon: https://laragon.org/docs/install.html
+
+N/B: If you are asked to update your php when running laragon:
+https://medium.com/@stephenjudeso/upgrading-to-php-7-4-laragon-862b9d204d0c
 
 ###TEAM Sentry - INSTALLATION
 
