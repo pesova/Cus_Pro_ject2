@@ -46,8 +46,10 @@ Then go to http://127.0.0.1:8000
 Step 1: Run: git add .
 
 Step 2: Run: git commit -m "<COMMIT MESSAGE>"
+    
+Step 3: git pull upstream develop
 
-Step 3: git push origin <BRANCH_NAME>
+Step 4: git push origin <BRANCH_NAME>
 
 Go to the repository https://github.com/hngi/sentry-my-customer-frontend
 
