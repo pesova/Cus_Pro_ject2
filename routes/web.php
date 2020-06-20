@@ -11,9 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 
 // backend codes
@@ -64,3 +61,22 @@ Route::get('/users_list', function () {
 Route::get('/backend/view_user', function () {
     return view('backend.users_list.show');
 });
+
+//Frontend Routes go here
+
+Route::get('/', function () {
+    return view('frontend.index');
+});
+
+Route::get('/faq', function () {
+    return view('frontend.faq');
+});
+
+Route::get('/contact-us', function () {
+    return view('frontend.contact-us');
+});
+
+Route::get('/about', function () {
+    return view('frontend.about');
+});
+
