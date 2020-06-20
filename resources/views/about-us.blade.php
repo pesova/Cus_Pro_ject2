@@ -10,7 +10,7 @@
         integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
         crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="{{asset('/css/about.css')}}" />
+    <link rel="stylesheet" href="/css/about.css" />
     <title>About Us</title>
 </head>
 <body>
@@ -56,7 +56,7 @@
                         </p>
                     </div>
                     <div class="our-image">
-                        <img class="upground" src="{{asset('/images/customer.png')}}" alt="Customer" />
+                        <img class="upground" src="/images/customer.png" alt="Customer" />
                     </div>
                 </div>
             </div>
@@ -73,11 +73,11 @@
                 <h3>
                     phone to use on the Go.
                 </h3>
-                <img src="{{asset('/images/google.png')}}" alt="Download on Google play" />
+                <img src="/images/google.png" alt="Download on Google play" />
             </div>
         </div>
     </div>
-    <img src="{{asset('/images/main.png')}}" alt="Mobile Phone" />
+    <img src="/images/main.png" alt="Mobile Phone" />
 </section>
 <footer>
     <div class="container">
