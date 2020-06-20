@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{asset('/css/contact-us.css')}}">
+    <link rel="stylesheet" href="/css/contact-us.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -18,8 +18,8 @@
             <div class="col-sm-4">
                 <div class="txt-box">
                     <p class="txt-1">Send us a message today, we <br> will get back to you within the <br> day.</p>
-                    <p class="txt-sub"><img class="icon" src="{{asset('images/carbon_phone-filled.svg')}}" alt="icon1">+234 70 1300 4126</p>
-                    <p class="txt-sub"><img class="icon" src="{{asset('/images/entypo_location-pin.svg')}}" alt="icon1">House 14, Kudag Street, <br> Abuja, Nigeria.</p>
+                    <p class="txt-sub"><img class="icon" src="images/carbon_phone-filled.svg" alt="icon1">+234 70 1300 4126</p>
+                    <p class="txt-sub"><img class="icon" src="/images/entypo_location-pin.svg" alt="icon1">House 14, Kudag Street, <br> Abuja, Nigeria.</p>
                 </div>
             </div>
             <div class="col-sm-8">

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="description" content="MyCustomer">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{asset('/css/index.css')}}">
+    <link rel="stylesheet" href="/css/index.css">
     <title>My Customer - Home</title>
     <script src="https://kit.fontawesome.com/25fffa082a.js" crossorigin="anonymous"></script>
 </head>
@@ -68,7 +68,7 @@
     <div class="aim_box">
         <div class="aim_box_item">
             <div class="aim_box_item_image">
-                <img src="./assets/images/aim_1.svg" alt="our_aim_1">
+                <img src="images/aim_1.svg" alt="our_aim_1">
             </div>
             <div class="aim_box_item_content">
                 <p>Automate Payment for debts from customers</p>
@@ -76,7 +76,7 @@
         </div>
         <div class="aim_box_item">
             <div class="aim_box_item_image">
-                <img src="{{asset('images/aim_2.svg')}}" alt="our_aim_2">
+                <img src="images/aim_2.svg" alt="our_aim_2">
             </div>
             <div class="aim_box_item_content">
                 <p>Keep track of your customers</p>
@@ -84,7 +84,7 @@
         </div>
         <div class="aim_box_item">
             <div class="aim_box_item_image">
-                <img src="{{asset('images/aim_3.svg')}}" alt="our_aim_3">
+                <img src="images/aim_3.svg" alt="our_aim_3">
             </div>
             <div class="aim_box_item_content">
                 <p>Automate sending of messages to customers and debtors</p>
@@ -99,7 +99,7 @@
     <div class="about">
         <div class="about_box">
             <div class="about_box_image left">
-                <img src="{{asset('images/about_img_1.svg')}}" alt="about-us">
+                <img src="images/about_img_1.svg" alt="about-us">
             </div>
             <div class="about_box_content">
                 <h2>About MyCustomer</h2>
@@ -108,7 +108,7 @@
         </div>
         <div class="about_box">
             <div class="about_box_image">
-                <img src="{{asset('/images/about_img_2.svg')}}" alt="about-us">
+                <img src="/images/about_img_2.svg" alt="about-us">
             </div>
             <div class="about_box_content left">
                 <h2>MyCustomer, bringing you closer to your customers.</h2>
@@ -173,12 +173,12 @@
             </div>
             <div class="message_contact_phone">
                 <p>
-                    <span class="message_contact_icon"><img src="{{asset('images/phone_icon.svg')}}" alt="phone_vector_icon"></span>   +901 244 6653 662
+                    <span class="message_contact_icon"><img src="images/phone_icon.svg" alt="phone_vector_icon"></span>   +901 244 6653 662
                 </p>
             </div>
             <div class="message_contact_email">
                 <p>
-                    <span class="message_contact_icon"><img src="{{asset('images/message_icon.svg')}}" alt="message_contact_icon"></span>
+                    <span class="message_contact_icon"><img src="images/message_icon.svg" alt="message_contact_icon"></span>
                     mycustomer@gmail.com
                 </p>
             </div>
@@ -191,10 +191,10 @@
 <section id="download">
     <div class="download_message">
         <h2>Download the MyCustomer App on your phone to use on the Go</h2>
-        <a href="#"><img src="{{asset('images/play_store.svg')}}" alt="playstore icon"></a>
+        <a href="#"><img src="images/play_store.svg" alt="playstore icon"></a>
     </div>
     <div class=" anim">
-        <img src="{{asset('images/phone_image.svg')}}" alt="phone image">
+        <img src="images/phone_image.svg" alt="phone image">
     </div>
 </section>
 
@@ -234,7 +234,7 @@
 
 
 <!-- linking js File -->
-<script src="{{asset('scripts/index.js')}}"></script>
+<script src="scripts/index.js"></script>
 </body>
 
 </html>
