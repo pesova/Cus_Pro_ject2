@@ -1,0 +1,80 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  color: #000;
+  color: #00098a;
+  /* text-decoration: none; */
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+#content {
+  width: 98%;
+  max-width: 750px;
+
+  margin: 10px auto;
+  padding: 20px;
+  background: #f3f3f6;
+}
+
+.user-list {
+  background: #fff;
+  position: relative;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  transition: 0.3s;
+  padding: 10px 15px;
+}
+
+.user-list:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.user-name {
+  font-size: 1.2em;
+  font-weight: 600;
+}
+.user-details {
+  position: absolute;
+  top: 25%;
+  left: 20%;
+}
+.view-user {
+  position: absolute;
+  top: 35%;
+  color: #000;
+  right: 30px;
+}
+
+.user-role {
+  font-size: 0.8em;
+  margin-top: 10px;
+  text-transform: uppercase;
+}
+
+.profile-image {
+  width: 100px;
+  border-radius: 50%;
+  height: 100px;
+}
+@media only screen and (max-width: 650px) {
+  .profile-image {
+    width: 50px;
+    height: 50px;
+  }
+  .user-name {
+    font-size: 1em;
+  }
+  .view-user {
+    top: 70%;
+  }
+  .user-details {
+    position: absolute;
+    top: 25%;
+    left: 25%;
+  }
+  .user-role {
+    font-size: 0.8em;
+    margin-top: 10px;
+  }
+}
