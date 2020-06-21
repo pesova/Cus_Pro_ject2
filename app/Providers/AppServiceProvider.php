@@ -2,8 +2,6 @@
 
 namespace App\Providers;
 
-use Illuminate\Contracts\Routing\UrlGenerator;
-use Illuminate\Routing\UrlGenerator as RoutingUrlGenerator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,11 +21,8 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot(RoutingUrlGenerator $url)
+    public function boot()
     {
-        // Serve the assets using https scheme on production
-        if(env('SET_SECURE_PATH')) {
-            $url->forceScheme('https');
-        }
+        //
     }
 }

@@ -81,6 +81,12 @@ h1,h2,h3,h4,h5,h6 {
   }
 }
 
+@media (max-width: 570px) {
+  .top-button-container {
+    transform: scale(0.7);
+  }
+}
+
 /* WHAT WE OFFER SECTION STYLING */
 
 .feature-heading-container {
@@ -150,13 +156,20 @@ h1,h2,h3,h4,h5,h6 {
 
 }
 
-
+.p-b-40 {
+  padding-bottom: 40px;
+}
+.bg-gray {
+  background-color:#F3F3F3;
+  /* padding-top: 15%;
+  padding-bottom: 15%; */
+}
 /* FEATURE AREA*/
 
 .feature-area {
   background-color:#F3F3F3;
-  padding-top: 15%;
-  padding-bottom: 15%;
+  /* padding-top: 15%;
+  padding-bottom: 15%; */
 }
 
 .why-we-are-area {
@@ -175,6 +188,12 @@ h1,h2,h3,h4,h5,h6 {
 
 .why-we-content-text .feature__action__btn {
   background-color: var(--tetiary);
+}
+
+@media (max-width: 767px) {
+  #about > div > div > div.col-md-5 > div > div.video-thumb > img {
+    max-width: 60%;
+  }
 }
 
 /* CALL TO ACTION STYLING */ 
@@ -241,6 +260,14 @@ h1,h2,h3,h4,h5,h6 {
   left: -120px;
 }
 
+/* .app-screen-shot-area {
+  background-color: var(--secondary);
+} */
+
+.app-screen-shot-area .slick-arrow {
+  display: none !important;
+}
+
 @media (max-width: 767px) {
   .call-to-download__button {
     padding: 0 2px;
@@ -253,6 +280,10 @@ h1,h2,h3,h4,h5,h6 {
     transform: scale(0.9);
   }
 
+  .call-to-download__button a {
+    margin-left: 0;
+  }
+
   .call-to-download-floating-circle, .call-to-download-floating-triangles {
     transform: scale(0.6);
   }
@@ -260,4 +291,38 @@ h1,h2,h3,h4,h5,h6 {
   .call-to-download-floating-triangles {
     left: -55px;
   }
+
+  .why-we-content-text {
+    text-align: center;
+  }
+
+  .why-we-content-text p {
+    padding-right: 0;
+  }
 }
+
+/* CAROUSEL */
+
+#client > div > div:nth-child(2) > div > div > div.owl-stage-outer > div > div.owl-item.active > div {
+  justify-content: center;
+  text-align: center;
+}
+
+.client-feedback-area .owl-nav {
+  position: static !important;
+  display: flex !important;
+  justify-content: center !important;
+  margin-top: 5%;
+}
+
+.testimonial-img-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 4%;
+}
+
+.testimonial-img {
+  width: 80px !important;
+  border-radius: 50%;
+}
+

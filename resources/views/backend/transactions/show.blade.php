@@ -4,7 +4,7 @@
 
 
 <div class="account-pages my-5">
-    <div class="container">
+    <div class="container-fluid">
         <div class="row-justify-content-center">
 
             <div class="row">
