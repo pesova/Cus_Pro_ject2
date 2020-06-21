@@ -117,7 +117,7 @@
                             {{-- <div class="assign team mt-4">
                                 <h6 class="font-weight-bold">Assign To</h6>
                                 <a href="javascript: void(0);">
-                                    <img src="{{ asset('backend/assets/images/users/avatar-2.jpg') }}" alt="" class="avatar-sm m-1 rounded-circle">
+                                    <img src="backend/assets/images/users/avatar-2.jpg" alt="" class="avatar-sm m-1 rounded-circle">
                                 </a>
                             </div> --}}
 

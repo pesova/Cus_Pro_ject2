@@ -1,7 +1,7 @@
 
 @extends('layout.base')
 @section("custom_css")
-	<link href="{{ asset('/backend/assets/css/materialize.min.css') }}" rel="stylesheet" type="text/css" />
+	<link href="/backend/assets/css/materialize.min.css" rel="stylesheet" type="text/css" />
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
 @stop
@@ -27,7 +27,7 @@
           <tr>
             <td>1</td>
             <td>Alan Jellybean</td>
-            <td>alan@gmail.com</td>            
+            <td>alan@gmail.com</td>
             <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
             tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
             quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
@@ -86,7 +86,7 @@
 
 
     @section("javascript")
-    <script type="text/javascript" src="{{ asset('/backend/assets/js/materialize.min.js') }}"></script>
-    
-                
+    <script type="text/javascript" src="/backend/assets/js/materialize.min.js"></script>
+
+
     @stop

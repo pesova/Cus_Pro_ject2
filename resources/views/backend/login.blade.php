@@ -1,7 +1,7 @@
 @extends('layout.authbase')
 @section("custom_css")
 
-<link href="{{ asset('/backend/assets/build/css/intlTelInput.css') }}" rel="stylesheet" type="text/css" />
+<link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
 
 @stop
 
@@ -108,7 +108,7 @@
             </div>
         </div>
         <div class="col-lg-8 d-none d-md-block bg-cover"
-            style="background-image: url({{ asset('/backend/assets/images/login.svg') }});">
+            style="background-image: url(/backend/assets/images/login.svg);">
 
         </div>
     </div>
@@ -118,7 +118,7 @@
 
 
 @section("javascript")
-<script src="{{ asset('/backend/assets/build/js/intlTelInput.js') }}"></script>
+<script src="/backend/assets/build/js/intlTelInput.js"></script>
 <script>
     var input = document.querySelector("#phone");
     window.intlTelInput(input, {

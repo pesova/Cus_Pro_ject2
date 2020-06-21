@@ -1,6 +1,6 @@
 @extends('layout.frontbase')
 @section("custom_css")
-<link href="{{ asset('/frontend/assets/css/faq.css') }}" rel="stylesheet" type="text/css" />
+<link href="/frontend/assets/css/faq.css" rel="stylesheet" type="text/css" />
 @stop
 
 
@@ -19,15 +19,15 @@
     </div>
     <!-- background vectors -->
     <div class="faq-bg__left">
-        <img src="{{ asset('/frontend/assets/img/faq-bg/orange-cutout.png') }}" alt="orange-cutout"
+        <img src="/frontend/assets/img/faq-bg/orange-cutout.png" alt="orange-cutout"
             class="faq-bg__orange-cutout img-fluid">
-        <img src="{{ asset('/frontend/assets/img/faq-bg/yellow-cutout.png') }}" alt="yellow-cutout"
+        <img src="/frontend/assets/img/faq-bg/yellow-cutout.png" alt="yellow-cutout"
             class="faq-bg__yellow-cutout img-fluid">
     </div>
     <div class="faq-bg__right">
-        <img src="{{ asset('/frontend/assets/img/faq-bg/blue-cutout.png') }}" alt="blue-cutout"
+        <img src="/frontend/assets/img/faq-bg/blue-cutout.png" alt="blue-cutout"
             class="faq-bg__blue-cutout img-fluid">
-        <img src="{{ asset('/frontend/assets/img/faq-bg/orange-triangle-cutout.png') }}" alt="orange-triangle-cutout"
+        <img src="/frontend/assets/img/faq-bg/orange-triangle-cutout.png" alt="orange-triangle-cutout"
             class="faq-bg__orange-triangle-cutout img-fluid">
     </div>
 </section>

@@ -1,9 +1,9 @@
 
 @extends('layout.base')
 @section("custom_css")
-<link href="{{ asset('/backend/assets/build/css/intlTelInput.css') }}" rel="stylesheet" type="text/css" />
+<link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
-        <link rel="stylesheet" href="{{ asset('backend/assets/css/all_users.css')}}">
+        <link rel="stylesheet" href="backend/assets/css/all_users.css">
 @stop
         @section('content')
                 <div class="content">
@@ -59,25 +59,25 @@
                                                 <label class="form-control-label">Phone Number</label>
                                                 <div class="input-group input-group-merge">
                                                     <div class="input-group-prepend">
-                                                        
+
                                                     </div>
                                                     <input type="tel" id="phone" class="form-control">
 
 
                                                 </div>
                                             </div>
-                                            
+
                                                 <button type="button" class="btn btn-primary">Search</button>
                                                 </div>
 
 
                                             </div>
-                                            
+
                                     </div> <!-- end card body-->
                                 </div> <!-- end card -->
                             </div><!-- end col-->
                         </div>
-                        
+
 
 
                         <div class="row">
@@ -123,7 +123,7 @@
                                 </div> <!-- end card -->
                             </div><!-- end col-->
                         </div>
-                        
+
                     </div>
                 </div>
                                             <div id="myModal" class="modal fade" tabindex="-1" role="dialog"
@@ -174,7 +174,7 @@
 
 
     @section("javascript")
-<script src="{{ asset('/backend/assets/build/js/intlTelInput.js') }}"></script>
+<script src="/backend/assets/build/js/intlTelInput.js"></script>
 <script>
 var input = document.querySelector("#phone");
 window.intlTelInput(input, {

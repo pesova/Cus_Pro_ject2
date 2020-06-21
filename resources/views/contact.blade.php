@@ -1,7 +1,7 @@
 @extends('layout.frontbase')
 @section("custom_css")
-<link href="{{ asset('/frontend/assets/css/about.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('/frontend/assets/css/contact-us.css') }}" rel="stylesheet" type="text/css" />
+<link href="/frontend/assets/css/about.css" rel="stylesheet" type="text/css" />
+<link href="/frontend/assets/css/contact-us.css" rel="stylesheet" type="text/css" />
 @stop
 
 
@@ -12,8 +12,8 @@
     <!-- About: Heading Section -->
     <div class="about_main">
         <div class="about-background-left">
-            <img src="{{ asset('/frontend/assets/images/bg_vector_1.svg') }}" alt="">
-            <img src="{{ asset('/frontend/assets/images/bg_vector_2.svg') }}" alt="">
+            <img src="/frontend/assets/images/bg_vector_1.svg" alt="">
+            <img src="/frontend/assets/images/bg_vector_2.svg" alt="">
         </div>
         <div class="container">
             <section id="about-header">
@@ -25,17 +25,17 @@
                     </div>
                     <div class="p-b-40 text-center">
                         <a class="welcome-btn play-store-btn mr-2 mb-2" href="#"><img
-                                src="{{ asset('/frontend/assets/img/bg-img/bt-1.png') }}" alt=""></a>
+                                src="/frontend/assets/img/bg-img/bt-1.png" alt=""></a>
 
                         <a class="welcome-btn app-store-btn mr-2 mb-2" href="#"><img
-                                src="{{ asset('/frontend/assets/img/bg-img/bt-2.png') }}" alt=""></a>
+                                src="/frontend/assets/img/bg-img/bt-2.png" alt=""></a>
                     </div>
                 </div>
             </section>
         </div>
         <div class="about-background-right">
-            <img src="{{ asset('/frontend/assets/images/bg_vector_3.svg') }}" alt="">
-            <img src="{{ asset('/frontend/assets/images/bg_vector_4.svg') }}" alt="">
+            <img src="/frontend/assets/images/bg_vector_3.svg" alt="">
+            <img src="/frontend/assets/images/bg_vector_4.svg" alt="">
         </div>
     </div>
 

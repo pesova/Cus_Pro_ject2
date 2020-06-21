@@ -1,6 +1,6 @@
 @extends('layout.frontbase')
 @section("custom_css")
-<link href="{{ asset('/frontend/assets/css/about.css') }}" rel="stylesheet" type="text/css" />
+<link href="/frontend/assets/css/about.css" rel="stylesheet" type="text/css" />
 @stop
 
 
@@ -11,8 +11,8 @@
     <!-- About: Heading Section -->
     <div class="about_main">
         <div class="about-background-left">
-            <img src="{{ asset('/frontend/assets/images/bg_vector_1.svg') }}" alt="">
-            <img src="{{ asset('/frontend/assets/images/bg_vector_2.svg') }}" alt="">
+            <img src="/frontend/assets/images/bg_vector_1.svg" alt="">
+            <img src="/frontend/assets/images/bg_vector_2.svg" alt="">
         </div>
         <div class="container">
             <section id="about-header">
@@ -24,17 +24,17 @@
                     </div>
                     <div class="p-b-40 text-center">
                         <a class="welcome-btn play-store-btn mr-2 mb-2" href="#"><img
-                                src="{{ asset('/frontend/assets/img/bg-img/bt-1.png') }}" alt=""></a>
+                                src="/frontend/assets/img/bg-img/bt-1.png" alt=""></a>
 
                         <a class="welcome-btn app-store-btn mr-2 mb-2" href="#"><img
-                                src="{{ asset('/frontend/assets/img/bg-img/bt-2.png') }}" alt=""></a>
+                                src="/frontend/assets/img/bg-img/bt-2.png" alt=""></a>
                     </div>
                 </div>
             </section>
         </div>
         <div class="about-background-right">
-            <img src="{{ asset('/frontend/assets/images/bg_vector_3.svg') }}" alt="">
-            <img src="{{ asset('/frontend/assets/images/bg_vector_4.svg') }}" alt="">
+            <img src="/frontend/assets/images/bg_vector_3.svg" alt="">
+            <img src="/frontend/assets/images/bg_vector_4.svg" alt="">
         </div>
     </div>
 
@@ -43,7 +43,7 @@
 
         <section id="about-profile">
             <div class="about-profile-image">
-                <img src="{{ asset('/frontend/assets/images/Happy-Market-Woman 1.png') }}" alt="our_company">
+                <img src="/frontend/assets/images/Happy-Market-Woman 1.png" alt="our_company">
             </div>
             <div class="about-profile-content">
                 <h2 class="about-profile-content-heading">Our Company</h2>
@@ -73,7 +73,7 @@
                     <div class="single-feature-area text-center wow fadeInUp" data-wow-delay="0.4s">
                         <!-- Feature Icon -->
                         <div class="feature-icon">
-                            <img src="{{ asset('/frontend/assets/img/icon-img/4.svg') }}" alt="">
+                            <img src="/frontend/assets/img/icon-img/4.svg" alt="">
                         </div>
                         <!-- Single Feature Text -->
                         <div class="feature-content-text">
@@ -88,7 +88,7 @@
                     <div class="single-feature-area text-center wow fadeInUp" data-wow-delay="0.4s">
                         <!-- Feature Icon -->
                         <div class="feature-icon">
-                            <img src="{{ asset('/frontend/assets/img/icon-img/5.svg') }}" alt="">
+                            <img src="/frontend/assets/img/icon-img/5.svg" alt="">
                         </div>
                         <!-- Single Feature Text -->
                         <div class="feature-content-text">
@@ -103,7 +103,7 @@
                     <div class="single-feature-area text-center wow fadeInUp" data-wow-delay="0.8s">
                         <!-- Feature Icon -->
                         <div class="feature-icon">
-                            <img src="{{ asset('/frontend/assets/img/icon-img/9.svg') }}" alt="">
+                            <img src="/frontend/assets/img/icon-img/9.svg" alt="">
                         </div>
                         <!-- Single Feature Text -->
                         <div class="feature-content-text">
@@ -116,7 +116,7 @@
                 <!-- Single Feature area -->
                 <!-- <div class="col-md-6 col-lg-4">
                     <div class="single-feature-area text-center wow fadeInUp" data-wow-delay="0.4s">
-                        <!-- Feature Icon 
+                        <!-- Feature Icon
                         <div class="feature-icon">
                             <img src="assets/img/icon-img/6.svg" alt="">
                         </div>
@@ -150,7 +150,7 @@
                         <div class="feature-icon">
                             <img src="assets/img/icon-img/8.svg" alt="">
                         </div>
-                        <!-- Single Feature Text 
+                        <!-- Single Feature Text
                         <div class="feature-content-text">
                             <h4>Drag &amp; Drop Building</h4>
                             <p class="mb-0">Add, delete and move elements around on the front end of your website.</p>
@@ -179,17 +179,17 @@
     <div class="container">
         <section id="about-collage">
             <div class="about-collage-images">
-                <img id="collage_1" src="{{ asset('/frontend/assets/images/collage_1.svg') }}" alt="collage_1">
+                <img id="collage_1" src="/frontend/assets/images/collage_1.svg" alt="collage_1">
 
-                <img id="collage_4" src="{{ asset('/frontend/assets/images/collage_4.svg') }}" alt="collage_4">
+                <img id="collage_4" src="/frontend/assets/images/collage_4.svg" alt="collage_4">
             </div>
             <div class="about-collage-images">
-                <img id="collage_2" src="{{ asset('/frontend/assets/images/collage_2.svg') }}" alt="collage_2">
-                <img id="collage_5" src="{{ asset('/frontend/assets/images/collage_5.svg') }}" alt="collage_5">
+                <img id="collage_2" src="/frontend/assets/images/collage_2.svg" alt="collage_2">
+                <img id="collage_5" src="/frontend/assets/images/collage_5.svg" alt="collage_5">
             </div>
             <div class="about-collage-images">
-                <img id="collage_3" src="{{ asset('/frontend/assets/images/collage_3.svg') }}" alt="collage_3">
-                <img id="collage_6" src="{{ asset('/frontend/assets/images/collage_6.svg') }}" alt="collage_6">
+                <img id="collage_3" src="/frontend/assets/images/collage_3.svg" alt="collage_3">
+                <img id="collage_6" src="/frontend/assets/images/collage_6.svg" alt="collage_6">
             </div>
         </section>
     </div>
@@ -215,7 +215,7 @@
                             <div class="col-sm-8">
                                 <!-- Client Content -->
                                 <div class="testimonial-img-container">
-                                    <img src="{{ asset('/frontend/assets/images/kadet pic.jpeg') }}" alt=""
+                                    <img src="/frontend/assets/images/kadet pic.jpeg" alt=""
                                         class="testimonial-img">
                                 </div>
                                 <div class="client-desc client-mt-50 testimonial__text">
@@ -233,7 +233,7 @@
                             <div class="col-sm-8">
                                 <!-- Client Content -->
                                 <div class="testimonial-img-container">
-                                    <img src="{{ asset('/frontend/assets/images/kadet pic.jpeg') }}" alt=""
+                                    <img src="/frontend/assets/images/kadet pic.jpeg" alt=""
                                         class="testimonial-img">
                                 </div>
                                 <div class="client-desc client-mt-50 testimonial__text">
@@ -256,7 +256,7 @@
     <!-- Footer Styling Begins -->
 
     <section id="footer-background">
-        <img src="{{ asset('/frontend/assets/images/background.svg') }}" alt="">
+        <img src="/frontend/assets/images/background.svg" alt="">
     </section>
 </section>
 
