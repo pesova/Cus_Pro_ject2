@@ -56,7 +56,7 @@
                         </select>
                     </div>
                     <textarea name="Message" id="Message" placeholder="Your Message Here"></textarea>
-                    <div class="button"><a href=""><img src="assets/img/icon-img/send.svg" alt="icon"
+                    <div class="button"><a href=""><img src="frontend/assets/img/icon-img/send.svg" alt="icon"
                                 class="send">Send</a></div>
                 </form>
             </div>
