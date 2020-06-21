@@ -38,15 +38,15 @@
             <div class="mobile__nav__menu">
                 <div class="mobile__menu__container">
                     <ul class="mobile__menu__list">
-                        <li class="mobile__menu__list__item"><a href="index.html"
+                        <li class="mobile__menu__list__item"><a href="/"
                                 class="mobile__menu__list__link">Home</a>
                         </li>
-                        <li class="mobile__menu__list__item"><a href="about.html"
+                        <li class="mobile__menu__list__item"><a href="/about"
                                 class="mobile__menu__list__link">About</a>
                         </li>
-                        <li class="mobile__menu__list__item"><a href="faq.html" class="mobile__menu__list__link">FAQ</a>
+                        <li class="mobile__menu__list__item"><a href="/faq" class="mobile__menu__list__link">FAQ</a>
                         </li>
-                        <li class="mobile__menu__list__item"><a href="contact-us.html"
+                        <li class="mobile__menu__list__item"><a href="/contact"
                                 class="mobile__menu__list__link">Contact Us</a></li>
                     </ul>
                 </div>
