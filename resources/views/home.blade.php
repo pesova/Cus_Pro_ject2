@@ -11,7 +11,7 @@
 <!-- Welcome-area-start -->
 <div class="welcome-area theme-bg" id="home">
     <div class="welcome-bg-thumb opacity-9"
-        style="background-image: url({{ asset('/frontend/assets/img/bg-img/bg-patter.png') }});">
+        style="background-image: url(/frontend/assets/img/bg-img/bg-patter.png);">
     </div>
     <div class="container">
         <div class="row align-items-center">
@@ -27,10 +27,10 @@
 
                     <div class="top-button-container">
                         <a class="welcome-btn play-store-btn mr-2 mb-2" href="#"><img
-                                src="{{ asset('/frontend/assets/img/bg-img/bt-1.png') }}" alt=""></a>
+                                src="/frontend/assets/img/bg-img/bt-1.png" alt=""></a>
 
                         <a class="welcome-btn app-store-btn mr-2 mb-2" href="#"><img
-                                src="{{ asset('/frontend/assets/img/bg-img/bt-2.png') }}" alt=""></a>
+                                src="/frontend/assets/img/bg-img/bt-2.png" alt=""></a>
                     </div>
 
                     <!-- <div class="slider-btn mt-30">
@@ -109,11 +109,11 @@
         <div class="row">
             <div class="col-12">
                 <div class="app-shot">
-                    <div><img src="{{ asset('/frontend/assets/img/bg-img/21.png') }}" alt=""></div>
-                    <div><img src="{{ asset('/frontend/assets/img/bg-img/22.png') }}" alt=""></div>
-                    <div><img src="{{ asset('/frontend/assets/img/bg-img/23.png') }}" alt=""></div>
-                    <div><img src="{{ asset('/frontend/assets/img/bg-img/18.png') }}" alt=""></div>
-                    <div><img src="{{ asset('/frontend/assets/img/bg-img/19.png') }}" alt=""></div>
+                    <div><img src="/frontend/assets/img/bg-img/21.png" alt=""></div>
+                    <div><img src="/frontend/assets/img/bg-img/22.png" alt=""></div>
+                    <div><img src="/frontend/assets/img/bg-img/23.png" alt=""></div>
+                    <div><img src="/frontend/assets/img/bg-img/18.png" alt=""></div>
+                    <div><img src="/frontend/assets/img/bg-img/19.png" alt=""></div>
                 </div>
             </div>
         </div>
@@ -142,7 +142,7 @@
             <div class="col-md-5">
                 <div class="video-us-thumb text-center">
                     <div class="video-thumb">
-                        <img src="{{ asset('/frontend/assets/images/Happy-Market-Woman 1.png') }}" alt="">
+                        <img src="/frontend/assets/images/Happy-Market-Woman 1.png" alt="">
                     </div>
                     <!-- Video Icon -->
                     <div class="video-icon">
@@ -168,17 +168,17 @@
                 </div>
                 <div class="call-to-download__buttons">
                     <a class="welcome-btn play-store-btn mr-2 mb-2" href="#"><img
-                            src="{{ asset('/frontend/assets/img/bg-img/bt-1.png') }}" alt=""></a>
+                            src="/frontend/assets/img/bg-img/bt-1.png" alt=""></a>
 
                     <a class="welcome-btn app-store-btn mr-2 mb-2" href="#"><img
-                            src="{{ asset('/frontend/assets/img/bg-img/bt-2.png') }}" alt=""></a>
+                            src="/frontend/assets/img/bg-img/bt-2.png" alt=""></a>
                 </div>
                 <div class="call-to-download-floating-triangles">
-                    <img src="{{ asset('/frontend/assets/images/Vector 3.png') }}" alt="" class="floating__circle">
-                    <img src="{{ asset('/frontend/assets/images/Vector 5.png') }}" alt="" class="floating__circle">
+                    <img src="/frontend/assets/images/Vector 3.png" alt="" class="floating__circle">
+                    <img src="/frontend/assets/images/Vector 5.png" alt="" class="floating__circle">
                 </div>
                 <div class="call-to-download-floating-circle">
-                    <img src="{{ asset('/frontend/assets/images/Ellipse 2.png') }}" alt="" class="floating__circle">
+                    <img src="/frontend/assets/images/Ellipse 2.png" alt="" class="floating__circle">
                 </div>
             </div>
         </div>
@@ -206,7 +206,7 @@
                 <div class="single-feature-area text-center wow fadeInUp" data-wow-delay="0.4s">
                     <!-- Feature Icon -->
                     <div class="feature-icon">
-                        <img src="{{ asset('/frontend/assets/img/icon-img/4.svg') }}" alt="">
+                        <img src="/frontend/assets/img/icon-img/4.svg" alt="">
                     </div>
                     <!-- Single Feature Text -->
                     <div class="feature-content-text">
@@ -221,7 +221,7 @@
                 <div class="single-feature-area text-center wow fadeInUp" data-wow-delay="0.4s">
                     <!-- Feature Icon -->
                     <div class="feature-icon">
-                        <img src="{{ asset('/frontend/assets/img/icon-img/5.svg') }}" alt="">
+                        <img src="/frontend/assets/img/icon-img/5.svg" alt="">
                     </div>
                     <!-- Single Feature Text -->
                     <div class="feature-content-text">
@@ -236,7 +236,7 @@
                 <div class="single-feature-area text-center wow fadeInUp" data-wow-delay="0.8s">
                     <!-- Feature Icon -->
                     <div class="feature-icon">
-                        <img src="{{ asset('/frontend/assets/img/icon-img/9.svg') }}" alt="">
+                        <img src="/frontend/assets/img/icon-img/9.svg" alt="">
                     </div>
                     <!-- Single Feature Text -->
                     <div class="feature-content-text">
@@ -249,7 +249,7 @@
             <!-- Single Feature area -->
             <!-- <div class="col-md-6 col-lg-4">
                     <div class="single-feature-area text-center wow fadeInUp" data-wow-delay="0.4s">
-                        <!-- Feature Icon 
+                        <!-- Feature Icon
                         <div class="feature-icon">
                             <img src="assets/img/icon-img/6.svg" alt="">
                         </div>
@@ -283,7 +283,7 @@
                         <div class="feature-icon">
                             <img src="assets/img/icon-img/8.svg" alt="">
                         </div>
-                        <!-- Single Feature Text 
+                        <!-- Single Feature Text
                         <div class="feature-content-text">
                             <h4>Drag &amp; Drop Building</h4>
                             <p class="mb-0">Add, delete and move elements around on the front end of your website.</p>
@@ -315,7 +315,7 @@
                         <div class="col-sm-8">
                             <!-- Client Content -->
                             <div class="testimonial-img-container">
-                                <img src="{{ asset('/frontend/assets/images/kadet pic.jpeg') }}" alt=""
+                                <img src="/frontend/assets/images/kadet pic.jpeg" alt=""
                                     class="testimonial-img">
                             </div>
                             <div class="client-desc client-mt-50 testimonial__text">
@@ -333,7 +333,7 @@
                         <div class="col-sm-8">
                             <!-- Client Content -->
                             <div class="testimonial-img-container">
-                                <img src="{{ asset('/frontend/assets/images/kadet pic.jpeg') }}" alt=""
+                                <img src="/frontend/assets/images/kadet pic.jpeg" alt=""
                                     class="testimonial-img">
                             </div>
                             <div class="client-desc client-mt-50 testimonial__text">

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    
+
 
 <head>
         <meta charset="utf-8" />
@@ -9,19 +9,19 @@
         <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
         <meta content="Coderthemes" name="author" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        
+
         <!-- App favicon -->
-        <link rel="shortcut icon" href="{{ asset('/backend/assets/images/favicon.ico') }}">
+        <link rel="shortcut icon" href="/backend/assets/images/favicon.ico">
 
         <!-- plugins -->
-        <link href="{{ asset('/backend/assets/libs/flatpickr/flatpickr.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="/backend/assets/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
 
         <!-- App css -->
-        <link href="{{ asset('/backend/assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
-        <link href="{{ asset('/backend/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
-        <link href="{{ asset('/backend/assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
-    
-    
+        <link href="/backend/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="/backend/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+        <link href="/backend/assets/css/app.min.css" rel="stylesheet" type="text/css" />
+
+
         <!-- Other Style CSS -->
         @yield('custom_css')
 
@@ -39,7 +39,7 @@
     <!--====================  End of heaer area  ====================-->
     <div class="content-page">
         <div class="content">
-                
+
             @yield('content')
 
         </div>
@@ -60,15 +60,15 @@
    <script src="assets/js/vendor.min.js"></script>
 
    <!-- optional plugins -->
-   <script src="{{ asset('/backend/assets/libs/moment/moment.min.js') }}"></script>
-   <script src="{{ asset('/backend/assets/libs/apexcharts/apexcharts.min.js') }}"></script>
-   <script src="{{ asset('/backend/assets/libs/flatpickr/flatpickr.min.js') }}"></script>
+   <script src="/backend/assets/libs/moment/moment.min.js"></script>
+   <script src="/backend/assets/libs/apexcharts/apexcharts.min.js"></script>
+   <script src="/backend/assets/libs/flatpickr/flatpickr.min.js"></script>
 
    <!-- page js -->
-   <script src="{{ asset('/backend/assets/js/pages/dashboard.init.js') }}"></script>
+   <script src="/backend/assets/js/pages/dashboard.init.js"></script>
 
    <!-- App js -->
-   <script src="{{ asset('/backend/assets/js/app.min.js') }}"></script>
+   <script src="/backend/assets/js/app.min.js"></script>
 
 
 

@@ -1,6 +1,6 @@
 @extends('layout.base')
 @section("custom_css")
-	<link href="{{ asset('/backend/assets/css/materialize.min.css') }}" rel="stylesheet" type="text/css" />
+	<link href="/backend/assets/css/materialize.min.css" rel="stylesheet" type="text/css" />
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
 @stop
@@ -31,7 +31,7 @@
               <p><b>Working Hours: 9 AM - 11 PM</b></p>
               <!-- <p>08012345678</p> -->
             </div>
-              
+
           </div>
           <div class="col l7 s12" style="font-family: 'Inter', sans-serif;">
             <br><br>
@@ -39,7 +39,7 @@
               <div class="input-field">
                 <i class="material-icons prefix">account_circle</i>
                 <input id="full_name" type="text" class="validate">
-                <label for="full_name">Full Name</label>  
+                <label for="full_name">Full Name</label>
               </div><br>
               <div class="input-field">
                 <i class="material-icons prefix">email</i>
@@ -62,7 +62,7 @@
 
 
     @section("javascript")
-    <script type="text/javascript" src="{{ asset('/backend/assets/js/materialize.min.js') }}"></script>
-    
-                
+    <script type="text/javascript" src="/backend/assets/js/materialize.min.js"></script>
+
+
     @stop
