@@ -11,6 +11,22 @@
 |
 */
 
+Route::get('/', function () {
+    return view('home');
+});
+Route::get('/about', function () {
+    return view('about');
+});
+
+Route::get('/contact', function () {
+    return view('contact');
+});
+
+
+Route::get('/faq', function () {
+    return view('faq');
+});
+
 
 
 // backend codes
@@ -28,7 +44,6 @@ Route::get('backend/recoverPassword', function () {
 
 Route::get('backend/activate', function () {
     return view('backend.activate.activate');
-
 });
 
 // dashboard
@@ -42,7 +57,7 @@ Route::get('/backend/transactions', function () {
     return view('backend.transactions.index');
 });
 
-Route::get('/backend/transactions/view', function () {
+Route::get('/backend/view_transaction', function () {
     return view('backend.transactions.show');
 });
 
@@ -50,6 +65,19 @@ Route::get('/backend/transactions/view', function () {
 
 Route::get('/backend/users', function () {
     return view('backend.users_list.index');
+});
+
+Route::get('/backend/debt_reminders', function () {
+    return view('backend.debt_reminder.index');
+});
+
+
+Route::get('/backend/complaint', function () {
+    return view('backend.complaintform.complaintform');
+});
+
+Route::get('/backend/complaint_log', function () {
+    return view('backend.complaintlog.complaintlog');
 });
 
 // all users
@@ -62,21 +90,13 @@ Route::get('/backend/view_user', function () {
     return view('backend.users_list.show');
 });
 
-//Frontend Routes go here
+// analytics
+Route::get('/backend/analytics', function () {
+    return view('backend.analytics.analytics');
+})->name('analytics');
 
-Route::get('/', function () {
-    return view('frontend.index');
+
+// settings
+Route::get('/backend/settings', function () {
+    return view('backend.settings.settings');
 });
-
-Route::get('/faq', function () {
-    return view('frontend.faq');
-});
-
-Route::get('/contact-us', function () {
-    return view('frontend.contact-us');
-});
-
-Route::get('/about', function () {
-    return view('frontend.about');
-});
-
