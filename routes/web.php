@@ -99,4 +99,4 @@ Route::get('/backend/analytics', function () {
 // settings
 Route::get('/backend/settings', function () {
     return view('backend.settings.settings');
-});
+})->name('settings');
