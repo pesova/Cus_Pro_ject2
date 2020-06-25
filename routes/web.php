@@ -68,9 +68,11 @@ Route::get('/backend/view_transaction', function () {
 
 
 
-Route::get('/backend/users', function () {
-    return view('backend.users_list.index');
-});
+// Route::get('/backend/users', function () {
+//     return view('backend.users_list.index');
+// });
+Route::resource('/backend/users', 'UsersController');
+
 
 Route::get('/backend/debt_reminders', function () {
     return view('backend.debt_reminder.index');
