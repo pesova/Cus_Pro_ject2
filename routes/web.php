@@ -33,7 +33,7 @@ Route::get('/faq', function () {
 
 Route::get('/backend/login', function () {
     return view('backend.login');
-});
+})->name('login');
 
 Route::get('/backend/register', function () {
     return view('backend.register.signup');
@@ -46,57 +46,59 @@ Route::get('backend/activate', function () {
     return view('backend.activate.activate');
 });
 
+Route::middleware(['auth'])->group(function(){
 // dashboard
-Route::get('/backend/dashboard', function () {
-    return view('backend.dashboard');
-});
+    Route::get('/backend/dashboard', function () {
+        return view('backend.dashboard');
+    });
 
-// transaction
+    // transaction
 
-Route::get('/backend/transactions', function () {
-    return view('backend.transactions.index');
-});
+    Route::get('/backend/transactions', function () {
+        return view('backend.transactions.index');
+    });
 
-Route::get('/backend/view_transaction', function () {
-    return view('backend.transactions.show');
-});
-
-
-
-Route::get('/backend/users', function () {
-    return view('backend.users_list.index');
-});
-
-Route::get('/backend/debt_reminders', function () {
-    return view('backend.debt_reminder.index');
-});
+    Route::get('/backend/view_transaction', function () {
+        return view('backend.transactions.show');
+    });
 
 
-Route::get('/backend/complaint', function () {
-    return view('backend.complaintform.complaintform');
-});
 
-Route::get('/backend/complaint_log', function () {
-    return view('backend.complaintlog.complaintlog');
-});
+    Route::get('/backend/users', function () {
+        return view('backend.users_list.index');
+    });
 
-// all users
-
-Route::get('/users_list', function () {
-    return view('users_list.single_user');
-});
-
-Route::get('/backend/view_user', function () {
-    return view('backend.users_list.show');
-});
-
-// analytics
-Route::get('/backend/analytics', function () {
-    return view('backend.analytics.analytics');
-})->name('analytics');
+    Route::get('/backend/debt_reminders', function () {
+        return view('backend.debt_reminder.index');
+    });
 
 
-// settings
-Route::get('/backend/settings', function () {
-    return view('backend.settings.settings');
+    Route::get('/backend/complaint', function () {
+        return view('backend.complaintform.complaintform');
+    });
+
+    Route::get('/backend/complaint_log', function () {
+        return view('backend.complaintlog.complaintlog');
+    });
+
+    // all users
+
+    Route::get('/users_list', function () {
+        return view('users_list.single_user');
+    });
+
+    Route::get('/backend/view_user', function () {
+        return view('backend.users_list.show');
+    });
+
+    // analytics
+    Route::get('/backend/analytics', function () {
+        return view('backend.analytics.analytics');
+    })->name('analytics');
+
+
+    // settings
+    Route::get('/backend/settings', function () {
+        return view('backend.settings.settings');
+    });
 });
