@@ -16,7 +16,7 @@ class RegisterController extends Controller
             if($request->all()) {
                 // make an api call to register the user
                 $client = new Client();
-                $response = $client->post('http://localhost:3000/register/user', [
+                $response = $client->post(env('API_URL') . '/register/user', [
                     'form_params' => [
                         'first_name' => $request->input('first_name'),
                         'last_name' => $request->input('last_name'),
