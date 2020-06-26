@@ -47,9 +47,7 @@ Route::get('backend/activate', function () {
 });
 
 // dashboard
-Route::get('/backend/dashboard', function () {
-    return view('backend.dashboard');
-});
+Route::get('/backend/dashboard', 'DashBoardController@dash');
 
 // transaction
 
