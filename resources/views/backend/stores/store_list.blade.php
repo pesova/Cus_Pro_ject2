@@ -116,7 +116,7 @@
 
                               <tr>
                                 <th scope="row">2</th>
-                                <td>Abbie's Accessories <br> <span class="badge badge-success">Verified</span> </td>
+                                <td>Abbie's Accessories <br> <span class="badge badge-danger">Unverified</span> </td>
                                 <td>274 crenshaw, league county<br> <span class="badge badge-primary">Store Reference Code: ST145H2783</span> </td>
                                 <td>
                                   <div class="btn-group mt-2 mr-1">
