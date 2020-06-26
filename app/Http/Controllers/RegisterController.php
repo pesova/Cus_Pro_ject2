@@ -9,6 +9,15 @@ use Illuminate\Support\Facades\Cookie;
 
 class RegisterController extends Controller
 {
+    public function index()
+    {
+        if (Cookie::get('api_token')) {
+            return redirect()->route('dashboard');
+        }
+
+        return view('backend.register.signup');
+    }
+
     // Controller action to register a new user.
     public function register(Request $request) {
         try{

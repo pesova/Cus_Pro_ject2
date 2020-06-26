@@ -19,7 +19,7 @@
                                 <div class="row">
                                     <div class="col-12 p-5">
                                         <div class="mx-auto mb-5">
-                                            <a href="index.html">
+                                            <a href="{{ url('/') }}">
                                                 <img src="{{ ('/frontend/assets/images/fulllogo.png') }}" alt=""
                                                     height="auto" /> </a>
                                         </div>
