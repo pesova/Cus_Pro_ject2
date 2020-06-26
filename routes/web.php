@@ -46,6 +46,7 @@ Route::get('backend/activate', function () {
     return view('backend.activate.activate');
 });
 
+//Protected Routes
 Route::middleware(['auth'])->group(function(){
 // dashboard
     Route::get('/backend/dashboard', function () {
