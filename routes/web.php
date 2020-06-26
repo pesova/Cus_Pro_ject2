@@ -41,10 +41,6 @@ Route::prefix('/backend')->group(function () {
     Route::get('/register', 'RegisterController@index');
 
     Route::post('/register', 'RegisterController@register')->name('register');
-
-    Route::get('/recoverPassword', function () {
-        return view('backend.recoverPassword.recoverPassword');
-    });
 });
 
 // Protected Routes
@@ -56,6 +52,10 @@ Route::group(['prefix' => '/backend',  'middleware' => 'backend.auth'], function
         return view('backend.dashboard');
     })->name('dashboard');
 
+  // Customers
+Route::get('/customers', function () {
+    return view('backend.customers.index');
+}); 
     // transaction
 
     Route::get('/transactions', function () {
