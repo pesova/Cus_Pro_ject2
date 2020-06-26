@@ -27,9 +27,7 @@ composer install
 
 - Copy The `.env.example` to `.env`
 
-```bash
-php artisan passport:install
-```
+
 ```bash
 php artisan serve
 ```
