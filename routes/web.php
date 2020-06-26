@@ -57,6 +57,11 @@ Route::get('/backend/dashboard', function () {
     return view('backend.dashboard');
 })->name('dashboard');
 
+// Customers
+Route::get('/backend/customers', function () {
+    return view('backend.customers.index');
+});
+
 // transaction
 
 Route::get('/backend/transactions', function () {
