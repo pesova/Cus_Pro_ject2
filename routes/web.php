@@ -49,7 +49,7 @@ Route::get('/backend/recoverPassword', function () {
 });
 
 
-Route::get('backend/activate', 'ActivateController@index');
+Route::get('backend/activate', 'ActivateController@index')->name('activate.user');
 
 
 // dashboard
