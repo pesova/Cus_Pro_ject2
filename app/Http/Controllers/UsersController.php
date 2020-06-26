@@ -17,12 +17,22 @@ class UsersController extends Controller
     public function index()
     {
         //
-        $client = new Client();
-        $response = $client->request('GET', 'https://dev.customerpay.me/user/all');
-        $statusCode = $response->getStatusCode();
-        $body = $response->getBody()->getContents();
-        $users = json_decode($body);
-        return view('backend.users_list.index')->with('response', $users);
+        try {
+            $client = new Client();
+            $response = $client->request('GET', 'https://dev.customerpay.me/user/all');
+            $statusCode = $response->getStatusCode();
+            if ($statusCode == 200) {
+                $body = $response->getBody()->getContents();
+                $users = json_decode($body);
+                return view('backend.users_list.index')->with('response', $users);
+            }
+
+            if ($statusCode == 500) {
+                return view('errors.500');
+            }
+        } catch (\Exception $e) {
+            return view('errors.500');
+        }
     }
 
     /**
