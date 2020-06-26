@@ -49,7 +49,7 @@ Route::get('/backend/recoverPassword', function () {
 });
 
 
-Route::get('backend/activate', 'ActivateController@index');
+Route::get('backend/activate', 'ActivateController@index')->name('activate.user');
 
 
 // dashboard
@@ -67,7 +67,7 @@ Route::get('/backend/transactions', function () {
 //     return view('backend.transactions.show');
 // });
 
-Route::get('/backend/{id}', 'SingleTransactionController@index')->name('view_transaction');
+// Route::get('/backend/{id}', 'SingleTransactionController@index')->name('view_transaction');
 
 Route::resource('/backend/users', 'UsersController');
 
