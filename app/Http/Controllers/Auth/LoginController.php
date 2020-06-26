@@ -42,10 +42,6 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
-        /*
-         To be adjusted when we verify APP_URL in env is used on live server to :
-            $this->host = 'https://customerpay.me/';
-        */
         $this->host = env('API_URL', 'https://customerpay.me/');
     }
 
