@@ -101,7 +101,12 @@ Route::get('/backend/analytics', function () {
 })->name('analytics');
 
 
-// settings
+
+// stores
+Route::get('/backend/stores', function () {
+  return view('backend.stores.store_list');
+});
+
 
 // Route::get('/backend/settings', function () {
 //     return view('backend.settings.settings');
@@ -110,4 +115,5 @@ Route::get('/backend/analytics', function () {
 Route::get('/backend/settings', 'SettingsController@index');
 
 Route::post('/backend/settings', 'SettingsController@update')->name('settings');
+
 
