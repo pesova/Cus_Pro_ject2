@@ -102,6 +102,11 @@ Route::get('/backend/analytics', function () {
 
 
 // settings
-Route::get('/backend/settings', function () {
-    return view('backend.settings.settings');
-})->name('settings');
+// Route::get('/backend/settings', function () {
+//     return view('backend.settings.settings');
+// });
+
+Route::get('/backend/settings', 'SettingsController@index');
+
+Route::post('/backend/settings', 'SettingsController@update')->name('settings');
+
