@@ -11,7 +11,7 @@ class ActivateController extends Controller
 
     public function index()
     {
-        if (Cookie::get('is_active') == 'true') {
+        if (Cookie::get('is_active') == true) {
             return redirect()->route('dashboard');
         }
 
