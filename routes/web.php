@@ -48,9 +48,9 @@ Route::get('/backend/recoverPassword', function () {
     return view('backend.recoverPassword.recoverPassword');
 });
 
-Route::get('backend/activate', function () {
-    return view('backend.activate.activate');
-})->name('activate.user');
+
+Route::get('backend/activate', 'ActivateController@index')->name('activate.user');
+
 
 // dashboard
 Route::get('/backend/dashboard', function () {
@@ -63,15 +63,12 @@ Route::get('/backend/transactions', function () {
     return view('backend.transactions.index');
 });
 
-Route::get('/backend/view_transaction', function () {
-    return view('backend.transactions.show');
-});
-
-
-
-// Route::get('/backend/users', function () {
-//     return view('backend.users_list.index');
+// Route::get('/backend/view_transaction/{{$id}}', function () {
+//     return view('backend.transactions.show');
 // });
+
+// Route::get('/backend/{id}', 'SingleTransactionController@index')->name('view_transaction');
+
 Route::resource('/backend/users', 'UsersController');
 
 
@@ -105,6 +102,7 @@ Route::get('/backend/analytics', function () {
 
 
 // settings
+<<<<<<< HEAD
 Route::get('/backend/settings', function () {
     return view('backend.settings.settings');
 })->name('settings');
@@ -113,3 +111,14 @@ Route::get('/backend/settings', function () {
 Route::get('/backend/stores', function () {
   return view('backend.stores.store_list');
 });
+=======
+
+// Route::get('/backend/settings', function () {
+//     return view('backend.settings.settings');
+// });
+
+Route::get('/backend/settings', 'SettingsController@index');
+
+Route::post('/backend/settings', 'SettingsController@update')->name('settings');
+
+>>>>>>> aed16736bd1fd91ba2c6a7522f3b9b7fde448699
