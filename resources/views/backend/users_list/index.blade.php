@@ -3,7 +3,7 @@
 @section("custom_css")
 <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
-        <link rel="stylesheet" href="backend/assets/css/all_users.css">
+        <link rel="stylesheet" href="/backend/assets/build/css/all_users.css">
 @stop
         @section('content')
                 <div class="content">
@@ -188,21 +188,36 @@
                                                 <div class="modal-body">
                                                       <form class="form-horizontal">
                                             <div class="form-group row mb-3">
-                                                <label for="inputphone" class="col-3 col-form-label">Phone Number</label>
+                                                <label for="first_name" class="col-3 col-form-label">First Name</label>
                                                 <div class="col-9">
-                                                    <input type="number" class="form-control" id="inputphone" placeholder="Phone Number">
+                                                     <input type="text" id="first_name" name="first_name" class="form-control" required>
                                                 </div>
                                             </div>
                                             <div class="form-group row mb-3">
-                                                <label for="inputPassword3" class="col-3 col-form-label">Password</label>
+                                                <label for="last_name" class="col-3 col-form-label">Last Name</label>
                                                 <div class="col-9">
-                                                    <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+                                                     <input type="text" id="last_name" name="last_name" class="form-control" required>
                                                 </div>
                                             </div>
                                             <div class="form-group row mb-3">
-                                                <label for="inputPassword5" class="col-3 col-form-label">Re Password</label>
+                                                <label for="email" class="col-3 col-form-label">Email</label>
                                                 <div class="col-9">
-                                                    <input type="password" class="form-control" id="inputPassword5" placeholder="Retype Password">
+                                                     <input type="email" id="email" name="email" class="form-control" required>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row mb-3">
+                                                <label for="password" class="col-3 col-form-label">Password</label>
+                                                <div class="col-9">
+                                                    <input type="password" class="form-control" id="password" >
+                                                </div>
+                                            </div>
+                                                <div class="form-group row mb-3">
+                                                <label for="phone" class="col-3 col-form-label">Phone Number</label>
+                                                <div class="col-9">
+                                                    <div class="input-group-prepend">
+
+                                                    </div>
+                                                    <input type="tel" id="phones" name="phone_number" class="form-control" required>
                                                 </div>
                                             </div>
                                             <div class="form-group mb-0 justify-content-end row">
@@ -226,8 +241,16 @@
 <script src="/backend/assets/build/js/intlTelInput.js"></script>
 <script>
 var input = document.querySelector("#phone");
+    
 window.intlTelInput(input, {
     // any initialisation options go here
 });
+
+$('#myModal').on('shown.bs.modal', function () {
+    var inputs = document.querySelector("#phones");
+    window.intlTelInput(inputs, {
+    // any initialisation options go here
+});
+})
 </script>
     @stop
