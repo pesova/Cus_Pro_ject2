@@ -18,7 +18,7 @@
             <div class="col-lg-12">
                 <div class="welcome-content">
                     <h3 class="wow fadeInUp" data-wow-delay="0.4s">
-                        Keep track of your <span class="welcome-span">debtors</span>
+                        Hi <span class="welcome-span">Mark</span>
                     </h3>
                     <p class="wow fadeInUp" data-wow-delay="0.6s">
                         MyCustomer is an on-demand, scalable ledger solution for small and medium sized businesses
