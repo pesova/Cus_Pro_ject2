@@ -15,7 +15,7 @@ class RegisterController extends Controller
             return redirect()->route('dashboard');
         }
 
-        return view('backend.login');
+        return view('backend.register.signup');
     }
 
     // Controller action to register a new user.
