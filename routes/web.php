@@ -47,14 +47,13 @@ Route::get('backend/activate', function () {
 });
 
 //Protected Routes
-Route::middleware(['auth'])->group(function(){
+Route::middleware(['auth:api'])->group(function(){
 // dashboard
     Route::get('/backend/dashboard', function () {
         return view('backend.dashboard');
     });
 
     // transaction
-
     Route::get('/backend/transactions', function () {
         return view('backend.transactions.index');
     });
@@ -64,16 +63,11 @@ Route::middleware(['auth'])->group(function(){
     });
 
 
-
-    Route::get('/backend/users', function () {
-        return view('backend.users_list.index');
-    });
-
+    //Debt Routes
     Route::get('/backend/debt_reminders', function () {
         return view('backend.debt_reminder.index');
     });
-
-
+    //Complaints Routes
     Route::get('/backend/complaint', function () {
         return view('backend.complaintform.complaintform');
     });
@@ -82,7 +76,10 @@ Route::middleware(['auth'])->group(function(){
         return view('backend.complaintlog.complaintlog');
     });
 
-    // all users
+    //User Routes
+    Route::get('/backend/users', function () {
+        return view('backend.users_list.index');
+    });
 
     Route::get('/users_list', function () {
         return view('users_list.single_user');
@@ -92,11 +89,10 @@ Route::middleware(['auth'])->group(function(){
         return view('backend.users_list.show');
     });
 
-    // analytics
+    // Analytics Routes
     Route::get('/backend/analytics', function () {
         return view('backend.analytics.analytics');
     })->name('analytics');
-
 
     // settings
     Route::get('/backend/settings', function () {
