@@ -15,9 +15,8 @@
 
 
 
-```bash
-git clone https://github.com/hngi/sentry-my-customer-frontend.git
-```
+Fork The Repo And Clone Your Fork
+
 ```bash
 cd sentry-my-customer-frontend
 ```
