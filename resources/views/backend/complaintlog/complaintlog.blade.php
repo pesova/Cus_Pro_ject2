@@ -13,10 +13,10 @@
           <tr>
               <th>S/N</th>
               <th>Name</th>
-              <th>Email Address</th>
+              <th>Email</th>
               <th>Message</th>
+              <th>Store</th>
               <th>Status</th>
-              <th>Date</th>
           </tr>
         </thead>
         <tbody>
@@ -26,8 +26,8 @@
             <td>alan@gmail.com</td>
             <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
             tempor incididunt ut labore et dolore magna aliqua.</td>
+            <td>abc123</td>
             <td>Closed</td>
-            <td>2020-06-23 13:34:47</td>
           </tr>
           <tr>
             <td>2</td>
@@ -35,8 +35,8 @@
             <td>eclair@gmail.com</td>
             <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
             tempor incididunt ut labore et dolore magna aliqua.</td>
-            <td>Closed</td>
-            <td>2020-05-23 23:17:23</td>
+            <td>abc123</td>
+            <td>Open</td>
           </tr>
           <tr>
             <td>3</td>
@@ -44,8 +44,8 @@
             <td>mooney@gmail.com</td>
             <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
             tempor incididunt ut labore et dolore magna aliqua.</td>
+            <td>xyz456</td>
             <td>Closed</td>
-            <td>2020-05-16 13:45:57</td>
           </tr>
           <tr>
             <td>4</td>
@@ -54,8 +54,8 @@
             <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
             tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
             quis nostrud exercitation ullamco laboris nisi ut.</td>
+            <td>xyz456</td>
             <td>Closed</td>
-            <td>2020-05-23 12:54:32</td>
           </tr>
         </tbody>
       </table>
