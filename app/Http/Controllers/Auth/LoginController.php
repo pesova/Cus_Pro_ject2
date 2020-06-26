@@ -53,7 +53,7 @@ class LoginController extends Controller
     public function authenticate(Request $request)
     {
         $validation = Validator::make(request()->all(),[
-            'phone_number' => 'required|numeric|max:16',
+            'phone_number' => 'required|numeric|digits_between:1,16',
             'password' => 'required'
         ]);
 
@@ -108,7 +108,7 @@ class LoginController extends Controller
             }
         } catch (\Exception $e) {
             // log $e->getMessage() when error loggin is setup
-            Log::error($e->getMessage());
+            // Log::error($e->getMessage());
             $request->session()->flash('message', 'something went wrong try again in a few minutes');
             return redirect()->route('login');
         }
