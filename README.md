@@ -21,20 +21,49 @@ Fork The Repo And Clone Your Fork
 cd sentry-my-customer-frontend
 ```
 ```bash
-composer install
+git remote add upstream https://github.com/hngi/sentry-my-customer-frontend.git
 ```
 
-- Copy The `.env.example` to `.env`
+```bash
+git pull upstream develop
+```
 
+```bash
+cp `.env.example` to `.env`
+```
+
+```bash
+composer install
+```
 
 ```bash
 php artisan serve
 ```
-```bash
+
+
 Visit localhost:8000 in your browser
+
+
+When You Make Changes 
+
+```bash
+git add .
 ```
 
-- **kindly work in your forked repository and open a pull request To develop branch, Also Add description of what you did in your pull request** <br>
+```bash
+git commit _m "commit message"
+```
+```bash
+git pull upstream develop
+```
+Make Sure there is no conflict
+
+```bash
+git push origin develop
+```
+Then Create Your Pull Request
+
+- **Also Add description of what you did in your pull request** <br>
 
 
 
