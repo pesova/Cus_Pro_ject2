@@ -100,3 +100,8 @@ Route::get('/backend/analytics', function () {
 Route::get('/backend/settings', function () {
     return view('backend.settings.settings');
 });
+
+//stores
+Route::get('/backend/store_list', function () {
+  return view('backend.stores.store_list');
+});

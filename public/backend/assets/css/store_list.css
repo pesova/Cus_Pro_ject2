@@ -1,0 +1,25 @@
+.customer-heading-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add-customer-button {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add-new-icon {
+  margin: 5px;
+}
+
+.content {
+  position: relative;
+}
+
+.float:hover {
+  background: #fff;
+}
