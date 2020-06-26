@@ -42,9 +42,7 @@ Route::get('backend/recoverPassword', function () {
     return view('backend.recoverPassword.recoverPassword');
 });
 
-Route::get('backend/activate', function () {
-    return view('backend.activate.activate');
-});
+Route::get('backend/activate', 'ActivateController@index');
 
 // dashboard
 Route::get('/backend/dashboard', function () {
