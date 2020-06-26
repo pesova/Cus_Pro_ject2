@@ -101,15 +101,22 @@ Route::get('/backend/analytics', function () {
 })->name('analytics');
 
 
+<<<<<<< HEAD
 // settings
 Route::get('/backend/settings', function () {
     return view('backend.settings.settings');
 })->name('settings');
+=======
+>>>>>>> f8f50a96899548ab22b87ebf6f7ae8237f54cb63
 
 // stores
 Route::get('/backend/stores', function () {
   return view('backend.stores.store_list');
 });
+<<<<<<< HEAD
+=======
+
+>>>>>>> f8f50a96899548ab22b87ebf6f7ae8237f54cb63
 
 // Route::get('/backend/settings', function () {
 //     return view('backend.settings.settings');
@@ -119,3 +126,7 @@ Route::get('/backend/settings', 'SettingsController@index');
 
 Route::post('/backend/settings', 'SettingsController@update')->name('settings');
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> f8f50a96899548ab22b87ebf6f7ae8237f54cb63
