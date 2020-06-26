@@ -54,6 +54,12 @@
                     </a>
                 </li>
                 <li>
+                  <a href="/backend/stores">
+                      <i data-feather="shopping-cart"></i>
+                      <span> Stores </span>
+                  </a>
+                </li>
+                <li>
                     <a href="/backend/transactions">
                         <i data-feather="credit-card"></i>
                         <span> Transactions </span>
@@ -96,13 +102,6 @@
                         <i data-feather="users"></i>
                         <span> Users </span>
                     </a>
-                </li>
-                
-                <li>
-                  <a href="/backend/stores">
-                      <i data-feather="shopping-cart"></i>
-                      <span> Stores </span>
-                  </a>
                 </li>
 
             </ul>
