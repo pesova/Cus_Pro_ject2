@@ -1,68 +1,54 @@
 @extends('layout.base')
-@section("custom_css")
-	<link href="/backend/assets/css/materialize.min.css" rel="stylesheet" type="text/css" />
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
-@stop
-
-
 
     @section('content')
 
-    <div class="container">
-        <div class="row">
-          <div class="col l5 s12" style="margin-top: 100px; font-family: 'Inter', sans-serif;">
-            <br>
-            <div>
-              <h5><b>Store:</b></h5>
-              <p>Shopright</p>
+    <!-- Start Content-->
+    <div class="container-fluid h-100">
+        <div class="row page-title">
+            <div class="col-md-12">
+                <nav aria-label="breadcrumb" class="float-right mt-1">
+                </nav>
+                <h4 class="mb-1 mt-0">Create Complaint</h4>
             </div>
-            <div>
-              <br>
+        </div>
+        <div class="row h-100 justify-content-center align-items-center">
+            <div class="col-lg-10">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="mb-3 header-title mt-0">Complaint Form</h4>
+
+                        <form class="form-horizontal">
+                            <div class="form-group row mb-3">
+                                <label for="fullname" class="col-3 col-form-label">Full Name</label>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" id="fullname" placeholder="Full Name">
+                                </div>
+                            </div>
+                            <div class="form-group row mb-3">
+                                <label for="email" class="col-3 col-form-label">Email</label>
+                                <div class="col-9">
+                                    <input type="email" class="form-control" id="email" placeholder="Email">
+                                </div>
+                            </div>
+                            <div class="form-group row mb-3">
+                                <label for="message" class="col-3 col-form-label">Message</label>
+                                <div class="col-9">
+                                    <textarea class="form-control" rows="5" id="message" placeholder="Kindly, tell us your problem..."></textarea>
+                                </div>
+                            </div>
+
+                            <br>
+                            <div class="form-group mb-0 justify-content-end row">
+                                <div class="col-12 text-center">
+                                    <button type="submit" class="btn btn-info">Submit Complaint</button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>  <!-- end card-body -->
+                </div>
             </div>
-            <div>
-              <h5><b>WhatsApp:</b></h5>
-              <p>08012345678</p>
-            </div>
-            <div>
-              <br>
-            </div>
-            <div>
-              <p><b>Working Hours: 9 AM - 11 PM</b></p>
-              <!-- <p>08012345678</p> -->
-            </div>
+            <!-- end col -->
+    </div> <!-- container-fluid -->
 
-          </div>
-          <div class="col l7 s12" style="font-family: 'Inter', sans-serif;">
-            <br><br>
-              <h4><b>Log your Complain</b></h4><br>
-              <div class="input-field">
-                <i class="material-icons prefix">account_circle</i>
-                <input id="full_name" type="text" class="validate">
-                <label for="full_name">Full Name</label>
-              </div><br>
-              <div class="input-field">
-                <i class="material-icons prefix">email</i>
-                <input id="email" type="email" class="validate">
-                <label for="email">Email</label>
-              </div><br>
-              <div class="input-field">
-                <i class="material-icons prefix">edit</i>
-                <textarea id="textarea1" class="materialize-textarea"></textarea>
-                <label for="textarea1">Message</label>
-              </div><br>
-              <div>
-                <a class="waves-effect waves-light btn right"><i class="material-icons left">send</i>SUBMIT</a>
-              </div>
-          </div>
-    </div>
-      </div>
-
-       @endsection
-
-
-    @section("javascript")
-    <script type="text/javascript" src="/backend/assets/js/materialize.min.js"></script>
-
-
-    @stop
+    @endsection
