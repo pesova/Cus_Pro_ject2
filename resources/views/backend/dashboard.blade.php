@@ -172,8 +172,18 @@
                                     <th scope="col"></th>
                                 </tr>
                             </thead>
+                            @if(count($transactions)> 0)
+                            @foreach($transactions as $transaction)
                             <tbody>
                                 <tr>
+                                    <td>#{{$transaction->id}}</td>
+                                    <td>Debt</td>
+                                    <td>Otto B</td>
+                                    <td>{{$transaction->amount}}</td>
+                                    <td> <a href="#"><span class="badge badge-soft-warning py-1">View</span></a> </td>
+                                </tr>
+                                @endforeach
+                                <!--<tr>
                                     <td>#98754</td>
                                     <td>Debt</td>
                                     <td>Otto B</td>
@@ -200,16 +210,10 @@
                                     <td>Otto B</td>
                                     <td>$79.49</td>
                                     <td> <a href="#"><span class="badge badge-soft-warning py-1">View</span></a> </td>
-                                </tr>
-                                <tr>
-                                    <td>#98754</td>
-                                    <td>Debt</td>
-                                    <td>Otto B</td>
-                                    <td>$79.49</td>
-                                    <td> <a href="#"><span class="badge badge-soft-warning py-1">View</span></a> </td>
-                                </tr>
+                                </tr>-->
                             </tbody>
                         </table>
+                        @endif
                     </div> <!-- end table-responsive-->
                 </div> <!-- end card-body-->
             </div> <!-- end card-->
