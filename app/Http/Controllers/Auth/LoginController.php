@@ -41,12 +41,14 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
         $this->host = env('API_URL', 'https://customerpay.me/');
     }
 
     public function index()
     {
+        if (Cookie::get('api_token')){
+            return redirect()->route('dashboard');
+        }
         return view('backend.login');
     }
 
@@ -89,13 +91,18 @@ class LoginController extends Controller
                 $email = $response->user->email;
                 $is_active = $response->user->is_active;
 
+                // store data to cookie
+
+                Cookie::queue('api_token', $api_token);
+                Cookie::queue('is_actives', $is_active);
+                Cookie::queue('phone_number', $phone_number);
+
+                //check if active
                 if ($is_active == false) {
                     return redirect()->route('activate.user');
                 }
 
-                // store data to cookie
-                Cookie::queue('api_token', $api_token);
-                Cookie::queue('phone_number', $phone_number);
+                // store other data to cookie
                 Cookie::queue('first_name', $first_name);
                 Cookie::queue('last_name', $last_name);
                 Cookie::queue('email', $email);
