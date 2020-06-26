@@ -63,15 +63,12 @@ Route::get('/backend/transactions', function () {
     return view('backend.transactions.index');
 });
 
-Route::get('/backend/view_transaction', function () {
-    return view('backend.transactions.show');
-});
-
-
-
-// Route::get('/backend/users', function () {
-//     return view('backend.users_list.index');
+// Route::get('/backend/view_transaction/{{$id}}', function () {
+//     return view('backend.transactions.show');
 // });
+
+Route::get('/backend/{id}', 'SingleTransactionController@index')->name('view_transaction');
+
 Route::resource('/backend/users', 'UsersController');
 
 

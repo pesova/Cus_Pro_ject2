@@ -100,6 +100,7 @@
                                             </thead>
                                             <tbody>
                                      @isset($response)
+                                        @if(count($response) > 0)
                                            @for ($i = 0; $i < count($response); $i++)
                                         <tr>
                                         <th>{{$i + 1 }}</th>
@@ -147,6 +148,7 @@
                                                 </div></td>
                                                 </tr>
                                             @endfor
+                                            @endif
                                        @endisset
                                                 {{-- <tr>
                                                     <th scope="row">1</th>
