@@ -107,13 +107,9 @@ Route::get('/backend/analytics', function () {
 // settings
 Route::get('/backend/settings', function () {
     return view('backend.settings.settings');
-<<<<<<< HEAD
-});
+})->name('settings');
 
-//stores
-Route::get('/backend/store_list', function () {
+// stores
+Route::get('/backend/stores', function () {
   return view('backend.stores.store_list');
 });
-=======
-})->name('settings');
->>>>>>> 6febcf8ffab598a25d7da491c64bd6f680bff093
