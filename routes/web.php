@@ -29,7 +29,7 @@ Route::get('/faq', function () {
     return view('faq');
 });
 
-Route::get('admin', function () {
+Route::get('admin', function() {
     return redirect('/admin/dashboard');
 });
 
@@ -44,7 +44,6 @@ Route::prefix('/admin')->group(function () {
 
     Route::post('/register', 'Auth\RegisterController@register')->name('register');
 });
-
 
 // Protected Routes
 Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function () {
@@ -69,6 +68,10 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
 
     Route::get('/transactions', function () {
         return view('backend.transactions.index');
+    });
+
+    Route::get('/broadcast', function () {
+        return view('backend.broadcasts.send_broadcast');
     });
 
     // Route::get('/backend/view_transaction/{{$id}}', function () {
@@ -116,6 +119,7 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
     Route::get('/create_store', function () {
         return view('backend.stores.create');
     });
+
 
     Route::get('/view_store', function () {
         return view('backend.stores.show');
