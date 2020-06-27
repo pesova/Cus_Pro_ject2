@@ -28,7 +28,6 @@ Route::get('/faq', function () {
 });
 
 
-
 // backend codes
 
 Route::get('/backend/login', function () {
@@ -81,10 +80,6 @@ Route::get('/backend/complaint_log', function () {
 });
 
 // all users
-
-Route::get('/users_list', function () {
-    return view('users_list.single_user');
-});
 
 Route::get('/backend/view_user', function () {
     return view('backend.users_list.show');
