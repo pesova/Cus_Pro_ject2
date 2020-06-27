@@ -58,6 +58,10 @@ class RegisterController extends Controller
         ]);
     }
 
+    public function index() {
+        return view('backend.register.signup');
+    }
+
     /**
      * Create a new user instance after a valid registration.
      *
@@ -85,7 +89,6 @@ class RegisterController extends Controller
                 if ($response->getStatusCode() == 201) {
                     $res = json_decode($response->getBody());
                     // get the api_token and phone_number from the response
-                    dd($res);
                     $api_token = $res->User->api_token;
                     $phone_number = $res->User->phone_number;
 
@@ -104,7 +107,7 @@ class RegisterController extends Controller
                 return redirect('/backend/register');
             }
         } catch (\Exception $e) {
-            Log::error('Catch error: '. $e->getMessage());
+            Log::error('Catch error: RegisterController - '. $e->getMessage());
             return view('errors.500');
         }
     }

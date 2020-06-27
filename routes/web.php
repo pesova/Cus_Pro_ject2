@@ -38,9 +38,9 @@ Route::prefix('/backend')->group(function () {
     Route::post('/login/authenticate', ['uses' => "Auth\LoginController@authenticate"])->name('login.authenticate');
 
 
-    Route::get('/register', 'RegisterController@index');
+    Route::get('/register', 'Auth\RegisterController@index');
 
-    Route::post('/register', 'RegisterController@register')->name('register');
+    Route::post('/register', 'Auth\RegisterController@register')->name('register');
 });
 
 // Protected Routes
