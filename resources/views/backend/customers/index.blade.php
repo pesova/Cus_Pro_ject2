@@ -121,7 +121,7 @@
                                                     <tbody>
                                                         <tr>
                                                             <td scope="row">1</td>
-                                                            <td><img src="assets/images/users/avatar-1.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
+                                                            <td><img src="/backend/assets/images/users/avatar-1.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
                                                             <td>John Doe <br>
                                                                 <span class="badge badge-success">Has debt</span>
                                                             </td>
@@ -150,7 +150,7 @@
 
                                                         <tr>
                                                             <td scope="row">2</td>
-                                                            <td><img src="assets/images/users/avatar-6.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
+                                                            <td><img src="/backend/assets/images/users/avatar-6.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
                                                             <td>Mary Doe <br>
                                                                 <span class="badge badge-success">Has Debt</span>
                                                             </td>
@@ -216,7 +216,7 @@
                                                         <tbody>
                                                             <tr>
                                                                 <td scope="row">1</td>
-                                                                <td><img src="assets/images/users/avatar-5.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
+                                                                <td><img src="/backend/assets/images/users/avatar-5.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
                                                                 <td>Lynda Doe <br>
                                                                     <span class="badge badge-danger">Has Credit</span>
                                                                 </td>
@@ -245,7 +245,7 @@
 
                                                             <tr>
                                                                 <td scope="row">2</td>
-                                                                <td><img src="assets/images/users/avatar-3.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
+                                                                <td><img src="/backend/assets/images/users/avatar-3.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
                                                                 <td>Henry Doe <br>
                                                                     <span class="badge badge-danger">Has Credit</span>
                                                                 </td>
@@ -304,7 +304,7 @@
                                                     <tbody>
                                                         <tr>
                                                             <td scope="row">1</td>
-                                                            <td><img src="assets/images/users/avatar-5.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
+                                                            <td><img src="/backend/assets/images/users/avatar-5.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
                                                             <td>Lynda Doe <br>
                                                                 <span class="badge badge-danger">Has Credit</span>
                                                             </td>
@@ -333,7 +333,7 @@
 
                                                         <tr>
                                                             <td scope="row">2</td>
-                                                            <td><img src="assets/images/users/avatar-3.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
+                                                            <td><img src="/backend/assets/images/users/avatar-3.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
                                                             <td>Henry Doe <br>
                                                                 <span class="badge badge-danger">Has Credit</span>
                                                             </td>
@@ -362,7 +362,7 @@
 
                                                         <tr>
                                                             <td scope="row">3</td>
-                                                            <td><img src="assets/images/users/avatar-1.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
+                                                            <td><img src="/backend/assets/images/users/avatar-1.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
                                                             <td>John Doe <br>
                                                                 <span class="badge badge-success">Has debt</span>
                                                             </td>
@@ -391,7 +391,7 @@
 
                                                         <tr>
                                                             <td scope="row">4</td>
-                                                            <td><img src="assets/images/users/avatar-6.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
+                                                            <td><img src="/backend/assets/images/users/avatar-6.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
                                                             <td>Mary Doe <br>
                                                                 <span class="badge badge-success">Has Debt</span>
                                                             </td>
