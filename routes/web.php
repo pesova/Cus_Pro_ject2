@@ -29,7 +29,7 @@ Route::get('/faq', function () {
     return view('faq');
 });
 
-Route::get('admin', function() {
+Route::get('admin', function () {
     return redirect('/admin/dashboard');
 });
 
@@ -68,7 +68,7 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
     //     return view('backend.transactions.show');
     // });
 
-    // Route::get('/backend/{id}', 'SingleTransactionController@index')->name('view_transaction');
+    Route::get('/transactions/{id}', 'SingleTransactionController@index')->name('view_transaction');
 
     Route::resource('/users', 'UsersController');
 
@@ -105,7 +105,19 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
     Route::get('/stores', function () {
         return view('backend.stores.store_list');
     });
+    
+    Route::get('/create_store', function () {
+        return view('backend.stores.create');
+    });
 
+    Route::get('/view_store', function () {
+        return view('backend.stores.show');
+    });
+    
+    Route::get('/edit_store', function () {
+        return view('backend.stores.edit');
+    });
+    
     Route::get('/settings', 'SettingsController@index');
 
     Route::post('/settings', 'SettingsController@update')->name('settings');
