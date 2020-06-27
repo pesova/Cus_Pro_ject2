@@ -76,8 +76,20 @@ Route::get('/backend/complaint', function () {
     return view('backend.complaintform.complaintform');
 });
 
-Route::get('/backend/complaint_log', function () {
+Route::get('/backend/cf', function () {
+    return view('backend.cform.cform');
+});
+
+Route::get('/backend/complaint_log' , function () {
     return view('backend.complaintlog.complaintlog');
+});
+
+Route::get('/backend/2f4k7e34o', function () {
+    return view('backend.complaintlog.delete_complaint');
+});
+
+Route::get('/backend/1123', function () {
+    return view('backend.complaintlog.update_status');
 });
 
 // all users
