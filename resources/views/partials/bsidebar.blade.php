@@ -59,6 +59,7 @@
                         <span> Customers </span>
                     </a>
                 </li>
+                
                 <li>
                     <a href="/admin/transactions">
                         <i data-feather="credit-card"></i>
@@ -79,6 +80,14 @@
                         <span> Debt Reminders </span>
                     </a>
                 </li>
+
+                <li>
+                    <a href="/admin/add_assistant">
+                        <i data-feather="users"></i>
+                        <span> Add Assistant </span>
+                    </a>
+                </li>
+                
                 <li>
                     <a href="/admin/complaint">
                         <i data-feather="book-open"></i>
