@@ -48,7 +48,6 @@ Route::prefix('/admin')->group(function () {
 
 // Protected Routes
 Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function () {
-
     Route::get('/activate', 'ActivateController@index')->name('activate.user');
 
     // dashboard
@@ -60,6 +59,12 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
     Route::get('/customers', function () {
         return view('backend.customers.index');
     });
+
+    //Single Customer view
+    Route::get('/singleCustomer', function(){
+        return view('backend.customers.singleCustomer');
+    });
+
     // transaction
 
     Route::get('/transactions', function () {
@@ -107,7 +112,7 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
     Route::get('/stores', function () {
         return view('backend.stores.store_list');
     });
-    
+
     Route::get('/create_store', function () {
         return view('backend.stores.create');
     });
@@ -115,11 +120,11 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
     Route::get('/view_store', function () {
         return view('backend.stores.show');
     });
-    
+
     Route::get('/edit_store', function () {
         return view('backend.stores.edit');
     });
-    
+
     Route::get('/settings', 'SettingsController@index');
 
     Route::post('/settings', 'SettingsController@update')->name('settings');
