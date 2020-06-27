@@ -106,6 +106,10 @@ Route::get('/customers', function () {
         return view('backend.stores.store_list');
     });
 
+// settings
+Route::get('/backend/settings', function () {
+    return view('backend.settings.settings');
+})->name('settings');
     Route::get('/settings', 'SettingsController@index');
 
     Route::post('/settings', 'SettingsController@update')->name('settings');
