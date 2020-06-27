@@ -98,7 +98,7 @@ class RegisterController extends Controller
                     Cookie::queue('api_token', $api_token);
                     Cookie::queue('phone_number', $phone_number);
                     Cookie::queue('phone_number', $$user_id);
-                    return redirect('/backend/activate');
+                    return redirect('/admin/activate');
                 }
 
                 if ($response->getStatusCode() == 500) {
