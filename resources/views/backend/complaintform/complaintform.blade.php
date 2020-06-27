@@ -33,6 +33,7 @@
                                         <option>Store 3</option>
                                         <option>Store 4</option>
                                         <option>Store 5</option>
+                                        <option>Store 6</option>
                                     </select>
                                 </div>
                             </div>
