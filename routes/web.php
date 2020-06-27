@@ -29,7 +29,7 @@ Route::get('/faq', function () {
     return view('faq');
 });
 
-Route::get('admin', function() {
+Route::get('admin', function () {
     return redirect('/admin/dashboard');
 });
 
@@ -68,7 +68,7 @@ Route::group(['prefix' => '/admin',  'middleware' => 'backend.auth'], function (
     //     return view('backend.transactions.show');
     // });
 
-    // Route::get('/backend/{id}', 'SingleTransactionController@index')->name('view_transaction');
+    Route::get('/transactions/{id}', 'SingleTransactionController@index')->name('view_transaction');
 
     Route::resource('/users', 'UsersController');
 

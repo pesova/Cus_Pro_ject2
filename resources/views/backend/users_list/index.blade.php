@@ -141,7 +141,7 @@
                                                 Actions<i class="icon"><span data-feather="chevron-down"></span></i>
                                             </button>
                                             <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item" href="/admin/users/{{$i}}">View Profile</a>
+                                            <a class="dropdown-item" href="/admin/users/{{$response[$i]->_id}}">View Profile</a>
                                                 <a class="dropdown-item" href="#">Active</a>
                                                 <a class="dropdown-item" href="#">Deactivate</a>
                                                 </div>
