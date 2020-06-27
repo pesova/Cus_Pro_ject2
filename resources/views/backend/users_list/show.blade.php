@@ -6,18 +6,12 @@
 @stop
        @section('content')
           <div class="content">
-
                 <!-- Start Content-->
                 <div class="container-fluid">
                     <div class="row page-title">
                         <div class="col-md-12">
                             <nav aria-label="breadcrumb" class="float-right mt-1">
-                                <a href="/admin/users" class="btn btn-primary">Go Back</a>
-                                {{-- <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="#">Shreyu</a></li>
-                                    <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Profile</li>
-                                </ol> --}}
+                                <a href="/backend/users" class="btn btn-primary">Go Back</a>
                             </nav>
                             <h4 class="mb-1 mt-0">Profile</h4>
                         </div>
@@ -30,13 +24,21 @@
                                     <div class="text-center mt-3">
                                         <img src="assets/images/users/avatar-7.jpg" alt=""
                                             class="avatar-lg rounded-circle" />
-                                        <h5 class="mt-2 mb-0">Shreyu N</h5>
-                                        <h6 class="text-muted font-weight-normal mt-2 mb-0">Owner Aaanuluwa Stores
+                                    <h5 class="mt-2 mb-0">{{$response->first_name. " " . substr($response->last_name,0,1) ."."}}</h5>
+                                        <h6 class="text-muted font-weight-normal mt-2 mb-0">
+                                                     @if ($response->user_role == "store_admin")
+                                                            <span class="badge badge-primary">owner</span> 
+                                                        @elseif ($response->user_role == "store_assistant")
+                                                            <span class="badge badge-secondray">assistant</span>
+                                                        @else
+                                                             <span class="badge badge-info">No role</span>
+                                                        @endif
+                                           {{isset( $response->store_name) ? $response->store_name : "Store name Here"}}
                                         </h6>
                                     </div>
                                     <div class="mt-5 pt-2 border-top">
                                         <h4 class="mb-3 font-size-15">Store Address</h4>
-                                        <p class="text-muted mb-4">1975 Boring Lane, San Francisco, California, United States - 94108.</p>
+                                        <p class="text-muted mb-4">{{isset( $response->store_address) ? $response->store_address : "Store address Here"}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -78,11 +80,11 @@
                                                 <tbody>
                                                     <tr>
                                                         <th scope="row">Email</th>
-                                                        <td>xyz123@gmail.com</td>
+                                                    <td>{{$response->email}}</td>
                                                     </tr>
                                                       <tr>
                                                         <th scope="row">Total Number of Customers</th>
-                                                        <td>90</td>
+                                                <td>{{"number of customers here"}}</td>
                                                     </tr>
                                                                                                                                                             <tr>
                                                         <th scope="row">Role</th>
@@ -90,11 +92,11 @@
                                                     </tr>
                                                     <tr>
                                                         <th scope="row">Phone</th>
-                                                        <td>(123) 123 1234</td>
+                                                        <td>{{$response->phone_number}}</td>
                                                     </tr>
                                                                                                         <tr>
                                                         <th scope="row">Store Reference Code</th>
-                                                        <td>ST145M455</td>
+                                                        <td>{{isset( $response->store_ref_code) ? $response->store_ref_code : "Store ref_code Here"}}</td>
                                                     </tr>
 
                                                 </tbody>
@@ -127,7 +129,7 @@
                                         <td>C1290D</td>
                                         <td>$500.00</td>
                                         <td>25th July, 2020</td>
-                                        <td><a href="/admin/view_transaction"><i data-feather="eye"></i></a></td>
+                                        <td><a href="/backend/view_transaction"><i data-feather="eye"></i></a></td>
                                     </tr>
                                     <tr>
                                         <td>GI671B</td>
@@ -135,7 +137,7 @@
                                         <td>C12ADS</td>
                                         <td>$500.00</td>
                                         <td>25th July, 2020</td>
-                                        <td><a href="/admin/view_transaction"><i data-feather="eye"></i></a></td>
+                                        <td><a href="/backend/view_transaction"><i data-feather="eye"></i></a></td>
                                     </tr>
                                     <tr>
                                         <td>GI671B</td>
@@ -143,16 +145,31 @@
                                         <td>C1D90F</td>
                                         <td>$500.00</td>
                                         <td>25th July, 2020</td>
-                                        <td><a href="/admin/view_transaction"><i data-feather="eye"></i></a></td>
+                                        <td><a href="/backend/view_transaction"><i data-feather="eye"></i></a></td>
                                     </tr>
-
+                                    <tr>
+                                        <td>GI671B</td>
+                                        <td>Receivables</td>
+                                        <td>C1D90F</td>
+                                        <td>$500.00</td>
+                                        <td>25th July, 2020</td>
+                                        <td><a href="/backend/view_transaction"><i data-feather="eye"></i></a></td>
+                                    </tr>
+                                                                        <tr>
+                                        <td>GI671B</td>
+                                        <td>Receivables</td>
+                                        <td>C1D90F</td>
+                                        <td>$500.00</td>
+                                        <td>25th July, 2020</td>
+                                        <td><a href="/backend/view_transaction"><i data-feather="eye"></i></a></td>
+                                    </tr>
                                     <tr>
                                         <td>GI671B</td>
                                         <td>Debt</td>
                                         <td>C1294E</td>
                                         <td>$500.00</td>
                                         <td>25th July, 2020</td>
-                                        <td><a href="/admin/view_transaction"><i data-feather="eye"></i></a></td>
+                                        <td><a href="/backend/view_transaction"><i data-feather="eye"></i></a></td>
                                     </tr>
 
                                     <tr>
@@ -161,7 +178,7 @@
                                         <td>C1290D</td>
                                         <td>$500.00</td>
                                         <td>25th July, 2020</td>
-                                        <td><a href="/admin/view_transaction"><i data-feather="eye"></i></a></td>
+                                        <td><a href="/backend/view_transaction"><i data-feather="eye"></i></a></td>
                                     </tr>
 
                                     <tr>
@@ -170,7 +187,7 @@
                                         <td>C1290D</td>
                                         <td>$500.00</td>
                                         <td>25th July, 2020</td>
-                                        <td><a href="/admin/view_transaction"><i data-feather="eye"></i></a></td>
+                                        <td><a href="/backend/view_transaction"><i data-feather="eye"></i></a></td>
                                     </tr>
 
                                 </tbody>
