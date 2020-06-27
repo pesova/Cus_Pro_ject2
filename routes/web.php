@@ -29,95 +29,91 @@ Route::get('/faq', function () {
     return view('faq');
 });
 
-
+Route::get('admin', function() {
+    return redirect('/admin/dashboard');
+});
 
 // backend codes
 
-Route::prefix('/backend/login')->group(function () {
-    Route::get('/', ['uses' => "Auth\LoginController@index"])->name('login');
-    Route::post('/authenticate', ['uses' => "Auth\LoginController@authenticate"])->name('login.authenticate');
+Route::prefix('/admin')->group(function () {
+    Route::get('/login', ['uses' => "Auth\LoginController@index"])->name('login');
+    Route::post('/login/authenticate', ['uses' => "Auth\LoginController@authenticate"])->name('login.authenticate');
+
+
+    Route::get('/register', 'Auth\RegisterController@index');
+
+    Route::post('/register', 'Auth\RegisterController@register')->name('register');
 });
 
-Route::get('/backend/register', function () {
-    return view('backend.register.signup');
-});
+// Protected Routes
+Route::group(['prefix' => '/admin',  'middleware' => 'backend.auth'], function () {
+    Route::get('/activate', 'ActivateController@index')->name('activate.user');
 
-Route::post('/backend/register', 'RegisterController@register')->name('register');
+    // dashboard
+    Route::get('/dashboard', function () {
+        return view('backend.dashboard');
+    })->name('dashboard');
 
-Route::get('/backend/recoverPassword', function () {
-    return view('backend.recoverPassword.recoverPassword');
-});
+  // Customers
+Route::get('/customers', function () {
+    return view('backend.customers.index');
+}); 
+    // transaction
 
+    Route::get('/transactions', function () {
+        return view('backend.transactions.index');
+    });
 
-Route::get('backend/activate', 'ActivateController@index')->name('activate.user');
+    // Route::get('/backend/view_transaction/{{$id}}', function () {
+    //     return view('backend.transactions.show');
+    // });
 
+    // Route::get('/backend/{id}', 'SingleTransactionController@index')->name('view_transaction');
 
-// dashboard
-Route::get('/backend/dashboard', function () {
-    return view('backend.dashboard');
-})->name('dashboard');
-
-// transaction
-
-Route::get('/backend/transactions', function () {
-    return view('backend.transactions.index');
-});
-
-// Route::get('/backend/view_transaction/{{$id}}', function () {
-//     return view('backend.transactions.show');
-// });
-
-// Route::get('/backend/{id}', 'SingleTransactionController@index')->name('view_transaction');
-
-Route::resource('/backend/users', 'UsersController');
+    Route::resource('/users', 'UsersController');
 
 
-Route::get('/backend/debt_reminders', function () {
-    return view('backend.debt_reminder.index');
-});
+    Route::get('/debt_reminders', function () {
+        return view('backend.debt_reminder.index');
+    });
 
 
-Route::get('/backend/complaint', function () {
-    return view('backend.complaintform.complaintform');
-});
+    Route::get('/complaint', function () {
+        return view('backend.complaintform.complaintform');
+    });
 
-Route::get('/backend/complaint_log', function () {
-    return view('backend.complaintlog.complaintlog');
-});
+    Route::get('/complaint_log', function () {
+        return view('backend.complaintlog.complaintlog');
+    });
 
-// all users
+    // all users
 
-Route::get('/users_list', function () {
-    return view('users_list.single_user');
-});
+    Route::get('/users_list', function () {
+        return view('users_list.single_user');
+    });
 
-Route::get('/backend/view_user', function () {
-    return view('backend.users_list.show');
-});
+    Route::get('/view_user', function () {
+        return view('backend.users_list.show');
+    });
 
-// analytics
-Route::get('/backend/analytics', function () {
-    return view('backend.analytics.analytics');
-})->name('analytics');
+    // analytics
+    Route::get('/analytics', function () {
+        return view('backend.analytics.analytics');
+    })->name('analytics');
 
+    // stores
+    Route::get('/stores', function () {
+        return view('backend.stores.store_list');
+    });
 
+<<<<<<< HEAD
 // settings
 Route::get('/backend/settings', function () {
     return view('backend.settings.settings');
 })->name('settings');
+=======
+    Route::get('/settings', 'SettingsController@index');
+>>>>>>> 9b03e362de073b21d6abac6bddb6db67670a7abd
 
-// stores
-Route::get('/backend/stores', function () {
-  return view('backend.stores.store_list');
+    Route::post('/settings', 'SettingsController@update')->name('settings');
 });
-
-
-// Route::get('/backend/settings', function () {
-//     return view('backend.settings.settings');
-// });
-
-Route::get('/backend/settings', 'SettingsController@index');
-
-Route::post('/backend/settings', 'SettingsController@update')->name('settings');
-
-
