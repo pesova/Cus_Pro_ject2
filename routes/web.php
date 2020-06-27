@@ -54,10 +54,10 @@ Route::group(['prefix' => '/admin',  'middleware' => 'backend.auth'], function (
         return view('backend.dashboard');
     })->name('dashboard');
 
-  // Customers
-Route::get('/customers', function () {
-    return view('backend.customers.index');
-}); 
+    // Customers
+    Route::get('/customers', function () {
+        return view('backend.customers.index');
+    });
     // transaction
 
     Route::get('/transactions', function () {
