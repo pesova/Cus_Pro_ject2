@@ -1,8 +1,8 @@
 <!-- ========== Left Sidebar Start ========== -->
 <div class="left-side-menu">
     <div class="media user-profile mt-2 mb-2">
-        <img src="assets/images/users/avatar-7.jpg" class="avatar-sm rounded-circle mr-2" alt="Shreyu" />
-        <img src="assets/images/users/avatar-7.jpg" class="avatar-xs rounded-circle mr-2" alt="Shreyu" />
+        <img src="/backend/assets/images/users/avatar-7.jpg" class="avatar-sm rounded-circle mr-2" alt="Shreyu" />
+        <img src="/backend/assets/images/users/avatar-7.jpg" class="avatar-xs rounded-circle mr-2" alt="Shreyu" />
         <div class="media-body">
             <h6 class="pro-user-name mt-0 mb-0">Nik Patel</h6>
             <span class="pro-user-desc">Administrator</span>
