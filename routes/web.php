@@ -106,15 +106,27 @@ Route::group(['prefix' => '/admin',  'middleware' => 'backend.auth'], function (
         return view('backend.stores.store_list');
     });
 
-    Route::get('/backend/view_store', function () {
+    Route::get('/view_store', function () {
         return view('backend.stores.show');
     });
     
-    Route::get('/backend/edit_store', function () {
+    Route::get('/edit_store', function () {
         return view('backend.stores.edit');
     });
-
+    
     Route::get('/settings', 'SettingsController@index');
 
     Route::post('/settings', 'SettingsController@update')->name('settings');
+});
+
+Route::get('/view_store', function () {
+    return view('backend.stores.show');
+});
+
+Route::get('/edit_store', function () {
+    return view('backend.stores.edit');
+});
+
+Route::get('/stores', function () {
+    return view('backend.stores.store_list');
 });

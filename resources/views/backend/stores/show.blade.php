@@ -11,8 +11,8 @@
                 <div class="row page-title">
                     <div class="col-md-12">
                         <nav aria-label="breadcrumb" class="float-right mt-1">
-                            <a href="/backend/edit_store" class="btn btn-success mr-2"><i class="far mr-2 fa-edit"></i>Edit Store</a>
-                            <a href="/backend/stores" class="btn btn-primary">Go Back</a>
+                            <a href="/edit_store" class="btn btn-success mr-2"><i class="far mr-2 fa-edit"></i>Edit Store</a>
+                            <a href="/stores" class="btn btn-primary">Go Back</a>
                         </nav>
                         <h4 class="mt-2">My Store</h4>
                     </div>
@@ -23,7 +23,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="text-center mt-3">
-                                    <img src="assets/images/users/avatar-7.jpg" alt="" class="avatar-lg rounded-circle" />
+                                    <img src="{{asset('backend/assets/images/users/avatar-7.jpg')}}" alt="" class="avatar-lg rounded-circle" />
                                         <h5 class="mt-2 mb-0">Medbuzz Pharmacy</h5>
                                         <h6 class="text-muted font-weight-normal mt-2 mb-0">Owner: Auwal Molanre</h6>
                                 </div>

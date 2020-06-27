@@ -11,7 +11,7 @@
                 <div class="row page-title">
                     <div class="col-md-12">
                         <nav aria-label="breadcrumb" class="float-right mt-1">
-                            <a href="/backend/view_store" class="btn btn-primary">Go Back</a>
+                            <a href="/view_store" class="btn btn-primary">Go Back</a>
                         </nav>
                         <h4 class="mt-2">Edit My Store</h4>
                     </div>
@@ -87,7 +87,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-success"><a href="/backend/view_store" class="text-white">Save changes</a></button>
+                  <button type="button" class="btn btn-success"><a href="/view_store" class="text-white">Save changes</a></button>
                 </div>
               </div>
             </div>

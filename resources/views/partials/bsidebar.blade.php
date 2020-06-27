@@ -67,6 +67,13 @@
                 </li>
 
                 <li>
+                    <a href="/admin/stores">
+                        <i class="fas text-muted fa-store"></i>
+                        <span>Stores</span>
+                    </a>
+                </li>
+
+                <li>
                     <a href="{{route('analytics')}}">
                         <i data-feather="book-open"></i>
                         <span> Analytics </span>
