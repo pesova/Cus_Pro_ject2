@@ -29,11 +29,13 @@ Route::get('/faq', function () {
     return view('faq');
 });
 
-
+Route::get('admin', function() {
+    return redirect('/admin/dashboard');
+});
 
 // backend codes
 
-Route::prefix('/backend')->group(function () {
+Route::prefix('/admin')->group(function () {
     Route::get('/login', ['uses' => "Auth\LoginController@index"])->name('login');
     Route::post('/login/authenticate', ['uses' => "Auth\LoginController@authenticate"])->name('login.authenticate');
 
@@ -44,7 +46,7 @@ Route::prefix('/backend')->group(function () {
 });
 
 // Protected Routes
-Route::group(['prefix' => '/backend',  'middleware' => 'backend.auth'], function () {
+Route::group(['prefix' => '/admin',  'middleware' => 'backend.auth'], function () {
     Route::get('/activate', 'ActivateController@index')->name('activate.user');
 
     // dashboard

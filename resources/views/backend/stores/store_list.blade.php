@@ -106,7 +106,7 @@
                                       Actions<i class="icon"><span data-feather="chevron-down"></span></i>
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                      <a class="dropdown-item" href="/backend/view_user">View Store</a>
+                                      <a class="dropdown-item" href="/admin/view_user">View Store</a>
                                       <a class="dropdown-item" href="#">Edit store</a>
                                       <a class="dropdown-item" href="#">Delete store</a>
                                     </div>
@@ -125,7 +125,7 @@
                                       Actions<i class="icon"><span data-feather="chevron-down"></span></i>
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                      <a class="dropdown-item" href="/backend/view_user">View Store</a>
+                                      <a class="dropdown-item" href="/admin/view_user">View Store</a>
                                       <a class="dropdown-item" href="#">Edit store</a>
                                       <a class="dropdown-item" href="#">Delete store</a>
                                     </div>
