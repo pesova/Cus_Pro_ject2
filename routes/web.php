@@ -29,22 +29,24 @@ Route::get('/faq', function () {
     return view('faq');
 });
 
-
+Route::get('admin', function() {
+    return redirect('/admin/dashboard');
+});
 
 // backend codes
 
-Route::prefix('/backend')->group(function () {
+Route::prefix('/admin')->group(function () {
     Route::get('/login', ['uses' => "Auth\LoginController@index"])->name('login');
     Route::post('/login/authenticate', ['uses' => "Auth\LoginController@authenticate"])->name('login.authenticate');
 
 
-    Route::get('/register', 'RegisterController@index');
+    Route::get('/register', 'Auth\RegisterController@index');
 
-    Route::post('/register', 'RegisterController@register')->name('register');
+    Route::post('/register', 'Auth\RegisterController@register')->name('register');
 });
 
 // Protected Routes
-Route::group(['prefix' => '/backend',  'middleware' => 'backend.auth'], function () {
+Route::group(['prefix' => '/admin',  'middleware' => 'backend.auth'], function () {
     Route::get('/activate', 'ActivateController@index')->name('activate.user');
 
     // dashboard
@@ -52,10 +54,10 @@ Route::group(['prefix' => '/backend',  'middleware' => 'backend.auth'], function
         return view('backend.dashboard');
     })->name('dashboard');
 
-  // Customers
-Route::get('/customers', function () {
-    return view('backend.customers.index');
-}); 
+    // Customers
+    Route::get('/customers', function () {
+        return view('backend.customers.index');
+    });
     // transaction
 
     Route::get('/transactions', function () {
