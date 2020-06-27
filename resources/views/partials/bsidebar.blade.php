@@ -54,11 +54,18 @@
                     </a>
                 </li>
                 <li>
+                    <a href="/backend/customers">
+                        <i class='uil uil-chat-bubble-user'></i>
+                        <span> Customers </span>
+                    </a>
+                </li>
+                <li>
                     <a href="/backend/transactions">
                         <i data-feather="credit-card"></i>
                         <span> Transactions </span>
                     </a>
                 </li>
+
                 <li>
                     <a href="{{route('analytics')}}">
                         <i data-feather="book-open"></i>
@@ -85,8 +92,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{route('settings')}}">
-                        <i data-feather="book"></i>
+                    <a href="/backend/settings">
+                        <i class="uil  uil-cog"></i>
                         <span> Settings </span>
                     </a>
                 </li>
