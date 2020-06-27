@@ -11,8 +11,8 @@
                 <div class="row page-title">
                     <div class="col-md-12">
                         <nav aria-label="breadcrumb" class="float-right mt-1">
-                            <a href="/edit_store" class="btn btn-success mr-2"><i class="far mr-2 fa-edit"></i>Edit Store</a>
-                            <a href="/stores" class="btn btn-primary">Go Back</a>
+                            <a href="/admin/edit_store" class="btn btn-success mr-2"><i class="far mr-2 fa-edit"></i>Edit Store</a>
+                            <a href="/admin/stores" class="btn btn-primary">Go Back</a>
                         </nav>
                         <h4 class="mt-2">My Store</h4>
                     </div>
