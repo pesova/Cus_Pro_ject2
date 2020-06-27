@@ -15,9 +15,9 @@
             <div class="col-lg-10">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="mb-3 header-title mt-0">Complaint Form</h4>
+                        {{-- <h4 class="mb-3 header-title mt-0">Complaint Form</h4> --}}
 
-                        <form class="form-horizontal">
+                        <form class="mt-4 mb-3 form-horizontal">
                             <div class="form-group row mb-3">
                                 <label for="fullname" class="col-3 col-form-label">Full Name</label>
                                 <div class="col-9">
@@ -25,9 +25,15 @@
                                 </div>
                             </div>
                             <div class="form-group row mb-3">
-                                <label for="email" class="col-3 col-form-label">Email</label>
+                                <label class="col-3 col-form-label">Store</label>
                                 <div class="col-9">
-                                    <input type="email" class="form-control" id="email" placeholder="Email">
+                                    <select class="form-control custom-select">
+                                        <option>Store 1</option>
+                                        <option>Store 2</option>
+                                        <option>Store 3</option>
+                                        <option>Store 4</option>
+                                        <option>Store 5</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group row mb-3">
