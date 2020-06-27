@@ -29,7 +29,7 @@ Route::get('/faq', function () {
     return view('faq');
 });
 
-Route::get('admin', function () {
+Route::get('admin', function() {
     return redirect('/admin/dashboard');
 });
 
@@ -45,10 +45,8 @@ Route::prefix('/admin')->group(function () {
     Route::post('/register', 'Auth\RegisterController@register')->name('register');
 });
 
-
 // Protected Routes
 Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function () {
-
     Route::get('/activate', 'ActivateController@index')->name('activate.user');
 
     // dashboard
@@ -60,10 +58,20 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
     Route::get('/customers', function () {
         return view('backend.customers.index');
     });
+
+    //Single Customer view
+    Route::get('/singleCustomer', function(){
+        return view('backend.customers.singleCustomer');
+    });
+
     // transaction
 
     Route::get('/transactions', function () {
         return view('backend.transactions.index');
+    });
+
+    Route::get('/broadcast', function () {
+        return view('backend.broadcasts.send_broadcast');
     });
 
     // Route::get('/backend/view_transaction/{{$id}}', function () {
@@ -107,19 +115,20 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
     Route::get('/stores', function () {
         return view('backend.stores.store_list');
     });
-    
+
     Route::get('/create_store', function () {
         return view('backend.stores.create');
     });
 
+
     Route::get('/view_store', function () {
         return view('backend.stores.show');
     });
-    
+
     Route::get('/edit_store', function () {
         return view('backend.stores.edit');
     });
-    
+
     Route::get('/settings', 'SettingsController@index');
 
     Route::post('/settings', 'SettingsController@update')->name('settings');
