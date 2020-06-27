@@ -46,7 +46,7 @@
                             <br>
                             <div class="form-group mb-0 justify-content-end row">
                                 <div class="col-12 text-center">
-                                    <button type="submit" class="btn btn-info">Submit Complaint</button>
+                                    <button type="submit" class="btn btn-primary">Submit Complaint</button>
                                 </div>
                             </div>
                         </form>
