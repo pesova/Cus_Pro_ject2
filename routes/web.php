@@ -42,7 +42,7 @@ Route::get('/backend/register', function () {
     return view('backend.register.signup');
 });
 
-Route::post('/backend/register', 'RegisterController@register')->name('register');
+Route::post('/backend/register', 'Auth\RegisterController@register')->name('register');
 
 Route::get('/backend/recoverPassword', function () {
     return view('backend.recoverPassword.recoverPassword');
