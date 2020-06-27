@@ -54,10 +54,10 @@ Route::group(['prefix' => '/admin',  'middleware' => 'backend.auth'], function (
         return view('backend.dashboard');
     })->name('dashboard');
 
-  // Customers
-Route::get('/customers', function () {
-    return view('backend.customers.index');
-}); 
+    // Customers
+    Route::get('/customers', function () {
+        return view('backend.customers.index');
+    });
     // transaction
 
     Route::get('/transactions', function () {
@@ -106,10 +106,6 @@ Route::get('/customers', function () {
         return view('backend.stores.store_list');
     });
 
-// settings
-Route::get('/backend/settings', function () {
-    return view('backend.settings.settings');
-})->name('settings');
     Route::get('/settings', 'SettingsController@index');
 
     Route::post('/settings', 'SettingsController@update')->name('settings');
