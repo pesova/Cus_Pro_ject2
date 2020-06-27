@@ -46,7 +46,7 @@ Route::prefix('/admin')->group(function () {
 });
 
 // Protected Routes
-Route::group(['prefix' => '/admin',  'middleware' => 'backend.auth'], function () {
+Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function () {
     Route::get('/activate', 'ActivateController@index')->name('activate.user');
 
     // dashboard
@@ -121,4 +121,9 @@ Route::group(['prefix' => '/admin',  'middleware' => 'backend.auth'], function (
     Route::get('/settings', 'SettingsController@index');
 
     Route::post('/settings', 'SettingsController@update')->name('settings');
+
+    // assistant
+    Route::get('/add_assistant', function () {
+        return view('backend.store_assistant.add_assistant');
+    });
 });
