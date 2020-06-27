@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator; // NAMESPACE FOR PAGINATOR
+use Illuminate\Support\Facades\Cookie;
 
 class UsersController extends Controller
 {
@@ -20,7 +21,8 @@ class UsersController extends Controller
         //
         try {
             $client = new Client();
-            $response = $client->request('GET', 'https://dev.customerpay.me/user/all');
+            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+            $response = $client->request('GET', 'https://dev.customerpay.me/user/all', $headers);
             $statusCode = $response->getStatusCode();
             if ($statusCode == 200) {
                 $body = $response->getBody()->getContents();
@@ -76,7 +78,8 @@ class UsersController extends Controller
     {
         try {
             $client = new Client();
-            $response = $client->request('GET', "https://dev.customerpay.me/user/$id");
+            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+            $response = $client->request('GET', "https://dev.customerpay.me/user/$id", $headers);
             $statusCode = $response->getStatusCode();
             $body = $response->getBody()->getContents();
             $user = json_decode($body);

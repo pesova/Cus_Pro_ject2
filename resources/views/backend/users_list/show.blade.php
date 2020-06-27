@@ -22,7 +22,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="text-center mt-3">
-                                        <img src="assets/images/users/avatar-7.jpg" alt=""
+                                        <img src="/backend/assets/images/users/avatar-7.jpg" alt=""
                                             class="avatar-lg rounded-circle" />
                                     <h5 class="mt-2 mb-0">{{$response->first_name. " " . substr($response->last_name,0,1) ."."}}</h5>
                                         <h6 class="text-muted font-weight-normal mt-2 mb-0">
