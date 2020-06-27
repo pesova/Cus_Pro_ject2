@@ -5,8 +5,19 @@
        
 @stop
        @section('content')
+       <p style="display: none;" id="api-token">
+           <?php 
+        echo Cookie::get('api_token');
+       ?>
+    </p>
+
           <div class="content">
                 <!-- Start Content-->
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none" id="alerts">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
                 <div class="container-fluid">
                     <div class="row page-title">
                         <div class="col-md-12">
@@ -84,7 +95,7 @@
                                                     </tr>
                                                       <tr>
                                                         <th scope="row">Total Number of Customers</th>
-                                                <td>{{"number of customers here"}}</td>
+                                                <td id="customers-num">{{"number of customers here"}}</td>
                                                     </tr>
                                                                                                                                                             <tr>
                                                         <th scope="row">Role</th>
@@ -122,73 +133,8 @@
                                     </tr>
                                 </thead>
 
-                                <tbody>
-                                    <tr>
-                                        <td>GI671B</td>
-                                        <td>Receivables</td>
-                                        <td>C1290D</td>
-                                        <td>$500.00</td>
-                                        <td>25th July, 2020</td>
-                                        <td><a href="/backend/view_transaction"><i data-feather="eye"></i></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>GI671B</td>
-                                        <td>Paid</td>
-                                        <td>C12ADS</td>
-                                        <td>$500.00</td>
-                                        <td>25th July, 2020</td>
-                                        <td><a href="/backend/view_transaction"><i data-feather="eye"></i></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>GI671B</td>
-                                        <td>Receivables</td>
-                                        <td>C1D90F</td>
-                                        <td>$500.00</td>
-                                        <td>25th July, 2020</td>
-                                        <td><a href="/backend/view_transaction"><i data-feather="eye"></i></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>GI671B</td>
-                                        <td>Receivables</td>
-                                        <td>C1D90F</td>
-                                        <td>$500.00</td>
-                                        <td>25th July, 2020</td>
-                                        <td><a href="/backend/view_transaction"><i data-feather="eye"></i></a></td>
-                                    </tr>
-                                                                        <tr>
-                                        <td>GI671B</td>
-                                        <td>Receivables</td>
-                                        <td>C1D90F</td>
-                                        <td>$500.00</td>
-                                        <td>25th July, 2020</td>
-                                        <td><a href="/backend/view_transaction"><i data-feather="eye"></i></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>GI671B</td>
-                                        <td>Debt</td>
-                                        <td>C1294E</td>
-                                        <td>$500.00</td>
-                                        <td>25th July, 2020</td>
-                                        <td><a href="/backend/view_transaction"><i data-feather="eye"></i></a></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>GI671B</td>
-                                        <td>Receivables</td>
-                                        <td>C1290D</td>
-                                        <td>$500.00</td>
-                                        <td>25th July, 2020</td>
-                                        <td><a href="/backend/view_transaction"><i data-feather="eye"></i></a></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>GI671B</td>
-                                        <td>Paid</td>
-                                        <td>C1290D</td>
-                                        <td>$500.00</td>
-                                        <td>25th July, 2020</td>
-                                        <td><a href="/backend/view_transaction"><i data-feather="eye"></i></a></td>
-                                    </tr>
+                                <tbody id="transactions-table">
+                                    
 
                                 </tbody>
                                         </table>
@@ -206,30 +152,13 @@
                                             <thead>
                                                 <tr>
                                                     <th scope="col">#</th>
-                                                    <th scope="col">First</th>
-                                                    <th scope="col">Last</th>
+                                                    <th scope="col">Name</th>
                                                     <th scope="col">Phone Number</th>
+                                                    <th scope="col">View Profile</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <th scope="row">1</th>
-                                                    <td>Mark</td>
-                                                    <td>Otto</td>
-                                                    <td>9090</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">2</th>
-                                                    <td>Jacob</td>
-                                                    <td>Thornton</td>
-                                                    <td>@fat</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">3</th>
-                                                    <td>Larry</td>
-                                                    <td>the Bird</td>
-                                                    <td>@twitter</td>
-                                                </tr>
+                                            <tbody id="customers-table">
+                                                No Transactions to show
                                             </tbody>
                                         </table>
                                     </div>
@@ -250,7 +179,122 @@
 
 
     @section("javascript")
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+<script>
+    function getCookie(cname) {
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i <ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+let api_token = document.getElementById('api-token').textContent.trim();
+
+//gets customers
+$.ajax({
+    headers:{
+        'x-access-token':api_token
+    },
+    url:"https://dev.customerpay.me/customer/all",
+    statusCode: {       
+         401: function(responseObject, textStatus, jqXHR) {  
+          
+             $("#alerts").text('Something went wrong: ' + textStatus)   
+              $('#alerts').css('display','inline-block')    
+                           setTimeout(()=>{
+                  $('#alerts').hide();
+             },3000)  
+             },        
+        403: function(responseObject, textStatus, errorThrown) { 
+          
+             $("#alerts").text('Something went wrong: ' + textStatus)    
+                  $('#alerts').css('display','inline-block') 
+                setTimeout(()=>{
+                  $('#alerts').hide();
+             },3000)  
+            }              
+        }
+})
+.done(function(data){
+    $('#customers-num').text(data.result);
+    let customers = data.data;
+       let text = '';
+     $("#customers-table").text(''); 
+    if(customers.length > 0){
+        customers.forEach((element,index) => {
+       
+        text +=`
+                  <tr>
+                    <th scope="row">${index + 1}</th>
+                    <td>${element.name}</td>
+                    <td>${element.phone_number}</td>
+                    <td><a href="/admin/customers/${element._id}">View profile</a></td>
+                 </tr>
+        `
+        });
+    }else{
+        text = "You dont have any customers yet"
+    }
+    console.log(text);
+    $("#customers-table").append(text); 
+})
 
 
+//gets transaction
+$.ajax({
+    headers:{
+        'x-access-token':api_token
+    },
+    url:"https://dev.customerpay.me/transaction/all",
+        statusCode: {       
+         401: function(responseObject, textStatus, jqXHR) {  
+               
+             $("#alerts").text('Something went wrong: ' + jqXHR)
+             $('#alerts').css('display','inline-block') 
+                 setTimeout(()=>{
+                  $('#alerts').hide();
+             },3000)      
+             },        
+        403: function(responseObject, textStatus, errorThrown ) { 
+             $("#alerts").text('Something went wrong: ' + errorThrown) 
+             $('#alerts').css('display','inline-block')  
+             setTimeout(()=>{
+                  $('#alerts').hide();
+             },3000)        
+            }              
+        }
+})
+.done(function(data){
+let text = '';
+  $("#transactions-table").text('');
+      if(data.length > 0){
+        data.forEach((element,index) => {
+       
+    text +=`
+    <tr>
+        <td></td>
+        <td>Not available</td>
+        <td>Not available</td>
+        <td>${element.amount}</td>
+        <td>Not available</td>
+        <td><a href="/admin/transactions/${element._id}"><i data-feather="eye"></i></a></td>
+    </tr>
+        `;
+        });
+    }else{
+        text = "You dont have any transactions yet";
+    }
+$("#transactions-table").text(text);
+})
+</script>
                 
     @stop
