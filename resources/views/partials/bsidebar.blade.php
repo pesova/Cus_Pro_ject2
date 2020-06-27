@@ -80,6 +80,12 @@
                     </a>
                 </li>
                 <li>
+                    <a href="/admin/broadcast">
+                        <i data-feather="message-square"></i>
+                        <span> Broadcast Message </span>
+                    </a>
+                </li>
+                <li>
                     <a href="/admin/complaint">
                         <i data-feather="book-open"></i>
                         <span> Complaint Forms </span>
