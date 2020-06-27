@@ -59,10 +59,18 @@
                         <span> Customers </span>
                     </a>
                 </li>
+                
                 <li>
                     <a href="/admin/transactions">
                         <i data-feather="credit-card"></i>
                         <span> Transactions </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/admin/stores">
+                        <i class="fas text-muted fa-store"></i>
+                        <span>Stores</span>
                     </a>
                 </li>
 
@@ -77,6 +85,20 @@
                     <a href="/admin/debt_reminders">
                         <i data-feather="bell"></i>
                         <span> Debt Reminders </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/admin/add_assistant">
+                        <i data-feather="users"></i>
+                        <span> Add Assistant </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/admin/broadcast">
+                        <i data-feather="message-square"></i>
+                        <span> Broadcast Message </span>
                     </a>
                 </li>
                 <li>

@@ -46,7 +46,7 @@ Route::prefix('/admin')->group(function () {
 });
 
 // Protected Routes
-Route::group(['prefix' => '/admin',  'middleware' => 'backend.auth'], function () {
+Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function () {
     Route::get('/activate', 'ActivateController@index')->name('activate.user');
 
     // dashboard
@@ -58,17 +58,27 @@ Route::group(['prefix' => '/admin',  'middleware' => 'backend.auth'], function (
     Route::get('/customers', function () {
         return view('backend.customers.index');
     });
+
+    //Single Customer view
+    Route::get('/singleCustomer', function(){
+        return view('backend.customers.singleCustomer');
+    });
+
     // transaction
 
     Route::get('/transactions', function () {
         return view('backend.transactions.index');
     });
 
+    Route::get('/broadcast', function () {
+        return view('backend.broadcasts.send_broadcast');
+    });
+
     // Route::get('/backend/view_transaction/{{$id}}', function () {
     //     return view('backend.transactions.show');
     // });
 
-    // Route::get('/backend/{id}', 'SingleTransactionController@index')->name('view_transaction');
+    Route::get('/transactions/{id}', 'SingleTransactionController@index')->name('view_transaction');
 
     Route::resource('/users', 'UsersController');
 
@@ -106,7 +116,31 @@ Route::group(['prefix' => '/admin',  'middleware' => 'backend.auth'], function (
         return view('backend.stores.store_list');
     });
 
+    Route::get('/create_store', function () {
+        return view('backend.stores.create');
+    });
+
+
+    Route::get('/view_store', function () {
+        return view('backend.stores.show');
+    });
+
+    Route::get('/edit_store', function () {
+        return view('backend.stores.edit');
+    });
+
     Route::get('/settings', 'SettingsController@index');
 
     Route::post('/settings', 'SettingsController@update')->name('settings');
+
+    Route::get('/edit_assistants', function () {
+        return view('backend.store-assistants.edit_assistants');
+    });
+
+
+    // assistant
+    Route::get('/add_assistant', function () {
+        return view('backend.store_assistant.add_assistant');
+    });
+
 });
