@@ -105,6 +105,10 @@ Route::group(['prefix' => '/admin',  'middleware' => 'backend.auth'], function (
     Route::get('/stores', function () {
         return view('backend.stores.store_list');
     });
+    
+    Route::get('/create_store', function () {
+        return view('backend.stores.create');
+    });
 
     Route::get('/view_store', function () {
         return view('backend.stores.show');

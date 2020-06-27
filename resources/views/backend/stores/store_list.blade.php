@@ -12,8 +12,10 @@
           <div class="col-md-12">
             <div class="customer-heading-container">
               <h4 class="mb-1 mt-0">All Stores</h4>
-              <button class="add-customer-button btn btn-primary" data-toggle="modal" data-target="#myModal">
+              <button class="add-customer-button btn btn-primary" data-toggle="modal">
+                <a href="/admin/create_store" class="text-white">
                 Add New <i class="fa fa-plus add-new-icon"></i>
+                </a>
               </button>
             </div>
           </div>
@@ -142,7 +144,7 @@
 
   </div>
 </div>
-                          <div id="myModal" class="modal fade" tabindex="-1" role="dialog"
+                          {{-- <div id="myModal" class="modal fade" tabindex="-1" role="dialog"
                       aria-labelledby="myModalLabel" aria-hidden="true">
                       <div class="modal-dialog">
                           <div class="modal-content">
@@ -154,7 +156,7 @@
                                   </button>
                               </div>
                               <div class="modal-body">
-                                    <form class="form-horizontal">
+                      <form class="form-horizontal">
                           <div class="form-group row mb-3">
                               <label for="inputphone" class="col-3 col-form-label">Phone Number</label>
                               <div class="col-9">
@@ -185,7 +187,7 @@
 
                           </div><!-- /.modal-content -->
                       </div><!-- /.modal-dialog -->
-                  </div><!-- /.modal -->
+                  </div><!-- /.modal --> --}}
 @endsection
 
 @section("javascript")
