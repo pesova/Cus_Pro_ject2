@@ -49,6 +49,7 @@ Route::prefix('/admin')->group(function () {
 Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function () {
     Route::get('/activate', 'ActivateController@index')->name('activate.user');
 
+    Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
     // dashboard
     Route::get('/dashboard', function () {
         return view('backend.dashboard');

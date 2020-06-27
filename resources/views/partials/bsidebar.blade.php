@@ -35,7 +35,7 @@
 
                 <div class="dropdown-divider"></div>
 
-                <a href="javascript:void(0);" class="dropdown-item notify-item">
+            <a href="{{ route('logout') }}" class="dropdown-item notify-item">
                     <i data-feather="log-out" class="icon-dual icon-xs mr-2"></i>
                     <span>Logout</span>
                 </a>
@@ -59,7 +59,7 @@
                         <span> Customers </span>
                     </a>
                 </li>
-                
+
                 <li>
                     <a href="/admin/transactions">
                         <i data-feather="credit-card"></i>
@@ -94,7 +94,7 @@
                         <span> Add Assistant </span>
                     </a>
                 </li>
-                
+
                 <li>
                     <a href="/admin/broadcast">
                         <i data-feather="message-square"></i>
