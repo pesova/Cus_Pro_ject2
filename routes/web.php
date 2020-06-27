@@ -51,6 +51,7 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
 
     Route::get('/activate', 'ActivateController@index')->name('activate.user');
 
+    Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
     // dashboard
     Route::get('/dashboard', function () {
         return view('backend.dashboard');
@@ -107,7 +108,7 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
     Route::get('/stores', function () {
         return view('backend.stores.store_list');
     });
-    
+
     Route::get('/create_store', function () {
         return view('backend.stores.create');
     });
@@ -115,11 +116,11 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
     Route::get('/view_store', function () {
         return view('backend.stores.show');
     });
-    
+
     Route::get('/edit_store', function () {
         return view('backend.stores.edit');
     });
-    
+
     Route::get('/settings', 'SettingsController@index');
 
     Route::post('/settings', 'SettingsController@update')->name('settings');
