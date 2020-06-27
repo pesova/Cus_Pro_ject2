@@ -118,15 +118,3 @@ Route::group(['prefix' => '/admin',  'middleware' => 'backend.auth'], function (
 
     Route::post('/settings', 'SettingsController@update')->name('settings');
 });
-
-Route::get('/view_store', function () {
-    return view('backend.stores.show');
-});
-
-Route::get('/edit_store', function () {
-    return view('backend.stores.edit');
-});
-
-Route::get('/stores', function () {
-    return view('backend.stores.store_list');
-});
