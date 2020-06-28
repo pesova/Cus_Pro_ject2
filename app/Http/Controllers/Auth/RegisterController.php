@@ -101,12 +101,15 @@ class RegisterController extends Controller
                     Cookie::queue('api_token', $api_token);
                     Cookie::queue('phone_number', $phone_number);
                     Cookie::queue('user_id', $user_id);
+
                     return redirect()->route('activate.user');
                 }
 
                 if ($response->getStatusCode() == 200) {
                     $res = json_decode($response->getBody());
                     $request->session()->flash('alert', $res->Message);
+                    $request->session()->flash('alert-class', 'alert-danger');
+
                     return redirect()->route('signup');
                 }
 

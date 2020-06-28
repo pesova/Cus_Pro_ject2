@@ -86,6 +86,9 @@ class LoginController extends Controller
                     Cookie::queue('phone_number', $response->user->phone_number);
                     Cookie::queue('user_id', $response->user->_id);
 
+                    $request->session()->flash('alert-class', 'alert-success');
+                    $request->session()->flash('message', $response->message);
+
                     //check if active
                     if ($response->user->is_active == false) {
                         return redirect()->route('activate.user');
