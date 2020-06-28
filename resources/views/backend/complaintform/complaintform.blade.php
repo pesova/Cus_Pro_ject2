@@ -11,19 +11,7 @@
 
 
     @section('content')
-    <?php
-              $msg = '';
-              $msgclass = '';
-                if(filter_has_var(INPUT_POST, 'submit')){
-                  $message = "message";
-                  if(!empty($message)){
-                      echo 'PASSED';
-                  }else{
-                    $msg = 'Please Fill in all Fields';
-                    $msgclass = 'btn-danger';
-                  }
-                }
-                ?>
+    
     <style type="text/css">
       @media screen and (max-width: 670px){
         .container{
@@ -35,10 +23,6 @@
     </style>
             <div class="container" style="padding: 20px; background-color: white; margin-top: 15px; border-radius: 10px;">
             <form method="get" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-              <?php if($msg = '' ): ?>
-                  <div class="btn <?php echo $msgclass; ?>"><?php echo $msg; ?></div>
-              <?php endif; ?>
-              @csrf
               <h5>Log your Complain</h5><br>
               <div class="input-field">
                 <i class="material-icons prefix">account_circle</i>
