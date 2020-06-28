@@ -57,7 +57,7 @@ class LoginController extends Controller
     {
         $validation = Validator::make(request()->all(),[
             'phone_number' => 'required|numeric|digits_between:1,16',
-            'password' => 'required'
+            'password' => 'required|regex:/[a-zA-Z0-9]{6,20}$/'
         ]);
 
         if ($validation->fails()) {
@@ -68,7 +68,7 @@ class LoginController extends Controller
 
         try {
             $client =  new \GuzzleHttp\Client();
-            $response = $client->post($this->host . '/user', [
+            $response = $client->post($this->host . '/login/user', [
                 'form_params' => [
                     'phone_number' => $request->input('phone_number'),
                     'password' => $request->input('password')
@@ -108,6 +108,12 @@ class LoginController extends Controller
             }
         } catch (\Exception $e) {
             // log $e->getMessage() when error loggin is setup
+            if($e->getCode() == 400) {
+                $request->session()->flash('message', 'Invalid Phone number or password');
+                $request->session()->flash('alert-class', 'alert-danger');
+                return redirect()->route('login');
+            }
+
             Log::error("catch error: LoginController - ".$e->getMessage());
             $request->session()->flash('message', 'something went wrong try again in a few minutes');
             return redirect()->route('login');
