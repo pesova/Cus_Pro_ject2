@@ -42,7 +42,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->host = env('API_URL', 'https://customerpay.me/');
+        $this->host = env('API_URL', 'https://api.customerpay.me/');
     }
 
     public function index()

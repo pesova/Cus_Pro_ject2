@@ -13,7 +13,7 @@
             <div class="customer-heading-container">
               <h4 class="mb-1 mt-0">All Stores</h4>
               <button class="add-customer-button btn btn-primary" data-toggle="modal">
-                <a href="/admin/create_store" class="text-white">
+                <a href="{{ route('store.create') }}" class="text-white">
                 Add New <i class="fa fa-plus add-new-icon"></i>
                 </a>
               </button>
@@ -108,8 +108,8 @@
                                       Actions<i class="icon"><span data-feather="chevron-down"></span></i>
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                      <a class="dropdown-item" href="/admin/view_store">View Store</a>
-                                      <a class="dropdown-item" href="/admin/edit_store">Edit store</a>
+                                      <a class="dropdown-item" href="{{ route('store.view') }}">View Store</a>
+                                      <a class="dropdown-item" href="{{ route('store.edit') }}">Edit store</a>
                                       <a class="dropdown-item" href="#">Delete store</a>
                                     </div>
                                   </div>
@@ -127,8 +127,8 @@
                                       Actions<i class="icon"><span data-feather="chevron-down"></span></i>
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                      <a class="dropdown-item" href="/admin/view_store">View Store</a>
-                                      <a class="dropdown-item" href="/admin/edit_store">Edit store</a>
+                                      <a class="dropdown-item" href="{{ route('store.view') }}">View Store</a>
+                                      <a class="dropdown-item" href="{{ route('store.edit') }}">Edit store</a>
                                       <a class="dropdown-item" href="#">Delete store</a>
                                     </div>
                                   </div>

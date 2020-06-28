@@ -111,7 +111,7 @@ class SettingsController extends Controller
                 //         return view('errors.500');
                 //     }
                 // } else {
-                //     return redirect('/backend/settings');
+                //     return redirect()->route('settings');
                 // }
             // ==============================================
         } catch(\Exception $e) {
