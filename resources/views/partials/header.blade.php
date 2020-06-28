@@ -20,9 +20,8 @@
             <div class="nav__button__container">
                      @if(!isset($_COOKIE['api_token']))
                 <button class="nav__button "><a href="/admin/login" class="nav__button__link">Log In</a></button>
-                <button class="nav__button btn-nav-active"><a href="{{ route('signup') }}"
-                        class="nav__button__link__active">Sign
-                        Up</a></button>
+                <a href="{{ route('signup') }}"
+                        class="nav__button btn-nav-active">Sign Up</a>
                 @elseif(isset($_COOKIE['api_token']))
                     <button class="nav__button btn-nav-active"><a href="{{ route('logout') }}"
                         class="nav__button__link__active">Logout</a></button>
