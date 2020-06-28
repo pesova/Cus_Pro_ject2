@@ -46,7 +46,7 @@ Route::prefix('/admin')->group(function () {
 });
 
 // Protected Routes
-Route::group(['prefix' => '/admin',  'middleware' => 'backend.auth'], function () {
+Route::group(['prefix' => '/admin'], function () {
     Route::get('/activate', 'ActivateController@index')->name('activate.user');
 
     // dashboard
@@ -58,6 +58,12 @@ Route::group(['prefix' => '/admin',  'middleware' => 'backend.auth'], function (
     Route::get('/customers', function () {
         return view('backend.customers.index');
     });
+
+    //Single Customer view
+    Route::get('/singleCustomer', function(){
+        return view('backend.customers.singleCustomer');
+    });
+
     // transaction
 
     Route::get('/transactions', function () {
