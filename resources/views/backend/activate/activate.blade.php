@@ -19,7 +19,7 @@
                                     <div class="row">
                                         <div class="col-12 p-5">
                                             <div class="mx-auto mb-5">
-                                                <a href="/">
+                                                <a href="{{ route('home') }}">
                                                     <img src="{{ ('/frontend/assets/images/fulllogo.png') }}" alt=""
                                                          height="auto"/> </a>
                                             </div>
@@ -36,7 +36,7 @@
                                             <div class="alert alert-success alert-dismissible" id="success"
                                                  style="display: none">
                                                 <span id="success-message">Your account has been activated.
-                                                    <a href="{{url('/admin/dashboard')}}">Click Here if you were not redirected</a>
+                                                    <a href="{{ route('dashboard') }}}">Click Here if you were not redirected</a>
                                                 </span>
 
                                             </div>
@@ -77,7 +77,7 @@
 
                             <div class="row mt-3">
                                 <div class="col-12 text-center">
-                                    <p class="text-muted">Back to <a href="pages-login.html"
+                                    <p class="text-muted">Back to <a href="{{ route('logout') }}"
                                                                      class="text-primary font-weight-bold ml-1">Login</a>
                                     </p>
                                 </div> <!-- end col -->

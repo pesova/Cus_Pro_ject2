@@ -18,7 +18,7 @@
                     <span>My Account</span>
                 </a>
 
-                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                <a href="{{ route('settings') }}" class="dropdown-item notify-item">
                     <i data-feather="settings" class="icon-dual icon-xs mr-2"></i>
                     <span>Settings</span>
                 </a>
@@ -28,7 +28,7 @@
                     <span>Support</span>
                 </a>
 
-                <a href="pages-lock-screen.html" class="dropdown-item notify-item">
+                <a href="javascript:void(0);" class="dropdown-item notify-item">
                     <i data-feather="lock" class="icon-dual icon-xs mr-2"></i>
                     <span>Lock Screen</span>
                 </a>
@@ -48,27 +48,27 @@
             <ul class="metismenu" id="menu-bar">
                 <li class="menu-title">Navigation</li>
                 <li>
-                    <a href="/admin/dashboard">
+                    <a href="{{ route('dashboard') }}">
                         <i data-feather="home"></i>
                         <span> Dashboard </span>
                     </a>
                 </li>
                 <li>
-                    <a href="/admin/customers">
+                    <a href="{{ route('customers') }}">
                         <i class='uil uil-chat-bubble-user'></i>
                         <span> Customers </span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="/admin/transactions">
+                    <a href="{{ route('transactions') }}">
                         <i data-feather="credit-card"></i>
                         <span> Transactions </span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="/admin/stores">
+                    <a href="{{ route('stores') }}">
                         <i class="fas text-muted fa-store"></i>
                         <span>Stores</span>
                     </a>
@@ -82,46 +82,46 @@
                 </li>
 
                 <li>
-                    <a href="/admin/debt_reminders">
+                    <a href="{{ route('debts.reminder') }}">
                         <i data-feather="bell"></i>
                         <span> Debt Reminders </span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="/admin/add_assistant">
+                    <a href="{{ route('assistants.add') }}">
                         <i data-feather="users"></i>
                         <span> Add Assistant </span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="/admin/broadcast">
+                    <a href="{{ route('broadcast') }}">
                         <i data-feather="message-square"></i>
                         <span> Broadcast Message </span>
                     </a>
                 </li>
                 <li>
-                    <a href="/admin/complaint">
+                    <a href="{{ route('complaint.form') }}">
                         <i data-feather="book-open"></i>
                         <span> Complaint Forms </span>
                     </a>
                 </li>
                 <li>
-                    <a href="/admin/complaint_log">
+                    <a href="{{ route('complaint.log') }}">
                         <i data-feather="book"></i>
                         <span> Complaint Log </span>
                     </a>
                 </li>
                 <li>
-                    <a href="/admin/settings">
+                    <a href="{{ route('settings') }}">
                         <i class="uil  uil-cog"></i>
                         <span> Settings </span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="/admin/users">
+                    <a href="{{ route('users') }}">
                         <i data-feather="users"></i>
                         <span> Users </span>
                     </a>
