@@ -33,6 +33,8 @@
                          <img src="../../backend/assets/images/users/avatar-7.jpg" alt="Customer 1" class="img-fluid rounded-circle">
                          <h4>John Doe</h4>
                          <h5 class="cust-email">johndoe@doetech.com</h5>
+                         this is a very very large junk of rubbush that i am just foing to type in the hopes that it casue seomth
+                         ing dofferent to hppen to my file ebvery single godammmn time.
                      </div>
                      <div class="address">
                          <h5>House Address</h5>
