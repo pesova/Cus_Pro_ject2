@@ -60,6 +60,11 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
         return view('backend.customers.index');
     })->name('customers');
 
+    // Creditors
+    Route::get('/creditor/add', function () {
+        return view('backend.creditors.add');
+    })->name('add_creditor');
+
     //Single Customer view
     Route::get('/singleCustomer', function(){
         return view('backend.customers.singleCustomer');
