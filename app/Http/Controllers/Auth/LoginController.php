@@ -68,7 +68,7 @@ class LoginController extends Controller
 
         try {
             $client =  new \GuzzleHttp\Client();
-            $response = $client->post($this->host . '/user', [
+            $response = $client->post($this->host . '/login/user', [
                 'form_params' => [
                     'phone_number' => $request->input('phone_number'),
                     'password' => $request->input('password')
