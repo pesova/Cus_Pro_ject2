@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Http\Request;
@@ -78,29 +79,28 @@ class LoginController extends Controller
             if ($response->getStatusCode() == 200) {
                 $response = json_decode($response->getBody());
 
-                if (isset($response->Status) || (isset($response->Status) && !$response->status)) {
-                    $request->session()->flash('message', $response->Message);
-                    $request->session()->flash('alert-class', 'alert-danger');
+                if($response->status) {
+                    // store data to cookie
+                    Cookie::queue('api_token', $response->api_token);
+                    Cookie::queue('is_active', $response->user->is_active);
+                    Cookie::queue('phone_number', $response->user->phone_number);
+                    Cookie::queue('user_id', $response->user->_id);
+
+                    //check if active
+                    if ($response->user->is_active == false) {
+                        return redirect()->route('activate.user');
+                    }
+
+                    // store other data to cookie
+                    Cookie::queue('first_name', $response->user->first_name);
+                    Cookie::queue('last_name', $response->user->last_name);
+                    Cookie::queue('email', $response->user->email);
+
+                    return redirect()->route('dashboard');
+                } else {
+                    $request->session()->flash('message', $response->message);
                     return redirect()->route('login');
                 }
-
-                // store data to cookie
-                Cookie::queue('api_token', $response->api_token);
-                Cookie::queue('is_active', $response->user->is_active);
-                Cookie::queue('phone_number', $response->user->phone_number);
-                Cookie::queue('user_id', $response->user->_id);
-
-                //check if active
-                if ($response->user->is_active == false) {
-                    return redirect()->route('activate.user');
-                }
-
-                // store other data to cookie
-                Cookie::queue('first_name', $response->user->first_name);
-                Cookie::queue('last_name', $response->user->last_name);
-                Cookie::queue('email', $response->user->email);
-
-                return redirect()->route('dashboard');
             }
 
             if ($response->getStatusCode() == 500) {
