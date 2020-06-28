@@ -1,0 +1,51 @@
+/* Fonts */
+
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap");
+
+@font-face {
+    font-family: "gilroybold";
+    src: url("../fonts/gilroybold.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "gilroy-medium";
+    src: url("../fonts/gilroy-medium.ttf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "gilroysemibold";
+    src: url("../fonts/gilroy-semibold.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
+
+.card-body>img {
+    width:70px;" 
+}
+
+.img-text {  
+    font-family: Gilroy-Medium;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 27px;
+    /* identical to box height, or 150% */
+    
+    
+   
+    margin-left: 40%;
+    
+    /* Gray 1 */
+    
+    color: #333333;
+}
+
+#arrow {
+   height:12px; 
+   width: 5.8px; 
+   margin-left: 30%;  
+}
