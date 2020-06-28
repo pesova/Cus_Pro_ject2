@@ -100,7 +100,7 @@ class RegisterController extends Controller
                     // set api_token and phone number cookie
                     Cookie::queue('api_token', $api_token);
                     Cookie::queue('phone_number', $phone_number);
-                    Cookie::queue('phone_number', $$user_id);
+                    Cookie::queue('user_id', $user_id);
                     return redirect()->route('activate');
                 }
 
