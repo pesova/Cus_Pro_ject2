@@ -98,6 +98,10 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
         return view('backend.complaintlog.complaintlog');
     })->name('complaint.log');
 
+    Route::get('/change-loc', function () {
+        return view('backend.location.change_loc');
+    });
+
     // all users
     // duplicate routes
 
