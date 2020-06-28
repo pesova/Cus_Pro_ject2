@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function() {
     return view('home');
-});
+})->name('home');
 
 Route::get('/contact', function () {
     return view('contact');
@@ -24,6 +24,10 @@ Route::get('/contact', function () {
 Route::get('/faq', function () {
     return view('faq');
 })->name('faq');
+
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
 
 Route::get('/admin', function() {
     return redirect()->route('dashboard');
