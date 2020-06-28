@@ -58,7 +58,11 @@ class RegisterController extends Controller
         ]);
     }
 
-    public function index() {
+    public function index()
+    {
+        if (Cookie::get('api_token')){
+            return redirect()->route('dashboard');
+        }
         return view('backend.register.signup');
     }
 
@@ -91,23 +95,23 @@ class RegisterController extends Controller
                     // get the api_token and phone_number from the response
                     $api_token = $res->User->api_token;
                     $phone_number = $res->User->phone_number;
+                    $user_id = $res->User->_id;
 
                     // set api_token and phone number cookie
-                    Cookie::queue('api_token',
-                        $api_token
-                    );
+                    Cookie::queue('api_token', $api_token);
                     Cookie::queue('phone_number', $phone_number);
-                    return redirect('/admin/activate');
+                    Cookie::queue('user_id', $user_id);
+                    return redirect()->route('activate');
                 }
 
                 if ($response->getStatusCode() == 500) {
                     return view('errors.500');
                 }
             } else {
-                return redirect('/backend/register');
+                return redirect()->route('signup');
             }
         } catch (\Exception $e) {
-            Log::error('Catch error: RegisterController - '. $e->getMessage());
+            Log::error('Catch error: RegisterController - ' . $e->getMessage());
             return view('errors.500');
         }
     }
