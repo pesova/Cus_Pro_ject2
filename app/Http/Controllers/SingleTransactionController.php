@@ -11,12 +11,13 @@ class SingleTransactionController extends Controller
     //
     public function index($id)
     {
-        // $url = "https://dev.customerpay.me/transaction/$id";
+        $host = env('API_URL', 'https://api.customerpay.me/');
+        $url = $host."/transaction/$id";
         // return $url;
         try {
             $client = new Client();
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
-            $response = $client->request('GET', "https://dev.customerpay.me/transaction/$id", $headers);
+            $response = $client->request('GET', $url, $headers);
             $statusCode = $response->getStatusCode();
             if ($statusCode == 200) {
                 $body = $response->getBody()->getContents();
