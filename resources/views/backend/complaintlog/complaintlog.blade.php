@@ -13,6 +13,7 @@
     $filedata = file_get_contents('https://dev.customerpay.me/complaint/all');
     $files = json_decode($filedata, true);
     
+ 
     ?>
     <div class="card" style="margin-top: 10px;">
                                     <div class="card-body">
@@ -39,6 +40,7 @@
                                             <tbody>
                                                 <?php foreach ($files['data'] as $person) : ?>
                                                 <tr>
+                                                    <p></p>
                                                     <th scope="row"><?php echo ($person['_id']); ?></th>
                                                     <td><?php echo ($person['customer_first_name']); ?> <?php echo ($person['customer_last_name']); ?></td>
                                                     <td><?php echo ($person['customer_email']); ?></td>
@@ -51,8 +53,8 @@
                                                 Actions<i class="icon"><span data-feather="chevron-down"></span></i>
                                             </button>
                                             <div class="dropdown-menu dropdown-menu-right">
-                                                <a name="status" href="/backend/1123?id=<?php echo ($person['_id']); ?>&&status=<?php echo ($person['status']); ?>&&message=<?php echo ($person['message']); ?>" class="dropdown-item" >Change Status</a>
-                                                <a name="delete" class="dropdown-item" href="/backend/2f4k7e34o?id=<?php echo ($person['_id']); ?>">Delete</a>
+                                                <button name="status" type="button" class="dropdown-item" onclick="foo()" >Change Status</button>
+                                                <a name="delete" class="dropdown-item" href="/backend/2f4k7e34o?id=<?php echo ($person['_id']); ?>">Delete</a>>
                                             </div>
                                         </div></td>
                                                 </tr>
@@ -74,19 +76,29 @@
 
                    
                 <script type="text/javascript">
-      // function myFunction() {
-      // document.getElementById("demo").innerHTML = "Hello World";
-// }
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
     </script>
        @endsection
 
 
     @section("javascript")
     <script type="text/javascript">
-     function myFunction() {
-      window.alert('Hello World');
-}
-    </script>
+    $(document).ready(function(){
+        $("button").click(function(){
+
+            $.ajax({
+                type: 'GET',
+                url: '/backend/1123?id=<?php echo ($person['_id']); ?>&&status=<?php echo ($person['status']); ?>&&message=<?php echo ($person['message']); ?>',
+                success: function(data) {
+                    alert(data);
+                    $("p").text(data);
+
+                }
+            });
+   });
+});
+</script>
 
 
     @stop

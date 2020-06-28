@@ -11,6 +11,10 @@
 |
 */
 
+Route::get('/json-api', 'ApiController@index');
+
+
+
 Route::get('/', function () {
     return view('home');
 });
@@ -74,10 +78,6 @@ Route::get('/backend/debt_reminders', function () {
 
 Route::get('/backend/complaint', function () {
     return view('backend.complaintform.complaintform');
-});
-
-Route::get('/backend/cf', function () {
-    return view('backend.cform.cform');
 });
 
 Route::get('/backend/complaint_log' , function () {

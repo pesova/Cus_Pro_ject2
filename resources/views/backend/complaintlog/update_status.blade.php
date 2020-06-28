@@ -3,7 +3,8 @@
 	$msg = $_GET['message'];
 	$id1 = $_GET['status'];
 
-	if($id1 == "open"){
+	 
+       	if($id1 == "open"){
 		
 	  $data = array("message" => "$msg","status" => "close");
 		$url = 'https://dev.customerpay.me/complaint/update/'.$id;
@@ -12,7 +13,8 @@
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
 		curl_setopt($ch, CURLOPT_POSTFIELDS,http_build_query($data));
 
-		curl_exec($ch);
+		$res = curl_exec($ch);
+		
 	}
 	else{
 		$data = array("message" => "$msg","status" => "open");
@@ -22,6 +24,9 @@
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
 		curl_setopt($ch, CURLOPT_POSTFIELDS,http_build_query($data));
 
-		curl_exec($ch);
+			$res = curl_exec($ch);
+		
 	}
+    
+	
 ?>
