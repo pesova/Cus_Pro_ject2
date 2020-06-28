@@ -72,7 +72,7 @@ class LoginController extends Controller
                 'form_params' => [
                     'phone_number' => $request->input('phone_number'),
                     'password' => $request->input('password')
-                ],'verify' => false
+                ]
             ]);
 
             if ($response->getStatusCode() == 200) {
