@@ -99,7 +99,58 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
+                                     @isset($response)
+                                        @if(count($response) > 0)
+                                           @for ($i = 0; $i < count($response); $i++)
+                                        <tr>
+                                        <th>{{$i + 1 }}</th>
+                                                    <td>{{$response[$i]->first_name}}<br> <span>{{$response[$i]->_id}}</span>
+
+                                                        @if ($response[$i]->user_role == "store_admin")
+                                                            <span class="badge badge-primary">owner</span>
+                                                        @elseif ($response[$i]->user_role == "store_assistant")
+                                                            <span class="badge badge-secondray">assistant</span>
+                                                        @else
+                                                             <span class="badge badge-info">No role</span>
+                                                        @endif
+                                                        @if($response[$i]->is_active)
+                                                        <span class="badge badge-success">Activated</span>
+                                                         </td>
+                                                         @else
+                                                          <span class="badge badge-secondary">Not activated</span>
+                                                        </td>
+                                                        @endif
+                                                    <td>
+                                                       @if(isset($response[$i]->store_address))
+                                                       {{$response[$i]->store_address}} <br>
+                                                       @else
+                                                        Store Location Address would be here <br>
+                                                       @endif
+                                                    <span class="badge badge-primary">Store Reference Code:
+                                                        @if(isset($response[$i]->store_ref_code))
+                                                       {{$response[$i]->store_ref_code}} <br>
+                                                       @else
+                                                        ST145M455 <br>
+                                                       @endif
+
+                                                    </span>
+                                                 </td>
+                                                    <td><div class="btn-group mt-2 mr-1">
+                                            <button type="button" class="btn btn-info dropdown-toggle"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Actions<i class="icon"><span data-feather="chevron-down"></span></i>
+                                            </button>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" href="{{ route('user.view',['id' => $response[$i]->_id]) }}">View Profile</a>
+                                                <a class="dropdown-item" href="#">Active</a>
+                                                <a class="dropdown-item" href="#">Deactivate</a>
+                                                </div>
+                                                </div></td>
+                                                </tr>
+                                            @endfor
+                                            @endif
+                                       @endisset
+                                                {{-- <tr>
                                                     <th scope="row">1</th>
                                                     <td>John Doe <br> <span>SO123aM123</span> <span class="badge badge-primary">Store Owner</span> <span class="badge badge-secondary">assistant</span> <span class="badge badge-success">Activated</span> </td>
                                                     <td>Store Location Address would be here <br> <span class="badge badge-primary">Store Reference Code: ST145M455</span> </td>
@@ -109,13 +160,12 @@
                                                 Actions<i class="icon"><span data-feather="chevron-down"></span></i>
                                             </button>
                                             <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="/backend/view_user">View Profile</a>
+                                                <a class="dropdown-item" href="/admin/view_user">View Profile</a>
                                                 <a class="dropdown-item" href="#">Active</a>
                                                 <a class="dropdown-item" href="#">Deactivate</a>
                                             </div>
                                         </div></td>
-                                                </tr>
-
+                                                </tr> --}}
                                             </tbody>
                                         </table>
                                     </div>
@@ -123,7 +173,7 @@
                                 </div> <!-- end card -->
                             </div><!-- end col-->
                         </div>
-
+                        {{$response->links()}}
                     </div>
                 </div>
                                             <div id="myModal" class="modal fade" tabindex="-1" role="dialog"

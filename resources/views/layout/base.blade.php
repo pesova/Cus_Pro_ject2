@@ -17,12 +17,13 @@
         <link href="/backend/assets/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
 
         <!-- App css -->
-        <link href="/backend/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <link href="/backend/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-        <link href="/backend/assets/css/app.min.css" rel="stylesheet" type="text/css" />
+    <link href="{{asset('backend/assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('backend/assets/css/icons.min.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('backend/assets/css/app.min.css')}}" rel="stylesheet" type="text/css">
 
 
-        <!-- Other Style CSS -->
+
+    <!-- Other Style CSS -->
         @yield('custom_css')
 
 
@@ -57,7 +58,7 @@
 ============================================ -->
 
    <!-- Vendor js -->
-   <script src="assets/js/vendor.min.js"></script>
+   <script src="/backend/assets/js/vendor.min.js"></script>
 
    <!-- optional plugins -->
    <script src="/backend/assets/libs/moment/moment.min.js"></script>
