@@ -132,7 +132,7 @@
                     window.location = "{{url('/admin/dashboard')}}";
                 }).fail((e) => {
                     e = JSON.parse(e.responseText);
-                    error_message.text(e.message.errors[0].description);
+                    error_message.text(e.message);
                     error.show();
                     $(this).show();
                     verifying.hide();
