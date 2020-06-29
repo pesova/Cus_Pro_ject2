@@ -2,11 +2,11 @@
     @extends('layout.base')
 @section("custom_css")
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
-       
+
 @stop
        @section('content')
        <p style="display: none;" id="api-token">
-           <?php 
+           <?php
         echo Cookie::get('api_token');
        ?>
     </p>
@@ -22,7 +22,7 @@
                     <div class="row page-title">
                         <div class="col-md-12">
                             <nav aria-label="breadcrumb" class="float-right mt-1">
-                                <a href="/backend/users" class="btn btn-primary">Go Back</a>
+                                <a href="{{ route('users') }}" class="btn btn-primary">Go Back</a>
                             </nav>
                             <h4 class="mb-1 mt-0">Profile</h4>
                         </div>
@@ -38,7 +38,7 @@
                                     <h5 class="mt-2 mb-0">{{$response->first_name. " " . substr($response->last_name,0,1) ."."}}</h5>
                                         <h6 class="text-muted font-weight-normal mt-2 mb-0">
                                                      @if ($response->user_role == "store_admin")
-                                                            <span class="badge badge-primary">owner</span> 
+                                                            <span class="badge badge-primary">owner</span>
                                                         @elseif ($response->user_role == "store_assistant")
                                                             <span class="badge badge-secondray">assistant</span>
                                                         @else
@@ -134,7 +134,7 @@
                                 </thead>
 
                                 <tbody id="transactions-table">
-                                    
+
 
                                 </tbody>
                                         </table>
@@ -199,39 +199,45 @@
 
 let api_token = document.getElementById('api-token').textContent.trim();
 
+@php
+    $apiHost = env('API_URL','https://dev.customerpay.me');
+@endphp
+
+const apiHost = "{{ $apiHost }}";
+
 //gets customers
 $.ajax({
     headers:{
         'x-access-token':api_token
     },
-    url:"https://dev.customerpay.me/customer/all",
-    statusCode: {       
-         401: function(responseObject, textStatus, jqXHR) {  
-          
-             $("#alerts").text('Something went wrong: ' + textStatus)   
-              $('#alerts').css('display','inline-block')    
+    url: apiHost + "/customer/all",
+    statusCode: {
+         401: function(responseObject, textStatus, jqXHR) {
+
+             $("#alerts").text('Something went wrong: ' + textStatus)
+              $('#alerts').css('display','inline-block')
                            setTimeout(()=>{
                   $('#alerts').hide();
-             },3000)  
-             },        
-        403: function(responseObject, textStatus, errorThrown) { 
-          
-             $("#alerts").text('Something went wrong: ' + textStatus)    
-                  $('#alerts').css('display','inline-block') 
+             },3000)
+             },
+        403: function(responseObject, textStatus, errorThrown) {
+
+             $("#alerts").text('Something went wrong: ' + textStatus)
+                  $('#alerts').css('display','inline-block')
                 setTimeout(()=>{
                   $('#alerts').hide();
-             },3000)  
-            }              
+             },3000)
+            }
         }
 })
 .done(function(data){
     $('#customers-num').text(data.result);
     let customers = data.data;
        let text = '';
-     $("#customers-table").text(''); 
+     $("#customers-table").text('');
     if(customers.length > 0){
         customers.forEach((element,index) => {
-       
+
         text +=`
                   <tr>
                     <th scope="row">${index + 1}</th>
@@ -244,8 +250,8 @@ $.ajax({
     }else{
         text = "You dont have any customers yet"
     }
-    console.log(text);
-    $("#customers-table").append(text); 
+    // console.log(text);
+    $("#customers-table").append(text);
 })
 
 
@@ -254,23 +260,23 @@ $.ajax({
     headers:{
         'x-access-token':api_token
     },
-    url:"https://dev.customerpay.me/transaction/all",
-        statusCode: {       
-         401: function(responseObject, textStatus, jqXHR) {  
-               
+    url: apiHost + "/transaction/all",
+        statusCode: {
+         401: function(responseObject, textStatus, jqXHR) {
+
              $("#alerts").text('Something went wrong: ' + jqXHR)
-             $('#alerts').css('display','inline-block') 
+             $('#alerts').css('display','inline-block')
                  setTimeout(()=>{
                   $('#alerts').hide();
-             },3000)      
-             },        
-        403: function(responseObject, textStatus, errorThrown ) { 
-             $("#alerts").text('Something went wrong: ' + errorThrown) 
-             $('#alerts').css('display','inline-block')  
+             },3000)
+             },
+        403: function(responseObject, textStatus, errorThrown ) {
+             $("#alerts").text('Something went wrong: ' + errorThrown)
+             $('#alerts').css('display','inline-block')
              setTimeout(()=>{
                   $('#alerts').hide();
-             },3000)        
-            }              
+             },3000)
+            }
         }
 })
 .done(function(data){
@@ -278,7 +284,7 @@ let text = '';
   $("#transactions-table").text('');
       if(data.length > 0){
         data.forEach((element,index) => {
-       
+
     text +=`
     <tr>
         <td></td>
@@ -296,5 +302,5 @@ let text = '';
 $("#transactions-table").text(text);
 })
 </script>
-                
+
     @stop

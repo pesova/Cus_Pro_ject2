@@ -7,7 +7,7 @@
                 <div class="copy-right-menu">
                     <ul>
                         <li><a href="#">Privace &amp; Policy</a></li>
-                        <li><a href="#">Faq's</a></li>
+                        <li><a href="{{ route('faq') }}">Faq's</a></li>
                         <li><a href="#">Get a Quote</a></li>
                     </ul>
                 </div>
