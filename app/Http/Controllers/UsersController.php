@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator; // NAMESPACE FOR PAGINATOR
+use Illuminate\Support\Facades\Cookie;
 
 class UsersController extends Controller
 {
@@ -15,24 +16,27 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index( Request $request )
+    public function index(Request $request)
     {
-        //
+        $url = env('API_URL', 'https://api.customerpay.me/'). '/user/all';
         try {
             $client = new Client();
-            $response = $client->request('GET', 'https://dev.customerpay.me/user/all');
+            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+            $response = $client->request('GET', $url, $headers);
             $statusCode = $response->getStatusCode();
             if ($statusCode == 200) {
                 $body = $response->getBody()->getContents();
                 $users = json_decode($body);
 
-                $perPage = 10;   
+                $perPage = 10;
                 $page = $request->get('page', 1);
-                if ($page > count($users) or $page < 1) { $page = 1; }
-                $offset = ($page * $perPage) - $perPage; 
-                $articles = array_slice($users,$offset,$perPage);
+                if ($page > count($users) or $page < 1) {
+                    $page = 1;
+                }
+                $offset = ($page * $perPage) - $perPage;
+                $articles = array_slice($users, $offset, $perPage);
                 $datas = new Paginator($articles, count($users), $perPage);
-                return view('backend.users_list.index')->with('response', $datas->withPath('/backend/users'));
+                return view('backend.users_list.index')->with('response', $datas->withPath('/'.$request->path()));
             }
 
             if ($statusCode == 500) {
@@ -73,13 +77,23 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        //
-        // $client = new Client();
-        // $response = $client->request('GET', 'https://dev.customerpay.me/user/0');
-        // $statusCode = $response->getStatusCode();
-        // $body = $response->getBody()->getContents();
-        // $user = json_decode($body);
-        // return view('backend.users_list.index')->with('response', $user);
+        $url = env('API_URL', 'https://api.customerpay.me/'). "/user/$id";
+
+        try {
+            $client = new Client();
+            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+            $response = $client->request('GET', $url, $headers);
+            $statusCode = $response->getStatusCode();
+            $body = $response->getBody()->getContents();
+            $user = json_decode($body);
+            // return $body;
+            if ($statusCode == 500) {
+                return view('errors.500');
+            }
+            return view('backend.users_list.show')->with('response', $user);
+        } catch (\Exception $e) {
+            return view('errors.500');
+        }
     }
 
     /**
