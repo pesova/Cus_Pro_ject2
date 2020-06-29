@@ -1,7 +1,7 @@
 @extends('layout.base')
 
     @section("custom_css")
-    <link href="/frontend/assets/css/change-lang.css" rel="stylesheet" type="text/css" />
+    <link href="/frontend/assets/css/change-loc.css" rel="stylesheet" type="text/css" />
     @stop
 
     @section('content')

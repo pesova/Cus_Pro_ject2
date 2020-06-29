@@ -47,7 +47,7 @@ Route::prefix('/admin')->group(function () {
 });
 
 // Protected Routes
-Route::group(['prefix' => '/admin' , 'middleware' => 'backend.auth'], function () {
+Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function () {
     Route::get('/activate', 'ActivateController@index')->name('activate.user');
 
     // dashboard
@@ -87,8 +87,8 @@ Route::group(['prefix' => '/admin' , 'middleware' => 'backend.auth'], function (
         return view('backend.complaintlog.complaintlog');
     });
 
-    Route::get('/change-lang', function () {
-        return view('backend.languages.change_lang');
+    Route::get('/change-loc', function () {
+        return view('backend.location.change_loc');
     });
 
     // all users
