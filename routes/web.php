@@ -74,7 +74,6 @@ Route::get('/backend/view_transaction', function () {
 // });
 Route::resource('/backend/users', 'UsersController');
 
-
 Route::get('/backend/debt_reminders', function () {
     return view('backend.debt_reminder.index');
 });
