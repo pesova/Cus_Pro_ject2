@@ -1,7 +1,7 @@
 
 @extends('layout.base')
 @section("custom_css")
-<<<<<<< HEAD
+
 	      <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="css/icons.min.css" rel="stylesheet" type="text/css" />
         <link href="css/app.min.css" rel="stylesheet" type="text/css" />
@@ -55,7 +55,7 @@
                                             </button>
                                             <div class="dropdown-menu dropdown-menu-right">
                                                 <button name="status" type="button" class="dropdown-item" onclick="foo()" >Change Status</button>
-                                                <a name="delete" class="dropdown-item" href="/backend/2f4k7e34o?id=<?php echo ($person['_id']); ?>">Delete</a>>
+                                                <button name="delete" type="button1" class="dropdown-item" onclick="foo()" >Delete</button>
                                             </div>
                                         </div></td>
                                                 </tr>
@@ -99,69 +99,24 @@
             });
    });
 });
+
+    $(document).ready(function(){
+        $("button1").click(function(){
+
+            $.ajax({
+                type: 'GET',
+                url: '/backend/2f4k7e34o?id=<?php echo ($person['_id']); ?>',
+                success: function(data) {
+                    alert(data);
+                    $("p").text(data);
+
+                }
+            });
+   });
+});
 </script>
 
 
     @stop
-=======
-	<link href="/backend/assets/css/complaintlog.css" rel="stylesheet" type="text/css" />
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
-@stop
 
-  @section('content')
-    <div class="table-responsive">
-      <table class="table complaintlog-table">
-        <thead>
-          <tr>
-              <th>S/N</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Message</th>
-              <th>Store</th>
-              <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>Alan Jellybean</td>
-            <td>alan@gmail.com</td>
-            <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua.</td>
-            <td>abc123</td>
-            <td>Closed</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Alvin Eclair</td>
-            <td>eclair@gmail.com</td>
-            <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua.</td>
-            <td>abc123</td>
-            <td>Open</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Elvis Mooney</td>
-            <td>mooney@gmail.com</td>
-            <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua.</td>
-            <td>xyz456</td>
-            <td>Closed</td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td>Jonathan Lollipop</td>
-            <td>jonathan@gmail.com</td>
-            <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut.</td>
-            <td>xyz456</td>
-            <td>Closed</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  @endsection
->>>>>>> 0211f0e7eef5d789bbcb3abc4046835e16236545
+	

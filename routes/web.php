@@ -13,15 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-<<<<<<< HEAD
+
 Route::get('/json-api', 'ApiController@index');
 
 
 
 Route::get('/', function () {
-=======
+
 Route::get('/', function() {
->>>>>>> 0211f0e7eef5d789bbcb3abc4046835e16236545
     return view('home');
 })->name('home');
 
@@ -92,7 +91,7 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
     //     return view('backend.transactions.show');
     // });
 
-<<<<<<< HEAD
+
 Route::get('/backend/complaint_log' , function () {
     return view('backend.complaintlog.complaintlog');
 });
@@ -106,12 +105,12 @@ Route::get('/backend/1123', function () {
 });
 
 // all users
-=======
+
     Route::get('/transactions/{id}', 'SingleTransactionController@index')->name('view_transaction');
 
     Route::get('/users', 'UsersController@index')->name('users');
     Route::get('/users/{id}', 'UsersController@show')->name('user.view');
->>>>>>> 0211f0e7eef5d789bbcb3abc4046835e16236545
+
 
 
     Route::get('/debt_reminders', function () {

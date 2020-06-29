@@ -1,5 +1,5 @@
 @extends('layout.base')
-<<<<<<< HEAD
+
 @section("custom_css")
 	<!-- <link href="/frontend/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" /> -->
   <link href="/backend/assets/css/materialize.min.css" rel="stylesheet" type="text/css" />
@@ -56,7 +56,7 @@
 
 
     @stop
-=======
+
 
     @section('content')
 
@@ -117,4 +117,4 @@
     </div> <!-- container-fluid -->
 
     @endsection
->>>>>>> 0211f0e7eef5d789bbcb3abc4046835e16236545
+
