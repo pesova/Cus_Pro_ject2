@@ -43,13 +43,14 @@ Route::prefix('/admin')->group(function () {
     Route::get('/register', 'Auth\RegisterController@index')->name('signup');
 
     Route::post('/register', 'Auth\RegisterController@register')->name('register');
+    Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
+
 });
 
 // Protected Routes
 Route::group(['prefix' => '/admin'], function () {
     Route::get('/activate', 'ActivateController@index')->name('activate.user');
 
-    Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
     // dashboard
     Route::get('/dashboard', function () {
         return view('backend.dashboard');
