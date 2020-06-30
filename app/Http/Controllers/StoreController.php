@@ -40,28 +40,30 @@ class StoreController extends Controller
         $inputs = [
             'email' => $request->email,
             'store_name' => $request->store_name, 
-            'phone_number' => $request->phone, 
+            'Phone_number' => $request->phone, 
             'shop_address' => $request->address,
             'tagline' => $request->tag_line
         ];
-        $url = env('API_URL', 'http://localhost:3000'). '/store/new';
+        $url = env('API_URL', 'https://api.customerpay.me'). '/store/new';
         
         try {
             $client = new Client;
-            $payload = ['headers' => ['x-access-token' => 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZV9udW1iZXIiOjEyMzM0Njc4LCJlbWFpbCI6ImVtbWFuQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiMTExMTExIiwiaXNfYWN0aXZlIjpmYWxzZSwidXNlcl9yb2xlIjoic3RvcmVfYWRtaW4iLCJpYXQiOjE1OTM1MjkwNjYsImV4cCI6MTU5MzUzMjY2Nn0.C8PfaWfeo2gvjRpHO11HcEOzVg4ISuEuzCxNaHQX0Eg'], 'form_params' => $inputs];
+            $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')], 'form_params' => $inputs];
             $response = $client->request("POST", $url, $payload);
             $statusCode = $response->getStatusCode();
             $body = json_decode($response->getBody()->getContents());
 
             if ( $statusCode == 201 ) {
-                return view('backend.stores.create')->with('success', `Store created successfully (Store ID: ${$body->data->store->_id}`);
+                return view('backend.stores.create')->with('success', 'Store created successfully');
             } else {
                 return view('backend.stores.create')->with('error', $body->message);
             }
         }
         catch ( \Exception $e ) {
-            $response = json_decode($e->getResponse()->getBody()->getContents());
-            return view('backend.stores.create')->with('error', $response->message);
+            if ( method_exists($e, 'getResponse') ) {
+                $response = json_decode($e->getResponse()->getBody()->getContents());
+                return view('backend.stores.create')->with('error', $response->message);
+            }         
         }
     }
 
