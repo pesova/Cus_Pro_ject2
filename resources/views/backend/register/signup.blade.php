@@ -25,9 +25,10 @@
                                         </div>
                                         <h3 class="h3 mb-0 mt-4 text-center">Register</h3>
                                         <br><br>
-                                        @if(Session::has('alert'))
-                                            <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('alert') }}</p>
+                                        @if(Session::has('message'))
+                                            <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
                                         @endif
+
                                         @if ($errors->any())
                                             <div class="alert alert-danger">
                                                 <ul>
