@@ -80,15 +80,20 @@ class RegisterController extends Controller
             if ($request->all()) {
                 // make an api call to register the user
                 $client = new Client();
-                $response = $client->post(env('API_URL') . '/register/user', [
-                    'form_params' => [
-                        'first_name' => $request->input('first_name'),
-                        'last_name' => $request->input('last_name'),
-                        'email' => $request->input('email'),
-                        'phone_number' => $request->input('phone_number'),
-                        'password' => $request->input('password')
+
+                $user = array(
+                    'first_name' => $request->input('first_name'),
+                    'last_name' => $request->input('last_name'),
+                    'email' => $request->input('email'),
+                    'phone_number' => $request->input('phone_number'),
+                    'password' => $request->input('password')
+                );
+
+                $response = $client->post(env('API_URL') . '/register/user', 
+                    [
+                        'body' => $user
                     ]
-                ]);
+                );
 
                 if ($response->getStatusCode() == 201) {
                     $res = json_decode($response->getBody());
@@ -118,7 +123,7 @@ class RegisterController extends Controller
             }
         } catch (\Exception $e) {
             Log::error('Catch error: RegisterController - ' . $e->getMessage());
-            $request->session()->flash('alert', 'Something went wrong, please try again.');
+            $request->session()->flash('alert', $e->getMessage());
             return redirect()->route('signup');
         }
     }
