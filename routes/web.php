@@ -46,7 +46,7 @@ Route::prefix('/admin')->group(function () {
 });
 
 // Protected Routes
-Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function () {
+Route::group(['prefix' => '/admin'], function () {
     Route::get('/activate', 'ActivateController@index')->name('activate.user');
 
     Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
@@ -156,3 +156,5 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
     })->name('assistants.add');
 
 });
+
+Route::post('/create_store', 'StoreController@store');
