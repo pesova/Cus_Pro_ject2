@@ -87,7 +87,7 @@ class RegisterController extends Controller
                     $_response = json_decode($response->getBody(), true);
 
                     if (count($_response) == 1) {
-                        $request->session()->flash('alert', $_response['Message']);
+                        $request->session()->flash('message', $_response['Message']);
                         $request->session()->flash('alert-class', 'alert-danger');
                         return redirect()->route('signup');
                     }
@@ -111,7 +111,7 @@ class RegisterController extends Controller
             }
 
             $res = json_decode($response->getBody());
-            $request->session()->flash('alert', $res->Message);
+            $request->session()->flash('message', $res->Message);
             $request->session()->flash('alert-class', 'alert-danger');
 
             return redirect()->route('signup');
@@ -126,6 +126,7 @@ class RegisterController extends Controller
             }
 
             Log::error("catch error: LoginController - " . $e->getMessage());
+            $request->session()->flash('alert-class', 'alert-danger');
             $request->session()->flash('message', 'something went wrong try again in a few minutes');
             return redirect()->route('signup');
         }
