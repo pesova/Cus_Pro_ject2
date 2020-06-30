@@ -41,26 +41,13 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+        $this->host = env('API_URL', 'https://api.customerpay.me/');
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-    }
 
     public function index()
     {
-        if (Cookie::get('api_token')){
+        if (Cookie::get('api_token')) {
             return redirect()->route('dashboard');
         }
         return view('backend.register.signup');
@@ -75,55 +62,72 @@ class RegisterController extends Controller
     // Controller action to register a new user.
     public function register(Request $request)
     {
+
+        $request->validate([
+            'phone_number' => 'required|min:6|max:17',
+            'password' =>  'required|regex:/[a-zA-Z0-9]{6,20}$/',
+        ]);
+
         try {
-            // check if all fields are available
+
             if ($request->all()) {
-                // make an api call to register the user
-                $client = new Client();
 
-                $user = array(
-                    'first_name' => $request->input('first_name'),
-                    'last_name' => $request->input('last_name'),
-                    'email' => $request->input('email'),
-                    'phone_number' => $request->input('phone_number'),
-                    'password' => $request->input('password')
-                );
-
-                $response = $client->post(env('API_URL', 'https://api.customerpay.me') . '/register/user', 
-                    [
-                        'body' => $user
+                $client =  new \GuzzleHttp\Client();
+                $response = $client->post($this->host . '/register/user', [
+                    'form_params' => [
+                        'phone_number' => $request->input('phone_number'),
+                        'password' => $request->input('password')
                     ]
-                );
+                ]);
 
-                if ($response->getStatusCode() == 201) {
-                    $res = json_decode($response->getBody());
-                    // get the api_token and phone_number from the response
-                    $api_token = $res->User->api_token;
-                    $phone_number = $res->User->phone_number;
-                    $user_id = $res->User->_id;
 
-                    // set api_token and phone number cookie
-                    Cookie::queue('api_token', $api_token);
-                    Cookie::queue('phone_number', $phone_number);
-                    Cookie::queue('user_id', $user_id);
+                if ($response->getStatusCode() == 200 || $response->getStatusCode() == 201) {
 
-                    return redirect()->route('activate.user');
+                    // added because api returns {"Message": "Phone number already taken. Please use another phone number."} only
+                    $_response = json_decode($response->getBody(), true);
+
+                    if (count($_response) == 1) {
+                        $request->session()->flash('alert', $_response['Message']);
+                        $request->session()->flash('alert-class', 'alert-danger');
+                        return redirect()->route('signup');
+                    }
+
+                    $response = json_decode($response->getBody());
+
+                    if (isset($response->success) && $response->success) {
+
+                        $data = $response->data->user->local;
+
+                        // store data to cookie
+                        Cookie::queue('api_token', $data->api_token);
+                        Cookie::queue('is_active', $data->is_active);
+                        Cookie::queue('phone_number', $data->phone_number);
+                        Cookie::queue('user_id', $response->data->user->_id);
+                        Cookie::queue('expires', strtotime('+ 1 day'));
+
+                        return redirect()->route('activate.user');
+                    }
                 }
 
-                if ($response->getStatusCode() == 200) {
-                    $res = json_decode($response->getBody());
-                    $request->session()->flash('alert', $res->Message);
-                    $request->session()->flash('alert-class', 'alert-danger');
-
-                    return redirect()->route('signup');
-                }
-
+                $res = json_decode($response->getBody());
+                $request->session()->flash('alert', $res->Message);
+                $request->session()->flash('alert-class', 'alert-danger');
+                return redirect()->route('signup');
             } else {
                 return redirect()->route('signup');
             }
         } catch (\Exception $e) {
+            //log error
             Log::error('Catch error: RegisterController - ' . $e->getMessage());
-            $request->session()->flash('alert', $e->getMessage());
+
+            if ($e->getCode() == 400 || $e->getCode() == 401) {
+                $request->session()->flash('message', $e->getMessage());
+                $request->session()->flash('alert-class', 'alert-danger');
+                return redirect()->route('signup');
+            }
+
+            Log::error("catch error: LoginController - " . $e->getMessage());
+            $request->session()->flash('message', 'something went wrong try again in a few minutes');
             return redirect()->route('signup');
         }
     }
