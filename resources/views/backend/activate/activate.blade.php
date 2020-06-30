@@ -77,7 +77,7 @@
 
                             <div class="row mt-3">
                                 <div class="col-12 text-center">
-                                    <p class="text-muted">Back to <a href="{{ route('logout') }}"
+                                    <p class="text-muted">Back to <a href="{{ route('login') }}"
                                                                      class="text-primary font-weight-bold ml-1">Login</a>
                                     </p>
                                 </div> <!-- end col -->
@@ -132,7 +132,7 @@
                     window.location = "{{url('/admin/dashboard')}}";
                 }).fail((e) => {
                     e = JSON.parse(e.responseText);
-                    error_message.text(e.message.errors[0].description);
+                    error_message.text(e.message);
                     error.show();
                     $(this).show();
                     verifying.hide();
@@ -153,7 +153,7 @@
                         start_timer();
                     }).fail((e) => {
                         e = JSON.parse(e.responseText);
-                        error_message.text(e.message.errors[0].description);
+                        error_message.text(e.message);
                         error.show();
                     });
                 } else {
