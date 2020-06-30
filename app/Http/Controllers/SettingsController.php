@@ -20,7 +20,7 @@ class SettingsController extends Controller
             $response = $client->get(env('API_URL') . '/user/' . $user_id, [
                 'form_params' => [
                     'api_token' => Cookie::get('api_token')
-                ]
+                ]   
             ]);
 
             if ($response->getStatusCode() == 200) {
