@@ -77,7 +77,7 @@
 
                             <div class="row mt-3">
                                 <div class="col-12 text-center">
-                                    <p class="text-muted">Back to <a href="{{ route('logout') }}"
+                                    <p class="text-muted">Back to <a href="{{ route('login') }}"
                                                                      class="text-primary font-weight-bold ml-1">Login</a>
                                     </p>
                                 </div> <!-- end col -->
