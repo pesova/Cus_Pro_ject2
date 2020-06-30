@@ -63,11 +63,6 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
 
-        $validation = Validator::make(request()->all(), [
-            'phone_number' => 'required|min:6|max:16',
-            'password' => 'required|regex:/[a-zA-Z0-9]{6,20}$/'
-        ]);
-
         $request->validate([
             'phone_number' => 'required|min:6|max:17',
             'password' =>  'required|regex:/[a-zA-Z0-9]{6,20}$/',
