@@ -13,21 +13,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', function() {
     return view('home');
 })->name('home');
-Route::get('/about', function () {
-    return view('about');
-})->name('about');
 
 Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
 
-
 Route::get('/faq', function () {
     return view('faq');
 })->name('faq');
+
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
 
 Route::get('/admin', function() {
     return redirect()->route('dashboard');
@@ -59,6 +59,11 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
     Route::get('/customers', function () {
         return view('backend.customers.index');
     })->name('customers');
+
+    // Creditors
+    Route::get('/creditor/add', function () {
+        return view('backend.creditors.add');
+    })->name('add_creditor');
 
     //Single Customer view
     Route::get('/singleCustomer', function(){
@@ -97,6 +102,10 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
     Route::get('/complaint_log', function () {
         return view('backend.complaintlog.complaintlog');
     })->name('complaint.log');
+
+    Route::get('/change-loc', function () {
+        return view('backend.location.change_loc');
+    });
 
     // all users
     // duplicate routes

@@ -24,6 +24,10 @@
                                                     height="auto" /> </a>
                                         </div>
 
+                                        @if(Session::has('alert') || $errors->any())
+                                            <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('alert') }}</p>
+                                        @endif
+
                                         <h6 class="h5 mb-0 mt-4 text-center">Register</h6>
 
                                         <form action="{{route('register')}}" class="authentication-form" method="POST">

@@ -7,7 +7,7 @@
                     <div class="text-center">
 
                         <div>
-                            <img src="assets/images/not-found.png" alt="" class="img-fluid">
+                            <img src="/backend/assets/images/not-found.png" alt="" class="img-fluid">
                         </div>
                     </div>
 
