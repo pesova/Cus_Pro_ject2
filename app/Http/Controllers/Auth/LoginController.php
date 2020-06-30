@@ -101,7 +101,6 @@ class LoginController extends Controller
 
                     return redirect()->route('dashboard');
                 } else {
-
                     $message = isset($response->Message) ? $response->Message : $response->message;
                     $request->session()->flash('message', $message);
                     return redirect()->route('login');
