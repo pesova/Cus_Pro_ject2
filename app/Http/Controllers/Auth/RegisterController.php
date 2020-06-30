@@ -108,14 +108,13 @@ class RegisterController extends Controller
                         return redirect()->route('activate.user');
                     }
                 }
-
-                $res = json_decode($response->getBody());
-                $request->session()->flash('alert', $res->Message);
-                $request->session()->flash('alert-class', 'alert-danger');
-                return redirect()->route('signup');
-            } else {
-                return redirect()->route('signup');
             }
+
+            $res = json_decode($response->getBody());
+            $request->session()->flash('alert', $res->Message);
+            $request->session()->flash('alert-class', 'alert-danger');
+
+            return redirect()->route('signup');
         } catch (\Exception $e) {
             //log error
             Log::error('Catch error: RegisterController - ' . $e->getMessage());
