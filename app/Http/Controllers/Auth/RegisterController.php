@@ -89,7 +89,7 @@ class RegisterController extends Controller
                     'password' => $request->input('password')
                 );
 
-                $response = $client->post(env('API_URL') . '/register/user', 
+                $response = $client->post(env('API_URL', 'https://api.customerpay.me') . '/register/user', 
                     [
                         'body' => $user
                     ]
