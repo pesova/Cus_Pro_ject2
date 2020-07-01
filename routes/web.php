@@ -29,6 +29,10 @@ Route::get('/about', function () {
     return view('about');
 })->name('about');
 
+Route::get('/privacy', function () {
+    return view('privacy');
+})->name('privacy');
+
 Route::get('/admin', function() {
     return redirect()->route('dashboard');
 });
