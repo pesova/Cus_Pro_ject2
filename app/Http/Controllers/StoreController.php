@@ -35,7 +35,7 @@ class StoreController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function create_store(Request $request)
     {
         $inputs = [
             'email' => $request->email,
@@ -54,16 +54,18 @@ class StoreController extends Controller
             $body = json_decode($response->getBody()->getContents());
 
             if ( $statusCode == 201 ) {
-                return view('backend.stores.create')->with('success', 'Store created successfully');
+                $request->session()->flash('alert-class', 'alert-success');
+                $request->session()->flash('message', 'Store created successfully');
             } else {
-                return view('backend.stores.create')->with('error', $body->message);
+                $request->session()->flash('message', $body->message);
             }
+            return redirect()->route('store.create');
         }
         catch ( \Exception $e ) {
-            if ( method_exists($e, 'getResponse') ) {
-                $response = json_decode($e->getResponse()->getBody()->getContents());
-                return view('backend.stores.create')->with('error', $response->message);
-            }         
+            $response = json_decode($e->getResponse()->getBody()->getContents());
+            $request->session()->flash('message', $response->message);
+            $request->session()->flash('alert-class', 'alert-danger');
+            return redirect()->route('store.create');
         }
     }
 

@@ -133,7 +133,7 @@ Route::group(['prefix' => '/admin'], function () {
         return view('backend.stores.create');
     })->name('store.create');
 
-    Route::post('/create_store', 'StoreController@store');
+    Route::post('/create_store', 'StoreController@create_store')->name('store.create_store');
 
     Route::get('/view_store', function () {
         return view('backend.stores.show');
