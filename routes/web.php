@@ -141,7 +141,6 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
         return view('backend.stores.create');
     })->name('store.create');
 
-    Route::post('/create_store', 'StoreController@create_store')->name('store.create_store');
 
     Route::get('/view_store', function () {
         return view('backend.stores.show');
@@ -178,4 +177,3 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
     })->name('notification');
 
 });
-
