@@ -155,4 +155,9 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
         return view('backend.store_assistant.add_assistant');
     })->name('assistants.add');
 
+    //notifications page
+    Route::get('/notifications', function () {
+        return view('backend.notifications.user_notification');
+    })->name('notification');
+
 });

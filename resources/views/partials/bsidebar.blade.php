@@ -126,6 +126,12 @@
                         <span> Users </span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('notification') }}">
+                        <i data-feather="bell"></i>
+                        <span> Notifications </span>
+                    </a>
+                </li>
 
 
             </ul>
