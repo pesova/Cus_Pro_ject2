@@ -37,6 +37,11 @@ Route::get('/admin', function() {
     return redirect()->route('dashboard');
 });
 
+//debt reminder page route by renegadegandhi
+Route::get('/debt', function () {
+    return view('debt');
+})->name('debt');
+
 // backend codes
 
 Route::prefix('/admin')->group(function () {
@@ -81,7 +86,7 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
         return view('backend.transactions.index');
     })->name('transactions');
 
-    
+
     Route::get('/broadcast', function () {
         return view('backend.broadcasts.send_broadcast');
     })->name('broadcast');
