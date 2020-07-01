@@ -121,7 +121,7 @@
                                                     <tbody>
                                                         <tr>
                                                             <td scope="row">1</td>
-                                                            <td><img src="assets/images/users/avatar-1.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
+                                                            <td><img src="/backend/assets/images/users/avatar-1.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
                                                             <td>John Doe <br>
                                                                 <span class="badge badge-success">Has debt</span>
                                                             </td>
@@ -140,7 +140,8 @@
                                                                     Actions<i class="icon"><span data-feather="chevron-down"></span></i>
                                                                     </button>
                                                                     <div class="dropdown-menu dropdown-menu-right">
-                                                                        <a class="dropdown-item" href="/backend/view-customer">View Profile</a>
+                                                                        <a class="dropdown-item" href="edit_customer">Edit Customer</a>
+                                                                        <a class="dropdown-item" href="singleCustomer">View Profile</a>                                                                       
                                                                         <a class="dropdown-item" href="#">View Transaction</a>
                                                                         <a class="dropdown-item" href="#">Send Reminder</a>
                                                                     </div>
@@ -150,7 +151,7 @@
 
                                                         <tr>
                                                             <td scope="row">2</td>
-                                                            <td><img src="assets/images/users/avatar-6.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
+                                                            <td><img src="/backend/assets/images/users/avatar-6.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
                                                             <td>Mary Doe <br>
                                                                 <span class="badge badge-success">Has Debt</span>
                                                             </td>
@@ -169,7 +170,8 @@
                                                                     Actions<i class="icon"><span data-feather="chevron-down"></span></i>
                                                                     </button>
                                                                     <div class="dropdown-menu dropdown-menu-right">
-                                                                        <a class="dropdown-item" href="/backend/view-customer">View Profile</a>
+                                                                        <a class="dropdown-item"
+                                                                         href="singleCustomer">View Profile</a>
                                                                         <a class="dropdown-item" href="#">View Transaction</a>
                                                                         <a class="dropdown-item" href="#">Send Reminder</a>
                                                                     </div>
@@ -216,7 +218,7 @@
                                                         <tbody>
                                                             <tr>
                                                                 <td scope="row">1</td>
-                                                                <td><img src="assets/images/users/avatar-5.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
+                                                                <td><img src="/backend/assets/images/users/avatar-5.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
                                                                 <td>Lynda Doe <br>
                                                                     <span class="badge badge-danger">Has Credit</span>
                                                                 </td>
@@ -235,7 +237,8 @@
                                                                         Actions<i class="icon"><span data-feather="chevron-down"></span></i>
                                                                         </button>
                                                                         <div class="dropdown-menu dropdown-menu-right">
-                                                                            <a class="dropdown-item" href="/backend/view-customer">View Profile</a>
+                                                                            <a class="dropdown-item"
+                                                                            href="singleCustomer">View Profile</a>
                                                                             <a class="dropdown-item" href="#">View Transaction</a>
                                                                             <a class="dropdown-item" href="#">Send Reminder</a>
                                                                         </div>
@@ -245,7 +248,7 @@
 
                                                             <tr>
                                                                 <td scope="row">2</td>
-                                                                <td><img src="assets/images/users/avatar-3.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
+                                                                <td><img src="/backend/assets/images/users/avatar-3.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
                                                                 <td>Henry Doe <br>
                                                                     <span class="badge badge-danger">Has Credit</span>
                                                                 </td>
@@ -264,7 +267,8 @@
                                                                         Actions<i class="icon"><span data-feather="chevron-down"></span></i>
                                                                         </button>
                                                                         <div class="dropdown-menu dropdown-menu-right">
-                                                                            <a class="dropdown-item" href="/backend/view-customer">View Profile</a>
+                                                                            <a class="dropdown-item" 
+                                                                            href="singleCustomer">View Profile</a>
                                                                             <a class="dropdown-item" href="#">Send Reminder</a>
                                                                             <a class="dropdown-item" href="#">Call</a>
                                                                         </div>
@@ -304,7 +308,7 @@
                                                     <tbody>
                                                         <tr>
                                                             <td scope="row">1</td>
-                                                            <td><img src="assets/images/users/avatar-5.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
+                                                            <td><img src="/backend/assets/images/users/avatar-5.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
                                                             <td>Lynda Doe <br>
                                                                 <span class="badge badge-danger">Has Credit</span>
                                                             </td>
@@ -323,7 +327,8 @@
                                                                     Actions<i class="icon"><span data-feather="chevron-down"></span></i>
                                                                     </button>
                                                                     <div class="dropdown-menu dropdown-menu-right">
-                                                                        <a class="dropdown-item" href="/backend/view-customer">View Profile</a>
+                                                                        <a class="dropdown-item" 
+                                                                        href="singleCustomer">View Profile</a>
                                                                         <a class="dropdown-item" href="#">View Transaction</a>
                                                                         <a class="dropdown-item" href="#">Send Reminder</a>
                                                                     </div>
@@ -333,7 +338,7 @@
 
                                                         <tr>
                                                             <td scope="row">2</td>
-                                                            <td><img src="assets/images/users/avatar-3.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
+                                                            <td><img src="/backend/assets/images/users/avatar-3.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
                                                             <td>Henry Doe <br>
                                                                 <span class="badge badge-danger">Has Credit</span>
                                                             </td>
@@ -352,7 +357,8 @@
                                                                     Actions<i class="icon"><span data-feather="chevron-down"></span></i>
                                                                     </button>
                                                                     <div class="dropdown-menu dropdown-menu-right">
-                                                                        <a class="dropdown-item" href="/backend/view-customer">View Profile</a>
+                                                                        <a class="dropdown-item" 
+                                                                        href="singleCustomer">View Profile</a>
                                                                         <a class="dropdown-item" href="#">Send Reminder</a>
                                                                         <a class="dropdown-item" href="#">Call</a>
                                                                     </div>
@@ -362,7 +368,7 @@
 
                                                         <tr>
                                                             <td scope="row">3</td>
-                                                            <td><img src="assets/images/users/avatar-1.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
+                                                            <td><img src="/backend/assets/images/users/avatar-1.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
                                                             <td>John Doe <br>
                                                                 <span class="badge badge-success">Has debt</span>
                                                             </td>
@@ -381,7 +387,8 @@
                                                                     Actions<i class="icon"><span data-feather="chevron-down"></span></i>
                                                                     </button>
                                                                     <div class="dropdown-menu dropdown-menu-right">
-                                                                        <a class="dropdown-item" href="/backend/view-customer">View Profile</a>
+                                                                        <a class="dropdown-item"
+                                                                        href="singleCustomer">View Profile</a>
                                                                         <a class="dropdown-item" href="#">View Transaction</a>
                                                                         <a class="dropdown-item" href="#">Send Reminder</a>
                                                                     </div>
@@ -391,7 +398,7 @@
 
                                                         <tr>
                                                             <td scope="row">4</td>
-                                                            <td><img src="assets/images/users/avatar-6.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
+                                                            <td><img src="/backend/assets/images/users/avatar-6.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
                                                             <td>Mary Doe <br>
                                                                 <span class="badge badge-success">Has Debt</span>
                                                             </td>
@@ -410,7 +417,8 @@
                                                                     Actions<i class="icon"><span data-feather="chevron-down"></span></i>
                                                                     </button>
                                                                     <div class="dropdown-menu dropdown-menu-right">
-                                                                        <a class="dropdown-item" href="/backend/view-customer">View Profile</a>
+                                                                        <a class="dropdown-item" 
+                                                                        href="singleCustomer">>View Profile</a>
                                                                         <a class="dropdown-item" href="#">View Transaction</a>
                                                                         <a class="dropdown-item" href="#">Send Reminder</a>
                                                                     </div>

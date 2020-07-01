@@ -13,38 +13,46 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', function() {
     return view('home');
-});
-Route::get('/about', function () {
-    return view('about');
-});
+})->name('home');
 
 Route::get('/contact', function () {
     return view('contact');
-});
-
+})->name('contact');
 
 Route::get('/faq', function () {
     return view('faq');
+})->name('faq');
+
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
+
+Route::get('/privacy', function () {
+    return view('privacy');
+})->name('privacy');
+
+Route::get('/admin', function() {
+    return redirect()->route('dashboard');
 });
-
-
 
 // backend codes
 
-Route::prefix('/backend')->group(function () {
+Route::prefix('/admin')->group(function () {
     Route::get('/login', ['uses' => "Auth\LoginController@index"])->name('login');
     Route::post('/login/authenticate', ['uses' => "Auth\LoginController@authenticate"])->name('login.authenticate');
 
 
-    Route::get('/register', 'RegisterController@index');
+    Route::get('/register', 'Auth\RegisterController@index')->name('signup');
 
-    Route::post('/register', 'RegisterController@register')->name('register');
+    Route::post('/register', 'Auth\RegisterController@register')->name('register');
+    Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
+
 });
 
 // Protected Routes
-Route::group(['prefix' => '/backend',  'middleware' => 'backend.auth'], function () {
+Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function () {
     Route::get('/activate', 'ActivateController@index')->name('activate.user');
 
     // dashboard
@@ -52,47 +60,72 @@ Route::group(['prefix' => '/backend',  'middleware' => 'backend.auth'], function
         return view('backend.dashboard');
     })->name('dashboard');
 
-  // Customers
-Route::get('/customers', function () {
-    return view('backend.customers.index');
-}); 
+    // Customers
+    Route::get('/customers', function () {
+        return view('backend.customers.index');
+    })->name('customers');
+
+    // Creditors
+    Route::get('/creditor/add', function () {
+        return view('backend.creditors.add');
+    })->name('add_creditor');
+
+    //Single Customer view
+    Route::get('/singleCustomer', function(){
+        return view('backend.customers.singleCustomer');
+    })->name('customer');
+
     // transaction
 
     Route::get('/transactions', function () {
         return view('backend.transactions.index');
-    });
+    })->name('transactions');
 
+    
+    Route::get('/broadcast', function () {
+        return view('backend.broadcasts.send_broadcast');
+    })->name('broadcast');
+
+    Route::get('/broadcast/compose', function () {
+            return view('backend.broadcasts.compose_broadcast');
+        })->name('compose');
     // Route::get('/backend/view_transaction/{{$id}}', function () {
     //     return view('backend.transactions.show');
     // });
 
-    // Route::get('/backend/{id}', 'SingleTransactionController@index')->name('view_transaction');
+    Route::get('/transactions/{id}', 'SingleTransactionController@index')->name('view_transaction');
 
-    Route::resource('/users', 'UsersController');
+    Route::get('/users', 'UsersController@index')->name('users');
+    Route::get('/users/{id}', 'UsersController@show')->name('user.view');
 
 
     Route::get('/debt_reminders', function () {
         return view('backend.debt_reminder.index');
-    });
+    })->name('debts.reminder');
 
 
     Route::get('/complaint', function () {
-        return view('backend.complaintform.complaintform');
-    });
+        return view('backend.complaints.complaintform');
+    })->name('complaint.form');
 
     Route::get('/complaint_log', function () {
-        return view('backend.complaintlog.complaintlog');
+        return view('backend.complaints.complaintlog');
+    })->name('complaint.log');
+
+    Route::get('/change-loc', function () {
+        return view('backend.location.change_loc');
     });
 
     // all users
+    // duplicate routes
 
-    Route::get('/users_list', function () {
-        return view('users_list.single_user');
-    });
+    // Route::get('/users_list', function () {
+    //     return view('users_list.single_user');
+    // })->name('users.list');
 
-    Route::get('/view_user', function () {
-        return view('backend.users_list.show');
-    });
+    // Route::get('/view_user', function () {
+    //     return view('backend.users_list.show');
+    // })->name('user.view');
 
     // analytics
     Route::get('/analytics', function () {
@@ -100,11 +133,45 @@ Route::get('/customers', function () {
     })->name('analytics');
 
     // stores
-    Route::get('/stores', function () {
-        return view('backend.stores.store_list');
-    });
+    Route::get('/stores', 'StoreController@index')->name('stores');
 
-    Route::get('/settings', 'SettingsController@index');
+    Route::get('/create_store', function () {
+        return view('backend.stores.create');
+    })->name('store.create');
 
-    Route::post('/settings', 'SettingsController@update')->name('settings');
+
+    Route::get('/view_store', function () {
+        return view('backend.stores.show');
+    })->name('store.view');
+
+    Route::get('/edit_store', function () {
+        return view('backend.stores.edit');
+    })->name('store.edit');
+
+    Route::get('/settings', 'SettingsController@index')->name('settings');
+
+    Route::post('/settings', 'SettingsController@update')->name('settings.update');
+
+    Route::get('/edit_assistants', function () {
+        return view('backend.store-assistants.edit_assistants');
+    })->name('assistants.edit');
+
+    Route::get('/edit_customer', function () {
+        return view('backend.customers.edit_customer');
+    })->name('customer');
+
+    // Route::get('/singleCustomer', function(){
+    //     return view('backend.customers.singleCustomer');
+    // })->name('customer');
+
+    // assistant
+    Route::get('/add_assistant', function () {
+        return view('backend.store-assistants.add_assistant');
+    })->name('assistants.add');
+
+    //notifications page
+    Route::get('/notifications', function () {
+        return view('backend.notifications.user_notification');
+    })->name('notification');
+
 });

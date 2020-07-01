@@ -12,8 +12,10 @@
           <div class="col-md-12">
             <div class="customer-heading-container">
               <h4 class="mb-1 mt-0">All Stores</h4>
-              <button class="add-customer-button btn btn-primary" data-toggle="modal" data-target="#myModal">
+              <button class="add-customer-button btn btn-primary" data-toggle="modal">
+                <a href="{{ route('store.create') }}" class="text-white">
                 Add New <i class="fa fa-plus add-new-icon"></i>
+                </a>
               </button>
             </div>
           </div>
@@ -96,8 +98,8 @@
                           </thead>
                           <tbody>
                               <tr>
-                                <th scope="row">1</th>
-                                <td>Kadet laundry <br> <span class="badge badge-success">Verified</span> </td>
+                                <th scope="row">{{isset( $response->id) ? $response->id : "1"}}</th>
+                                <td>{{isset( $response->store_name) ? $response->store_name : "Chikoo laundry"}} <br> <span class="badge badge-success">Verified</span> </td>
                                 <td>12 sentryville, Lagos Nigeria<br> <span class="badge badge-primary">Store Reference Code: ST145M455</span> </td>
                                 <td>
                                   <div class="btn-group mt-2 mr-1">
@@ -106,8 +108,8 @@
                                       Actions<i class="icon"><span data-feather="chevron-down"></span></i>
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                      <a class="dropdown-item" href="/backend/view_user">View Store</a>
-                                      <a class="dropdown-item" href="#">Edit store</a>
+                                      <a class="dropdown-item" href="{{ route('store.view') }}">View Store</a>
+                                      <a class="dropdown-item" href="{{ route('store.edit') }}">Edit store</a>
                                       <a class="dropdown-item" href="#">Delete store</a>
                                     </div>
                                   </div>
@@ -125,8 +127,8 @@
                                       Actions<i class="icon"><span data-feather="chevron-down"></span></i>
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                      <a class="dropdown-item" href="/backend/view_user">View Store</a>
-                                      <a class="dropdown-item" href="#">Edit store</a>
+                                      <a class="dropdown-item" href="{{ route('store.view') }}">View Store</a>
+                                      <a class="dropdown-item" href="{{ route('store.edit') }}">Edit store</a>
                                       <a class="dropdown-item" href="#">Delete store</a>
                                     </div>
                                   </div>
@@ -142,7 +144,7 @@
 
   </div>
 </div>
-                          <div id="myModal" class="modal fade" tabindex="-1" role="dialog"
+                          {{-- <div id="myModal" class="modal fade" tabindex="-1" role="dialog"
                       aria-labelledby="myModalLabel" aria-hidden="true">
                       <div class="modal-dialog">
                           <div class="modal-content">
@@ -154,7 +156,7 @@
                                   </button>
                               </div>
                               <div class="modal-body">
-                                    <form class="form-horizontal">
+                      <form class="form-horizontal">
                           <div class="form-group row mb-3">
                               <label for="inputphone" class="col-3 col-form-label">Phone Number</label>
                               <div class="col-9">
@@ -185,7 +187,7 @@
 
                           </div><!-- /.modal-content -->
                       </div><!-- /.modal-dialog -->
-                  </div><!-- /.modal -->
+                  </div><!-- /.modal --> --}}
 @endsection
 
 @section("javascript")
