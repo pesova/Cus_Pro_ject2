@@ -26,7 +26,7 @@
                     </p>
 
                     <div class="top-button-container">
-                        <a class="welcome-btn play-store-btn mr-2 mb-2" href="#"><img
+                        <a class="welcome-btn play-store-btn mr-2 mb-2" href="https://play.google.com/store/apps/details?id=me.customerpay.hngsentry&hl=en"><img
                                 src="/frontend/assets/img/bg-img/bt-1.png" alt=""></a>
 
                         <a class="welcome-btn app-store-btn mr-2 mb-2" href="#"><img
@@ -275,7 +275,7 @@
                     <h2>Download the app and get started</h2>
                 </div>
                 <div class="call-to-download__buttons">
-                    <a class="welcome-btn play-store-btn mr-2 mb-2" href="#"><img
+                    <a class="welcome-btn play-store-btn mr-2 mb-2" href="https://play.google.com/store/apps/details?id=me.customerpay.hngsentry&hl=en"><img
                             src="/frontend/assets/img/bg-img/bt-1.png" alt=""></a>
 
                     <a class="welcome-btn app-store-btn mr-2 mb-2" href="#" style="background: #FDA741"><img
