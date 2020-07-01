@@ -23,6 +23,8 @@
                 <a href="{{ route('signup') }}"
                         class="nav__button btn-nav-active">Sign Up</a>
                 @elseif(isset($_COOKIE['api_token']))
+                <button class="nav__button btn-nav-active"><a href="{{ route('dashboard') }}"
+                  class="nav__button__link__active">Dashboard</a></button>
                     <button class="nav__button btn-nav-active"><a href="{{ route('logout') }}"
                         class="nav__button__link__active">Logout</a></button>
                 @endif
@@ -61,6 +63,7 @@
                     <button class="mobile__nav__button"><a href="{{ route('signup') }}" class="mobile__nav__button__link">Sign
                             Up</a></button>
                     @elseif(isset($_COOKIE['api_token']))
+                    <button class="mobile__nav__button"><a href="{{ route('dashboard') }}" class="mobile__nav__button__link">Dashboard</a></button>
                     <button class="mobile__nav__button"><a href="{{ route('logout') }}" class="mobile__nav__button__link">Logout</a></button>
                 @endif
                 </div>

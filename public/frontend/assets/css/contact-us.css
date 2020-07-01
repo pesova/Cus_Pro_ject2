@@ -226,23 +226,23 @@ input:focus,
 
 /* Responsivenesss */
 
-@media (min-width: 768px) and (max-width: 1024px) {
+/* @media (min-width: 768px) and (max-width: 1024px) {
     .map-iframe {
         max-width: 270px;
     }
-}
+} */
 @media (min-width: 375px) and (max-width: 480px) {
-    .map-iframe {
+    /* .map-iframe {
         max-width: 270px;
-    }
+    } */
     .contact-extra {
         margin-top: 10%;
     }
 }
 @media (max-width: 320px) {
-    .map-iframe {
+    /* .map-iframe {
         max-width: 230px;
-    }
+    } */
 
     .contact-extra {
         margin-top: 10%;
