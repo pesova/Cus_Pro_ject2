@@ -131,10 +131,9 @@ input{
 
 
 .contacts {
-    width: 100%;
-    margin: 3% 0;
-    background-color: #ffffff;
-    height: 50%;
+  width: 100%;
+  margin: 3% 0;
+  background-color: #ffffff;
 }
 
 
@@ -234,3 +233,8 @@ input{
     }
 }
 /* end of media queries */
+
+.indexing {
+  display: flex;
+  justify-content: center;
+}

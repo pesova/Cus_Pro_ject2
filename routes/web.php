@@ -13,21 +13,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', function() {
     return view('home');
 })->name('home');
-Route::get('/about', function () {
-    return view('about');
-})->name('about');
 
 Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
 
-
 Route::get('/faq', function () {
     return view('faq');
 })->name('faq');
+
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
+
+Route::get('/privacy', function () {
+    return view('privacy');
+})->name('privacy');
 
 Route::get('/admin', function() {
     return redirect()->route('dashboard');
@@ -43,13 +47,14 @@ Route::prefix('/admin')->group(function () {
     Route::get('/register', 'Auth\RegisterController@index')->name('signup');
 
     Route::post('/register', 'Auth\RegisterController@register')->name('register');
+    Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
+
 });
 
 // Protected Routes
-Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function () {
+Route::group(['prefix' => '/admin'], function () {
     Route::get('/activate', 'ActivateController@index')->name('activate.user');
 
-    Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
     // dashboard
     Route::get('/dashboard', function () {
         return view('backend.dashboard');
@@ -59,6 +64,11 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
     Route::get('/customers', function () {
         return view('backend.customers.index');
     })->name('customers');
+
+    // Creditors
+    Route::get('/creditor/add', function () {
+        return view('backend.creditors.add');
+    })->name('add_creditor');
 
     //Single Customer view
     Route::get('/singleCustomer', function(){
@@ -91,12 +101,16 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
 
 
     Route::get('/complaint', function () {
-        return view('backend.complaintform.complaintform');
+        return view('backend.complaints.complaintform');
     })->name('complaint.form');
 
     Route::get('/complaint_log', function () {
-        return view('backend.complaintlog.complaintlog');
+        return view('backend.complaints.complaintlog');
     })->name('complaint.log');
+
+    Route::get('/change-loc', function () {
+        return view('backend.location.change_loc');
+    });
 
     // all users
     // duplicate routes
@@ -143,7 +157,7 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
 
     // assistant
     Route::get('/add_assistant', function () {
-        return view('backend.store_assistant.add_assistant');
+        return view('backend.store-assistants.add_assistant');
     })->name('assistants.add');
 
 });

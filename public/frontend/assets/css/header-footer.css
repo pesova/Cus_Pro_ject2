@@ -233,7 +233,7 @@ a.mobile__nav__h1__link > img{
 footer {
   height: auto;
   background-color: var(--primary-dark);
-  padding: 15% 0;
+  padding: 5% 0;
 }
 
 .footer_left {
@@ -378,6 +378,7 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
   }
 
   .mobile__menu__list {
