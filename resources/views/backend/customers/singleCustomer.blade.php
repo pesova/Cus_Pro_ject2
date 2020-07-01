@@ -17,8 +17,11 @@
         <div class="row page-title">
             <div class="col-md-12">
                 <h4 class="mb-1 mt-0 float-left">Profile</h4>
-                <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#CustomerModal">
+                <a href="/admin" class="btn btn-primary float-right" data-toggle="modal" data-target="#CustomerModal">
                     Go Back {{-- &nbsp;<i class="fa fa-plus my-float"></i> --}}
+                </a>
+                <a href="edit_customer" class="btn btn-success float-right" >
+                    Edit Customer {{-- &nbsp;<i class="fa fa-plus my-float"></i> --}}
                 </a>
             </div>
         </div>

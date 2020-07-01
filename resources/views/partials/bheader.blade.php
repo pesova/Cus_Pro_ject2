@@ -2,9 +2,9 @@
 <div class="navbar navbar-expand flex-column flex-md-row navbar-custom">
     <div class="container-fluid">
         <!-- LOGO -->
-        <a href="index.html" class="navbar-brand mr-0 mr-md-2 logo">
+        <a href="{{route('home')}}" class="navbar-brand mr-0 mr-md-2 logo">
             <span class="logo-lg">
-                <img src="{{ ('/frontend/assets/images/fulllogo.png') }}" alt="" height="48" />
+                <img src="{{('/frontend/assets/images/fulllogo.png')}}" alt="" height="48" />
             </span>
             <span class="logo-sm">
                 <img src="/backend/assets/images/logo.png" alt="" height="24">
@@ -21,6 +21,11 @@
         </ul>
 
         <ul class="navbar-nav flex-row ml-auto d-flex list-unstyled topnav-menu float-right mb-0">
+          <li class="d-none d-sm-block">
+            <div class="app-search">
+                <button class="btn btn-primary back-home-button"><a href="{{route('home')}}" style="color: white">Back to home</a></button>
+            </div>
+        </li>
             <li class="d-none d-sm-block">
                 <div class="app-search">
                     <form>

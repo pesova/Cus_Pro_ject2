@@ -13,7 +13,7 @@
                 <div class="col-md-12">
                     <nav aria-label="breadcrumb" class="float-right mt-1">
                     </nav>
-                    <h4 class="mb-3 mt-3">Change Location</h4>
+                    <h4 class="mb-3 mt-3">Change Store Location</h4>
                 </div>
             </div>
             <div class="row h-100 justify-content-center align-items-center">
