@@ -1,8 +1,16 @@
 @extends('layout.base')
 @section("custom_css")
     <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css"/>
-    <link href="/backend/assets/build/css/all_users.css" rel="stylesheet" type="text/css"/>
-    {{-- <link rel="stylesheet" href="backend/assets/css/all_users.css"> --}}
+    {{-- custom style --}}
+<style>
+.img-size-32 {
+    height: auto;
+  }
+  
+  .img-size-32 {
+ width: 32px;   
+  }
+</style>
 @stop
 @section('content')
     <div class="content">
