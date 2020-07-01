@@ -81,10 +81,14 @@ Route::group(['prefix' => '/admin'], function () {
         return view('backend.transactions.index');
     })->name('transactions');
 
+    
     Route::get('/broadcast', function () {
         return view('backend.broadcasts.send_broadcast');
     })->name('broadcast');
 
+    Route::get('/broadcast/compose', function () {
+            return view('backend.broadcasts.compose_broadcast');
+        })->name('compose');
     // Route::get('/backend/view_transaction/{{$id}}', function () {
     //     return view('backend.transactions.show');
     // });
