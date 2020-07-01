@@ -15,15 +15,23 @@ class StoreController extends Controller
      */
     public function index()
     {
-        //
+        //API updated
         $url = env('API_URL', 'https://dev.api.customerpay.me'). '/store/all';
-        $client = new Client;
-        $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
-        $response = $client->request("GET", $url, $payload);
-        $statusCode = $response->getStatusCode();
-        $body = $response->getBody()->getContents();
-        $Stores = json_decode($body);
-        return view('backend.stores.store_list');
+
+        try {
+            $client = new Client;
+            $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+            $response = $client->request("GET", $url, $payload);
+            $statusCode = $response->getStatusCode();
+            $body = $response->getBody()->getContents();
+            $Stores = json_decode($body);
+            if ($statusCode == 200) {
+                return view('backend.stores.store_list')->with('response', $Stores);
+            }
+        }  catch (\Exception $e) {
+                view('errors.500');
+            }
+        
     }
 
     /**
