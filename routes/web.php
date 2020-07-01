@@ -77,6 +77,7 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
         return view('backend.transactions.index');
     })->name('transactions');
 
+    
     Route::get('/broadcast', function () {
         return view('backend.broadcasts.send_broadcast');
     })->name('broadcast');
