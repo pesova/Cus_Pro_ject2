@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="row h-100 justify-content-center align-items-center">
-            <div class="col-lg-10">
+            <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
                         {{-- <h4 class="mb-3 header-title mt-0">Complaint Form</h4> --}}
