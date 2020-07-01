@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Cookie;
 
 class StoreController extends Controller
 {
@@ -14,7 +16,14 @@ class StoreController extends Controller
     public function index()
     {
         //
-            return view('backend.stores.store_list');
+        $url = env('API_URL', 'https://dev.api.customerpay.me'). '/store/all';
+        $client = new Client;
+        $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+        $response = $client->request("GET", $url, $payload);
+        $statusCode = $response->getStatusCode();
+        $body = $response->getBody()->getContents();
+        $Stores = json_decode($body);
+        return view('backend.stores.store_list');
     }
 
     /**
