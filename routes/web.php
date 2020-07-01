@@ -150,6 +150,13 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
         return view('backend.store-assistants.edit_assistants');
     })->name('assistants.edit');
 
+    Route::get('/edit_customer', function () {
+        return view('backend.customers.edit_customer');
+    })->name('customer');
+
+    // Route::get('/singleCustomer', function(){
+    //     return view('backend.customers.singleCustomer');
+    // })->name('customer');
 
     // assistant
     Route::get('/add_assistant', function () {

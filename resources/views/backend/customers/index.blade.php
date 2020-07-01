@@ -140,8 +140,8 @@
                                                                     Actions<i class="icon"><span data-feather="chevron-down"></span></i>
                                                                     </button>
                                                                     <div class="dropdown-menu dropdown-menu-right">
-                                                                        <a class="dropdown-item" 
-                                                                        href="singleCustomer">View Profile</a>
+                                                                        <a class="dropdown-item" href="edit_customer">Edit Customer</a>
+                                                                        <a class="dropdown-item" href="singleCustomer">View Profile</a>                                                                       
                                                                         <a class="dropdown-item" href="#">View Transaction</a>
                                                                         <a class="dropdown-item" href="#">Send Reminder</a>
                                                                     </div>
