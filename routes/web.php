@@ -133,9 +133,7 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
     })->name('analytics');
 
     // stores
-    Route::get('/stores', function () {
-        return view('backend.stores.store_list');
-    })->name('stores');
+    Route::get('/stores', 'StoreController@index')->name('stores');
 
     Route::get('/create_store', function () {
         return view('backend.stores.create');
