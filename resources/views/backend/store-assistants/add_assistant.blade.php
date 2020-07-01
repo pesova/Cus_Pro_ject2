@@ -13,11 +13,11 @@
             <div class="col-md-12">
                 <nav aria-label="breadcrumb" class="float-right mt-1">
                 </nav>
-                <h4 class="mb-1 mt-0">Enter new contact</h4>
+                <h4 class="mb-1 mt-0">Add new store assistant</h4>
             </div>
         </div>
         <div class="row h-100 justify-content-center align-items-center">
-            <div class="col-lg-10">
+            <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
                         {{-- <h4 class="mb-3 header-title mt-0">Complaint Form</h4> --}}
