@@ -77,19 +77,17 @@ class LoginController extends Controller
             ]);
 
             if ($response->getStatusCode() == 200) {
-
                 $response = json_decode($response->getBody());
 
-                if (isset($response->success) && $response->success) {
-
-                    $data = $response->data->user->local;
+                if (isset($response->status) && $response->status) {
+                    $data = $response->user;
 
                     // store data to cookie
-                    Cookie::queue('api_token', $data->api_token);
+                    Cookie::queue('api_token', $response->api_token);
                     Cookie::queue('is_active', $data->is_active);
                     Cookie::queue('phone_number', $data->phone_number);
                     Cookie::queue('user_id', $response->data->user->_id);
-                    Cookie::queue('expires', strtotime('+ 1 day'));
+                    Cookie::queue('expires', strtotime('+ 1 200day'));
 
                     $request->session()->flash('alert-class', 'alert-success');
                     $request->session()->flash('message', $response->message);
