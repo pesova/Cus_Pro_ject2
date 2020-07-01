@@ -4,7 +4,7 @@
         <!-- LOGO -->
         <a href="{{route('home')}}" class="navbar-brand mr-0 mr-md-2 logo">
             <span class="logo-lg">
-                <img src="{{ ('/frontend/assets/images/fulllogo.png') }}" alt="" height="48" />
+                <img src="{{('/frontend/assets/images/fulllogo.png')}}" alt="" height="48" />
             </span>
             <span class="logo-sm">
                 <img src="/backend/assets/images/logo.png" alt="" height="24">
