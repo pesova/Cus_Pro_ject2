@@ -97,11 +97,11 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
 
 
     Route::get('/complaint', function () {
-        return view('backend.complaintform.complaintform');
+        return view('backend.complaints.complaintform');
     })->name('complaint.form');
 
     Route::get('/complaint_log', function () {
-        return view('backend.complaintlog.complaintlog');
+        return view('backend.complaints.complaintlog');
     })->name('complaint.log');
 
     Route::get('/change-loc', function () {
@@ -153,7 +153,7 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
 
     // assistant
     Route::get('/add_assistant', function () {
-        return view('backend.store_assistant.add_assistant');
+        return view('backend.store-assistants.add_assistant');
     })->name('assistants.add');
 
 });

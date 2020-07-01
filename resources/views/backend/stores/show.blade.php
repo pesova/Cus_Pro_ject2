@@ -21,8 +21,8 @@
                 <div class="row">
                     <div class="col-lg-3">
                         <div class="card">
-                            <div class="card-body">
-                                <div class="text-center mt-3">
+                            <div class="card-body pl-3 pr-3 padup">
+                                <div class="text-center">
                                     <img src="{{asset('backend/assets/images/users/avatar-7.jpg')}}" alt="" class="avatar-lg rounded-circle" />
                                         <h5 class="mt-2 mb-0">Medbuzz Pharmacy</h5>
                                         <h6 class="text-muted font-weight-normal mt-2 mb-0">Owner: Auwal Molanre</h6>
@@ -37,7 +37,7 @@
     
                     <div class="col-lg-9">
                          <div class="card">
-                            <div class="card-body">
+                            <div class="card-body padup">
                                 <div class="tab-content" id="pills-tabContent">
                                     <div class="tab-pane fade show active" id="pills-activity" role="tabpanel"
                                      aria-labelledby="pills-activity-tab">
@@ -75,7 +75,7 @@
                     </div>
                 </div>
 
-                <a href="#" class="float-right btn btn-danger"><i class="fas fa-trash-alt mr-2"></i>Delete Store</a>
+                <a href="#" class="float-right btn btn-danger mt-2"><i class="fas fa-trash-alt mr-2"></i>Delete Store</a>
             </div>
         </div>
    @endsection
