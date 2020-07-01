@@ -69,7 +69,7 @@
 
                 <li>
                     <a href="{{ route('stores') }}">
-                        <i class="fas text-muted fa-store"></i>
+                      <i class="uil uil-shop"></i>
                         <span>Stores</span>
                     </a>
                 </li>

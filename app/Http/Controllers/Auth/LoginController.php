@@ -48,7 +48,7 @@ class LoginController extends Controller
 
     public function index()
     {
-        if (Cookie::get('api_token')){
+        if (Cookie::get('api_token')) {
             return redirect()->route('dashboard');
         }
         return view('backend.login');
@@ -56,8 +56,8 @@ class LoginController extends Controller
 
     public function authenticate(Request $request)
     {
-        $validation = Validator::make(request()->all(),[
-            'phone_number' => 'required|numeric|digits_between:1,16',
+        $validation = Validator::make(request()->all(), [
+            'phone_number' => 'required|min:6|max:16',
             'password' => 'required|regex:/[a-zA-Z0-9]{6,20}$/'
         ]);
 
@@ -77,48 +77,49 @@ class LoginController extends Controller
             ]);
 
             if ($response->getStatusCode() == 200) {
+
                 $response = json_decode($response->getBody());
 
-                if($response->status) {
+                if (isset($response->success) && $response->success) {
+
+                    $data = $response->data->user->local;
+
                     // store data to cookie
-                    Cookie::queue('api_token', $response->api_token);
-                    Cookie::queue('is_active', $response->user->is_active);
-                    Cookie::queue('phone_number', $response->user->phone_number);
-                    Cookie::queue('user_id', $response->user->_id);
+                    Cookie::queue('api_token', $data->api_token);
+                    Cookie::queue('is_active', $data->is_active);
+                    Cookie::queue('phone_number', $data->phone_number);
+                    Cookie::queue('user_id', $response->data->user->_id);
+                    Cookie::queue('expires', strtotime('+ 1 day'));
 
                     $request->session()->flash('alert-class', 'alert-success');
                     $request->session()->flash('message', $response->message);
 
                     //check if active
-                    if ($response->user->is_active == false) {
+                    if ($data->is_active == false) {
                         return redirect()->route('activate.user');
                     }
 
-                    // store other data to cookie
-                    Cookie::queue('first_name', $response->user->first_name);
-                    Cookie::queue('last_name', $response->user->last_name);
-                    Cookie::queue('email', $response->user->email);
-
                     return redirect()->route('dashboard');
                 } else {
-                    $request->session()->flash('message', $response->message);
+                    $message = isset($response->Message) ? $response->Message : $response->message;
+                    $request->session()->flash('message', $message);
                     return redirect()->route('login');
                 }
             }
 
-            if ($response->getStatusCode() == 500) {
-                return view('errors.500');
-            }
+            $message = isset($response->Message) ? $response->Message : $response->message;
+            $request->session()->flash('message', $message);
+            return redirect()->route('login');
         } catch (\Exception $e) {
-            // log $e->getMessage() when error loggin is setup
-            if($e->getCode() == 400) {
-                $request->session()->flash('message', 'Invalid Phone number or password');
+
+            if ($e->getCode() == 400) {
+                $request->session()->flash('message', 'Invalid Phone number or password. Ensure Your phone number uses internations format.e.g +234');
                 $request->session()->flash('alert-class', 'alert-danger');
                 return redirect()->route('login');
             }
 
-            Log::error("catch error: LoginController - ".$e->getMessage());
-            $request->session()->flash('message', 'something went wrong try again in a few minutes');
+            Log::error("catch error: LoginController - " . $e->getMessage());
+            $request->session()->flash('message', 'Something bad happened, please try again');
             return redirect()->route('login');
         }
         return redirect()->route('login');
