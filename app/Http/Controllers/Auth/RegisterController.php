@@ -126,7 +126,7 @@ class RegisterController extends Controller
                 return redirect()->route('signup');
             }
             $request->session()->flash('alert-class', 'alert-danger');
-            $request->session()->flash('message', 'something went wrong try again in a few minutes');
+            $request->session()->flash('message', $e->getMessage());
             return redirect()->route('signup');
         }
     }
