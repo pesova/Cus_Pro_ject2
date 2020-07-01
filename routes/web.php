@@ -48,7 +48,7 @@ Route::prefix('/admin')->group(function () {
 });
 
 // Protected Routes
-Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function () {
+Route::group(['prefix' => '/admin'], function () {
     Route::get('/activate', 'ActivateController@index')->name('activate.user');
 
     // dashboard
