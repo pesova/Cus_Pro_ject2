@@ -17,37 +17,52 @@
                     </div>
                 </div>
 
+                <!-- @if ( isset($success) )
+                  <div class="alert alert-primary">
+                    {{$success}}
+                  </div>
+                @elseif ( isset($error) )
+                  <div class="alert alert-danger">
+                    {{$error}}
+                  </div>
+                @endif -->
+
+                @if ( Session::has('message') )
+                  <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
+                @endif
+
                 <div class="row">
                      <div class="col-lg-12">
                          <div class="card">
                             <div class="card-body">
-                                    <form>
+                                    <form method="post" action="{{ route('store.create_store') }}">
+                                    @csrf
                                         <div class="form-row">
                                           <div class="form-group col-md-6">
                                             <label for="store name">Store Name</label>
-                                            <input type="text" class="form-control"  placeholder="XYZ Stores">
+                                            <input type="text" class="form-control" placeholder="XYZ Stores" name='store_name' required>
                                           </div>
                                           <div class="form-group col-md-6">
                                             <label for="inputTagline">Tagline</label>
-                                            <input type="text" class="form-control" id="inputTagline" placeholder="Your Perfect Stay One Click away....">
+                                            <input type="text" class="form-control" id="inputTagline" placeholder="Your Perfect Stay One Click away...." name="tag_line" required>
                                           </div>
                                         </div>
                                         <div class="form-row">
                                           <div class="form-group col-md-6">
                                             <label for="inputPhoneNumber">Phone Number</label>
-                                            <input type="text" class="form-control" placeholder="+1(234) 567-8907">
+                                            <input type="text" class="form-control" placeholder="+1(234) 567-8907" name="phone" required>
                                           </div>
                                         <div class="form-group col-md-6" >
                                             <label for="inputEmailAddress"> Email Address (optional) </label>
-                                            <input type="email" class="form-control" placeholder="you@example.com">
+                                            <input type="email" class="form-control" placeholder="you@example.com" name="email">
                                         </div>
                                         </div>
                                         <div class="form-group">
                                           <label for="inputAddress">Address</label>
-                                          <input type="text" class="form-control"  placeholder="123 Abby Avenue">
+                                          <input type="text" class="form-control"  placeholder="123 Abby Avenue" name="address" required>
                                         </div>
-                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
-                                           <a href="/admin/stores" class="text-white">Create Store</a> 
+                                        <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
+                                          Create Store
                                         </button>
                                       </form>
                                 </div>
