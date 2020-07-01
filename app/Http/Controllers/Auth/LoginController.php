@@ -119,7 +119,7 @@ class LoginController extends Controller
             }
 
             Log::error("catch error: LoginController - " . $e->getMessage());
-            $request->session()->flash('message', 'something went wrong try again in a few minutes');
+            $request->session()->flash('message', 'Something bad happened, please try again');
             return redirect()->route('login');
         }
         return redirect()->route('login');

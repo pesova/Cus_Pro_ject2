@@ -119,14 +119,9 @@ class RegisterController extends Controller
         } catch (\Exception $e) {
             //log error
             Log::error('Catch error: RegisterController - ' . $e->getMessage());
-
-            if ($e->getCode() == 400 || $e->getCode() == 401) {
-                $request->session()->flash('message', $e->getMessage());
-                $request->session()->flash('alert-class', 'alert-danger');
-                return redirect()->route('signup');
-            }
+            
             $request->session()->flash('alert-class', 'alert-danger');
-            $request->session()->flash('message', 'something went wrong try again in a few minutes');
+            $request->session()->flash('message', 'Something bad happened, please try again');
             return redirect()->route('signup');
         }
     }
