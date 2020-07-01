@@ -135,10 +135,10 @@
                     </div>
   
                     <div class="button-container">
-                      <button type="button" class="buttons">
+                      <a href="{{ route('compose') }}" class="buttons">
                         <i class="fas fa-paper-plane"></i>
                         Send a Message
-                      </button><br>
+                      </a><br>
                       <button type='button' class="buttons inverted"> Send Bulk Mail</button>
                     </div>
                   </form>

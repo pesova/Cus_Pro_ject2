@@ -29,6 +29,10 @@ Route::get('/about', function () {
     return view('about');
 })->name('about');
 
+Route::get('/privacy', function () {
+    return view('privacy');
+})->name('privacy');
+
 Route::get('/admin', function() {
     return redirect()->route('dashboard');
 });
@@ -77,10 +81,14 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
         return view('backend.transactions.index');
     })->name('transactions');
 
+    
     Route::get('/broadcast', function () {
         return view('backend.broadcasts.send_broadcast');
     })->name('broadcast');
 
+    Route::get('/broadcast/compose', function () {
+            return view('backend.broadcasts.compose_broadcast');
+        })->name('compose');
     // Route::get('/backend/view_transaction/{{$id}}', function () {
     //     return view('backend.transactions.show');
     // });
@@ -127,9 +135,7 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
     })->name('analytics');
 
     // stores
-    Route::get('/stores', function () {
-        return view('backend.stores.store_list');
-    })->name('stores');
+    Route::get('/stores', 'StoreController@index')->name('stores');
 
     Route::get('/create_store', function () {
         return view('backend.stores.create');
@@ -152,10 +158,22 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
         return view('backend.store-assistants.edit_assistants');
     })->name('assistants.edit');
 
+    Route::get('/edit_customer', function () {
+        return view('backend.customers.edit_customer');
+    })->name('customer');
+
+    // Route::get('/singleCustomer', function(){
+    //     return view('backend.customers.singleCustomer');
+    // })->name('customer');
 
     // assistant
     Route::get('/add_assistant', function () {
         return view('backend.store-assistants.add_assistant');
     })->name('assistants.add');
+
+    //notifications page
+    Route::get('/notifications', function () {
+        return view('backend.notifications.user_notification');
+    })->name('notification');
 
 });
