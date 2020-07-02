@@ -52,7 +52,7 @@ Route::prefix('/admin')->group(function () {
 });
 
 // Protected Routes
-Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function () {
+Route::group(['prefix' => '/admin' , 'middleware' => 'backend.auth'], function () {
     Route::get('/activate', 'ActivateController@index')->name('activate.user');
 
     // dashboard
@@ -69,6 +69,11 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
     Route::get('/creditor/add', function () {
         return view('backend.creditors.add');
     })->name('add_creditor');
+
+    // Debtors
+    Route::get('/debtor/add', function () {
+        return view('backend.debtors.add');
+    })->name('add_debtor');
 
     //Single Customer view
     Route::get('/singleCustomer', function(){
