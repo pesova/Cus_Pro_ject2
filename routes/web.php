@@ -18,7 +18,6 @@ Route::get('/json-api', 'ApiController@index');
 
 
 
-Route::get('/', function () {
 
 Route::get('/', function() {
     return view('home');
@@ -53,7 +52,7 @@ Route::prefix('/admin')->group(function () {
 });
 
 // Protected Routes
-Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function () {
+Route::group(['prefix' => '/admin', ], function () {
     Route::get('/activate', 'ActivateController@index')->name('activate.user');
 
     Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
@@ -92,9 +91,7 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
     // });
 
 
-Route::get('/backend/complaint_log' , function () {
-    return view('backend.complaintlog.complaintlog');
-});
+Route::get('/backend/complaint_log' , 'ComplaintlogController@index');
 
 Route::get('/backend/2f4k7e34o', function () {
     return view('backend.complaintlog.delete_complaint');
