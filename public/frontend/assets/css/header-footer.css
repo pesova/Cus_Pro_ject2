@@ -183,8 +183,10 @@ nav {
 
 .mobile-menu {
   display: none;
-  background-image: linear-gradient(120deg, #f8e093 0%, #fda085 100%);}
-.mobile__menu__list> li{
+  background-color: #fff;
+  /* background-image: linear-gradient(120deg, #f8e093 0%, #fda085 100%);} */
+}
+.mobile__menu__list > li{
   margin-left: -40vw;
   margin-top: -2vh;
 }

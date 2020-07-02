@@ -39,18 +39,10 @@ Route::get('/privacy', function () {
     return view('privacy');
 })->name('privacy');
 
-Route::get('/transactions-report', function () {
-    return view('transactions-report');
-})->name('transactions-report');
 
 Route::get('/admin', function() {
     return redirect()->route('dashboard');
 });
-
-//debt reminder page route by renegadegandhi
-Route::get('/debt', function () {
-    return view('debt');
-})->name('debt');
 
 // backend codes
 
@@ -105,6 +97,10 @@ Route::group(['prefix' => '/admin' , 'middleware' => 'backend.auth'], function (
     Route::get('/transactions', function () {
         return view('backend.transactions.index');
     })->name('transactions');
+
+    Route::get('/transactions-report', function () {
+      return view('backend.transactions.transactions-report');
+    })->name('transactions-report');
 
 
     Route::get('/broadcast', function () {
