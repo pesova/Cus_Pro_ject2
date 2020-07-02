@@ -37,6 +37,10 @@ Route::get('/privacy', function () {
     return view('privacy');
 })->name('privacy');
 
+Route::get('/blog', function () {
+    return view('blog');
+})->name('blog');
+
 
 Route::get('/admin', function() {
     return redirect()->route('dashboard');
