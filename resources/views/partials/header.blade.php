@@ -45,36 +45,36 @@
             </div>
             <div class="mobile__nav__menu">
                 <img src="{{ ('/frontend/assets/images/fulllogo.png') }}" alt=""
-                        height="auto" /></a>
+                        height="auto" style="max-width: 60%" /></a>
                 <div class="mobile__menu__container">
                     <ul class="mobile__menu__list">
                         <li class="mobile__menu__list__item">
                             <a href="{{ route('home') }}" class="mobile__menu__list__link">
-                                <img src="{{ ('/frontend/assets/images/Vector 5.png') }}" />
+                                {{-- <img src="{{ ('/frontend/assets/images/Vector 5.png') }}" /> --}}
                                 Home 
                             </a>
                         </li>
                         <li class="mobile__menu__list__item">
                             <a href="{{ route('about') }}"
                                 class="mobile__menu__list__link">
-                                <img src="{{ ('/frontend/assets/images/Vector 5.png') }}" />
+                                {{-- <img src="{{ ('/frontend/assets/images/Vector 5.png') }}" /> --}}
                                 About
                             </a>
                         </li>
                         <li class="mobile__menu__list__item">
                             <a href="{{ route('faq') }}" class="mobile__menu__list__link mobile__menu__list_link_diff1">
-                               <img src="{{ ('/frontend/assets/images/Vector 5.png') }}" />
+                               {{-- <img src="{{ ('/frontend/assets/images/Vector 5.png') }}" /> --}}
                                 FAQ</a>
                         </li>
                         <li class="mobile__menu__list__item">
                             <a href="{{ route('contact') }}"
                                 class="mobile__menu__list__link mobile__menu__list_link_diff">
-                                <img src="{{ ('/frontend/assets/images/Vector 5.png') }}" />
+                                {{-- <img src="{{ ('/frontend/assets/images/Vector 5.png') }}" /> --}}
                                 Contact Us
                             </a></li>
                     </ul>
                 </div>
-                <hr class="hr-mobile">
+                {{-- <hr class="hr-mobile"> --}}
                 <div class=" h1-group-vertical mobile__nav__h1__container">
                            @if(!isset($_COOKIE['api_token']))
                     <h1 class="mobile__nav__h1">
@@ -90,8 +90,13 @@
                         </h1>
                     @elseif(isset($_COOKIE['api_token']))
                     <h1 class="mobile__nav__h1">
+                        <a href="{{ route('dashboard') }}" class="mobile__nav__h1__link">
+                          {{-- <img src="{{ ('/frontend/assets/images/Vector 3.png') }}" /> --}}
+                          Dashboard
+                      </a>
+
                         <a href="{{ route('logout') }}" class="mobile__nav__h1__link">
-                            <img src="{{ ('/frontend/assets/images/Vector 3.png') }}" />
+                            {{-- <img src="{{ ('/frontend/assets/images/Vector 3.png') }}" /> --}}
                             Logout
                         </a>
                         </h1>
