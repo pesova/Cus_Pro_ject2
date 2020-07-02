@@ -104,9 +104,9 @@ Route::group(['prefix' => '/admin' , 'middleware' => 'backend.auth'], function (
     Route::get('/broadcast/compose', function () {
             return view('backend.broadcasts.compose_broadcast');
         })->name('compose');
-        
-    Route::get('backend/transactions/', 'TransactionController@index')->name('transactions');
 
+    Route::get('/transactions', 'TransactionController@index')->name('transactions');
+    Route::get('/transactions/{id}', 'SingleTransactionController@index')->name('view_transaction');
 
 
 Route::get('/backend/complaint_log' , 'ComplaintlogController@index');
@@ -120,8 +120,6 @@ Route::get('/backend/1123', function () {
 });
 
 // all users
-
-    Route::get('/transactions/{id}', 'SingleTransactionController@index')->name('view_transaction');
 
     Route::get('/users', 'UsersController@index')->name('users');
     Route::get('/users/{id}', 'UsersController@show')->name('user.view');
