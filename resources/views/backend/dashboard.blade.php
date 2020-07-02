@@ -5,7 +5,6 @@
 @stop
 
 
-
 @section('content')
 <div class="container-fluid">
     <div class="row page-title align-items-center">

@@ -24,7 +24,7 @@ class SettingsController extends Controller
 
         try{
 
-            $url = env('API_URL', 'https://api.customerpay.me'). '/user' . $this->user_id ;
+            $url = env('API_URL', 'https://api.customerpay.me'). '/user' .'/' . $this->user_id ;
             $client = new Client();
             $user_detail_process = $client->request('GET', $url, $this->headers);
 

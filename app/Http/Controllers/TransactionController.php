@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Cookie;
 
 class TransactionController extends Controller
 {
@@ -20,19 +22,13 @@ class TransactionController extends Controller
                 $body = $response->getBody()->getContents();
                 $transaction = json_decode($body);
                 return view('backend.transactions.index')->with('response', $transaction);
+            } else {
+                dd($statusCode);
             }
-            if ($statusCode == 500) {
-                return view('errors.500');
-            }
-            if ($statusCode == 401) {
-                return view('backend')->with('error', "Unauthoized token");
-            }
-            if ($statusCode == 404) {
-                return view('backend')->with('error', "could not access transaction page");
-            }
+           
         } catch (\Exception $e) {
             // return view('errors.500');
-            return view('backend')->with('error', "Unable to connect to server");
+            return view('backend/dashboard')->with('error', "Unable to connect to server");
         }
     }
 }

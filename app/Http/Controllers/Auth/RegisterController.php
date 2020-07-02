@@ -73,7 +73,7 @@ class RegisterController extends Controller
             if ($request->all()) {
 
                 $client =  new Client();
-                $response = $client->post($this->host . 'register/user', [
+                $response = $client->post($this->host . '/register/user', [
                     'form_params' => [
                         'phone_number' => $request->input('phone_number'),
                         'password' => $request->input('password')

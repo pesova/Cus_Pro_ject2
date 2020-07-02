@@ -28,7 +28,7 @@ class StoreController extends Controller
             if ($statusCode == 200) {
                 return view('backend.stores.store_list')->with('response', $Stores);
             }
-        }  catch (\Exception $e) {
+            }  catch (\Exception $e) {
                 view('errors.500');
             }
         
