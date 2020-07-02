@@ -125,7 +125,7 @@ class ComplaintlogController extends Controller
                 //return view('backend.complaintlog.update')->with('error', "Complaint not found");
                 return {
 					"message": "401, Unauthorized token",
-			        "info": "Please, If the frontend for the update form has been done, uncomment line 122 of ComplaintsLogController to render the page"                
+			        "info": "Please, If the frontend for the update form has been done, uncomment line 122 of ComplaintsLogController to render the page"
                 };
             }
         } catch (\Exception $e) {
