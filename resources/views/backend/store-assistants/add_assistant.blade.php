@@ -24,36 +24,36 @@
 
                         <form class="mt-4 mb-3 form-horizontal my-form">
                             <div class="form-group row mb-3">
-                                <label for="name" class="col-2 col-form-label my-label">Name:</label> <br> <br>
-                                <div class="col-10">
+                                <label for="name" class="col-2 col-sm-3 col-form-label my-label">Name:</label> <br> <br>
+                                <div class="col-10 col-sm-7">
                                     <input type="text" class="form-control" id="fullname" placeholder="Enter name here">
                                 </div>
                             </div>
                             <br>
                             <div class="form-group row mb-3">
-                                <label for="role" class="col-2 col-form-label my-label">Role:</label> <br>
-                                <div class="col-10">
+                                <label for="role" class="col-2 col-sm-3 col-form-label my-label">Role:</label> <br>
+                                <div class="col-10 col-sm-7">
                                     <input type="text" class="form-control" id="fullname" placeholder="Enter role">
                                 </div>
                             </div>
                             <br>  
                             <div class="form-group row mb-3">
-                                <label for="address" class="col-2 col-form-label my-label">Address:</label> <br>
-                                <div class="col-10">
+                                <label for="address" class="col-2 col-sm-3 col-form-label my-label">Address:</label> <br>
+                                <div class="col-10 col-sm-7">
                                     <input type="text" class="form-control" id="fullname" placeholder="Enter Address">
                                 </div>
                             </div>
                             <br>
                             <div class="form-group row mb-3">
-                                <label for="number" class="col-2 col-form-label my-label">Phone Number:</label> <br>
-                                <div class="col-10">
+                                <label for="number" class="col-2 col-sm-3 col-form-label my-label">Phone Number:</label> <br>
+                                <div class="col-10 col-sm-7">
                                     <input type="text" class="form-control" id="fullname" placeholder="Enter phone number">
                                 </div>
                             </div>
                             <br>
                             <div class="form-group row mb-3">
-                                <label for="email" class="col-2 col-form-label my-label">Email:</label> <br>
-                                <div class="col-10">
+                                <label for="email" class="col-2 col-sm-3 col-form-label my-label">Email:</label> <br>
+                                <div class="col-10 col-sm-7">
                                     <input type="text" class="form-control" id="fullname" placeholder="Enter email">
                                 </div>
                             </div>

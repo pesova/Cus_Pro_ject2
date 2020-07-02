@@ -15,6 +15,7 @@
                         <li class="menu__list__item"><a href="{{ route('contact') }}" class="menu__list__link">Contact
                                 Us</a></li>
                                 <li class="menu__list__item"><a href="{{ route('privacy') }}" class="menu__list__link">Privacy Policy</a></li>
+                                <li class="menu__list__item"><a href="{{ route('blog') }}" class="menu__list__link">Blog</a></li>
                     </ul>
                 </div>
             </div>

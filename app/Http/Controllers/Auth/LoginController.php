@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Http\Request;
@@ -85,7 +84,7 @@ class LoginController extends Controller
                     $data = $response->data->user->local;
 
                     // store data to cookie
-                    Cookie::queue('api_token', $data->api_token);
+                    Cookie::queue('api_token', $response->data->user->api_token);
                     Cookie::queue('is_active', $data->is_active);
                     Cookie::queue('phone_number', $data->phone_number);
                     Cookie::queue('user_id', $response->data->user->_id);

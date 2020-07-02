@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Cookie;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use GuzzleHttp\Exception\RequestException;
 
 class RegisterController extends Controller
 {
@@ -81,6 +82,13 @@ class RegisterController extends Controller
                 ]);
 
 
+                if ($response->getStatusCode() == 409) {
+                    $request->session()->flash('message', "409 error");
+                    $request->session()->flash('alert-class', 'alert-danger');
+                    return redirect()->route('signup');
+                }
+
+
                 if ($response->getStatusCode() == 201) {
 
                     $res = json_decode($response->getBody());
@@ -108,34 +116,39 @@ class RegisterController extends Controller
                     return redirect()->route('signup');
                 }
 
-                if ($response->getStatusCode() == 409) {
-                    $res = json_decode($response->getBody());
-
-                    if($res->success == false) {
-                        $request->session()->flash('message', $res->error->description);
-                        $request->session()->flash('alert-class', 'alert-danger');
-                        return redirect()->route('signup');
-                    }
-                }
-
                 if ($response->getStatusCode() == 500) {
-                Log::error('Server Error: \n' . $response->getBody());
+                    Log::error('Server Error: ' . $response->getBody());
                     return view('errors.500');
                 }
             }
 
             $res = json_decode($response->getBody());
+
+            if ($res->success == false) {
+                $request->session()->flash('message', $res->error->description);
+                $request->session()->flash('alert-class', 'alert-danger');
+                return redirect()->route('signup');
+            }
+
             $request->session()->flash('message', 'Please fill the form');
             $request->session()->flash('alert-class', 'alert-danger');
 
             return redirect()->route('signup');
-        } catch (\Exception $e) {
-            //log error
+        } catch (RequestException $e) {
+            //log error;
             Log::error('Catch error: RegisterController - ' . $e->getMessage());
+
+            // get response
+            $response = json_decode($e->getResponse()->getBody());
             
             $request->session()->flash('alert-class', 'alert-danger');
-            $request->session()->flash('message', 'Something bad happened, please try again');
+            $request->session()->flash('message', $response->error->description);
             return redirect()->route('signup');
+        } catch (\Exception $e) {
+            //log error;
+            Log::error('Catch error: RegisterController - ' . $e->getMessage());
+
+            return view('errors.500');
         }
     }
 }
