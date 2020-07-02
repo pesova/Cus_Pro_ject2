@@ -37,18 +37,10 @@ Route::get('/privacy', function () {
     return view('privacy');
 })->name('privacy');
 
-Route::get('/transactions-report', function () {
-    return view('transactions-report');
-})->name('transactions-report');
 
 Route::get('/admin', function() {
     return redirect()->route('dashboard');
 });
-
-//debt reminder page route by renegadegandhi
-Route::get('/debt', function () {
-    return view('debt');
-})->name('debt');
 
 // backend codes
 
@@ -75,11 +67,16 @@ Route::group(['prefix' => '/admin' , 'middleware' => 'backend.auth'], function (
     Route::get('/dashboard', function () {
         return view('backend.dashboard');
     })->name('dashboard');
-
+	
     // Customers
     Route::get('/customers', function () {
         return view('backend.customers.index');
     })->name('customers');
+
+    // Single Transaction Page
+    Route::get('/s-transaction', function () {
+        return view('backend.transactions.s-transaction');
+    });
 
     // Creditors
     Route::get('/creditor/add', function () {
@@ -199,5 +196,7 @@ Route::get('/backend/1123', function () {
     Route::get('/notifications', function () {
         return view('backend.notifications.user_notification');
     })->name('notification');
+    
+    Route::put('/complaint_log/update/{id}' , 'ComplaintlogController@update');
 
 });
