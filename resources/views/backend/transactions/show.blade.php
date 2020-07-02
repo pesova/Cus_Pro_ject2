@@ -27,7 +27,7 @@
                                     <div class="media p-3">
                                         <i data-feather="check-square" class="align-self-center icon-dual icon-sm mr-4"></i>
                                         <div class="media-body">
-                                            <h4 class="mt-0 mb-0">{{isset( $response->type) ? $response->type : "Not Available"}}</h4>
+                                               <h4 class="mt-0 mb-0">{{isset( $response->type) ? $response->type : "Not Available"}}</h4>
                                             <span class="text-muted">Ref Transaction Type</span>
                                         </div>
                                     </div>
@@ -130,8 +130,6 @@
             </div>
         </div>
     </div>
-
-
 </div>
 
 @endsection
