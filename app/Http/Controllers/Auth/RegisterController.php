@@ -88,13 +88,13 @@ class RegisterController extends Controller
                     if ($res->success) {
 
                         $data = $res->data->user->local;
+                        $api_token = $res->data->user->api_token;
 
                         // store data to cookie
-                        Cookie::queue('api_token', $data->api_token);
+                        Cookie::queue('api_token', $api_token);
                         Cookie::queue('is_active', $data->is_active);
                         Cookie::queue('phone_number', $data->phone_number);
                         Cookie::queue('user_id', $res->data->user->_id);
-                        Cookie::queue('expires', strtotime('+ 1 day'));
 
                         return redirect()->route('activate.user');
                     }
@@ -103,16 +103,29 @@ class RegisterController extends Controller
                 if($response->getStatusCode() == 200) {
                     $_response = json_decode($response->getBody(), true);
 
-                    if (count($_response) == 1) {
-                        $request->session()->flash('message', $_response['Message']);
+                    $request->session()->flash('message', $_response['Message']);
+                    $request->session()->flash('alert-class', 'alert-danger');
+                    return redirect()->route('signup');
+                }
+
+                if ($response->getStatusCode() == 409) {
+                    $res = json_decode($response->getBody());
+
+                    if($res->success == false) {
+                        $request->session()->flash('message', $res->error->description);
                         $request->session()->flash('alert-class', 'alert-danger');
                         return redirect()->route('signup');
                     }
                 }
+
+                if ($response->getStatusCode() == 500) {
+                Log::error('Server Error: \n' . $response->getBody());
+                    return view('errors.500');
+                }
             }
 
             $res = json_decode($response->getBody());
-            $request->session()->flash('message', $res->Message);
+            $request->session()->flash('message', 'Please fill the form');
             $request->session()->flash('alert-class', 'alert-danger');
 
             return redirect()->route('signup');
