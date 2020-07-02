@@ -1,15 +1,15 @@
 <!-- ========== Left Sidebar Start ========== -->
 <div class="left-side-menu">
     <div class="media user-profile mt-2 mb-2">
-        <img src="/backend/assets/images/users/avatar-7.jpg" class="avatar-sm rounded-circle mr-2" alt="Shreyu" />
-        <img src="/backend/assets/images/users/avatar-7.jpg" class="avatar-xs rounded-circle mr-2" alt="Shreyu" />
+        <img src="/backend/assets/images/users/avatar-7.jpg" class="avatar-sm rounded-circle mr-2" alt="Shreyu"/>
+        <img src="/backend/assets/images/users/avatar-7.jpg" class="avatar-xs rounded-circle mr-2" alt="Shreyu"/>
         <div class="media-body">
             <h6 class="pro-user-name mt-0 mb-0">Nik Patel</h6>
             <span class="pro-user-desc">Administrator</span>
         </div>
         <div class="dropdown align-self-center profile-dropdown-menu">
             <a class="dropdown-toggle mr-0" data-toggle="dropdown" href="#" role="button" aria-haspopup="false"
-                aria-expanded="false">
+               aria-expanded="false">
                 <span data-feather="chevron-down"></span>
             </a>
             <div class="dropdown-menu profile-dropdown">
@@ -35,7 +35,7 @@
 
                 <div class="dropdown-divider"></div>
 
-            <a href="{{ route('logout') }}" class="dropdown-item notify-item">
+                <a href="{{ route('logout') }}" class="dropdown-item notify-item">
                     <i data-feather="log-out" class="icon-dual icon-xs mr-2"></i>
                     <span>Logout</span>
                 </a>
@@ -69,7 +69,7 @@
 
                 <li>
                     <a href="{{ route('stores') }}">
-                      <i class="uil uil-shop"></i>
+                        <i class="uil uil-shop"></i>
                         <span>Stores</span>
                     </a>
                 </li>
@@ -119,19 +119,22 @@
                         <span> Settings </span>
                     </a>
                 </li>
-
-                <li>
-                    <a href="{{ route('users') }}">
-                        <i data-feather="users"></i>
-                        <span> Users </span>
-                    </a>
-                </li>
                 <li>
                     <a href="{{ route('notification') }}">
                         <i data-feather="bell"></i>
                         <span> Notifications </span>
                     </a>
                 </li>
+
+                @if(\Illuminate\Support\Facades\Cookie::get('user_role') == 'store_admin')
+                    {{--store admin protected routes here--}}
+                    <li>
+                        <a href="{{ route('users') }}">
+                            <i data-feather="users"></i>
+                            <span> Users </span>
+                        </a>
+                    </li>
+                @endif
 
 
             </ul>
