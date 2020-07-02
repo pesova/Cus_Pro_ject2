@@ -20,7 +20,7 @@ class UsersController extends Controller
     {
         try {
 
-            $url = env('API_URL', 'https://api.customerpay.me/'). '/user/all' ;
+            $url = env('API_URL', 'https://api.customerpay.me/'). 'user/all' ;
             $client = new Client();
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
             $user_response = $client->request('GET', $url, $headers);
@@ -29,7 +29,7 @@ class UsersController extends Controller
 
                 $users = json_decode($user_response->getBody(), true);
 
-                $perPage = 10;
+                $perPage = 5;
                 $page = $request->get('page', 1);
                 if ($page > count($users) or $page < 1) {
                     $page = 1;
@@ -40,8 +40,8 @@ class UsersController extends Controller
 
                 return view('backend.users_list.index')->with('response', $datas->withPath('/'.$request->path()));
             }
+            
             if ($user_response->getStatusCode() == 500) {
-
                 return view('errors.500');
             }
         } catch(\Exception $e) {

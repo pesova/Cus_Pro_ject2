@@ -17,8 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/json-api', 'ApiController@index');
 
 
-
-
 Route::get('/', function() {
     return view('home');
 })->name('home');
@@ -50,11 +48,14 @@ Route::prefix('/admin')->group(function () {
     Route::get('/login', ['uses' => "Auth\LoginController@index"])->name('login');
     Route::post('/login/authenticate', ['uses' => "Auth\LoginController@authenticate"])->name('login.authenticate');
 
-
     Route::get('/register', 'Auth\RegisterController@index')->name('signup');
 
     Route::post('/register', 'Auth\RegisterController@register')->name('register');
+
     Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
+    
+    Route::get('/password', 'Auth\ForgotPasswordController@index')->name('password');
+    Route::post('/password', 'Auth\ForgotPasswordController@update')->name('password.reset');
 
 });
 
@@ -66,7 +67,7 @@ Route::group(['prefix' => '/admin'], function () {
     Route::get('/dashboard', function () {
         return view('backend.dashboard');
     })->name('dashboard');
-
+	
     // Customers
     // Route::get('/customers', function () {
     //     return view('backend.customers.index');
@@ -92,21 +93,15 @@ Route::group(['prefix' => '/admin'], function () {
     })->name('add_debtor');
 
     //Single Customer view
-    Route::get('/singleCustomer', function(){
-        return view('backend.customers.singleCustomer');
-    })->name('customer');
+
+    Route::get('/singleCustomer/{customer_id}', 'CustomerController@viewCustomer')->name('customer.view');
+
+    Route::get('/edit_customer/{customer_id}', 'CustomerController@edit');
+
+    Route::post('/edit_customer/{customer_id}', 'CustomerController@update')->name('customer.update');
+
 
     // transaction
-
-    Route::get('/transactions', function () {
-        return view('backend.transactions.index');
-    })->name('transactions');
-
-    Route::get('/transactions-report', function () {
-      return view('backend.transactions.transactions-report');
-    })->name('transactions-report');
-
-
     Route::get('/broadcast', function () {
         return view('backend.broadcasts.send_broadcast');
     })->name('broadcast');
@@ -114,11 +109,9 @@ Route::group(['prefix' => '/admin'], function () {
     Route::get('/broadcast/compose', function () {
             return view('backend.broadcasts.compose_broadcast');
         })->name('compose');
-    // Route::get('/backend/view_transaction/{{$id}}', function () {
-    //     return view('backend.transactions.show');
-    // });
-    Route::get('backend/transactions/', 'TransactionController@index')->name('backend.transaction.index');
 
+    Route::get('/transactions', 'TransactionController@index')->name('transactions');
+    Route::get('/transactions/{id}', 'SingleTransactionController@index')->name('view_transaction');
 
 
 Route::get('/backend/complaint_log' , 'ComplaintlogController@index');
@@ -133,11 +126,8 @@ Route::get('/backend/1123', function () {
 
 // all users
 
-    Route::get('/transactions/{id}', 'ScustomeringleTransactionController@index')->name('view_transaction');
-
     Route::get('/users', 'UsersController@index')->name('users');
     Route::get('/users/{id}', 'UsersController@show')->name('user.view');
-
 
 
     Route::get('/debt_reminders', function () {
@@ -197,9 +187,9 @@ Route::get('/backend/1123', function () {
         return view('backend.store-assistants.edit_assistants');
     })->name('assistants.edit');
 
-    Route::get('/edit_customer', function () {
-        return view('backend.customers.edit_customer');
-    })->name('customer');
+    // Route::get('/edit_customer/{customer_id}', function () {
+    //     return view('backend.customers.edit_customer');
+    // })->name('customer.edit');
 
     // Route::get('/singleCustomer', function(){
     //     return view('backend.customers.singleCustomer');
@@ -214,5 +204,7 @@ Route::get('/backend/1123', function () {
     Route::get('/notifications', function () {
         return view('backend.notifications.user_notification');
     })->name('notification');
+    
+    Route::put('/complaint_log/update/{id}' , 'ComplaintlogController@update');
 
 });

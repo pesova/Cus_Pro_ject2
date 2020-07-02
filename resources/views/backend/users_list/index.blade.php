@@ -104,16 +104,16 @@
                                            @for ($i = 0; $i < count($response); $i++)
                                         <tr>
                                         <th>{{$i + 1 }}</th>
-                                                    <td>{{$response[$i]->first_name}}<br> <span>{{$response[$i]->_id}}</span>
+                                                    <td>{{$response[$i]['first_name']}}<br> <span>{{$response[$i]['_id']}}</span>
 
-                                                        @if ($response[$i]->user_role == "store_admin")
+                                                        @if ($response[$i]['user_role'] == "store_admin")
                                                             <span class="badge badge-primary">owner</span>
-                                                        @elseif ($response[$i]->user_role == "store_assistant")
+                                                        @elseif ($response[$i]['user_role'] == "store_assistant")
                                                             <span class="badge badge-secondray">assistant</span>
                                                         @else
                                                              <span class="badge badge-info">No role</span>
                                                         @endif
-                                                        @if($response[$i]->is_active)
+                                                        @if($response[$i]['is_active'])
                                                         <span class="badge badge-success">Activated</span>
                                                          </td>
                                                          @else
@@ -121,14 +121,14 @@
                                                         </td>
                                                         @endif
                                                     <td>
-                                                       @if(isset($response[$i]->store_address))
-                                                       {{$response[$i]->store_address}} <br>
+                                                       @if(isset($response[$i]['store_address']))
+                                                       {{$response[$i]['store_address']}} <br>
                                                        @else
                                                         Store Location Address would be here <br>
                                                        @endif
                                                     <span class="badge badge-primary">Store Reference Code:
-                                                        @if(isset($response[$i]->store_ref_code))
-                                                       {{$response[$i]->store_ref_code}} <br>
+                                                        @if(isset($response[$i]['store_ref_code']))
+                                                       {{$response[$i]['store_ref_code']}} <br>
                                                        @else
                                                         ST145M455 <br>
                                                        @endif
@@ -141,7 +141,7 @@
                                                 Actions<i class="icon"><span data-feather="chevron-down"></span></i>
                                             </button>
                                             <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item" href="{{ route('user.view',['id' => $response[$i]->_id]) }}">View Profile</a>
+                                            <a class="dropdown-item" href="{{ route('user.view',['id' => $response[$i]['_id']]) }}">View Profile</a>
                                                 <a class="dropdown-item" href="#">Active</a>
                                                 <a class="dropdown-item" href="#">Deactivate</a>
                                                 </div>
