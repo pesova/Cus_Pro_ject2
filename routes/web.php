@@ -211,6 +211,6 @@ Route::get('/backend/1123', function () {
         return view('backend.notifications.user_notification');
     })->name('notification');
     
-    Route::get('/complaint_log/update/{id}' , 'ComplaintlogController@update');
+    Route::put('/complaint_log/update/{id}' , 'ComplaintlogController@update');
 
 });
