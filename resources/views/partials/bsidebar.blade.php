@@ -69,7 +69,7 @@
 
                 <li>
                     <a href="{{ route('stores') }}">
-                        <i class="fas text-muted fa-store"></i>
+                      <i class="uil uil-shop"></i>
                         <span>Stores</span>
                     </a>
                 </li>
@@ -124,6 +124,12 @@
                     <a href="{{ route('users') }}">
                         <i data-feather="users"></i>
                         <span> Users </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('notification') }}">
+                        <i data-feather="bell"></i>
+                        <span> Notifications </span>
                     </a>
                 </li>
 

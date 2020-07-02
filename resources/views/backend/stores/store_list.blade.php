@@ -98,8 +98,8 @@
                           </thead>
                           <tbody>
                               <tr>
-                                <th scope="row">1</th>
-                                <td>Kadet laundry <br> <span class="badge badge-success">Verified</span> </td>
+                                <th scope="row">{{isset( $response->id) ? $response->id : "1"}}</th>
+                                <td>{{isset( $response->store_name) ? $response->store_name : "Chikoo laundry"}} <br> <span class="badge badge-success">Verified</span> </td>
                                 <td>12 sentryville, Lagos Nigeria<br> <span class="badge badge-primary">Store Reference Code: ST145M455</span> </td>
                                 <td>
                                   <div class="btn-group mt-2 mr-1">
