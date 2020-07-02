@@ -2,6 +2,14 @@
     padding: 50px 0px 50px 0px;
 }
 
+.card-title {
+    color: #333CC1;
+}
+
+.receivables {
+    color: #333CC1;
+}
+
 .border-line {
     border: 1px solid red;
 }
