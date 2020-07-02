@@ -9,30 +9,34 @@ use Illuminate\Support\Facades\Cookie;
 
 class SettingsController extends Controller
 {
+    // Defining headers
+    public $headers;
+    public $user_id;
+
     // Controller action to display settings page.
     public function index() {
+
+        // Setting header
+        $this->headers = [ 'headers' => ['x-access-token' => Cookie::get('api_token')] ];
+
+        // Setting User_id
+        $this->user_id = Cookie::get('user_id');
+
         try{
-            // This is the logged user_id
-            $user_id = Cookie::get('user_id');
 
-            // api call to get the user info
+            $url = env('API_URL', 'https://api.customerpay.me'). '/user/' . $this->user_id ;
             $client = new Client();
-            $response = $client->get(env('API_URL') . '/user/' . $user_id, [
-                'form_params' => [
-                    'api_token' => Cookie::get('api_token')
-                ]
-            ]);
+            $user_detail_process = $client->request('GET', $url, $this->headers);
 
-            if ($response->getStatusCode() == 200) {
-                $res = json_decode($response->getBody(), true);
+            if ( $user_detail_process->getStatusCode() == 200 ) {
 
+                $res = json_decode($user_detail_process->getBody(), true);
                 return view('backend.settings.settings')->with('user_details', $res);
             }
+            if ($user_detail_process->getStatusCode() == 500) {
 
-            if ($response->getStatusCode() == 500) {
                 return view('errors.500');
             }
-
         } catch(\Exception $e) {
             return view('errors.500');
         }
@@ -40,80 +44,82 @@ class SettingsController extends Controller
 
     // Controller action to update user details.
     public function update(Request $request) {
+
+        // Setting header
+        $this->headers = [ 'headers' => ['x-access-token' => Cookie::get('api_token')] ];
+
+        // Setting User_id
+        $this->user_id = Cookie::get('user_id');
+
         try{
 
-            // This is the logged user_id
-            $user_id = Cookie::get('user_id');
+            // check if all fields are available
+            if($request->all()) {
 
-            // API NOT WORKING ONLINE YET: NODE
-            // ==============================================
-                // check if all fields are available
-                // if($request->all()) {
+                $control = $request->input('control', '');
 
-                //     $control = $request->input('control', '');
+                if ($control == 'profile_update') {
 
-                //     if ($control == 'profile_update') {
+                    $url = env('API_URL', 'https://api.customerpay.me'). '/user/update/' . $this->user_id ;
+                    $client = new Client();
+                    $data = [
+                        // "content" => [
+                            "first_name" => $request->input('first_name'),
+                            "last_name" => $request->input('last_name'),
+                            "email" => $request->input('email')
+                        // ]
+                    ];
+                    // make an api call to update the user_details
+                    $form_response_process = $client->request('PUT', $url, $this->headers, $data);
 
-                //         // make an api call to update the user_details
-                //         $client = new Client();
-                //         $response = $client->put(env('API_URL') . '/user/update/' . $user_id, [
-                //             'form_params' => [
-                //                 'api_token' => Cookie::get('api_token'),
-                //                 'name' => $request->input('first_name'),
-                //                 'lastname' => $request->input('last_name'),
-                //                 'email' => $request->input('email')
-                //             ]
-                //         ]);
+                } elseif ($control == 'password_change') {
 
-                //     } elseif ($control == 'password_change') {
+                    // $url = env('API_URL', 'https://api.customerpay.me'). '/reset-password';
+                    $url = env('API_URL', 'https://api.customerpay.me'). '/user/update/' . $this->user_id ;
+                    $client = new Client();
+                    $data = [
+                        // "content" => [
+                            // 'current_password' => $request->input('current_password'),
+                            "new_password" => $request->input('new_password')
+                        // ]
+                    ];
+                    // make an api call to update the user_details
+                    $form_response_process = $client->request('PUT', $url, $this->headers, $data);
 
-                //         // make an api call to update the user_password_details
-                //         $client = new Client();
-                //         $response = $client->post(env('API_URL') . '/reset-password', [
-                //             'form_params' => [
-                //                 'api_token' => Cookie::get('api_token'),
-                //                 'current_password' => $request->input('current_password'),
-                //                 'new_password' => $request->input('new_password')
-                //             ]
-                //         ]);
+                } else {
 
-                //     } else {
+                    return view('errors.404');
+                }
 
-                //         return view('errors.500');
-                //     }
+                $url = env('API_URL', 'https://api.customerpay.me'). '/user/' . $this->user_id ;
+                $client = new Client();
+                $user_detail_res_pocess = $client->request('GET', $url, $this->headers);
 
-                //     // api call to get the updated user info
-                //     $client = new Client();
-                //     $user_detail = $client->get(env('API_URL') . '/user/' . $user_id);
-                //     $user_detail_res = json_decode($user_detail->getBody(), true);
+                if ( $user_detail_res_pocess->getStatusCode() == 200 ) {
 
-                //     if ($response->getStatusCode() == 201) {
+                    $user_detail_res = json_decode($user_detail_res_pocess->getBody(), true);
+                    $form_response = json_decode($form_response_process->getBody(), true);
+                    return view('backend.settings.settings')->with([
+                        'user_details' => $user_detail_res,
+                        'form_response' => $form_response
+                    ]);
+                }
+                if ($user_detail_res_pocess->getStatusCode() == 500) {
 
-                //         $res = json_decode($response->getBody(), true);
+                    return view('errors.500');
+                }
+                if ($user_detail_res_pocess->getStatusCode() == 400) {
 
-                //         return view('backend.settings.settings')->with([
-                //             'user_details' => $res,
-                //             'form_response' => $user_detail_res
-                //         ]);
-                //     }
-
-                //     if ($response->getStatusCode() == 400) {
-
-                //         $res = json_decode($response->getBody(), true);
-
-                //         return view('backend.settings.settings')->with([
-                //             'user_details' => $res,
-                //             'form_response' => $user_detail_res
-                //         ]);
-                //     }
-
-                //     if ($response->getStatusCode() == 500) {
-                //         return view('errors.500');
-                //     }
-                // } else {
-                //     return redirect()->route('settings');
-                // }
-            // ==============================================
+                    $user_detail_res = json_decode($user_detail_res_pocess->getBody(), true);
+                    $form_response = json_decode($form_response->getBody(), true);
+                    return view('backend.settings.settings')->with([
+                        'user_details' => $user_detail_res,
+                        'form_response' => $form_response
+                    ]);
+                }
+            } else {
+                return redirect()->route('settings');
+            }
         } catch(\Exception $e) {
             return view('errors.500');
         }

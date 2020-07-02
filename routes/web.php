@@ -13,6 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+Route::get('/json-api', 'ApiController@index');
+
+
+
+
 Route::get('/', function() {
     return view('home');
 })->name('home');
@@ -33,9 +39,18 @@ Route::get('/privacy', function () {
     return view('privacy');
 })->name('privacy');
 
+Route::get('/transactions-report', function () {
+    return view('transactions-report');
+})->name('transactions-report');
+
 Route::get('/admin', function() {
     return redirect()->route('dashboard');
 });
+
+//debt reminder page route by renegadegandhi
+Route::get('/debt', function () {
+    return view('debt');
+})->name('debt');
 
 // backend codes
 
@@ -52,7 +67,7 @@ Route::prefix('/admin')->group(function () {
 });
 
 // Protected Routes
-Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function () {
+Route::group(['prefix' => '/admin' , 'middleware' => 'backend.auth'], function () {
     Route::get('/activate', 'ActivateController@index')->name('activate.user');
 
     // dashboard
@@ -65,10 +80,20 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
         return view('backend.customers.index');
     })->name('customers');
 
+    // Single Transaction Page
+    Route::get('/s-transaction', function () {
+        return view('backend.transactions.s-transaction');
+    });
+
     // Creditors
     Route::get('/creditor/add', function () {
         return view('backend.creditors.add');
     })->name('add_creditor');
+
+    // Debtors
+    Route::get('/debtor/add', function () {
+        return view('backend.debtors.add');
+    })->name('add_debtor');
 
     //Single Customer view
     Route::get('/singleCustomer', function(){
@@ -81,7 +106,7 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
         return view('backend.transactions.index');
     })->name('transactions');
 
-    
+
     Route::get('/broadcast', function () {
         return view('backend.broadcasts.send_broadcast');
     })->name('broadcast');
@@ -92,11 +117,27 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
     // Route::get('/backend/view_transaction/{{$id}}', function () {
     //     return view('backend.transactions.show');
     // });
+    Route::get('backend/transactions/', 'TransactionController@index')->name('backend.transaction.index');
+
+
+
+Route::get('/backend/complaint_log' , 'ComplaintlogController@index');
+
+Route::get('/backend/2f4k7e34o', function () {
+    return view('backend.complaintlog.delete_complaint');
+});
+
+Route::get('/backend/1123', function () {
+    return view('backend.complaintlog.update_status');
+});
+
+// all users
 
     Route::get('/transactions/{id}', 'SingleTransactionController@index')->name('view_transaction');
 
     Route::get('/users', 'UsersController@index')->name('users');
     Route::get('/users/{id}', 'UsersController@show')->name('user.view');
+
 
 
     Route::get('/debt_reminders', function () {
@@ -133,9 +174,7 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
     })->name('analytics');
 
     // stores
-    Route::get('/stores', function () {
-        return view('backend.stores.store_list');
-    })->name('stores');
+    Route::get('/stores', 'StoreController@index')->name('stores');
 
     Route::get('/create_store', function () {
         return view('backend.stores.create');
