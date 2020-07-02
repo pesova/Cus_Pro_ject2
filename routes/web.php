@@ -110,17 +110,17 @@ Route::group(['prefix' => '/admin' , 'middleware' => 'backend.auth'], function (
     Route::get('/transactions/{id}', 'SingleTransactionController@index')->name('view_transaction');
 
 
-Route::get('/backend/complaint_log' , 'ComplaintlogController@index');
+    Route::get('/backend/complaint_log' , 'ComplaintlogController@index');
 
-Route::get('/backend/2f4k7e34o', function () {
-    return view('backend.complaintlog.delete_complaint');
-});
+    Route::get('/backend/2f4k7e34o', function () {
+        return view('backend.complaintlog.delete_complaint');
+    });
 
-Route::get('/backend/1123', function () {
-    return view('backend.complaintlog.update_status');
-});
+    Route::get('/backend/1123', function () {
+        return view('backend.complaintlog.update_status');
+    });
 
-// all users
+    // all users
 
     Route::get('/users', 'UsersController@index')->name('users');
     Route::get('/users/{id}', 'UsersController@show')->name('user.view');
@@ -162,9 +162,7 @@ Route::get('/backend/1123', function () {
     // stores
     Route::get('/stores', 'StoreController@index')->name('stores');
 
-    Route::get('/create_store', function () {
-        return view('backend.stores.create');
-    })->name('store.create');
+    Route::get('/create_store', 'StoreController@create')->name('store.create');
 
 
     Route::get('/view_store/{id}', 'StoreController@show')->name('store.view');
@@ -196,7 +194,4 @@ Route::get('/backend/1123', function () {
     Route::get('/notifications', function () {
         return view('backend.notifications.user_notification');
     })->name('notification');
-
-    Route::put('/complaint_log/update/{id}' , 'ComplaintlogController@update');
-
 });
