@@ -30,7 +30,9 @@
                                             reset your password.
                                         </p>
 
-                                        <form action="#" class="authentication-form">
+                                        
+                                        <form action="{{ route('password.reset') }}" class="authentication-form" method="POST">
+                                            @csrf
 
                                             <div class="form-group">
                                                 <label class="form-control-label">Phone Number</label>
@@ -38,8 +40,7 @@
                                                     <div class="input-group-prepend">
 
                                                     </div>
-                                                    <input type="tel" id="phone" class="form-control">
-
+                                                    <input type="tel" id="phone" name="phone_number" class="form-control" required>
 
                                                 </div>
                                             </div>
@@ -57,7 +58,7 @@
 
                         <div class="row mt-3">
                             <div class="col-12 text-center">
-                                <p class="text-muted">Back to <a href="/backend/login"
+                                <p class="text-muted">Back to <a href="/admin/login"
                                         class="text-primary font-weight-bold ml-1">Login</a></p>
                             </div> <!-- end col -->
                         </div>

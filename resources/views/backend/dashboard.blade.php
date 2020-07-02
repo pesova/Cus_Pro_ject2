@@ -5,7 +5,6 @@
 @stop
 
 
-
 @section('content')
 <div class="container-fluid">
     <div class="row page-title align-items-center">
@@ -122,7 +121,7 @@
     </div>
 
     <!-- stats + charts -->
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-xl-5">
             <div class="card">
                 <div class="card-body">
@@ -144,7 +143,7 @@
         </div>
 
 
-    </div>
+    </div> --}}
     <!-- row -->
 
     <!-- products -->

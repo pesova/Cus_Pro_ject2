@@ -34,13 +34,13 @@
                 <div class="col-md-12">
                     <div class="profile">
                         <div class="info"><img class="user-img" src="">
-                            <h4>{{ $user_details['first_name'] }} {{ $user_details['last_name'] }}</h4>
+                            <h4>{{ $user_details['local']['first_name'] }} {{ $user_details['local']['last_name'] }}</h4>
                         </div>
                         <div class="cover-image"></div>
                     </div>
                     @if ( isset($form_response) )
                         <div class="alert alert-primary" role="alert">
-                            {{ $form_response['message'] }}
+                            {{ print_r($form_response) }}
                         </div>
                     @endif
                 </div>
@@ -50,10 +50,8 @@
                         <div class="card">
                             <ul class="nav flex-column nav-tabs user-tabs">
                                 <li class="nav-item"><a class="nav-link active" href="#user-details" data-toggle="tab">Details</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#user-timeline" data-toggle="tab">Timeline</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#user-profile" data-toggle="tab">Profile</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#password-change" data-toggle="tab">Password</a></li>
-                                {{-- <li class="nav-item"><a class="nav-link" href="#assistant" data-toggle="tab">Staff Assistant</a></li> --}}
                             </ul>
                         </div>
                     </div>
@@ -66,10 +64,10 @@
                                         <h4 class="line-head">Details</h4>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <label><b>Username</b></label>
+                                                <label><b>Fullname</b></label>
                                             </div>
                                             <div class="col-md-6">
-                                                <p>{{ $user_details['first_name'] }} {{ $user_details['last_name'] }}</p>
+                                                <p>{{ $user_details['local']['first_name'] }} {{ $user_details['local']['last_name'] }}</p>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -77,7 +75,7 @@
                                                 <label><b>Email</b></label>
                                             </div>
                                             <div class="col-md-6">
-                                                <p>{{ $user_details['email'] }}</p>
+                                                <p>{{ $user_details['local']['email'] }}</p>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -85,7 +83,7 @@
                                                 <label><b>Status</b></label>
                                             </div>
                                             <div class="col-md-6">
-                                                @if ( $user_details['is_active'] )
+                                                @if ( $user_details['local']['is_active'] )
                                                     Active
                                                 @else
                                                     Not Active
@@ -94,97 +92,101 @@
                                         </div>
                                     </div>
                                 </div>
-                                @php
-                                    function time_relative_to_time($ts) {
-                                        if(!ctype_digit($ts))
-                                            $ts = strtotime($ts);
 
-                                        $diff = time() - $ts;
-                                        if($diff == 0)
-                                            return 'now';
-                                        elseif($diff > 0)
-                                        {
-                                            $day_diff = floor($diff / 86400);
-                                            if($day_diff == 0)
+                                {{-- Removed by Eni4sure because Node is no longer giving CreatedAt and UpdatedAt --}}
+                                    {{-- @php
+                                        function time_relative_to_time($ts) {
+                                            if(!ctype_digit($ts))
+                                                $ts = strtotime($ts);
+
+                                            $diff = time() - $ts;
+                                            if($diff == 0)
+                                                return 'now';
+                                            elseif($diff > 0)
                                             {
-                                                if($diff < 60) return 'just now';
-                                                if($diff < 120) return '1 minute ago';
-                                                if($diff < 3600) return floor($diff / 60) . ' minutes ago';
-                                                if($diff < 7200) return '1 hour ago';
-                                                if($diff < 86400) return floor($diff / 3600) . ' hours ago';
+                                                $day_diff = floor($diff / 86400);
+                                                if($day_diff == 0)
+                                                {
+                                                    if($diff < 60) return 'just now';
+                                                    if($diff < 120) return '1 minute ago';
+                                                    if($diff < 3600) return floor($diff / 60) . ' minutes ago';
+                                                    if($diff < 7200) return '1 hour ago';
+                                                    if($diff < 86400) return floor($diff / 3600) . ' hours ago';
+                                                }
+                                                if($day_diff == 1) return 'Yesterday';
+                                                if($day_diff < 7) return $day_diff . ' days ago';
+                                                if($day_diff < 31) return ceil($day_diff / 7) . ' weeks ago';
+                                                if($day_diff < 60) return 'last month';
+                                                return date('F Y', $ts);
                                             }
-                                            if($day_diff == 1) return 'Yesterday';
-                                            if($day_diff < 7) return $day_diff . ' days ago';
-                                            if($day_diff < 31) return ceil($day_diff / 7) . ' weeks ago';
-                                            if($day_diff < 60) return 'last month';
-                                            return date('F Y', $ts);
-                                        }
-                                        else
-                                        {
-                                            $diff = abs($diff);
-                                            $day_diff = floor($diff / 86400);
-                                            if($day_diff == 0)
+                                            else
                                             {
-                                                if($diff < 120) return 'in a minute';
-                                                if($diff < 3600) return 'in ' . floor($diff / 60) . ' minutes';
-                                                if($diff < 7200) return 'in an hour';
-                                                if($diff < 86400) return 'in ' . floor($diff / 3600) . ' hours';
+                                                $diff = abs($diff);
+                                                $day_diff = floor($diff / 86400);
+                                                if($day_diff == 0)
+                                                {
+                                                    if($diff < 120) return 'in a minute';
+                                                    if($diff < 3600) return 'in ' . floor($diff / 60) . ' minutes';
+                                                    if($diff < 7200) return 'in an hour';
+                                                    if($diff < 86400) return 'in ' . floor($diff / 3600) . ' hours';
+                                                }
+                                                if($day_diff == 1) return 'Tomorrow';
+                                                if($day_diff < 4) return date('l', $ts);
+                                                if($day_diff < 7 + (7 - date('w'))) return 'next week';
+                                                if(ceil($day_diff / 7) < 4) return 'in ' . ceil($day_diff / 7) . ' weeks';
+                                                if(date('n', $ts) == date('n') + 1) return 'next month';
+                                                return date('F Y', $ts);
                                             }
-                                            if($day_diff == 1) return 'Tomorrow';
-                                            if($day_diff < 4) return date('l', $ts);
-                                            if($day_diff < 7 + (7 - date('w'))) return 'next week';
-                                            if(ceil($day_diff / 7) < 4) return 'in ' . ceil($day_diff / 7) . ' weeks';
-                                            if(date('n', $ts) == date('n') + 1) return 'next month';
-                                            return date('F Y', $ts);
                                         }
-                                    }
-                                @endphp
-                                <div class="tab-pane" id="user-timeline">
-                                    <div class="tile user-settings">
-                                        <h4 class="line-head">Timeline</h4>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label><b>Created</b></label>
+                                    @endphp
+                                    <div class="tab-pane" id="user-timeline">
+                                        <div class="tile user-settings">
+                                            <h4 class="line-head">Timeline</h4>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label><b>Created</b></label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <p>{{ time_relative_to_time($user_details['local']['createdAt']) }}</p>
+                                                </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <p>{{ time_relative_to_time($user_details['createdAt']) }}</p>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label><b>Last Updated</b></label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <p>{{ time_relative_to_time($user_details['local']['updatedAt']) }}</p>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label><b>Last Updated</b></label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>{{ time_relative_to_time($user_details['updatedAt']) }}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                    </div> --}}
+                                {{-- Removed by Eni4sure because Node is no longer giving CreatedAt and UpdatedAt --}}
+
                                 <div class="tab-pane fade" id="user-profile">
                                     <div class="tile user-settings">
                                         <h4 class="line-head">Profile</h4>
-                                        <form action="" method="POST" enctype="multipart/form-data">
+                                        <form method="POST" enctype="multipart/form-data">
                                             {{csrf_field()}}
                                             <div class="row mb-12">
                                                 <div class="col-md-9">
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <label>First Name</label>
-                                                            <input class="form-control" type="text" name="first_name" value="{{ $user_details['first_name'] }}">
+                                                            <input class="form-control" type="text" name="first_name" value="{{ $user_details['local']['first_name'] }}">
                                                         </div>
                                                     </div>
                                                     <div class="clearfix"></div><br>
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <label>Last Name</label>
-                                                            <input class="form-control" type="text" name="last_name" value="{{ $user_details['last_name'] }}">
+                                                            <input class="form-control" type="text" name="last_name" value="{{ $user_details['local']['last_name'] }}">
                                                         </div>
                                                     </div>
                                                     <div class="clearfix"></div><br>
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <label>Email</label>
-                                                            <input class="form-control" type="text" name="email" value="{{ $user_details['email'] }}">
+                                                            <input class="form-control" type="text" name="email" value="{{ $user_details['local']['email'] }}">
                                                         </div>
                                                     </div>
                                                     <div class="clearfix"></div><br>
@@ -234,7 +236,7 @@
                                         </form>
                                     </div>
                                 </div>
-                                <div class="tab-pane" id="assistant">
+                                {{-- <div class="tab-pane" id="assistant">
                                     <div class="tile user-settings">
                                         <h4 class="line-head">Staff Assistant</h4>
                                         <div class="row">
@@ -248,7 +250,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>

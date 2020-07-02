@@ -19,7 +19,7 @@
                                     <div class="row">
                                         <div class="col-12 p-5">
                                             <div class="mx-auto mb-5">
-                                                <a href="/">
+                                                <a href="{{ route('home') }}">
                                                     <img src="{{ ('/frontend/assets/images/fulllogo.png') }}" alt=""
                                                          height="auto"/> </a>
                                             </div>
@@ -36,7 +36,7 @@
                                             <div class="alert alert-success alert-dismissible" id="success"
                                                  style="display: none">
                                                 <span id="success-message">Your account has been activated.
-                                                    <a href="{{url('/backend/dashboard')}}">Click Here if you were not redirected</a>
+                                                    <a href="{{ route('dashboard') }}}">Click Here if you were not redirected</a>
                                                 </span>
 
                                             </div>
@@ -77,7 +77,7 @@
 
                             <div class="row mt-3">
                                 <div class="col-12 text-center">
-                                    <p class="text-muted">Back to <a href="pages-login.html"
+                                    <p class="text-muted">Back to <a href="{{ route('login') }}"
                                                                      class="text-primary font-weight-bold ml-1">Login</a>
                                     </p>
                                 </div> <!-- end col -->
@@ -123,16 +123,16 @@
                     api_token: '{{$apiToken}}',
                     token: $("#code").val()
                 };
-                $.post('https://dev.customerpay.me/auth/verify', data, (data) => {
+                $.post("{{env('API_URL') }}/auth/verify", data, (data) => {
                     //success
                     $(this).show();
                     verifying.hide();
-                    success_message.html('Your account has been activated.<br/>' + '<a href="{{url('/backend/dashboard')}}">Click Here if you were not redirected</a>');
+                    success_message.html('Your account has been activated.<br/>' + '<a href="{{url('/admin/dashboard')}}">Click Here if you were not redirected</a>');
                     success.show();
-                    window.location = "{{url('/backend/dashboard')}}";
+                    window.location = "{{url('/admin/dashboard')}}";
                 }).fail((e) => {
                     e = JSON.parse(e.responseText);
-                    error_message.text(e.message.errors[0].description);
+                    error_message.text(e.message);
                     error.show();
                     $(this).show();
                     verifying.hide();
@@ -146,14 +146,14 @@
                         api_token: '{{$apiToken}}',
                         phone: '{{$phoneNumber}}',
                     };
-                    $.post('https://dev.customerpay.me/auth/verify-phone', data, (data) => {
+                    $.post("{{env('API_URL') }}/auth/verify-phone", data, (data) => {
                         //success
                         success_message.html('Your account has been sent. You can request a new code in 60 seconds');
                         success.show();
                         start_timer();
                     }).fail((e) => {
                         e = JSON.parse(e.responseText);
-                        error_message.text(e.message.errors[0].description);
+                        error_message.text(e.message);
                         error.show();
                     });
                 } else {
@@ -161,6 +161,7 @@
                     error.show();
                 }
             });
+
             function start_timer() {
                 timer = 60;
                 let interval = setInterval(() => {
@@ -170,6 +171,7 @@
                         clearInterval(interval);
                 }, 1000);
             }
+
             function hide_messages() {
                 error.hide();
                 success.hide();

@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
-use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Cookie;
+use GuzzleHttp\Client;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use GuzzleHttp\Exception\RequestException;
 
 class RegisterController extends Controller
 {
@@ -39,21 +42,16 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+        $this->host = env('API_URL', 'https://dev.api.customerpay.me');
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
+
+    public function index()
     {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+        if (Cookie::get('api_token')) {
+            return redirect()->route('dashboard');
+        }
+        return view('backend.register.signup');
     }
 
     /**
@@ -62,12 +60,95 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(array $data)
+    // Controller action to register a new user.
+    public function register(Request $request)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+
+        $request->validate([
+            'phone_number' => 'required|min:6|max:16',
+            'password' =>  'required|regex:/[a-zA-Z0-9]{6,20}$/',
         ]);
+
+        try {
+
+            if ($request->all()) {
+
+                $client =  new Client();
+                $response = $client->post($this->host . '/register/user', [
+                    'form_params' => [
+                        'phone_number' => $request->input('phone_number'),
+                        'password' => $request->input('password')
+                    ]
+                ]);
+
+
+                if ($response->getStatusCode() == 409) {
+                    $request->session()->flash('message', "409 error");
+                    $request->session()->flash('alert-class', 'alert-danger');
+                    return redirect()->route('signup');
+                }
+
+
+                if ($response->getStatusCode() == 201) {
+
+                    $res = json_decode($response->getBody());
+
+                    if ($res->success) {
+
+                        $data = $res->data->user->local;
+                        $api_token = $res->data->user->api_token;
+
+                        // store data to cookie
+                        Cookie::queue('api_token', $api_token);
+                        Cookie::queue('is_active', $data->is_active);
+                        Cookie::queue('phone_number', $data->phone_number);
+                        Cookie::queue('user_id', $res->data->user->_id);
+
+                        return redirect()->route('activate.user');
+                    }
+                }
+
+                if($response->getStatusCode() == 200) {
+                    $_response = json_decode($response->getBody(), true);
+
+                    $request->session()->flash('message', $_response['Message']);
+                    $request->session()->flash('alert-class', 'alert-danger');
+                    return redirect()->route('signup');
+                }
+
+                if ($response->getStatusCode() == 500) {
+                    Log::error('Server Error: ' . $response->getBody());
+                    return view('errors.500');
+                }
+            }
+
+            $res = json_decode($response->getBody());
+
+            if ($res->success == false) {
+                $request->session()->flash('message', $res->error->description);
+                $request->session()->flash('alert-class', 'alert-danger');
+                return redirect()->route('signup');
+            }
+
+            $request->session()->flash('message', 'Please fill the form');
+            $request->session()->flash('alert-class', 'alert-danger');
+
+            return redirect()->route('signup');
+        } catch (RequestException $e) {
+            //log error;
+            Log::error('Catch error: RegisterController - ' . $e->getMessage());
+
+            // get response
+            $response = json_decode($e->getResponse()->getBody());
+            
+            $request->session()->flash('alert-class', 'alert-danger');
+            $request->session()->flash('message', $response->error->description);
+            return redirect()->route('signup');
+        } catch (\Exception $e) {
+            //log error;
+            Log::error('Catch error: RegisterController - ' . $e->getMessage());
+
+            return view('errors.500');
+        }
     }
 }
