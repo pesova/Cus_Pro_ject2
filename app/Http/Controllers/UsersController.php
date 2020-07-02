@@ -18,15 +18,16 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
-        $url = env('API_URL', 'https://api.customerpay.me/'). '/user/all';
         try {
+
+            $url = env('API_URL', 'https://api.customerpay.me/'). '/user/all' ;
             $client = new Client();
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
-            $response = $client->request('GET', $url, $headers);
-            $statusCode = $response->getStatusCode();
-            if ($statusCode == 200) {
-                $body = $response->getBody()->getContents();
-                $users = json_decode($body);
+            $user_response = $client->request('GET', $url, $headers);
+
+            if ( $user_response->getStatusCode() == 200 ) {
+
+                $users = json_decode($user_response->getBody(), true);
 
                 $perPage = 10;
                 $page = $request->get('page', 1);
@@ -36,13 +37,14 @@ class UsersController extends Controller
                 $offset = ($page * $perPage) - $perPage;
                 $articles = array_slice($users, $offset, $perPage);
                 $datas = new Paginator($articles, count($users), $perPage);
+
                 return view('backend.users_list.index')->with('response', $datas->withPath('/'.$request->path()));
             }
+            if ($user_response->getStatusCode() == 500) {
 
-            if ($statusCode == 500) {
                 return view('errors.500');
             }
-        } catch (\Exception $e) {
+        } catch(\Exception $e) {
             return view('errors.500');
         }
     }
