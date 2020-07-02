@@ -13,6 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+Route::get('/json-api', 'ApiController@index');
+
+
+
+
 Route::get('/', function() {
     return view('home');
 })->name('home');
@@ -32,6 +38,10 @@ Route::get('/about', function () {
 Route::get('/privacy', function () {
     return view('privacy');
 })->name('privacy');
+
+Route::get('/transactions-report', function () {
+    return view('transactions-report');
+})->name('transactions-report');
 
 Route::get('/admin', function() {
     return redirect()->route('dashboard');
@@ -105,10 +115,24 @@ Route::group(['prefix' => '/admin' , 'middleware' => 'backend.auth'], function (
     Route::get('backend/transactions/', 'TransactionController@index')->name('backend.transaction.index');
 
 
+
+Route::get('/backend/complaint_log' , 'ComplaintlogController@index');
+
+Route::get('/backend/2f4k7e34o', function () {
+    return view('backend.complaintlog.delete_complaint');
+});
+
+Route::get('/backend/1123', function () {
+    return view('backend.complaintlog.update_status');
+});
+
+// all users
+
     Route::get('/transactions/{id}', 'SingleTransactionController@index')->name('view_transaction');
 
     Route::get('/users', 'UsersController@index')->name('users');
     Route::get('/users/{id}', 'UsersController@show')->name('user.view');
+
 
 
     Route::get('/debt_reminders', function () {
