@@ -35,6 +35,10 @@ Route::get('/about', function () {
     return view('about');
 })->name('about');
 
+Route::get('/privacy', function () {
+    return view('privacy');
+})->name('privacy');
+
 Route::get('/admin', function() {
     return redirect()->route('dashboard');
 });
@@ -49,13 +53,14 @@ Route::prefix('/admin')->group(function () {
     Route::get('/register', 'Auth\RegisterController@index')->name('signup');
 
     Route::post('/register', 'Auth\RegisterController@register')->name('register');
+    Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
+
 });
 
 // Protected Routes
 Route::group(['prefix' => '/admin', ], function () {
     Route::get('/activate', 'ActivateController@index')->name('activate.user');
 
-    Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
     // dashboard
     Route::get('/dashboard', function () {
         return view('backend.dashboard');
@@ -82,10 +87,14 @@ Route::group(['prefix' => '/admin', ], function () {
         return view('backend.transactions.index');
     })->name('transactions');
 
+    
     Route::get('/broadcast', function () {
         return view('backend.broadcasts.send_broadcast');
     })->name('broadcast');
 
+    Route::get('/broadcast/compose', function () {
+            return view('backend.broadcasts.compose_broadcast');
+        })->name('compose');
     // Route::get('/backend/view_transaction/{{$id}}', function () {
     //     return view('backend.transactions.show');
     // });
@@ -116,11 +125,11 @@ Route::get('/backend/1123', function () {
 
 
     Route::get('/complaint', function () {
-        return view('backend.complaintform.complaintform');
+        return view('backend.complaints.complaintform');
     })->name('complaint.form');
 
     Route::get('/complaint_log', function () {
-        return view('backend.complaintlog.complaintlog');
+        return view('backend.complaints.complaintlog');
     })->name('complaint.log');
 
     Route::get('/change-loc', function () {
@@ -144,9 +153,7 @@ Route::get('/backend/1123', function () {
     })->name('analytics');
 
     // stores
-    Route::get('/stores', function () {
-        return view('backend.stores.store_list');
-    })->name('stores');
+    Route::get('/stores', 'StoreController@index')->name('stores');
 
     Route::get('/create_store', function () {
         return view('backend.stores.create');
@@ -169,10 +176,22 @@ Route::get('/backend/1123', function () {
         return view('backend.store-assistants.edit_assistants');
     })->name('assistants.edit');
 
+    Route::get('/edit_customer', function () {
+        return view('backend.customers.edit_customer');
+    })->name('customer');
+
+    // Route::get('/singleCustomer', function(){
+    //     return view('backend.customers.singleCustomer');
+    // })->name('customer');
 
     // assistant
     Route::get('/add_assistant', function () {
-        return view('backend.store_assistant.add_assistant');
+        return view('backend.store-assistants.add_assistant');
     })->name('assistants.add');
+
+    //notifications page
+    Route::get('/notifications', function () {
+        return view('backend.notifications.user_notification');
+    })->name('notification');
 
 });

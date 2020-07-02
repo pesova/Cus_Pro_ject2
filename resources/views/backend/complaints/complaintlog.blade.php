@@ -51,7 +51,6 @@
                                                     <td>{{isset( $response->name) ? $response->type : "I can't connect now, try again later"}}</td>
                                                     <td>{{isset( $response->name) ? $response->type : "Open"}}</td>
                                                     <td>{{isset( $response->name) ? $response->type : "2020 07 25"}}</td>
-                                                    
                                                     <td><div class="btn-group mt-2 mr-1">
                                             <button type="button" class="btn btn-info dropdown-toggle"
                                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
