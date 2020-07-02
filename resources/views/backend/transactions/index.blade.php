@@ -4,7 +4,6 @@
 @section('content')
 
 
-
 <div class="account-pages my-5">
     <div class="container-fluid">
         <div class="row-justify-content-center">
@@ -98,7 +97,7 @@
                                 </thead>
 
                                 <tbody>
-                                     @foreach ($transaction as $transaction )
+                                     @foreach ($transactions as $transaction )
                                     
                           
                                     <tr>

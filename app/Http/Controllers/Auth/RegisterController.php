@@ -65,7 +65,7 @@ class RegisterController extends Controller
     {
 
         $request->validate([
-            'phone_number' => 'required|min:6|max:17',
+            'phone_number' => 'required|min:6|max:16',
             'password' =>  'required|regex:/[a-zA-Z0-9]{6,20}$/',
         ]);
 

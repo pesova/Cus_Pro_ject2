@@ -23,15 +23,14 @@ class SettingsController extends Controller
         $this->user_id = Cookie::get('user_id');
 
         try{
-
-            $url = env('API_URL', 'https://api.customerpay.me'). '/user' . $this->user_id ;
+            $url = env('API_URL', 'https://dev.api.customerpay.me'). '/user' .'/' . $this->user_id ;
             $client = new Client();
             $user_detail_process = $client->request('GET', $url, $this->headers);
 
             if ( $user_detail_process->getStatusCode() == 200 ) {
 
-                $res = json_decode($user_detail_process->getBody(), true);
-                return view('backend.settings.settings')->with('user_details', $res);
+                $response = json_decode($user_detail_process->getBody(), true);
+                return view('backend.settings.settings')->with('user_details', $response);
             }
             if ($user_detail_process->getStatusCode() == 500) {
 
