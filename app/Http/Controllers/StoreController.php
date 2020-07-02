@@ -17,7 +17,7 @@ class StoreController extends Controller
     public function index()
     {
         //API updated
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store/all/' .Cookie::get('user_id') ;
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store/all/' . Cookie::get('user_id');
 
         try {
             $client = new Client;
@@ -35,8 +35,7 @@ class StoreController extends Controller
             if ($response->getStatusCode() == 401) {
                 $data = json_decode($response->getBody());
                 Session::flash('message', $data->message);
-                return redirect()->route('stores');
-                // view('backend.stores.store_list')->with('response', []);
+                return redirect()->route('stores', ['response' => []]);
             }
 
             if ($response->getStatusCode() == 500) {
@@ -75,7 +74,7 @@ class StoreController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('backend.stores.show');
     }
 
     /**
@@ -86,7 +85,7 @@ class StoreController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('backend.stores.edit');
     }
 
     /**
