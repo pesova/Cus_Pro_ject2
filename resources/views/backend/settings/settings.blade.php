@@ -53,7 +53,7 @@
                                 {{-- <li class="nav-item"><a class="nav-link" href="#user-timeline" data-toggle="tab">Timeline</a></li> --}}
                                 <li class="nav-item"><a class="nav-link" href="#user-profile" data-toggle="tab">Profile</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#password-change" data-toggle="tab">Password</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#assistant" data-toggle="tab">Staff Assistant</a></li>
+                                {{-- <li class="nav-item"><a class="nav-link" href="#assistant" data-toggle="tab">Staff Assistant</a></li> --}}
                             </ul>
                         </div>
                     </div>

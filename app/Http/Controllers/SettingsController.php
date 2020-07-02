@@ -24,7 +24,7 @@ class SettingsController extends Controller
 
         try{
 
-            $url = env('API_URL', 'https://api.customerpay.me/'). '/user/' . $this->user_id ;
+            $url = env('API_URL', 'https://api.customerpay.me'). '/user/' . $this->user_id ;
             $client = new Client();
             $user_detail_process = $client->request('GET', $url, $this->headers);
 
@@ -51,7 +51,7 @@ class SettingsController extends Controller
         // Setting User_id
         $this->user_id = Cookie::get('user_id');
 
-        // try{
+        try{
 
             // check if all fields are available
             if($request->all()) {
@@ -60,7 +60,7 @@ class SettingsController extends Controller
 
                 if ($control == 'profile_update') {
 
-                    $url = env('API_URL', 'https://api.customerpay.me/'). '/user/update/' . $this->user_id ;
+                    $url = env('API_URL', 'https://api.customerpay.me'). '/user/update/' . $this->user_id ;
                     $client = new Client();
                     $data = [
                         // "content" => [
@@ -74,8 +74,8 @@ class SettingsController extends Controller
 
                 } elseif ($control == 'password_change') {
 
-                    // $url = env('API_URL', 'https://api.customerpay.me/'). '/reset-password';
-                    $url = env('API_URL', 'https://api.customerpay.me/'). '/user/update/' . $this->user_id ;
+                    // $url = env('API_URL', 'https://api.customerpay.me'). '/reset-password';
+                    $url = env('API_URL', 'https://api.customerpay.me'). '/user/update/' . $this->user_id ;
                     $client = new Client();
                     $data = [
                         // "content" => [
@@ -91,7 +91,7 @@ class SettingsController extends Controller
                     return view('errors.404');
                 }
 
-                $url = env('API_URL', 'https://api.customerpay.me/'). '/user/' . $this->user_id ;
+                $url = env('API_URL', 'https://api.customerpay.me'). '/user/' . $this->user_id ;
                 $client = new Client();
                 $user_detail_res_pocess = $client->request('GET', $url, $this->headers);
 
@@ -120,8 +120,8 @@ class SettingsController extends Controller
             } else {
                 return redirect()->route('settings');
             }
-        // } catch(\Exception $e) {
-        //     return view('errors.500');
-        // }
+        } catch(\Exception $e) {
+            return view('errors.500');
+        }
     }
 }
