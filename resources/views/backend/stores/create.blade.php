@@ -17,11 +17,26 @@
                     </div>
                 </div>
 
+                @if(Session::has('message'))
+                <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
+                @endif
+
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 <div class="row">
                      <div class="col-lg-12">
                          <div class="card">
                             <div class="card-body">
                                     <form action="{{ route('store.create') }}" method="POST">
+                                        @csrf
                                         <div class="form-row">
                                           <div class="form-group col-md-6">
                                             <label for="store name">Store Name</label>

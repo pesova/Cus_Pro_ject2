@@ -162,7 +162,7 @@ Route::group(['prefix' => '/admin' , 'middleware' => 'backend.auth'], function (
     // stores
     Route::get('/stores', 'StoreController@index')->name('stores');
 
-    Route::get('/create_store', 'StoreController@create')->name('store.create');
+    Route::match(['get', 'post'],'/create_store', 'StoreController@create')->name('store.create');
 
 
     Route::get('/view_store/{id}', 'StoreController@show')->name('store.view');

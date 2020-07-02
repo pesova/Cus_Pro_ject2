@@ -52,12 +52,12 @@ class StoreController extends Controller
      */
     public function create(Request $request)
     {
-        $url = env('API_URL', 'https://api.customerpay.me') . '/store/all/' . Cookie::get('user_id');
+        $url = env('API_URL', 'https://api.customerpay.me') . '/store/new/' . Cookie::get('user_id');
 
         if ($request->isMethod('post')) {
             $request->validate([
                 'store_name' => 'required|min:2',
-                'store_address' =>  'required',
+                'shop_address' =>  'required',
             ]);
 
             try {
@@ -67,7 +67,7 @@ class StoreController extends Controller
                     'headers' => ['x-access-token' => Cookie::get('api_token')],
                     'form_params' => [
                         'store_name' => $request->input('store_name'),
-                        'store_address' => $request->input('store_address'),
+                        'shop_address' => $request->input('shop_address'),
                         'email' => $request->input('email'),
                         'tagline' => $request->input('tagline'),
                         'phone_number' => $request->input('phone_number'),
@@ -79,17 +79,24 @@ class StoreController extends Controller
 
                 $statusCode = $response->getStatusCode();
                 $body = $response->getBody();
-                $Stores = json_decode($body);
-                if ($statusCode == 200) {
-                    return view('backend.stores.store_list')->with('response', $Stores->data->stores);
+                $data = json_decode($body);
+
+                if ($statusCode == 201  && $data->success) {
+                    $request->session()->flash('alert-class', 'alert-success');
+                    Session::flash('message', $data->message);
+                    return $this->index();
+                } else {
+                    $request->session()->flash('alert-class', 'alert-waring');
+                    Session::flash('message', $data->message);
+                    return redirect()->route('store.create');
                 }
             } catch (\Exception $e) {
                 $response = $e->getResponse();
-
-                if ($response->getStatusCode() == 401) {
+                $statusCode == $response->getStatusCode();
+                if ( $statusCode >= 400 || $statusCode < 500 ) {
                     $data = json_decode($response->getBody());
                     Session::flash('message', $data->message);
-                    return redirect()->route('stores', ['response' => []]);
+                    return redirect()->route('store.create');
                 }
 
                 if ($response->getStatusCode() == 500) {
