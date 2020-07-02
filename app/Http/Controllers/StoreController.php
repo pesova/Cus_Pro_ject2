@@ -16,7 +16,7 @@ class StoreController extends Controller
     public function index()
     {
         //API updated
-        $url = env('API_URL', 'https://dev.api.customerpay.me'). '/store/all';
+        $url = env('API_URL', 'https://dev.api.customerpay.me'). '/store/all'; 
 
         try {
             $client = new Client;

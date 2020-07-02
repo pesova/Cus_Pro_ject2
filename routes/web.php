@@ -17,8 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/json-api', 'ApiController@index');
 
 
-
-
 Route::get('/', function() {
     return view('home');
 })->name('home');
@@ -50,11 +48,14 @@ Route::prefix('/admin')->group(function () {
     Route::get('/login', ['uses' => "Auth\LoginController@index"])->name('login');
     Route::post('/login/authenticate', ['uses' => "Auth\LoginController@authenticate"])->name('login.authenticate');
 
-
     Route::get('/register', 'Auth\RegisterController@index')->name('signup');
 
     Route::post('/register', 'Auth\RegisterController@register')->name('register');
+
     Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
+    
+    Route::get('/password', 'Auth\ForgotPasswordController@index')->name('password');
+    Route::post('/password', 'Auth\ForgotPasswordController@update')->name('password.reset');
 
 });
 
@@ -93,16 +94,6 @@ Route::group(['prefix' => '/admin' , 'middleware' => 'backend.auth'], function (
     })->name('customer');
 
     // transaction
-
-    Route::get('/transactions', function () {
-        return view('backend.transactions.index');
-    })->name('transactions');
-
-    Route::get('/transactions-report', function () {
-      return view('backend.transactions.transactions-report');
-    })->name('transactions-report');
-
-
     Route::get('/broadcast', function () {
         return view('backend.broadcasts.send_broadcast');
     })->name('broadcast');
@@ -110,11 +101,9 @@ Route::group(['prefix' => '/admin' , 'middleware' => 'backend.auth'], function (
     Route::get('/broadcast/compose', function () {
             return view('backend.broadcasts.compose_broadcast');
         })->name('compose');
-    // Route::get('/backend/view_transaction/{{$id}}', function () {
-    //     return view('backend.transactions.show');
-    // });
-    Route::get('backend/transactions/', 'TransactionController@index')->name('backend.transaction.index');
 
+    Route::get('/transactions', 'TransactionController@index')->name('transactions');
+    Route::get('/transactions/{id}', 'SingleTransactionController@index')->name('view_transaction');
 
 
 Route::get('/backend/complaint_log' , 'ComplaintlogController@index');
@@ -129,11 +118,8 @@ Route::get('/backend/1123', function () {
 
 // all users
 
-    Route::get('/transactions/{id}', 'SingleTransactionController@index')->name('view_transaction');
-
     Route::get('/users', 'UsersController@index')->name('users');
     Route::get('/users/{id}', 'UsersController@show')->name('user.view');
-
 
 
     Route::get('/debt_reminders', function () {
