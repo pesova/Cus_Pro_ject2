@@ -77,8 +77,6 @@ Route::group(['prefix' => '/admin' , 'middleware' => 'backend.auth'], function (
         return view('backend.customers.index');
     })->name('customers');
 
-// dashboard
-Route::get('/backend/dashboard', 'DashBoardController@dash')->name('dashboard');
 
     // Single Transaction Page
     Route::get('/s-transaction', function () {
