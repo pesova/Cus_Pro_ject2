@@ -63,7 +63,7 @@ Route::prefix('/admin')->group(function () {
 });
 
 // Protected Routes
-Route::group(['prefix' => '/admin' , 'middleware' => 'backend.auth'], function () {
+Route::group(['prefix' => '/admin'], function () {
     Route::get('/activate', 'ActivateController@index')->name('activate.user');
 
     // dashboard
@@ -72,9 +72,13 @@ Route::group(['prefix' => '/admin' , 'middleware' => 'backend.auth'], function (
     })->name('dashboard');
 
     // Customers
-    Route::get('/customers', function () {
-        return view('backend.customers.index');
-    })->name('customers');
+    // Route::get('/customers', function () {
+    //     return view('backend.customers.index');
+    // })->name('customers');
+
+    Route::get('/customers', 'CustomerController@index')->name('customers');
+
+    Route::post('/customers', 'CustomerController@create_customer')->name('customers.new');
 
     // Creditors
     Route::get('/creditor/add', function () {
@@ -124,7 +128,7 @@ Route::get('/backend/1123', function () {
 
 // all users
 
-    Route::get('/transactions/{id}', 'SingleTransactionController@index')->name('view_transaction');
+    Route::get('/transactions/{id}', 'ScustomeringleTransactionController@index')->name('view_transaction');
 
     Route::get('/users', 'UsersController@index')->name('users');
     Route::get('/users/{id}', 'UsersController@show')->name('user.view');

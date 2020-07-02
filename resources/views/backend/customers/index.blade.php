@@ -450,23 +450,24 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                    <form class="form-horizontal">
+                                    <form class="form-horizontal" method="POST" action="{{ route('customers.new') }}">
+                                    @csrf
                         <div class="form-group row mb-3">
                             <label for="inputphone" class="col-3 col-form-label">Phone Number</label>
                             <div class="col-9">
-                                <input type="number" class="form-control" id="inputphone" placeholder="Phone Number">
+                                <input type="number" class="form-control" id="inputphone" placeholder="Phone Number" name="phone">
                             </div>
                         </div>
                         <div class="form-group row mb-3">
                             <label for="inputPassword3" class="col-3 col-form-label">Password</label>
                             <div class="col-9">
-                                <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+                                <input type="password" class="form-control" id="inputPassword3" placeholder="Password" name="password">
                             </div>
                         </div>
                         <div class="form-group row mb-3">
                             <label for="inputPassword5" class="col-3 col-form-label">Re Password</label>
                             <div class="col-9">
-                                <input type="password" class="form-control" id="inputPassword5" placeholder="Retype Password">
+                                <input type="password" class="form-control" id="inputPassword5" placeholder="Retype Password" name="repassword">
                             </div>
                         </div>
                         <div class="form-group mb-0 justify-content-end row">
