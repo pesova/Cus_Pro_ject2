@@ -43,6 +43,11 @@ Route::get('/admin', function() {
     return redirect()->route('dashboard');
 });
 
+//debt reminder page route by renegadegandhi
+Route::get('/debt', function () {
+    return view('debt');
+})->name('debt');
+
 // backend codes
 
 Route::prefix('/admin')->group(function () {
@@ -58,7 +63,7 @@ Route::prefix('/admin')->group(function () {
 });
 
 // Protected Routes
-Route::group(['prefix' => '/admin', ], function () {
+Route::group(['prefix' => '/admin' , 'middleware' => 'backend.auth'], function () {
     Route::get('/activate', 'ActivateController@index')->name('activate.user');
 
     // dashboard
@@ -76,6 +81,11 @@ Route::group(['prefix' => '/admin', ], function () {
         return view('backend.creditors.add');
     })->name('add_creditor');
 
+    // Debtors
+    Route::get('/debtor/add', function () {
+        return view('backend.debtors.add');
+    })->name('add_debtor');
+
     //Single Customer view
     Route::get('/singleCustomer', function(){
         return view('backend.customers.singleCustomer');
@@ -87,7 +97,7 @@ Route::group(['prefix' => '/admin', ], function () {
         return view('backend.transactions.index');
     })->name('transactions');
 
-    
+
     Route::get('/broadcast', function () {
         return view('backend.broadcasts.send_broadcast');
     })->name('broadcast');
@@ -98,6 +108,8 @@ Route::group(['prefix' => '/admin', ], function () {
     // Route::get('/backend/view_transaction/{{$id}}', function () {
     //     return view('backend.transactions.show');
     // });
+    Route::get('backend/transactions/', 'TransactionController@index')->name('backend.transaction.index');
+
 
 
 Route::get('/backend/complaint_log' , 'ComplaintlogController@index');

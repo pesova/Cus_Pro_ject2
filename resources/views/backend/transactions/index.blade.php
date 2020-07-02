@@ -98,65 +98,20 @@
                                 </thead>
 
                                 <tbody>
+                                     @foreach ($transaction as $transaction )
+                                    
+                          
                                     <tr>
-                                        <td>GI671B</td>
-                                        <td>Receivables</td>
-                                        <td>C1290D</td>
-                                        <td>$500.00</td>
-                                        <td>25th July, 2020</td>
-                                        <td><a href="/admin/transactions/5ef0959539c5f01c875d2b6b"><i data-feather="eye"></i></a></td>
+                                        <td>{{$transaction->_id}}</td>
+                                        <td>{{$transaction->transaction_name}}</td>
+                                        <td>{{$transaction->customer_ref_id}}</td>
+                                        <td>{{$transaction->total_amount}}</td>
+                                        {{-- <td>{{ date('d M Y', strtotime($transaction->created_date)) }}</td> --}}
+                                        <td><a href="{{ route('view_transaction', $transaction->_id) }}"><i data-feather="eye"></i></a></td>
 
                                     </tr>
-                                    <tr>
-                                        <td>GI671B</td>
-                                        <td>Paid</td>
-                                        <td>C12ADS</td>
-                                        <td>$500.00</td>
-                                        <td>25th July, 2020</td>
-                                        <td><a href="/admin/transactions/5ef0959539c5f01c875d2b6b"><i data-feather="eye"></i></a></td>
-
-
-                                    </tr>
-                                    <tr>
-                                        <td>GI671B</td>
-                                        <td>Receivables</td>
-                                        <td>C1D90F</td>
-                                        <td>$500.00</td>
-                                        <td>25th July, 2020</td>
-                                        <td><a href="/admin/transactions/5ef0959539c5f01c875d2b6b"><i data-feather="eye"></i></a></td>
-
-
-                                    </tr>
-
-                                    <tr>
-                                        <td>GI671B</td>
-                                        <td>Debt</td>
-                                        <td>C1294E</td>
-                                        <td>$500.00</td>
-                                        <td>25th July, 2020</td>
-                                        <td><a href="/admin/transactions/5ef0959539c5f01c875d2b6b"><i data-feather="eye"></i></a></td>
-
-                                    </tr>
-
-                                    <tr>
-                                        <td>GI671B</td>
-                                        <td>Receivables</td>
-                                        <td>C1290D</td>
-                                        <td>$500.00</td>
-                                        <td>25th July, 2020</td>
-                                        <td><a href="/admin/transactions/5ef0959539c5f01c875d2b6b"><i data-feather="eye"></i></a></td>
-
-                                    </tr>
-
-                                    <tr>
-                                        <td>GI671B</td>
-                                        <td>Paid</td>
-                                        <td>C1290D</td>
-                                        <td>$500.00</td>
-                                        <td>25th July, 2020</td>
-                                        <td><a href="/admin/transactions/5ef0959539c5f01c875d2b6b"><i data-feather="eye"></i></a></td>
-
-                                    </tr>
+                                        @endforeach
+                                   
 
                                 </tbody>
                             </table>
