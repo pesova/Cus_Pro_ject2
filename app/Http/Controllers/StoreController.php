@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Cookie;
 
 class StoreController extends Controller
@@ -16,22 +17,33 @@ class StoreController extends Controller
     public function index()
     {
         //API updated
-        $url = env('API_URL', 'https://dev.api.customerpay.me'). '/store/all'; 
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store/all/' .Cookie::get('user_id') ;
 
         try {
             $client = new Client;
             $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
             $response = $client->request("GET", $url, $payload);
             $statusCode = $response->getStatusCode();
-            $body = $response->getBody()->getContents();
+            $body = $response->getBody();
             $Stores = json_decode($body);
             if ($statusCode == 200) {
-                return view('backend.stores.store_list')->with('response', $Stores);
+                return view('backend.stores.store_list')->with('response', $Stores->data->stores);
             }
-        }  catch (\Exception $e) {
-                view('errors.500');
+        } catch (\Exception $e) {
+            $response = $e->getResponse();
+
+            if ($response->getStatusCode() == 401) {
+                $data = json_decode($response->getBody());
+                Session::flash('message', $data->message);
+                return redirect()->route('stores');
+                // view('backend.stores.store_list')->with('response', []);
             }
-        
+
+            if ($response->getStatusCode() == 500) {
+                Log::error((string) $response->getBody());
+                return view('errors.500');
+            }
+        }
     }
 
     /**
@@ -98,5 +110,6 @@ class StoreController extends Controller
     public function destroy($id)
     {
         //
+
     }
 }

@@ -67,8 +67,33 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {{-- {{ dd($response) }} --}}
+
+                                    @foreach ($response as $store )
                                     <tr>
-                                        <th scope="row">{{isset( $response->id) ? $response->id : "1"}}</th>
+                                    <td>{{$store->_id}} <br> <span class="badge badge-success">Verified</span></td>
+                                    <td>{{$store->store_name}}</td>
+                                    <td>{{$store->shop_address}}</td>
+                                    <td>
+                                        <div class="btn-group mt-2 mr-1">
+                                            <button type="button" class="btn btn-info dropdown-toggle"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Actions<i class="icon"><span data-feather="chevron-down"></span></i>
+                                            </button>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a class="dropdown-item" href="{{ route('store.view') }}">View
+                                                    Store</a>
+                                                <a class="dropdown-item" href="{{ route('store.edit') }}">Edit
+                                                    store</a>
+                                                <a class="dropdown-item" href="#">Delete store</a>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                                    @endforeach
+
+                                        {{-- <th scope="row">{{isset( $response->id) ? $response->id : "0"}}</th>
                                         <td>{{isset( $response->store_name) ? $response->store_name : "Chikoo laundry"}}
                                             <br> <span class="badge badge-success">Verified</span> </td>
                                         <td>12 sentryville, Lagos Nigeria<br> <span class="badge badge-primary">Store
@@ -111,7 +136,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                    </tr>
+                                    </tr> --}}
                                 </tbody>
                             </table>
                         </div>
