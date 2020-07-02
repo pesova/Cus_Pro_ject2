@@ -97,7 +97,7 @@
                                 </thead>
 
                                 <tbody>
-                                     @foreach ($transaction as $transaction )
+                                     @foreach ($transactions as $transaction )
                                     
                           
                                     <tr>

@@ -236,7 +236,7 @@
                                         </form>
                                     </div>
                                 </div>
-                                <div class="tab-pane" id="assistant">
+                                {{-- <div class="tab-pane" id="assistant">
                                     <div class="tile user-settings">
                                         <h4 class="line-head">Staff Assistant</h4>
                                         <div class="row">
@@ -250,7 +250,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
