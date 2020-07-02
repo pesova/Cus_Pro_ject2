@@ -37,10 +37,6 @@ Route::get('/privacy', function () {
     return view('privacy');
 })->name('privacy');
 
-Route::get('/blog', function () {
-    return view('blog');
-})->name('blog');
-
 
 Route::get('/admin', function() {
     return redirect()->route('dashboard');
@@ -57,7 +53,7 @@ Route::prefix('/admin')->group(function () {
     Route::post('/register', 'Auth\RegisterController@register')->name('register');
 
     Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
-
+    
     Route::get('/password', 'Auth\ForgotPasswordController@index')->name('password');
     Route::post('/password', 'Auth\ForgotPasswordController@update')->name('password.reset');
 
@@ -71,7 +67,7 @@ Route::group(['prefix' => '/admin' , 'middleware' => 'backend.auth'], function (
     Route::get('/dashboard', function () {
         return view('backend.dashboard');
     })->name('dashboard');
-
+	
     // Customers
     Route::get('/customers', function () {
         return view('backend.customers.index');
@@ -167,9 +163,13 @@ Route::get('/backend/1123', function () {
     })->name('store.create');
 
 
-    Route::get('/view_store/{id}', 'StoreController@show')->name('store.view');
+    Route::get('/view_store', function () {
+        return view('backend.stores.show');
+    })->name('store.view');
 
-    Route::get('/edit_store/{id}', 'StoreController@edit')->name('store.edit');
+    Route::get('/edit_store', function () {
+        return view('backend.stores.edit');
+    })->name('store.edit');
 
     Route::get('/settings', 'SettingsController@index')->name('settings');
 
@@ -196,7 +196,7 @@ Route::get('/backend/1123', function () {
     Route::get('/notifications', function () {
         return view('backend.notifications.user_notification');
     })->name('notification');
-
+    
     Route::put('/complaint_log/update/{id}' , 'ComplaintlogController@update');
 
 });

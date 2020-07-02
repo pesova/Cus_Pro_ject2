@@ -14,8 +14,7 @@ class ComplaintlogController extends Controller
      */
     public function index()
     {
-        //  $filedata = file_get_contents((env('API_URL') . '/complaint/all'));
-        //  $files = json_decode($filedata, true);
+
         $host = env('API_URL', 'https://dev.api.customerpay.me/');
         $url = $host."/complaint/all";
          try {
@@ -26,14 +25,14 @@ class ComplaintlogController extends Controller
             if ($statusCode == 200) {
                 $body = $response->getBody()->getContents();
                 $complaints = json_decode($body);
-                return view('backend.complaintlog.complaintlog')->with('response', $complaints);
+                dd($complaints);
+                // return view('backend.complaintlog.complaintlog')->with('response', $complaints);
             }
             if ($statusCode == 500) {
                 return view('errors.500');
             }
         } catch (\Exception $e) {
             return view('errors.500');
-            // return view('backend.transactions.index')->with('error', "Unable to connect to server");
         }
     }
 
