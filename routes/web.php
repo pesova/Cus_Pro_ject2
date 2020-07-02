@@ -66,7 +66,7 @@ Route::group(['prefix' => '/admin' , 'middleware' => 'backend.auth'], function (
     Route::get('/dashboard', function () {
         return view('backend.dashboard');
     })->name('dashboard');
-
+	
     // Customers
     Route::get('/customers', function () {
         return view('backend.customers.index');
@@ -210,5 +210,7 @@ Route::get('/backend/1123', function () {
     Route::get('/notifications', function () {
         return view('backend.notifications.user_notification');
     })->name('notification');
+    
+    Route::put('/complaint_log/update/{id}' , 'ComplaintlogController@update');
 
 });
