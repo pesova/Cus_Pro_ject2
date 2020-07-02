@@ -33,6 +33,10 @@ Route::get('/privacy', function () {
     return view('privacy');
 })->name('privacy');
 
+Route::get('/transactions-report', function () {
+    return view('transactions-report');
+})->name('transactions-report');
+
 Route::get('/admin', function() {
     return redirect()->route('dashboard');
 });
