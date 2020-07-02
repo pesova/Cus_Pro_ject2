@@ -80,6 +80,11 @@ Route::group(['prefix' => '/admin' , 'middleware' => 'backend.auth'], function (
         return view('backend.customers.index');
     })->name('customers');
 
+    // Single Transaction Page
+    Route::get('/s-transaction', function () {
+        return view('backend.transactions.s-transaction');
+    });
+
     // Creditors
     Route::get('/creditor/add', function () {
         return view('backend.creditors.add');
