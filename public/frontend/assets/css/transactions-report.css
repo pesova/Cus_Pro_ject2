@@ -1,5 +1,6 @@
 .report {
     padding: 50px 0px 50px 0px;
+    background: #FBFDFE;
 }
 
 .card {
@@ -51,6 +52,9 @@ label {
     .form-control-sm {
         width: 100%;
         height: 45px;
+    }
+    section .container .row {
+        flex-direction: column-reverse;
     }
 }
 

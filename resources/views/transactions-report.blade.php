@@ -7,8 +7,8 @@
 
 @section('content')
 
-<section class="container report">
-    <div>
+<section class=" report">
+    <div class='container'>
         <div class="row">
             <div class="col-md-9 col-lg-9">
             <div class="card 5">
@@ -16,15 +16,15 @@
                     <h5 class="card-title">Transactions Report</h5>
                     <p class="card-text"><span>JohnDoe Enterprises</span></p>
                     <p class="card-textx mb-5">For <span>July 1, 2020 - July 30, 2020</span></p> 
-                        <div class="row">
+                     
 
                             <div class="col">
                             <p class='receivables'>Accounts Receivables (1200-1)</p>
                             </div>
                             <!-- <div class="col"></div>
                             <div class="col"></div> -->
-                            <div class="col"><a href="#" class="btn btn-primary">Button</a></div>
-                        </div>
+                            
+                     
             
                     <!-- <hr class='border-line'> -->
                         <table class="table table-responsive-sm table-responsive-md table-hover">
@@ -65,13 +65,17 @@
                                 </tr>
                             </tbody>
                         </table>
-                      
+                   
                 </div>
+              
                 </div>
+           
             </div>
+
+           
             <div class="col-md-3 col-lg-3">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6 filters">
                         Filters
                     </div>
                  
@@ -106,7 +110,7 @@
                               <option value="">Credit</option>     
                           </select>
                     </div>
-                    <button type="submit" class="btn btn-outline-dark">Apply</button>
+                    <button type="submit" class="btn mb-5 btn-outline-dark">Apply</button>
 
                 </form>
             </div>
