@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Cookie;
 
 use Illuminate\Http\Request;
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Cookie;
 
 class StoreController extends Controller
 {
@@ -15,7 +15,22 @@ class StoreController extends Controller
      */
     public function index()
     {
-        //
+        //API updated
+        $url = env('API_URL', 'https://dev.api.customerpay.me'). '/store/all'; 
+
+        try {
+            $client = new Client;
+            $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+            $response = $client->request("GET", $url, $payload);
+            $statusCode = $response->getStatusCode();
+            $body = $response->getBody()->getContents();
+            $Stores = json_decode($body);
+            if ($statusCode == 200) {
+                return view('backend.stores.store_list')->with('response', $Stores);
+            }
+        }  catch (\Exception $e) {
+                view('errors.500');
+            }
         
     }
 
@@ -35,38 +50,9 @@ class StoreController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function create_store(Request $request)
+    public function store(Request $request)
     {
-        $inputs = [
-            'email' => $request->email,
-            'store_name' => $request->store_name, 
-            'Phone_number' => $request->phone, 
-            'shop_address' => $request->address,
-            'tagline' => $request->tag_line
-        ];
-        $url = env('API_URL', 'https://api.customerpay.me'). '/store/new';
-        
-        try {
-            $client = new Client;
-            $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')], 'form_params' => $inputs];
-            $response = $client->request("POST", $url, $payload);
-            $statusCode = $response->getStatusCode();
-            $body = json_decode($response->getBody()->getContents());
-
-            if ( $statusCode == 201 ) {
-                $request->session()->flash('alert-class', 'alert-success');
-                $request->session()->flash('message', 'Store created successfully');
-            } else {
-                $request->session()->flash('message', $body->message);
-            }
-            return redirect()->route('store.create');
-        }
-        catch ( \Exception $e ) {
-            $response = json_decode($e->getResponse()->getBody()->getContents());
-            $request->session()->flash('message', $response->message);
-            $request->session()->flash('alert-class', 'alert-danger');
-            return redirect()->route('store.create');
-        }
+        //
     }
 
     /**

@@ -7,8 +7,11 @@
 @stop
         @section('content')
                 <div class="content">
-
                     <div class="container-fluid">
+                        @if(Session::has('message') || $errors->any())
+                            <br>
+                            <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
+                        @endif
                         <div class="row page-title">
                             <div class="col-md-12">
                                 <h4 class="mb-1 mt-0 float-left">My Customers</h4>
@@ -140,8 +143,8 @@
                                                                     Actions<i class="icon"><span data-feather="chevron-down"></span></i>
                                                                     </button>
                                                                     <div class="dropdown-menu dropdown-menu-right">
-                                                                        <a class="dropdown-item" 
-                                                                        href="singleCustomer">View Profile</a>
+                                                                        <a class="dropdown-item" href="edit_customer">Edit Customer</a>
+                                                                        <a class="dropdown-item" href="singleCustomer">View Profile</a>                                                                       
                                                                         <a class="dropdown-item" href="#">View Transaction</a>
                                                                         <a class="dropdown-item" href="#">Send Reminder</a>
                                                                     </div>
@@ -306,129 +309,46 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <td scope="row">1</td>
-                                                            <td><img src="/backend/assets/images/users/avatar-5.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
-                                                            <td>Lynda Doe <br>
-                                                                <span class="badge badge-danger">Has Credit</span>
-                                                            </td>
-                                                            <td>+234 90 000 000 00<br>
-                                                            </td>
-                                                            <td>
-                                                                <span> &#8358; 1 500</span> <br>
-                                                                <span class="badge badge-primary">You Paid: 1000</span>
-                                                            </td>
-                                                            <td>
-                                                                <span class="text-danger">&#8358; 500</span>
-                                                            </td>
-                                                            <td>
-                                                                <div class="btn-group mt-2 mr-1">
-                                                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                    Actions<i class="icon"><span data-feather="chevron-down"></span></i>
-                                                                    </button>
-                                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                                        <a class="dropdown-item" 
-                                                                        href="singleCustomer">View Profile</a>
-                                                                        <a class="dropdown-item" href="#">View Transaction</a>
-                                                                        <a class="dropdown-item" href="#">Send Reminder</a>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
 
-                                                        <tr>
-                                                            <td scope="row">2</td>
-                                                            <td><img src="/backend/assets/images/users/avatar-3.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
-                                                            <td>Henry Doe <br>
-                                                                <span class="badge badge-danger">Has Credit</span>
-                                                            </td>
-                                                            <td>+44 0000 123456 <br>
-                                                            </td>
-                                                            <td>
-                                                                <span> &#8358; 2 560</span> <br>
-                                                                <span class="badge badge-primary">You Paid: 2 000</span>
-                                                            </td>
-                                                            <td>
-                                                                <span class="text-danger">&#8358; 560</span>
-                                                            </td>
-                                                            <td>
-                                                                <div class="btn-group mt-2 mr-1">
-                                                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                    Actions<i class="icon"><span data-feather="chevron-down"></span></i>
-                                                                    </button>
-                                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                                        <a class="dropdown-item" 
-                                                                        href="singleCustomer">View Profile</a>
-                                                                        <a class="dropdown-item" href="#">Send Reminder</a>
-                                                                        <a class="dropdown-item" href="#">Call</a>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
+                                                        @isset($response)
+                                                            @if(count($response) > 0)
+                                                                @for ($i = 0; $i < count($response); $i++)
+                                                                <tr>
+                                                                    <td scope="row">{{ $i+ 1 }}</td>
+                                                                    <td><img src="/backend/assets/images/users/avatar-5.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
+                                                                    <td>{{ $response[$i]->name }} <br>
+                                                                        <span class="badge badge-danger">Has Credit</span>
+                                                                    </td>
+                                                                    <td>{{ $response[$i]->phone_number }}<br>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span> &#8358; 1 500</span> <br>
+                                                                        <span class="badge badge-primary">You Paid: 1000</span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span class="text-danger">&#8358; 500</span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="btn-group mt-2 mr-1">
+                                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                            Actions<i class="icon"><span data-feather="chevron-down"></span></i>
+                                                                            </button>
+                                                                            <div class="dropdown-menu dropdown-menu-right">
+                                                                                <a class="dropdown-item" 
+                                                                                href="singleCustomer/{{$response[$i]->_id}}">View Profile</a>
+                                                                                <a class="dropdown-item" href="#">View Transaction</a>
+                                                                                <a class="dropdown-item" href="#">Send Reminder</a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                @endfor
+                                                            @endif
+                                                        @endisset
 
-                                                        <tr>
-                                                            <td scope="row">3</td>
-                                                            <td><img src="/backend/assets/images/users/avatar-1.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
-                                                            <td>John Doe <br>
-                                                                <span class="badge badge-success">Has debt</span>
-                                                            </td>
-                                                            <td>+234 90 000 000 00<br>
-                                                            </td>
-                                                            <td>
-                                                                <span> &#8358; 6 000</span> <br>
-                                                                <span class="badge badge-primary">Paid: 3 500</span>
-                                                            </td>
-                                                            <td>
-                                                                <span class="text-success">&#8358; 2 500</span>
-                                                            </td>
-                                                            <td>
-                                                                <div class="btn-group mt-2 mr-1">
-                                                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                    Actions<i class="icon"><span data-feather="chevron-down"></span></i>
-                                                                    </button>
-                                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                                        <a class="dropdown-item"
-                                                                        href="singleCustomer">View Profile</a>
-                                                                        <a class="dropdown-item" href="#">View Transaction</a>
-                                                                        <a class="dropdown-item" href="#">Send Reminder</a>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td scope="row">4</td>
-                                                            <td><img src="/backend/assets/images/users/avatar-6.jpg" class="avatar-sm rounded-circle" alt="Shreyu" /></td>
-                                                            <td>Mary Doe <br>
-                                                                <span class="badge badge-success">Has Debt</span>
-                                                            </td>
-                                                            <td>+44 0000 123456 <br>
-                                                            </td>
-                                                            <td>
-                                                                <span> &#8358; 10 000</span> <br>
-                                                                <span class="badge badge-primary">Paid: 9 000</span>
-                                                            </td>
-                                                            <td>
-                                                                <span class="text-success">&#8358; 1 000</span>
-                                                            </td>
-                                                            <td>
-                                                                <div class="btn-group mt-2 mr-1">
-                                                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                    Actions<i class="icon"><span data-feather="chevron-down"></span></i>
-                                                                    </button>
-                                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                                        <a class="dropdown-item" 
-                                                                        href="singleCustomer">>View Profile</a>
-                                                                        <a class="dropdown-item" href="#">View Transaction</a>
-                                                                        <a class="dropdown-item" href="#">Send Reminder</a>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
-
+                                            {{$response->links()}}
                                         </div>
                                     </div>
 
@@ -449,26 +369,28 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
+                            
                             <div class="modal-body">
-                                    <form class="form-horizontal">
+                                    <form class="form-horizontal" method="POST" action="{{ route('customers.new') }}">
+                                    @csrf
                         <div class="form-group row mb-3">
                             <label for="inputphone" class="col-3 col-form-label">Phone Number</label>
                             <div class="col-9">
-                                <input type="number" class="form-control" id="inputphone" placeholder="Phone Number">
+                                <input type="number" class="form-control" id="inputphone" placeholder="Phone Number" name="phone">
                             </div>
                         </div>
                         <div class="form-group row mb-3">
-                            <label for="inputPassword3" class="col-3 col-form-label">Password</label>
+                            <label for="inputPassword3" class="col-3 col-form-label">Customer Name</label>
                             <div class="col-9">
-                                <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+                                <input type="tel" class="form-control" id="inputPassword3" placeholder="Customer name" name="name">
                             </div>
                         </div>
-                        <div class="form-group row mb-3">
+                        <!-- <div class="form-group row mb-3">
                             <label for="inputPassword5" class="col-3 col-form-label">Re Password</label>
                             <div class="col-9">
-                                <input type="password" class="form-control" id="inputPassword5" placeholder="Retype Password">
+                                <input type="password" class="form-control" id="inputPassword5" placeholder="Retype Password" name="repassword">
                             </div>
-                        </div>
+                        </div> -->
                         <div class="form-group mb-0 justify-content-end row">
                             <div class="col-9">
                                 <button type="submit" class="btn btn-primary btn-block ">Create User</button>
