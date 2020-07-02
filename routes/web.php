@@ -39,14 +39,10 @@ Route::get('/privacy', function () {
     return view('privacy');
 })->name('privacy');
 
+
 Route::get('/admin', function() {
     return redirect()->route('dashboard');
 });
-
-//debt reminder page route by renegadegandhi
-Route::get('/debt', function () {
-    return view('debt');
-})->name('debt');
 
 // backend codes
 
@@ -80,6 +76,11 @@ Route::group(['prefix' => '/admin'], function () {
 
     Route::post('/customers', 'CustomerController@create_customer')->name('customers.new');
 
+    // Single Transaction Page
+    Route::get('/s-transaction', function () {
+        return view('backend.transactions.s-transaction');
+    });
+
     // Creditors
     Route::get('/creditor/add', function () {
         return view('backend.creditors.add');
@@ -100,6 +101,10 @@ Route::group(['prefix' => '/admin'], function () {
     Route::get('/transactions', function () {
         return view('backend.transactions.index');
     })->name('transactions');
+
+    Route::get('/transactions-report', function () {
+      return view('backend.transactions.transactions-report');
+    })->name('transactions-report');
 
 
     Route::get('/broadcast', function () {
