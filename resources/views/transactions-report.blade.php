@@ -7,25 +7,21 @@
 
 @section('content')
 
+
 <section class=" report">
     <div class='container'>
         <div class="row">
             <div class="col-md-9 col-lg-9">
             <div class="card 5">
+                <!-- Card begins here -->
                 <div class="card-body">
                     <h5 class="card-title">Transactions Report</h5>
                     <p class="card-text"><span>JohnDoe Enterprises</span></p>
                     <p class="card-textx mb-5">For <span>July 1, 2020 - July 30, 2020</span></p> 
                      
-
                             <div class="col">
                             <p class='receivables'>Accounts Receivables (1200-1)</p>
-                            </div>
-                            <!-- <div class="col"></div>
-                            <div class="col"></div> -->
-                            
-                     
-            
+                            </div> 
                     <!-- <hr class='border-line'> -->
                         <table class="table table-responsive-sm table-responsive-md table-hover">
                             <thead>
@@ -80,6 +76,8 @@
                     </div>
                  
                 </div>
+
+                <!-- Filter here -->
                 <form action="">
                     <div class="form-group">
                         <label for="date_range" class="savings-label mt-4">  Date Range</label>
