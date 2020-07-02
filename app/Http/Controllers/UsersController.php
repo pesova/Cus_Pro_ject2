@@ -78,23 +78,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        $url = env('API_URL', 'https://api.customerpay.me/'). "/user/$id";
-
-        try {
-            $client = new Client();
-            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
-            $response = $client->request('GET', $url, $headers);
-            $statusCode = $response->getStatusCode();
-            $body = $response->getBody()->getContents();
-            $user = json_decode($body);
-            // return $body;
-            if ($statusCode == 500) {
-                return view('errors.500');
-            }
-            return view('backend.users_list.show')->with('response', $user);
-        } catch (\Exception $e) {
-            return view('errors.500');
-        }
+    	//
     }
 
     /**
@@ -117,7 +101,7 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+    	//
     }
 
     /**

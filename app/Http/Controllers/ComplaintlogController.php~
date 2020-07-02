@@ -107,7 +107,7 @@ class ComplaintlogController extends Controller
 			if ($statusCode == 200) {
                 $body = $req->getBody()->getContents();
                 $response = json_decode($body);
-                return redirect()->route('complaint.log');
+                return return redirect()->route('complaint.log');
             }
             if ($statusCode == 500) {
                 return view('errors.500');
