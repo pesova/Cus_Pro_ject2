@@ -102,7 +102,7 @@ class RegisterController extends Controller
                 }
 
                 if($response->getStatusCode() == 200) {
-                    $res = json_decode($response->getBody(), true);
+                    $res = json_decode($response->getBody());
 
                     $request->session()->flash('message', $res['Message']);
                     $request->session()->flash('alert-class', 'alert-danger');
