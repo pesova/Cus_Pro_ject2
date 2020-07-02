@@ -92,6 +92,8 @@ Route::group(['prefix' => '/admin', 'middleware' => 'backend.auth'], function ()
     // Route::get('/backend/view_transaction/{{$id}}', function () {
     //     return view('backend.transactions.show');
     // });
+    Route::get('backend/transactions/', 'TransactionController@index')->name('backend.transaction.index');
+
 
     Route::get('/transactions/{id}', 'SingleTransactionController@index')->name('view_transaction');
 
