@@ -1,10 +1,7 @@
 @extends('layout.frontbase')
 @section("custom_css")
-<!-- <link href="/frontend/assets/css/faq.css" rel="stylesheet" type="text/css" /> -->
-<link rel="stylesheet" href="/frontend/assets/css/privacy.css">
-<link rel="stylesheet" href="/frontend/assets/css/blog.css">
+    <link rel="stylesheet" href="/frontend/assets/css/blog.css">
 @stop
-
 
 @section('content')
 
