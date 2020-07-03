@@ -52,7 +52,7 @@ Route::prefix('/admin')->group(function () {
     Route::group(['middleware' => 'backend.auth'], function () {
 
         // activation
-        Route::get('/activate', 'UserController@index')->name('activate.user');
+        Route::get('/activate', 'UsersController@index')->name('activate.user');
 
         // dashboard, creditor, debtor
         Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
