@@ -11,7 +11,7 @@
                 <div class="row page-title">
                     <div class="col-md-12">
                         <nav aria-label="breadcrumb" class="float-right mt-1">
-                            <a href="/admin/stores" class="btn btn-primary">Go Back</a>
+                            <a href="{{ route('store.index') }}" class="btn btn-primary">Go Back</a>
                         </nav>
                         <h4 class="mt-2">Create A Store</h4>
                     </div>
@@ -35,7 +35,7 @@
                      <div class="col-lg-12">
                          <div class="card">
                             <div class="card-body">
-                                    <form action="{{ route('store.create') }}" method="POST">
+                                    <form action="{{ route('store.store') }}" method="POST">
                                         @csrf
                                         <div class="form-row">
                                           <div class="form-group col-md-6">
