@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Cookie;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+// Route::get('/json-api', 'ApiController@index');
 
 // Unauthenticated Routes
 
@@ -58,6 +61,13 @@ Route::prefix('/admin')->group(function () {
         Route::get('/analytics', 'DashboardController@analytics')->name('analytics');
         Route::get('/notification', 'DashboardController@notification')->name('notification');
 
+        Route::get('/activate', function() {
+            return view('backend.user.activate')->with([
+                'apiToken' => Cookie::get('apiToken'),
+                'phoneNumber' => Cookie::get('phone_number')
+            ]);
+        })->name('activate.user');
+
 
         // customer crud
         Route::resource('customer', 'CustomerController');
@@ -85,6 +95,11 @@ Route::prefix('/admin')->group(function () {
 
         // user crud
         Route::resource('users', 'UsersController');
+
+        // change locations
+        Route::get('/change-loc', function () {
+            return view('backend.location.change_loc');
+        });
 
         // super admin protected routes
         Route::group(['middleware' => 'backend.super.admin'], function () {

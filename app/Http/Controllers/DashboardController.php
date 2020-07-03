@@ -6,11 +6,13 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         return view('backend.dashboard.index');
     }
 
-    public function creditor(){
-        return view('backend.creditors.add');
+    public function notification()
+    {
+        return view('backend.dashboard.notification');
     }
 }
