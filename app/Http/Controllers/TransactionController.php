@@ -85,7 +85,7 @@ class TransactionController extends Controller
             'total_amount' => 'required',
             'description' => 'required',
             'transaction_name' => 'required',
-            'transaction_role' => 'required',
+            'type' => 'required',
             'store_name' => 'required',
             'phone_number' => 'required'
         ]);
@@ -102,7 +102,7 @@ class TransactionController extends Controller
                         'total_amount' => $request->input('total_amount'),
                         'description' => $request->input('description'),
                         'transaction_name' => $request->input('transaction_name'),
-                        'transaction_role' => $request->input('transaction_role'),
+                        'type' => $request->input('type'),
                         'store_name' => $request->input('store_name'),
                         'phone_number' => $request->input('phone_number'),
                     ],
