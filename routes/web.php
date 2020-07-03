@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/json-api', 'ApiController@index');
+// Route::get('/json-api', 'ApiController@index');
 
 // Unauthenticated Routes
 
@@ -27,6 +27,7 @@ Route::get('/contact', function () {return view('contact');})->name('contact');
 
 Route::get('/privacy', function () {return view('privacy');})->name('privacy');
 
+Route::get('/blog', function () {return view('blog');})->name('blog');
 
 Route::get('/admin', function() { return redirect()->route('dashboard');});
 
@@ -51,18 +52,40 @@ Route::prefix('/admin')->group(function () {
     Route::group(['middleware' => 'backend.auth'], function () { 
         
         // activation
-        Route::get('/activate', 'ActivateController@index')->name('activate.user');
+        Route::get('/activate', 'UserController@index')->name('activate.user');
 
         // dashboard, creditor, debtor
         Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
         Route::get('/creditor', 'DashboardController@creditor')->name('creditor');
-        Route::get('/debtor', 'DashboardController@debtor')->name('debtor');
+        Route::get('/debt/reminder', 'DashboardController@debt_reminder')->name('debt.reminder');
+        Route::get('/analytics', 'DashboardController@analytics')->name('analytics');
+        Route::get('/setting', 'DashboardController@setting')->name('setting');
+        Route::get('/notification', 'DashboardController@notification')->name('notification');
+
 
         // customer crud
         Route::resource('customer', 'CustomerController');
 
+        // debtor crud
+        Route::resource('debtor', 'DebtorController');
+
         // transaction crud
         Route::resource('transaction', 'TransactionController');
+
+        // store crud
+        Route::resource('store', 'StoreController');
+
+        // assistant crud
+        Route::resource('assistant', 'AssistantController');
+
+        // broadcast crud
+        Route::resource('broadcast', 'BroadcastController');
+
+        // complaint crud
+        Route::resource('complaint', 'ComplaintController');
+
+        // user crud
+        Route::resource('user', 'UserController');
 
     });
 });

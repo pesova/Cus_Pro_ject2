@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 
-class CustomerController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +14,15 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        return view('backend.customer.index');
+        return redirect()->route('dashboard');
+
+        // if (Cookie::get('is_active') == true) {
+        //     return redirect()->route('dashboard');
+        // }
+
+        // $api_token = Cookie::get('api_token');
+        // $phone_number = Cookie::get('phone_number');
+        // return view("backend.user.activate")->withApiToken($api_token)->withPhoneNumber($phone_number);
     }
 
     /**
@@ -23,7 +32,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        return view('backend.customer.create');
+        //
     }
 
     /**
@@ -45,7 +54,7 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-        return view('backend.customer.show');
+        //
     }
 
     /**
@@ -56,7 +65,7 @@ class CustomerController extends Controller
      */
     public function edit($id)
     {
-        return view('backend.customer.edit');
+        //
     }
 
     /**

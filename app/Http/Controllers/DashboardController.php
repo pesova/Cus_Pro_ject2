@@ -25,15 +25,37 @@ class DashboardController extends Controller
     { 
         return view('backend.dashboard.creditor');
     }
-
+    
      /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function debtor(Request $request)
+    public function analytics(Request $request)
     { 
-        return view('backend.dashboard.debtor');
+        return view('backend.dashboard.analytics');
     }
+
+        
+     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function debt_reminder(Request $request)
+    { 
+        return view('backend.dashboard.debt_reminder');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function setting(Request $request)
+    { 
+        return view('backend.dashboard.setting');
+    }
+
 
 }

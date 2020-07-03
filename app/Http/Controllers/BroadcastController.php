@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class CustomerController extends Controller
+class BroadcastController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +13,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        return view('backend.customer.index');
+        return view('backend.broadcast.create');
     }
 
     /**
@@ -23,7 +23,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        return view('backend.customer.create');
+        return view('backend.broadcast.send');
     }
 
     /**
@@ -45,7 +45,7 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-        return view('backend.customer.show');
+        //
     }
 
     /**
@@ -56,7 +56,7 @@ class CustomerController extends Controller
      */
     public function edit($id)
     {
-        return view('backend.customer.edit');
+        //
     }
 
     /**
