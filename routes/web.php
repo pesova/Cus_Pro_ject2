@@ -29,8 +29,6 @@ Route::get('/privacy', function () {return view('privacy');})->name('privacy');
 
 Route::get('/blog', function () {return view('blog');})->name('blog');
 
-Route::get('/admin', function() { return redirect()->route('dashboard');});
-
 // backend codes
 Route::prefix('/admin')->group(function () {
 
@@ -55,6 +53,9 @@ Route::prefix('/admin')->group(function () {
         Route::get('/activate', 'UsersController@activate')->name('activate.user');
 
         // dashboard, creditor, debtor
+        Route::get('/admin', function () {
+            return redirect()->route('dashboard');
+        });
         Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
         Route::get('/creditor', 'DashboardController@creditor')->name('creditor');
         Route::get('/analytics', 'DashboardController@analytics')->name('analytics');
@@ -87,6 +88,11 @@ Route::prefix('/admin')->group(function () {
 
         // user crud
         Route::resource('users', 'UsersController');
+
+        // change locations
+        Route::get('/change-loc', function () {
+            return view('backend.location.change_loc');
+        });
 
         // super admin protected routes
         Route::group(['middleware' => 'backend.super.admin'], function () {
