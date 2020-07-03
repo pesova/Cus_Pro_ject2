@@ -124,6 +124,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            
             <div class="modal-body">
                 <form class="form-horizontal" method="POST" action="/admin/transaction">
                     @csrf
