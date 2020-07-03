@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator; // NAMESPACE FOR PAGINATOR
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class CustomerController extends Controller
 {
@@ -14,7 +16,7 @@ class CustomerController extends Controller
 
     public function __construct()
     {
-        $this->host = env('API_URL', 'https://api.customerpay.me/');
+        $this->host = env('API_URL', 'https://dev.api.customerpay.me/');
     }
 
 
@@ -25,34 +27,36 @@ class CustomerController extends Controller
      */
     public function index( Request $request )
     {
+        $response = [];
+        return view('backend.customer.index')->with($response);
         //
-        try {
-            $url = env('API_URL', 'https://api.customerpay.me/'). 'customer/all' ;
-            $client = new Client();
-            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
-            $user_response = $client->request('GET', $url, $headers);
+        // try {
+        //     $url = env('API_URL', 'https://dev.api.customerpay.me/'). 'customer/all' ;
+        //     $client = new Client();
+        //     $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+        //     $user_response = $client->request('GET', $url, $headers);
 
-            if ( $user_response->getStatusCode() == 200 ) {
-                $users = json_decode($user_response->getBody());
+        //     if ( $user_response->getStatusCode() == 200 ) {
+        //         $users = json_decode($user_response->getBody());
 
-                // start pagination
-                $perPage = 10;
-                $page = $request->get('page', 1);
-                if ($page > count($users->data) or $page < 1) {
-                    $page = 1;
-                }
-                $offset = ($page * $perPage) - $perPage;
-                $articles = array_slice($users->data, $offset, $perPage);
-                $datas = new Paginator($articles, count($users->data), $perPage);
+        //         // start pagination
+        //         $perPage = 10;
+        //         $page = $request->get('page', 1);
+        //         if ($page > count($users->data) or $page < 1) {
+        //             $page = 1;
+        //         }
+        //         $offset = ($page * $perPage) - $perPage;
+        //         $articles = array_slice($users->data, $offset, $perPage);
+        //         $datas = new Paginator($articles, count($users->data), $perPage);
 
-                return view('backend.customer.index')->with('response', $datas->withPath('/'.$request->path()));
-            }
-            if ($user_response->getStatusCode() == 500) {
-                return view('errors.500');
-            }
-        } catch(\Exception $e) {
-            return view('errors.500');
-        }
+        //         return view('backend.customer.index')->with('response', $datas->withPath('/'.$request->path()));
+        //     }
+        //     if ($user_response->getStatusCode() == 500) {
+        //         return view('errors.500');
+        //     }
+        // } catch(\Exception $e) {
+        //     return view('errors.500');
+        // }
     }
 
     /**
@@ -115,6 +119,62 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         //
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/customer/new/';
+
+        if ($request->isMethod('post')) {
+            $request->validate([
+                'store_name' => 'required',
+                'phone_number' =>  'required',
+                'name' => 'required',
+            ]);
+
+            try {
+
+                $client =  new Client();
+                $payload = [
+                    'headers' => ['x-access-token' => Cookie::get('api_token')],
+                    'form_params' => [
+                        'store_name' => $request->input('store_name'),
+                        'phone_number' => $request->input('phone_number'),
+                        'name' => $request->input('name'),
+                    ],
+
+                ];
+
+                $response = $client->request("POST", $url, $payload);
+
+                $statusCode = $response->getStatusCode();
+                $body = $response->getBody();
+                $data = json_decode($body);
+
+                if ($statusCode == 201  && $data->success) {
+                    $request->session()->flash('alert-class', 'alert-success');
+                    Session::flash('message', $data->message);
+                    // return $this->index();
+                } else {
+                    $request->session()->flash('alert-class', 'alert-waring');
+                    Session::flash('message', $data->message);
+                    return redirect()->view('backend.customer.create');
+                }
+            } catch (RequestException $e) {
+                $response = $e->getResponse();
+                $statusCode == $response->getStatusCode();
+
+                if ($statusCode  == 500) {
+                    Log::error((string) $response->getBody());
+                    return view('errors.500');
+                }
+
+                $data = json_decode($response->getBody());
+                Session::flash('message', $data->message);
+                return redirect()->route('store.create');
+            } catch (Exception $e) {
+                Log::error((string) $response->getBody());
+                return view('errors.500');
+            }
+        }
+
+        return view('backend.customer.index');
     }
 
     /**
