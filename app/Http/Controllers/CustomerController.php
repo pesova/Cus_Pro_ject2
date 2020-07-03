@@ -3,20 +3,60 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 use GuzzleHttp\Client;
+use Illuminate\Pagination\LengthAwarePaginator as Paginator; // NAMESPACE FOR PAGINATOR
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class CustomerController extends Controller
 {
+
+    protected $host;
+
+    public function __construct()
+    {
+        $this->host = env('API_URL', 'https://dev.api.customerpay.me/');
+    }
+
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index( Request $request )
     {
-        return view('backend.customer.index');
+        $response = [];
+        return view('backend.customer.index')->with($response);
+        //
+        // try {
+        //     $url = env('API_URL', 'https://dev.api.customerpay.me/'). 'customer/all' ;
+        //     $client = new Client();
+        //     $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+        //     $user_response = $client->request('GET', $url, $headers);
+
+        //     if ( $user_response->getStatusCode() == 200 ) {
+        //         $users = json_decode($user_response->getBody());
+
+        //         // start pagination
+        //         $perPage = 10;
+        //         $page = $request->get('page', 1);
+        //         if ($page > count($users->data) or $page < 1) {
+        //             $page = 1;
+        //         }
+        //         $offset = ($page * $perPage) - $perPage;
+        //         $articles = array_slice($users->data, $offset, $perPage);
+        //         $datas = new Paginator($articles, count($users->data), $perPage);
+
+        //         return view('backend.customer.index')->with('response', $datas->withPath('/'.$request->path()));
+        //     }
+        //     if ($user_response->getStatusCode() == 500) {
+        //         return view('errors.500');
+        //     }
+        // } catch(\Exception $e) {
+        //     return view('errors.500');
+        // }
     }
 
     /**
@@ -26,7 +66,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        return view('backend.customer.create');
+        //
     }
 
     /**
@@ -35,9 +75,106 @@ class CustomerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function create_customer(Request $request)
+    {
+        //
+        try {
+            $client = new Client;
+            $inputs = [
+                'phone_number' => $request->phone,
+                'name' => $request->name
+            ];
+            $payload = [
+                'headers' => [
+                    'x-access-token' => Cookie::get('api_token')
+                ],
+                'form_params' => [
+                    'phone' => $request->phone,
+                    'name' => $request->name
+                ]
+            ];
+
+            $url = $this->host.'customer/new';
+            $response = $client->request("POST", $url, $payload);
+            $data = json_decode($response->getBody());
+
+            if ( $response->getStatusCode() == 200 ) {
+                $request->session()->flash('alert-class', 'alert-success');
+                $request->session()->flash('message', 'Customer created successfully');
+            } else {
+                $request->session()->flash('alert-class', 'alert-danger');
+                $request->session()->flash('message', $data->message || 'An error occured');
+            }
+
+            return redirect()->route('customers');
+        } catch ( \Exception $e ) {
+            $data = json_decode($e->getBody()->getContents());
+            $request->session()->flash('alert-class', 'alert-danger');
+            $request->session()->flash('message', $data->message);
+
+            return redirect()->route('customers');
+        }
+    }
+        
     public function store(Request $request)
     {
         //
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/customer/new/';
+
+        if ($request->isMethod('post')) {
+            $request->validate([
+                'store_name' => 'required',
+                'phone_number' =>  'required',
+                'name' => 'required',
+            ]);
+
+            try {
+
+                $client =  new Client();
+                $payload = [
+                    'headers' => ['x-access-token' => Cookie::get('api_token')],
+                    'form_params' => [
+                        'store_name' => $request->input('store_name'),
+                        'phone_number' => $request->input('phone_number'),
+                        'name' => $request->input('name'),
+                    ],
+
+                ];
+
+                $response = $client->request("POST", $url, $payload);
+
+                $statusCode = $response->getStatusCode();
+                $body = $response->getBody();
+                $data = json_decode($body);
+
+                if ($statusCode == 201  && $data->success) {
+                    $request->session()->flash('alert-class', 'alert-success');
+                    Session::flash('message', $data->message);
+                    // return $this->index();
+                } else {
+                    $request->session()->flash('alert-class', 'alert-waring');
+                    Session::flash('message', $data->message);
+                    return redirect()->view('backend.customer.create');
+                }
+            } catch (RequestException $e) {
+                $response = $e->getResponse();
+                $statusCode == $response->getStatusCode();
+
+                if ($statusCode  == 500) {
+                    Log::error((string) $response->getBody());
+                    return view('errors.500');
+                }
+
+                $data = json_decode($response->getBody());
+                Session::flash('message', $data->message);
+                return redirect()->route('store.create');
+            } catch (Exception $e) {
+                Log::error((string) $response->getBody());
+                return view('errors.500');
+            }
+        }
+
+        return view('backend.customer.index');
     }
 
     /**
@@ -46,6 +183,30 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function viewCustomer($id)
+    {
+        //
+        if ( !$id || empty($id) ) {
+            return view('errors.500');
+        }
+
+        try {
+            $url = $this->host.'customer/'.$id;
+            $client = new Client;
+            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+            $response = $client->request("GET", $url, $headers);
+            $data = json_decode($response->getBody());
+
+            if ( $response->getStatusCode() == 200 ) {
+                return view('backend.customer.show')->with('response', $data->data);
+            } else {
+                return view('errors.500');
+            }
+        } catch ( \Exception $e ) {
+            return view('errors.500');
+        }
+    }
+    
     public function show($id)
     {
         return view('backend.customer.show');
@@ -59,7 +220,26 @@ class CustomerController extends Controller
      */
     public function edit($id)
     {
-        return view('backend.customer.edit');
+        //
+        if ( !$id || empty($id) ) {
+            return view('errors.500');
+        }
+
+        try {
+            $url = $this->host.'customer/'.$id;
+            $client = new Client;
+            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+            $response = $client->request("GET", $url, $headers);
+            $data = json_decode($response->getBody());
+            
+            if ( $response->getStatusCode() == 200 ) {
+                return view('backend.customer.edit')->with('response', $data->data);
+            } else {
+                return view('errors.500');
+            }
+        } catch ( \Exception $e ) {
+            return view('errors.500');
+        }
     }
 
     /**
@@ -71,45 +251,42 @@ class CustomerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/customer/update/$id';
+        $request->validate([
+          'name' => 'required',
+          'phone' => 'required',
+          'email' => 'required'
+        ]);
 
-        if ($request->isMethod('post')) {
-            $request->validate([
-                'name' => 'required',
-                'email' =>  'required',
-                'phone' => 'required'
-            ]);
-
-            try {
-
-                $client =  new Client();
-                $data = [
-                    'form_params' => [
-                        'name' => $request->input('full_name'),
-                        'email' => $request->input('email'),
-                        'phone' => $request->input('phone_number')
-                    ]
-                ];
-                
-                $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
-
-                $req = $client->request('PUT', $url, $headers, $data);
-
-                $statusCode = $response->getStatusCode();
-
-                if ($statusCode == 200) {
-                    $request->session()->flash('alert-class', 'alert-success');
-                    $request->session()->flash('message', 'Customer Details Updated Successfully');
-                } else {
-                    $request->session()->flash('alert-class', 'alert-danger');
-                    $request->session()->flash('message', 'Customer Details Update Failed');
-                }
+        try {
+            $url = $this->host.'customer/update/'.$id;
+            $client = new Client;
+            $payload = [
+                'headers' => ['x-access-token' => Cookie::get('api_token')],
+                'form_params' => [
+                    'name' => $request->name,
+                    'phone' => $request->phone,
+                    'email' => $request->email
+                ]
+            ];
+            $response = $client->request("PUT", $url, $payload);
+            $data = json_decode($response->getBody());
+            
+            if ( $response->getStatusCode() == 200 ) {
+                $request->session()->flash('alert-class', 'alert-success');
+                $request->session()->flash('message', 'Customer updated successfully');
+            
                 return redirect()->back();
-            } catch (\Exception $e) {
-                $data = json_decode($e->getBody()->getContents());
+            } else {
                 $request->session()->flash('alert-class', 'alert-danger');
-                $request->session()->flash('msg', $data->message);
+                $request->session()->flash('message', 'Customer update failed');
             }
+
+        } catch ( \Exception $e ) {
+            $data = json_decode($e->getBody()->getContents());
+            $request->session()->flash('alert-class', 'alert-danger');
+            $request->session()->flash('message', $data->message);
+
+            return redirect()->back();
         }
     }
 
