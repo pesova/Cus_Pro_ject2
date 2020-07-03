@@ -1,19 +1,19 @@
 <li>
-    <a href="{{ route('customers') }}">
+    <a href="{{ route('customer.index') }}">
         <i class='uil uil-chat-bubble-user'></i>
         <span> Customers </span>
     </a>
 </li>
 
 <li>
-    <a href="{{ route('transactions') }}">
+    <a href="{{ route('transaction.index') }}">
         <i data-feather="credit-card"></i>
         <span> Transactions </span>
     </a>
 </li>
 
 <li>
-    <a href="{{ route('stores') }}">
+    <a href="{{ route('store.index') }}">
         <i class="uil uil-shop"></i>
         <span>Stores</span>
     </a>
@@ -27,43 +27,45 @@
 </li>
 
 <li>
-    <a href="{{ route('debts.reminder') }}">
+    <a href="{{ route('debt.reminder') }}">
         <i data-feather="bell"></i>
         <span> Debt Reminders </span>
     </a>
 </li>
 
 <li>
-    <a href="{{ route('assistants.add') }}">
+    <a href="{{ route('assistant.create') }}">
         <i data-feather="users"></i>
         <span> Add Assistant </span>
     </a>
 </li>
 
 <li>
-    <a href="{{ route('broadcast') }}">
+    <a href="{{ route('broadcast.create') }}">
         <i data-feather="message-square"></i>
         <span> Broadcast Message </span>
     </a>
 </li>
 <li>
-    <a href="{{ route('complaint.form') }}">
+    <a href="{{ route('complaint.create') }}">
         <i data-feather="book-open"></i>
         <span> Complaint Forms </span>
     </a>
 </li>
 <li>
-    <a href="{{ route('complaint.log') }}">
+    <a href="{{ route('complaint.index') }}">
         <i data-feather="book"></i>
         <span> Complaint Log </span>
     </a>
 </li>
 <li>
-    <a href="{{ route('settings') }}">
+    <a href="{{ route('setting') }}">
         <i class="uil  uil-cog"></i>
         <span> Settings </span>
     </a>
 </li>
+
+
 <li>
     <a href="{{ route('notification') }}">
         <i data-feather="bell"></i>
@@ -71,10 +73,9 @@
     </a>
 </li>
 
-
-{{-- Todo: REmove this. it is only for super admin --}}
+{{--todo: Remove this. it is for super admin only--}}
 <li>
-    <a href="{{ route('users') }}">
+    <a href="{{ route('user.index') }}">
         <i data-feather="users"></i>
         <span> Users </span>
     </a>
