@@ -22,18 +22,22 @@ class StoreController extends Controller
         // return view('backend.stores.index');
 
         // API updated
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store' .'/' . Cookie::get('user_id');
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store/';
 
         try {
+
             $client = new Client;
             $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+
             $response = $client->request("GET", $url, $payload);
             $statusCode = $response->getStatusCode();
             $body = $response->getBody();
             $Stores = json_decode($body);
+
             if ($statusCode == 200) {
                 return view('backend.stores.index')->with('response', $Stores->data->stores);
             }
+
         } catch (RequestException $e) {
 
             Log::info('Catch error: LoginController - ' . $e->getMessage());
@@ -50,10 +54,10 @@ class StoreController extends Controller
             return redirect()->route('store.index', ['response' => []]);
 
         } catch (\Exception $e) {
+
             //log error;
             Log::error('Catch error: StoreController - ' . $e->getMessage());
             return view('errors.500');
-
         }
     }
 
@@ -75,7 +79,7 @@ class StoreController extends Controller
      */
     public function store(Request $request)
     {
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store/new/' . Cookie::get('user_id');
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store/new';
 
         if ($request->isMethod('post')) {
             $request->validate([
@@ -115,7 +119,7 @@ class StoreController extends Controller
                 }
             } catch (RequestException $e) {
                 $response = $e->getResponse();
-                $statusCode == $response->getStatusCode();
+                $statusCode = $response->getStatusCode();
 
                 if ($statusCode  == 500) {
                     Log::error((string) $response->getBody());
@@ -145,7 +149,7 @@ class StoreController extends Controller
         // return view('backend.stores.index');
 
         // API updated
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store' .'/' . Cookie::get('user_id');
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store/?' . $id;
 
         try {
             $client = new Client;
@@ -156,7 +160,7 @@ class StoreController extends Controller
             $Stores = json_decode($body);
             if ($statusCode == 200) {
                 $store =  $Stores->data->stores[0];
-                dd($store);
+                // dd($store);
                 return view('backend.stores.show')->with('response', $store);
             }
         } catch (RequestException $e) {
@@ -170,7 +174,8 @@ class StoreController extends Controller
             // get response to catch 4xx errors
             $response = json_decode($e->getResponse()->getBody());
             Session::flash('alert-class', 'alert-danger');
-            Session::flash('message', $response->error->description);
+            // dd($response);
+            Session::flash('message', $response->message);
             return redirect()->route('store.index', ['response' => []]);
 
         } catch (\Exception $e) {
