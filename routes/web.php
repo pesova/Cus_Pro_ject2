@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Route::get('/json-api', 'ApiController@index');
+
 // Unauthenticated Routes
 
 Route::get('/', function() {return view('home');})->name('home');
@@ -85,6 +87,11 @@ Route::prefix('/admin')->group(function () {
 
         // user crud
         Route::resource('users', 'UsersController');
+
+        // change locations
+        Route::get('/change-loc', function () {
+            return view('backend.location.change_loc');
+        });
 
         // super admin protected routes
         Route::group(['middleware' => 'backend.super.admin'], function () {
