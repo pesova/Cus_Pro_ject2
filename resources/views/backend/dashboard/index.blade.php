@@ -171,14 +171,8 @@
                                     <th scope="col"></th>
                                 </tr>
                             </thead>
+                            
                             <tbody>
-                                <tr>
-                                    <td>#98754</td>
-                                    <td>Debt</td>
-                                    <td>Otto B</td>
-                                    <td>$79.49</td>
-                                    <td> <a href="#"><span class="badge badge-soft-warning py-1">View</span></a> </td>
-                                </tr>
                                 <tr>
                                     <td>#98754</td>
                                     <td>Debt</td>
