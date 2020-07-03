@@ -46,7 +46,7 @@ class StoreController extends Controller
             // get response to catch 4xx errors
             $response = json_decode($e->getResponse()->getBody());
             Session::flash('alert-class', 'alert-danger');
-            Session::flash('message', $response->error->description);
+            Session::flash('message', $response->errors->description);
             return redirect()->route('store.index', ['response' => []]);
 
         } catch (\Exception $e) {
