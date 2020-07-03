@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Cookie;
 class UsersController extends Controller
 {
 
-    
 
     public function activate(Request $request)
     {
@@ -62,14 +61,14 @@ class UsersController extends Controller
 
         // try {
 
-        //     $url = env('API_URL', 'https://dev.api.customerpay.me'). '/user/all' ;
+        //     $url = env('API_URL', 'https://api.customerpay.me'). '/user/all' ;
         //     $client = new Client();
         //     $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
         //     $user_response = $client->request('GET', $url, $headers);
 
         //     if ( $user_response->getStatusCode() == 200 ) {
 
-        //         $users = json_decode($user_response->getBody(), true);
+        //         $users = json_decode($user_response->getBody()->getContents(), true);
 
         //         $perPage = 10;
         //         $page = $request->get('page', 1);
@@ -80,7 +79,7 @@ class UsersController extends Controller
         //         $articles = array_slice($users, $offset, $perPage);
         //         $datas = new Paginator($articles, count($users), $perPage);
 
-        //         return view('backend.users_list.index')->with('response', $datas->withPath('/'.$request->path()));
+        //         return view('backend.user.index')->with('response', $datas->withPath('/'.$request->path()));
         //     }
         //     if ($user_response->getStatusCode() == 500) {
 
@@ -125,23 +124,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        $url = env('API_URL', 'https://api.customerpay.me/'). "/user/$id";
-
-        try {
-            $client = new Client();
-            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
-            $response = $client->request('GET', $url, $headers);
-            $statusCode = $response->getStatusCode();
-            $body = $response->getBody()->getContents();
-            $user = json_decode($body);
-            // return $body;
-            if ($statusCode == 500) {
-                return view('errors.500');
-            }
-            return view('backend.users_list.show')->with('response', $user);
-        } catch (\Exception $e) {
-            return view('errors.500');
-        }
+    	//
     }
 
     /**
@@ -164,7 +147,7 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+    	//
     }
 
     /**
