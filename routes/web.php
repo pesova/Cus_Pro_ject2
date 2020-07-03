@@ -101,6 +101,10 @@ Route::prefix('/admin')->group(function () {
             return view('backend.location.change_loc');
         });
 
+        Route::get('/debt_reminders', function () {
+            return redirect('/admin/debtor/create');
+        })->name('debts.reminder');
+
         // super admin protected routes
         Route::group(['middleware' => 'backend.super.admin'], function () {
             // Route::get('/users', 'UsersController@index')->name('users');
