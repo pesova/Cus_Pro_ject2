@@ -129,8 +129,8 @@ class UsersController extends Controller
            $statusCode = $response->getStatusCode();
            if ($statusCode == 200) {
                $body = $response->getBody()->getContents();
-               $transactions = json_decode($body);
-               return view('backend.dashboard.index')->with('response', $transactions);
+               $users = json_decode($body);
+               return view('backend.dashboard.index')->with('response', $users);
            }
            if ($statusCode == 500) {
                return view('errors.500');
