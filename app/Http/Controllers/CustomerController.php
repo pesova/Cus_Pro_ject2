@@ -84,11 +84,13 @@ class CustomerController extends Controller
 
                 $client =  new Client();
                 $data = [
-                    'form_params' [
+                    'form_params' => [
                         'name' => $request->input('full_name'),
                         'email' => $request->input('email'),
                         'phone' => $request->input('phone_number')
-                ]
+                    ]
+                ];
+                
                 $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
 
                 $req = $client->request('PUT', $url, $headers, $data);
