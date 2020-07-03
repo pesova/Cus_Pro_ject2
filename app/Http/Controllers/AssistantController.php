@@ -95,7 +95,7 @@ class AssistantController extends Controller
 
                 $data = json_decode($response->getBody());
                 Session::flash('message', $data->message);
-                return redirect()->route('store.create');
+                return redirect()->route('assistant.create');
             } catch (Exception $e) {
                 // dd( $e->getMessage());
                 Log::error( $e->getMessage());
