@@ -17,38 +17,39 @@ class StoreController extends Controller
      */
     public function index()
     {
+        return view('backend.stores.index');
 
         //API updated
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store/all/' . Cookie::get('user_id');
+        // $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store/all/' . Cookie::get('user_id');
 
-        try {
-            $client = new Client;
-            $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
-            $response = $client->request("GET", $url, $payload);
-            $statusCode = $response->getStatusCode();
-            $body = $response->getBody();
-            $Stores = json_decode($body);
-            if ($statusCode == 200) {
-                return view('backend.stores.index')->with('response', $Stores->data->stores);
-            }
-            if ($response->getStatusCode() == 401) {
-                $data = json_decode($response->getBody());
-                Session::flash('message', $data->message);
-                return redirect()->route('store.index', ['response' => []]);
-            }
+        // try {
+        //     $client = new Client;
+        //     $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+        //     $response = $client->request("GET", $url, $payload);
+        //     $statusCode = $response->getStatusCode();
+        //     $body = $response->getBody();
+        //     $Stores = json_decode($body);
+        //     if ($statusCode == 200) {
+        //         return view('backend.stores.index')->with('response', $Stores->data->stores);
+        //     }
+        //     if ($response->getStatusCode() == 401) {
+        //         $data = json_decode($response->getBody());
+        //         Session::flash('message', $data->message);
+        //         return redirect()->route('store.index', ['response' => []]);
+        //     }
 
-            if ($response->getStatusCode() == 500) {
-                Log::error((string) $response->getBody());
-                return view('errors.500');
-            }
-        } catch (\Exception $e) {
-            $response = $e->getResponse();
-            //log error;
-            Log::error('Catch error: StoreController - ' . $e->getMessage());
+        //     if ($response->getStatusCode() == 500) {
+        //         Log::error((string) $response->getBody());
+        //         return view('errors.500');
+        //     }
+        // } catch (\Exception $e) {
+        //     $response = $e->getResponse();
+        //     //log error;
+        //     Log::error('Catch error: StoreController - ' . $e->getMessage());
 
-            return view('errors.500');
+        //     return view('errors.500');
 
-        }
+        // }
     }
 
     /**
@@ -58,7 +59,7 @@ class StoreController extends Controller
      */
     public function create()
     {
-        //
+        return view('backend.stores.create');
     }
 
     /**
@@ -134,7 +135,7 @@ class StoreController extends Controller
      */
     public function show($id)
     {
-        return view('backend.store.show');
+        return view('backend.stores.show');
     }
 
     /**
@@ -145,7 +146,7 @@ class StoreController extends Controller
      */
     public function edit($id)
     {
-        return view('backend.store.edit');
+        return view('backend.stores.edit');
     }
 
     /**
