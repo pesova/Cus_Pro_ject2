@@ -102,7 +102,6 @@ class AssistantController extends Controller
                 return view('errors.500');
             }
         }
-
         return view('backend.assistant.create');
     }
 
