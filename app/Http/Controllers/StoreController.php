@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Cookie;
 
@@ -16,8 +17,9 @@ class StoreController extends Controller
      */
     public function index()
     {
+
         //API updated
-        $url = env('API_URL', 'https://api.customerpay.me') . '/store/all/' . Cookie::get('user_id');
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store/all/' . Cookie::get('user_id');
 
         try {
             $client = new Client;
@@ -29,9 +31,6 @@ class StoreController extends Controller
             if ($statusCode == 200) {
                 return view('backend.stores.index')->with('response', $Stores->data->stores);
             }
-        } catch (\Exception $e) {
-            $response = $e->getResponse();
-
             if ($response->getStatusCode() == 401) {
                 $data = json_decode($response->getBody());
                 Session::flash('message', $data->message);
@@ -42,6 +41,13 @@ class StoreController extends Controller
                 Log::error((string) $response->getBody());
                 return view('errors.500');
             }
+        } catch (\Exception $e) {
+            $response = $e->getResponse();
+            //log error;
+            Log::error('Catch error: StoreController - ' . $e->getMessage());
+
+            return view('errors.500');
+
         }
     }
 
@@ -63,7 +69,7 @@ class StoreController extends Controller
      */
     public function store(Request $request)
     {
-        $url = env('API_URL', 'https://api.customerpay.me') . '/store/new/' . Cookie::get('user_id');
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store/new/' . Cookie::get('user_id');
 
         if ($request->isMethod('post')) {
             $request->validate([

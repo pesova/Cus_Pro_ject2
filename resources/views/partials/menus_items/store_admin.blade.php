@@ -27,7 +27,7 @@
 </li>
 
 <li>
-    <a href="{{ route('debt.reminder') }}">
+    <a href="{{ route('debtor.create') }}">
         <i data-feather="bell"></i>
         <span> Debt Reminders </span>
     </a>
@@ -41,7 +41,7 @@
 </li>
 
 <li>
-    <a href="{{ route('broadcast.create') }}">
+    <a href="{{ route('broadcast.index') }}">
         <i data-feather="message-square"></i>
         <span> Broadcast Message </span>
     </a>
@@ -74,9 +74,9 @@
 </li>
 
 {{--todo: Remove this. it is for super admin only--}}
-<li>
-    <a href="{{ route('user.index') }}">
+{{-- <li>
+    <a href="{{ route('users.index') }}">
         <i data-feather="users"></i>
         <span> Users </span>
     </a>
-</li>
+</li> --}}

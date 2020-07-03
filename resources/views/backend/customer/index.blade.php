@@ -1,8 +1,8 @@
 @extends('layout.base')
 @section("custom_css")
-<link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
-<link rel="stylesheet" href="backend/assets/css/all_users.css">
+    <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
+    <link rel="stylesheet" href="backend/assets/css/all_users.css">
 @stop
 @section('content')
 <div class="content">
