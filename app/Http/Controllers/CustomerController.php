@@ -36,7 +36,7 @@ class CustomerController extends Controller
                 $users = json_decode($user_response->getBody());
 
                 // start pagination
-                $perPage = 10;
+                $perPage = 5;
                 $page = $request->get('page', 1);
                 if ($page > count($users->data) or $page < 1) {
                     $page = 1;

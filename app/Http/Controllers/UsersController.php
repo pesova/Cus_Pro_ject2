@@ -28,16 +28,16 @@ class UsersController extends Controller
 
         try {
 
-            $url = env('API_URL', 'https://api.customerpay.me'). '/user/all' ;
-            $client = new Client();
+            $url = env('API_URL', 'https://api.customerpay.me/'). 'user/all' ;
+            $client = new Client;
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
             $user_response = $client->request('GET', $url, $headers);
 
             if ( $user_response->getStatusCode() == 200 ) {
 
-                $users = json_decode($user_response->getBody()->getContents(), true);
+                $users = json_decode($user_response->getBody(), true);
 
-                $perPage = 10;
+                $perPage = 5;
                 $page = $request->get('page', 1);
                 if ($page > count($users) or $page < 1) {
                     $page = 1;
