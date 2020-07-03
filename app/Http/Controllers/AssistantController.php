@@ -63,10 +63,8 @@ class AssistantController extends Controller
                 $payload = [
                     'headers' => ['x-access-token' => Cookie::get('api_token')],
                     'form_params' => [
-                        'store_name' => $request->input('store_name'),
-                        'shop_address' => $request->input('shop_address'),
-                        'email' => $request->input('email'),
-                        'tagline' => $request->input('tagline'),
+                        'name' => $request->input('name'),
+
                         'phone_number' => $request->input('phone_number'),
                     ],
 
