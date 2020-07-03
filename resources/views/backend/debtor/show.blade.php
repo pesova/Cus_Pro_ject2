@@ -107,7 +107,7 @@
                                 <div class="col-lg-3 col-md-6">
                                     <div class="mt-4">
                                         <p class="mb-2"><i class="uil-user text-danger"></i>Name</p>
-                                        <h5 class="font-size-16">Rick Perry</h5>
+                                        <h5 class="font-size-16">Peso doe</h5>
                                     </div>
                                 </div>
                             </div>

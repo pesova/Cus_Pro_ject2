@@ -26,10 +26,7 @@ class DebtorController extends Controller
         return view('backend.debtor.create');
     }
 
-    public function view()
-    {
-        return view('backend.debtor.edit');
-    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -51,7 +48,7 @@ class DebtorController extends Controller
     public function show($id)
     {
         //
-        return view('backend.debtor.edit');
+        return view('backend.debtor.show');
     }
 
     /**
