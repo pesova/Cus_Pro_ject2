@@ -66,6 +66,8 @@ Route::prefix('/admin')->group(function () {
 
         // debtor crud
         Route::resource('debtor', 'DebtorController');
+        Route::get('debtor/edit', function () {
+                    return view('backend.debtor.edit');})->name('deptor');
 
         // settings create and update
         Route::get('/setting', 'SettingsController@index')->name('setting');
