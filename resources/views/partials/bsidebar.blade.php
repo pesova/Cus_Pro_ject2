@@ -18,10 +18,10 @@
                     <span>My Account</span>
                 </a>
 
-                <a href="{{ route('settings') }}" class="dropdown-item notify-item">
+                {{-- <a href="{{ route('settings') }}" class="dropdown-item notify-item">
                     <i data-feather="settings" class="icon-dual icon-xs mr-2"></i>
                     <span>Settings</span>
-                </a>
+                </a> --}}
 
                 <a href="javascript:void(0);" class="dropdown-item notify-item">
                     <i data-feather="help-circle" class="icon-dual icon-xs mr-2"></i>
