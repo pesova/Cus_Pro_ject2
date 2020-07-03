@@ -36,7 +36,7 @@ Route::prefix('/admin')->group(function () {
 
     // auth routes
     Route::get('/login', ['uses' => "Auth\LoginController@index"])->name('login');
-    
+
     Route::post('/login/authenticate', ['uses' => "Auth\LoginController@authenticate"])->name('login.authenticate');
 
     Route::get('/register', 'Auth\RegisterController@index')->name('signup');
@@ -44,13 +44,13 @@ Route::prefix('/admin')->group(function () {
     Route::post('/register', 'Auth\RegisterController@register')->name('register');
 
     Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
-    
+
     Route::get('/password', 'Auth\ForgotPasswordController@index')->name('password');
     Route::post('/password', 'Auth\ForgotPasswordController@update')->name('password.reset');
 
 
-    Route::group(['middleware' => 'backend.auth'], function () { 
-        
+    Route::group(['middleware' => 'backend.auth'], function () {
+
         // activation
         Route::get('/activate', 'UserController@index')->name('activate.user');
 
@@ -87,6 +87,12 @@ Route::prefix('/admin')->group(function () {
         // user crud
         Route::resource('user', 'UserController');
 
+        // super admin protected routes
+        Route::group(['middleware' => 'backend.super.admin'], function () {
+            // Route::get('/users', 'UsersController@index')->name('users');
+            // Route::get('/users/{id}', 'UsersController@show')->name('user.view');
+        });
+
     });
 });
 
@@ -99,7 +105,7 @@ Route::prefix('/admin')->group(function () {
 //     Route::get('/dashboard', function () {
 //         return view('backend.dashboard');
 //     })->name('dashboard');
-	
+
 //     // Customers
 //     Route::get('/customers', function () {
 //         return view('backend.customers.index');
@@ -228,7 +234,7 @@ Route::prefix('/admin')->group(function () {
 //     Route::get('/notifications', function () {
 //         return view('backend.notifications.user_notification');
 //     })->name('notification');
-    
+
 //     Route::put('/complaint_log/update/{id}' , 'ComplaintlogController@update');
 
 // });
