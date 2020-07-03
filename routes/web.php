@@ -103,7 +103,7 @@ Route::group(['prefix' => '/admin'], function () {
 
     // dashboard
     Route::get('/dashboard', function () {
-        return view('backend.dashboard');
+        return view('backend.dashboard.index');
     })->name('dashboard');
 	
     // Customers

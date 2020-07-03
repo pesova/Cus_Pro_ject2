@@ -16,10 +16,8 @@ class CustomerController extends Controller
     {
         $this->host = env('API_URL', 'https://api.customerpay.me/');
     }
-}
 
-class CustomerController extends Controller
-{
+
     /**
      * Display a listing of the resource.
      *
@@ -140,7 +138,7 @@ class CustomerController extends Controller
             $data = json_decode($response->getBody());
 
             if ( $response->getStatusCode() == 200 ) {
-                return view('backend.customers.singleCustomer')->with('response', $data->data);
+                return view('backend.customer.show')->with('response', $data->data);
             } else {
                 return view('errors.500');
             }
@@ -175,7 +173,7 @@ class CustomerController extends Controller
             $data = json_decode($response->getBody());
             
             if ( $response->getStatusCode() == 200 ) {
-                return view('backend.customers.edit_customer')->with('response', $data->data);
+                return view('backend.customer.edit')->with('response', $data->data);
             } else {
                 return view('errors.500');
             }

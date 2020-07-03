@@ -21,7 +21,7 @@ class UsersController extends Controller
     {
         try {
 
-            $url = env('API_URL', 'https://dev.customerpay.me/'). 'user/all' ;
+            $url = env('API_URL', 'https://api.customerpay.me/'). 'user/all' ;
             $client = new Client();
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
             $user_response = $client->request('GET', $url, $headers);
