@@ -7,9 +7,6 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Log;
 
-use Illuminate\Support\Facades\Session;
-
-
 class TransactionController extends Controller
 {
 
@@ -80,35 +77,6 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-
-        //
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/transaction/new/';
-
-        if ($request->isMethod('post')) {
-            $request->validate([
-                'transactionName' => 'required',
-                'transactionType' =>  'required',
-                'transactionDesc' => 'required',
-                'Amount' => 'required',
-            ]);
-
-            try {
-
-                $client =  new Client();
-                $payload = [
-                    'headers' => ['x-access-token' => Cookie::get('api_token')],
-                    'form_params' => [
-                        'transactionName' => $request->input('transactionName'),
-                        'transactionType' => $request->input('transactionType'),
-                        'transactionDesc' => $request->input('transactionDesc'),
-                        'Amount' => $request->input('Amount'),
-                    ],
-
-                ];
-
-                $response = $client->request("POST", $url, $payload);
-
-
         $url = env('API_URL', 'https://dev.api.customerpay.me') . '/transaction/new';
 
         $data = $request->validate([
@@ -141,40 +109,9 @@ class TransactionController extends Controller
                 
                 ];
                 $response = $client->request("POST", $url, $payload);
-
                 $statusCode = $response->getStatusCode();
                 $body = $response->getBody();
                 $data = json_decode($body);
-
-
-                if ($statusCode == 201  && $data->success) {
-                    $request->session()->flash('alert-class', 'alert-success');
-                    Session::flash('message', $data->message);
-                    // return $this->index();
-                } else {
-                    $request->session()->flash('alert-class', 'alert-waring');
-                    Session::flash('message', $data->message);
-                    return redirect()->view('backend.transaction.create');
-                }
-            } catch (RequestException $e) {
-                $response = $e->getResponse();
-                $statusCode == $response->getStatusCode();
-
-                if ($statusCode  == 500) {
-                    Log::error((string) $response->getBody());
-                    return view('errors.500');
-                }
-
-                $data = json_decode($response->getBody());
-                Session::flash('message', $data->message);
-                return redirect()->route('store.create');
-            } catch (Exception $e) {
-                Log::error((string) $response->getBody());
-                return view('errors.500');
-            }
-        }
-
-        return view('backend.transaction.index');
 
                 if ($response->getStatusCode() == 201) {
                     $request->session()->flash('alert-class', 'alert-success');
