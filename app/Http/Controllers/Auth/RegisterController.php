@@ -64,14 +64,14 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
 
-        $request->validate([
+        $data = $request->validate([
             'phone_number' => 'required|min:6|max:16',
             'password' => 'required|regex:/[a-zA-Z0-9]{6,20}$/',
         ]);
 
         try {
 
-            if ($request->all()) {
+            if ($data) {
 
                 $client = new Client();
                 $response = $client->post($this->host . '/register/user', [
@@ -107,7 +107,7 @@ class RegisterController extends Controller
                     $res = json_decode($response->getBody());
 
 
-                    $request->session()->flash('message', $res['Message']);
+                    $request->session()->flash('message', $res->Message);
                     $request->session()->flash('alert-class', 'alert-danger');
                     return redirect()->route('signup');
                 }
@@ -121,7 +121,7 @@ class RegisterController extends Controller
                 }
             }
 
-            $request->session()->flash('message', 'Please fill the form');
+            $request->session()->flash('message', 'Please fill the form correctly');
             $request->session()->flash('alert-class', 'alert-danger');
 
             return redirect()->route('signup');
