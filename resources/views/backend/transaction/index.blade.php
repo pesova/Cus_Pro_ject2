@@ -10,6 +10,9 @@
         <div class="row page-title">
             <div class="col-md-12">
                 <div class="h4"><i data-feather="file-text" class="icon-dual"></i> Transaction Center</div>
+                @if(Session::has('message') || $errors->any())
+                    <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
+                    @endif
                 <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#CustomerModal">
                     New &nbsp;<i class="fa fa-plus my-float"></i>
                 </a>
@@ -126,6 +129,7 @@
             </div>
             
             <div class="modal-body">
+
                 <form class="form-horizontal" method="POST" action="/admin/transaction">
                     @csrf
                     <div class="form-group row mb-3">
@@ -144,13 +148,57 @@
                         <label for="inputPassword3" class="col-3 col-form-label">Transaction Description</label>
                         <div class="col-9">
                             <input type="name" name="transactionDesc" class="form-control" id="inputPassword3" placeholder="Transaction Description">
-                        </div>
-                    </div>
+
+                <form class="form-horizontal"  id="addTransaction" method="POST" action="{{ route('transaction.store') }}">
+                    @csrf
                     <div class="form-group row mb-3">
                         <label for="inputPassword5" class="col-3 col-form-label">Amount</label>
                         <div class="col-9">
-                            <input type="number" class="form-control" id="inputPassword5"
+                            <input type="number" class="form-control" id="inputPassword5" name="amount"
                                 placeholder="Amount">
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="inputphone" class="col-3 col-form-label">Interest</label>
+                        <div class="col-9">
+                            <input type="number" class="form-control" id="inputphone" name="interest" placeholder="Interest" >
+
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="inputPassword3" class="col-3 col-form-label">Total amount</label>
+                        <div class="col-9">
+                            <input type="number" class="form-control" id="inputPassword3" name="total_amount" placeholder="Total amount">
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="inputPassword3" class="col-3 col-form-label">Description</label>
+                        <div class="col-9">
+                            <input type="text" class="form-control" id="inputPassword3" name="description" placeholder="Description">
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="inputPassword3" class="col-3 col-form-label">Transaction Name</label>
+                        <div class="col-9">
+                            <input type="text" class="form-control" id="inputPassword3" name="transaction_name" placeholder="Transaction Name">
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="inputPassword3" class="col-3 col-form-label">Transaction Role</label>
+                        <div class="col-9">
+                            <input type="text" class="form-control" id="inputPassword3" name="transaction_role" placeholder="Transaction Role">
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="inputPassword3" class="col-3 col-form-label">Store Name</label>
+                        <div class="col-9">
+                            <input type="text" class="form-control" id="inputPassword3" name="store_name" placeholder="Store Name">
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="phone" class="col-3 col-form-label">Phone Number</label>
+                        <div class="col-9">
+                            <input type="tel" class="form-control" id="phone" name="phone_number"  placeholder="+2348134346556">
                         </div>
                     </div>
                     <div class="form-group mb-0 justify-content-end row">
