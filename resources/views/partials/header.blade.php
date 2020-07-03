@@ -70,7 +70,8 @@
                                 FAQ</a>
                         </li>
                         <li class="mobile__menu__list__item">
-                            <a href="{{ route('blog') }}" class="mobile__menu__list__link mobile__menu__list_link_diff1">
+                            <a href="{{ route('blog') }}"
+                                class="mobile__menu__list__link mobile__menu__list_link_diff">
                                 Blog
                             </a>
                         </li>
