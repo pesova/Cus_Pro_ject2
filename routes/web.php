@@ -93,12 +93,32 @@ Route::prefix('/admin')->group(function () {
             // Route::get('/users', 'UsersController@index')->name('users');
             // Route::get('/users/{id}', 'UsersController@show')->name('user.view');
         });
-
     });
 });
 
 
 // Protected Routes
+Route::group(['prefix' => '/admin'], function () {
+    Route::get('/activate', 'ActivateController@index')->name('activate.user');
+
+    // dashboard
+    Route::get('/dashboard', function () {
+        return view('backend.dashboard.index');
+    })->name('dashboard');
+	
+    // Customers
+    // Route::get('/customers', function () {
+    //     return view('backend.customers.index');
+    // })->name('customers');
+
+    Route::get('/customers', 'CustomerController@index')->name('customers');
+
+    Route::post('/customers', 'CustomerController@create_customer')->name('customers.new');
+
+    // Single Transaction Page
+    Route::get('/s-transaction', function () {
+        return view('backend.transactions.s-transaction');
+    });
 // Route::group(['prefix' => '/admin' , 'middleware' => 'backend.auth'], function () {
 //     Route::get('/activate', 'ActivateController@index')->name('activate.user');
 
@@ -111,6 +131,15 @@ Route::prefix('/admin')->group(function () {
 //     Route::get('/customers', function () {
 //         return view('backend.customers.index');
 //     })->name('customers');
+
+    //Single Customer view
+
+    Route::get('/singleCustomer/{customer_id}', 'CustomerController@viewCustomer')->name('customer.view');
+
+    Route::get('/edit_customer/{customer_id}', 'CustomerController@edit');
+
+    Route::post('/edit_customer/{customer_id}', 'CustomerController@update')->name('customer.update');
+});
 
 //     // Single Transaction Page
 //     Route::get('/s-transaction', function () {
@@ -210,6 +239,9 @@ Route::prefix('/admin')->group(function () {
 //         return view('backend.stores.edit');
 //     })->name('store.edit');
 
+    // Route::get('/edit_customer/{customer_id}', function () {
+    //     return view('backend.customers.edit_customer');
+    // })->name('customer.edit');
 //     Route::get('/settings', 'SettingsController@index')->name('settings');
 
 //     Route::post('/settings', 'SettingsController@update')->name('settings.update');
