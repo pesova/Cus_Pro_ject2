@@ -49,7 +49,7 @@ class AssistantController extends Controller
     {
         //
 
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . 'assistant/new';
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/assistant/new';
 
         if ($request->isMethod('post')) {
             $request->validate([
@@ -64,7 +64,6 @@ class AssistantController extends Controller
                     'headers' => ['x-access-token' => Cookie::get('api_token')],
                     'form_params' => [
                         'name' => $request->input('name'),
-
                         'phone_number' => $request->input('phone_number'),
                     ],
 
@@ -87,7 +86,7 @@ class AssistantController extends Controller
                 }
             } catch (ClientException $e) {
                 $response = $e->getResponse();
-                $statusCode == $response->getStatusCode();
+                $statusCode = $response->getStatusCode();
 
                 if ($statusCode  == 500) {
                     Log::error((string) $response->getBody());
@@ -96,13 +95,13 @@ class AssistantController extends Controller
 
                 $data = json_decode($response->getBody());
                 Session::flash('message', $data->message);
-                return redirect()->route('store.create');
+                return redirect()->route('assistant.create');
             } catch (Exception $e) {
-                Log::error((string) $e->getMessage());
+                // dd( $e->getMessage());
+                Log::error( $e->getMessage());
                 return view('errors.500');
             }
         }
-
         return view('backend.assistant.create');
     }
 

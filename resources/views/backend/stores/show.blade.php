@@ -12,9 +12,9 @@
         <div class="row page-title">
             <div class="col-md-12">
                 <nav aria-label="breadcrumb" class="float-right mt-1">
-                    <a href="/admin/edit_store" class="btn btn-success mr-2"><i class="far mr-2 fa-edit"></i>Edit
+                    <a href="edit" class="btn btn-success mr-2"><i class="far mr-2 fa-edit"></i>Edit
                         Store</a>
-                    <a href="/admin/stores" class="btn btn-primary">Go Back</a>
+                    <a href="/admin/store" class="btn btn-primary">Go Back</a>
                 </nav>
                 <h4 class="mt-2">My Store</h4>
             </div>
@@ -31,13 +31,12 @@
                         <div class="text-center">
                             <img src="{{asset('backend/assets/images/users/avatar-7.jpg')}}" alt=""
                                 class="avatar-lg rounded-circle" />
-                                {{ $store[0] }}
-                            {{-- <h5 class="mt-2 mb-0">{{ $store[0]->store_name }}</h5> --}}
-                            <h6 class="text-muted font-weight-normal mt-2 mb-0">Owner: Auwal Molanre</h6>
+                                {{-- {{ print_r($response) }} --}}
+                            <h6 class="text-muted font-weight-normal mt-2 mb-0">{{ $response->store_name }}</h6>
                         </div>
                         <div class="mt-5 pt-2 border-top">
                             <h4 class="mb-3 font-size-15">Store Address</h4>
-                            {{-- <p class="text-muted mb-4">{{ $store[0]->store_name }}</p> --}}
+                            <p class="text-muted mb-4">{{ $response->shop_address }}</p>
                         </div>
 
                     </div>
@@ -56,13 +55,13 @@
                                         <tbody>
                                             <tr>
                                                 <th scope="row">Email</th>
-                                                <td>xyz123@gmail.com</td>
+                                                <td>{{$response->email}}</td>
                                             </tr>
                                             <tr>
                                                 <th scope="row">Total Number of Customers</th>
-                                                <td>90</td>
+                                                <td>{{count( $response->customers )}}</td>
                                             </tr>
-                                            <tr>
+                                            {{-- <tr>
                                                 <th scope="row">Sector</th>
                                                 <td>Pharmaceuticals</td>
                                             </tr>
@@ -73,7 +72,7 @@
                                             <tr>
                                                 <th scope="row">Store Reference Code</th>
                                                 <td>ST145M455</td>
-                                            </tr>
+                                            </tr> --}}
                                         </tbody>
                                     </table>
                                 </div>
