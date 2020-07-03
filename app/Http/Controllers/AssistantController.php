@@ -100,7 +100,7 @@ class AssistantController extends Controller
                 Session::flash('message', $data->message);
                 return redirect()->route('store.create');
             } catch (Exception $e) {
-                Log::error((string) $response->getBody());
+                Log::error((string) $e->getMessage());
                 return view('errors.500');
             }
         }
