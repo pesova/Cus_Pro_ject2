@@ -98,27 +98,27 @@ Route::prefix('/admin')->group(function () {
 
 
 // Protected Routes
-Route::group(['prefix' => '/admin'], function () {
-    Route::get('/activate', 'ActivateController@index')->name('activate.user');
+// Route::group(['prefix' => '/admin'], function () {
+//     Route::get('/activate', 'ActivateController@index')->name('activate.user');
 
-    // dashboard
-    Route::get('/dashboard', function () {
-        return view('backend.dashboard.index');
-    })->name('dashboard');
+    // // dashboard
+    // Route::get('/dashboard', function () {
+    //     return view('backend.dashboard.index');
+    // })->name('dashboard');
 	
     // Customers
     // Route::get('/customers', function () {
     //     return view('backend.customers.index');
     // })->name('customers');
 
-    Route::get('/customers', 'CustomerController@index')->name('customers');
+    // Route::get('/customers', 'CustomerController@index')->name('customers');
 
-    Route::post('/customers', 'CustomerController@create_customer')->name('customers.new');
+    // Route::post('/customers', 'CustomerController@create_customer')->name('customers.new');
 
-    // Single Transaction Page
-    Route::get('/s-transaction', function () {
-        return view('backend.transactions.s-transaction');
-    });
+    // // Single Transaction Page
+    // Route::get('/s-transaction', function () {
+    //     return view('backend.transactions.s-transaction');
+    // });
 // Route::group(['prefix' => '/admin' , 'middleware' => 'backend.auth'], function () {
 //     Route::get('/activate', 'ActivateController@index')->name('activate.user');
 
@@ -134,12 +134,12 @@ Route::group(['prefix' => '/admin'], function () {
 
     //Single Customer view
 
-    Route::get('/singleCustomer/{customer_id}', 'CustomerController@viewCustomer')->name('customer.view');
+//     Route::get('/singleCustomer/{customer_id}', 'CustomerController@viewCustomer')->name('customer.view');
 
-    Route::get('/edit_customer/{customer_id}', 'CustomerController@edit');
+//     Route::get('/edit_customer/{customer_id}', 'CustomerController@edit');
 
-    Route::post('/edit_customer/{customer_id}', 'CustomerController@update')->name('customer.update');
-});
+//     Route::post('/edit_customer/{customer_id}', 'CustomerController@update')->name('customer.update');
+// });
 
 //     // Single Transaction Page
 //     Route::get('/s-transaction', function () {
