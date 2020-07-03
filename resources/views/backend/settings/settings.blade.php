@@ -165,7 +165,7 @@
                                 <div class="tab-pane fade" id="user-profile">
                                     <div class="tile user-settings">
                                         <h4 class="line-head">Profile</h4>
-                                        <form method="POST" enctype="multipart/form-data">
+                                        <form method="POST" enctype="multipart/form-data" action="#">
                                             {{csrf_field()}}
                                             <div class="row mb-12">
                                                 <div class="col-md-9">
@@ -214,7 +214,7 @@
                                 <div class="tab-pane" id="password-change">
                                     <div class="tile user-settings">
                                         <h4 class="line-head">Change Password</h4>
-                                        <form action="" method="POST">
+                                        <form action="#" method="POST">
                                             {{ csrf_field() }}
                                             <label class="control-label">Current Password</label>
                                             <div class="form-group">

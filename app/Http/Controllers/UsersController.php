@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
-use Illuminate\Pagination\LengthAwarePaginator as Paginator; // NAMESPACE FOR PAGINATOR
+use Illuminate\Support\Facades\Log;
+use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 use Illuminate\Support\Facades\Cookie;
 
 class UsersController extends Controller
@@ -20,7 +21,7 @@ class UsersController extends Controller
     {
         try {
 
-            $url = env('API_URL', 'https://api.customerpay.me/'). '/user/all' ;
+            $url = env('API_URL', 'https://dev.api.customerpay.me'). '/user/all' ;
             $client = new Client();
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
             $user_response = $client->request('GET', $url, $headers);
@@ -45,6 +46,10 @@ class UsersController extends Controller
                 return view('errors.500');
             }
         } catch(\Exception $e) {
+            $user_response = $e->getResponse();
+            //log error;
+            Log::error('Catch error: UserController - ' . $e->getMessage());
+
             return view('errors.500');
         }
     }

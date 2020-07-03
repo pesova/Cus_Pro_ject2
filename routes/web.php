@@ -57,9 +57,7 @@ Route::prefix('/admin')->group(function () {
         // dashboard, creditor, debtor
         Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
         Route::get('/creditor', 'DashboardController@creditor')->name('creditor');
-        Route::get('/debt/reminder', 'DashboardController@debt_reminder')->name('debt.reminder');
         Route::get('/analytics', 'DashboardController@analytics')->name('analytics');
-        Route::get('/setting', 'DashboardController@setting')->name('setting');
         Route::get('/notification', 'DashboardController@notification')->name('notification');
 
 
@@ -68,6 +66,9 @@ Route::prefix('/admin')->group(function () {
 
         // debtor crud
         Route::resource('debtor', 'DebtorController');
+
+        // settings create and update
+        Route::get('/setting', 'SettingsController@index')->name('setting');
 
         // transaction crud
         Route::resource('transaction', 'TransactionController');
@@ -85,7 +86,7 @@ Route::prefix('/admin')->group(function () {
         Route::resource('complaint', 'ComplaintController');
 
         // user crud
-        Route::resource('user', 'UserController');
+        Route::resource('users', 'UsersController');
 
         // super admin protected routes
         Route::group(['middleware' => 'backend.super.admin'], function () {
