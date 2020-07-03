@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class StoreAdminAuth
+class SuperAdminAuth
 {
     /**
      * Handle an incoming request.
@@ -19,7 +19,7 @@ class StoreAdminAuth
         // $expires = $request->cookie('expires');
         // $expires = intval($expires);
 
-        if ($request->cookie('user_role') == 'store_admin') {
+        if ($request->cookie('user_role') == 'super_admin') {
 
             // Uncomment below when sms verification is working
             // if (!$request->cookie('is_active') && $request->path() != 'backend/activate') {
