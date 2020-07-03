@@ -75,28 +75,19 @@ class CustomerController extends Controller
 
         if ($request->isMethod('post')) {
             $request->validate([
-                'full_name' => 'required',
+                'name' => 'required',
                 'email' =>  'required',
-                'phone_number' => 'required',
-                'customer_type' => 'required',
-                'status' => 'required',
-                'address' => 'required',
-                'comment' => 'required',
-                'file' => 'required'
+                'phone' => 'required'
             ]);
 
             try {
 
                 $client =  new Client();
                 $data = [
-                    'full_name' => $request->input('full_name'),
-                    'email' => $request->input('email'),
-                    'phone_number' => $request->input('phone_number'),
-                    'customer_type' => $request->input('customer_type'),
-                    'status' => $request->input('status'),
-                    'address' => $request->input('address'),
-                    'comment' => $request->input('comment'),
-                    'file' => $request->input('file'),
+                    'form_params' [
+                        'name' => $request->input('full_name'),
+                        'email' => $request->input('email'),
+                        'phone' => $request->input('phone_number')
                 ]
                 $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
 
@@ -105,21 +96,17 @@ class CustomerController extends Controller
                 $statusCode = $response->getStatusCode();
 
                 if ($statusCode == 200) {
-                    $body = $req->getBody()->getContents();
-                    $response = json_decode($body);
-                    return redirect()->route('customer.edit');
+                    $request->session()->flash('alert-class', 'alert-success');
+                    $request->session()->flash('message', 'Customer Details Updated Successfully');
+                } else {
+                    $request->session()->flash('alert-class', 'alert-danger');
+                    $request->session()->flash('message', 'Customer Details Update Failed');
                 }
-                if ($statusCode == 500) {
-                    return view('errors.500');
-                }
-                if ($statusCode == 401) {
-                    return view('customer.update')->with('error', "Unauthoized token");
-                }
-                if ($statusCode == 404) {
-                    return view('errors.404');    
-                }
+                return redirect()->back();
             } catch (\Exception $e) {
-                return view('errors.500');
+                $data = json_decode($e->getBody()->getContents());
+                $request->session()->flash('alert-class', 'alert-danger');
+                $request->session()->flash('msg', $data->message);
             }
         }
     }
