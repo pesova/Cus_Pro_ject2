@@ -398,14 +398,14 @@
                     <div class="form-group row mb-3">
                         <label for="inputPassword3" class="col-3 col-form-label">Customer Name</label>
                         <div class="col-9">
-                            <input type="tel" class="form-control" id="inputPassword3" placeholder="Customer name"
+                            <input type="text" class="form-control" id="inputPassword3" placeholder="Customer name"
                                 name="name">
                         </div>
                     </div>
                     <div class="form-group row mb-3">
-                        <label for="inputPassword3" class="col-3 col-form-label">Customer Name</label>
+                        <label for="inputPassword3" class="col-3 col-form-label">Store Name</label>
                         <div class="col-9">
-                            <input type="tel" class="form-control" id="inputPassword3" placeholder="Store name"
+                            <input type="text" class="form-control" id="inputPassword3" placeholder="Store name"
                                 name="store_name">
                         </div>
                     </div>
