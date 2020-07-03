@@ -11,6 +11,12 @@ use Illuminate\Support\Facades\Cookie;
 class UsersController extends Controller
 {
 
+    
+
+    public function activate(Request $request)
+    {
+        return redirect()->route('dashboard');
+    }
 
     /**
      * Display a listing of the resource.
@@ -19,7 +25,7 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
-        return redirect()->route('dashboard');
+        return view('backend.user.index');
         // try {
 
         //     $url = env('API_URL', 'https://dev.api.customerpay.me'). '/user/all' ;
