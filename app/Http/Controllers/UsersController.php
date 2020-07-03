@@ -19,18 +19,19 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
+        // return redirect()->route('dashboard');
         try {
 
-            $url = env('API_URL', 'https://api.customerpay.me/'). 'user/all' ;
+            $url = env('API_URL', 'https://api.customerpay.me'). '/user/all' ;
             $client = new Client();
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
             $user_response = $client->request('GET', $url, $headers);
 
             if ( $user_response->getStatusCode() == 200 ) {
 
-                $users = json_decode($user_response->getBody(), true);
+                $users = json_decode($user_response->getBody()->getContents(), true);
 
-                $perPage = 5;
+                $perPage = 10;
                 $page = $request->get('page', 1);
                 if ($page > count($users) or $page < 1) {
                     $page = 1;
@@ -41,11 +42,15 @@ class UsersController extends Controller
 
                 return view('backend.user.index')->with('response', $datas->withPath('/'.$request->path()));
             }
-            
             if ($user_response->getStatusCode() == 500) {
+
                 return view('errors.500');
             }
         } catch(\Exception $e) {
+            $user_response = $e->getResponse();
+            //log error;
+            Log::error('Catch error: UserController - ' . $e->getMessage());
+
             return view('errors.500');
         }
     }
