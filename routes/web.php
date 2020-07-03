@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Route::get('/json-api', 'ApiController@index');
+
 // Unauthenticated Routes
 
 Route::get('/', function() {return view('home');})->name('home');
@@ -26,6 +28,8 @@ Route::get('/contact', function () {return view('contact');})->name('contact');
 Route::get('/privacy', function () {return view('privacy');})->name('privacy');
 
 Route::get('/blog', function () {return view('blog');})->name('blog');
+
+Route::get('/admin', function() { return redirect()->route('dashboard');});
 
 // backend codes
 Route::prefix('/admin')->group(function () {
@@ -51,9 +55,6 @@ Route::prefix('/admin')->group(function () {
         Route::get('/activate', 'UsersController@activate')->name('activate.user');
 
         // dashboard, creditor, debtor
-        Route::get('/admin', function () {
-            return redirect()->route('dashboard');
-        });
         Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
         Route::get('/creditor', 'DashboardController@creditor')->name('creditor');
         Route::get('/analytics', 'DashboardController@analytics')->name('analytics');
