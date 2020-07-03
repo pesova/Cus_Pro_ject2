@@ -66,6 +66,7 @@ Route::prefix('/admin')->group(function () {
 
         // debtor crud
         Route::resource('debtor', 'DebtorController');
+        
 
         // settings create and update
         Route::get('/setting', 'SettingsController@index')->name('setting');
@@ -106,15 +107,6 @@ Route::prefix('/admin')->group(function () {
     //     return view('backend.dashboard.index');
     // })->name('dashboard');
 	
-    // Customers
-    // Route::get('/customers', function () {
-    //     return view('backend.customers.index');
-    // })->name('customers');
-
-    // Route::get('/customers', 'CustomerController@index')->name('customers');
-
-    // Route::post('/customers', 'CustomerController@create_customer')->name('customers.new');
-
     // // Single Transaction Page
     // Route::get('/s-transaction', function () {
     //     return view('backend.transactions.s-transaction');

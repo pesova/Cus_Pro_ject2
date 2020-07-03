@@ -82,9 +82,9 @@
 
                                     @foreach ($response as $store )
                                     <tr>
-                                     <td>{{$store->_id}}</td>
-                                    <td>{{$store->store_name}}</td>
-                                    <td>{{$store->shop_address}}</td>
+                                     <td>{{ $store->_id }}</td>
+                                    <td>{{ $store->store_name }}</td>
+                                    <td>{{ $store->shop_address }}</td>
                                     <td>
                                         <div class="btn-group mt-2 mr-1">
                                             <button type="button" class="btn btn-info dropdown-toggle"

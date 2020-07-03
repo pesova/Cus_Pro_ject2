@@ -148,7 +148,8 @@
                                                     Actions<i class="icon"><span data-feather="chevron-down"></span></i>
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="#">Edit</a>
+                                                    <a class="dropdown-item" href='show'>View</a>
+                                                    <a class="dropdown-item" href='#'>Edit</a>
                                                     <a class="dropdown-item" href="#">Delete</a>
                                                 </div>
                                             </div>
