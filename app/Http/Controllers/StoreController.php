@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Cookie;
@@ -17,39 +19,42 @@ class StoreController extends Controller
      */
     public function index()
     {
-        return view('backend.stores.index');
+        // return view('backend.stores.index');
 
-        //API updated
-        // $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store/all/' . Cookie::get('user_id');
+        // API updated
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store/' . Cookie::get('user_id');
 
-        // try {
-        //     $client = new Client;
-        //     $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
-        //     $response = $client->request("GET", $url, $payload);
-        //     $statusCode = $response->getStatusCode();
-        //     $body = $response->getBody();
-        //     $Stores = json_decode($body);
-        //     if ($statusCode == 200) {
-        //         return view('backend.stores.index')->with('response', $Stores->data->stores);
-        //     }
-        //     if ($response->getStatusCode() == 401) {
-        //         $data = json_decode($response->getBody());
-        //         Session::flash('message', $data->message);
-        //         return redirect()->route('store.index', ['response' => []]);
-        //     }
+        try {
+            $client = new Client;
+            $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+            $response = $client->request("GET", $url, $payload);
+            $statusCode = $response->getStatusCode();
+            $body = $response->getBody();
+            $Stores = json_decode($body);
+            if ($statusCode == 200) {
+                return view('backend.stores.index')->with('response', $Stores->data->stores);
+            }
+        } catch (RequestException $e) {
 
-        //     if ($response->getStatusCode() == 500) {
-        //         Log::error((string) $response->getBody());
-        //         return view('errors.500');
-        //     }
-        // } catch (\Exception $e) {
-        //     $response = $e->getResponse();
-        //     //log error;
-        //     Log::error('Catch error: StoreController - ' . $e->getMessage());
+            Log::info('Catch error: LoginController - ' . $e->getMessage());
 
-        //     return view('errors.500');
+            // check for 5xx server error
+            if ($e->getResponse()->getStatusCode() >= 500) {
+                return view('errors.500');
+            }
 
-        // }
+            // get response to catch 4xx errors
+            $response = json_decode($e->getResponse()->getBody());
+            Session::flash('alert-class', 'alert-danger');
+            Session::flash('message', $response->error->description);
+            return redirect()->route('store.index', ['response' => []]);
+
+        } catch (\Exception $e) {
+            //log error;
+            Log::error('Catch error: StoreController - ' . $e->getMessage());
+            return view('errors.500');
+
+        }
     }
 
     /**
@@ -108,19 +113,21 @@ class StoreController extends Controller
                     Session::flash('message', $data->message);
                     return redirect()->route('store.create');
                 }
-            } catch (\Exception $e) {
+            } catch (RequestException $e) {
                 $response = $e->getResponse();
                 $statusCode == $response->getStatusCode();
-                if ( $statusCode >= 400 || $statusCode < 500 ) {
-                    $data = json_decode($response->getBody());
-                    Session::flash('message', $data->message);
-                    return redirect()->route('store.create');
-                }
 
-                if ($response->getStatusCode() == 500) {
+                if ($statusCode  == 500) {
                     Log::error((string) $response->getBody());
                     return view('errors.500');
                 }
+
+                $data = json_decode($response->getBody());
+                Session::flash('message', $data->message);
+                return redirect()->route('store.create');
+            } catch (Exception $e) {
+                Log::error((string) $response->getBody());
+                return view('errors.500');
             }
         }
 

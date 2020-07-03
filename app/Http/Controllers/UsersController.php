@@ -12,6 +12,11 @@ class UsersController extends Controller
 {
 
 
+    public function activate(Request $request)
+    {
+        return redirect()->route('dashboard');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -19,17 +24,17 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
-        return redirect()->route('dashboard');
+        return view('backend.user.index');
         // try {
 
-        //     $url = env('API_URL', 'https://dev.api.customerpay.me'). '/user/all' ;
+        //     $url = env('API_URL', 'https://api.customerpay.me'). '/user/all' ;
         //     $client = new Client();
         //     $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
         //     $user_response = $client->request('GET', $url, $headers);
 
         //     if ( $user_response->getStatusCode() == 200 ) {
 
-        //         $users = json_decode($user_response->getBody(), true);
+        //         $users = json_decode($user_response->getBody()->getContents(), true);
 
         //         $perPage = 10;
         //         $page = $request->get('page', 1);
@@ -40,7 +45,7 @@ class UsersController extends Controller
         //         $articles = array_slice($users, $offset, $perPage);
         //         $datas = new Paginator($articles, count($users), $perPage);
 
-        //         return view('backend.users_list.index')->with('response', $datas->withPath('/'.$request->path()));
+        //         return view('backend.user.index')->with('response', $datas->withPath('/'.$request->path()));
         //     }
         //     if ($user_response->getStatusCode() == 500) {
 
@@ -53,6 +58,7 @@ class UsersController extends Controller
 
         //     return view('errors.500');
         // }
+
     }
 
     /**
