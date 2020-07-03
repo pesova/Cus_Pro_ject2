@@ -127,28 +127,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            
             <div class="modal-body">
-
-                <form class="form-horizontal" method="POST" action="/admin/transaction">
-                    @csrf
-                    <div class="form-group row mb-3">
-                        <label for="inputphone" class="col-3 col-form-label">Transaction Name</label>
-                        <div class="col-9">
-                            <input type="name" name="transactionName" class="form-control" id="inputphone" placeholder="Transaction Name">
-                        </div>
-                    </div>
-                    <div class="form-group row mb-3">
-                        <label for="inputPassword3" class="col-3 col-form-label">Transaction Type</label>
-                        <div class="col-9">
-                            <input type="name" name="transactionType" class="form-control" id="inputPassword3" placeholder="Transaction Type">
-                        </div>
-                    </div>
-                    <div class="form-group row mb-3">
-                        <label for="inputPassword3" class="col-3 col-form-label">Transaction Description</label>
-                        <div class="col-9">
-                            <input type="name" name="transactionDesc" class="form-control" id="inputPassword3" placeholder="Transaction Description">
-
                 <form class="form-horizontal"  id="addTransaction" method="POST" action="{{ route('transaction.store') }}">
                     @csrf
                     <div class="form-group row mb-3">
@@ -162,7 +141,6 @@
                         <label for="inputphone" class="col-3 col-form-label">Interest</label>
                         <div class="col-9">
                             <input type="number" class="form-control" id="inputphone" name="interest" placeholder="Interest" >
-
                         </div>
                     </div>
                     <div class="form-group row mb-3">
