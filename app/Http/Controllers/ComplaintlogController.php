@@ -15,25 +15,7 @@ class ComplaintlogController extends Controller
     public function index()
     {
 
-        $host = env('API_URL', 'https://dev.api.customerpay.me/');
-        $url = $host."/complaint/all";
-         try {
-            $client = new Client();
-            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
-            $response = $client->request('GET', $url, $headers);
-            $statusCode = $response->getStatusCode();
-            if ($statusCode == 200) {
-                $body = $response->getBody()->getContents();
-                $complaints = json_decode($body);
-                dd($complaints);
-                // return view('backend.complaintlog.complaintlog')->with('response', $complaints);
-            }
-            if ($statusCode == 500) {
-                return view('errors.500');
-            }
-        } catch (\Exception $e) {
-            return view('errors.500');
-        }
+
     }
 
     /**
@@ -114,18 +96,18 @@ class ComplaintlogController extends Controller
             if ($statusCode == 401) {
             	//Uncomment this when frontend has created the form page
                 //return view('backend.complaintlog.update')->with('error', "Unauthoized token");
-                return {
-					"message": "401, Unauthorized token",
-			        "info": "Please, If the frontend for the update form has been done, uncomment line 114 of ComplaintsLogController to render the page"                
-                };
+                return response()->json([
+                    "message" => "401, Unauthorized token",
+			        "info" => "Please, If the frontend for the update form has been done, uncomment line 114 of ComplaintsLogController to render the page"
+                ]);
             }
             if ($statusCode == 404) {
             	//Uncomment this when frontend has created the form page
                 //return view('backend.complaintlog.update')->with('error', "Complaint not found");
-                return {
-					"message": "401, Unauthorized token",
-			        "info": "Please, If the frontend for the update form has been done, uncomment line 122 of ComplaintsLogController to render the page"
-                };
+                return response()->json([
+                    "message" => "401, Unauthorized token",
+			        "info" => "Please, If the frontend for the update form has been done, uncomment line 122 of ComplaintsLogController to render the page"
+                ]);
             }
         } catch (\Exception $e) {
             return view('errors.500');

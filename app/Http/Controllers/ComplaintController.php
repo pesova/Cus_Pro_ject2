@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Log;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 
 class ComplaintController extends Controller
 {
@@ -13,7 +16,40 @@ class ComplaintController extends Controller
      */
     public function index()
     {
-        //
+        return view('backend.complaints.index');
+
+        // $url = env('API_URL', 'https://dev.api.customerpay.me') . '/complaint/all';
+
+        // try {
+        //     $client = new Client;
+        //     $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+        //     $response = $client->request("GET", $url, $payload);
+        //     $statusCode = $response->getStatusCode();
+        //     $body = $response->getBody();
+        //     $complaint = json_decode($body);
+        //     dd($complaint);
+        //     if ($statusCode == 200) {
+        //         return view('backend.stores.index')->with('response', $Stores->data->stores);
+        //     }
+        //     if ($response->getStatusCode() == 401) {
+        //         $data = json_decode($response->getBody());
+        //         Session::flash('message', $data->message);
+        //         return redirect()->route('store.index', ['response' => []]);
+        //     }
+        //     if ($response->getStatusCode() == 400) {
+        //         Log::error((string) $response->getBody());
+        //         return view('errors.400');
+        //     }
+        //     if ($response->getStatusCode() == 500) {
+        //         Log::error((string) $response->getBody());
+        //         return view('errors.500');
+        //     }
+        // } catch (\Exception $e) {
+        //     $response = $e->getResponse();
+        //     //log error;
+        //     Log::error('Catch error: ComplaintController - ' . $e->getMessage());
+        // }
+
     }
 
     /**
@@ -23,7 +59,7 @@ class ComplaintController extends Controller
      */
     public function create()
     {
-        //
+        return view('backend.complaints.create');
     }
 
     /**
@@ -68,7 +104,48 @@ class ComplaintController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $url = env('API_URL', 'https://api.customerpay.me/'). "/user/$id";
+
+        try {
+            $client = new Client();
+            
+            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+            $request->validate([
+    			'message' => 'required'
+			]);
+			
+            $data = [ "message" => $request->input('message') ];
+            $req = $client->request('PUT', $url, $headers, $data);
+            
+            $statusCode = $req->getStatusCode();
+            
+			if ($statusCode == 200) {
+                $body = $req->getBody()->getContents();
+                $response = json_decode($body);
+                return redirect()->route('complaint.log');
+            }
+            if ($statusCode == 500) {
+                return view('errors.500');
+            }
+            if ($statusCode == 401) {
+            	//Uncomment this when frontend has created the form page
+                //return view('backend.complaintlog.update')->with('error', "Unauthoized token");
+                return response()->json([
+                    "message" => "401, Unauthorized token",
+			        "info" => "Please, If the frontend for the update form has been done, uncomment line 114 of ComplaintsLogController to render the page"
+                ]);
+            }
+            if ($statusCode == 404) {
+            	//Uncomment this when frontend has created the form page
+                //return view('backend.complaintlog.update')->with('error', "Complaint not found");
+                return response()->json([
+                    "message" => "401, Unauthorized token",
+			        "info" => "Please, If the frontend for the update form has been done, uncomment line 122 of ComplaintsLogController to render the page"
+                ]);
+            }
+        } catch (\Exception $e) {
+            return view('errors.500');
+        }
     }
 
     /**
