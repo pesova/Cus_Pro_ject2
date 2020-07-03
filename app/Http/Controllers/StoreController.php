@@ -232,6 +232,12 @@ class StoreController extends Controller
 
                 return view('backend.stores.index')->with('data', "Store Deleted");
             }
+            if($status == 400){
+                return view('backend.stores.index')->with('message', 'Invalid ID supplied');
+            }
+            if($status == 404){
+                return view('errors.404');
+            }
 
            
         }catch (\Exception $e) {

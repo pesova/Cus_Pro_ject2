@@ -88,7 +88,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="submit" class="btn btn-success"><a href="/admin/view_store" class="text-white">Save changes</a></button>
+                  <button type="button" class="btn btn-success"><a href="{{ route('store.update', $store->_id) }}" class="text-white">Save changes</a></button>
                 </div>
               </div>
             </div>
