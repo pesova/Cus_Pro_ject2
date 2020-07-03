@@ -328,16 +328,14 @@
                                     </thead>
                                     <tbody>
 
-                                        @isset($response)
-                                        @if(count($response) > 0)
-                                        @for ($i = 0; $i < count($response); $i++) <tr>
-                                            <td scope="row">{{ $i+ 1 }}</td>
+                                        <tr>
+                                            <td scope="row">1</td>
                                             <td><img src="/backend/assets/images/users/avatar-5.jpg"
                                                     class="avatar-sm rounded-circle" alt="Shreyu" /></td>
-                                            <td>{{ $response[$i]->name }} <br>
+                                            <td>John Doe <br>
                                                 <span class="badge badge-danger">Has Credit</span>
                                             </td>
-                                            <td>{{ $response[$i]->phone_number }}<br>
+                                            <td>+2348136478080<br>
                                             </td>
                                             <td>
                                                 <span> &#8358; 1 500</span> <br>
@@ -362,14 +360,11 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            @endfor
-                                            @endif
-                                            @endisset
 
                                     </tbody>
                                 </table>
                             </div>
-                            {{$response->links()}}
+                            {{-- {{$response->links()}} --}}
                         </div>
                     </div>
 
