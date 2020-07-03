@@ -97,21 +97,14 @@
                                 </thead>
 
                                 <tbody>
-                                     @foreach ($transactions as $transaction )
-                                    
-                          
                                     <tr>
-                                        <td>{{$transaction->_id}}</td>
-                                        <td>{{$transaction->transaction_name}}</td>
-                                        <td>{{$transaction->customer_ref_id}}</td>
-                                        <td>{{$transaction->total_amount}}</td>
+                                        <td>TP00</td>
+                                        <td>Payment</td>
+                                        <td>TR 0264</td>
+                                        <td>$2000</td>
                                         {{-- <td>{{ date('d M Y', strtotime($transaction->created_date)) }}</td> --}}
-                                        <td><a href="{{ route('view_transaction', $transaction->_id) }}"><i data-feather="eye"></i></a></td>
-
+                                        <td><a href="{{ route('transaction.show', 1) }}"><i data-feather="eye"></i></a></td>
                                     </tr>
-                                        @endforeach
-                                   
-
                                 </tbody>
                             </table>
                         </div>

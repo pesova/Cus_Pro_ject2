@@ -27,7 +27,7 @@ class StoreController extends Controller
             $body = $response->getBody();
             $Stores = json_decode($body);
             if ($statusCode == 200) {
-                return view('backend.stores.store_list')->with('response', $Stores->data->stores);
+                return view('backend.stores.index')->with('response', $Stores->data->stores);
             }
         } catch (\Exception $e) {
             $response = $e->getResponse();
@@ -35,7 +35,7 @@ class StoreController extends Controller
             if ($response->getStatusCode() == 401) {
                 $data = json_decode($response->getBody());
                 Session::flash('message', $data->message);
-                return redirect()->route('stores', ['response' => []]);
+                return redirect()->route('store.index', ['response' => []]);
             }
 
             if ($response->getStatusCode() == 500) {
@@ -50,7 +50,18 @@ class StoreController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
     {
         $url = env('API_URL', 'https://api.customerpay.me') . '/store/new/' . Cookie::get('user_id');
 
@@ -110,17 +121,6 @@ class StoreController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -128,7 +128,7 @@ class StoreController extends Controller
      */
     public function show($id)
     {
-        return view('backend.stores.show');
+        return view('backend.store.show');
     }
 
     /**
@@ -139,7 +139,7 @@ class StoreController extends Controller
      */
     public function edit($id)
     {
-        return view('backend.stores.edit');
+        return view('backend.store.edit');
     }
 
     /**
@@ -163,6 +163,5 @@ class StoreController extends Controller
     public function destroy($id)
     {
         //
-
     }
 }

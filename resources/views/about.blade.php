@@ -3,8 +3,6 @@
 <link href="/frontend/assets/css/about.css" rel="stylesheet" type="text/css" />
 @stop
 
-
-
 @section('content')
 
 <section id="main ">
