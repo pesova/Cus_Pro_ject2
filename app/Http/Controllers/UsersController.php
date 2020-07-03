@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
-use Illuminate\Pagination\LengthAwarePaginator as Paginator; // NAMESPACE FOR PAGINATOR
+use Illuminate\Support\Facades\Log;
+use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 use Illuminate\Support\Facades\Cookie;
 
 class UsersController extends Controller
@@ -18,35 +19,41 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
-        try {
 
-            $url = env('API_URL', 'https://api.customerpay.me/'). '/user/all' ;
-            $client = new Client();
-            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
-            $user_response = $client->request('GET', $url, $headers);
+        return view('backend.user.index');
+        // try {
 
-            if ( $user_response->getStatusCode() == 200 ) {
+        //     $url = env('API_URL', 'https://dev.api.customerpay.me'). '/user/all' ;
+        //     $client = new Client();
+        //     $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+        //     $user_response = $client->request('GET', $url, $headers);
 
-                $users = json_decode($user_response->getBody(), true);
+        //     if ( $user_response->getStatusCode() == 200 ) {
 
-                $perPage = 10;
-                $page = $request->get('page', 1);
-                if ($page > count($users) or $page < 1) {
-                    $page = 1;
-                }
-                $offset = ($page * $perPage) - $perPage;
-                $articles = array_slice($users, $offset, $perPage);
-                $datas = new Paginator($articles, count($users), $perPage);
+        //         $users = json_decode($user_response->getBody(), true);
 
-                return view('backend.users_list.index')->with('response', $datas->withPath('/'.$request->path()));
-            }
-            if ($user_response->getStatusCode() == 500) {
+        //         $perPage = 10;
+        //         $page = $request->get('page', 1);
+        //         if ($page > count($users) or $page < 1) {
+        //             $page = 1;
+        //         }
+        //         $offset = ($page * $perPage) - $perPage;
+        //         $articles = array_slice($users, $offset, $perPage);
+        //         $datas = new Paginator($articles, count($users), $perPage);
 
-                return view('errors.500');
-            }
-        } catch(\Exception $e) {
-            return view('errors.500');
-        }
+        //         return view('backend.users_list.index')->with('response', $datas->withPath('/'.$request->path()));
+        //     }
+        //     if ($user_response->getStatusCode() == 500) {
+
+        //         return view('errors.500');
+        //     }
+        // } catch(\Exception $e) {
+        //     $user_response = $e->getResponse();
+        //     //log error;
+        //     Log::error('Catch error: UserController - ' . $e->getMessage());
+
+        //     return view('errors.500');
+        // }
     }
 
     /**
