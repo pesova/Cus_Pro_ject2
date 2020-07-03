@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Cookie;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,6 +60,13 @@ Route::prefix('/admin')->group(function () {
         Route::get('/creditor', 'DashboardController@creditor')->name('creditor');
         Route::get('/analytics', 'DashboardController@analytics')->name('analytics');
         Route::get('/notification', 'DashboardController@notification')->name('notification');
+
+        Route::get('/activate', function() {
+            return view('backend.user.activate')->with([
+                'apiToken' => Cookie::get('apiToken'),
+                'phoneNumber' => Cookie::get('phone_number')
+            ]);
+        })->name('activate.user');
 
 
         // customer crud

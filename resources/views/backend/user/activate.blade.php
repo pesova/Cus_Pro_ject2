@@ -80,6 +80,9 @@
                                     <p class="text-muted">Back to <a href="{{ route('login') }}"
                                                                      class="text-primary font-weight-bold ml-1">Login</a>
                                     </p>
+                                    <p class="text-muted"><a href="{{ route('dashboard') }}"
+                                                                     class="text-primary font-weight-bold ml-1">Skip for now</a>
+                                    </p>
                                 </div> <!-- end col -->
                             </div>
                             <!-- end row -->
