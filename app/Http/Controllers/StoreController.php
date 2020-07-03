@@ -201,7 +201,44 @@ class StoreController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store/update/' . $id;
+
+        try {
+            $client = new Client();
+
+            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+            $request->validate([
+                'store_name' => 'required|min:2',
+                'address' =>  'required',
+                'phone' => 'required|numeric',
+                'email' => 'email',
+                'tag_line' => 'required'
+            ]);
+            
+            $data = [
+                'store_name' => $request->input('store_name'),
+                'shop_address' => $request->input('address'),
+                'email' => $request->input('email'),
+                'tagline' => $request->input('tag_line'),
+                'phone_number' => $request->input('phone'),
+            ];
+
+            $req = $client->request('PUT', $url, $headers, $data);
+
+            $status = $req->getStatusCode();
+
+            if ($status == 200) {
+                $body = $req->getBody()->getContents();
+                $res = json_encode($body);
+                return redirect()->view('backend.stores.index')->with('message', "Update Successful");
+            }
+            if ($statusCode == 500) {
+                return view('errors.500');
+            }
+
+        }catch (\Exception $e) {
+            return view('errors.500');
+        }
     }
 
     /**
@@ -212,6 +249,35 @@ class StoreController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store/delete/' . $id;
+
+        try{
+            $client = new Client();
+
+            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+
+            $req = $client->delete($url,$headers);
+
+            $status = $req->getStatusCode();
+
+            if($status == 200){
+                // $data = [
+                //     "message" => "Store Deleted",
+                //     "class" => "alert-success"
+                // ];
+
+                return view('backend.stores.index')->with('data', "Store Deleted");
+            }
+            if($status == 400){
+                return view('backend.stores.index')->with('message', 'Invalid ID supplied');
+            }
+            if($status == 404){
+                return view('errors.404');
+            }
+
+           
+        }catch (\Exception $e) {
+            return view('errors.500');
+        }
     }
 }

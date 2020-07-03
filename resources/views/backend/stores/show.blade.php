@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
 <link rel="stylesheet" href="{{asset('backend/assets/css/store_list.css')}}">
 @stop
+
 @section('content')
 <div class="content">
     <!-- Start Content-->
@@ -18,6 +19,10 @@
                 <h4 class="mt-2">My Store</h4>
             </div>
         </div>
+        
+        @if(session('data'))
+        <p class="alert alert-success">{{ session('data') }}</p>
+        @endif
 
         <div class="row">
             <div class="col-lg-3">
@@ -34,6 +39,7 @@
                             <h4 class="mb-3 font-size-15">Store Address</h4>
                             {{-- <p class="text-muted mb-4">{{ $store[0]->store_name }}</p> --}}
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -75,12 +81,11 @@
                         </div>
                     </div>
                 </div>
+
+                <a href="{{ route('store.destroy', $store->_id) }}" class="float-right btn btn-danger mt-2"><i class="fas fa-trash-alt mr-2"></i>Delete Store</a>
+
             </div>
         </div>
-
-        <a href="#" class="float-right btn btn-danger mt-2"><i class="fas fa-trash-alt mr-2"></i>Delete Store</a>
-    </div>
-</div>
 @endsection
 
 @section("javascript")
