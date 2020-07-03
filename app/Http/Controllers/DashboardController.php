@@ -44,7 +44,7 @@ class DashboardController extends Controller
      */
     public function debt_reminder(Request $request)
     { 
-        return view('backend.dashboard.debt_reminder');
+        return view('backend.debtor.create');
     }
 
     /**

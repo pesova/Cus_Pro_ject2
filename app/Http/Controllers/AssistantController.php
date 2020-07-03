@@ -23,7 +23,7 @@ class AssistantController extends Controller
      */
     public function create()
     {
-        return view('backend/assistant/create')
+        return view('backend/assistant/create');
     }
 
     /**
@@ -56,7 +56,7 @@ class AssistantController extends Controller
      */
     public function edit($id)
     {
-        return view('backend/assistant/edit')
+        return view('backend/assistant/edit');
     }
 
     /**

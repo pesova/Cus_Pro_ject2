@@ -13,7 +13,7 @@ class BroadcastController extends Controller
      */
     public function index()
     {
-        return view('backend.broadcast.create');
+        return view('backend.broadcasts.create');
     }
 
     /**
@@ -23,7 +23,7 @@ class BroadcastController extends Controller
      */
     public function create()
     {
-        return view('backend.broadcast.send');
+        return view('backend.broadcasts.send');
     }
 
     /**
