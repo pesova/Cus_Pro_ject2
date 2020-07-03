@@ -125,17 +125,24 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" action="#" id="addTransaction">
+                <form class="form-horizontal" method="POST" action="/admin/transaction">
+                    @csrf
                     <div class="form-group row mb-3">
-                        <label for="inputphone" class="col-3 col-form-label">Ref Transaction Type</label>
+                        <label for="inputphone" class="col-3 col-form-label">Transaction Name</label>
                         <div class="col-9">
-                            <input type="number" class="form-control" id="inputphone" placeholder="Ref Transaction Type">
+                            <input type="name" name="transactionName" class="form-control" id="inputphone" placeholder="Transaction Name">
                         </div>
                     </div>
                     <div class="form-group row mb-3">
-                        <label for="inputPassword3" class="col-3 col-form-label">Customer Ref Code</label>
+                        <label for="inputPassword3" class="col-3 col-form-label">Transaction Type</label>
                         <div class="col-9">
-                            <input type="number" class="form-control" id="inputPassword3" placeholder="Customer Ref Code">
+                            <input type="name" name="transactionType" class="form-control" id="inputPassword3" placeholder="Transaction Type">
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="inputPassword3" class="col-3 col-form-label">Transaction Description</label>
+                        <div class="col-9">
+                            <input type="name" name="transactionDesc" class="form-control" id="inputPassword3" placeholder="Transaction Description">
                         </div>
                     </div>
                     <div class="form-group row mb-3">
