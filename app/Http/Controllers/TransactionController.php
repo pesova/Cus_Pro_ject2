@@ -127,7 +127,7 @@ class TransactionController extends Controller
 
         } catch (RequestException $e) {
 
-            Log::info('Catch error: LoginController - ' . $e->getMessage());
+            Log::info('Catch error: TransactionController - ' . $e->getMessage());
 
             // check for 5xx server error
             if ($e->getResponse()->getStatusCode() >= 500) {
@@ -137,7 +137,7 @@ class TransactionController extends Controller
             $response = json_decode($e->getResponse()->getBody());
             Session::flash('alert-class', 'alert-danger');
             Session::flash('message', $response->error->description);
-            return redirect()->route('store.index', ['response' => []]);
+            return redirect()->route('transaction.index', ['response' => []]);
 
         } catch (\Exception $e) {
             //log error;
