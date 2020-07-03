@@ -20,7 +20,19 @@
                 </div>
             </div>
         </div>
+        @if(Session::has('message'))
+        <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
+        @endif
 
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -67,51 +79,29 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th scope="row">{{isset( $response->id) ? $response->id : "1"}}</th>
-                                        <td>{{isset( $response->store_name) ? $response->store_name : "Chikoo laundry"}}
-                                            <br> <span class="badge badge-success">Verified</span> </td>
-                                        <td>12 sentryville, Lagos Nigeria<br> <span class="badge badge-primary">Store
-                                                Reference Code: ST145M455</span> </td>
-                                        <td>
-                                            <div class="btn-group mt-2 mr-1">
-                                                <button type="button" class="btn btn-info dropdown-toggle"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    Actions<i class="icon"><span data-feather="chevron-down"></span></i>
-                                                </button>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="{{ route('store.view') }}">View
-                                                        Store</a>
-                                                    <a class="dropdown-item" href="{{ route('store.edit') }}">Edit
-                                                        store</a>
-                                                    <a class="dropdown-item" href="#">Delete store</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
 
+                                    @foreach ($response as $store )
                                     <tr>
-                                        <th scope="row">2</th>
-                                        <td>Abbie's Accessories <br> <span class="badge badge-danger">Unverified</span>
-                                        </td>
-                                        <td>274 crenshaw, league county<br> <span class="badge badge-primary">Store
-                                                Reference Code: ST145H2783</span> </td>
-                                        <td>
-                                            <div class="btn-group mt-2 mr-1">
-                                                <button type="button" class="btn btn-info dropdown-toggle"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    Actions<i class="icon"><span data-feather="chevron-down"></span></i>
-                                                </button>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="{{ route('store.view') }}">View
-                                                        Store</a>
-                                                    <a class="dropdown-item" href="{{ route('store.edit') }}">Edit
-                                                        store</a>
-                                                    <a class="dropdown-item" href="#">Delete store</a>
-                                                </div>
+                                    <td>{{$store->_id}}</td>
+                                    <td>{{$store->store_name}}</td>
+                                    <td>{{$store->shop_address}}</td>
+                                    <td>
+                                        <div class="btn-group mt-2 mr-1">
+                                            <button type="button" class="btn btn-info dropdown-toggle"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Actions<i class="icon"><span data-feather="chevron-down"></span></i>
+                                            </button>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a class="dropdown-item" href="{{ route('store.view',['id'=>$store->_id]) }}">View
+                                                    Store</a>
+                                                <a class="dropdown-item" href="{{ route('store.edit',['id'=>$store->_id]) }}">Edit
+                                                    store</a>
+                                                <a class="dropdown-item" href="#">Delete store</a>
                                             </div>
-                                        </td>
-                                    </tr>
+                                        </div>
+                                    </td>
+                                </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

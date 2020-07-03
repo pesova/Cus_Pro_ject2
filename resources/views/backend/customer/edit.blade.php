@@ -1,9 +1,9 @@
 {{-- inherits base markup --}}
-{{-- got my page working im so excited --}}
 @extends('layout.base')
+
 {{-- add in the basic styling : check the contents of these stylesheets later --}}
 @section("custom_css")
-<link rel="stylesheet" href="{{asset('backend/assets/css/singleCustomer.css')}}">
+  <link rel="stylesheet" href="{{asset('backend/assets/css/singleCustomer.css')}}">
 @stop
 
 

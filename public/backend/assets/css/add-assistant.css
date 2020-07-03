@@ -1,8 +1,16 @@
 
-.my-form {
-
-  padding-right: 3rem;
+@media (min-width: 640px) {
+  .my-form {
+    padding-right: 3rem;
+  }
 }
+
+@media (max-width: 640px) {
+  .my-form {
+    padding: 10px;
+  }
+}
+
 
 .my-label {
   margin: 0 !important;

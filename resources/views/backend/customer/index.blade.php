@@ -1,4 +1,3 @@
-
 @extends('layout.base')
 @section("custom_css")
     <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />

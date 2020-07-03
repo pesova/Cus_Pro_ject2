@@ -16,6 +16,10 @@ class CustomerController extends Controller
     {
         $this->host = env('API_URL', 'https://api.customerpay.me/');
     }
+}
+
+class CustomerController extends Controller
+{
     /**
      * Display a listing of the resource.
      *
@@ -43,7 +47,7 @@ class CustomerController extends Controller
                 $articles = array_slice($users->data, $offset, $perPage);
                 $datas = new Paginator($articles, count($users->data), $perPage);
 
-                return view('backend.customers.index')->with('response', $datas->withPath('/'.$request->path()));
+                return view('backend.customer.index')->with('response', $datas->withPath('/'.$request->path()));
             }
             if ($user_response->getStatusCode() == 500) {
                 return view('errors.500');
@@ -108,7 +112,11 @@ class CustomerController extends Controller
 
             return redirect()->route('customers');
         }
+    }
         
+    public function store(Request $request)
+    {
+        //
     }
 
     /**
@@ -139,6 +147,11 @@ class CustomerController extends Controller
         } catch ( \Exception $e ) {
             return view('errors.500');
         }
+    }
+    
+    public function show($id)
+    {
+        return view('backend.customer.show');
     }
 
     /**

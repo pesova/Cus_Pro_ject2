@@ -50,10 +50,8 @@
                         <div class="card">
                             <ul class="nav flex-column nav-tabs user-tabs">
                                 <li class="nav-item"><a class="nav-link active" href="#user-details" data-toggle="tab">Details</a></li>
-                                {{-- <li class="nav-item"><a class="nav-link" href="#user-timeline" data-toggle="tab">Timeline</a></li> --}}
                                 <li class="nav-item"><a class="nav-link" href="#user-profile" data-toggle="tab">Profile</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#password-change" data-toggle="tab">Password</a></li>
-                                {{-- <li class="nav-item"><a class="nav-link" href="#assistant" data-toggle="tab">Staff Assistant</a></li> --}}
                             </ul>
                         </div>
                     </div>
@@ -238,7 +236,7 @@
                                         </form>
                                     </div>
                                 </div>
-                                <div class="tab-pane" id="assistant">
+                                {{-- <div class="tab-pane" id="assistant">
                                     <div class="tile user-settings">
                                         <h4 class="line-head">Staff Assistant</h4>
                                         <div class="row">
@@ -252,7 +250,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
