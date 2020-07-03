@@ -15,4 +15,10 @@ class DashboardController extends Controller
     {
         return view('backend.dashboard.notification');
     }
+
+    
+    public function creditor()
+    {
+        return view('backend.dashboard.creditor');
+    }
 }
