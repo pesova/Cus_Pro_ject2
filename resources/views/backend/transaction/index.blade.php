@@ -12,7 +12,10 @@
                 <div class="h4"><i data-feather="file-text" class="icon-dual"></i> Transaction Center</div>
                 @if(Session::has('message') || $errors->any())
                     <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
-                    @endif
+                @endif
+                {{-- @if(Session::has('message') || $errors->any())
+                    <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
+                @endif --}}
                 <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#CustomerModal">
                     New &nbsp;<i class="fa fa-plus my-float"></i>
                 </a>
@@ -131,46 +134,46 @@
                 <form class="form-horizontal"  id="addTransaction" method="POST" action="{{ route('transaction.store') }}">
                     @csrf
                     <div class="form-group row mb-3">
-                        <label for="inputPassword5" class="col-3 col-form-label">Amount</label>
+                        <label for="amount" class="col-3 col-form-label">Amount</label>
                         <div class="col-9">
-                            <input type="number" class="form-control" id="inputPassword5" name="amount"
+                            <input type="number" class="form-control" id="amount" name="amount"
                                 placeholder="Amount">
                         </div>
                     </div>
                     <div class="form-group row mb-3">
-                        <label for="inputphone" class="col-3 col-form-label">Interest</label>
+                        <label for="interest" class="col-3 col-form-label">Interest</label>
                         <div class="col-9">
-                            <input type="number" class="form-control" id="inputphone" name="interest" placeholder="Interest" >
+                            <input type="number" class="form-control" id="interest" name="interest" placeholder="Interest" >
                         </div>
                     </div>
                     <div class="form-group row mb-3">
-                        <label for="inputPassword3" class="col-3 col-form-label">Total amount</label>
+                        <label for="total_amount" class="col-3 col-form-label">Total amount</label>
                         <div class="col-9">
-                            <input type="number" class="form-control" id="inputPassword3" name="total_amount" placeholder="Total amount">
+                            <input type="number" class="form-control" id="total_amount" name="total_amount" placeholder="Total amount">
                         </div>
                     </div>
                     <div class="form-group row mb-3">
-                        <label for="inputPassword3" class="col-3 col-form-label">Description</label>
+                        <label for="description" class="col-3 col-form-label">Description</label>
                         <div class="col-9">
-                            <input type="text" class="form-control" id="inputPassword3" name="description" placeholder="Description">
+                            <input type="text" class="form-control" id="description" name="description" placeholder="Description">
                         </div>
                     </div>
                     <div class="form-group row mb-3">
-                        <label for="inputPassword3" class="col-3 col-form-label">Transaction Name</label>
+                        <label for="transaction_name" class="col-3 col-form-label">Transaction Name</label>
                         <div class="col-9">
-                            <input type="text" class="form-control" id="inputPassword3" name="transaction_name" placeholder="Transaction Name">
+                            <input type="text" class="form-control" id="transaction_name" name="transaction_name" placeholder="Transaction Name">
                         </div>
                     </div>
-                    <div class="form-group row mb-3">
-                        <label for="inputPassword3" class="col-3 col-form-label">Transaction Role</label>
+                    {{-- <div class="form-group row mb-3">
+                        <label for="transaction_role" class="col-3 col-form-label">Transaction Role</label>
                         <div class="col-9">
-                            <input type="text" class="form-control" id="inputPassword3" name="transaction_role" placeholder="Transaction Role">
+                            <input type="text" class="form-control" id="transaction_role" name="transaction_role" placeholder="Transaction Role">
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="form-group row mb-3">
-                        <label for="inputPassword3" class="col-3 col-form-label">Store Name</label>
+                        <label for="store_name" class="col-3 col-form-label">Store Name</label>
                         <div class="col-9">
-                            <input type="text" class="form-control" id="inputPassword3" name="store_name" placeholder="Store Name">
+                            <input type="text" class="form-control" id="store_name" name="store_name" placeholder="Store Name">
                         </div>
                     </div>
                     <div class="form-group row mb-3">

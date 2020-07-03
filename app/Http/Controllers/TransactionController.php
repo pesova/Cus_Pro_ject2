@@ -85,14 +85,12 @@ class TransactionController extends Controller
             'total_amount' => 'required',
             'description' => 'required',
             'transaction_name' => 'required',
-            'transaction_role' => 'required',
             'store_name' => 'required',
             'phone_number' => 'required'
         ]);
         
         try{
             if ($data) {
-
                 $client = new Client();
                 $payload = [
                     'headers' => ['x-access-token' => Cookie::get('api_token')],
@@ -102,17 +100,16 @@ class TransactionController extends Controller
                         'total_amount' => $request->input('total_amount'),
                         'description' => $request->input('description'),
                         'transaction_name' => $request->input('transaction_name'),
-                        'transaction_role' => $request->input('transaction_role'),
                         'store_name' => $request->input('store_name'),
                         'phone_number' => $request->input('phone_number'),
                     ],
-                
+        
                 ];
                 $response = $client->request("POST", $url, $payload);
+                
                 $statusCode = $response->getStatusCode();
                 $body = $response->getBody();
                 $data = json_decode($body);
-
                 if ($response->getStatusCode() == 201) {
                     $request->session()->flash('alert-class', 'alert-success');
                     $request->session()->flash('message', 'Transaction successfully created');
