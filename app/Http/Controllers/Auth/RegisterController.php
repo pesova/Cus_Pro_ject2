@@ -57,7 +57,7 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return \App\User
      */
     // Controller action to register a new user.
@@ -66,14 +66,14 @@ class RegisterController extends Controller
 
         $request->validate([
             'phone_number' => 'required|min:6|max:16',
-            'password' =>  'required|regex:/[a-zA-Z0-9]{6,20}$/',
+            'password' => 'required|regex:/[a-zA-Z0-9]{6,20}$/',
         ]);
 
         try {
 
             if ($request->all()) {
 
-                $client =  new Client();
+                $client = new Client();
                 $response = $client->post($this->host . '/register/user', [
                     'form_params' => [
                         'phone_number' => $request->input('phone_number'),
@@ -89,8 +89,10 @@ class RegisterController extends Controller
 
                         $data = $res->data->user->local;
                         $api_token = $res->data->user->api_token;
+                        $user_role = $res->data->user->local->user_role;
 
                         // store data to cookie
+                        Cookie::queue('user_role', $user_role);
                         Cookie::queue('api_token', $api_token);
                         Cookie::queue('is_active', $data->is_active);
                         Cookie::queue('phone_number', $data->phone_number);
@@ -103,6 +105,7 @@ class RegisterController extends Controller
 
                 if($response->getStatusCode() == 200) {
                     $res = json_decode($response->getBody());
+
 
                     $request->session()->flash('message', $res['Message']);
                     $request->session()->flash('alert-class', 'alert-danger');
@@ -133,7 +136,7 @@ class RegisterController extends Controller
 
             // get response
             $response = json_decode($e->getResponse()->getBody());
-            
+
             $request->session()->flash('alert-class', 'alert-danger');
             $request->session()->flash('message', $response->error->description);
             return redirect()->route('signup');
