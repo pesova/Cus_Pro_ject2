@@ -50,12 +50,12 @@
                         <div class="media-body">
                             <span class="text-muted text-uppercase font-size-12 font-weight-bold">Today
                                 Revenue</span>
-                            <h2 class="mb-0">$2189</h2>
+                            <h2 class="mb-0">$0</h2>
                         </div>
                         <div class="align-self-center">
                             <div id="today-revenue-chart" class="apex-charts"></div>
                             <span class="text-success font-weight-bold font-size-13"><i class='uil uil-arrow-up'></i>
-                                10.21%</span>
+                                0%</span>
                         </div>
                     </div>
                 </div>
@@ -69,12 +69,12 @@
                         <div class="media-body">
                             <span class="text-muted text-uppercase font-size-12 font-weight-bold">Product
                                 Sold</span>
-                            <h2 class="mb-0">1065</h2>
+                            <h2 class="mb-0">0</h2>
                         </div>
                         <div class="align-self-center">
                             <div id="today-product-sold-chart" class="apex-charts"></div>
                             <span class="text-danger font-weight-bold font-size-13"><i class='uil uil-arrow-down'></i>
-                                5.05%</span>
+                                0%</span>
                         </div>
                     </div>
                 </div>
@@ -88,12 +88,12 @@
                         <div class="media-body">
                             <span class="text-muted text-uppercase font-size-12 font-weight-bold">New
                                 Customers</span>
-                            <h2 class="mb-0">11</h2>
+                            <h2 class="mb-0">0</h2>
                         </div>
                         <div class="align-self-center">
                             <div id="today-new-customer-chart" class="apex-charts"></div>
                             <span class="text-success font-weight-bold font-size-13"><i class='uil uil-arrow-up'></i>
-                                25.16%</span>
+                                0%</span>
                         </div>
                     </div>
                 </div>
@@ -107,12 +107,12 @@
                         <div class="media-body">
                             <span class="text-muted text-uppercase font-size-12 font-weight-bold">New
                                 Visitors</span>
-                            <h2 class="mb-0">750</h2>
+                            <h2 class="mb-0">0</h2>
                         </div>
                         <div class="align-self-center">
                             <div id="today-new-visitors-chart" class="apex-charts"></div>
                             <span class="text-danger font-weight-bold font-size-13"><i class='uil uil-arrow-down'></i>
-                                5.05%</span>
+                                0%</span>
                         </div>
                     </div>
                 </div>
@@ -174,31 +174,31 @@
                             
                             <tbody>
                                 <tr>
-                                    <td>#98754</td>
+                                    <td>#0</td>
                                     <td>Debt</td>
                                     <td>Otto B</td>
-                                    <td>$79.49</td>
+                                    <td>$0</td>
                                     <td> <a href="#"><span class="badge badge-soft-warning py-1">View</span></a> </td>
                                 </tr>
                                 <tr>
-                                    <td>#98754</td>
+                                    <td>#0</td>
                                     <td>Debt</td>
                                     <td>Otto B</td>
-                                    <td>$79.49</td>
+                                    <td>$0</td>
                                     <td> <a href="#"><span class="badge badge-soft-warning py-1">View</span></a> </td>
                                 </tr>
                                 <tr>
-                                    <td>#98754</td>
+                                    <td>#0</td>
                                     <td>Debt</td>
                                     <td>Otto B</td>
-                                    <td>$79.49</td>
+                                    <td>$0</td>
                                     <td> <a href="#"><span class="badge badge-soft-warning py-1">View</span></a> </td>
                                 </tr>
                                 <tr>
-                                    <td>#98754</td>
+                                    <td>#0</td>
                                     <td>Debt</td>
                                     <td>Otto B</td>
-                                    <td>$79.49</td>
+                                    <td>$0</td>
                                     <td> <a href="#"><span class="badge badge-soft-warning py-1">View</span></a> </td>
                                 </tr>
                             </tbody>
