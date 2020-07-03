@@ -6,7 +6,7 @@
         <meta charset="utf-8" />
         <title>mycustomer - Admin & Dashboard Template</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta content="MyCustomer - HNGi7" name="description" />
+        <meta content="MyCustomer - JusticeLeague" name="description" />
         <meta content="JusticeLeague" name="author" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
