@@ -16,10 +16,11 @@ class BackendAuth
     public function handle($request, Closure $next)
     {
 
-        // $expires = $request->cookie('expires');
-        // $expires = intval($expires);
+        $expires = $request->cookie('expires');
+        $expires = intval($expires);
 
-        if ($request->cookie('api_token')) {
+        if ($request->cookie('api_token') && $expires > time()) {
+
 
             // Uncomment below when sms verification is working
             // if (!$request->cookie('is_active') && $request->path() != 'backend/activate') {
