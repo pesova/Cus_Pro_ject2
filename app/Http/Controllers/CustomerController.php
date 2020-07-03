@@ -25,34 +25,36 @@ class CustomerController extends Controller
      */
     public function index( Request $request )
     {
+        $response = [];
+        return view('backend.customer.index')->with($response);
         //
-        try {
-            $url = env('API_URL', 'https://api.customerpay.me/'). 'customer/all' ;
-            $client = new Client();
-            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
-            $user_response = $client->request('GET', $url, $headers);
+        // try {
+        //     $url = env('API_URL', 'https://dev.api.customerpay.me/'). 'customer/all' ;
+        //     $client = new Client();
+        //     $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+        //     $user_response = $client->request('GET', $url, $headers);
 
-            if ( $user_response->getStatusCode() == 200 ) {
-                $users = json_decode($user_response->getBody());
+        //     if ( $user_response->getStatusCode() == 200 ) {
+        //         $users = json_decode($user_response->getBody());
 
-                // start pagination
-                $perPage = 10;
-                $page = $request->get('page', 1);
-                if ($page > count($users->data) or $page < 1) {
-                    $page = 1;
-                }
-                $offset = ($page * $perPage) - $perPage;
-                $articles = array_slice($users->data, $offset, $perPage);
-                $datas = new Paginator($articles, count($users->data), $perPage);
+        //         // start pagination
+        //         $perPage = 10;
+        //         $page = $request->get('page', 1);
+        //         if ($page > count($users->data) or $page < 1) {
+        //             $page = 1;
+        //         }
+        //         $offset = ($page * $perPage) - $perPage;
+        //         $articles = array_slice($users->data, $offset, $perPage);
+        //         $datas = new Paginator($articles, count($users->data), $perPage);
 
-                return view('backend.customer.index')->with('response', $datas->withPath('/'.$request->path()));
-            }
-            if ($user_response->getStatusCode() == 500) {
-                return view('errors.500');
-            }
-        } catch(\Exception $e) {
-            return view('errors.500');
-        }
+        //         return view('backend.customer.index')->with('response', $datas->withPath('/'.$request->path()));
+        //     }
+        //     if ($user_response->getStatusCode() == 500) {
+        //         return view('errors.500');
+        //     }
+        // } catch(\Exception $e) {
+        //     return view('errors.500');
+        // }
     }
 
     /**

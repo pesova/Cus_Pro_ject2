@@ -104,7 +104,7 @@ class ComplaintController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $url = env('API_URL', 'https://api.customerpay.me/'). "/user/$id";
+        $url = env('API_URL', 'https://dev.api.customerpay.me/'). "/complaint/update/$complaint_id";
 
         try {
             $client = new Client();
