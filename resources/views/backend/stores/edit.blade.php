@@ -11,7 +11,7 @@
                 <div class="row page-title">
                     <div class="col-md-12">
                         <nav aria-label="breadcrumb" class="float-right mt-1">
-                            <a href="/admin/view_store" class="btn btn-primary">Go Back</a>
+                            <a href="/admin/store" class="btn btn-primary">Go Back</a>
                         </nav>
                         <h4 class="mt-2">Edit My Store</h4>
                     </div>
@@ -54,7 +54,7 @@
                              </div>
                         </div>
                     </div>
-                    
+
                 </div>
 
             </div>
@@ -88,5 +88,5 @@
    window.intlTelInput(input, {
        // any initialisation options go here
    });
-   </script>    
+   </script>
 @stop
