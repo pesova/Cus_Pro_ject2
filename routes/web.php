@@ -13,8 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/json-api', 'ApiController@index');
-
 // Unauthenticated Routes
 
 Route::get('/', function() {return view('home');})->name('home');
