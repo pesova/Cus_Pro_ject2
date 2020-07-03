@@ -29,8 +29,8 @@ class SettingsController extends Controller
 
             if ( $user_detail_process->getStatusCode() == 200 ) {
 
-                $response = json_decode($user_detail_process->getBody(), true);
-                return view('backend.settings.settings')->with('user_details', $response);
+                $res = json_decode($user_detail_process->getBody(), true);
+                return view('backend.settings.settings')->with('user_details', $res);
             }
             if ($user_detail_process->getStatusCode() == 500) {
 

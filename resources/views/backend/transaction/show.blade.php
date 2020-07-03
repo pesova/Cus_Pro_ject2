@@ -17,7 +17,7 @@
                                     <div class="media p-3">
                                         <i data-feather="grid" class="align-self-center icon-dual icon-sm mr-4"></i>
                                         <div class="media-body">
-                                            <h5 class="mt-0 mb-0">{{$response->_id}}</h5>
+                                            {{-- <h5 class="mt-0 mb-0">{{$response->_id}}</h5> --}}
                                             <span class="text-muted font-size-13">Ref Id.</span>
                                         </div>
                                     </div>
@@ -27,7 +27,7 @@
                                     <div class="media p-3">
                                         <i data-feather="check-square" class="align-self-center icon-dual icon-sm mr-4"></i>
                                         <div class="media-body">
-                                            <h4 class="mt-0 mb-0">{{isset( $response->type) ? $response->type : "Not Available"}}</h4>
+                                               <h4 class="mt-0 mb-0">Payment</h4>
                                             <span class="text-muted">Ref Transaction Type</span>
                                         </div>
                                     </div>
@@ -37,7 +37,7 @@
                                     <div class="media p-3">
                                         <i data-feather="users" class="align-self-center icon-dual icon-sm mr-4"></i>
                                         <div class="media-body">
-                                            <h4 class="mt-0 mb-0">{{isset($response->customer_ref_code ) ? $response->customer_ref_code : "Not Available"}}</h4>
+                                            <h4 class="mt-0 mb-0">TC002</h4>
                                             <span class="text-muted">Customer Ref. Code</span>
                                         </div>
                                     </div>
@@ -47,7 +47,7 @@
                                     <div class="media p-3">
                                         <i data-feather="clock" class="align-self-center icon-dual icon-lg mr-4"></i>
                                         <div class="media-body">
-                                            <h4 class="mt-0 mb-0">{{isset( $response->due_date) ? $response->due_date : "Not Available"}}</h4>
+                                            <h4 class="mt-0 mb-0">21-02-2020</h4>
                                             <span class="text-muted">Payment due in</span>
                                         </div>
                                     </div>
@@ -65,22 +65,22 @@
                         <h6 class="mt-0 header-title">Description</h6>
 
                         <div class="text-muted mt-3">
-                            <p>{{$response->description}}</p>
+                            <p>desc</p>
 
                             <h6 class="mt-0 header-title">Financial Details</h6>
 
 
                             <ul class="pl-4 mb-4">
-                            <li>Amount : {{$response->amount}}</li>
-                                <li>Interest : {{$response->interest}}</li>
-                                <li>Total Amount : {{$response->total_amount}}</li>
+                            <li>Amount : 0000</li>
+                                <li>Interest : 0000</li>
+                                <li>Total Amount : 00000</li>
                             </ul>
 
 
                             <div class="tags">
                                 <h6 class="font-weight-bold">Transaction created by:</h6>
                                 <div class="text-uppercase">
-                                    <a href="#" class="badge badge-soft-primary mr-2">{{isset( $response->created_by) ? $response->created_by : "John Doe"}}</a>
+                                    <a href="#" class="badge badge-soft-primary mr-2">John Doe</a>
 
                                 </div>
                             </div>
@@ -89,25 +89,25 @@
                                 <div class="col-lg-3 col-md-6">
                                     <div class="mt-4">
                                         <p class="mb-2"><i class="uil-calender text-danger"></i> Created At</p>
-                                        <h6 class="font-size-10">{{ date("D d M Y h:i:sa", strtotime($response->createdAt))}}</h6>
+                                        <h6 class="font-size-10">20/12/2020</h6>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-6">
                                     <div class="mt-4">
                                         <p class="mb-2"><i class="uil-calendar-slash text-danger"></i> Updated At</p>
-                                        <h6 class="font-size-10">{{date("D d M Y h:i:sa", strtotime($response->updatedAt))}}</h6>
+                                        <h6 class="font-size-10">20/12/2020</h6>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-6">
                                     <div class="mt-4">
                                         <p class="mb-2"><i class="uil-dollar-alt text-danger"></i> Total Amount</p>
-                                        <h5 class="font-size-16">${{$response->total_amount}}</h5>
+                                        <h5 class="font-size-16">$0000</h5>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-3 col-md-6">
                                     <div class="mt-4">
-                                        <p class="mb-2"><i class="uil-user text-danger"></i> {{isset( $response->customer) ? $response->customer : "John Doe"}}</p>
+                                        <p class="mb-2"><i class="uil-user text-danger"></i>John Doe</p>
                                         <h5 class="font-size-16">Rick Perry</h5>
                                     </div>
                                 </div>
@@ -130,8 +130,6 @@
             </div>
         </div>
     </div>
-
-
 </div>
 
 @endsection

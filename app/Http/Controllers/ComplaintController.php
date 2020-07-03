@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use Illuminate\Support\Facades\Log;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 
-class ComplaintlogController extends Controller
+class ComplaintController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +16,39 @@ class ComplaintlogController extends Controller
      */
     public function index()
     {
+        return view('backend.complaints.index');
 
+        // $url = env('API_URL', 'https://dev.api.customerpay.me') . '/complaint/all';
+
+        // try {
+        //     $client = new Client;
+        //     $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+        //     $response = $client->request("GET", $url, $payload);
+        //     $statusCode = $response->getStatusCode();
+        //     $body = $response->getBody();
+        //     $complaint = json_decode($body);
+        //     dd($complaint);
+        //     if ($statusCode == 200) {
+        //         return view('backend.stores.index')->with('response', $Stores->data->stores);
+        //     }
+        //     if ($response->getStatusCode() == 401) {
+        //         $data = json_decode($response->getBody());
+        //         Session::flash('message', $data->message);
+        //         return redirect()->route('store.index', ['response' => []]);
+        //     }
+        //     if ($response->getStatusCode() == 400) {
+        //         Log::error((string) $response->getBody());
+        //         return view('errors.400');
+        //     }
+        //     if ($response->getStatusCode() == 500) {
+        //         Log::error((string) $response->getBody());
+        //         return view('errors.500');
+        //     }
+        // } catch (\Exception $e) {
+        //     $response = $e->getResponse();
+        //     //log error;
+        //     Log::error('Catch error: ComplaintController - ' . $e->getMessage());
+        // }
 
     }
 
@@ -25,7 +59,7 @@ class ComplaintlogController extends Controller
      */
     public function create()
     {
-        //
+        return view('backend.complaints.create');
     }
 
     /**
@@ -70,7 +104,7 @@ class ComplaintlogController extends Controller
      */
     public function update(Request $request, $id)
     {
-         $url = env('API_URL', 'https://api.customerpay.me/'). "/user/$id";
+        $url = env('API_URL', 'https://dev.api.customerpay.me/'). "/complaint/update/$complaint_id";
 
         try {
             $client = new Client();

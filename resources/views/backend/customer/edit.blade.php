@@ -1,9 +1,9 @@
 {{-- inherits base markup --}}
-{{-- got my page working im so excited --}}
 @extends('layout.base')
+
 {{-- add in the basic styling : check the contents of these stylesheets later --}}
 @section("custom_css")
-<link rel="stylesheet" href="{{asset('backend/assets/css/singleCustomer.css')}}">
+  <link rel="stylesheet" href="{{asset('backend/assets/css/singleCustomer.css')}}">
 @stop
 
 
@@ -11,7 +11,7 @@
 
 @section('content')
 <div class="content">
-
+  @isset($response)
     <div class="container-fluid">
         {{-- start of page title --}}
         <div class="row page-title">
@@ -31,7 +31,7 @@
                  <div class="card">
                      <div class="card-body text-center text-muted">
                          <img src="../../backend/assets/images/users/avatar-7.jpg" alt="Customer 1" class="img-fluid rounded-circle">
-                         <h4>John Doe</h4>
+                         <h4>{{ $response->name }}</h4>
                          <h5 class="cust-email">johndoe@doetech.com</h5>
                          this is a very very large junk of rubbush that i am just foing to type in the hopes that it casue seomth
                          ing dofferent to hppen to my file ebvery single godammmn time.
@@ -43,15 +43,20 @@
                  </div>
              </div>
              {{--end of person profile--}}
+
              <div class="col-lg-9 col-md-8 col-sm-7">
                  {{-- start of card --}}
+                @if(Session::has('message') || $errors->any())
+                  <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
+                @endif
                 <div class="card">
                     <div class="card-body">
-                        <form class="form-horizontal" role="form">
+                        <form class="form-horizontal" role="form" method="POST" action="{{url('/admin/edit_customer')}}/{{$response->id}}">
+                          @csrf
                             <div class="form-group">
                               <label class="col-lg-3 control-label">Full Name:</label>
                               <div class="col-lg-8">
-                                <input class="form-control" type="text" value="John Doe">
+                                <input class="form-control" type="text" value="{{ $response->name }}" name="name">
                               </div>
                             </div>
 
@@ -65,7 +70,7 @@
                             <div class="form-group">
                                 <label class="col-lg-3 control-label">Tel:</label>
                                 <div class="col-lg-8">
-                                  <input class="form-control" type="phone" value="+234 90 00 000 000">
+                                  <input class="form-control" type="phone" value="{{$response->phone}}" name='phone'>
                                 </div>
                               </div>
                               <div class="form-group">
@@ -113,7 +118,7 @@
                             <div class="form-group">
                               <label class="col-md-3 control-label"></label>
                               <div class="col-md-8">
-                                <input type="button" class="btn btn-primary" value="Save Changes">
+                                <input type="submit" class="btn btn-primary" value="Save Changes">
                                 <span></span>
                                 <input type="reset" class="btn btn-default" value="Cancel">
                               </div>
@@ -132,6 +137,7 @@
         
         {{--end of column--}}
     </div>
+  @endisset
 </div>
 
 @endsection

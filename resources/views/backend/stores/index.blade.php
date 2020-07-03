@@ -1,8 +1,8 @@
 @extends('layout.base')
 @section("custom_css")
-<link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
-<link rel="stylesheet" href="{{asset('backend/assets/css/store_list.css')}}">
+    <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
+    <link rel="stylesheet" href="{{asset('backend/assets/css/store_list.css')}}">
 @stop
 
 @section('content')
@@ -82,9 +82,9 @@
 
                                     @foreach ($response as $store )
                                     <tr>
-                                    <td>{{$store->_id}}</td>
-                                    <td>{{$store->store_name}}</td>
-                                    <td>{{$store->shop_address}}</td>
+                                     <td>{{ $store->_id }}</td>
+                                    <td>{{ $store->store_name }}</td>
+                                    <td>{{ $store->shop_address }}</td>
                                     <td>
                                         <div class="btn-group mt-2 mr-1">
                                             <button type="button" class="btn btn-info dropdown-toggle"
@@ -92,16 +92,24 @@
                                                 Actions<i class="icon"><span data-feather="chevron-down"></span></i>
                                             </button>
                                             <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="{{ route('store.view',['id'=>$store->_id]) }}">View
+                                                <a class="dropdown-item" href="{{ route('store.show', $store->_id) }}">View
                                                     Store</a>
-                                                <a class="dropdown-item" href="{{ route('store.edit',['id'=>$store->_id]) }}">Edit
+                                                <a class="dropdown-item" href="{{ route('store.edit', $store->_id) }}">Edit
                                                     store</a>
                                                 <a class="dropdown-item" href="#">Delete store</a>
                                             </div>
                                         </div>
                                     </td>
-                                </tr>
+                                    </tr>
                                     @endforeach
+
+{{--
+                                    <td>SHP12</td>
+                                    <td>MY CUs Bus</td>
+                                    <td>Plot 4 km 34</td>
+
+                                </tr>
+                                --}}
                                 </tbody>
                             </table>
                         </div>

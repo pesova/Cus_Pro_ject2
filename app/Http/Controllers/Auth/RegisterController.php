@@ -57,37 +57,29 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return \App\User
      */
     // Controller action to register a new user.
     public function register(Request $request)
     {
 
-        $request->validate([
+        $data = $request->validate([
             'phone_number' => 'required|min:6|max:16',
-            'password' =>  'required|regex:/[a-zA-Z0-9]{6,20}$/',
+            'password' => 'required|regex:/[a-zA-Z0-9]{6,20}$/',
         ]);
 
         try {
 
-            if ($request->all()) {
+            if ($data) {
 
-                $client =  new Client();
+                $client = new Client();
                 $response = $client->post($this->host . '/register/user', [
                     'form_params' => [
                         'phone_number' => $request->input('phone_number'),
                         'password' => $request->input('password')
                     ]
                 ]);
-
-
-                if ($response->getStatusCode() == 409) {
-                    $request->session()->flash('message', "409 error");
-                    $request->session()->flash('alert-class', 'alert-danger');
-                    return redirect()->route('signup');
-                }
-
 
                 if ($response->getStatusCode() == 201) {
 
@@ -97,40 +89,39 @@ class RegisterController extends Controller
 
                         $data = $res->data->user->local;
                         $api_token = $res->data->user->api_token;
+                        $user_role = $res->data->user->local->user_role;
 
                         // store data to cookie
+                        Cookie::queue('user_role', $user_role);
                         Cookie::queue('api_token', $api_token);
                         Cookie::queue('is_active', $data->is_active);
                         Cookie::queue('phone_number', $data->phone_number);
                         Cookie::queue('user_id', $res->data->user->_id);
+                        Cookie::queue('expires', strtotime('+ 1 day'));
 
                         return redirect()->route('activate.user');
                     }
                 }
 
                 if($response->getStatusCode() == 200) {
-                    $_response = json_decode($response->getBody(), true);
+                    $res = json_decode($response->getBody());
 
-                    $request->session()->flash('message', $_response['Message']);
+
+                    $request->session()->flash('message', $res->Message);
                     $request->session()->flash('alert-class', 'alert-danger');
                     return redirect()->route('signup');
                 }
 
-                if ($response->getStatusCode() == 500) {
-                    Log::error('Server Error: ' . $response->getBody());
-                    return view('errors.500');
+                $res = json_decode($response->getBody());
+
+                if ($res->success == false) {
+                    $request->session()->flash('message', $res->error->description);
+                    $request->session()->flash('alert-class', 'alert-danger');
+                    return redirect()->route('signup');
                 }
             }
 
-            $res = json_decode($response->getBody());
-
-            if ($res->success == false) {
-                $request->session()->flash('message', $res->error->description);
-                $request->session()->flash('alert-class', 'alert-danger');
-                return redirect()->route('signup');
-            }
-
-            $request->session()->flash('message', 'Please fill the form');
+            $request->session()->flash('message', 'Please fill the form correctly');
             $request->session()->flash('alert-class', 'alert-danger');
 
             return redirect()->route('signup');
@@ -138,9 +129,14 @@ class RegisterController extends Controller
             //log error;
             Log::error('Catch error: RegisterController - ' . $e->getMessage());
 
+            // check for 500 server error
+            if ($e->getResponse()->getStatusCode() == 500) {
+                return view('errors.500');
+            }
+
             // get response
             $response = json_decode($e->getResponse()->getBody());
-            
+
             $request->session()->flash('alert-class', 'alert-danger');
             $request->session()->flash('message', $response->error->description);
             return redirect()->route('signup');
