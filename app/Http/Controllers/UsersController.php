@@ -4,43 +4,61 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
-use Illuminate\Pagination\LengthAwarePaginator as Paginator; // NAMESPACE FOR PAGINATOR
+use Illuminate\Support\Facades\Log;
+use Illuminate\Pagination\LengthAwarePaginator as Paginator;
+use Illuminate\Support\Facades\Cookie;
 
 class UsersController extends Controller
 {
 
+
+    public function activate(Request $request)
+    {
+        return redirect()->route('dashboard');
+    }
 
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index( Request $request )
+    public function index(Request $request)
     {
-        //
-        try {
-            $client = new Client();
-            $response = $client->request('GET', 'https://dev.customerpay.me/user/all');
-            $statusCode = $response->getStatusCode();
-            if ($statusCode == 200) {
-                $body = $response->getBody()->getContents();
-                $users = json_decode($body);
+        return view('backend.user.index');
+        // try {
 
-                $perPage = 10;   
-                $page = $request->get('page', 1);
-                if ($page > count($users) or $page < 1) { $page = 1; }
-                $offset = ($page * $perPage) - $perPage; 
-                $articles = array_slice($users,$offset,$perPage);
-                $datas = new Paginator($articles, count($users), $perPage);
-                return view('backend.users_list.index')->with('response', $datas->withPath('/backend/users'));
-            }
+        //     $url = env('API_URL', 'https://api.customerpay.me'). '/user/all' ;
+        //     $client = new Client();
+        //     $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+        //     $user_response = $client->request('GET', $url, $headers);
 
-            if ($statusCode == 500) {
-                return view('errors.500');
-            }
-        } catch (\Exception $e) {
-            return view('errors.500');
-        }
+        //     if ( $user_response->getStatusCode() == 200 ) {
+
+        //         $users = json_decode($user_response->getBody()->getContents(), true);
+
+        //         $perPage = 10;
+        //         $page = $request->get('page', 1);
+        //         if ($page > count($users) or $page < 1) {
+        //             $page = 1;
+        //         }
+        //         $offset = ($page * $perPage) - $perPage;
+        //         $articles = array_slice($users, $offset, $perPage);
+        //         $datas = new Paginator($articles, count($users), $perPage);
+
+        //         return view('backend.user.index')->with('response', $datas->withPath('/'.$request->path()));
+        //     }
+        //     if ($user_response->getStatusCode() == 500) {
+
+        //         return view('errors.500');
+        //     }
+        // } catch(\Exception $e) {
+        //     $user_response = $e->getResponse();
+        //     //log error;
+        //     Log::error('Catch error: UserController - ' . $e->getMessage());
+
+        //     return view('errors.500');
+        // }
+
     }
 
     /**
@@ -72,13 +90,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        //
-        // $client = new Client();
-        // $response = $client->request('GET', 'https://dev.customerpay.me/user/0');
-        // $statusCode = $response->getStatusCode();
-        // $body = $response->getBody()->getContents();
-        // $user = json_decode($body);
-        // return view('backend.users_list.index')->with('response', $user);
+    	//
     }
 
     /**
@@ -101,7 +113,7 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+    	//
     }
 
     /**
