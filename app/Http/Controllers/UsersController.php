@@ -25,7 +25,7 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
-        return view('dashboard.user.index');
+        return view('backend.user.index');
         // try {
 
         //     $url = env('API_URL', 'https://api.customerpay.me'). '/user/all' ;
