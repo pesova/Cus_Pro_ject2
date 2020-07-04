@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
+use GuzzleHttp\Exception\RequestException;
 
 // use Illuminate\Support\Facades\Http;
 
@@ -43,7 +43,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->host = env('API_URL', 'https://api.customerpay.me/');
+        $this->host = env('API_URL', 'https://dev.api.customerpay.me');
     }
 
     public function index()
@@ -85,7 +85,8 @@ class LoginController extends Controller
                     $data = $response->data->user->local;
 
                     // store data to cookie
-                    Cookie::queue('api_token', $data->api_token);
+                    Cookie::queue('api_token', $response->data->user->api_token);
+                    Cookie::queue('user_role', $response->data->user->local->user_role);
                     Cookie::queue('is_active', $data->is_active);
                     Cookie::queue('phone_number', $data->phone_number);
                     Cookie::queue('user_id', $response->data->user->_id);
@@ -110,17 +111,26 @@ class LoginController extends Controller
             $message = isset($response->Message) ? $response->Message : $response->message;
             $request->session()->flash('message', $message);
             return redirect()->route('login');
-        } catch (\Exception $e) {
+        } catch (RequestException $e) {
+            //log error;
+            Log::error('Catch error: LoginController - ' . $e->getMessage());
 
-            if ($e->getCode() == 400) {
-                $request->session()->flash('message', 'Invalid Phone number or password. Ensure Your phone number uses internations format.e.g +234');
-                $request->session()->flash('alert-class', 'alert-danger');
-                return redirect()->route('login');
+            // check for 500 server error
+            if ($e->getResponse()->getStatusCode() == 500) {
+                return view('errors.500');
             }
 
-            Log::error("catch error: LoginController - " . $e->getMessage());
-            $request->session()->flash('message', 'Something bad happened, please try again');
+            // get response to catch 4xx errors
+            $response = json_decode($e->getResponse()->getBody());
+
+            $request->session()->flash('alert-class', 'alert-danger');
+            $request->session()->flash('message', $response->error->description);
             return redirect()->route('login');
+        } catch (\Exception $e) {
+            //log error;
+            Log::error('Catch error: LoginController - ' . $e->getMessage());
+
+            return view('errors.500');
         }
         return redirect()->route('login');
     }

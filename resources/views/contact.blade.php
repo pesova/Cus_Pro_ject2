@@ -5,7 +5,6 @@
 @stop
 
 
-
 @section('content')
 
 <section id="main">
