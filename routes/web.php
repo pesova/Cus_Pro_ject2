@@ -18,19 +18,33 @@ use Illuminate\Support\Facades\Cookie;
 
 // Unauthenticated Routes
 
-Route::get('/', function() {return view('home');})->name('home');
+Route::get('/', function () {
+    return view('home');
+})->name('home');
 
-Route::get('/about', function () {return view('about');})->name('about');
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
 
-Route::get('/faq', function () {return view('faq');})->name('faq');
+Route::get('/faq', function () {
+    return view('faq');
+})->name('faq');
 
-Route::get('/contact', function () {return view('contact');})->name('contact');
+Route::get('/contact', function () {
+    return view('contact');
+})->name('contact');
 
-Route::get('/privacy', function () {return view('privacy');})->name('privacy');
+Route::get('/privacy', function () {
+    return view('privacy');
+})->name('privacy');
 
-Route::get('/blog', function () {return view('blog');})->name('blog');
+Route::get('/blog', function () {
+    return view('blog');
+})->name('blog');
 
-Route::get('/admin', function() { return redirect()->route('dashboard');});
+Route::get('/admin', function () {
+    return redirect()->route('dashboard');
+});
 
 // backend codes
 Route::prefix('/admin')->group(function () {
@@ -61,7 +75,7 @@ Route::prefix('/admin')->group(function () {
         Route::get('/analytics', 'DashboardController@analytics')->name('analytics');
         Route::get('/notification', 'DashboardController@notification')->name('notification');
 
-        Route::get('/activate', function() {
+        Route::get('/activate', function () {
             return view('backend.user.activate')->with([
                 'apiToken' => Cookie::get('apiToken'),
                 'phoneNumber' => Cookie::get('phone_number')
@@ -85,7 +99,7 @@ Route::prefix('/admin')->group(function () {
         Route::resource('store', 'StoreController');
 
         // assistant crud
-        Route::resource('assistant', 'AssistantController');
+        Route::resource('assistants', 'AssistantController');
 
         // broadcast crud
         Route::resource('broadcast', 'BroadcastController');

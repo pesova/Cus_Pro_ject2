@@ -27,16 +27,16 @@
 </li>
 
 <li>
-    <a href="{{ route('debtor.create') }}">
+    <a href="#">
         <i data-feather="bell"></i>
         <span> Debt Reminders </span>
     </a>
 </li>
 
 <li>
-    <a href="{{ route('assistant.create') }}">
+    <a href="{{ route('assistants.index') }}">
         <i data-feather="users"></i>
-        <span> Add Assistant </span>
+        <span> Assistants </span>
     </a>
 </li>
 
