@@ -251,15 +251,11 @@ class CustomerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-        if ( !$id || empty($id) ) {
-            return view('errors.500');
-        } else if ( !isset($request->name) || !isset($request->phone ) ) {
-            $request->session()->flash('alert-class', 'alert-danger');
-            $request->session()->flash('message', 'Name and Phone number are required');
-
-            return redirect()->back();
-        }
+        $request->validate([
+          'name' => 'required',
+          'phone' => 'required',
+          'email' => 'required'
+        ]);
 
         try {
             $url = $this->host.'customer/update/'.$id;
@@ -268,7 +264,8 @@ class CustomerController extends Controller
                 'headers' => ['x-access-token' => Cookie::get('api_token')],
                 'form_params' => [
                     'name' => $request->name,
-                    'phone' => $request->phone
+                    'phone' => $request->phone,
+                    'email' => $request->email
                 ]
             ];
             $response = $client->request("PUT", $url, $payload);
