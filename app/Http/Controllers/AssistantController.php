@@ -11,6 +11,7 @@ use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 
 class AssistantController extends Controller
 {
@@ -22,10 +23,32 @@ class AssistantController extends Controller
     public function index(Request $request)
     {
         //
-        if ($request->isMethod('post')) {
-        return $this->store();
-        } else {
-            return redirect()->route('assistant.create');
+        try {
+            $user_id = Cookie::get('user_id');
+            $url = env('API_URL', 'https://api.customerpay.me/') . '/user/all/' . $user_id;
+            //$url = "http://localhost:3000/user/all/" . $user_id;
+            $client = new Client();
+            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+            $user_response = $client->request('GET', $url, $headers);
+            if ($user_response->getStatusCode() == 200) {
+                $response = json_decode($user_response->getBody(), true);
+                $assistants = $response['data']['assistants'];
+                $perPage = 10;
+                $page = $request->get('page', 1);
+                if ($page > count($assistants) or $page < 1) {
+                    $page = 1;
+                }
+                $offset = ($page * $perPage) - $perPage;
+                $articles = array_slice($assistants, $offset, $perPage);
+                $datas = new Paginator($articles, count($assistants), $perPage);
+                return view('backend.assistant.index')->with('response', $datas->withPath('/' . $request->path()));
+            }
+            if ($user_response->getStatusCode() == 500) {
+                return view('errors.500');
+            }
+        } catch (\Exception $e) {
+            $request->session()->flash('message', 'Sorry could not get assistants, please check your connection');
+            return view('backend.assistant.index');
         }
     }
 
@@ -98,7 +121,7 @@ class AssistantController extends Controller
                 return redirect()->route('assistant.create');
             } catch (Exception $e) {
                 // dd( $e->getMessage());
-                Log::error( $e->getMessage());
+                Log::error($e->getMessage());
                 return view('errors.500');
             }
         }
