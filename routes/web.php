@@ -106,7 +106,6 @@ Route::prefix('/admin')->group(function () {
 
         // complaint crud
         Route::resource('complaint', 'ComplaintController');
-        Route::get('/del/{id}', 'ComplaintController@destroy')->name('delete.complaint');
 
 
         // user crud

@@ -142,8 +142,8 @@ class ComplaintController extends Controller
      */
     public function destroy($id)
     {
-      $host = env('API_URL', 'https://crudcrud.com/api/eb76097cd2f14df8b963d5b5b065d518/');
-      $url = $host."unicorns/".$id;
+      $host = env('API_URL', 'https://api.customerpay.me/');
+      $url = $host."complaint/delete/".$id;
       try {
          $client = new Client();
          $request = $client->delete($url);

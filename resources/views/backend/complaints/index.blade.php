@@ -52,7 +52,7 @@
                                     </td>
                                     <td>{{isset( $response->status) ? $response->status : "open"}}</td>
                                     <td>{{isset( $response->createdAt) ? $response->createdAt : "2020 07 25"}}</td>
-                                    <td><a href="{{ route('delete.complaint',$response->_id) }}" class="btn btn-danger " id="deletecomplaint" data-id="{{ $response->_id }}">
+                                    <td><a href="{{ route('complaint.destroy',$response->_id) }}" class="btn btn-danger " id="deletecomplaint" data-id="{{ $response->_id }}">
    Delete
 </a>
                                     </td>
