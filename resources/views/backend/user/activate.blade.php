@@ -36,8 +36,7 @@
                                         <div class="alert alert-success alert-dismissible" id="success"
                                             style="display: none">
                                             <span id="success-message">Your account has been activated.
-                                                <a href="{{ route('dashboard') }}}">Click Here if you were not
-                                                    redirected</a>
+                                                <a href="{{ route('dashboard') }}}">Click Here if you were not redirected</a>
                                             </span>
 
                                         </div>
@@ -68,22 +67,24 @@
                                             </div>
                                         </form>
                                     </div>
-                                </div>
 
-                            </div> <!-- end card-body -->
-                        </div>
-                        <!-- end card -->
+                                </div> <!-- end card-body -->
+                            </div>
+                            <!-- end card -->
 
-                        <div class="row mt-3">
-                            <div class="col-12 text-center">
-                                <p class="text-muted">Back to <a href="{{ route('login') }}"
-                                        class="text-primary font-weight-bold ml-1">Login</a>
-                                </p>
-                                <p class="text-muted"><a href="{{ route('dashboard') }}"
-                                        class="text-primary font-weight-bold ml-1">Skip for now</a>
-                                </p>
-                            </div> <!-- end col -->
-                        </div>
+                            <div class="row mt-3">
+                                <div class="col-12 text-center">
+                                    <p class="text-muted">Back to <a href="{{ route('logout') }}"
+                                                                     class="text-primary font-weight-bold ml-1">Login</a>
+                                    </p>
+                                    <p class="text-muted"><a href="{{ route('dashboard') }}"
+                                                                     class="text-primary font-weight-bold ml-1">Skip for now</a>
+                                    </p>
+                                </div> <!-- end col -->
+                            </div>
+                            <!-- end row -->
+
+                        </div> <!-- end col -->
                         <!-- end row -->
 
                     </div> <!-- end col -->
