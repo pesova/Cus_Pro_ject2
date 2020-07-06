@@ -28,9 +28,20 @@
                                         <p class="text-muted mt-1 mb-4">Enter your phone number and password to
                                             access admin panel.</p>
 
-                                            @if(Session::has('message') || $errors->any())
+                                            @if(Session::has('message'))
                                             <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
                                             @endif
+
+                                            @if ($errors->any())
+                                                <div class="alert alert-danger">
+                                                    <ul>
+                                                        @foreach ($errors->all() as $error)
+                                                            <li>{{ $error }}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            @endif
+
 
                                         <form action="{{ route('login.authenticate') }}" class="authentication-form" method="POST">
                                             @csrf
