@@ -40,33 +40,24 @@
 
 
                             <tbody>
+                              @foreach ($response as $response)
                                 <tr>
 
 
                                     <td>{{isset( $response->_id) ? $response->_id : "148454155"}}</td>
 
-                                    <td>{{isset( $response->name) ? $response->name : "Ajanaku"}}
-                                        {{isset( $response->name) ? $response->type : "Azeez"}}</td>
-                                    <td>{{isset( $response->email) ? $response->type : "AjanakuAzeez@yahoo.com"}}</td>
-                                    <td>{{isset( $response->name) ? $response->type : "I can't connect now, try again later"}}
+                                    <td>{{isset( $response->first_name) ? $response->first_name : "Ajanaku"}} {{isset( $response->last_name) ? $response->last_name : "Azeez"}}</td>
+                                    <td>{{isset( $response->email) ? $response->email : "AjanakuAzeez@yahoo.com"}}</td>
+                                    <td>{{isset( $response->message) ? $response->message : "I can't connect now, try again later"}}
                                     </td>
-                                    <td>{{isset( $response->name) ? $response->type : "Open"}}</td>
-                                    <td>{{isset( $response->name) ? $response->type : "2020 07 25"}}</td>
-                                    <td>
-                                        <div class="btn-group mt-2 mr-1">
-                                            <button type="button" class="btn btn-info dropdown-toggle"
-                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Actions<i class="icon"><span data-feather="chevron-down"></span></i>
-                                            </button>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <button name="status" type="button" class="dropdown-item"
-                                                    onclick="foo()">Change Status</button>
-                                                <button name="delete" type="button1" class="dropdown-item"
-                                                    onclick="foo()">Delete</button>
-                                            </div>
-                                        </div>
+                                    <td>{{isset( $response->status) ? $response->status : "open"}}</td>
+                                    <td>{{isset( $response->createdAt) ? $response->createdAt : "2020 07 25"}}</td>
+                                    <td><a href="{{ route('delete.complaint',$response->_id) }}" class="btn btn-danger " id="deletecomplaint" data-id="{{ $response->_id }}">
+   Delete
+</a>
                                     </td>
                                 </tr>
+                                @endforeach
 
 
 

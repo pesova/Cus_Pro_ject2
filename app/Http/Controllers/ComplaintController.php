@@ -16,40 +16,26 @@ class ComplaintController extends Controller
      */
     public function index()
     {
-        return view('backend.complaints.index');
-
-        // $url = env('API_URL', 'https://dev.api.customerpay.me') . '/complaint/all';
-
-        // try {
-        //     $client = new Client;
-        //     $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
-        //     $response = $client->request("GET", $url, $payload);
-        //     $statusCode = $response->getStatusCode();
-        //     $body = $response->getBody();
-        //     $complaint = json_decode($body);
-        //     dd($complaint);
-        //     if ($statusCode == 200) {
-        //         return view('backend.stores.index')->with('response', $Stores->data->stores);
-        //     }
-        //     if ($response->getStatusCode() == 401) {
-        //         $data = json_decode($response->getBody());
-        //         Session::flash('message', $data->message);
-        //         return redirect()->route('store.index', ['response' => []]);
-        //     }
-        //     if ($response->getStatusCode() == 400) {
-        //         Log::error((string) $response->getBody());
-        //         return view('errors.400');
-        //     }
-        //     if ($response->getStatusCode() == 500) {
-        //         Log::error((string) $response->getBody());
-        //         return view('errors.500');
-        //     }
-        // } catch (\Exception $e) {
-        //     $response = $e->getResponse();
-        //     //log error;
-        //     Log::error('Catch error: ComplaintController - ' . $e->getMessage());
-        // }
-
+      $host = env('API_URL', 'https://api.customerpay.me/');
+      $url = $host."/complaint/all";
+       try {
+          $client = new Client();
+          $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+          $response = $client->request('GET', $url, $headers);
+          $statusCode = $response->getStatusCode();
+          if ($statusCode == 200) {
+              $body = $response->getBody()->getContents();
+              $complaints = json_decode($body);
+              return view('backend.complaints.index')->with('response', $complaints);
+          }
+          if ($statusCode == 500) {
+              return view('errors.500');
+          }
+      } catch (\Exception $e) {
+          return view('errors.500');
+          
+      }
+        // return view('backend.complaints.index');
     }
 
     /**
@@ -108,17 +94,17 @@ class ComplaintController extends Controller
 
         try {
             $client = new Client();
-            
+
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
             $request->validate([
     			'message' => 'required'
 			]);
-			
+
             $data = [ "message" => $request->input('message') ];
             $req = $client->request('PUT', $url, $headers, $data);
-            
+
             $statusCode = $req->getStatusCode();
-            
+
 			if ($statusCode == 200) {
                 $body = $req->getBody()->getContents();
                 $response = json_decode($body);
@@ -156,6 +142,28 @@ class ComplaintController extends Controller
      */
     public function destroy($id)
     {
-        //
+      $host = env('API_URL', 'https://crudcrud.com/api/eb76097cd2f14df8b963d5b5b065d518/');
+      $url = $host."unicorns/".$id;
+      try {
+         $client = new Client();
+         $request = $client->delete($url);
+         $statusCode = $request->getStatusCode();
+         if ($statusCode == 200) {
+             // return view('backend.complaints.index');
+             // return view('backend.complaints.index');
+             return \Redirect::back();
+         }
+         if ($statusCode == 500) {
+             return redirect()->route('backend.complaints.index');
+         }
+     } catch (\Exception $e) {
+         return redirect()->route('complaint');
+         // return view('backend.transactions.index')->with('error', "Unable to connect to server");
+     }
+      // $client = new \GuzzleHttp\Client();
+
+      // $response = $request->send();
+
+      // dd($response);
     }
 }

@@ -92,6 +92,8 @@ Route::prefix('/admin')->group(function () {
 
         // complaint crud
         Route::resource('complaint', 'ComplaintController');
+        Route::get('/del/{id}', 'ComplaintController@destroy')->name('delete.complaint');
+
 
         // user crud
         Route::resource('users', 'UsersController');
@@ -118,7 +120,7 @@ Route::prefix('/admin')->group(function () {
     // Route::get('/dashboard', function () {
     //     return view('backend.dashboard.index');
     // })->name('dashboard');
-	
+
     // // Single Transaction Page
     // Route::get('/s-transaction', function () {
     //     return view('backend.transactions.s-transaction');
