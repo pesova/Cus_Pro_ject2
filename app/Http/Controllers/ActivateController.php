@@ -15,7 +15,7 @@ class ActivateController extends Controller
     public function index(Request $request)
     {
         return view('backend.user.activate')->with([
-                'apiToken' => Cookie::get('apiToken'),
+                'apiToken' => Cookie::get('api_token'),
                 'phoneNumber' => Cookie::get('phone_number')
            ]);
     }
