@@ -99,7 +99,6 @@ class LoginController extends Controller
                     if ($data->is_active == false) {
                         return redirect()->route('activate.user');
                     }
-
                     return redirect()->route('dashboard');
                 } else {
                     $message = isset($response->Message) ? $response->Message : $response->message;

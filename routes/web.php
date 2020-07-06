@@ -67,20 +67,13 @@ Route::prefix('/admin')->group(function () {
     Route::group(['middleware' => 'backend.auth'], function () {
 
         // activation
-        Route::get('/activate', 'UsersController@activate')->name('activate.user');
+        Route::get('/activate', 'ActivateController@activate')->name('activate.user');
 
         // dashboard, creditor, debtor
         Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
         Route::get('/creditor', 'DashboardController@creditor')->name('creditor');
         Route::get('/analytics', 'DashboardController@analytics')->name('analytics');
         Route::get('/notification', 'DashboardController@notification')->name('notification');
-
-        Route::get('/activate', function () {
-            return view('backend.user.activate')->with([
-                'apiToken' => Cookie::get('apiToken'),
-                'phoneNumber' => Cookie::get('phone_number')
-            ]);
-        })->name('activate.user');
 
 
         // customer crud

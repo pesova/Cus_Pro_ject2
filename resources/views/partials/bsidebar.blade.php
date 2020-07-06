@@ -13,7 +13,7 @@
                 <span data-feather="chevron-down"></span>
             </a>
             <div class="dropdown-menu profile-dropdown">
-                <a href="pages-profile.html" class="dropdown-item notify-item">
+                <a href="{{ route('setting') }}" class="dropdown-item notify-item">
                     <i data-feather="user" class="icon-dual icon-xs mr-2"></i>
                     <span>My Account</span>
                 </a>
@@ -23,7 +23,7 @@
                     <span>Settings</span>
                 </a> --}}
 
-                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                {{-- <a href="javascript:void(0);" class="dropdown-item notify-item">
                     <i data-feather="help-circle" class="icon-dual icon-xs mr-2"></i>
                     <span>Support</span>
                 </a>
@@ -31,10 +31,13 @@
                 <a href="javascript:void(0);" class="dropdown-item notify-item">
                     <i data-feather="lock" class="icon-dual icon-xs mr-2"></i>
                     <span>Lock Screen</span>
-                </a>
+                </a> --}}
 
                 <div class="dropdown-divider"></div>
-
+                <a href="{{ route('logout') }}" class="dropdown-item notify-item">
+                    <i data-feather="log-out" class="icon-dual icon-xs mr-2"></i>
+                    <span>Logout</span>
+                </a>
                  
             </div>
         </div>
