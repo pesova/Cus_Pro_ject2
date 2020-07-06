@@ -100,6 +100,7 @@ Route::prefix('/admin')->group(function () {
         // complaint crud
         Route::resource('complaint', 'ComplaintController');
 
+
         // user crud
         Route::resource('users', 'UsersController');
 
@@ -125,7 +126,7 @@ Route::prefix('/admin')->group(function () {
     // Route::get('/dashboard', function () {
     //     return view('backend.dashboard.index');
     // })->name('dashboard');
-	
+
     // // Single Transaction Page
     // Route::get('/s-transaction', function () {
     //     return view('backend.transactions.s-transaction');
