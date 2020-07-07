@@ -263,9 +263,16 @@ class StoreController extends Controller
         try{
             $client = new Client();
 
-            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+            $payload = [
+                'headers' => [
+                    'x-access-token' => Cookie::get('api_token')
+                ],
+                'form_params' => [
+                    'current_user' => Cookie::get('user_id'),
+                ]
+            ];
 
-            $req = $client->delete($url,$headers);
+            $req = $client->request("delete", $url, $payload);
 
             $status = $req->getStatusCode();
 
@@ -275,7 +282,7 @@ class StoreController extends Controller
                 //     "class" => "alert-success"
                 // ];
 
-                return view('backend.stores.index')->with('data', "Store Deleted");
+                return view('backend.stores.index')->with('data', "Store Deleted Successfully");
             }
             if($status == 400){
                 return view('backend.stores.index')->with('message', 'Invalid ID supplied');
