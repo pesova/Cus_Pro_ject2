@@ -8,6 +8,7 @@
 
 @section('content')
 
+{{-- error messages --}}
     <div class="container-fluid">
         <div class="row ">
             <div class="col-lg-4 bg-white">
@@ -23,6 +24,20 @@
                                                     <img src="{{ ('/frontend/assets/images/fulllogo.png') }}" alt=""
                                                          height="auto"/> </a>
                                             </div>
+
+                                            @if(Session::has('message'))
+                                                <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
+                                            @endif
+
+                                            @if ($errors->any())
+                                                <div class="alert alert-danger">
+                                                    <ul>
+                                                        @foreach ($errors->all() as $error)
+                                                            <li>{{ $error }}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            @endif
 
                                             <h6 class="h5 mb-0 mt-4">Verify Code</h6>
                                             <p class="text-muted mt-1 mb-5">
