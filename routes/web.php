@@ -18,19 +18,33 @@ use Illuminate\Support\Facades\Cookie;
 
 // Unauthenticated Routes
 
-Route::get('/', function() {return view('home');})->name('home');
+Route::get('/', function () {
+    return view('home');
+})->name('home');
 
-Route::get('/about', function () {return view('about');})->name('about');
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
 
-Route::get('/faq', function () {return view('faq');})->name('faq');
+Route::get('/faq', function () {
+    return view('faq');
+})->name('faq');
 
-Route::get('/contact', function () {return view('contact');})->name('contact');
+Route::get('/contact', function () {
+    return view('contact');
+})->name('contact');
 
-Route::get('/privacy', function () {return view('privacy');})->name('privacy');
+Route::get('/privacy', function () {
+    return view('privacy');
+})->name('privacy');
 
-Route::get('/blog', function () {return view('blog');})->name('blog');
+Route::get('/blog', function () {
+    return view('blog');
+})->name('blog');
 
-Route::get('/admin', function() { return redirect()->route('dashboard');});
+Route::get('/admin', function () {
+    return redirect()->route('dashboard');
+});
 
 // backend codes
 Route::prefix('/admin')->group(function () {
@@ -53,20 +67,13 @@ Route::prefix('/admin')->group(function () {
     Route::group(['middleware' => 'backend.auth'], function () {
 
         // activation
-        Route::get('/activate', 'UsersController@activate')->name('activate.user');
+        Route::get('/activate', 'ActivateController@index')->name('activate.user');
 
         // dashboard, creditor, debtor
         Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
         Route::get('/creditor', 'DashboardController@creditor')->name('creditor');
         Route::get('/analytics', 'DashboardController@analytics')->name('analytics');
         Route::get('/notification', 'DashboardController@notification')->name('notification');
-
-        Route::get('/activate', function() {
-            return view('backend.user.activate')->with([
-                'apiToken' => Cookie::get('apiToken'),
-                'phoneNumber' => Cookie::get('phone_number')
-            ]);
-        })->name('activate.user');
 
 
         // customer crud
@@ -85,13 +92,14 @@ Route::prefix('/admin')->group(function () {
         Route::resource('store', 'StoreController');
 
         // assistant crud
-        Route::resource('assistant', 'AssistantController');
+        Route::resource('assistants', 'AssistantController');
 
         // broadcast crud
         Route::resource('broadcast', 'BroadcastController');
 
         // complaint crud
         Route::resource('complaint', 'ComplaintController');
+
 
         // user crud
         Route::resource('users', 'UsersController');
@@ -118,7 +126,7 @@ Route::prefix('/admin')->group(function () {
     // Route::get('/dashboard', function () {
     //     return view('backend.dashboard.index');
     // })->name('dashboard');
-	
+
     // // Single Transaction Page
     // Route::get('/s-transaction', function () {
     //     return view('backend.transactions.s-transaction');

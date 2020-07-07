@@ -19,10 +19,8 @@ class StoreController extends Controller
      */
     public function index()
     {
-        // return view('backend.stores.index');
-
         // API updated
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store/';
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store';
 
         try {
 
