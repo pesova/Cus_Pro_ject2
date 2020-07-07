@@ -355,7 +355,7 @@
                                                             </button>
                                                             <div class="dropdown-menu dropdown-menu-right">
                                                                 <a class="dropdown-item" href="{{ action('CustomerController@edit', $response[$i]->_id) }}">Edit Customer</a>
-                                                                <a class="dropdown-item" href="{{ action('CustomerController@edit', $response[$i]->_id, ['tab' => 'view']) }}">ViewProfile</a>
+                                                                <a class="dropdown-item" href="{{ action('CustomerController@show', $response[$i]->_id) }}">ViewProfile</a>
                                                                 <a class="dropdown-item" href="{{ route('transaction.show', 1) }}">ViewTransaction</a>
                                                                 <a class="dropdown-item" href="{{ route('debtor.create') }}">SendReminder</a>
                                                             </div>

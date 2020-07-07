@@ -203,7 +203,25 @@ class CustomerController extends Controller
     
     public function show($id)
     {
-        return view('backend.customer.show');
+        // return view('backend.customer.show');
+        if ( !$id || empty($id) ) {
+            return view('errors.500');
+        }
+
+        try {
+            $url = $this->host.'customer/'.$id;
+            $client = new Client;
+            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+            $response = $client->request("GET", $url, $headers);
+            $data = json_decode($response->getBody());
+            if ( $response->getStatusCode() == 200 ) {
+                return view('backend.customer.show')->with('response', $data->data->customer);
+            } else {
+                return view('errors.500');
+            }
+        } catch ( \Exception $e ) {
+            return view('errors.500');
+        }
     }
 
     /**
@@ -212,7 +230,7 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $id)
+    public function edit($id)
     {
         //
         if ( !$id || empty($id) ) {
