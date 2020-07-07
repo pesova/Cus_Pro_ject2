@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="{{asset('backend/assets/css/store_list.css')}}">
 @stop
 
-@section('content') store
+@section('content')
 <div class="content">
     <!-- Start Content-->
     <div class="container-fluid">
