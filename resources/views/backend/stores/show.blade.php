@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="{{asset('backend/assets/css/store_list.css')}}">
 @stop
 
-@section('content')
+@section('content') store
 <div class="content">
     <!-- Start Content-->
     <div class="container-fluid">
@@ -61,18 +61,7 @@
                                                 <th scope="row">Total Number of Customers</th>
                                                 <td>{{count( $response->customers )}}</td>
                                             </tr>
-                                            {{-- <tr>
-                                                <th scope="row">Sector</th>
-                                                <td>Pharmaceuticals</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">Phone</th>
-                                                <td>(123) 123 1234</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">Store Reference Code</th>
-                                                <td>ST145M455</td>
-                                            </tr> --}}
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -81,7 +70,7 @@
                     </div>
                 </div>
 
-                <a href="{{ route('store.destroy', $store->_id) }}" class="float-right btn btn-danger mt-2"><i class="fas fa-trash-alt mr-2"></i>Delete Store</a>
+                <a href="{{ route('store.destroy', $response->_id) }}" class="float-right btn btn-danger mt-2"><i class="fas fa-trash-alt mr-2"></i>Delete Store</a>
 
             </div>
         </div>
