@@ -8,6 +8,7 @@
 
 @section('content')
 
+{{-- error messages --}}
     <div class="container-fluid">
         <div class="row ">
             <div class="col-lg-4 bg-white">
@@ -24,6 +25,20 @@
                                                          height="auto"/> </a>
                                             </div>
 
+                                            @if(Session::has('message'))
+                                                <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
+                                            @endif
+
+                                            @if ($errors->any())
+                                                <div class="alert alert-danger">
+                                                    <ul>
+                                                        @foreach ($errors->all() as $error)
+                                                            <li>{{ $error }}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            @endif
+
                                             <h6 class="h5 mb-0 mt-4">Verify Code</h6>
                                             <p class="text-muted mt-1 mb-5">
                                                 Please enter the 6-digit code we sent on your number as SMS
@@ -35,18 +50,16 @@
                                             </div>
                                             <div class="alert alert-success alert-dismissible" id="success"
                                                  style="display: none">
-                                                <span id="success-message">Your account has been activated.
-                                                    <a href="{{ route('dashboard') }}}">Click Here if you were not redirected</a>
-                                                </span>
+                                            <span id="success-message">Your account has been activated.
+                                                <a href="{{ route('dashboard') }}}">Click Here if you were not redirected</a>
+                                            </span>
 
                                             </div>
                                             <form action="#" class="authentication-form">
                                                 <div class="form-group mt-4">
                                                     <label class="form-control-label">Enter 6 digit code</label>
-                                                    <a href=""
-                                                       class="float-right text-muted text-unline-dashed ml-1"
-                                                       id="resend_code">resubmit
-                                                        code</a>
+                                                    <a href="" class="float-right text-muted text-unline-dashed ml-1"
+                                                       id="resend_code">resubmit code</a>
                                                     <div class="input-group input-group-merge">
                                                         <div class="input-group-prepend">
                                                         <span class="input-group-text">
@@ -69,19 +82,25 @@
                                                 </div>
                                             </form>
                                         </div>
-                                    </div>
 
-                                </div> <!-- end card-body -->
-                            </div>
-                            <!-- end card -->
+                                    </div> <!-- end card-body -->
+                                </div>
+                                <!-- end card -->
 
-                            <div class="row mt-3">
-                                <div class="col-12 text-center">
-                                    <p class="text-muted">Back to <a href="{{ route('login') }}"
-                                                                     class="text-primary font-weight-bold ml-1">Login</a>
-                                    </p>
-                                </div> <!-- end col -->
-                            </div>
+                                <div class="row mt-3">
+                                    <div class="col-12 text-center">
+                                        <p class="text-muted">Back to <a href="{{ route('logout') }}"
+                                                                         class="text-primary font-weight-bold ml-1">Login</a>
+                                        </p>
+                                        <p class="text-muted"><a href="{{ route('dashboard') }}"
+                                                                 class="text-primary font-weight-bold ml-1">Skip for
+                                                now</a>
+                                        </p>
+                                    </div> <!-- end col -->
+                                </div>
+                                <!-- end row -->
+
+                            </div> <!-- end col -->
                             <!-- end row -->
 
                         </div> <!-- end col -->
@@ -127,7 +146,8 @@
                     //success
                     $(this).show();
                     verifying.hide();
-                    success_message.html('Your account has been activated.<br/>' + '<a href="{{url('/admin/dashboard')}}">Click Here if you were not redirected</a>');
+                    success_message.html("Your account has been activated.<br/>" +
+                        "<a href='{{url('/admin/dashboard')}}'>Click Here if you were not redirected</a>");
                     success.show();
                     window.location = "{{url('/admin/dashboard')}}";
                 }).fail((e) => {
@@ -148,7 +168,9 @@
                     };
                     $.post("{{env('API_URL') }}/auth/verify-phone", data, (data) => {
                         //success
-                        success_message.html('Your account has been sent. You can request a new code in 60 seconds');
+                        success_message.html(
+                            'Your account has been sent. You can request a new code in 60 seconds'
+                        );
                         success.show();
                         start_timer();
                     }).fail((e) => {
@@ -181,6 +203,7 @@
         window.intlTelInput(input, {
             // any initialisation options go here
         });
+
     </script>
 
 @stop

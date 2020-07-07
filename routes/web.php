@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Cookie;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,19 +18,33 @@ use Illuminate\Support\Facades\Route;
 
 // Unauthenticated Routes
 
-Route::get('/', function() {return view('home');})->name('home');
+Route::get('/', function () {
+    return view('home');
+})->name('home');
 
-Route::get('/about', function () {return view('about');})->name('about');
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
 
-Route::get('/faq', function () {return view('faq');})->name('faq');
+Route::get('/faq', function () {
+    return view('faq');
+})->name('faq');
 
-Route::get('/contact', function () {return view('contact');})->name('contact');
+Route::get('/contact', function () {
+    return view('contact');
+})->name('contact');
 
-Route::get('/privacy', function () {return view('privacy');})->name('privacy');
+Route::get('/privacy', function () {
+    return view('privacy');
+})->name('privacy');
 
-Route::get('/blog', function () {return view('blog');})->name('blog');
+Route::get('/blog', function () {
+    return view('blog');
+})->name('blog');
 
-Route::get('/admin', function() { return redirect()->route('dashboard');});
+Route::get('/admin', function () {
+    return redirect()->route('dashboard');
+});
 
 // backend codes
 Route::prefix('/admin')->group(function () {
@@ -52,7 +67,7 @@ Route::prefix('/admin')->group(function () {
     Route::group(['middleware' => 'backend.auth'], function () {
 
         // activation
-        Route::get('/activate', 'UsersController@activate')->name('activate.user');
+        Route::get('/activate', 'ActivateController@index')->name('activate.user');
 
         // dashboard, creditor, debtor
         Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
@@ -77,7 +92,7 @@ Route::prefix('/admin')->group(function () {
         Route::resource('store', 'StoreController');
 
         // assistant crud
-        Route::resource('assistant', 'AssistantController');
+        Route::resource('assistants', 'AssistantController');
 
         // broadcast crud
         Route::resource('broadcast', 'BroadcastController');
@@ -85,8 +100,14 @@ Route::prefix('/admin')->group(function () {
         // complaint crud
         Route::resource('complaint', 'ComplaintController');
 
+
         // user crud
         Route::resource('users', 'UsersController');
+
+        // change locations
+        Route::get('/change-loc', function () {
+            return view('backend.location.change_loc');
+        });
 
         // super admin protected routes
         Route::group(['middleware' => 'backend.super.admin'], function () {
@@ -105,15 +126,6 @@ Route::prefix('/admin')->group(function () {
     // Route::get('/dashboard', function () {
     //     return view('backend.dashboard.index');
     // })->name('dashboard');
-	
-    // Customers
-    // Route::get('/customers', function () {
-    //     return view('backend.customers.index');
-    // })->name('customers');
-
-    // Route::get('/customers', 'CustomerController@index')->name('customers');
-
-    // Route::post('/customers', 'CustomerController@create_customer')->name('customers.new');
 
     // // Single Transaction Page
     // Route::get('/s-transaction', function () {
