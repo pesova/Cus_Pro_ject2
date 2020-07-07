@@ -86,6 +86,9 @@ class RegisterController extends Controller
 
                     if ($res->success) {
 
+                        $request->session()->flash('message', 'You have registered Successfully');
+                        $request->session()->flash('alert-class', 'alert-success');
+
                         $data = $res->data->user->local;
                         $api_token = $res->data->user->api_token;
                         $user_role = $res->data->user->local->user_role;
