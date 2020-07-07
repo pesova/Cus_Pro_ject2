@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Log;
 
 class SettingsController extends Controller
 {
@@ -37,6 +38,7 @@ class SettingsController extends Controller
                 return view('errors.500');
             }
         } catch(\Exception $e) {
+            Log::error('Catch error: SettingsController -', $e->getMessage());
             return view('errors.500');
         }
     }
@@ -104,7 +106,6 @@ class SettingsController extends Controller
                     ]);
                 }
                 if ($user_detail_res_pocess->getStatusCode() == 500) {
-
                     return view('errors.500');
                 }
                 if ($user_detail_res_pocess->getStatusCode() == 400) {
@@ -120,6 +121,7 @@ class SettingsController extends Controller
                 return redirect()->route('settings');
             }
         } catch(\Exception $e) {
+            Log::error('Catch error: SettingsController -', $e->getMessage());
             return view('errors.500');
         }
     }
