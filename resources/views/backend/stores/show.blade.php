@@ -70,7 +70,12 @@
                     </div>
                 </div>
 
-                <a href="{{ route('store.destroy', $response->_id) }}" class="float-right btn btn-danger mt-2"><i class="fas fa-trash-alt mr-2"></i>Delete Store</a>
+                
+                <a href="javascript:void(0)" onclick="$(this).parent().find('form').submit()" class="float-right btn btn-danger mt-2"><i class="fas fa-trash-alt mr-2"></i>Delete store</a>
+                    <form action="{{ route('store.destroy', $response->_id) }}" method="POST" id="form">
+                        @method('DELETE')
+                        @csrf                                                
+                    </form>
 
             </div>
         </div>
