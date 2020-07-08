@@ -49,7 +49,7 @@
                                     <td><form action="{{ route('complaint.destroy', $response->_id) }}" method="POST">
                                             <input type="hidden" name="_method" value="DELETE">
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <button class="btn btn-danger">Delete User</button>
+                                        <button class="btn btn-danger">Delete</button>
                         </form></td>
                                     <!-- <td><a href="{{ route('complaint.destroy', $response->_id) }}" class="btn btn-danger "> -->
    <!-- Delete -->
