@@ -20,7 +20,7 @@
                                         @endif
                             
                             <div class="col-md-12">
-                                <h4 class="mb-1 mt-0">Assitants</h4>
+                                <h4 class="mb-1 mt-0">Assistants</h4>
                             </div>
                         </div>
 
@@ -191,21 +191,21 @@
                             <div class="form-group row mb-3">
                                 <label for="name" class="col-3 col-form-label">Name</label> <br> <br>
                                 <div class="col-9">
-                                    <input type="text" class="form-control" id="fullname" placeholder="Enter name here">
+                                    <input type="text" class="form-control" id="fullname" name="name" placeholder="Enter name here">
                                 </div>
                             </div>
                             <br>
                             <div class="form-group row mb-3">
                                 <label for="number" class="col-3 col-form-label">Phone Number</label> <br>
                                 <div class="col-9">
-                                    <input type="text" class="form-control" id="fullname" placeholder="Enter phone number">
+                                    <input type="text" class="form-control" id="fullname" name="phone_number" placeholder="Enter phone number">
                                 </div>
                             </div>
                             <br>
                             <div class="form-group row mb-3">
                                 <label for="email" class="col-3 col-form-label">Email</label> <br>
                                 <div class="col-9">
-                                    <input type="text" class="form-control" id="fullname" placeholder="Enter email">
+                                    <input type="text" class="form-control" id="fullname" name="email" placeholder="Enter email">
                                 </div>
                             </div>
                             <br>
@@ -216,7 +216,7 @@
                             </div>
                         </form>
                                                 </div>
-                                                                                                <div class="modal-footer">
+                                                    <div class="modal-footer">
                                                 </div>
 
                                             </div><!-- /.modal-content -->
