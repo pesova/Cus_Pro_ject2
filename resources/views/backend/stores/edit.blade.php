@@ -35,11 +35,13 @@
                      <div class="col-lg-12">
                          <div class="card">
                             <div class="card-body">
-                                    <form action="{{ route('store.update') }}" method="POST">
+                                    <form action="{{ route('store.update', $response->_id) }}" method="POST">
+                                      @csrf
+                                      @method('PUT')
                                         <div class="form-row">
                                           <div class="form-group col-md-6">
                                             <label for="store name">Store Name</label>
-                                            <input type="text" name="store_name" class="form-control"  placeholder="XYZ Stores">
+                                            <input type="text" name="store_name" class="form-control" value="{{ $response->store_name }}"  placeholder="XYZ Stores">
                                           </div>
                                           <div class="form-group col-md-6">
                                             <label for="inputTagline">Tagline</label>
@@ -49,7 +51,7 @@
                                         <div class="form-row">
                                           <div class="form-group col-md-6">
                                             <label for="inputPhoneNumber">Phone Number</label>
-                                            <input type="text" name="phone" class="form-control" placeholder="+1(234) 567-8907">
+                                            <input type="text" name="phone_number" class="form-control" placeholder="+1(234) 567-8907">
                                           </div>
                                         <div class="form-group col-md-6" >
                                             <label for="inputEmailAddress"> Email Address (optional) </label>
@@ -58,9 +60,9 @@
                                         </div>
                                         <div class="form-group">
                                           <label for="inputAddress">Address</label>
-                                          <input type="text" name="address" class="form-control"  placeholder="123 Abby Avenue">
+                                          <input type="text" name="shop_address" class="form-control" value="{{ $response->shop_address }}"  placeholder="123 Abby Avenue">
                                         </div>
-                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
+                                        <button type="submit" class="btn btn-success" data-toggle="" data-target="">
                                             Update Changes
                                         </button>
                                     </form>
@@ -88,7 +90,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-success"><a href="{{ route('store.update', $store->_id) }}" class="text-white">Save changes</a></button>
+                  <button type="submit" class="btn btn-success"><a href="{{ route('store.update', $response->_id) }}" class="text-white">Save changes</a></button>
                 </div>
               </div>
             </div>
