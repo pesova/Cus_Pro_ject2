@@ -261,7 +261,6 @@ class StoreController extends Controller
                 'shop_address' =>  'required',
             ]);
 
-<<<<<<< HEAD
             $payload = [
                 'headers' => ['x-access-token' => Cookie::get('api_token')],
                 'form_params' => [
@@ -273,15 +272,6 @@ class StoreController extends Controller
                     'current_user' => Cookie::get('user_id'),
                 ],
 
-=======
-            $data = [
-                'store_name' => $request->input('store_name'),
-                'shop_address' => $request->input('address'),
-                'email' => $request->input('email'),
-                'tagline' => $request->input('tag_line'),
-                'phone_number' => $request->input('phone'),
-                'current_user' => Cookie::get('user_id'),
->>>>>>> 03d55b005e819f2151167bf5fc499741f767d95f
             ];
 
 
