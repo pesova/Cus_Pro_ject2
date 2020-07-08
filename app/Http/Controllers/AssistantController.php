@@ -168,8 +168,23 @@ class AssistantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($user_id)
     {
-        //
+       $url = env('API_URL', 'https://api.customerpay.me/') . '/assistant/delete/' . $user_id;
+       $client = new Client();                   $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+       try {
+	       $delete = $client->delete($url);
+	       if($delete->getStatusCode() == 200 || $delete->getStatusCode() == 201) {
+		$request->session()->flash('alert-class', 'alert-success');
+                    Session::flash('message', "Store assistant successfully deleted");
+                    return redirect()->route('assistant.index');
+	       }else {
+		$request->session()->flash('alert-class', 'alert-danger');
+		Session::flash('message', "Store assistant delete failed");
+                    return redirect()->route('assistant.index');
+	       }
+       }catch(ClientException $e) {
+		return view('errors.500');
+       }
     }
 }
