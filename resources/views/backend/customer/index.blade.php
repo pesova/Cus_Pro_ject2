@@ -301,71 +301,74 @@
                             </div>
                         </div>
 
-                        <div class="tab-pane fade" id="pills-projects" role="tabpanel"
-                            aria-labelledby="pills-projects-tab">
-                            <div class="col-md-12">
-                                <p class="sub-header float-left">
-                                    List of Regitered Customers
-                                </p>
-                                <a href="#" class="btn btn-sm btn-primary float-right" data-toggle="modal"
-                                    data-target="#CustomerModal">
-                                    <i class="fa fa-plus my-float"></i>
-                                </a>
+                        @if ( isset($response) && count($response) > 0 )
+                            <div class="tab-pane fade" id="pills-projects" role="tabpanel"
+                                aria-labelledby="pills-projects-tab">
+                                <div class="col-md-12">
+                                    <p class="sub-header float-left">
+                                        List of Regitered Customers
+                                    </p>
+                                    <a href="#" class="btn btn-sm btn-primary float-right" data-toggle="modal"
+                                        data-target="#CustomerModal">
+                                        <i class="fa fa-plus my-float"></i>
+                                    </a>
+                                </div>
+
+                                <div class="table-responsive">
+                                    <table class="table mb-0" id="basic-datatable">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">ID</th>
+                                                <th scope="col">Avatar</th>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Tel</th>
+                                                <th scope="col">Amount Due</th>
+                                                <th scope="col">Balance</th>
+                                                <th scope="col">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @for ($i = 0; $i < count($response); $i++)
+                                                <tr>
+                                                    <td scope="row">{{$i + 1}}</td>
+                                                    <td><img src="/backend/assets/images/users/avatar-5.jpg"
+                                                            class="avatar-sm rounded-circle" alt="Shreyu" /></td>
+                                                    <td>{{isset($response[$i]->name) ? ucfirst($response[$i]->name) : 'Not available'}}<br>
+                                                        <span class="badge badge-danger">Has Credit</span>
+                                                    </td>
+                                                    <td>{{isset($response[$i]->phone_number) ? $response[$i]->phone_number : 'Not available'}}<br>
+                                                    </td>
+                                                    <td>
+                                                        <span> &#8358; 1 500</span> <br>
+                                                        <span class="badge badge-primary">You Paid: 1000</span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-danger">&#8358; 500</span>
+                                                    </td>
+                                                    <td>
+                                                        <div class="btn-group mt-2 mr-1">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle"
+                                                                data-toggle="dropdown" aria-haspopup="true"
+                                                                aria-expanded="false">
+                                                                Actions<i class="icon"><span
+                                                                        data-feather="chevron-down"></span></i>
+                                                            </button>
+                                                            <div class="dropdown-menu dropdown-menu-right">
+                                                                <a class="dropdown-item" href="{{ route('customer.edit', $response[$i]->_id) }}">Edit Customer</a>
+                                                                <a class="dropdown-item" href="{{ route('customer.show', $response[$i]->_id) }}">ViewProfile</a>
+                                                                <a class="dropdown-item" href="{{ route('transaction.show', 1) }}">ViewTransaction</a>
+                                                                <a class="dropdown-item" href="{{ route('debtor.create') }}">SendReminder</a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @endfor
+                                        </tbody>
+                                    </table>
+                                </div>
+                                {{$response->links()}}
                             </div>
-
-                            <div class="table-responsive">
-                                <table class="table mb-0" id="basic-datatable">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">ID</th>
-                                            <th scope="col">Avatar</th>
-                                            <th scope="col">Name</th>
-                                            <th scope="col">Tel</th>
-                                            <th scope="col">Amount Due</th>
-                                            <th scope="col">Balance</th>
-                                            <th scope="col">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        <tr>
-                                            <td scope="row">1</td>
-                                            <td><img src="/backend/assets/images/users/avatar-5.jpg"
-                                                    class="avatar-sm rounded-circle" alt="Shreyu" /></td>
-                                            <td>John Doe <br>
-                                                <span class="badge badge-danger">Has Credit</span>
-                                            </td>
-                                            <td>+2348136478080<br>
-                                            </td>
-                                            <td>
-                                                <span> &#8358; 1 500</span> <br>
-                                                <span class="badge badge-primary">You Paid: 1000</span>
-                                            </td>
-                                            <td>
-                                                <span class="text-danger">&#8358; 500</span>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group mt-2 mr-1">
-                                                    <button type="button" class="btn btn-primary dropdown-toggle"
-                                                        data-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">
-                                                        Actions<i class="icon"><span
-                                                                data-feather="chevron-down"></span></i>
-                                                    </button>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="{{ route('customer.edit', 1) }}">Edit Customer</a>
-                                                        <a class="dropdown-item" href="{{ route('customer.show', 1) }}">ViewProfile</a>
-                                                        <a class="dropdown-item" href="{{ route('transaction.show', 1) }}">ViewTransaction</a>
-                                                        <a class="dropdown-item" href="{{ route('debtor.create') }}">SendReminder</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-                                    </tbody>
-                                </table>
-                            </div>
-                            {{-- {{$response->links()}} --}}
-                        </div>
+                        @endif
                     </div>
 
                 </div>
@@ -386,7 +389,7 @@
             </div>
 
             <div class="modal-body">
-                <form class="form-horizontal" method="POST" action="/admin/customer">
+                <form class="form-horizontal" method="POST" action="{{ route('customer.store') }}">
                     @csrf
                     <div class="form-group row mb-3">
                         <label for="inputphone" class="col-3 col-form-label">Phone Number</label>

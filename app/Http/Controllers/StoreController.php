@@ -35,6 +35,10 @@ class StoreController extends Controller
             if ($statusCode == 200) {
                 return view('backend.stores.index')->with('response', $Stores->data->stores);
             }
+            else if($statusCode->getStatusCode() == 401){
+                Session::flash('message', "You are not authorized to perform this action");
+               return redirect()->route('store.index');
+           }
 
         } catch (RequestException $e) {
 
@@ -110,7 +114,12 @@ class StoreController extends Controller
                     $request->session()->flash('alert-class', 'alert-success');
                     Session::flash('message', $data->message);
                     return $this->index();
-                } else {
+                }
+                else if($statusCode->getStatusCode() == 401){
+                    $request->session()->flash('alert-class', 'alert-danger');
+                    Session::flash('message', "You are not authorized to perform this action, please check your details properly");
+                   return redirect()->route('store.index');
+               } else {
                     $request->session()->flash('alert-class', 'alert-waring');
                     Session::flash('message', $data->message);
                     return redirect()->route('store.create');
@@ -175,6 +184,11 @@ class StoreController extends Controller
             if ($e->getResponse()->getStatusCode() >= 500) {
                 return view('errors.500');
             }
+            else if($statusCode->getStatusCode() == 401){
+                $request->session()->flash('alert-class', 'alert-danger');
+                Session::flash('message', "You are not authorized to perform this action");
+               return redirect()->route('store.index');
+           }
             // get response to catch 4xx errors
             $response = json_decode($e->getResponse()->getBody());
             Session::flash('alert-class', 'alert-danger');
@@ -299,9 +313,10 @@ class StoreController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($store_id)
+    public function destroy(Request $request, $id)
     {
-        $url = env('API_URL', 'https://api.customerpay.me/') . '/store/delete/' . $store_id;
+
+        $url = env('API_URL', 'https://api.customerpay.me/') . '/store/delete/' . $id;
         $client = new Client();
         $payload = [
             'headers' => [
@@ -315,7 +330,7 @@ class StoreController extends Controller
  	       $delete = $client->delete($url, $payload);
 
  	      if($delete->getStatusCode() == 200 || $delete->getStatusCode() == 201) {
- 		    	$request->session()->flash('alert-class', 'alert-success');
+                $request->session()->flash('alert-class', 'alert-success');
                 Session::flash('message', "Store successfully deleted");
                 return redirect()->route('store.index');
  	        }
