@@ -16,8 +16,9 @@ class ComplaintController extends Controller
      */
     public function index()
     {
-      $host = env('API_URL', 'https://api.customerpay.me/');
-      $url = $host."/complaint/all";
+      $host = env('API_URL', 'https://dev.api.customerpay.me/');
+      $user_id = Cookie::get('user_id');
+      $url = $host."complaints/$user_id";
        try {
           $client = new Client();
           $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
@@ -26,7 +27,7 @@ class ComplaintController extends Controller
           if ($statusCode == 200) {
               $body = $response->getBody()->getContents();
               $complaints = json_decode($body);
-              return view('backend.complaints.index')->with('response', $complaints);
+              return view('backend.complaints.index')->with('responses', $complaints);
           }
           if ($statusCode == 500) {
               return view('errors.500');
@@ -142,28 +143,6 @@ class ComplaintController extends Controller
      */
     public function destroy($id)
     {
-      $host = env('API_URL', 'https://api.customerpay.me/');
-      $url = $host."complaint/delete/".$id;
-      try {
-         $client = new Client();
-         $request = $client->delete($url);
-         $statusCode = $request->getStatusCode();
-         if ($statusCode == 200) {
-             // return view('backend.complaints.index');
-             // return view('backend.complaints.index');
-             return \Redirect::back();
-         }
-         if ($statusCode == 500) {
-             return redirect()->route('backend.complaints.index');
-         }
-     } catch (\Exception $e) {
-         return redirect()->route('complaint');
-         // return view('backend.transactions.index')->with('error', "Unable to connect to server");
-     }
-      // $client = new \GuzzleHttp\Client();
-
-      // $response = $request->send();
-
-      // dd($response);
+        
     }
 }

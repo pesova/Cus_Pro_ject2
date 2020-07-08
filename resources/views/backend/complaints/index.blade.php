@@ -13,7 +13,6 @@
 
 
 @section('content')
-
 <div class="card" style="margin-top: 10px;">
     <div id="wrapper">
         <div class="row">
@@ -37,30 +36,28 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
-
-
                             <tbody>
-                              @foreach ($response as $response)
+
+                            @foreach($responses->data->complaints as $response)
                                 <tr>
-
-
-                                    <td>{{isset( $response->_id) ? $response->_id : "148454155"}}</td>
-
-                                    <td>{{isset( $response->first_name) ? $response->first_name : "Ajanaku"}} {{isset( $response->last_name) ? $response->last_name : "Azeez"}}</td>
-                                    <td>{{isset( $response->email) ? $response->email : "AjanakuAzeez@yahoo.com"}}</td>
-                                    <td>{{isset( $response->message) ? $response->message : "I can't connect now, try again later"}}
+                                    <td>{{ $response->_id}}</td>
+                                    <td>{{ $response->name}}</td>
+                                    <td>{{ $response->email}}</td>
+                                    <td>{{ $response->message}}
                                     </td>
-                                    <td>{{isset( $response->status) ? $response->status : "open"}}</td>
-                                    <td>{{isset( $response->createdAt) ? $response->createdAt : "2020 07 25"}}</td>
-                                    <td><a href="{{ route('complaint.destroy',$response->_id) }}" class="btn btn-danger " id="deletecomplaint" data-id="{{ $response->_id }}">
-   Delete
-</a>
+                                    <td>{{ $response->status}}</td>
+                                    <td>{{ $response->date}}</td>
+                                    <td><form action="{{ route('complaint.destroy', $response->_id) }}" method="POST">
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                        <button class="btn btn-danger">Delete</button>
+                        </form></td>
+                                    <!-- <td><a href="{{ route('complaint.destroy', $response->_id) }}" class="btn btn-danger "> -->
+   <!-- Delete -->
+<!-- </a> -->
                                     </td>
                                 </tr>
                                 @endforeach
-
-
-
                             </tbody>
                         </table>
 
