@@ -259,7 +259,6 @@ class StoreController extends Controller
             $request->validate([
                 'store_name' => 'required|min:2',
                 'shop_address' =>  'required',
-                'phone_number' => 'required|numeric',
             ]);
 
             $payload = [
