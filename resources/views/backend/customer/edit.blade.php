@@ -51,7 +51,7 @@
                 @endif
                 <div class="card">
                     <div class="card-body">
-                        <form class="form-horizontal" role="form" method="POST" action="{{action('CustomerController@update', $response->_id)}}">
+                        <form class="form-horizontal" role="form" method="POST" action="{{route('customer.update', $response->_id)}}">
                           @csrf
                           @method('PUT')
                             <div class="form-group">
