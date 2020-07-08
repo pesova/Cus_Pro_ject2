@@ -297,3 +297,17 @@
 a:hover{
     text-decoration: none;
 }
+
+.dissapear {
+  display: none;
+}
+
+.appear {
+  display: block;
+}
+
+.nothing-box {
+  display: flex;
+  justify-content: center;
+  padding: 5% 0;
+}
