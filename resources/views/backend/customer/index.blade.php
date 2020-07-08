@@ -366,7 +366,7 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                {{-- {{$response->links()}} --}}
+                                {{$response->links()}}
                             </div>
                         @endif
                     </div>

@@ -48,18 +48,18 @@ class CustomerController extends Controller
                         array_push($allCustomers, $v);
                     }
                 }
-                // return dd($allCustomers);
-                // start pagination
-                // $perPage = 5;
-                // $page = $request->get('page', 1);
-                // if ($page > count($users->data) or $page < 1) {
-                //     $page = 1;
-                // }
-                // $offset = ($page * $perPage) - $perPage;
-                // $articles = array_slice($users->data, $offset, $perPage);
-                // $datas = new Paginator($articles, count($users->data), $perPage);
 
-                return view('backend.customer.index')->with('response', $allCustomers);
+                // start pagination
+                $perPage = 5;
+                $page = $request->get('page', 1);
+                if ($page > count($allCustomers) or $page < 1) {
+                    $page = 1;
+                }
+                $offset = ($page * $perPage) - $perPage;
+                $articles = array_slice($allCustomers, $offset, $perPage);
+                $datas = new Paginator($articles, count($allCustomers), $perPage);
+
+                return view('backend.customer.index')->with('response', $datas->withPath('/'.$request->path()));
             }
 
             if ( $statusCode == 500 ) {
@@ -168,7 +168,7 @@ class CustomerController extends Controller
                 if ($statusCode == 201  && $data->success) {
                     $request->session()->flash('alert-class', 'alert-success');
                     Session::flash('message', $data->message);
-                    // return $this->index();
+                    return back();
                 } else {
                     $request->session()->flash('alert-class', 'alert-waring');
                     Session::flash('message', $data->message);
