@@ -110,7 +110,6 @@ class SettingsController extends Controller
                 return redirect()->route('settings');
             }
         } catch (\Exception $e) {
-            return $e;
             return view('errors.500');
         }
     }
