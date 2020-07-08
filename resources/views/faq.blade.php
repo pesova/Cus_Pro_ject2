@@ -14,7 +14,7 @@
             <h1 class="faq-top__title">Frequently Asked Questions</h1>
             <input type="search" name="search-faq" id="search-faq" class="form-control"
                 placeholder="Search for a question" aria-placeholder="Search for a question">
-            <button class="faq-top__btn">Search</button>
+            <button class="faq-top__btn dissapear">Search</button>
         </div>
     </div>
     <!-- background vectors -->
@@ -34,6 +34,9 @@
 <!-- questions in accordion -->
 <section class="faq">
     <div class="container faq__accordion">
+        <div class="nothing-box">
+          <img src="/frontend/assets/images/no-result-search.png" alt="">
+        </div>
         <div class="accordion" id="faq__accordion">
             <!-- Question one -->
             <div class="card">
@@ -517,6 +520,5 @@
 
 
 @section("javascript")
-
-
+ <script src="/frontend/assets/js/faq.js"></script>
 @stop
