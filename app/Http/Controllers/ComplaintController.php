@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Log;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Cookie;
 
 class ComplaintController extends Controller
@@ -152,7 +153,9 @@ class ComplaintController extends Controller
             $request = $client->delete($url, $headers);
             $statusCode = $request->getStatusCode();
             if ($statusCode == 200) {
-                return \Redirect::back();
+                
+                
+                return \Redirect::back()->with('success', 'Complaint Deleted Successfully');
             }
             if ($statusCode == 500) {
                 return view('errors.500');
