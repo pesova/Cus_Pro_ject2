@@ -12,7 +12,7 @@
         <div class="row page-title">
             <div class="col-md-12">
                 <nav aria-label="breadcrumb" class="float-right mt-1">
-                    <a href="edit" class="btn btn-success mr-2"><i class="far mr-2 fa-edit"></i>Edit
+                    <a href="{{ route('store.edit', $response->_id) }}" class="btn btn-success mr-2"><i class="far mr-2 fa-edit"></i>Edit
                         Store</a>
                     <a href="/admin/store" class="btn btn-primary">Go Back</a>
                 </nav>

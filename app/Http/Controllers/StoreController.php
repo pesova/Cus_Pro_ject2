@@ -282,7 +282,10 @@ class StoreController extends Controller
             $status = $req->getStatusCode();
 
             if ($status == 201) {
-                return $this->index()->with('message', 'Updated Successfully');
+                Session::flash('alert-class', 'alert-success');
+                Session::flash('message', $response->message);
+                return redirect()->route('store.index', ['response' => []]);
+                //return redirect()->view('backend.stores.index')->with('message', "Update Successful");
             }
             if ($statusCode == 500) {
                 return view('errors.500');
