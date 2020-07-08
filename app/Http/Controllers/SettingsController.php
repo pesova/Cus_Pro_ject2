@@ -104,6 +104,8 @@ class SettingsController extends Controller
                     Cookie::queue('first_name', $filtered_user_detail['first_name']);
                     Cookie::queue('email', $filtered_user_detail['email']);
                     Cookie::queue('last_name', $filtered_user_detail['last_name']);
+                    $request->session()->flash('alert-class', 'alert-success');
+                    $request->session()->flash('message', "Profile details updated successfully");
                     return redirect()->route('setting')->with("user_details", $user_details);
                 }
             } else {
