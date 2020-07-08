@@ -85,7 +85,16 @@
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
+<<<<<<< HEAD
                 
+=======
+                <div class="modal-body">
+                  Do you want to save these changes to your store profile?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-success"><a href="{{ route('store.update', $response->_id) }}" class="text-white">Save changes</a></button>
+>>>>>>> 44103833ae28ec9ebce2e92dc6e2cb57b0503cbb
                 </div>
               </div>
             </div>
