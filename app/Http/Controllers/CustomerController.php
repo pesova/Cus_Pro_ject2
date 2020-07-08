@@ -73,6 +73,14 @@ class CustomerController extends Controller
             }
 
             return view('errors.500');
+        } catch ( \Exception $e ) {
+            $statusCode = $e->getResponse()->getStatusCode();
+            $data = json_decode($e->getResponse()->getBody()->getContents());
+            if ( $statusCode == 401 ) { //401 is error code for invalid token
+                return redirect()->route('logout');
+            }
+
+            return view('errors.500');
         }
     }
 
@@ -106,6 +114,7 @@ class CustomerController extends Controller
             ]);
 
             try {
+
                 $client =  new Client();
                 $payload = [
                     'headers' => ['x-access-token' => Cookie::get('api_token')],
@@ -133,6 +142,16 @@ class CustomerController extends Controller
                     return redirect()->view('backend.customer.create');
                 }
             } catch (\RequestException $e) {
+                $statusCode = $e->getResponse()->getStatusCode();
+                $data = json_decode($e->getResponse()->getBody()->getContents());
+                $request->session()->flash('message', isset($data->message) ? $data->message : $data->error->error);
+                if ( $statusCode == 401 ) {
+                    return redirect()->route('logout');
+                }
+                return back();
+                Log::error((string) $response->getBody());
+                return view('errors.500');
+            } catch ( \Exception $e ) {
                 $statusCode = $e->getResponse()->getStatusCode();
                 $data = json_decode($e->getResponse()->getBody()->getContents());
                 $request->session()->flash('message', isset($data->message) ? $data->message : $data->error->error);
@@ -183,6 +202,16 @@ class CustomerController extends Controller
             return back();
             Log::error((string) $response->getBody());
             return view('errors.500');
+        } catch ( \Exception $e ) {
+            $statusCode = $e->getResponse()->getStatusCode();
+            $data = json_decode($e->getResponse()->getBody()->getContents());
+            $request->session()->flash('message', isset($data->message) ? $data->message : $data->error->error);
+            if ( $statusCode == 401 ) {
+                return redirect()->route('logout');
+            }
+            return back();
+            Log::error((string) $response->getBody());
+            return view('errors.500');
         }
     }
 
@@ -211,6 +240,16 @@ class CustomerController extends Controller
                 return view('errors.500');
             }
         } catch (\RequestException $e) {
+            $statusCode = $e->getResponse()->getStatusCode();
+            $data = json_decode($e->getResponse()->getBody()->getContents());
+            $request->session()->flash('message', isset($data->message) ? $data->message : $data->error->error);
+            if ( $statusCode == 401 ) {
+                return redirect()->route('logout');
+            }
+            return back();
+            Log::error((string) $response->getBody());
+            return view('errors.500');
+        } catch ( \Exception $e ) {
             $statusCode = $e->getResponse()->getStatusCode();
             $data = json_decode($e->getResponse()->getBody()->getContents());
             $request->session()->flash('message', isset($data->message) ? $data->message : $data->error->error);
