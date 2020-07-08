@@ -38,7 +38,7 @@ class SettingsController extends Controller
                 return view('errors.500');
             }
         } catch(\Exception $e) {
-            Log::error('Catch error: SettingsController -', $e->getMessage());
+            Log::error('Catch error: SettingsController -'.$e->getMessage());
             return view('errors.500');
         }
     }
@@ -121,7 +121,7 @@ class SettingsController extends Controller
                 return redirect()->route('settings');
             }
         } catch(\Exception $e) {
-            Log::error('Catch error: SettingsController -', $e->getMessage());
+            Log::error('Catch error: SettingsController -'.$e->getMessage());
             return view('errors.500');
         }
     }
