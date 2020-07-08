@@ -27,12 +27,11 @@ function showFilterResults(e) {
   let visibles = document.querySelectorAll('.appear')
 
   if (visibles.length == 0) {
-    nothingFound = `
-    <div class="nothing-box">
-      <img src="/frontend/assets/images/no-result-search.png" alt="">
-    </div>
-    `;
-    document.querySelector('.faq__accordion').innerHTML = nothingFound;
+    document.querySelector('#faq__accordion').classList.add('dissapear');
+    document.querySelector('.nothing-box').style.display = 'flex'
+  } else {
+    document.querySelector('#faq__accordion').classList.remove('dissapear');
+    document.querySelector('.nothing-box').style.display = 'none'
   }
   
 

@@ -34,7 +34,9 @@
 <!-- questions in accordion -->
 <section class="faq">
     <div class="container faq__accordion">
-
+        <div class="nothing-box">
+          <img src="/frontend/assets/images/no-result-search.png" alt="">
+        </div>
         <div class="accordion" id="faq__accordion">
             <!-- Question one -->
             <div class="card">

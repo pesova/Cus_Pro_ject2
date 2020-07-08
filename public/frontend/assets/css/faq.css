@@ -307,7 +307,11 @@ a:hover{
 }
 
 .nothing-box {
-  display: flex;
+  display: none;
   justify-content: center;
   padding: 5% 0;
+}
+
+.nothing-box-show {
+  display: flex;
 }
