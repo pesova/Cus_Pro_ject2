@@ -7,7 +7,6 @@ use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Cookie;
-use GuzzleHttp\Exception\RequestException;
 
 class ComplaintController extends Controller
 {
