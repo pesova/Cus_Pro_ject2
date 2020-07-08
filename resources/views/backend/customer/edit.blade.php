@@ -31,7 +31,7 @@
                  <div class="card">
                      <div class="card-body text-center text-muted">
                          <img src="../../backend/assets/images/users/avatar-7.jpg" alt="Customer 1" class="img-fluid rounded-circle">
-                         <h4>{{ $response->name }}</h4>
+                         <h4>{{ ucfirst($response->name) }}</h4>
                          <h5 class="cust-email">johndoe@doetech.com</h5>
                          this is a very very large junk of rubbush that i am just foing to type in the hopes that it casue seomth
                          ing dofferent to hppen to my file ebvery single godammmn time.
@@ -51,12 +51,13 @@
                 @endif
                 <div class="card">
                     <div class="card-body">
-                        <form class="form-horizontal" role="form" method="POST" action="{{url('/admin/edit_customer')}}/{{$response->id}}">
+                        <form class="form-horizontal" role="form" method="POST" action="{{route('customer.update', $response->_id)}}">
                           @csrf
+                          @method('PUT')
                             <div class="form-group">
                               <label class="col-lg-3 control-label">Full Name:</label>
                               <div class="col-lg-8">
-                                <input class="form-control" type="text" value="{{ $response->name }}" name="name">
+                                <input class="form-control" type="text" value="{{ ucfirst($response->name) }}" name="name">
                               </div>
                             </div>
 
@@ -70,7 +71,7 @@
                             <div class="form-group">
                                 <label class="col-lg-3 control-label">Tel:</label>
                                 <div class="col-lg-8">
-                                  <input class="form-control" type="phone" value="{{$response->phone}}" name='phone'>
+                                  <input class="form-control" type="phone" value="{{$response->phone_number}}" name='phone'>
                                 </div>
                               </div>
                               <div class="form-group">
