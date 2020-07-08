@@ -260,7 +260,6 @@ class StoreController extends Controller
                 'store_name' => 'required|min:2',
                 'shop_address' =>  'required',
                 'phone_number' => 'required|numeric',
-                'tag_line' => 'required'
             ]);
 
             $payload = [
@@ -282,8 +281,7 @@ class StoreController extends Controller
             $status = $req->getStatusCode();
 
             if ($status == 201) {
-                Session::flash('alert-class', 'alert-success');
-                Session::flash('message', $response->message);
+
                 return redirect()->route('store.index', ['response' => []]);
                 //return redirect()->view('backend.stores.index')->with('message', "Update Successful");
             }
@@ -292,7 +290,7 @@ class StoreController extends Controller
             }
 
         }catch (\Exception $e) {
-            return redirect()->route('store.index', ['response' => []]);
+            return redirect()->route('store.edit', $id);
         }
     }
 
