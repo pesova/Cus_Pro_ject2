@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Log;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Cookie;
 use GuzzleHttp\Exception\RequestException;
 
@@ -205,6 +206,24 @@ class ComplaintController extends Controller
      */
     public function destroy($id)
     {
-
+        $host = env('API_URL', 'https://dev.api.customerpay.me/');
+        $user_id = Cookie::get('user_id');
+        $url = $host."complaint/delete/".$user_id."/".$id;
+        $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+        try {
+            $client = new Client();
+            $request = $client->delete($url, $headers);
+            $statusCode = $request->getStatusCode();
+            if ($statusCode == 200) {
+                
+                
+                return \Redirect::back()->with('success', 'Complaint Deleted Successfully');
+            }
+            if ($statusCode == 500) {
+                return view('errors.500');
+            }
+        } catch (\Exception $e) {
+            return view('errors.500');
+        }
     }
 }
