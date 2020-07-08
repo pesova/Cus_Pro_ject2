@@ -198,7 +198,47 @@ class StoreController extends Controller
      */
     public function edit($id)
     {
-        return view('backend.stores.edit');
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store/' . $id;
+
+        try {
+            $client = new Client;
+            $payload = [
+                'headers' => [
+                    'x-access-token' => Cookie::get('api_token')
+                ],
+                'form_params' => [
+                    'current_user' => Cookie::get('user_id'),
+                ]
+            ];
+            $response = $client->request("GET", $url, $payload);
+            $statusCode = $response->getStatusCode();
+            $body = $response->getBody();
+            $StoreData = json_decode($body)->data->store;
+            if ($statusCode == 200) {
+            
+                return view('backend.stores.edit')->with('response', $StoreData);
+            }
+        } catch (RequestException $e) {
+
+            Log::info('Catch error: LoginController - ' . $e->getMessage());
+
+            // check for 5xx server error
+            if ($e->getResponse()->getStatusCode() >= 500) {
+                return view('errors.500');
+            }
+            // get response to catch 4xx errors
+            $response = json_decode($e->getResponse()->getBody());
+            Session::flash('alert-class', 'alert-danger');
+            // dd($response);
+            Session::flash('message', $response->message);
+            return redirect()->route('store.index', ['response' => []]);
+
+        } catch (\Exception $e) {
+            //log error;
+            Log::error('Catch error: StoreController - ' . $e->getMessage());
+            return redirect()->route('store.index', ['response' => []]);
+
+        }
     }
 
     /**
