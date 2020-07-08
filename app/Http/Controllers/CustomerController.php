@@ -65,11 +65,10 @@ class CustomerController extends Controller
             if ( $statusCode == 500 ) {
                 return view('errors.500');
             }
-        } catch(\Exception $e) {
+        } catch(\RequestException $e) {
             $statusCode = $e->getResponse()->getStatusCode();
             $data = json_decode($e->getResponse()->getBody()->getContents());
-            if ( $statusCode == 401 ) {
-                $request->session()->flash('message', $data->error->description);
+            if ( $statusCode == 401 ) { //401 is error code for invalid token
                 return redirect()->route('logout');
             }
 
@@ -93,46 +92,6 @@ class CustomerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function create_customer(Request $request)
-    {
-        //
-        try {
-            $client = new Client;
-            $inputs = [
-                'phone_number' => $request->phone,
-                'name' => $request->name
-            ];
-            $payload = [
-                'headers' => [
-                    'x-access-token' => Cookie::get('api_token')
-                ],
-                'form_params' => [
-                    'phone' => $request->phone,
-                    'name' => $request->name
-                ]
-            ];
-
-            $url = $this->host.'customer/new';
-            $response = $client->request("POST", $url, $payload);
-            $data = json_decode($response->getBody());
-
-            if ( $response->getStatusCode() == 200 ) {
-                $request->session()->flash('alert-class', 'alert-success');
-                $request->session()->flash('message', 'Customer created successfully');
-            } else {
-                $request->session()->flash('alert-class', 'alert-danger');
-                $request->session()->flash('message', $data->message || 'An error occured');
-            }
-
-            return redirect()->route('customers');
-        } catch ( \Exception $e ) {
-            $data = json_decode($e->getBody()->getContents());
-            $request->session()->flash('alert-class', 'alert-danger');
-            $request->session()->flash('message', $data->message);
-
-            return redirect()->route('customers');
-        }
-    }
         
     public function store(Request $request)
     {
@@ -147,7 +106,6 @@ class CustomerController extends Controller
             ]);
 
             try {
-
                 $client =  new Client();
                 $payload = [
                     'headers' => ['x-access-token' => Cookie::get('api_token')],
@@ -175,10 +133,6 @@ class CustomerController extends Controller
                     return redirect()->view('backend.customer.create');
                 }
             } catch (\RequestException $e) {
-                $data = json_decode($response->getBody());
-                Session::flash('message', $data->message);
-                return redirect()->route('store.create');
-            } catch (\Exception $e) {
                 $statusCode = $e->getResponse()->getStatusCode();
                 $data = json_decode($e->getResponse()->getBody()->getContents());
                 $request->session()->flash('message', isset($data->message) ? $data->message : $data->error->error);
@@ -219,7 +173,15 @@ class CustomerController extends Controller
             } else {
                 return view('errors.500');
             }
-        } catch ( \Exception $e ) {
+        } catch (\RequestException $e) {
+            $statusCode = $e->getResponse()->getStatusCode();
+            $data = json_decode($e->getResponse()->getBody()->getContents());
+            $request->session()->flash('message', isset($data->message) ? $data->message : $data->error->error);
+            if ( $statusCode == 401 ) {
+                return redirect()->route('logout');
+            }
+            return back();
+            Log::error((string) $response->getBody());
             return view('errors.500');
         }
     }
@@ -248,7 +210,15 @@ class CustomerController extends Controller
             } else {
                 return view('errors.500');
             }
-        } catch ( \Exception $e ) {
+        } catch (\RequestException $e) {
+            $statusCode = $e->getResponse()->getStatusCode();
+            $data = json_decode($e->getResponse()->getBody()->getContents());
+            $request->session()->flash('message', isset($data->message) ? $data->message : $data->error->error);
+            if ( $statusCode == 401 ) {
+                return redirect()->route('logout');
+            }
+            return back();
+            Log::error((string) $response->getBody());
             return view('errors.500');
         }
     }
@@ -263,48 +233,7 @@ class CustomerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-          'name' => 'required',
-          'phone' => 'required',
-        ]);
-
-        try {
-            $url = $this->host.'customer/update/'.$id;
-            $client = new Client();
-            $payload = [
-                'headers' => ['x-access-token' => Cookie::get('api_token')],
-                'form_params' => [
-                    'phone_number' => $request->input('phone'),
-                    'name' => $request->input('name'),
-                ],
-
-            ];
-
-            $response = $client->request("PUT", $url, $payload);
-
-            return dd($payload);
-
-            $data = json_decode($response->getBody());
-
-            return dd($data);
-            
-            if ( $response->getStatusCode() == 200 ) {
-                $request->session()->flash('alert-class', 'alert-success');
-                $request->session()->flash('message', 'Customer updated successfully');
-            
-                return redirect()->back();
-            } else {
-                $request->session()->flash('alert-class', 'alert-danger');
-                $request->session()->flash('message', 'Customer update failed');
-            }
-
-        } catch ( \Exception $e ) {
-            $data = json_decode($e->getBody()->getContents());
-            $request->session()->flash('alert-class', 'alert-danger');
-            $request->session()->flash('message', $data->message);
-
-            return redirect()->back();
-        }
+        // partner @jude. will handle here
     }
 
     /**
