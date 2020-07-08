@@ -230,13 +230,14 @@ class StoreController extends Controller
                 'email' => $request->input('email'),
                 'tagline' => $request->input('tag_line'),
                 'phone_number' => $request->input('phone'),
+                'current_user' => Cookie::get('user_id'),
             ];
 
             $req = $client->request('PUT', $url, $headers, $data);
 
             $status = $req->getStatusCode();
 
-            if ($status == 200) {
+            if ($status == 201) {
                 $body = $req->getBody()->getContents();
                 $res = json_encode($body);
                 return redirect()->view('backend.stores.index')->with('message', "Update Successful");
