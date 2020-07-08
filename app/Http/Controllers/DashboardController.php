@@ -20,4 +20,9 @@ class DashboardController extends Controller
     {
         return view('backend.dashboard.creditor');
     }
+
+    public function analytics()
+    {
+        return view('backend.dashboard.analytics');
+    }
 }
