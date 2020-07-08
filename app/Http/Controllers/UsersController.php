@@ -42,7 +42,6 @@ class UsersController extends Controller
                 return view('backend.user.index')->with('response', $datas->withPath('/'.$request->path()));
             }
             if ($user_response->getStatusCode() == 500) {
-
                 return view('errors.500');
             }
         } catch(\Exception $e) {
