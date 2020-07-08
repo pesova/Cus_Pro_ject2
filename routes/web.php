@@ -75,6 +75,8 @@ Route::prefix('/admin')->group(function () {
         Route::get('/analytics', 'DashboardController@analytics')->name('analytics');
         Route::get('/notification', 'DashboardController@notification')->name('notification');
 
+		//reminder
+		Route::post('/reminder/email/{customer_id}', 'ReminderController@sendViaEmail');
 
         // customer crud
         Route::resource('customer', 'CustomerController');
