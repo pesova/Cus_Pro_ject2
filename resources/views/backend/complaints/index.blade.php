@@ -37,15 +37,16 @@
                                 </tr>
                             </thead>
                             <tbody>
+
                             @foreach($responses->data->complaints as $response)
                                 <tr>
-                                    <td>{{isset( $response->_id) ? $response->_id : "148454155"}}</td>
-                                    <td>{{isset( $response->name) ? $response->name : "Ajanaku"}}</td>
-                                    <td>{{isset( $response->email) ? $response->email : "AjanakuAzeez@yahoo.com"}}</td>
-                                    <td>{{isset( $response->message) ? $response->message : "I can't connect now, try again later"}}
+                                    <td>{{ $response->_id}}</td>
+                                    <td>{{ $response->name}}</td>
+                                    <td>{{ $response->email}}</td>
+                                    <td>{{ $response->message}}
                                     </td>
-                                    <td>{{isset( $response->status) ? $response->status : "open"}}</td>
-                                    <td>{{isset( $response->date) ? $response->date : "2020 07 25"}}</td>
+                                    <td>{{ $response->status}}</td>
+                                    <td>{{ $response->date}}</td>
                                     <td><form action="{{ route('complaint.destroy', $response->_id) }}" method="POST">
                                             <input type="hidden" name="_method" value="DELETE">
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
