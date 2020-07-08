@@ -171,28 +171,30 @@ class AssistantController extends Controller
     public function destroy($user_id)
     {
        $url = env('API_URL', 'https://api.customerpay.me/') . '/assistant/delete/' . $user_id;
-       $client = new Client();                   
+       $client = new Client();
        $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
        try {
-	       $delete = $client->delete($url);
-	       if($delete->getStatusCode() == 200 || $delete->getStatusCode() == 201) {
-		    $request->session()->flash('alert-class', 'alert-success');
-                    Session::flash('message', "Store assistant successfully deleted");
-                    return redirect()->route('assistant.index');
+	       $delete = $client->delete($url, $headers);
+
+	      if($delete->getStatusCode() == 200 || $delete->getStatusCode() == 201) {
+		    	$request->session()->flash('alert-class', 'alert-success');
+                Session::flash('message', "Store assistant successfully deleted");
+                return redirect()->route('assistant.index');
+	        }
+        	else if($delete->getStatusCode() == 401){
+		    	$request->session()->flash('alert-class', 'alert-danger');
+		    	Session::flash('message', "You are not authorized to perform this action, please check your details properly");
+                return redirect()->route('assistant.index');
 	       }
-               else if($delete->getStatusCode() == 401){
-		    $request->session()->flash('alert-class', 'alert-danger');
-		    Session::flash('message', "You are not authorized to perform this action, please check your details properly");
-                    return redirect()->route('assistant.index');
-	       }
-               else if($delete->getStatusCode() == 500){
-		    $request->session()->flash('alert-class', 'alert-danger');
-		    Session::flash('message', "A server error encountered, please try again later");
-                    return redirect()->route('assistant.index');
-	       }
-       }catch(ClientException $e) {
-		$request->session()->flash('alert-class', 'alert-danger');
-		Session::flash('message', "A technical error occured, we are working to fix this.");
+           else if($delete->getStatusCode() == 500){
+		   		$request->session()->flash('alert-class', 'alert-danger');
+		    	Session::flash('message', "A server error encountered, please try again later");
+                return redirect()->route('assistant.index');
+	      	}
+       	  }
+       	  catch(ClientException $e) {
+				$request->session()->flash('alert-class', 'alert-danger');
+				Session::flash('message', "A technical error occured, we are working to fix this.");
                 return redirect()->route('assistant.index');
        }
     }
