@@ -51,7 +51,7 @@
                                         <div class="form-row">
                                           <div class="form-group col-md-6">
                                             <label for="inputPhoneNumber">Phone Number</label>
-                                            <input type="text" name="phone" class="form-control" placeholder="+1(234) 567-8907">
+                                            <input type="text" name="phone_number" class="form-control" placeholder="+1(234) 567-8907">
                                           </div>
                                         <div class="form-group col-md-6" >
                                             <label for="inputEmailAddress"> Email Address (optional) </label>
@@ -60,9 +60,9 @@
                                         </div>
                                         <div class="form-group">
                                           <label for="inputAddress">Address</label>
-                                          <input type="text" name="address" class="form-control" value="{{ $response->shop_address }}"  placeholder="123 Abby Avenue">
+                                          <input type="text" name="shop_address" class="form-control" value="{{ $response->shop_address }}"  placeholder="123 Abby Avenue">
                                         </div>
-                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
+                                        <button type="submit" class="btn btn-success" data-toggle="" data-target="">
                                             Update Changes
                                         </button>
                                     </form>

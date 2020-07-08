@@ -255,39 +255,41 @@ class StoreController extends Controller
         try {
             $client = new Client();
 
-            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+
             $request->validate([
                 'store_name' => 'required|min:2',
-                'address' =>  'required',
-                'phone' => 'required|numeric',
-                'email' => 'email',
+                'shop_address' =>  'required',
+                'phone_number' => 'required|numeric',
                 'tag_line' => 'required'
             ]);
-            
-            $data = [
-                'store_name' => $request->input('store_name'),
-                'shop_address' => $request->input('address'),
-                'email' => $request->input('email'),
-                'tagline' => $request->input('tag_line'),
-                'phone_number' => $request->input('phone'),
-                'current_user' => Cookie::get('user_id'),
+
+            $payload = [
+                'headers' => ['x-access-token' => Cookie::get('api_token')],
+                'form_params' => [
+                    'store_name' => $request->input('store_name'),
+                    'shop_address' => $request->input('shop_address'),
+                    'email' => $request->input('email'),
+                    'tagline' => $request->input('tagline'),
+                    'phone_number' => $request->input('phone_number'),
+                    'current_user' => Cookie::get('user_id'),
+                ],
+
             ];
 
-            $req = $client->request('PUT', $url, $headers, $data);
+
+            $req = $client->request('PUT', $url, $payload);
 
             $status = $req->getStatusCode();
 
             if ($status == 201) {
-                $body = $req->getBody()->getContents();
-                $res = json_encode($body);
-                return redirect()->view('backend.stores.index')->with('message', "Update Successful");
+                return $this->index()->with('message', 'Updated Successfully');
             }
             if ($statusCode == 500) {
                 return view('errors.500');
             }
 
         }catch (\Exception $e) {
-            return view('errors.500');
+            return redirect()->route('store.index', ['response' => []]);
         }
     }
 
