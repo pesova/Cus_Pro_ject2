@@ -30,19 +30,13 @@
         <div class="container-fluid">
             <div class="row-justify-content-center">
                 <div class="h2"><i data-feather="file-text" class="icon-dual"></i> Settings Page</div>
-
                 <div class="col-md-12">
                     <div class="profile">
                         <div class="info"><img class="user-img" src="">
-                            <h4>{{ $user_details['local']['first_name'] }} {{ $user_details['local']['last_name'] }}</h4>
+                            <h4>{{ isset($user_details['first_name'])  &&  isset($user_details['last_name']) ? $user_details['first_name'] ." ". $user_details['last_name']: "full name" }}</h4>
                         </div>
                         <div class="cover-image"></div>
                     </div>
-                    @if ( isset($form_response) )
-                        <div class="alert alert-primary" role="alert">
-                            {{ print_r($form_response) }}
-                        </div>
-                    @endif
                 </div>
 
                 <div class="row">
@@ -67,7 +61,7 @@
                                                 <label><b>Fullname</b></label>
                                             </div>
                                             <div class="col-md-6">
-                                                <p>{{ $user_details['local']['first_name'] }} {{ $user_details['local']['last_name'] }}</p>
+                                                <p>{{ isset($user_details['first_name'])  &&  isset($user_details['last_name']) ? $user_details['first_name'] ." ". $user_details['last_name']: "full name" }}</p>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -75,7 +69,7 @@
                                                 <label><b>Email</b></label>
                                             </div>
                                             <div class="col-md-6">
-                                                <p>{{ $user_details['local']['email'] }}</p>
+                                                <p>{{ isset($user_details['email']) ? $user_details['email'] : "Email" }}</p>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -83,11 +77,13 @@
                                                 <label><b>Status</b></label>
                                             </div>
                                             <div class="col-md-6">
-                                                @if ( $user_details['local']['is_active'] )
-                                                    Active
+                                               @isset($user_details['is_active'])
+                                                    @if (  $user_details['is_active'] )
+                                                    Activated
                                                 @else
-                                                    Not Active
+                                                    Not Activated
                                                 @endif
+                                               @endisset
                                             </div>
                                         </div>
                                     </div>
@@ -165,28 +161,35 @@
                                 <div class="tab-pane fade" id="user-profile">
                                     <div class="tile user-settings">
                                         <h4 class="line-head">Profile</h4>
-                                        <form method="POST" enctype="multipart/form-data" action="#">
-                                            {{csrf_field()}}
+                                        <form method="POST"  action="{{ route('setting') }}">
+                                            @csrf
                                             <div class="row mb-12">
                                                 <div class="col-md-9">
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <label>First Name</label>
-                                                            <input class="form-control" type="text" name="first_name" value="{{ $user_details['local']['first_name'] }}">
+                                                            <input class="form-control" type="text" name="first_name" value="{{ isset($user_details['first_name']) ? $user_details['first_name'] : "Not Set" }}">
                                                         </div>
                                                     </div>
                                                     <div class="clearfix"></div><br>
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <label>Last Name</label>
-                                                            <input class="form-control" type="text" name="last_name" value="{{ $user_details['local']['last_name'] }}">
+                                                            <input class="form-control" type="text" name="last_name" value="{{ isset($user_details['last_name']) ? $user_details['last_name'] : "Not Set" }}">
                                                         </div>
                                                     </div>
                                                     <div class="clearfix"></div><br>
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <label>Email</label>
-                                                            <input class="form-control" type="text" name="email" value="{{ $user_details['local']['email'] }}">
+                                                            <input class="form-control" type="text" name="email" value="{{ isset($user_details['email']) ? $user_details['email'] : "Not set" }}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div><br>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label>Phone Number</label>
+                                                            <input class="form-control" type="text" name="phone_number" value="{{ isset($user_details['phone_number']) ? $user_details['phone_number'] : "not set" }}">
                                                         </div>
                                                     </div>
                                                     <div class="clearfix"></div><br>

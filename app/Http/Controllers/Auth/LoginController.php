@@ -81,6 +81,9 @@ class LoginController extends Controller
                     // store data to cookie
                     Cookie::queue('api_token', $response->data->user->api_token);
                     Cookie::queue('user_role', $response->data->user->local->user_role);
+                    Cookie::queue('first_name', $response->data->user->local->first_name);
+                    Cookie::queue('email', $response->data->user->local->email);
+                    Cookie::queue('last_name', $response->data->user->local->last_name);
                     Cookie::queue('is_active', $data->is_active);
                     Cookie::queue('phone_number', $data->phone_number);
                     Cookie::queue('user_id', $response->data->user->_id);
