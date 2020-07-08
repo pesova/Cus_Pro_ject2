@@ -51,7 +51,7 @@
                                         <div class="form-row">
                                           <div class="form-group col-md-6">
                                             <label for="inputPhoneNumber">Phone Number</label>
-                                            <input type="text" name="phone_number" class="form-control" placeholder="+1(234) 567-8907">
+                                            <input type="text" name="phone_number" class="form-control" placeholder="+2348173644654">
                                           </div>
                                         <div class="form-group col-md-6" >
                                             <label for="inputEmailAddress"> Email Address (optional) </label>
@@ -85,13 +85,7 @@
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-                <div class="modal-body">
-                  Do you want to save these changes to your store profile?
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="submit" class="btn btn-success"><a href="{{ route('store.update', $response->_id) }}" class="text-white">Save changes</a></button>
-                </div>
+                
               </div>
             </div>
           </div>
