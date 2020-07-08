@@ -143,24 +143,6 @@ class ComplaintController extends Controller
      */
     public function destroy($id)
     {
-        $host = env('API_URL', 'https://dev.api.customerpay.me/');
-        $url = $host."complaint/delete/5efc5cb9aea77164da871ee9";
-        $request = new HttpRequest();
-        $request->setUrl($url);
-        $request->setMethod(HTTP_METH_DELETE);
         
-        $request->setHeaders(array(
-          'postman-token' => 'b6c9656d-4feb-d9f0-2b1d-0d26753ebbcd',
-          'cache-control' => 'no-cache',
-          'complaint_id' => $id
-        ));
-        
-        try {
-          $response = $request->send();
-        
-          echo $response->getBody();
-        } catch (HttpException $ex) {
-          echo $ex;
-        }
     }
 }
