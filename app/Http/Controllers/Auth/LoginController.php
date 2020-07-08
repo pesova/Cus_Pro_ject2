@@ -62,7 +62,7 @@ class LoginController extends Controller
         ]);
 
         try {
-            $client =  new Client();
+            $client = new Client();
             $response = $client->post($this->host . '/login/user', [
                 'form_params' => [
                     'phone_number' => $request->input('phone_number'),
