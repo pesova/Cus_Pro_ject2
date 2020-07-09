@@ -63,7 +63,6 @@ Route::prefix('/admin')->group(function () {
     Route::get('/password', 'Auth\ForgotPasswordController@index')->name('password');
     Route::post('/password', 'Auth\ForgotPasswordController@update')->name('password.reset');
 
-
     Route::group(['middleware' => 'backend.auth'], function () {
 
         // activation
@@ -86,6 +85,7 @@ Route::prefix('/admin')->group(function () {
 
         // settings create and update
         Route::get('/setting', 'SettingsController@index')->name('setting');
+        Route::post('/setting', 'SettingsController@update');
 
         // transaction crud
         Route::resource('transaction', 'TransactionController');

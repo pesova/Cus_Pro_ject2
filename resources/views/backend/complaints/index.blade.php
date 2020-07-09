@@ -18,7 +18,15 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
+                
                     <div class="card-body">
+                    <div>
+                    @if( \Session::has('success'))
+                        <div class="alert alert-success">
+                            {!! \Session::get('success') !!}
+                        </div>
+                    @endif
+                    </div>
                         <h4 class="header-title mt-0 mb-1">Complaints Submitted</h4>
                         <p class="sub-header">
                             This is the list of all complaints submitted:
@@ -47,7 +55,9 @@
                                     </td>
                                     <td>{{ $response->status}}</td>
                                     <td>{{ $response->date}}</td>
-                                    <td><form action="{{ route('complaint.destroy', $response->_id) }}" method="POST">
+                                    <td>
+                                    
+                                    <form action="{{ route('complaint.destroy', $response->_id) }}" method="POST">
                                             <input type="hidden" name="_method" value="DELETE">
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <button class="btn btn-danger">Delete</button>
