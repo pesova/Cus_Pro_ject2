@@ -18,7 +18,7 @@ class StoreController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         // API updated
         $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store';
@@ -37,9 +37,12 @@ class StoreController extends Controller
                 return view('backend.stores.index')->with('response', $Stores->data->stores);
             }
             else if($statusCode->getStatusCode() == 401){
-                $request->session()->flash('alert-class', 'alert-danger');
-                Session::flash('message', "Your Session Has Expired, Please Login Again");
-               return redirect()->route('store.index');
+               return redirect()->route('logout');
+           }
+           else if($statusCode->getStatusCode() == 500){
+            return view('errors.500');
+           } else {
+                return ('jdjjd');
            }
 
         } catch (RequestException $e) {
@@ -50,6 +53,9 @@ class StoreController extends Controller
             if ($e->getResponse()->getStatusCode() >= 500) {
                 return view('errors.500');
             }
+            else {
+                return ('xsncnslcnsn');
+           }
 
         } catch (\Exception $e) {
 
