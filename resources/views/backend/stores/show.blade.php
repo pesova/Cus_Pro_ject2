@@ -57,6 +57,17 @@
                                                 <th scope="row">Email</th>
                                                 <td>{{ $response->email }}</td>
                                             </tr>
+
+                                            <tr>
+                                                <th scope="row">TagLine</th>
+                                                <td>{{ $response->tagline }}</td>
+                                            </tr>
+
+                                            <tr>
+                                                <th scope="row">Phone Number</th>
+                                                <td>{{ $response->phone_number }}</td>
+                                            </tr>
+
                                             <tr>
                                                 <th scope="row">Total Number of Customers</th>
                                                 <td>{{count( $response->customers )}}</td>
