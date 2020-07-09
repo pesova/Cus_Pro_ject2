@@ -94,20 +94,31 @@
                             <th>Ref Transaction Type</th>
                             <th>Customer Ref Code</th>
                             <th>Amount</th>
-                            <th>Expected Pay Date</th>
-                            <th>View more</th>
+                            {{-- <th>Expected Pay Date</th> --}}
+                            <th> more</th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        <tr>
-                            <td>TP00</td>
-                            <td>Payment</td>
-                            <td>TR 0264</td>
-                            <td>$2000</td>
-                            {{-- <td>{{ date('d M Y', strtotime($transaction->created_date)) }}</td> --}}
-                            <td><a href="{{ route('transaction.show', 1) }}"><i data-feather="eye"></i></a></td>
+                     @foreach ($response as $details)
+                        @foreach ($details->transactions as $transactions)
+                            <tr>
+                            <td>{{$transactions->_id }}</td>
+                             <td>{{$transactions->type }}</td>
+                            <td>{{$transactions->customer_ref_id }}</td>
+                            <td>{{$transactions->total_amount}}</td>
+                           
+                            {{-- <td>{{ date('d M Y', strtotime($transactions->created_date)) }}</td> --}}
+                            <td><a href="{{ route('transaction.show', $transactions->_id) }}" class="btn btn-primary btn-sm">view</i></a>
+                            <a href="{{ route('transaction.edit', $transactions->_id) }}" class="btn btn-success btn-sm">edit</i></a>
+                            <a href="{{ route('transaction.destroy', $transactions->_id) }}" class="btn btn-danger btn-sm">delete</i></a>
+                             
+                            </td>
                         </tr>
+                        @endforeach
+                        
+                      @endforeach 
+                      
                     </tbody>
                 </table>
             </div>
@@ -161,10 +172,16 @@
                             <input type="text" class="form-control" id="inputPassword3" name="transaction_name" placeholder="Transaction Name">
                         </div>
                     </div>
-                    <div class="form-group row mb-3">
-                        <label for="inputPassword3" class="col-3 col-form-label">Transaction Role</label>
+                     <div class="form-group row mb-3">
+                        <label for="inputPassword3" class="col-3 col-form-label">Transaction role</label>
                         <div class="col-9">
                             <input type="text" class="form-control" id="inputPassword3" name="transaction_role" placeholder="Transaction Role">
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="inputPassword3" class="col-3 col-form-label">Transaction Type</label>
+                        <div class="col-9">
+                            <input type="text" class="form-control" id="inputPassword3" name="transaction_type" placeholder="Transaction Type">
                         </div>
                     </div>
                     <div class="form-group row mb-3">
