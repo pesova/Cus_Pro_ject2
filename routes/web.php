@@ -1,7 +1,8 @@
 <?php
 
+use App\Events\UserRegistered;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Cookie;
 
 /*
 |--------------------------------------------------------------------------
@@ -85,6 +86,7 @@ Route::prefix('/admin')->group(function () {
 
         // settings create and update
         Route::get('/setting', 'SettingsController@index')->name('setting');
+        
         Route::post('/setting', 'SettingsController@update');
 
         // transaction crud
@@ -102,14 +104,12 @@ Route::prefix('/admin')->group(function () {
         // complaint crud
         Route::resource('complaint', 'ComplaintController');
 
-
         // user crud
         Route::resource('users', 'UsersController');
 
-        // change locations
-        Route::get('/change-loc', function () {
-            return view('backend.location.change_loc');
-        });
+        // location
+        Route::resource('location', 'LocationController');
+
 
         // super admin protected routes
         Route::group(['middleware' => 'backend.super.admin'], function () {
@@ -119,9 +119,9 @@ Route::prefix('/admin')->group(function () {
     });
 });
 
-    Route::get('/backend/transactions', function () {
-        return view('backend.transactions.index');
-    });
+    // Route::get('/backend/transactions', function () {
+    //     return view('backend.transactions.index');
+    // });
 
 // Protected Routes
 // Route::group(['prefix' => '/admin'], function () {

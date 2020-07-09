@@ -27,9 +27,9 @@
 </li> --}}
 
 <li>
-    <a href="#">
+    <a href="{{ route('debtor.index') }}">
         <i data-feather="bell"></i>
-        <span> Debt Reminders </span>
+        <span> Debtors </span>
     </a>
 </li>
 
@@ -46,16 +46,16 @@
         <span> Broadcast Message </span>
     </a>
 </li>
-<li>
+{{-- <li>
     <a href="{{ route('complaint.create') }}">
         <i data-feather="book-open"></i>
         <span> Complaint Forms </span>
     </a>
-</li>
+</li> --}}
 <li>
     <a href="{{ route('complaint.index') }}">
         <i data-feather="book"></i>
-        <span> Complaint Log </span>
+        <span> Complaint</span>
     </a>
 </li>
 <li>
