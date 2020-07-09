@@ -50,7 +50,11 @@
                                         <div class="form-row">
                                           <div class="form-group col-md-6">
                                             <label for="inputPhoneNumber">Phone Number</label>
+<<<<<<< HEAD
                                             <input type="text" name="phone_number" class="form-control" placeholder="+23481233477" >
+=======
+                                            <input type="text" name="phone_number" class="form-control" placeholder="+2348127737643" >
+>>>>>>> fa639b5b7784e8c2e255a2ea8917314d33571271
                                           </div>
                                         <div class="form-group col-md-6" >
                                             <label for="inputEmailAddress"> Email Address (optional) </label>
