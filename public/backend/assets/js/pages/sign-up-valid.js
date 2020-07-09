@@ -25,8 +25,11 @@ form.addEventListener('submit', (e) => {
   } else if (password.value.indexOf(' ') !== -1) {
     e.preventDefault()
     passAlert.style.display = 'block'
+    password.classList.remove('medium');
+    password.classList.remove('maximum');
     password.classList.add('invalid');
-    passAlert.innerText = 'Passwords cannot contain spaces'
+    passAlert.style.color = 'red'
+    passAlert.innerText = 'Opps! passwords cannot contain spaces'
   }
 
 });
