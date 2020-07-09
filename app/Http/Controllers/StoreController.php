@@ -275,7 +275,6 @@ class StoreController extends Controller
                 'shop_address' =>  'required',
             ]);
 
-<<<<<<< HEAD
             $payload = [
                 'headers' => ['x-access-token' => Cookie::get('api_token')],
                 'form_params' => [
@@ -287,15 +286,6 @@ class StoreController extends Controller
                     'current_user' => Cookie::get('user_id'),
                 ],
 
-=======
-            $data = [
-                'store_name' => $request->input('store_name'),
-                'shop_address' => $request->input('address'),
-                'email' => $request->input('email'),
-                'tagline' => $request->input('tag_line'),
-                'phone_number' => $request->input('phone'),
-                'current_user' => Cookie::get('user_id'),
->>>>>>> 44103833ae28ec9ebce2e92dc6e2cb57b0503cbb
             ];
 
 
@@ -304,15 +294,9 @@ class StoreController extends Controller
             $status = $req->getStatusCode();
 
             if ($status == 201) {
-<<<<<<< HEAD
 
                 return redirect()->route('store.index', ['response' => []]);
                 //return redirect()->view('backend.stores.index')->with('message', "Update Successful");
-=======
-                $body = $req->getBody()->getContents();
-                $res = json_encode($body);
-                return redirect()->view('backend.stores.index')->with('message', "Update Successful");
->>>>>>> 44103833ae28ec9ebce2e92dc6e2cb57b0503cbb
             }
             if ($statusCode == 500) {
                 return view('errors.500');
@@ -329,16 +313,10 @@ class StoreController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-<<<<<<< HEAD
     public function destroy(Request $request, $id)
     {
 
         $url = env('API_URL', 'https://api.customerpay.me/') . '/store/delete/' . $id;
-=======
-    public function destroy($store_id)
-    {
-        $url = env('API_URL', 'https://api.customerpay.me/') . '/store/delete/' . $store_id;
->>>>>>> 44103833ae28ec9ebce2e92dc6e2cb57b0503cbb
         $client = new Client();
         $payload = [
             'headers' => [
@@ -352,11 +330,7 @@ class StoreController extends Controller
  	       $delete = $client->delete($url, $payload);
 
  	      if($delete->getStatusCode() == 200 || $delete->getStatusCode() == 201) {
-<<<<<<< HEAD
                 $request->session()->flash('alert-class', 'alert-success');
-=======
- 		    	$request->session()->flash('alert-class', 'alert-success');
->>>>>>> 44103833ae28ec9ebce2e92dc6e2cb57b0503cbb
                 Session::flash('message', "Store successfully deleted");
                 return redirect()->route('store.index');
  	        }
