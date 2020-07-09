@@ -242,7 +242,7 @@
                     </p>
 
                     <div class="button-area mt-50">
-                        <a class="btn feature__action__btn boxed-btn" href="#">Read More</a>
+                        <a class="btn feature__action__btn boxed-btn" href="{{ route('about') }}">Read More</a>
                     </div>
                 </div>
             </div>
@@ -319,11 +319,12 @@
 <!-- Client Feedback Area -->
 <div class="client-feedback-area section-padding-100" id="client">
     <div class="container">
-        <div class="row justify-content-center">
+        <div class="row justify-content-center mb-0">
             <div class="col-lg-7">
-                <div class="section-heading text-center">
+                <div class="section-heading text-center testimonials">
                     <h4>Testimonials</h4>
-                    <p>Our users are happy with us. Here are some of the countless feedback we have gotten so far</p>
+                    <p>Our users are happy with us. Here are some of the feedback we have gotten so far</p>
+                    <hr class="testimonial-line">
                 </div>
             </div>
         </div>
@@ -337,14 +338,14 @@
                             <!-- Client Content -->
                             <div class="testimonial-img-container">
                                 <img src="/frontend/assets/images/kadet pic.jpeg" alt=""
-                                    class="testimonial-img">
+                                    class="testimonial-img img-fluid">
                             </div>
                             <div class="client-desc client-mt-50 testimonial__text">
-                                <p>I must explain to you how all this mistaken idea of will give you a complete
-                                    denouncing pleasure and praising pain was born and I will give you a complete
-                                    account of the system</p>
+                                <p>I have been using this app for three months now and i must confess, it has really changed
+                                    the way and see and manage my stores, assistants and customers. The analytics feature gets me
+                                    the most. I never knew running multiple store could be this easy</p>
 
-                                <h4>Angel Diha - <span>England</span></h4>
+                                <h4>Angel Collins - <span>Nigeria</span></h4>
                             </div>
                         </div>
                     </div>
@@ -355,14 +356,13 @@
                             <!-- Client Content -->
                             <div class="testimonial-img-container">
                                 <img src="/frontend/assets/images/kadet pic.jpeg" alt=""
-                                    class="testimonial-img">
+                                    class="testimonial-img img-fluid">
                             </div>
                             <div class="client-desc client-mt-50 testimonial__text">
-                                <p>I must explain to you how all this mistaken idea of will give you a complete
-                                    denouncing pleasure and praising pain was born and I will give you a complete
-                                    account of the system</p>
+                                <p>Remote control of my stores and store assistants is a feature I have really been looking for.
+                                    I have finally found an app that meets all my needs. Thanks makers of MyCustomer</p>
 
-                                <h4>Angel Diha - <span>England</span></h4>
+                                <h4>Bitrus Samuel - <span>England</span></h4>
                             </div>
                         </div>
                     </div>
