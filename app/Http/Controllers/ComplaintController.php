@@ -33,6 +33,12 @@ class ComplaintController extends Controller
             if ($statusCode == 500) {
                 return view('errors.500');
             }
+            if ($statusCode == 401) {
+                return view('backend.complaints.index')->with('message', "Unauthoized token");
+            }
+            if ($statusCode == 403) {
+                return redirect()->route('login')->with('message', "Please Login Again");
+            }
         } catch (\Exception $e) {
             return view('errors.500');
 
@@ -236,7 +242,8 @@ class ComplaintController extends Controller
             if ($statusCode == 200) {
 
 
-                return \Redirect::back()->with('success', 'Complaint Deleted Successfully');
+                // return \Redirect::back();
+                return redirect('/admin/complaint')->with('success', 'Complaint Deleted Successfully');
             }
             if ($statusCode == 500) {
                 return view('errors.500');
