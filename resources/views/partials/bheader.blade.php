@@ -2,12 +2,12 @@
 <div class="navbar navbar-expand flex-column flex-md-row navbar-custom">
     <div class="container-fluid">
         <!-- LOGO -->
-        <a href="index.html" class="navbar-brand mr-0 mr-md-2 logo">
+        <a href="{{route('home')}}" class="navbar-brand mr-0 mr-md-2 logo">
             <span class="logo-lg">
-                <img src="{{ ('/frontend/assets/images/fulllogo.png') }}" alt="" height="48" />
+                <img src="{{('/frontend/assets/images/fulllogo.png')}}" alt="" height="48" />
             </span>
             <span class="logo-sm">
-                <img src="assets/images/logos.png" alt="" height="24">
+                <img src="/backend/assets/images/logo.png" alt="" height="24">
             </span>
         </a>
 
@@ -21,6 +21,11 @@
         </ul>
 
         <ul class="navbar-nav flex-row ml-auto d-flex list-unstyled topnav-menu float-right mb-0">
+          <li class="d-none d-sm-block">
+            <div class="app-search">
+                <button class="btn btn-primary back-home-button"><a href="{{route('home')}}" style="color: white">Back to home</a></button>
+            </div>
+        </li>
             <li class="d-none d-sm-block">
                 <div class="app-search">
                     <form>
@@ -40,25 +45,25 @@
                 <div class="dropdown-menu dropdown-menu-right">
                     <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <img src="assets/images/flags/germany.jpg" alt="user-image" class="mr-2" height="12">
+                        <img src="/backend/assets/images/flags/germany.jpg" alt="user-image" class="mr-2" height="12">
                         <span class="align-middle">German</span>
                     </a>
 
                     <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <img src="assets/images/flags/italy.jpg" alt="user-image" class="mr-2" height="12">
+                        <img src="/backend/assets/images/flags/italy.jpg" alt="user-image" class="mr-2" height="12">
                         <span class="align-middle">Italian</span>
                     </a>
 
                     <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <img src="assets/images/flags/spain.jpg" alt="user-image" class="mr-2" height="12">
+                        <img src="/backend/assets/images/flags/spain.jpg" alt="user-image" class="mr-2" height="12">
                         <span class="align-middle">Spanish</span>
                     </a>
 
                     <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <img src="assets/images/flags/russia.jpg" alt="user-image" class="mr-2" height="12">
+                        <img src="/backend/assets/images/flags/russia.jpg" alt="user-image" class="mr-2" height="12">
                         <span class="align-middle">Russian</span>
                     </a>
                 </div>
@@ -98,7 +103,7 @@
                         <!-- item-->
                         <a href="javascript:void(0);" class="dropdown-item notify-item border-bottom">
                             <div class="notify-icon">
-                                <img src="assets/images/users/avatar-1.jpg" class="img-fluid rounded-circle" alt="" />
+                                <img src="/backend/assets/images/users/avatar-1.jpg" class="img-fluid rounded-circle" alt="" />
                             </div>
                             <p class="notify-details">Karen Robinson</p>
                             <p class="text-muted mb-0 user-msg">
@@ -109,7 +114,7 @@
                         <!-- item-->
                         <a href="javascript:void(0);" class="dropdown-item notify-item border-bottom">
                             <div class="notify-icon">
-                                <img src="assets/images/users/avatar-2.jpg" class="img-fluid rounded-circle" alt="" />
+                                <img src="/backend/assets/images/users/avatar-2.jpg" class="img-fluid rounded-circle" alt="" />
                             </div>
                             <p class="notify-details">Cristina Pride</p>
                             <p class="text-muted mb-0 user-msg">
@@ -155,7 +160,7 @@
             </li>
 
             <li class="dropdown notification-list" data-toggle="tooltip" data-placement="left" title="Settings">
-                <a href="javascript:void(0);" class="nav-link right-bar-toggle">
+                <a href="{{ route('setting') }}" class="nav-link right-bar-toggle">
                     <i data-feather="settings"></i>
                 </a>
             </li>
@@ -164,7 +169,7 @@
                 <a class="nav-link dropdown-toggle nav-user mr-0" data-toggle="dropdown" href="#" role="button"
                     aria-haspopup="false" aria-expanded="false">
                     <div class="media user-profile ">
-                        <img src="assets/images/users/avatar-7.jpg" alt="user-image"
+                        <img src="/backend/assets/images/users/avatar-7.jpg" alt="user-image"
                             class="rounded-circle align-self-center" />
                         <div class="media-body text-left">
                             <h6 class="pro-user-name ml-2 my-0">
@@ -181,12 +186,12 @@
                         <span>My Account</span>
                     </a>
 
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                    <a href="{{ route('setting') }}" class="dropdown-item notify-item">
                         <i data-feather="settings" class="icon-dual icon-xs mr-2"></i>
                         <span>Settings</span>
                     </a>
 
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                    {{-- <a href="javascript:void(0);" class="dropdown-item notify-item">
                         <i data-feather="help-circle" class="icon-dual icon-xs mr-2"></i>
                         <span>Support</span>
                     </a>
@@ -194,11 +199,10 @@
                     <a href="pages-lock-screen.html" class="dropdown-item notify-item">
                         <i data-feather="lock" class="icon-dual icon-xs mr-2"></i>
                         <span>Lock Screen</span>
-                    </a>
+                    </a> --}}
 
                     <div class="dropdown-divider"></div>
-
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                    <a href="{{ route('logout') }}" class="dropdown-item notify-item">
                         <i data-feather="log-out" class="icon-dual icon-xs mr-2"></i>
                         <span>Logout</span>
                     </a>
