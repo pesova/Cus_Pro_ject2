@@ -236,7 +236,14 @@
                                                     <input class="form-control" name="new_password" type="password">
                                                 </div>
                                             </div>
-                                            <input type="text" value="password_change" name="control" hidden>
+                                            <label class="control-label">Confirm Password</label>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><span class="input-group-text"><i class=" fa fa-lock"></i></span></div>
+                                                    <input class="form-control" name="confirm-password" type="password">
+                                                </div>
+                                            </div>
+                                            {{-- <input type="text" value="password_change" name="control" hidden> --}}
 
                                             <button class="btn btn-primary" type="submit">Update</button>
                                         </form>

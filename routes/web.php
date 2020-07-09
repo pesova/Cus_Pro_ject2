@@ -107,10 +107,9 @@ Route::prefix('/admin')->group(function () {
         // user crud
         Route::resource('users', 'UsersController');
 
-        // change locations
-        Route::get('/change-loc', function () {
-            return view('backend.location.change_loc');
-        });
+        // location
+        Route::resource('location', 'LocationController');
+
 
         // super admin protected routes
         Route::group(['middleware' => 'backend.super.admin'], function () {
