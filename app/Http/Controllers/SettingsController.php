@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Validator;
+
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Log;
 
@@ -62,26 +62,17 @@ class SettingsController extends Controller
                     $form_response_process = $client->request('PUT', $url, $this->headers);
                 } elseif ($control == 'password_change') {
 
-
-                    $validator = Validator::make($request->all(), [
-                        'new_password' => 'required|min:6|confirmed',
-                    ]);
-                    if ($validator->fails()) {
-                        $request->session()->flash('alert-class', 'alert-danger');
-                        $request->session()->flash('message', "password update failed, invalid input");
-                        return redirect()->route('setting');
-                    } else {
-                        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/update-password';
-                        $client = new Client();
-                        $data = [
-                            "oldPassword" => $request->input('current_password'),
-                            "newPassword" => $request->input('new_password'),
-                            "confirmPassword" => $request->input('new_password_confirmation')
-                        ];
-                        // make an api call to update the user_details
-                        $this->headers = ['headers' => ['x-access-token' => Cookie::get('api_token')], 'form_params' => $data];
-                        $form_response_process = $client->request('POST', $url, $this->headers);
-                    }
+                    // $url = env('API_URL', 'https://api.customerpay.me'). '/reset-password';
+                    $url = env('API_URL', 'https://dev.api.customerpay.me/') . '/user/update/';
+                    $client = new Client();
+                    $data = [
+                        // "content" => [
+                        // 'current_password' => $request->input('current_password'),
+                        "new_password" => $request->input('new_password')
+                        // ]
+                    ];
+                    // make an api call to update the user_details
+                    $form_response_process = $client->request('PUT', $url, $this->headers, $data);
                 } else {
                     return view('errors.404');
                 }
@@ -94,29 +85,23 @@ class SettingsController extends Controller
                     return view('backend.settings.settings')->with("user_details", $message);
                 }
                 if ($form_response_process->getStatusCode() == 200) {
-                    if ($control == 'profile_update') {
-                        $user_detail_res = json_decode($form_response_process->getBody(), true);
-                        $filtered_user_detail = $user_detail_res['data']['store_admin']['local'];
-                        $user_details = [
-                            "email" => $filtered_user_detail['email'],
-                            "phone_number" => $filtered_user_detail['phone_number'],
-                            "first_name" => $filtered_user_detail['first_name'],
-                            "last_name" => $filtered_user_detail['last_name'],
-                            "is_active" => Cookie::get('is_active')
-                        ];
-                        Cookie::queue('phone_number', $filtered_user_detail['phone_number']);
-                        Cookie::queue('first_name', $filtered_user_detail['first_name']);
-                        Cookie::queue('email', $filtered_user_detail['email']);
-                        Cookie::queue('last_name', $filtered_user_detail['last_name']);
-                        $request->session()->flash('alert-class', 'alert-success');
-                        $request->session()->flash('message', "Profile details updated successfully");
-                        return redirect()->route('setting')->with("user_details", $user_details);
-                    }
-                    if ($control == 'password_change') {
-                        $request->session()->flash('alert-class', 'alert-success');
-                        $request->session()->flash('message', "Password updated successfully");
-                        return redirect()->route('setting');
-                    }
+                    $user_detail_res = json_decode($form_response_process->getBody(), true);
+
+                    $filtered_user_detail = $user_detail_res['data']['store_admin']['local'];
+                    $user_details = [
+                        "email" => $filtered_user_detail['email'],
+                        "phone_number" => $filtered_user_detail['phone_number'],
+                        "first_name" => $filtered_user_detail['first_name'],
+                        "last_name" => $filtered_user_detail['last_name'],
+                        "is_active" => Cookie::get('is_active')
+                    ];
+                    Cookie::queue('phone_number', $filtered_user_detail['phone_number']);
+                    Cookie::queue('first_name', $filtered_user_detail['first_name']);
+                    Cookie::queue('email', $filtered_user_detail['email']);
+                    Cookie::queue('last_name', $filtered_user_detail['last_name']);
+                    $request->session()->flash('alert-class', 'alert-success');
+                    $request->session()->flash('message', "Profile details updated successfully");
+                    return redirect()->route('setting')->with("user_details", $user_details);
                 }
             } else {
                 return redirect()->route('settings');
