@@ -24,28 +24,50 @@ class AssistantController extends Controller
     {
         //
         try {
-            $user_id = Cookie::get('user_id');
-            $url = env('API_URL', 'https://api.customerpay.me/') . '/user/all/' . $user_id;
+            // $user_id = Cookie::get('user_id');
+            // $url = env('API_URL', 'https://api.customerpay.me/') . '/user/all/' . $user_id;
             //$url = "http://localhost:3000/user/all/" . $user_id;
+            $url = env('API_URL', 'https://dev.api.customerpay.me/') . 'assistant';
+
             $client = new Client();
+
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+
             $user_response = $client->request('GET', $url, $headers);
+
+            $assistants = json_decode($user_response->getBody());
+
             if ($user_response->getStatusCode() == 200) {
-                $response = json_decode($user_response->getBody(), true);
-                $assistants = $response['data']['assistants'];
+                // $response = json_decode($user_response->getBody(), true);
+                // $assistants = $response['data']['assistants'];
+
+                $customerArray = [];
+                foreach($assistants->data as $key => $value) {
+                    array_push($customerArray, $assistants->data[$key]->assistant);
+                }
+
+                $allCustomers = [];
+                foreach( $customerArray as $key => $value ) {
+                    foreach( $value as $key => $v ) {
+                        array_push($allCustomers, $v);
+                    }
+                }
+
                 $perPage = 10;
                 $page = $request->get('page', 1);
-                if ($page > count($assistants) or $page < 1) {
+                if ($page > count($allCustomers) or $page < 1) {
                     $page = 1;
                 }
                 $offset = ($page * $perPage) - $perPage;
-                $articles = array_slice($assistants, $offset, $perPage);
-                $datas = new Paginator($articles, count($assistants), $perPage);
+                $articles = array_slice($allCustomers, $offset, $perPage);
+                $datas = new Paginator($articles, count($allCustomers), $perPage);
                 return view('backend.assistant.index')->with('response', $datas->withPath('/' . $request->path()));
             }
+            
             if ($user_response->getStatusCode() == 500) {
                 return view('errors.500');
             }
+
         } catch (\Exception $e) {
             $request->session()->flash('message', 'Sorry could not get assistants, please check your connection');
             return view('backend.assistant.index');
