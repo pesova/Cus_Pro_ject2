@@ -220,7 +220,7 @@
                                 <div class="tab-pane" id="password-change">
                                     <div class="tile user-settings">
                                         <h4 class="line-head">Change Password</h4>
-                                        <form action="#" method="POST">
+                                        <form action="{{ route('setting') }}" method="POST">
                                             {{ csrf_field() }}
                                             <label class="control-label">Current Password</label>
                                             <div class="form-group">
@@ -240,10 +240,10 @@
                                             <div class="form-group">
                                                 <div class="input-group">
                                                     <div class="input-group-prepend"><span class="input-group-text"><i class=" fa fa-lock"></i></span></div>
-                                                    <input class="form-control" name="confirm-password" type="password">
+                                                    <input class="form-control" name="new_password_confirmation" type="password">
                                                 </div>
                                             </div>
-                                            {{-- <input type="text" value="password_change" name="control" hidden> --}}
+                                            <input type="text" value="password_change" name="control" hidden>
 
                                             <button class="btn btn-primary" type="submit">Update</button>
                                         </form>
