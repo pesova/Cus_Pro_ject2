@@ -102,7 +102,6 @@ Route::prefix('/admin')->group(function () {
         // complaint crud
         Route::resource('complaint', 'ComplaintController');
 
-
         // user crud
         Route::resource('users', 'UsersController');
 

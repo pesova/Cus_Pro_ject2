@@ -88,10 +88,12 @@ class ComplaintController extends Controller
 
             if ($statusCode == 200) {
                 // dd($body);
-                $request->session()->flash('alert-class', 'alert-success');
-                $request->session()->flash('message', $response->message);
-
-                return redirect()->route('complaint.create');
+                // $request->session()->flash('alert-class', 'alert-success');
+                // $request->session()->flash('message', $response->message);
+                return redirect()->route('complaint.index')->with(
+                    'alert-class', 'alert-success',
+                    'message', $response->message
+                );
             } else {
 
                 $message = isset($response->Message) ? $response->Message : $response->message;
@@ -105,7 +107,6 @@ class ComplaintController extends Controller
 
             if ($e->hasResponse()) {
                 // get response to catch 4xx errors
-                // dd($e->getMessage());
                 $response = json_decode($e->getResponse()->getBody());
                 $request->session()->flash('alert-class', 'alert-danger');
                 $request->session()->flash('message', "Make sure all fields are filled .\n Make sure the description is more than 10 characters");

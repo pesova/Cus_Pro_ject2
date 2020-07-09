@@ -55,7 +55,7 @@
                                         <tbody>
                                             <tr>
                                                 <th scope="row">Email</th>
-                                                <td>{{$response->email}}</td>
+                                                <td>{{ $response->email }}</td>
                                             </tr>
                                             <tr>
                                                 <th scope="row">Total Number of Customers</th>
