@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Cookie;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,19 +18,33 @@ use Illuminate\Support\Facades\Route;
 
 // Unauthenticated Routes
 
-Route::get('/', function() {return view('home');})->name('home');
+Route::get('/', function () {
+    return view('home');
+})->name('home');
 
-Route::get('/about', function () {return view('about');})->name('about');
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
 
-Route::get('/faq', function () {return view('faq');})->name('faq');
+Route::get('/faq', function () {
+    return view('faq');
+})->name('faq');
 
-Route::get('/contact', function () {return view('contact');})->name('contact');
+Route::get('/contact', function () {
+    return view('contact');
+})->name('contact');
 
-Route::get('/privacy', function () {return view('privacy');})->name('privacy');
+Route::get('/privacy', function () {
+    return view('privacy');
+})->name('privacy');
 
-Route::get('/blog', function () {return view('blog');})->name('blog');
+Route::get('/blog', function () {
+    return view('blog');
+})->name('blog');
 
-Route::get('/admin', function() { return redirect()->route('dashboard');});
+Route::get('/admin', function () {
+    return redirect()->route('dashboard');
+});
 
 // backend codes
 Route::prefix('/admin')->group(function () {
@@ -48,11 +63,10 @@ Route::prefix('/admin')->group(function () {
     Route::get('/password', 'Auth\ForgotPasswordController@index')->name('password');
     Route::post('/password', 'Auth\ForgotPasswordController@update')->name('password.reset');
 
-
     Route::group(['middleware' => 'backend.auth'], function () {
 
         // activation
-        Route::get('/activate', 'UsersController@activate')->name('activate.user');
+        Route::get('/activate', 'ActivateController@index')->name('activate.user');
 
         // dashboard, creditor, debtor
         Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
@@ -60,16 +74,18 @@ Route::prefix('/admin')->group(function () {
         Route::get('/analytics', 'DashboardController@analytics')->name('analytics');
         Route::get('/notification', 'DashboardController@notification')->name('notification');
 
+		//reminder
+		Route::post('/reminder/email', 'ReminderController@sendViaEmail');
 
         // customer crud
         Route::resource('customer', 'CustomerController');
 
         // debtor crud
         Route::resource('debtor', 'DebtorController');
-        
 
         // settings create and update
         Route::get('/setting', 'SettingsController@index')->name('setting');
+        Route::post('/setting', 'SettingsController@update');
 
         // transaction crud
         Route::resource('transaction', 'TransactionController');
@@ -78,7 +94,7 @@ Route::prefix('/admin')->group(function () {
         Route::resource('store', 'StoreController');
 
         // assistant crud
-        Route::resource('assistant', 'AssistantController');
+        Route::resource('assistants', 'AssistantController');
 
         // broadcast crud
         Route::resource('broadcast', 'BroadcastController');
@@ -86,8 +102,14 @@ Route::prefix('/admin')->group(function () {
         // complaint crud
         Route::resource('complaint', 'ComplaintController');
 
+
         // user crud
         Route::resource('users', 'UsersController');
+
+        // change locations
+        Route::get('/change-loc', function () {
+            return view('backend.location.change_loc');
+        });
 
         // super admin protected routes
         Route::group(['middleware' => 'backend.super.admin'], function () {
@@ -97,6 +119,9 @@ Route::prefix('/admin')->group(function () {
     });
 });
 
+    Route::get('/backend/transactions', function () {
+        return view('backend.transactions.index');
+    });
 
 // Protected Routes
 // Route::group(['prefix' => '/admin'], function () {
@@ -106,7 +131,33 @@ Route::prefix('/admin')->group(function () {
     // Route::get('/dashboard', function () {
     //     return view('backend.dashboard.index');
     // })->name('dashboard');
-	
+
+    // // Single Transaction Page
+    // Route::get('/s-transaction', function () {
+    //     return view('backend.transactions.s-transaction');
+    // });
+// Route::group(['prefix' => '/admin' , 'middleware' => 'backend.auth'], function () {
+//     Route::get('/activate', 'ActivateController@index')->name('activate.user');
+
+//     // dashboard
+//     Route::get('/dashboard', function () {
+//         return view('backend.dashboard');
+//     })->name('dashboard');
+
+//     // Customers
+//     Route::get('/customers', function () {
+//         return view('backend.customers.index');
+//     })->name('customers');
+
+// Protected Routes
+// Route::group(['prefix' => '/admin'], function () {
+//     Route::get('/activate', 'ActivateController@index')->name('activate.user');
+
+    // // dashboard
+    // Route::get('/dashboard', function () {
+    //     return view('backend.dashboard.index');
+    // })->name('dashboard');
+
     // // Single Transaction Page
     // Route::get('/s-transaction', function () {
     //     return view('backend.transactions.s-transaction');

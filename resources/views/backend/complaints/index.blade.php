@@ -13,13 +13,20 @@
 
 
 @section('content')
-
 <div class="card" style="margin-top: 10px;">
     <div id="wrapper">
         <div class="row">
             <div class="col-12">
                 <div class="card">
+                
                     <div class="card-body">
+                    <div>
+                    @if( \Session::has('success'))
+                        <div class="alert alert-success">
+                            {!! \Session::get('success') !!}
+                        </div>
+                    @endif
+                    </div>
                         <h4 class="header-title mt-0 mb-1">Complaints Submitted</h4>
                         <p class="sub-header">
                             This is the list of all complaints submitted:
@@ -37,39 +44,31 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
-
-
                             <tbody>
+
+                            @foreach($responses->data->complaints as $response)
                                 <tr>
-
-
-                                    <td>{{isset( $response->_id) ? $response->_id : "148454155"}}</td>
-
-                                    <td>{{isset( $response->name) ? $response->name : "Ajanaku"}}
-                                        {{isset( $response->name) ? $response->type : "Azeez"}}</td>
-                                    <td>{{isset( $response->email) ? $response->type : "AjanakuAzeez@yahoo.com"}}</td>
-                                    <td>{{isset( $response->name) ? $response->type : "I can't connect now, try again later"}}
+                                
+                                    <td><a href="{{ route('complaint.show', $response->_id) }}">{{ $response->_id}}</a></td>
+                                    <td>{{ $response->name}}</td>
+                                    <td>{{ $response->email}}</td>
+                                    <td>{{ $response->message}}
                                     </td>
-                                    <td>{{isset( $response->name) ? $response->type : "Open"}}</td>
-                                    <td>{{isset( $response->name) ? $response->type : "2020 07 25"}}</td>
+                                    <td>{{ $response->status}}</td>
+                                    <td>{{ $response->date}}</td>
                                     <td>
-                                        <div class="btn-group mt-2 mr-1">
-                                            <button type="button" class="btn btn-info dropdown-toggle"
-                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Actions<i class="icon"><span data-feather="chevron-down"></span></i>
-                                            </button>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <button name="status" type="button" class="dropdown-item"
-                                                    onclick="foo()">Change Status</button>
-                                                <button name="delete" type="button1" class="dropdown-item"
-                                                    onclick="foo()">Delete</button>
-                                            </div>
-                                        </div>
+                                    
+                                    <form action="{{ route('complaint.destroy', $response->_id) }}" method="POST">
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                        <button class="btn btn-danger">Delete</button>
+                        </form></td>
+                                    <!-- <td><a href="{{ route('complaint.destroy', $response->_id) }}" class="btn btn-danger "> -->
+   <!-- Delete -->
+<!-- </a> -->
                                     </td>
                                 </tr>
-
-
-
+                                @endforeach
                             </tbody>
                         </table>
 

@@ -11,12 +11,6 @@ use Illuminate\Support\Facades\Cookie;
 class UsersController extends Controller
 {
 
-
-    public function activate(Request $request)
-    {
-        return redirect()->route('dashboard');
-    }
-
     /**
      * Display a listing of the resource.
      *

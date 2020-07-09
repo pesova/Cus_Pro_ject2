@@ -83,8 +83,9 @@ class TransactionController extends Controller
             'amount' => 'required',
             'interest' => 'required',
             'total_amount' => 'required',
-            'description' => 'required',
+            'description' => 'required|string',
             'transaction_name' => 'required',
+            'type' => 'required',
             'store_name' => 'required',
             'phone_number' => 'required'
         ]);
@@ -100,6 +101,7 @@ class TransactionController extends Controller
                         'total_amount' => $request->input('total_amount'),
                         'description' => $request->input('description'),
                         'transaction_name' => $request->input('transaction_name'),
+                        'type' => $request->input('type'),
                         'store_name' => $request->input('store_name'),
                         'phone_number' => $request->input('phone_number'),
                     ],
@@ -114,9 +116,7 @@ class TransactionController extends Controller
                     $request->session()->flash('alert-class', 'alert-success');
                     $request->session()->flash('message', 'Transaction successfully created');
                         return redirect()->route('transaction.index');
-                    
                 }
-
                     $request->session()->flash('message', 'Transaction failed to create');
                     $request->session()->flash('alert-class', 'alert-danger');
                     return redirect()->route('transaction.index');
@@ -136,12 +136,7 @@ class TransactionController extends Controller
             Session::flash('message', $response->error->description);
             return redirect()->route('transaction.index', ['response' => []]);
 
-        } catch (\Exception $e) {
-            //log error;
-            Log::error('Catch error: TransactionController - ' . $e->getMessage());
-            return view('errors.500');
-
-        }
+        } 
         
     }
 

@@ -6,46 +6,23 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
-    { 
+    public function index()
+    {
         return view('backend.dashboard.index');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function creditor(Request $request)
-    { 
-        return view('backend.dashboard.creditor');
-    }
-    
-     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function analytics(Request $request)
-    { 
-        return view('backend.dashboard.analytics');
-    }
-
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function notification(Request $request)
-    { 
+    public function notification()
+    {
         return view('backend.dashboard.notification');
     }
+    
+    public function creditor()
+    {
+        return view('backend.dashboard.creditor');
+    }
 
-
+    public function analytics()
+    {
+        return view('backend.dashboard.analytics');
+    }
 }
