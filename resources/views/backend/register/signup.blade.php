@@ -54,14 +54,14 @@
                                                 <div class="input-group input-group-merge">
                                                     <input type="email" id="email" name="email" class="form-control" >
                                                 </div> --}}
-                                                <label class="form-control-label">Phone Number</label>
+                                                <label class="form-control-label mt-0 mb-2">Phone Number</label>
                                                 <div class="input-group input-group-merge">
                                                     <div class="input-group-prepend">
 
                                                     </div>
                                                     <input type="tel" id="phone" name="phone_number" class="form-control" required>
                                                 </div>
-                                                <label class="form-control-label">Password</label>
+                                                <label class="form-control-label mt-2 mb-2">Password</label>
                                                 <div class="input-group input-group-merge">
                                                     <input type="password" id="password" name="password" class="form-control" required>
                                                 </div>
