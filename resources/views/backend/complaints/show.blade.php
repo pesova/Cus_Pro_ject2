@@ -10,7 +10,15 @@
                             <div class="col">
                             <div class="card">
                         <div class="card-body p-0">
-                            <h6 class="card-title border-bottom p-3 mb-0 header-title">Complaint Overview</h6>
+
+                            <!-- <input class="btn btn-primary right pull-right" value="Back"> -->
+                            <div style="padding: 20px;">
+                            <a href="{{ route('complaint.index') }}" class="btn btn-primary float-right">
+                            Back &nbsp;<i class="fa fa-plus my-float"></i>
+                        </a>
+                        <h4 class="header-title mt-0 mb-1">Complaint Overview</h4>
+                            <!-- <hr> -->
+                        </div>
                             <div class="row py-1">
                                 <div class="col-xl-4 col-sm-6">
                                     <!-- stat 1 -->
@@ -51,6 +59,7 @@
                                                 {{ \Carbon\Carbon::parse($response->data->complaint->date)->diffForHumans() }}
                                             </h6>
                                             <span class="text-muted">Date Created</span>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -90,10 +99,22 @@
                                             {{ \Carbon\Carbon::parse($response->data->complaint->date)->diffForHumans() }}
                                         </h6>
                                     </div>
+                                    
                                 </div>
                                 
                                 
                             </div>
+                            <div style="padding: 20px;">
+                            <a href="{{ route('complaint.index') }}" class="btn btn-primary float-left">
+                            Edit &nbsp;<i class="fa fa-plus my-float"></i>
+                        </a>
+                        <form class="float-right" action="{{ route('complaint.destroy', $response->data->complaint->_id) }}" method="POST">
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                        <button class="btn btn-danger">Delete</button>
+                        </form>
+                            <!-- <hr> -->
+                        </div>
 
                             {{-- <div class="assign team mt-4">
                                 <h6 class="font-weight-bold">Assign To</h6>
