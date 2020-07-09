@@ -97,20 +97,31 @@
                             <th>Ref Transaction Type</th>
                             <th>Customer Ref Code</th>
                             <th>Amount</th>
-                            <th>Expected Pay Date</th>
-                            <th>View more</th>
+                            {{-- <th>Expected Pay Date</th> --}}
+                            <th> more</th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        <tr>
-                            <td>TP00</td>
-                            <td>Payment</td>
-                            <td>TR 0264</td>
-                            <td>$2000</td>
-                            {{-- <td>{{ date('d M Y', strtotime($transaction->created_date)) }}</td> --}}
-                            <td><a href="{{ route('transaction.show', 1) }}"><i data-feather="eye"></i></a></td>
+                     @foreach ($response as $details)
+                        @foreach ($details->transactions as $transactions)
+                            <tr>
+                            <td>{{$transactions->_id }}</td>
+                             <td>{{$transactions->type }}</td>
+                            <td>{{$transactions->customer_ref_id }}</td>
+                            <td>{{$transactions->total_amount}}</td>
+                           
+                            {{-- <td>{{ date('d M Y', strtotime($transactions->created_date)) }}</td> --}}
+                            <td><a href="{{ route('transaction.show', $transactions->_id) }}" class="btn btn-primary btn-sm">view</i></a>
+                            <a href="{{ route('transaction.edit', $transactions->_id) }}" class="btn btn-success btn-sm">edit</i></a>
+                            <a href="{{ route('transaction.destroy', $transactions->_id) }}" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#CustomerModal1">delete</i></a>
+                             
+                            </td>
                         </tr>
+                        @endforeach
+                        
+                      @endforeach 
+                      
                     </tbody>
                 </table>
             </div>
@@ -164,14 +175,29 @@
                             <input type="text" class="form-control" id="transaction_name" name="transaction_name" placeholder="Transaction Name">
                         </div>
                     </div>
+<<<<<<< HEAD
                     {{-- <div class="form-group row mb-3">
                         <label for="transaction_role" class="col-3 col-form-label">Transaction Role</label>
+=======
+                     <div class="form-group row mb-3">
+                        <label for="inputPassword3" class="col-3 col-form-label">Transaction role</label>
+>>>>>>> c4ebeb3e3d2915007a253d2f20e38818d631c819
                         <div class="col-9">
                             <input type="text" class="form-control" id="transaction_role" name="transaction_role" placeholder="Transaction Role">
                         </div>
                     </div> --}}
                     <div class="form-group row mb-3">
+<<<<<<< HEAD
                         <label for="store_name" class="col-3 col-form-label">Store Name</label>
+=======
+                        <label for="inputPassword3" class="col-3 col-form-label">Transaction Type</label>
+                        <div class="col-9">
+                            <input type="text" class="form-control" id="inputPassword3" name="transaction_type" placeholder="Transaction Type">
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="inputPassword3" class="col-3 col-form-label">Store Name</label>
+>>>>>>> c4ebeb3e3d2915007a253d2f20e38818d631c819
                         <div class="col-9">
                             <input type="text" class="form-control" id="store_name" name="store_name" placeholder="Store Name">
                         </div>
@@ -195,6 +221,36 @@
     </div>
 </div>
 
+
+<div id="CustomerModal1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">Delete Transaction</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal"  id="addTransaction" method="POST" action="{{ route('transaction.store') }}">
+                    @csrf
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <h6>Are you sure you want to delete this transaction?</h6>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="col-12 d-flex justify-content-end align-items-end">
+                    <button class="btn btn-danger">Yes</button>&nbsp;
+                    <button class="btn btn-primary" data-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 
