@@ -91,7 +91,7 @@ class ComplaintController extends Controller
                 $request->session()->flash('alert-class', 'alert-success');
                 $request->session()->flash('message', $response->message);
 
-                return redirect()->route('complaint.create');
+                return redirect()->route('complaint.index');
             } else {
 
                 $message = isset($response->Message) ? $response->Message : $response->message;
