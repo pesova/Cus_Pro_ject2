@@ -54,7 +54,7 @@
                                           </div>
                                         <div class="form-group col-md-6" >
                                             <label for="inputEmailAddress"> Email Address (optional) </label>
-                                            <input type="email" name="email" class="form-control" placeholder="you@example.com" >
+                                            <input type="tel" name="email" class="form-control" placeholder="you@example.com">
                                         </div>
                                         </div>
                                         <div class="form-group">
