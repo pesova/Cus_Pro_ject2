@@ -2,7 +2,6 @@
 
 @section("custom_css")
     <link href="/backend/assets/css/add-assistant.css" rel="stylesheet" type="text/css"/>
-
 @stop
 
     @section('content')
@@ -31,14 +30,13 @@
                 </ul>
             </div>
         @endif
-
         <div class="row h-100 justify-content-center align-items-center">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
                         {{-- <h4 class="mb-3 header-title mt-0">Complaint Form</h4> --}}
 
-                    <form action=" {{ route('assistants.store') }}" method="POST" class="mt-4 mb-3 form-horizontal my-form">
+                        <form action=" {{ route('assistants.store') }}" method="POST" class="mt-4 mb-3 form-horizontal my-form">
                         @csrf
                        
                             <div class="form-group row mb-3">
@@ -54,6 +52,7 @@
                                     <input name="store_name" type="text" class="form-control" id="fullname" placeholder="Enter store name here">
                                 </div>
                             </div> -->
+                            <br>
                             {{-- <div class="form-group row mb-3">
                                 <label for="role" class="col-2 col-sm-3 col-form-label my-label">Role:</label> <br>
                                 <div class="col-10 col-sm-7">
@@ -94,5 +93,4 @@
             </div>
             <!-- end col -->
     </div> <!-- container-fluid -->
-
     @endsection
