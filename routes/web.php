@@ -147,6 +147,32 @@ Route::prefix('/admin')->group(function () {
 //         return view('backend.customers.index');
 //     })->name('customers');
 
+// Protected Routes
+// Route::group(['prefix' => '/admin'], function () {
+//     Route::get('/activate', 'ActivateController@index')->name('activate.user');
+
+    // // dashboard
+    // Route::get('/dashboard', function () {
+    //     return view('backend.dashboard.index');
+    // })->name('dashboard');
+
+    // // Single Transaction Page
+    // Route::get('/s-transaction', function () {
+    //     return view('backend.transactions.s-transaction');
+    // });
+// Route::group(['prefix' => '/admin' , 'middleware' => 'backend.auth'], function () {
+//     Route::get('/activate', 'ActivateController@index')->name('activate.user');
+
+//     // dashboard
+//     Route::get('/dashboard', function () {
+//         return view('backend.dashboard');
+//     })->name('dashboard');
+
+//     // Customers
+//     Route::get('/customers', function () {
+//         return view('backend.customers.index');
+//     })->name('customers');
+
     //Single Customer view
 
 //     Route::get('/singleCustomer/{customer_id}', 'CustomerController@viewCustomer')->name('customer.view');
