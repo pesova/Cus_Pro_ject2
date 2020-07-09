@@ -67,7 +67,7 @@ password.addEventListener('keyup', () => {
     passAlert.innerText = 'Password must be at least 6 characters'
   } 
 
-  if ((password.value.match(/\d+/g) !== null)) {
+  if ((password.value.match(/\d+/g) !== null) && (password.value.length >= 6)) {
     passAlert.style.display = 'block'
     
     password.classList.remove('invalid');
@@ -95,7 +95,7 @@ password.addEventListener('keyup', () => {
   }
   
   if (password.value.length >= 10) {
-    
+
     passAlert.style.display = 'block'
     
     password.classList.remove('invalid');
