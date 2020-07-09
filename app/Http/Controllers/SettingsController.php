@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Http;
 use GuzzleHttp\Client;
 
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Log;
 
 class SettingsController extends Controller
 {
