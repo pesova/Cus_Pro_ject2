@@ -8,7 +8,7 @@
 
 @section('content')
 
-{{-- error messages --}}
+    {{-- error messages --}}
     <div class="container-fluid">
         <div class="row ">
             <div class="col-lg-4 bg-white">
@@ -140,10 +140,16 @@
                 verifying.show();
                 const data = {
                     api_token: '{{$apiToken}}',
-                    token: $("#code").val()
+                    token: $("#code").val(),
+                    verify: $("#code").val(),
+                    phone_number: '{{$phoneNumber}}'
                 };
-                $.post("{{env('API_URL') }}/auth/verify", data, (data) => {
-                    //success
+                $.ajax({
+                    url: "{{env('API_URL') }}/otp/verify",
+                    headers: {'x-access-token': '{{$apiToken}}'},
+                    data: data,
+                    type: "POST"
+                }).done((data) => {
                     $(this).show();
                     verifying.hide();
                     success_message.html("Your account has been activated.<br/>" +
@@ -164,12 +170,16 @@
                 if (timer <= 0) {
                     const data = {
                         api_token: '{{$apiToken}}',
-                        phone: '{{$phoneNumber}}',
+                        phone_number: '{{$phoneNumber}}',
                     };
-                    $.post("{{env('API_URL') }}/auth/verify-phone", data, (data) => {
-                        //success
+                    $.ajax({
+                        url: "{{env('API_URL') }}/otp/send",
+                        headers: {'x-access-token': '{{$apiToken}}'},
+                        data: data,
+                        type: "POST"
+                    }).done((data) => {
                         success_message.html(
-                            'Your account has been sent. You can request a new code in 60 seconds'
+                            'Your code has been sent. You can request a new code in 60 seconds'
                         );
                         success.show();
                         start_timer();
