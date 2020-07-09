@@ -101,7 +101,7 @@ class LoginController extends Controller
                         $new_user->phone_number = $data->phone_number;
                         $new_user->password = $data->password;
                         if($new_user->save()) {
-                            $new_user->notify(new WelcomeMessage);
+                            $new_user->notify(new WelcomeBackMessage);
                         }
                     }
 
