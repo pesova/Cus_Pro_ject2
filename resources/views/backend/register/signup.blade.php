@@ -2,6 +2,7 @@
 @section("custom_css")
 
 <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
+<link href="/backend/assets/css/sign-up-valid.css" rel="stylesheet" type="text/css" />
 
 @stop
 
@@ -59,12 +60,14 @@
                                                     <div class="input-group-prepend">
 
                                                     </div>
-                                                    <input type="tel" id="phone" name="phone_number" class="form-control" required>
+                                                    <input type="number" id="phone" name="phone_number" class="form-control" required>
+                                                    <div class="red-warn">Please enter a valid phone number</div>
                                                 </div>
                                                 <label class="form-control-label mt-2 mb-2">Password</label>
                                                 <div class="input-group input-group-merge">
                                                     <input type="password" id="password" name="password" class="form-control" required>
                                                 </div>
+                                                <div class="pass-feedback"></div>
                                             </div>
 
                                             <div class="form-group mb-0 text-center">
@@ -114,6 +117,7 @@
         // any initialisation options go here
     });
 </script>
+<script src="/backend/assets/js/pages/sign-up-valid.js"></script>
 
 
 @stop
