@@ -88,12 +88,10 @@ class ComplaintController extends Controller
 
             if ($statusCode == 200) {
                 // dd($body);
-                // $request->session()->flash('alert-class', 'alert-success');
-                // $request->session()->flash('message', $response->message);
-                return redirect()->route('complaint.index')->with(
-                    'alert-class', 'alert-success',
-                    'message', $response->message
-                );
+                $request->session()->flash('alert-class', 'alert-success');
+                $request->session()->flash('message', $response->message);
+
+                return redirect()->route('complaint.index');
             } else {
 
                 $message = isset($response->Message) ? $response->Message : $response->message;
