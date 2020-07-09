@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
+use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
 
 class DebtorController extends Controller
@@ -35,14 +35,12 @@ class DebtorController extends Controller
             if ($statusCode == 200) {
                 $body = $response->getBody();
                 $result = json_decode($body);
-
                 $debts = $result->data->debts;
 
                 $perPage = 10;
-                $page = null;
                 $debts = collect($debts);
 
-                $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+                $page = $request->get('page') ?: (Paginator::resolveCurrentPage() ?: 1);
                 $debts = $debts instanceof Collection ? $debts : Collection::make($debts);
                 $debtors = new LengthAwarePaginator($debts->forPage($page, $perPage), $debts->count(), $perPage, $page);
                 return view('backend.debtor.index', compact('debtors'));

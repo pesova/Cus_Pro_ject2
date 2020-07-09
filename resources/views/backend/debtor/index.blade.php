@@ -162,6 +162,9 @@
                                     </tbody>
                                 </table>
                             </div>
+                            @isset($debtors)
+                        {{ $debtors->links() }}
+                    @endisset
                         </div> <!-- end card body-->
                     </div> <!-- end card -->
                 </div><!-- end col-->
