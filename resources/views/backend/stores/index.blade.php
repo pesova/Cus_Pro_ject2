@@ -101,7 +101,11 @@
                                                     Store</a>
                                                 <a class="dropdown-item" href="{{ route('store.edit', $store->_id) }}">Edit
                                                     store</a>
-                                                <a class="dropdown-item" href="{{ route('store.destroy', $store->_id) }}">Delete store</a>
+                                                <a href="javascript:void(0)" onclick="$(this).parent().find('form').submit()" class="dropdown-item">Delete store</a>
+                                                    <form action="{{ route('store.destroy', $store->_id) }}" method="POST" id="form">
+                                                        @method('DELETE')
+                                                        @csrf
+                                                    </form>
                                             </div>
                                         </div>
                                     </td>

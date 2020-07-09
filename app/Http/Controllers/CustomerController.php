@@ -36,6 +36,7 @@ class CustomerController extends Controller
 
             $statusCode = $user_response->getStatusCode();
             $users = json_decode($user_response->getBody());
+            
             if ( $statusCode == 200 ) {
                 $customerArray = [];
                 foreach($users->data as $key => $value) {
