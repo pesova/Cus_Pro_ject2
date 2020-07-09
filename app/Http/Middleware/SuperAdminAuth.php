@@ -23,7 +23,7 @@ class SuperAdminAuth
 
             // Uncomment below when sms verification is working
             // if (!$request->cookie('is_active') && $request->path() != 'backend/activate') {
-            //     return redirect()->route('activate.user');
+            //     return redirect()->route('activate.index');
             // }
 
             return $next($request);

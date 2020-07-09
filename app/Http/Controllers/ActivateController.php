@@ -14,10 +14,19 @@ class ActivateController extends Controller
      */
     public function index(Request $request)
     {
+        if (Cookie::get('is_active')) {
+            return redirect()->route('dashboard');
+        }
         return view('backend.user.activate')->with([
-                'apiToken' => Cookie::get('api_token'),
-                'phoneNumber' => Cookie::get('phone_number')
-           ]);
+            'apiToken' => Cookie::get('api_token'),
+            'phoneNumber' => Cookie::get('phone_number')
+        ]);
+    }
+
+    public function activate()
+    {
+        Cookie::queue('is_active', true);
+        return 'done';
     }
 
 }

@@ -128,19 +128,20 @@
     <script>
         $(document).ready(function ($) {
             const verifying = $("#verifying");
+            const verify = $("#verify");
             const error = $("#error");
             const error_message = $("#error-message");
             const success = $("#success");
             const success_message = $("#success-message");
             let timer = 0;
-            $('#verify').click(function (e) {
+            verify.click(function (e) {
                 e.preventDefault();
                 hide_messages();
                 $(this).hide();
                 verifying.show();
                 const data = {
                     api_token: '{{$apiToken}}',
-                    token: $("#code").val(),
+                    // token: $("#code").val(),
                     verify: $("#code").val(),
                     phone_number: '{{$phoneNumber}}'
                 };
@@ -152,10 +153,18 @@
                 }).done((data) => {
                     $(this).show();
                     verifying.hide();
-                    success_message.html("Your account has been activated.<br/>" +
-                        "<a href='{{url('/admin/dashboard')}}'>Click Here if you were not redirected</a>");
-                    success.show();
-                    window.location = "{{url('/admin/dashboard')}}";
+
+                    // change is_active cookie to true
+                    $.post("{{route('activate.save')}}", {"_token": "{{ csrf_token() }}"}, () => {
+                        success_message.html("Your account has been activated.<br/>" +
+                            "<a href='{{route('dashboard')}}'>Click Here if you were not redirected</a>");
+                        success.show();
+                        window.location = "{{url('/admin/dashboard')}}";
+                    }).fail(() => {
+                        error_message.text("Please Try Again Later or Logout and Login Again");
+                        error.show();
+                    });
+
                 }).fail((e) => {
                     e = JSON.parse(e.responseText);
                     error_message.text(e.message);
@@ -168,6 +177,8 @@
                 e.preventDefault();
                 hide_messages();
                 if (timer <= 0) {
+                    verify.hide();
+                    verifying.show();
                     const data = {
                         api_token: '{{$apiToken}}',
                         phone_number: '{{$phoneNumber}}',
@@ -180,13 +191,18 @@
                     }).done((data) => {
                         success_message.html(
                             'Your code has been sent. You can request a new code in 60 seconds'
+                            + '<kbd>Your code is ' + data.data.otp + '</kbd>'
                         );
                         success.show();
+                        verify.show();
+                        verifying.hide();
                         start_timer();
                     }).fail((e) => {
                         e = JSON.parse(e.responseText);
                         error_message.text(e.message);
                         error.show();
+                        verify.show();
+                        verifying.hide();
                     });
                 } else {
                     error_message.text("You can request a new code in " + timer + " seconds");
