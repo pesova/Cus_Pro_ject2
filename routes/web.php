@@ -1,7 +1,8 @@
 <?php
 
+use App\Events\UserRegistered;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Cookie;
 
 /*
 |--------------------------------------------------------------------------
