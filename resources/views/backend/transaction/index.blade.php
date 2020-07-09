@@ -111,7 +111,7 @@
                             {{-- <td>{{ date('d M Y', strtotime($transactions->created_date)) }}</td> --}}
                             <td><a href="{{ route('transaction.show', $transactions->_id) }}" class="btn btn-primary btn-sm">view</i></a>
                             <a href="{{ route('transaction.edit', $transactions->_id) }}" class="btn btn-success btn-sm">edit</i></a>
-                            <a href="{{ route('transaction.destroy', $transactions->_id) }}" class="btn btn-danger btn-sm">delete</i></a>
+                            <a href="{{ route('transaction.destroy', $transactions->_id) }}" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#CustomerModal1">delete</i></a>
                              
                             </td>
                         </tr>
@@ -209,6 +209,36 @@
     </div>
 </div>
 
+
+<div id="CustomerModal1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">Delete Transaction</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal"  id="addTransaction" method="POST" action="{{ route('transaction.store') }}">
+                    @csrf
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <h6>Are you sure you want to delete this transaction?</h6>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="col-12 d-flex justify-content-end align-items-end">
+                    <button class="btn btn-danger">Yes</button>&nbsp;
+                    <button class="btn btn-primary" data-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 

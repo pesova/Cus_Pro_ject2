@@ -175,7 +175,7 @@ class TransactionController extends Controller
 
             // check for  server error
             if ($e->getResponse()->getStatusCode() >= 500) {
-                return view('errors.500');
+                return view('backend.transaction.show')->with('errors.500');
             }
             // get response to catch 4 errors
             $response = json_decode($e->getResponse()->getBody());
@@ -186,7 +186,7 @@ class TransactionController extends Controller
 
         } catch (\Exception $e) {
           
-            return view('errors.500');
+            return view('backend.transaction.index')->with('errors.500');
 
         }
     }
