@@ -14,7 +14,7 @@
                     <h4 class="mb-1 mt-0">All Stores</h4>
                     <button class="add-customer-button btn btn-primary" data-toggle="modal">
                         <a href="{{ route('store.create') }}" class="text-white">
-                            Add New Store <i class="fa fa-plus add-new-icon"></i>
+                            Add New <i class="fa fa-plus add-new-icon"></i>
                         </a>
                     </button>
                 </div>
@@ -22,10 +22,12 @@
         </div>
         @if(Session::has('message'))
         <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
+        <script>
+          setTimeout(() => {
+            document.querySelector('.alert').style.display = 'none'
+          }, 3000);
+        </script>
         @endif
-
-
-
 
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -83,10 +85,10 @@
                                 </thead>
                                 <tbody>
 
-                                    @foreach ($response as $store )
+                                    @foreach ($response as $index => $store )
                                     <tr>
-                                     <td>{{ $store->_id }}</td>
-                                    <td>{{ $store->store_name }}</td>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td class="store-name">{{ $store->store_name }}</td>
                                     <td>{{ $store->shop_address }}</td>
                                     <td>
                                         <div class="btn-group mt-2 mr-1">
@@ -97,22 +99,26 @@
                                             <div class="dropdown-menu dropdown-menu-right">
                                                 <a class="dropdown-item" href="{{ route('store.show', $store->_id) }}">View
                                                     Store</a>
-                                                <a class="dropdown-item" href="{{ route('store.edit', $store->_id) }}">Edit Store</a>
-
-
-                                                <a class="dropdown-item" href="javascript:void(0)" onclick="$(this).parent().find('form').submit()">Delete store</a>
-                                                <form action="{{ route('store.destroy', $store->_id) }}" method="POST" id="form">
-                                                    @method('DELETE')
-                                                    @csrf                                                
-                                                </form>
+                                                <a class="dropdown-item" href="{{ route('store.edit', $store->_id) }}">Edit
+                                                    store</a>
+                                                <a href="javascript:void(0)" onclick="$(this).parent().find('form').submit()" class="dropdown-item">Delete store</a>
+                                                    <form action="{{ route('store.destroy', $store->_id) }}" method="POST" id="form">
+                                                        @method('DELETE')
+                                                        @csrf
+                                                    </form>
                                             </div>
                                         </div>
                                     </td>
                                     </tr>
                                     @endforeach
 
+{{--
+                                    <td>SHP12</td>
+                                    <td>MY CUs Bus</td>
+                                    <td>Plot 4 km 34</td>
 
-
+                                </tr>
+                                --}}
                                 </tbody>
                             </table>
                         </div>
@@ -132,4 +138,29 @@
     window.intlTelInput(input, {});
 
 </script>
+
+<script>
+  
+  let userText = document.querySelector('#customer-name')
+  let rows = document.querySelectorAll('.store-name')
+
+  //add input event listener
+  userText.addEventListener('keyup', showFilterResults)
+
+  function showFilterResults(e) {
+    const users = rows;
+    const filterText = e.target.value.toLowerCase();
+    
+    users.forEach(function (item) {
+      if (item.textContent.toLowerCase().indexOf(filterText) !== -1) {
+        item.parentElement.style.display = 'table-row'
+        
+      } else {
+        item.parentElement.style.display = 'none'
+        
+      };
+    });
+  };
+</script>
 @stop
+
