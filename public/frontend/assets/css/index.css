@@ -200,7 +200,7 @@ h1,h2,h3,h4,h5,h6 {
   }
 }
 
-/* CALL TO ACTION STYLING */ 
+/* CALL TO ACTION STYLING */
 
 .cta-container {
   position: relative;
@@ -272,37 +272,51 @@ h1,h2,h3,h4,h5,h6 {
   display: none !important;
 }
 
+.testimonials{
+    margin-bottom: 60px;
+}
+
+.testimonial-line{
+    width: 40%;
+}
+
 @media (max-width: 767px) {
-  .call-to-download__button {
-    padding: 0 2px;
-    background-color: transparent;
-    border: 2px solid var(--primary);
-    margin: 0.3rem;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    transform: scale(0.9);
-  }
+    .call-to-download__button {
+        padding: 0 2px;
+        background-color: transparent;
+        border: 2px solid var(--primary);
+        margin: 0.3rem;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        transform: scale(0.9);
+    }
 
-  .call-to-download__button a {
-    margin-left: 0;
-  }
+    .call-to-download__button a {
+        margin-left: 0;
+    }
 
-  .call-to-download-floating-circle, .call-to-download-floating-triangles {
-    transform: scale(0.6);
-  }
+    .call-to-download-floating-circle, .call-to-download-floating-triangles {
+        transform: scale(0.6);
+    }
 
-  .call-to-download-floating-triangles {
-    left: -55px;
-  }
+    .call-to-download-floating-triangles {
+        left: -55px;
+    }
 
-  .why-we-content-text {
-    text-align: center;
-  }
+    .why-we-content-text {
+        text-align: center;
+    }
 
-  .why-we-content-text p {
-    padding-right: 0;
-  }
+    .why-we-content-text p {
+        padding-right: 0;
+    }
+    .testimonials{
+        margin-bottom: 40px;
+    }
+    .testimonial-img {
+        width: 150px !important;
+    }
 }
 
 /* CAROUSEL */
@@ -322,11 +336,11 @@ h1,h2,h3,h4,h5,h6 {
 .testimonial-img-container {
   display: flex;
   justify-content: center;
-  margin-bottom: 4%;
+  margin-bottom: 20px;
 }
 
 .testimonial-img {
-  width: 80px !important;
+  width: 150px !important;
   height: auto;
   border-radius: 50%;
 }
