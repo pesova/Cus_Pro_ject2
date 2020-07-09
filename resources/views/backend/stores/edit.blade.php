@@ -51,11 +51,7 @@
                                         <div class="form-row">
                                           <div class="form-group col-md-6">
                                             <label for="inputPhoneNumber">Phone Number</label>
-<<<<<<< HEAD
-                                            <input type="text" name="phone_number" class="form-control" placeholder="+2348127377463">
-=======
                                             <input type="text" name="phone_number" class="form-control" placeholder="+2348173644654">
->>>>>>> fa639b5b7784e8c2e255a2ea8917314d33571271
                                           </div>
                                         <div class="form-group col-md-6" >
                                             <label for="inputEmailAddress"> Email Address (optional) </label>
@@ -66,11 +62,7 @@
                                           <label for="inputAddress">Address</label>
                                           <input type="text" name="shop_address" class="form-control" value="{{ $response->shop_address }}"  placeholder="123 Abby Avenue">
                                         </div>
-<<<<<<< HEAD
-                                        <button type="submit" class="btn btn-success" data-toggle="" data-target="">
-=======
                                         <button type="submit" class="btn btn-success">
->>>>>>> fa639b5b7784e8c2e255a2ea8917314d33571271
                                             Update Changes
                                         </button>
                                     </form>
