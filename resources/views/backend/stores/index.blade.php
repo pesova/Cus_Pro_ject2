@@ -87,8 +87,8 @@
 
                                     @foreach ($response as $index => $store )
                                     <tr>
-                                     <td>{{ $index + 1 }}</td>
-                                    <td>{{ $store->store_name }}</td>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td class="store-name">{{ $store->store_name }}</td>
                                     <td>{{ $store->shop_address }}</td>
                                     <td>
                                         <div class="btn-group mt-2 mr-1">
@@ -132,4 +132,29 @@
     window.intlTelInput(input, {});
 
 </script>
+
+<script>
+  
+  let userText = document.querySelector('#customer-name')
+  let rows = document.querySelectorAll('.store-name')
+
+  //add input event listener
+  userText.addEventListener('keyup', showFilterResults)
+
+  function showFilterResults(e) {
+    const users = rows;
+    const filterText = e.target.value.toLowerCase();
+    
+    users.forEach(function (item) {
+      if (item.textContent.toLowerCase().indexOf(filterText) !== -1) {
+        item.parentElement.style.display = 'table-row'
+        
+      } else {
+        item.parentElement.style.display = 'none'
+        
+      };
+    });
+  };
+</script>
 @stop
+
