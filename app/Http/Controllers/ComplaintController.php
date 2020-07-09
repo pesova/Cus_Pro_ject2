@@ -105,7 +105,6 @@ class ComplaintController extends Controller
 
             if ($e->hasResponse()) {
                 // get response to catch 4xx errors
-                // dd($e->getMessage());
                 $response = json_decode($e->getResponse()->getBody());
                 $request->session()->flash('alert-class', 'alert-danger');
                 $request->session()->flash('message', "Make sure all fields are filled .\n Make sure the description is more than 10 characters");

@@ -47,7 +47,9 @@
                                     <div class="media p-3">
                                         <i data-feather="clock" class="align-self-center icon-dual icon-lg mr-4"></i>
                                         <div class="media-body">
-                                            <h6 class="mt-0 mb-0">{{ $response->data->complaint->date }}</h6>
+                                            <h6 class="mt-0 mb-0">
+                                                {{ \Carbon\Carbon::parse($response->data->complaint->date)->diffForHumans() }}
+                                            </h6>
                                             <span class="text-muted">Date Created</span>
                                         </div>
                                     </div>
@@ -84,7 +86,9 @@
                                 <div class="col-lg-3 col-md-6">
                                     <div class="mt-4">
                                         <p class="mb-2"><i class="uil-calender text-danger"></i> Created At</p>
-                                        <h6 class="font-size-10">{{ $response->data->complaint->date }}</h6>
+                                        <h6 class="font-size-10">
+                                            {{ \Carbon\Carbon::parse($response->data->complaint->date)->diffForHumans() }}
+                                        </h6>
                                     </div>
                                 </div>
                                 
