@@ -113,7 +113,7 @@ class RegisterController extends Controller
                         Cookie::queue('user_id', $res->data->user->_id);
                         Cookie::queue('expires', strtotime('+ 1 day'));
 
-                        return redirect()->route('activate.user');
+                        return redirect()->route('activate.index');
                     }
                 }
 
