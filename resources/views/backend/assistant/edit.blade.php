@@ -8,7 +8,7 @@
 
   @section('content')
     <div class="container">
-        <h4 class="mt-4">Edit Assitant Access</h4>
+        <h4 class="mt-4">Edit Assistant Access</h4>
         <div class="row mt-3">
             <div class="col-md-4">
                 <div class="card text-center">
@@ -33,7 +33,7 @@
                               </div>
                               <div class="col-md-2">
                                 <label class="switch">
-                                    <input type="checkbox" checked>
+                                    <input name="newCustomers" type="checkbox" checked>
                                     <span class="slider round"></span>
                                   </label>
                               </div>
@@ -45,7 +45,7 @@
                             </div>
                             <div class="col-md-2">
                                 <label class="switch">
-                                    <input type="checkbox" checked>
+                                    <input name = "edit_reminders" type="checkbox" checked>
                                     <span class="slider round"></span>
                                   </label>
                             </div>
@@ -57,7 +57,7 @@
                             </div>
                             <div class="col-md-2">
                                 <label class="switch">
-                                    <input type="checkbox" checked>
+                                    <input name = "give_receive" type="checkbox" checked>
                                     <span class="slider round"></span>
                                     </label>
                             </div>
@@ -69,7 +69,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <label class="switch">
-                                        <input type="checkbox" checked>
+                                        <input name = "customers_reminders" type="checkbox" checked>
                                         <span class="slider round"></span>
                                     </label>
                                 </div>
@@ -81,13 +81,13 @@
                             </div>
                             <div class="col-md-2">
                                 <label class="switch">
-                                    <input type="checkbox" checked>
+                                    <input name = "settings" type="checkbox" checked>
                                     <span class="slider round"></span>
                                     </label>
                             </div>
                       </div>
                       </div>
-                      <a href="#" class="btn btn-primary btn-block">SAVE</a>
+                      <a href="{{ route('assistants.update')}}" class="btn btn-primary btn-block">SAVE</a>
                     </div>
                   </div>
             </div>
