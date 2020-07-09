@@ -12,7 +12,7 @@
         <div class="row page-title">
             <div class="col-md-12">
                 <nav aria-label="breadcrumb" class="float-right mt-1">
-                    <a href="edit" class="btn btn-success mr-2"><i class="far mr-2 fa-edit"></i>Edit
+                    <a href="{{ route('store.edit', $response->_id) }}" class="btn btn-success mr-2"><i class="far mr-2 fa-edit"></i>Edit
                         Store</a>
                     <a href="/admin/store" class="btn btn-primary">Go Back</a>
                 </nav>
@@ -70,7 +70,12 @@
                     </div>
                 </div>
 
-                <a href="{{ route('store.destroy', $response->_id) }}" class="float-right btn btn-danger mt-2"><i class="fas fa-trash-alt mr-2"></i>Delete Store</a>
+                
+                <a href="javascript:void(0)" onclick="$(this).parent().find('form').submit()" class="float-right btn btn-danger mt-2"><i class="fas fa-trash-alt mr-2"></i>Delete store</a>
+                    <form action="{{ route('store.destroy', $response->_id) }}" method="POST" id="form">
+                        @method('DELETE')
+                        @csrf                                                
+                    </form>
 
             </div>
         </div>
