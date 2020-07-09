@@ -33,13 +33,11 @@
                          <img src="../../backend/assets/images/users/avatar-7.jpg" alt="Customer 1" class="img-fluid rounded-circle">
                          <h4>{{ ucfirst($response->name) }}</h4>
                           <h5 class="cust-email">{{ $response->email }}</h5>
-                         this is a very very large junk of rubbush that i am just foing to type in the hopes that it casue seomth
-                         ing dofferent to hppen to my file ebvery single godammmn time.
                      </div>
-                     <div class="address">
+                     {{-- <div class="address">
                          <h5>House Address</h5>
                          <p class="customer-address">1975, Boring Lane, San <br>Francisco, California, United<br> States - 94108</p>
-                     </div>
+                     </div> --}}
                  </div>
              </div>
              {{--end of person profile--}}
@@ -74,7 +72,7 @@
                                   <input class="form-control" type="phone" value="{{$response->phone_number}}" name='phone'>
                                 </div>
                               </div>
-                              <div class="form-group">
+                              {{-- <div class="form-group">
                                 <div class="col-md-8">
                                     <select class="form-control">
                                         <option selected="">Customer Type</option>
@@ -83,8 +81,8 @@
                                         <option>Doesn't Owe</option>                                        
                                       </select>
                                   </div>                                
-                              </div>  
-                              <div class="form-group">
+                              </div>   --}}
+                              {{-- <div class="form-group">
                                 <div class="col-md-8">
                                     <select class="form-control">
                                         <option selected="">Status</option>
@@ -92,9 +90,9 @@
                                         <option class="text-success">No Debt</option>                                        
                                       </select>
                                   </div>                                
-                              </div>                                                           
+                              </div>                                                            --}}
                               
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                               <label class="col-md-3 control-label green-border-focus">House Adddress</label>
                               <div class="col-md-8">                                
                                 <textarea class="form-control " rows="3">1975, Boring Lane, San
@@ -102,19 +100,19 @@
                                     States - 94108</textarea>
                                 
                               </div>
-                            </div>
+                            </div> --}}
                             
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label class="col-md-3 control-label">Short Comment</label>
                                 <div class="col-md-8">
                                   <input class="form-control" type="text" value="this is a very very large junk of rubbush that i am just foing to type">
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Store Name</label>
                                 <div class="col-md-8">
-                                <input class="form-control" type="text" placeholder="Enter Store Name" name="store_name" required>
+                                <input class="form-control" type="text" placeholder="Enter Store Name" name="store_name" required >
                                 </div>
                             </div>
                             {{-- <div class="form-group">

@@ -27,9 +27,9 @@
 </li> --}}
 
 <li>
-    <a href="#">
+    <a href="{{ route('debtor.index') }}">
         <i data-feather="bell"></i>
-        <span> Debt Reminders </span>
+        <span> Debtors </span>
     </a>
 </li>
 
