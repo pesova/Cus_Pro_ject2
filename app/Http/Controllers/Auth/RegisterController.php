@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\UserRegistered;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -10,6 +11,8 @@ use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use GuzzleHttp\Exception\RequestException;
+use App\User;
+use App\Notifications\WelcomeMessage;
 
 class RegisterController extends Controller
 {
@@ -92,6 +95,15 @@ class RegisterController extends Controller
                         $data = $res->data->user->local;
                         $api_token = $res->data->user->api_token;
                         $user_role = $res->data->user->local->user_role;
+
+                        // event(new UserRegistered($data));
+
+                        $user = new User;
+                        $user->phone_number = $data->phone_number;
+                        $user->password = $data->password;
+                        if($user->save()) {
+                            $user->notify(new WelcomeMessage);
+                        }
 
                         // store data to cookie
                         Cookie::queue('user_role', $user_role);
