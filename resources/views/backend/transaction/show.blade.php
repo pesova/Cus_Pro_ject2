@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="account-pages my-5">
+<div class="account-pages my-2">
     <div class="container-fluid">
         <div class="row-justify-content-center">
 
@@ -11,6 +11,7 @@
                     <div class="card">
                         <div class="card-body p-0">
                             <h6 class="card-title border-bottom p-3 mb-0 header-title">Transaction Overview</h6>
+                            
                             <div class="row py-1">
                                 <div class="col-xl-3 col-sm-6">
                                     <!-- stat 1 -->
@@ -59,7 +60,7 @@
             </div>
 
 
-            <div class="col-xl-8 col-md-8 col-sm-8 pt-5">
+            <div class="col-xl-8 col-md-8 col-sm-8 pt-2">
                 <div class="card offset-1">
                     <div class="card-body">
                         <h6 class="mt-0 header-title">Description</h6>
@@ -112,7 +113,14 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <div>
+                               
+                            </div>
+                            <a href="javascript:void(0)" onclick="$(this).parent().find('form').submit()" class="float-right btn btn-danger mt-2"><i class="fas fa-trash-alt mr-2"></i>Delete transaction</a>
+                            <form action="{{ route('transaction.destroy', $response->_id) }}" method="POST" id="form">
+                                @method('DELETE')
+                                @csrf                                                
+                            </form>
                             {{-- <div class="assign team mt-4">
                                 <h6 class="font-weight-bold">Assign To</h6>
                                 <a href="javascript: void(0);">

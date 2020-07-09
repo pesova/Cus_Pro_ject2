@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
 
 class TransactionController extends Controller
@@ -92,12 +93,8 @@ class TransactionController extends Controller
         // ]);
         
         try{
-<<<<<<< HEAD
-            if ($data) {
-=======
             // if ($data) {
 
->>>>>>> c4ebeb3e3d2915007a253d2f20e38818d631c819
                 $client = new Client();
                 $payload = [
                     'headers' => ['x-access-token' => Cookie::get('api_token')],
@@ -203,7 +200,50 @@ class TransactionController extends Controller
      */
     public function edit($id)
     {
-        return view('backend.transaction.edit');
+        
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/transaction/' . $id;
+
+        try {
+            $client = new Client;
+            $payload = [
+                'headers' => [
+                    'x-access-token' => Cookie::get('api_token')
+                ]    
+            ];
+            $response = $client->request("GET", $url, $payload);
+            $statusCode = $response->getStatusCode();
+            $body = $response->getBody();
+            $TransData = json_decode($body)->data->transaction;
+            $Storename = json_decode($body)->data->storeName;
+            $transaction_id = $TransData->_id;
+            $changes =[
+                'id' => $transaction_id,
+                'store_name' => $Storename
+            ];
+            // dd($StoreData);
+            if ($statusCode == 200) {
+               
+                return view('backend.transaction.edit')->with(['response' => $TransData, 'store_name'=> $Storename]);
+            }
+        } catch (RequestException $e) {
+
+
+            // check for  server error
+            if ($e->getResponse()->getStatusCode() >= 500) {
+                return view('backend.transaction.show')->with('errors.500');
+            }
+            // get response to catch 4 errors
+            $response = json_decode($e->getResponse()->getBody());
+            Session::flash('alert-class', 'alert-danger');
+            // dd($response);
+            Session::flash('message', $response->message);
+            return redirect()->route('transaction.index', ['response' => []]);
+
+        } catch (\Exception $e) {
+          
+            return view('backend.transaction.index')->with('errors.500');
+
+        }
     }
 
     /**
@@ -215,7 +255,49 @@ class TransactionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/transaction/update/' . $id;
+
+        try {
+            $client = new Client();
+
+            $payload = [
+                'headers' => ['x-access-token' => Cookie::get('api_token')],
+                'form_params' => [
+                    
+                        'amount' => $request->input('amount'),
+                        'interest' => $request->input('interest'),
+                        'total_amount' => $request->input('total_amount'),
+                        'description' => $request->input('description'),
+                        'transaction_name' => $request->input('transaction_name'),
+                        'transaction_role' =>$request->input('transaction_role'),                     
+                        'store_name' =>$request->input('store_name'),                     
+                        'type' => $request->input('transaction_type'),
+                        
+                ],
+
+            ];
+
+
+            $req = $client->request('PUT', $url, $payload);
+
+            $status = $req->getStatusCode();
+
+            if ($status == 200) {
+
+                $request->session()->flash('alert-class', 'alert-success');
+                $request->session()->flash('message', 'Transaction successfully Updated');
+                return redirect()->route('transaction.index');
+              
+                
+            }
+            if ($statusCode == 500) {
+                return view('errors.500');
+            }
+
+        }catch (\Exception $e) {
+            return redirect()->route('transaction.edit', $id);
+        }
     }
 
     /**
@@ -224,10 +306,10 @@ class TransactionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
       // return view('backend.transaction.index');
-      $url = env('API_URL', 'https://api.customerpay.me/') . '/transaction/delete/' . $id;
+      $url = env('API_URL', 'https://dev.api.customerpay.me') . '/transaction/delete/' . $id;
       $client = new Client();
       $payload = [
           'headers' => [
@@ -239,7 +321,7 @@ class TransactionController extends Controller
 
          if($delete->getStatusCode() == 200 || $delete->getStatusCode() == 201) {
                $request->session()->flash('alert-class', 'alert-success');
-              Session::flash('message', "Store successfully deleted");
+              session::flash('message', "Transaction successfully deleted");
               return redirect()->route('transaction.index');
            }
            else if($delete->getStatusCode() == 401){
