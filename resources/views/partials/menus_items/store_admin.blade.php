@@ -19,12 +19,12 @@
     </a>
 </li>
 
-<li>
+{{-- <li>
     <a href="{{route('analytics')}}">
         <i data-feather="book-open"></i>
         <span> Analytics </span>
     </a>
-</li>
+</li> --}}
 
 <li>
     <a href="#">
