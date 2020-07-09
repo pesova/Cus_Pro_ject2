@@ -86,6 +86,7 @@ Route::prefix('/admin')->group(function () {
 
         // settings create and update
         Route::get('/setting', 'SettingsController@index')->name('setting');
+        
         Route::post('/setting', 'SettingsController@update');
 
         // transaction crud
@@ -103,7 +104,6 @@ Route::prefix('/admin')->group(function () {
         // complaint crud
         Route::resource('complaint', 'ComplaintController');
 
-
         // user crud
         Route::resource('users', 'UsersController');
 
@@ -120,9 +120,9 @@ Route::prefix('/admin')->group(function () {
     });
 });
 
-    Route::get('/backend/transactions', function () {
-        return view('backend.transactions.index');
-    });
+    // Route::get('/backend/transactions', function () {
+    //     return view('backend.transactions.index');
+    // });
 
 // Protected Routes
 // Route::group(['prefix' => '/admin'], function () {

@@ -3,7 +3,7 @@
     <nav>
         <div class="container nav">
             <div class="nav__brand">
-                <a href="#" class="nav__brand__logo"><img src="{{ ('/frontend/assets/images/fulllogo.png') }}" alt=""
+                <a href="{{route('home') }}" class="nav__brand__logo"><img src="{{ ('/frontend/assets/images/fulllogo.png') }}" alt=""
                         height="auto" /></a>
             </div>
             <div class="nav__menu">

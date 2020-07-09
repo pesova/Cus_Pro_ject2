@@ -17,7 +17,7 @@
         <div class="row page-title">
             <div class="col-md-12">
                 <h4 class="mb-1 mt-0 float-left">Edit Profile Page</h4>
-                <a href="/admin" class="btn btn-primary float-right" >
+                <a href="{{ route('customer.index') }}" class="btn btn-primary float-right" >
                     Go Back {{-- &nbsp;<i class="fa fa-plus my-float"></i> --}}
                 </a>
             </div>
