@@ -87,8 +87,10 @@ Route::prefix('/admin')->group(function () {
 
         // settings create and update
         Route::get('/setting', 'SettingsController@index')->name('setting');
-        
+
         Route::post('/setting', 'SettingsController@update');
+
+        Route::get('/change_password', 'SettingsController@change_password')->name('change_password');
 
         // transaction crud
         Route::resource('transaction', 'TransactionController');
