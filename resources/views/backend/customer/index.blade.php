@@ -3,6 +3,8 @@
 <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
 <link rel="stylesheet" href="backend/assets/css/all_users.css">
+<link rel="stylesheet" href="/backend/assets/css/complaintsLog.css">
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
 @stop
 @section('content')
 <div class="content">
@@ -11,16 +13,16 @@
         <br>
         <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
         @endif
-        <div class="row page-title">
+        {{-- <div class="row page-title">
             <div class="col-md-12">
                 <h4 class="mb-1 mt-0 float-left">My Customers</h4>
                 <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#CustomerModal">
                     New &nbsp;<i class="fa fa-plus my-float"></i>
                 </a>
             </div>
-        </div>
+        </div> --}}
 
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
@@ -60,10 +62,10 @@
                     </div> <!-- end card body-->
                 </div> <!-- end card -->
             </div><!-- end col-->
-        </div>
+        </div> --}}
 
 
-        <div class="col-lg-12">
+        {{-- <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
                     <ul class="nav nav-pills navtab-bg nav-justified" id="pills-tab" role="tablist">
@@ -409,9 +411,115 @@
                 </div>
             </div>
             <!-- end card -->
-        </div>
+        </div> --}}
     </div>
 </div>
+
+    <div class="container">
+        <div class="content">
+
+            {{-- <div class="row page-title">
+                <div class="col-md-12">
+                    <div class="h4"><i data-feather="book" class="icon-dual"></i>Complaint Log</div>
+                </div>
+            </div> --}}
+
+            @if ( isset($response) && count($response) > 0 )
+                <div class="container-fluid">
+
+                    <div class="row page-title">
+                        <div class="col-md-12">
+                            <h4 class="card-header mb-1 mt-0 float-left h5">List of Regitered Customers</h4>
+                            
+                            <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#CustomerModal">
+                                New &nbsp;<i class="fa fa-plus my-float"></i>
+                            </a>
+
+                        </div>
+                    </div>
+
+                  
+                    <div class="card-body p-1 card">
+                        <div class="table-responsive table-data">
+                            <table id="basic-datatable" class="table dt-responsive nowrap table table-striped table-bordered">
+            
+                                <thead> 
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Avatar</th>
+                                        <th>Name</th>
+                                        <th>Tel</th>
+                                        <th>Amount Due</th>
+                                        <th>Balance</th>
+                                        <th>Actions</th>
+                                    </tr>
+            
+                                <tbody>
+                                    @for ($i = 0; $i < count($response); $i++)
+                                    <tr>
+                                        <td>{{$i + 1}}</td>
+                                        <td><img src="/backend/assets/images/users/avatar-5.jpg"
+                                            class="avatar-sm rounded-circle" alt="Shreyu"/>
+                                        </td>
+                                        <td>{{isset($response[$i]->name) ? ucfirst($response[$i]->name) : 'Not available'}}<br>
+                                            <span class="badge badge-danger">Has Credit</span>
+                                        </td>
+                                        <td>{{isset($response[$i]->phone_number) ? $response[$i]->phone_number : 'Not available'}}<br>
+                                        </td>
+                                        <td>
+                                            <span> &#8358; 1 500</span> <br>
+                                            <span class="badge badge-primary">You Paid: 1000</span>
+                                        </td>
+                                        <td>
+                                            <span class="text-danger">&#8358; 500</span>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group mt-2 mr-1">
+                                                <button type="button" class="btn btn-primary dropdown-toggle"
+                                                    data-toggle="dropdown" aria-haspopup="true"
+                                                    aria-expanded="false">
+                                                    Actions<i class="icon"><span
+                                                            data-feather="chevron-down"></span></i>
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a class="dropdown-item"
+                                                        href="{{ route('customer.edit', $response[$i]->_id) }}">Edit Customer</a>
+                                                    <a class="dropdown-item"
+                                                        href="{{ route('customer.show', $response[$i]->_id) }}">View Profile</a>
+                                                    <a class="dropdown-item"
+                                                        href="{{ route('transaction.index') }}">View Transaction</a>
+                                                    <a class="dropdown-item"
+                                                        href="{{ route('debtor.create') }}">Send Reminder</a>
+                                                    <form id="delete-form-{{ $response[$i]->_id }}" method="POST"
+                                                        action="{{ route('customer.destroy', $response[$i]->_id) }}"
+                                                        style="display:none">
+                                                        {{csrf_field()}}
+                                                        {{method_field('DELETE')}}
+                                                    </form>
+                                                    <a style="margin-left: 1.5rem;" class="text-danger" href=""
+                                                        onclick="
+                                                                if(confirm('Are you sure You want to delete this user'))
+                                                                {event.preventDefault(); document.getElementById('delete-form-{{ $response[$i]->_id }}').submit();}
+                                                                else{
+                                                                event.preventDefault();
+                                                            }"> Delete </a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    @endfor
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- end card -->
+                    </div>
+                </div>
+            @endif
+        </div>
+    </div>
+
 <div id="CustomerModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
     aria-hidden="true">
     <div class="modal-dialog">
@@ -525,7 +633,7 @@
                     <div class="form-group row mb-3">
                         <label for="inputphone" class="col-3 col-form-label">Phone Number</label>
                         <div class="col-9">
-                            <input type="tel" class="form-control" id="inputphone" placeholder="Phone Number">
+                            <input type="text" class="form-control" id="inputphone" placeholder="Phone Number">
                         </div>
                     </div>
                     <div class="form-group row mb-3">
@@ -559,11 +667,19 @@
 
 @section("javascript")
 <script src="/backend/assets/build/js/intlTelInput.js"></script>
+<script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script>
     var input = document.querySelector("#phone");
     window.intlTelInput(input, {
         // any initialisation options go here
     });
 
+</script>
+<script>
+$(document).ready(function() {
+    $('#basic-datatable').DataTable( {
+    paging: false
+} );
+} );
 </script>
 @stop
