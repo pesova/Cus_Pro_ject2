@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 
 class DashboardController extends Controller
 {
@@ -13,7 +15,9 @@ class DashboardController extends Controller
 
     public function notification()
     {
-        return view('backend.dashboard.notification');
+        $phone_number = Cookie::get('phone_number');
+        $user = User::where('phone_number', $phone_number)->first();
+        return view('backend.dashboard.notification')->with('notifications', $user->notifications);
     }
     
     public function creditor()

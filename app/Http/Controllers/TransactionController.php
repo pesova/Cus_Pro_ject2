@@ -25,7 +25,7 @@ class TransactionController extends Controller
     public function index()
     {
         
-        // return view('backend.transaction.index');
+    // return view('backend.transaction.index');
     $host = env('API_URL', 'https://dev.api.customerpay.me');
       $url = $host."/transaction";
        try {
@@ -36,7 +36,6 @@ class TransactionController extends Controller
           if ($statusCode == 200) {
               $body = $response->getBody()->getContents();
               $transactions = json_decode($body)->data->details;
-            //   dd($transactions);
               return view('backend.transaction.index')->with('response', $transactions);
           }
           if ($statusCode == 500) {

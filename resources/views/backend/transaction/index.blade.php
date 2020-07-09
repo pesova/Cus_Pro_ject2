@@ -100,10 +100,10 @@
                     </thead>
 
                     <tbody>
-                     @foreach ($response as $details)
+                     @foreach ($response as $index => $details)
                         @foreach ($details->transactions as $transactions)
                             <tr>
-                            <td>{{$transactions->_id }}</td>
+                            <td>{{ $index + 1 }}</td>
                              <td>{{$transactions->type }}</td>
                             <td>{{$transactions->customer_ref_id }}</td>
                             <td>{{$transactions->total_amount}}</td>

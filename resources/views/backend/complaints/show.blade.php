@@ -10,7 +10,15 @@
                             <div class="col">
                             <div class="card">
                         <div class="card-body p-0">
-                            <h6 class="card-title border-bottom p-3 mb-0 header-title">Complaint Overview</h6>
+
+                            <!-- <input class="btn btn-primary right pull-right" value="Back"> -->
+                            <div style="padding: 20px;">
+                            <a href="{{ route('complaint.index') }}" class="btn btn-primary float-right">
+                            Back &nbsp;<i class="fa fa-plus my-float"></i>
+                        </a>
+                        <h4 class="header-title mt-0 mb-1">Complaint Overview</h4>
+                            <!-- <hr> -->
+                        </div>
                             <div class="row py-1">
                                 <div class="col-xl-4 col-sm-6">
                                     <!-- stat 1 -->
@@ -47,8 +55,11 @@
                                     <div class="media p-3">
                                         <i data-feather="clock" class="align-self-center icon-dual icon-lg mr-4"></i>
                                         <div class="media-body">
-                                            <h6 class="mt-0 mb-0">{{ $response->data->complaint->date }}</h6>
+                                            <h6 class="mt-0 mb-0">
+                                                {{ \Carbon\Carbon::parse($response->data->complaint->date)->diffForHumans() }}
+                                            </h6>
                                             <span class="text-muted">Date Created</span>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -84,12 +95,26 @@
                                 <div class="col-lg-3 col-md-6">
                                     <div class="mt-4">
                                         <p class="mb-2"><i class="uil-calender text-danger"></i> Created At</p>
-                                        <h6 class="font-size-10">{{ $response->data->complaint->date }}</h6>
+                                        <h6 class="font-size-10">
+                                            {{ \Carbon\Carbon::parse($response->data->complaint->date)->diffForHumans() }}
+                                        </h6>
                                     </div>
+                                    
                                 </div>
                                 
                                 
                             </div>
+                            <div style="padding: 20px;">
+                            <a href="{{ route('complaint.index') }}" class="btn btn-primary float-left">
+                            Edit &nbsp;<i class="fa fa-plus my-float"></i>
+                        </a>
+                        <form class="float-right" action="{{ route('complaint.destroy', $response->data->complaint->_id) }}" method="POST">
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                        <button class="btn btn-danger">Delete</button>
+                        </form>
+                            <!-- <hr> -->
+                        </div>
 
                             {{-- <div class="assign team mt-4">
                                 <h6 class="font-weight-bold">Assign To</h6>

@@ -10,8 +10,7 @@
 
 <!-- Welcome-area-start -->
 <div class="welcome-area theme-bg" id="home">
-    <div class="welcome-bg-thumb opacity-9"
-        style="background-image: url(/frontend/assets/img/bg-img/bg-patter.png);">
+    <div class="welcome-bg-thumb opacity-9" style="background-image: url(/frontend/assets/img/bg-img/bg-patter.png);">
     </div>
     <div class="container">
         <div class="row align-items-center">
@@ -25,13 +24,16 @@
                         globally.
                     </p>
 
-                    <div class="top-button-container">
-                        <a class="welcome-btn play-store-btn mr-2 mb-2" href="https://play.google.com/store/apps/details?id=me.customerpay.hngsentry&hl=en"><img
-                                src="/frontend/assets/img/bg-img/bt-1.png" alt=""></a>
+                    {{-- App store download link commented by @Jeremiahiro --}}
+                    {{-- <div class="top-button-container">
+                        <a class="welcome-btn play-store-btn mr-2 mb-2" href="https://play.google.com/store/apps/details?id=me.customerpay.hngsentry&hl=en">
+                            <img src="/frontend/assets/img/bg-img/bt-1.png" alt="">
+                            </a>
 
-                        <a class="welcome-btn app-store-btn mr-2 mb-2" href="#"><img
-                                src="/frontend/assets/img/bg-img/bt-2.png" alt=""></a>
-                    </div>
+                        <a class="welcome-btn app-store-btn mr-2 mb-2" href="#">
+                            <img src="/frontend/assets/img/bg-img/bt-2.png" alt="">
+                        </a>
+                    </div> --}}
 
                     <!-- <div class="slider-btn mt-30">
                             <a class="welcome-btn play-store-btn mr-2 mb-2" href="#"><imgs
@@ -71,10 +73,10 @@
                     <h3>Invoice reminders</h3>
                     <p>This solution helps <br> business owners send overdue invoice <br> reminders to customers</p>
                 </div>
-                  <div class="feature__image" data-aos="fade-right" data-aos-duration="1500">
-                      <img src="{{asset('frontend/assets/images/screen two.png')}}" alt="screen"
-                          class="feature__img__screen img-fluid">
-                  </div>
+                <div class="feature__image" data-aos="fade-right" data-aos-duration="1500">
+                    <img src="{{asset('frontend/assets/images/screen two.png')}}" alt="screen"
+                        class="feature__img__screen img-fluid">
+                </div>
             </div>
         </div>
         <div class="col-lg-4">
@@ -83,9 +85,10 @@
                     <h3>Debt collection</h3>
                     <p>It makes it easier to keep track and manage debt collection easily through mobile devices</p>
                 </div>
-                  <div class="feature__image" data-aos="fade-up">
-                      <img src="{{asset('frontend/assets/images/screen.png')}}" alt="" class="feature__img__screen img-fluid">
-                  </div>
+                <div class="feature__image" data-aos="fade-up">
+                    <img src="{{asset('frontend/assets/images/screen.png')}}" alt=""
+                        class="feature__img__screen img-fluid">
+                </div>
             </div>
         </div>
         <div class="col-lg-4">
@@ -95,9 +98,10 @@
                     <p>Provides a way for business owners to push unique sales messaging directly to their
                         customers.</p>
                 </div>
-                  <div class="feature__image" data-aos="fade-left" data-aos-duration="1500">
-                      <img src="{{asset('frontend/assets/images/screen two.png')}}" alt="" class="feature__img__screen img-fluid">
-                  </div>
+                <div class="feature__image" data-aos="fade-left" data-aos-duration="1500">
+                    <img src="{{asset('frontend/assets/images/screen two.png')}}" alt=""
+                        class="feature__img__screen img-fluid">
+                </div>
             </div>
         </div>
     </div>
@@ -123,65 +127,68 @@
 
 <!-- Feature Area -->
 <div class="feature-area section-padding-100-50" id="feature">
-  <div class="container">
-      <div class="row justify-content-center">
-          <div class="col-lg-7">
-              <div class="section-heading text-center">
-                  <h4>myCustomer features</h4>
-                  <p>Aliquid qui tempore aspernatur earum, Qui dolores molestias minus esse cumque deleniti
-                      impedit quo nostrum omnis et delectus.</p>
-              </div>
-          </div>
-      </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <div class="section-heading text-center">
+                    <h4>myCustomer features</h4>
+                    <p>Aliquid qui tempore aspernatur earum, Qui dolores molestias minus esse cumque deleniti
+                        impedit quo nostrum omnis et delectus.</p>
+                </div>
+            </div>
+        </div>
 
-      <div class="row justify-content-center">
-          <!-- Single Feature area -->
-          <div class="col-md-6 col-lg-4">
-              <div class="single-feature-area text-center wow fadeInUp" data-wow-delay="0.4s" data-aos="flip-left" data-aos-duration="1500">
-                  <!-- Feature Icon -->
-                  <div class="feature-icon">
-                      <img src="/frontend/assets/img/icon-img/4.svg" alt="">
-                  </div>
-                  <!-- Single Feature Text -->
-                  <div class="feature-content-text">
-                      <h4>Trustworthy</h4>
-                      <p class="mb-0">Our apps are trusted by over 1000 users across the globe</p>
-                  </div>
-              </div>
-          </div>
+        <div class="row justify-content-center">
+            <!-- Single Feature area -->
+            <div class="col-md-6 col-lg-4">
+                <div class="single-feature-area text-center wow fadeInUp" data-wow-delay="0.4s" data-aos="flip-left"
+                    data-aos-duration="1500">
+                    <!-- Feature Icon -->
+                    <div class="feature-icon">
+                        <img src="/frontend/assets/img/icon-img/4.svg" alt="">
+                    </div>
+                    <!-- Single Feature Text -->
+                    <div class="feature-content-text">
+                        <h4>Trustworthy</h4>
+                        <p class="mb-0">Our apps are trusted by over 1000 users across the globe</p>
+                    </div>
+                </div>
+            </div>
 
-          <!-- Single Feature area -->
-          <div class="col-md-6 col-lg-4">
-              <div class="single-feature-area text-center wow fadeInUp" data-wow-delay="0.4s" data-aos="flip-up" data-aos-duration="1500">
-                  <!-- Feature Icon -->
-                  <div class="feature-icon">
-                      <img src="/frontend/assets/img/icon-img/5.svg" alt="">
-                  </div>
-                  <!-- Single Feature Text -->
-                  <div class="feature-content-text">
-                      <h4>Easy to use</h4>
-                      <p class="mb-0">We created software in such a way that it is easy to use and navigate</p>
-                  </div>
-              </div>
-          </div>
+            <!-- Single Feature area -->
+            <div class="col-md-6 col-lg-4">
+                <div class="single-feature-area text-center wow fadeInUp" data-wow-delay="0.4s" data-aos="flip-up"
+                    data-aos-duration="1500">
+                    <!-- Feature Icon -->
+                    <div class="feature-icon">
+                        <img src="/frontend/assets/img/icon-img/5.svg" alt="">
+                    </div>
+                    <!-- Single Feature Text -->
+                    <div class="feature-content-text">
+                        <h4>Easy to use</h4>
+                        <p class="mb-0">We created software in such a way that it is easy to use and navigate</p>
+                    </div>
+                </div>
+            </div>
 
-          <!-- Single Feature area -->
-          <div class="col-md-6 col-lg-4">
-              <div class="single-feature-area text-center wow fadeInUp" data-wow-delay="0.8s" data-aos="flip-right" data-aos-duration="1500">
-                  <!-- Feature Icon -->
-                  <div class="feature-icon">
-                      <img src="/frontend/assets/img/icon-img/9.svg" alt="">
-                  </div>
-                  <!-- Single Feature Text -->
-                  <div class="feature-content-text">
-                      <h4>Fast</h4>
-                      <p class="mb-0">With state of the art servers we introduce you to a new level of speed</p>
-                  </div>
-              </div>
-          </div>
+            <!-- Single Feature area -->
+            <div class="col-md-6 col-lg-4">
+                <div class="single-feature-area text-center wow fadeInUp" data-wow-delay="0.8s" data-aos="flip-right"
+                    data-aos-duration="1500">
+                    <!-- Feature Icon -->
+                    <div class="feature-icon">
+                        <img src="/frontend/assets/img/icon-img/9.svg" alt="">
+                    </div>
+                    <!-- Single Feature Text -->
+                    <div class="feature-content-text">
+                        <h4>Fast</h4>
+                        <p class="mb-0">With state of the art servers we introduce you to a new level of speed</p>
+                    </div>
+                </div>
+            </div>
 
-          <!-- Single Feature area -->
-          <!-- <div class="col-md-6 col-lg-4">
+            <!-- Single Feature area -->
+            <!-- <div class="col-md-6 col-lg-4">
                   <div class="single-feature-area text-center wow fadeInUp" data-wow-delay="0.4s">
                       <!-- Feature Icon
                       <div class="feature-icon">
@@ -195,8 +202,8 @@
                   </div>
               </div> -->
 
-          <!-- Single Feature area -->
-          <!-- <div class="col-md-6 col-lg-4">
+            <!-- Single Feature area -->
+            <!-- <div class="col-md-6 col-lg-4">
                   <div class="single-feature-area text-center wow fadeInUp" data-wow-delay="0.8s">
                       <!-- Feature Icon
                       <div class="feature-icon">
@@ -210,8 +217,8 @@
                   </div>
               </div> -->
 
-          <!-- Single Feature area -->
-          <!-- <div class="col-md-6 col-lg-4">
+            <!-- Single Feature area -->
+            <!-- <div class="col-md-6 col-lg-4">
                   <div class="single-feature-area text-center wow fadeInUp" data-wow-delay="0.8s">
                       <!-- Feature Icon
                       <div class="feature-icon">
@@ -224,8 +231,8 @@
                       </div>
                   </div>
               </div> -->
-      </div>
-  </div>
+        </div>
+    </div>
 </div>
 <!-- Feature Area -->
 
@@ -242,7 +249,7 @@
                     </p>
 
                     <div class="button-area mt-50">
-                        <a class="btn feature__action__btn boxed-btn" href="#">Read More</a>
+                        <a class="btn feature__action__btn boxed-btn" href="{{ route('about') }}">Read More</a>
                     </div>
                 </div>
             </div>
@@ -266,8 +273,9 @@
 
 
 <!-- Client Feedback Area -->
+{{-- App store download link commented by @Jeremiahiro --}}
 
-<div class="container cta-container">
+{{-- <div class="container cta-container">
     <div class="row">
         <div class="col-lg-12">
             <div class="call-to-download-container">
@@ -291,7 +299,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 
 <!-- Call to action area end -->
 
@@ -341,8 +349,10 @@
                                     class="testimonial-img img-fluid">
                             </div>
                             <div class="client-desc client-mt-50 testimonial__text">
-                                <p>I have been using this app for three months now and i must confess, it has really changed
-                                    the way and see and manage my stores, assistants and customers. The analytics feature gets me
+                                <p>I have been using this app for three months now and i must confess, it has really
+                                    changed
+                                    the way and see and manage my stores, assistants and customers. The analytics
+                                    feature gets me
                                     the most. I never knew running multiple store could be this easy</p>
 
                                 <h4>Angel Collins - <span>Nigeria</span></h4>
@@ -359,7 +369,8 @@
                                     class="testimonial-img img-fluid">
                             </div>
                             <div class="client-desc client-mt-50 testimonial__text">
-                                <p>Remote control of my stores and store assistants is a feature I have really been looking for.
+                                <p>Remote control of my stores and store assistants is a feature I have really been
+                                    looking for.
                                     I have finally found an app that meets all my needs. Thanks makers of MyCustomer</p>
 
                                 <h4>Bitrus Samuel - <span>England</span></h4>
