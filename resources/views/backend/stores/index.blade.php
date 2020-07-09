@@ -107,13 +107,7 @@
                                     </tr>
                                     @endforeach
 
-{{--
-                                    <td>SHP12</td>
-                                    <td>MY CUs Bus</td>
-                                    <td>Plot 4 km 34</td>
-
-                                </tr>
-                                --}}
+                                    
                                 </tbody>
                             </table>
                         </div>

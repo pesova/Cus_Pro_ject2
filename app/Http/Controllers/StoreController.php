@@ -18,7 +18,7 @@ class StoreController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         // API updated
         $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store';
@@ -37,7 +37,8 @@ class StoreController extends Controller
                 return view('backend.stores.index')->with('response', $Stores->data->stores);
             }
             else if($statusCode->getStatusCode() == 401){
-                Session::flash('message', "You are not authorized to perform this action");
+                $request->session()->flash('alert-class', 'alert-danger');
+                Session::flash('message', "Your Session Has Expired, Please Login Again");
                return redirect()->route('store.index');
            }
 
@@ -49,9 +50,6 @@ class StoreController extends Controller
             if ($e->getResponse()->getStatusCode() >= 500) {
                 return view('errors.500');
             }
-
-
-            return redirect()->route('store.index', ['response' => []]);
 
         } catch (\Exception $e) {
 
