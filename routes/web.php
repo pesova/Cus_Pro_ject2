@@ -74,6 +74,8 @@ Route::prefix('/admin')->group(function () {
         Route::get('/analytics', 'DashboardController@analytics')->name('analytics');
         Route::get('/notification', 'DashboardController@notification')->name('notification');
 
+		//reminder
+		Route::post('/reminder/email', 'ReminderController@sendViaEmail');
 
         // customer crud
         Route::resource('customer', 'CustomerController');
@@ -117,6 +119,35 @@ Route::prefix('/admin')->group(function () {
     });
 });
 
+    Route::get('/backend/transactions', function () {
+        return view('backend.transactions.index');
+    });
+
+// Protected Routes
+// Route::group(['prefix' => '/admin'], function () {
+//     Route::get('/activate', 'ActivateController@index')->name('activate.user');
+
+    // // dashboard
+    // Route::get('/dashboard', function () {
+    //     return view('backend.dashboard.index');
+    // })->name('dashboard');
+
+    // // Single Transaction Page
+    // Route::get('/s-transaction', function () {
+    //     return view('backend.transactions.s-transaction');
+    // });
+// Route::group(['prefix' => '/admin' , 'middleware' => 'backend.auth'], function () {
+//     Route::get('/activate', 'ActivateController@index')->name('activate.user');
+
+//     // dashboard
+//     Route::get('/dashboard', function () {
+//         return view('backend.dashboard');
+//     })->name('dashboard');
+
+//     // Customers
+//     Route::get('/customers', function () {
+//         return view('backend.customers.index');
+//     })->name('customers');
 
 // Protected Routes
 // Route::group(['prefix' => '/admin'], function () {

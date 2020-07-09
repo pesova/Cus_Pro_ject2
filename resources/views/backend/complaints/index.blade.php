@@ -48,7 +48,8 @@
 
                             @foreach($responses->data->complaints as $response)
                                 <tr>
-                                    <td>{{ $response->_id}}</td>
+                                
+                                    <td><a href="{{ route('complaint.show', $response->_id) }}">{{ $response->_id}}</a></td>
                                     <td>{{ $response->name}}</td>
                                     <td>{{ $response->email}}</td>
                                     <td>{{ $response->message}}
