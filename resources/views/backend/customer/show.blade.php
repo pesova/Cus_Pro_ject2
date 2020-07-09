@@ -17,11 +17,11 @@
         <div class="row page-title">
             <div class="col-md-12">
                 <h4 class="mb-1 mt-0 float-left">Profile</h4>
-                <a href="/admin" class="btn btn-primary float-right" data-toggle="modal" data-target="#CustomerModal">
-                    Go Back {{-- &nbsp;<i class="fa fa-plus my-float"></i> --}}
+                <a href="{{ route('customer.index') }}" class="btn btn-primary float-right">
+                    Go Back 
                 </a>
-                <a href="{{ action('CustomerController@edit', $response->_id) }}" class="btn btn-success float-right" >
-                    Edit Customer {{-- &nbsp;<i class="fa fa-plus my-float"></i> --}}
+                <a href="{{ route('customer.edit', $response->_id) }}" class="mr-3 btn btn-success float-right" >
+                    Edit Customer 
                 </a>
             </div>
         </div>
@@ -66,13 +66,13 @@
                                         Transactions
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                {{-- <li class="nav-item">
                                     <a class="nav-link" id="pills-projects-tab" data-toggle="pill"
                                         href="#pills-projects" role="tab" aria-controls="pills-projects"
                                         aria-selected="false">
                                         Messages
                                     </a>
-                                </li>
+                                </li> --}}
                             </ul>
                             {{-- customer basic information --}}
                             <h6 class="customer-acct pt-3">Account Information</h6>

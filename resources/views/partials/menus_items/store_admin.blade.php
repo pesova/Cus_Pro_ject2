@@ -19,12 +19,12 @@
     </a>
 </li>
 
-<li>
+{{-- <li>
     <a href="{{route('analytics')}}">
         <i data-feather="book-open"></i>
         <span> Analytics </span>
     </a>
-</li>
+</li> --}}
 
 <li>
     <a href="#">
@@ -46,16 +46,16 @@
         <span> Broadcast Message </span>
     </a>
 </li>
-<li>
+{{-- <li>
     <a href="{{ route('complaint.create') }}">
         <i data-feather="book-open"></i>
         <span> Complaint Forms </span>
     </a>
-</li>
+</li> --}}
 <li>
     <a href="{{ route('complaint.index') }}">
         <i data-feather="book"></i>
-        <span> Complaint Log </span>
+        <span> Complaint</span>
     </a>
 </li>
 <li>
