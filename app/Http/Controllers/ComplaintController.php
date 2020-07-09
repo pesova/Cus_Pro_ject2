@@ -62,7 +62,7 @@ class ComplaintController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email',
-            'message' => 'required'
+            'message' => 'required|max:300'
         ]);
 
         $user_id = Cookie::get('user_id');
@@ -132,7 +132,7 @@ class ComplaintController extends Controller
     {
         $host = env('API_URL', 'https://dev.api.customerpay.me/');
         $user_id = Cookie::get('user_id');
-        $url = $host."complaint/".$user_id."/".$id;
+        $url = $host . "complaint/" . $user_id . "/" . $id;
         try {
             $client = new Client();
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
@@ -148,11 +148,11 @@ class ComplaintController extends Controller
             }
         } catch (\Exception $e) {
             return view('errors.500');
-            
+
         }
-            // return view('backend.complaints.index');
-        }
-        
+        // return view('backend.complaints.index');
+    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -228,15 +228,15 @@ class ComplaintController extends Controller
     {
         $host = env('API_URL', 'https://dev.api.customerpay.me/');
         $user_id = Cookie::get('user_id');
-        $url = $host."complaint/delete/".$user_id."/".$id;
+        $url = $host . "complaint/delete/" . $user_id . "/" . $id;
         $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
         try {
             $client = new Client();
             $request = $client->delete($url, $headers);
             $statusCode = $request->getStatusCode();
             if ($statusCode == 200) {
-                
-                
+
+
                 return \Redirect::back()->with('success', 'Complaint Deleted Successfully');
             }
             if ($statusCode == 500) {
