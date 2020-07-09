@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Notifications\WelcomeBackMessage;
+use App\Notifications\WelcomeMessage;
 use App\Providers\RouteServiceProvider;
+use App\User;
 use GuzzleHttp\Client;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Cookie;
@@ -88,6 +91,19 @@ class LoginController extends Controller
                     Cookie::queue('phone_number', $data->phone_number);
                     Cookie::queue('user_id', $response->data->user->_id);
                     Cookie::queue('expires', strtotime('+ 1 day'));
+
+                    $user = User::where('phone_number', $data->phone_number)->first();
+                    
+                    if ($user) {
+                        $user->notify(new WelcomeBackMessage);
+                    } else {
+                        $new_user = new User;
+                        $new_user->phone_number = $data->phone_number;
+                        $new_user->password = $data->password;
+                        if($new_user->save()) {
+                            $new_user->notify(new WelcomeBackMessage);
+                        }
+                    }
 
                     //show success message
                     $request->session()->flash('alert-class', 'alert-success');
