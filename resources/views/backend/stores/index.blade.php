@@ -80,9 +80,9 @@
                                 </thead>
                                 <tbody>
 
-                                    @foreach ($response as $store )
+                                    @foreach ($response as $index => $store )
                                     <tr>
-                                     <td>{{ $store->_id }}</td>
+                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ $store->store_name }}</td>
                                     <td>{{ $store->shop_address }}</td>
                                     <td>

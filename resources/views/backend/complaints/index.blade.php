@@ -18,16 +18,24 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                
+
                     <div class="card-body">
-                    <div>
-                    @if( \Session::has('success'))
-                        <div class="alert alert-success">
-                            {!! \Session::get('success') !!}
+                        <div>
+                            @if( \Session::has('success'))
+                            <div class="alert alert-success">
+                                {!! \Session::get('success') !!}
+                            </div>
+                            @endif
                         </div>
-                    @endif
-                    </div>
-                        <h4 class="header-title mt-0 mb-1">Complaints Submitted</h4>
+                        <div class="row page-title">
+                            <div class="col-md-12">
+                                <h4 class="mb-1 mt-0 float-left">All Complaints</h4>
+                                <a href="{{ route('complaint.create') }}" class="btn btn-primary float-right">
+                                    Add Complaint &nbsp;<i class="fa fa-plus my-float"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
                         <p class="sub-header">
                             This is the list of all complaints submitted:
                         </p>
@@ -46,26 +54,25 @@
                             </thead>
                             <tbody>
 
-                            @foreach($responses->data->complaints as $response)
+                                @foreach($responses->data->complaints as $index => $response)
                                 <tr>
-                                
-                                    <td><a href="{{ route('complaint.show', $response->_id) }}">{{ $response->_id}}</a></td>
-                                    <td>{{ $response->name}}</td>
-                                    <td>{{ $response->email}}</td>
-                                    <td>{{ $response->message}}
-                                    </td>
+                                    <td><a href="{{ route('complaint.show', $response->_id) }}">{{ $index + 1 }}</a></td>
+                                    <td><a href="{{ route('complaint.show', $response->_id) }}">{{ $response->name}}</a></td>
+                                    <td><a href="{{ route('complaint.show', $response->_id) }}">{{ $response->email}}</a></td>
+                                    <td><a href="{{ route('complaint.show', $response->_id) }}">{{ $response->message}}</a></td>
                                     <td>{{ $response->status}}</td>
                                     <td>{{ $response->date}}</td>
                                     <td>
-                                    
-                                    <form action="{{ route('complaint.destroy', $response->_id) }}" method="POST">
+
+                                        <form action="{{ route('complaint.destroy', $response->_id) }}" method="POST">
                                             <input type="hidden" name="_method" value="DELETE">
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <button class="btn btn-danger">Delete</button>
-                        </form></td>
+                                            <button class="btn btn-danger">Delete</button>
+                                        </form>
+                                    </td>
                                     <!-- <td><a href="{{ route('complaint.destroy', $response->_id) }}" class="btn btn-danger "> -->
-   <!-- Delete -->
-<!-- </a> -->
+                                    <!-- Delete -->
+                                    <!-- </a> -->
                                     </td>
                                 </tr>
                                 @endforeach
