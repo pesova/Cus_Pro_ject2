@@ -35,6 +35,10 @@ class StoreController extends Controller
             if ($statusCode == 200) {
                 return view('backend.stores.index')->with('response', $Stores->data->stores);
             }
+            else if($statusCode->getStatusCode() == 401){
+                Session::flash('message', "You are not authorized to perform this action");
+               return redirect()->route('store.index');
+           }
 
         } catch (RequestException $e) {
 
@@ -110,7 +114,12 @@ class StoreController extends Controller
                     $request->session()->flash('alert-class', 'alert-success');
                     Session::flash('message', $data->message);
                     return $this->index();
-                } else {
+                }
+                else if($statusCode->getStatusCode() == 401){
+                    $request->session()->flash('alert-class', 'alert-danger');
+                    Session::flash('message', "You are not authorized to perform this action, please check your details properly");
+                   return redirect()->route('store.index');
+               } else {
                     $request->session()->flash('alert-class', 'alert-waring');
                     Session::flash('message', $data->message);
                     return redirect()->route('store.create');
@@ -175,6 +184,11 @@ class StoreController extends Controller
             if ($e->getResponse()->getStatusCode() >= 500) {
                 return view('errors.500');
             }
+            else if($statusCode->getStatusCode() == 401){
+                $request->session()->flash('alert-class', 'alert-danger');
+                Session::flash('message', "You are not authorized to perform this action");
+               return redirect()->route('store.index');
+           }
             // get response to catch 4xx errors
             $response = json_decode($e->getResponse()->getBody());
             Session::flash('alert-class', 'alert-danger');
@@ -255,39 +269,41 @@ class StoreController extends Controller
         try {
             $client = new Client();
 
-            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+
             $request->validate([
                 'store_name' => 'required|min:2',
-                'address' =>  'required',
-                'phone' => 'required|numeric',
-                'email' => 'email',
-                'tag_line' => 'required'
+                'shop_address' =>  'required',
             ]);
 
-            $data = [
-                'store_name' => $request->input('store_name'),
-                'shop_address' => $request->input('address'),
-                'email' => $request->input('email'),
-                'tagline' => $request->input('tag_line'),
-                'phone_number' => $request->input('phone'),
-                'current_user' => Cookie::get('user_id'),
+            $payload = [
+                'headers' => ['x-access-token' => Cookie::get('api_token')],
+                'form_params' => [
+                    'store_name' => $request->input('store_name'),
+                    'shop_address' => $request->input('shop_address'),
+                    'email' => $request->input('email'),
+                    'tagline' => $request->input('tagline'),
+                    'phone_number' => $request->input('phone_number'),
+                    'current_user' => Cookie::get('user_id'),
+                ],
+
             ];
 
-            $req = $client->request('PUT', $url, $headers, $data);
+
+            $req = $client->request('PUT', $url, $payload);
 
             $status = $req->getStatusCode();
 
             if ($status == 201) {
-                $body = $req->getBody()->getContents();
-                $res = json_encode($body);
-                return redirect()->view('backend.stores.index')->with('message', "Update Successful");
+
+                return redirect()->route('store.index', ['response' => []]);
+                //return redirect()->view('backend.stores.index')->with('message', "Update Successful");
             }
             if ($statusCode == 500) {
                 return view('errors.500');
             }
 
         }catch (\Exception $e) {
-            return view('errors.500');
+            return redirect()->route('store.edit', $id);
         }
     }
 
@@ -297,9 +313,10 @@ class StoreController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($store_id)
+    public function destroy(Request $request, $id)
     {
-        $url = env('API_URL', 'https://api.customerpay.me/') . '/store/delete/' . $store_id;
+
+        $url = env('API_URL', 'https://api.customerpay.me/') . '/store/delete/' . $id;
         $client = new Client();
         $payload = [
             'headers' => [
@@ -313,7 +330,7 @@ class StoreController extends Controller
  	       $delete = $client->delete($url, $payload);
 
  	      if($delete->getStatusCode() == 200 || $delete->getStatusCode() == 201) {
- 		    	$request->session()->flash('alert-class', 'alert-success');
+                $request->session()->flash('alert-class', 'alert-success');
                 Session::flash('message', "Store successfully deleted");
                 return redirect()->route('store.index');
  	        }

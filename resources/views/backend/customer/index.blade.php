@@ -358,6 +358,17 @@
                                                                 <a class="dropdown-item" href="{{ route('customer.show', $response[$i]->_id) }}">ViewProfile</a>
                                                                 <a class="dropdown-item" href="{{ route('transaction.show', 1) }}">ViewTransaction</a>
                                                                 <a class="dropdown-item" href="{{ route('debtor.create') }}">SendReminder</a>
+                                                                <form id="delete-form-{{ $response[$i]->_id }}" method="POST" action="{{ route('customer.destroy', $response[$i]->_id) }}"
+                                                                    style="display:none">
+                                                                    {{csrf_field()}}
+                                                                    {{method_field('DELETE')}}
+                                                                </form>
+                                                                <a style="margin-left: 1.5rem;" class="text-danger" href="" onclick="
+                                                                    if(confirm('Are you sure You want to delete this user'))
+                                                                    {event.preventDefault(); document.getElementById('delete-form-{{ $response[$i]->_id }}').submit();}
+                                                                    else{
+                                                                    event.preventDefault();
+                                                                }"> Delete </a>
                                                             </div>
                                                         </div>
                                                     </td>
