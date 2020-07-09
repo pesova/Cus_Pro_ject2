@@ -57,15 +57,15 @@ class AssistantController extends Controller
          $url = env('API_URL', 'https://dev.api.customerpay.me') . '/assistant';
 
          try {
- 
+
              $client = new Client;
              $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
- 
+
              $response = $client->request("GET", $url, $payload);
              $statusCode = $response->getStatusCode();
              $body = $response->getBody();
              $Stores = json_decode($body);
- 
+
              if ($statusCode == 200) {
                  return view('backend.assistant.index')->with('response', $Stores->data->assistants);
              }
@@ -73,21 +73,21 @@ class AssistantController extends Controller
                  Session::flash('message', "You are not authorized to perform this action");
                 return redirect()->route('assistants.index');
             }
- 
+
          } catch (RequestException $e) {
- 
+
              Log::info('Catch error: LoginController - ' . $e->getMessage());
- 
+
              // check for 5xx server error
              if ($e->getResponse()->getStatusCode() >= 500) {
                  return view('errors.500');
              }
- 
- 
+
+
             // return redirect()->route('assistants.index', ['response' => []]);
- 
+
          } catch (\Exception $e) {
- 
+
              //log error;
              Log::error('Catch error: StoreController - ' . $e->getMessage());
              return view('errors.500');
@@ -147,7 +147,7 @@ class AssistantController extends Controller
             Session::flash('message', $data->message);
             return redirect()->route("assistants.index");
            // return view("backend.assistant.create")->with("message", "success");
-           
+
           } else if($statusCode->getStatusCode() == 401){
             $request->session()->flash('alert-class', 'alert-danger');
             Session::flash('message', "You are not authorized to perform this action, please check your details properly");
@@ -169,7 +169,7 @@ class AssistantController extends Controller
             $data = json_decode($res->getBody());
             Session::flash('message', $data->message);
             return redirect()->route('assistants.create');
-        } 
+        }
         return view('backend.assistant.create');
     }
 
@@ -248,8 +248,8 @@ class AssistantController extends Controller
     public function update(Request $request, $id)
     {
         // $url = env('API_URL', 'https://api.customerpay.me/') . '/assistant/update/' . $id;
-       
-        
+
+
         // try{
         //     $request->validate([
         //         'name' => 'required',
@@ -258,8 +258,8 @@ class AssistantController extends Controller
 
         //     $client = new Client;
         //     $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
-        //     $data = [    
-        //         $headers,        
+        //     $data = [
+        //         $headers,
         //         'form_params' => [
         //             'name' => $request->input('name'),
         //             'email' => $request->input('email'),
@@ -290,7 +290,7 @@ class AssistantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($user_id)
+    public function destroy($assistant_id)
     {
     //    $url = env('API_URL', 'https://api.customerpay.me/') . '/assistant/delete/' . $user_id;
     //    $client = new Client();
@@ -319,6 +319,35 @@ class AssistantController extends Controller
 	// 			Session::flash('message', "A technical error occured, we are working to fix this.");
     //             return redirect()->route('assistant.index');
     //    }
+
+    //update
+       $url = env('API_URL', 'https://api.customerpay.me/') . '/assistant/delete/' . $assistant_id;
+       $client = new Client();
+       $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+       try {
+	       $delete = $client->delete($url, $headers);
+
+	      if($delete->getStatusCode() == 200 || $delete->getStatusCode() == 201) {
+		    	$request->session()->flash('alert-class', 'alert-success');
+                Session::flash('message', "Store assistant successfully deleted");
+                return $this->index();
+	        }
+        	else if($delete->getStatusCode() == 401){
+		    	$request->session()->flash('alert-class', 'alert-danger');
+		    	Session::flash('message', "You are not authorized to perform this action, please check your details properly");
+                return redirect()->route('assistant.index');
+	       }
+           else if($delete->getStatusCode() == 500){
+		   		$request->session()->flash('alert-class', 'alert-danger');
+		    	Session::flash('message', "A server error encountered, please try again later");
+                return redirect()->route('assistant.index');
+	      	}
+       	  }
+       	  catch(ClientException $e) {
+				$request->session()->flash('alert-class', 'alert-danger');
+				Session::flash('message', "A technical error occured, we are working to fix this.");
+                return redirect()->route('assistant.index');
+       }
     }
 
 }
