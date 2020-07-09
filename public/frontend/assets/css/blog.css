@@ -46,6 +46,11 @@ body {
     display: table;
     clear: both;
   }
+  /* social icons align */
+  .b-social{
+    display: inline-block;
+    margin: 0 10px;
+  }
   
   /* Footer */
   .footer {
