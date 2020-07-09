@@ -50,7 +50,7 @@
                                         <div class="form-row">
                                           <div class="form-group col-md-6">
                                             <label for="inputPhoneNumber">Phone Number</label>
-                                            <input type="text" name="phone_number" class="form-control" placeholder="+2348127737643" >
+                                            <input type="tell" name="phone_number" class="form-control" placeholder="+2348127737643" >
                                           </div>
                                         <div class="form-group col-md-6" >
                                             <label for="inputEmailAddress"> Email Address (optional) </label>

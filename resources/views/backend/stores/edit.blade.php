@@ -45,17 +45,17 @@
                                           </div>
                                           <div class="form-group col-md-6">
                                             <label for="inputTagline">Tagline</label>
-                                            <input type="text" name="tag_line" class="form-control" id="inputTagline" placeholder="Your Perfect Stay One Click away....">
+                                            <input type="text" name="tag_line" class="form-control" id="inputTagline" value="{{ $response->tagline }}" placeholder="Your Perfect Stay One Click away....">
                                           </div>
                                         </div>
                                         <div class="form-row">
                                           <div class="form-group col-md-6">
                                             <label for="inputPhoneNumber">Phone Number</label>
-                                            <input type="text" name="phone_number" class="form-control" placeholder="+2348173644654">
+                                            <input type="text" name="phone_number" class="form-control" value="{{ $response->phone_number }}" placeholder="+2348173644654">
                                           </div>
                                         <div class="form-group col-md-6" >
                                             <label for="inputEmailAddress"> Email Address (optional) </label>
-                                            <input type="email" name="email" class="form-control" placeholder="you@example.com">
+                                            <input type="email" name="email" class="form-control" value="{{ $response->email }}" placeholder="you@example.com">
                                         </div>
                                         </div>
                                         <div class="form-group">
