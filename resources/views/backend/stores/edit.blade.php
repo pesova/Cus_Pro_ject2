@@ -62,7 +62,7 @@
                                           <label for="inputAddress">Address</label>
                                           <input type="text" name="shop_address" class="form-control" value="{{ $response->shop_address }}"  placeholder="123 Abby Avenue">
                                         </div>
-                                        <button type="submit" class="btn btn-success" data-toggle="" data-target="">
+                                        <button type="submit" class="btn btn-success">
                                             Update Changes
                                         </button>
                                     </form>
