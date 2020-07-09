@@ -59,7 +59,7 @@
                                                 <div class="form-group mt-4">
                                                     <label class="form-control-label">Enter 6 digit code</label>
                                                     <a href="" class="float-right text-muted text-unline-dashed ml-1"
-                                                       id="resend_code">resubmit code</a>
+                                                       id="resend_code">resend code</a>
                                                     <div class="input-group input-group-merge">
                                                         <div class="input-group-prepend">
                                                         <span class="input-group-text">
