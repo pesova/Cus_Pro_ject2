@@ -19,6 +19,11 @@
 
                 @if(Session::has('message'))
                 <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
+                <script>
+                  setTimeout(() => {
+                    document.querySelector('.alert').style.display = 'none'
+                  }, 3000);
+                </script>
                 @endif
 
                 @if ($errors->any())
