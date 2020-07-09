@@ -76,30 +76,7 @@
             </div>
         </div>
 
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-                
-=======
-                <div class="modal-body">
-                  Do you want to save these changes to your store profile?
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="submit" class="btn btn-success"><a href="{{ route('store.update', $response->_id) }}" class="text-white">Save changes</a></button>
->>>>>>> 44103833ae28ec9ebce2e92dc6e2cb57b0503cbb
-                </div>
-=======
-                
->>>>>>> fa639b5b7784e8c2e255a2ea8917314d33571271
+        
               </div>
             </div>
           </div>

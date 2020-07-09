@@ -49,10 +49,7 @@ class StoreController extends Controller
                 return view('errors.500');
             }
 
-            // get response to catch 4xx errors
-            //$response = json_decode($e->getResponse()->getBody());
-            //Session::flash('alert-class', 'alert-danger');
-            //Session::flash('message', $response->errors->description);
+
             return redirect()->route('store.index', ['response' => []]);
 
         } catch (\Exception $e) {
@@ -192,7 +189,7 @@ class StoreController extends Controller
             // get response to catch 4xx errors
             $response = json_decode($e->getResponse()->getBody());
             Session::flash('alert-class', 'alert-danger');
-            // dd($response);
+            
             Session::flash('message', $response->message);
             return redirect()->route('store.index', ['response' => []]);
 
@@ -243,7 +240,7 @@ class StoreController extends Controller
             // get response to catch 4xx errors
             $response = json_decode($e->getResponse()->getBody());
             Session::flash('alert-class', 'alert-danger');
-            // dd($response);
+            
             Session::flash('message', $response->message);
             return redirect()->route('store.index', ['response' => []]);
 
@@ -296,7 +293,7 @@ class StoreController extends Controller
             if ($status == 201) {
 
                 return redirect()->route('store.index', ['response' => []]);
-                //return redirect()->view('backend.stores.index')->with('message', "Update Successful");
+                
             }
             if ($statusCode == 500) {
                 return view('errors.500');

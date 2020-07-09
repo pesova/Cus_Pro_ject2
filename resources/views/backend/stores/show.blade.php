@@ -31,7 +31,7 @@
                         <div class="text-center">
                             <img src="{{asset('backend/assets/images/users/avatar-7.jpg')}}" alt=""
                                 class="avatar-lg rounded-circle" />
-                                {{-- {{ print_r($response) }} --}}
+                                
                             <h6 class="text-muted font-weight-normal mt-2 mb-0">{{ $response->store_name }}</h6>
                         </div>
                         <div class="mt-5 pt-2 border-top">

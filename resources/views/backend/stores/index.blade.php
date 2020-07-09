@@ -14,7 +14,7 @@
                     <h4 class="mb-1 mt-0">All Stores</h4>
                     <button class="add-customer-button btn btn-primary" data-toggle="modal">
                         <a href="{{ route('store.create') }}" class="text-white">
-                            Add New <i class="fa fa-plus add-new-icon"></i>
+                            Add New Store <i class="fa fa-plus add-new-icon"></i>
                         </a>
                     </button>
                 </div>
@@ -97,8 +97,9 @@
                                             <div class="dropdown-menu dropdown-menu-right">
                                                 <a class="dropdown-item" href="{{ route('store.show', $store->_id) }}">View
                                                     Store</a>
-                                                <a class="dropdown-item" href="{{ route('store.edit', $store->_id) }}">Edit
-                                                    store</a>
+                                                <a class="dropdown-item" href="{{ route('store.edit', $store->_id) }}">Edit Store</a>
+
+
                                                 <a class="dropdown-item" href="javascript:void(0)" onclick="$(this).parent().find('form').submit()">Delete store</a>
                                                 <form action="{{ route('store.destroy', $store->_id) }}" method="POST" id="form">
                                                     @method('DELETE')
@@ -110,13 +111,8 @@
                                     </tr>
                                     @endforeach
 
-{{--
-                                    <td>SHP12</td>
-                                    <td>MY CUs Bus</td>
-                                    <td>Plot 4 km 34</td>
 
-                                </tr>
-                                --}}
+
                                 </tbody>
                             </table>
                         </div>
