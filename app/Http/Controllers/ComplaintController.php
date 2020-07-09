@@ -130,8 +130,29 @@ class ComplaintController extends Controller
      */
     public function show($id)
     {
-        //
-    }
+        $host = env('API_URL', 'https://dev.api.customerpay.me/');
+        $user_id = Cookie::get('user_id');
+        $url = $host."complaint/".$user_id."/".$id;
+        try {
+            $client = new Client();
+            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+            $response = $client->request('GET', $url, $headers);
+            $statusCode = $response->getStatusCode();
+            if ($statusCode == 200) {
+                $body = $response->getBody()->getContents();
+                $complaints = json_decode($body);
+                return view('backend.complaints.show')->with('response', $complaints);
+            }
+            if ($statusCode == 500) {
+                return view('errors.500');
+            }
+        } catch (\Exception $e) {
+            return view('errors.500');
+            
+        }
+            // return view('backend.complaints.index');
+        }
+        
 
     /**
      * Show the form for editing the specified resource.
