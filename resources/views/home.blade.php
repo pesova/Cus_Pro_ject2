@@ -242,7 +242,7 @@
                     </p>
 
                     <div class="button-area mt-50">
-                        <a class="btn feature__action__btn boxed-btn" href="#">Read More</a>
+                        <a class="btn feature__action__btn boxed-btn" href="{{ route('about') }}">Read More</a>
                     </div>
                 </div>
             </div>
