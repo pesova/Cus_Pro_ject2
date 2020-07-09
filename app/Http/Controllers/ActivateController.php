@@ -26,7 +26,7 @@ class ActivateController extends Controller
     public function activate()
     {
         Cookie::queue('is_active', true);
-        return 'done';
+        return 'done'; // this method will be called via ajax. returning "done" is just a placeholder text for the callback function of the calling script
     }
 
 }
