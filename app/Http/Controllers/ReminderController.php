@@ -5,52 +5,69 @@ namespace App\Http\Controllers;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Http\Request;
 
 class ReminderController extends Controller
 {
-    public function sendViaEmail(Request $request, $customer_id) {
-    	$data = $request->validate([
-            'subject' => 'required',
-            'text' => 'required'
-            'store_id' =>  'required'
-        ]);
-
-		$client = new Client();
-		$url = env('API_URL', 'https://api.customerpay.me/') . ' /reminder/email/' . $customer_id;
-        $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
-
+    public function sendViaEmail(Request $request) {
         try {
-        	$send = $client->post($url, $headers, $data);
-        	$statusCode = $status->getStatusCode();
+            $request->validate([
+                'subject' => 'required',
+                'body' => 'required',
+                'sender' => 'required',
+                'recipient' =>  'required',
+                'cc' => '',
+                'bcc' => ''
+            ]);
+
+            $data = [
+                'subject' => $request->input('subject'),
+                'body' => $request->input('body'),
+                'sender' => $request->input('sender'),
+                'recipient' => $request->input('recipient'),
+                'cc' => $request->input('cc'),
+                'bcc' => $request->input('bcc')
+            ];
+
+			$client = new Client();
+    		$url = 'https://email.microapi.dev/v1/sendmail/';
+            $payload = [
+                'headers' => ['x-access-token' => Cookie::get('api_token')],
+                'form_params' => $data
+            ];
+
+            $send = $client->post($url, $payload);
+            $statusCode = $send->getStatusCode();
 
         	if($statusCode == 200 || $statusCode == 201)
         	{
         	    $resp = [
         	    	'message' => 'Email sent successfully'
         	    ];
-        	    return $response->json($resp);
+        	    return response()->json($resp);
         	}
         	else if($statusCode == 401)
         	{
         	    $resp = [
         	    	'message' => 'You are not authorized to use this feature, Login to continue'
         	    ];
-        	    return $response->json($resp);
+        	    return response()->json($resp);
         	}
         	else if($statusCode == 500)
         	{
         	    $resp = [
         	    	'message' => 'A server error encountered, please try again later'
         	    ];
-        	    return $response->json($resp);
+        	    return response()->json($resp);
         	}
         }
-        catch($e) {
+        catch(RequestException $e) {
         	$resp = [
-    	    	'message' => 'A technical error occured, please try again later'
+    	    	'message' => 'A technical error occured, please try again later',
+    	    	'error' => $e
     	    ];
-    	    return $response->json($resp);
+    	    return response()->json($resp);
         }
     }
 }
