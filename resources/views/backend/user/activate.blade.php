@@ -149,7 +149,7 @@
                     api_token: '{{$apiToken}}',
                     // token: $("#code").val(),
                     verify: $("#code").val(),
-                    phone_number: '+{{$phoneNumber}}'
+                    phone_number: '{{$phoneNumber}}'
                 };
                 $.ajax({
                     url: "{{env('API_URL') }}/otp/verify",
@@ -187,7 +187,7 @@
                     verifying.show();
                     const data = {
                         api_token: '{{$apiToken}}',
-                        phone_number: '+{{$phoneNumber}}',
+                        phone_number: '{{$phoneNumber}}',
                     };
                     $.ajax({
                         url: "{{env('API_URL') }}/otp/send",
