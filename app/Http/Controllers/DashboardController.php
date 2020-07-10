@@ -17,7 +17,7 @@ class DashboardController extends Controller
     public function index()
     {
         // API updated
-        // $transaction_url = env('API_URL', 'https://dev.api.customerpay.me') . '/transaction';
+        $transaction_url = env('API_URL', 'https://dev.api.customerpay.me') . '/transaction';
         $customer_url = env('API_URL', 'https://dev.api.customerpay.me') . '/customer';
         $debt_url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt';
         $store_url = env('API_URL', 'https://dev.api.customerpay.me') . '/store';
@@ -33,33 +33,35 @@ class DashboardController extends Controller
             ];
 
             // Transaction endpoint is having issues
-            // $transaction_response = $client->request('GET', $transaction_url, $payload);
+            $transaction_response = $client->request('GET', $transaction_url, $payload);
             $customer_response = $client->request('GET', $customer_url, $payload);
             $debt_response = $client->request('GET', $debt_url, $payload);
             $store_response = $client->request('GET', $store_url, $payload);
             $assistant_response = $client->request('GET', $assistant_url, $payload);
 
             // Transaction endpoint is having issues
-            // $status_code_transaction_response = $transaction_response->getStatusCode();
+            $status_code_transaction_response = $transaction_response->getStatusCode();
             $status_code_customer_response = $customer_response->getStatusCode();
             $status_code_debt_response = $debt_response->getStatusCode();
             $status_code_store_response = $store_response->getStatusCode();
             $status_code_assistant_response = $assistant_response->getStatusCode();
 
-            if ( $status_code_customer_response == 200 && $status_code_debt_response == 200 && $status_code_store_response == 200 && $status_code_assistant_response == 200 ){ // && $status_code_transaction_response == 200
+            if ( $status_code_transaction_response == 200 && $status_code_customer_response == 200 && $status_code_debt_response == 200 && $status_code_store_response == 200 && $status_code_assistant_response == 200 ){
 
+                $transaction_response_body = json_decode( $transaction_response->getBody() );
                 $customer_response_body = json_decode( $customer_response->getBody() );
                 $debt_response_body = json_decode( $debt_response->getBody() );
                 $store_response_body = json_decode( $store_response->getBody() );
                 $assistant_response_body = json_decode( $assistant_response->getBody() );
 
-                return view('backend.dashboard.index')->with( 'response', [ $customer_response_body, $debt_response_body, $store_response_body, $assistant_response_body ] );
-            } else {
-
-                return view('errors.500');
+                return view('backend.dashboard.index')->with( 'response', [ $transaction_response_body, $customer_response_body, $debt_response_body, $store_response_body, $assistant_response_body ] );
             }
 
+        } catch (RequestException $e) {
+
+            return view('backend.debtor.index')->with( 'response', null );
         } catch (\Exception $e) {
+
             return view('errors.500');
         }
     }

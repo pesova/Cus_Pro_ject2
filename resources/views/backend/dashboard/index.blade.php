@@ -8,6 +8,7 @@
         <div class="row page-title align-items-center">
             <div class="col-sm-4 col-xl-6">
                 <h4 class="mb-1 mt-0">Dashboard</h4>
+                {{-- {{ print_r($response) }} --}}
             </div>
             {{-- Not needed all require extra code --}}
             {{-- <div class="col-sm-8 col-xl-6">
@@ -48,7 +49,11 @@
                             <div class="media-body">
                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Customers</span>
                                 <h2 class="mb-0">
-                                    {{ count($response[0]->data) }}
+                                    @if ($response != null)
+                                        {{ count($response[1]->data) }}
+                                    @else
+                                        NaN
+                                    @endif
                                 </h2>
                             </div>
                         </div>
@@ -63,7 +68,11 @@
                             <div class="media-body">
                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Stores</span>
                                 <h2 class="mb-0">
-                                    {{ $response[2]->result }}
+                                    @if ($response != null)
+                                        {{ count($response[3]->data->stores) }}
+                                    @else
+                                        NaN
+                                    @endif
                                 </h2>
                             </div>
                         </div>
@@ -78,7 +87,11 @@
                             <div class="media-body">
                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Assistants</span>
                                 <h2 class="mb-0">
-                                    {{ count($response[3]->data->assistants) }}
+                                    @if ($response != null)
+                                        {{ count($response[4]->data->assistants) }}
+                                    @else
+                                        NaN
+                                    @endif
                                 </h2>
                             </div>
                         </div>
@@ -93,7 +106,11 @@
                             <div class="media-body">
                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Debtors</span>
                                 <h2 class="mb-0">
-                                    {{ count($response[1]->data->debts) }}
+                                    @if ($response != null)
+                                        {{ count($response[2]->data->debts) }}
+                                    @else
+                                        NaN
+                                    @endif
                                 </h2>
                             </div>
                         </div>
@@ -115,26 +132,52 @@
                                     <tr>
                                         <th scope="col">#</th>
                                         <th scope="col">Type</th>
-                                        <th scope="col">Customer</th>
+                                        <th scope="col">Name</th>
                                         <th scope="col">Amount</th>
                                         <th scope="col"></th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
-                                    {{-- Transaction endpoint is not yet working well ooo. To whom it may concern. I've told sudu 🤦🏾‍♂️ --}}
-                                    <tr>
-                                        <td colspan="5" class="text-center">No transaction created yet</td>
-                                    </tr>
-                                    {{-- <tr>
-                                        <td>#0</td>
-                                        <td>Debt</td>
-                                        <td>Otto B</td>
-                                        <td>$0</td>
-                                        <td>
-                                            <a href="#"><span class="badge badge-soft-warning py-1">View</span></a>
-                                        </td>
-                                    </tr> --}}
+                                    @if ($response != null)
+                                        @if (count($response[0]->data->transactions) > 0)
+                                            @if (count($response[0]->data->transactions) > 7)
+                                                @for ($i = 0; $i < 7; $i++)
+                                                    <tr>
+                                                        <td>#{{$i}} </td>
+                                                        <td>{{ $response[0]->data->transactions[$i]->type }}</td>
+                                                        <td>{{ $response[0]->data->transactions[$i]->transaction_name }}</td>
+                                                        <td>{{ $response[0]->data->transactions[$i]->amount }}</td>
+                                                        <td>
+                                                            <a href=""><span class="badge badge-soft-warning py-1">View</span></a>
+                                                        </td>
+                                                    </tr>
+                                                @endfor
+                                            @else
+                                                {{ $i = 0 }}
+                                                @foreach ($response[0]->data->transactions as $transaction)
+                                                    <tr>
+                                                        <td>#{{$i}} </td>
+                                                        <td>{{ $response[0]->data->transactions[$i]->type }}</td>
+                                                        <td>{{ $response[0]->data->transactions[$i]->transaction_name }}</td>
+                                                        <td>{{ $response[0]->data->transactions[$i]->amount }}</td>
+                                                        <td>
+                                                            <a href=""><span class="badge badge-soft-warning py-1">View</span></a>
+                                                        </td>
+                                                    </tr>
+                                                    {{ $i++ }}
+                                                @endforeach
+                                            @endif
+                                        @else
+                                            <tr>
+                                                <td colspan="5" class="text-center">No transaction created yet</td>
+                                            </tr>
+                                        @endif
+                                    @else
+                                        <tr>
+                                            <td colspan="5" class="text-center">Error while fetching data. <a href="">Refresh Page</a></td>
+                                        </tr>
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
@@ -146,40 +189,59 @@
             </div>
             <!-- end col-->
 
-            <div class="col-xl-5">
+            {{-- <div class="col-xl-5">
                 <div class="card">
                     <div class="card-body pt-2">
                         <h5 class="mb-4 header-title">Latest Debts</h5>
 
-                        @if ( count($response[1]->data->debts) == 0 )
-                            <h5>No recent debtors</h5>
+                        @if ($response != null)
+                            @if (count($response[2]->data->debts) > 0)
+                                @if (count($response[2]->data->debts) > 7)
+                                    @for ($i = 0; $i < 7; $i++)
+                                        <div class="media mt-1 border-top pt-3">
+                                            <div class="media-body">
+                                                <h6 class="mt-1 mb-0 font-size-15">{{ $response[2]->data->debts[$i]->type }}</h6>
+                                                <h6 class="text-muted font-weight-normal mt-1 mb-3">July 10, 2020</h6>
+                                            </div>
+                                            <div class="dropdown align-self-center float-right">
+                                                <a href="#" class="dropdown-toggle arrow-none text-muted" data-toggle="dropdown" aria-expanded="false">
+                                                    <i class="uil uil-ellipsis-v"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a href="javascript:void(0);" class="dropdown-item"><i class="uil uil-edit-alt mr-2"></i>View</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endfor
+                                @else
+                                    {{ $i = 0 }}
+                                    @foreach ($response[2]->data->debts as $transaction)
+                                        <div class="media mt-1 border-top pt-3">
+                                            <div class="media-body">
+                                                <h6 class="mt-1 mb-0 font-size-15">Some Title</h6>
+                                                <h6 class="text-muted font-weight-normal mt-1 mb-3">July 10, 2020</h6>
+                                            </div>
+                                            <div class="dropdown align-self-center float-right">
+                                                <a href="#" class="dropdown-toggle arrow-none text-muted" data-toggle="dropdown" aria-expanded="false">
+                                                    <i class="uil uil-ellipsis-v"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a href="javascript:void(0);" class="dropdown-item"><i class="uil uil-edit-alt mr-2"></i>View</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{ $i++ }}
+                                    @endforeach
+                                @endif
+                            @else
+                                <h5>No recent debtors</h5>
+                            @endif
                         @else
-                            {{-- This is still dummy data because I don't know what to expect from the debt endpoint until @doug and @kofimokome finish the endpoint --}}
-                            <div class="media mt-1 border-top pt-3">
-                                <div class="media-body">
-                                    <h6 class="mt-1 mb-0 font-size-15">Some Title</h6>
-                                    <h6 class="text-muted font-weight-normal mt-1 mb-3">July 10, 2020</h6>
-                                </div>
-                                <div class="dropdown align-self-center float-right">
-                                    <a href="#" class="dropdown-toggle arrow-none text-muted" data-toggle="dropdown" aria-expanded="false">
-                                        <i class="uil uil-ellipsis-v"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <!-- item-->
-                                        <a href="javascript:void(0);" class="dropdown-item"><i class="uil uil-edit-alt mr-2"></i>View</a>
-                                        <!-- item-->
-                                        {{-- <a href="javascript:void(0);" class="dropdown-item"><i class="uil uil-exit mr-2"></i>Send Reminder</a>
-                                        <div class="dropdown-divider"></div>
-                                        <!-- item-->
-                                        <a href="javascript:void(0);" class="dropdown-item text-danger"><i class="uil uil-trash mr-2"></i>Delete</a> --}}
-                                    </div>
-                                </div>
-                            </div>
+                            <h5>Error while fetching data. <a href="">Refresh Page</a></td>
                         @endif
-
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
         <!-- end row -->
     </div>
