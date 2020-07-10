@@ -79,7 +79,6 @@ class CustomerController extends Controller
 
             return view('errors.500');
         } catch ( \Exception $e ) {
-            return dd(get_class_methods($e));
             $statusCode = $e->getResponse()->getStatusCode();
             $data = json_decode($e->getResponse()->getBody()->getContents());
             if ( $statusCode == 401 ) { //401 is error code for invalid token
