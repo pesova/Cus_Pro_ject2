@@ -45,9 +45,8 @@
                                                     <div class="input-group-prepend">
 
                                                     </div>
-                                                    <input type="tel" id="phone" name="phone_number"
+                                                    <input type="text" id="phone" name="phone_number"
                                                         class="form-control" required>
-
                                                 </div>
                                             </div>
 
