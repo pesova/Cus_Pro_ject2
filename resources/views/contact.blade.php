@@ -43,8 +43,8 @@
             <div class="col-lg-6">
                 <form action="">
                     <p class="form-head">Let’s Keep in Touch</p>
-                    <input type="text" placeholder="Full Name" name="Full Name" class="name-input">
-                    <input type="email" name="Email" id="Email" placeholder="Email">
+                    <input type="text" placeholder="Full Name" name="Full Name" class="name-input" required>
+                    <input type="email" name="Email" id="Email" placeholder="Email" required>
                     <div class="custom-select">
                         <select>
                             <option value="Subject" selected>Subject</option>
@@ -54,9 +54,8 @@
                             <option value="Others">Others</option>
                         </select>
                     </div>
-                    <textarea name="Message" id="Message" placeholder="Your Message Here"></textarea>
-                    <div class="button"><a href=""><img src="frontend/assets/img/icon-img/send.svg" alt="icon"
-                                class="send">Send</a></div>
+                    <textarea name="Message" id="Message" placeholder="Your Message Here" required></textarea>
+                    <div class="button"><a href=""><img src="frontend/assets/img/icon-img/send.svg" alt="icon"class="send">Send</a></div>
                 </form>
             </div>
             <div class="col-lg-6">
@@ -88,6 +87,16 @@
 
 
 @section("javascript")
+<script>
+  document.querySelector('form .button').addEventListener('click', (e) => {
+    let name = document.querySelector('.name-input')
+    let email = document.querySelector('#Email')
+    let message = document.querySelector('#Message')
 
-
+    if (name.value.length < 1 || email.value.length < 1 || message.value.length < 1) {
+      e.preventDefault()
+      alert('Please fill in required fields correctly')
+    }
+  })
+</script>
 @stop
