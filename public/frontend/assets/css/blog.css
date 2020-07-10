@@ -139,7 +139,9 @@ aside .content-footer>img {
 
 .recent-post a {text-decoration: none;color:#34495E;transition: 0.5s;}
 .post-img, .recent-post a:hover{color:#F39C12;}
-.post-img img:hover{border: 5px solid #F39C12;}
+.post-img img:hover{
+  width: 33%;
+}
 
 /*===============ARCHIVES////////////////////////////*/
 

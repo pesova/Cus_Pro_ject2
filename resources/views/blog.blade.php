@@ -4,11 +4,6 @@
 @stop
 
 @section('content')
-
-<div class="header">
-    <h2>Welcome to MyCustomer Blog</h2>
-</div>
-
 <section id="blog-section" >
      <div class="container">
        <div class="row">
@@ -16,7 +11,7 @@
            <div class="row">
               <div class="col-lg-6 col-md-6">
              <aside>
-                <img src="/frontend/assets/img/bg-img/33.png" class="img-responsive">
+                <img src="/frontend/assets/img/blog-img/blog8.jpg" class="img-responsive">
                 <div class="content-title">
 				<div class="text-center">
 				<h3><a href="#">The business solution for overdue invoice reminders</a></h3>
@@ -48,7 +43,7 @@
                
                <div class="col-lg-6 col-md-6">
              <aside>
-                <img src="/frontend/assets/img/bg-img/33.png" class="img-responsive">
+                <img src="/frontend/assets/img/blog-img/blog2.jpg" class="img-responsive">
                 <div class="content-title">
 				<div class="text-center">
 				<h3><a href="#">The business solution for overdue invoice reminders</a></h3>
@@ -80,7 +75,7 @@
                
                <div class="col-lg-6 col-md-6">
              <aside>
-                <img src="/frontend/assets/img/bg-img/7.png" class="img-responsive">
+                <img src="/frontend/assets/img/blog-img/blog3.jpg" class="img-responsive">
                 <div class="content-title">
 				<div class="text-center">
 				<h3><a href="#">The business solution for overdue invoice reminders</a></h3>
@@ -112,7 +107,7 @@
                
                <div class="col-lg-6 col-md-6">
              <aside>
-                <img src="/frontend/assets/img/bg-img/33.png" class="img-responsive">
+                <img src="/frontend/assets/img/blog-img/blog4.jpg" class="img-responsive">
                 <div class="content-title">
 				<div class="text-center">
 				<h3><a href="#">The business solution for overdue invoice reminders</a></h3>
@@ -144,7 +139,7 @@
                
                <div class="col-lg-6 col-md-6">
              <aside>
-                <img src="/frontend/assets/img/bg-img/7.png" class="img-responsive">
+                <img src="/frontend/assets/img/blog-img/blog5.jpg" class="img-responsive">
                 <div class="content-title">
 				<div class="text-center">
 				<h3><a href="#">The business solution for overdue invoice reminders</a></h3>
@@ -176,7 +171,7 @@
                
                <div class="col-lg-6 col-md-6">
              <aside>
-                <img src="/frontend/assets/img/bg-img/33.png" class="img-responsive">
+                <img src="/frontend/assets/img/blog-img/blog6.jpg" class="img-responsive">
                 <div class="content-title">
 				<div class="text-center">
 				<h3><a href="#">The business solution for overdue invoice reminders</a></h3>
@@ -208,7 +203,7 @@
                
                <div class="col-lg-6 col-md-6">
              <aside>
-                <img src="/frontend/assets/img/bg-img/7.png" class="img-responsive">
+                <img src="/frontend/assets/img/blog-img/blog7.jpg" class="img-responsive">
                 <div class="content-title">
 				<div class="text-center">
 				<h3><a href="#">The business solution for overdue invoice reminders</a></h3>
@@ -240,7 +235,7 @@
                
                <div class="col-lg-6 col-md-6">
              <aside>
-                <img src="/frontend/assets/img/bg-img/7.png" class="img-responsive">
+                <img src="/frontend/assets/img/blog-img/blog8.jpg" class="img-responsive">
                 <div class="content-title">
 				<div class="text-center">
 				<h3><a href="#">The business solution for overdue invoice reminders</a></h3>
@@ -297,7 +292,7 @@
                     <ul>
                      <li class="recent-post">
                         <div class="post-img">
-                         <img src="/frontend/assets/img/bg-img/illustration-23.png" class="img-responsive">
+                         <img src="/frontend/assets/img/blog-img/blog1.jpg" class="img-responsive">
                          </div>
                          <a href="#"><h5>Getting Started</h5></a>
                          <p class="rp"><small><i class="fa fa-calendar" data-original-title="" title=""></i> 01 January 2016</small></p>
@@ -306,7 +301,7 @@
                         
                         <li class="recent-post">
                         <div class="post-img">
-                         <img src="/frontend/assets/img/bg-img/subscribe-2.png" class="img-responsive">
+                         <img src="/frontend/assets/img/blog-img/blog7.jpg" class="img-responsive">
                          </div>
                          <a href="#"><h5>More about our services</h5></a>
                          <p class="rp"><small><i class="fa fa-calendar" data-original-title="" title=""></i> 01 January 2017</small></p>
@@ -315,7 +310,7 @@
                         
                         <li class="recent-post">
                         <div class="post-img">
-                         <img src="/frontend/assets/img/bg-img/illustration-23.png" class="img-responsive">
+                         <img src="/frontend/assets/img/blog-img/blog5.jpg" class="img-responsive">
                          </div>
                          <a href="#"><h5>Using MyCustomer efectively</h5></a>
                          <p class="rp"><small><i class="fa fa-calendar" data-original-title="" title=""></i> 01 January 2018</small></p>
@@ -324,7 +319,7 @@
                         
                         <li class="recent-post">
                         <div class="post-img">
-                         <img src="/frontend/assets/img/bg-img/subscribe-2.png" class="img-responsive">
+                         <img src="/frontend/assets/img/blog-img/blog3.jpg" class="img-responsive">
                          </div>
                          <a href="#"><h5>Journey thus far</h5></a>
                          <p class="rp"><small><i class="fa fa-calendar" data-original-title="" title=""></i> 01 January 2019</small></p>
