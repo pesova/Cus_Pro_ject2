@@ -392,5 +392,5 @@ class AssistantController extends Controller
  	// 			Session::flash('message', "A technical error occured, we are working to fix this.");
     //             return redirect()->route('assistants.index');
     //     }
-    // }
+     }
 }
