@@ -59,7 +59,7 @@
                             <label class="form-control-label">Transaction Type</label>
                             <div class="input-group input-group-merge">
                                 <div class="input-group-prepend">
-
+                                    
                                 </div>
                                 <select id="phone" class="form-control">
                                     <option></option>
@@ -71,7 +71,7 @@
 
                             </div>
                         </div>
-
+                        
                             <button type="button" class="btn btn-primary">Search</button>
                             </div>
 
@@ -83,7 +83,7 @@
         <div class="card-header">
             <div class="h5">All Transactions</div>
         </div>
-
+        
         <div class="card-body p-1 card">
             <div class="table-responsive table-data">
                 <table id="basic-datatable" class="table dt-responsive nowrap">
@@ -101,9 +101,8 @@
 
                     <tbody>
                    @isset($response)
-                   {{-- {{ dd($response->data->details) }} --}}
-                        @foreach ($response->data->details as $data)
-                        @foreach ($data->transactions  as $transactions)
+                     @foreach ($response as $index => $details)
+                        @foreach ($details->transactions as $transactions)
                             <tr>
                             <td>{{ $index + 1 }}</td>
                              <td>{{$transactions->type }}</td>
@@ -126,7 +125,8 @@
                             </td>
                         </tr>
                         @endforeach
-                        @endforeach
+                        
+                      @endforeach 
                       @endisset
                     </tbody>
                 </table>
@@ -195,22 +195,13 @@
                                 <option value="Paid">Paid</option>
                                 <option value="Debt">Debt</option>
                             </select>
-
+                    
                         </div>
                     </div>
                     <div class="form-group row mb-3">
                         <label for="store_name" class="col-3 col-form-label">Store Name</label>
                         <div class="col-9">
-                            {{-- <input type="text" class="form-control" id="store_name" name="store_name" placeholder="Store Name"> --}}
-                            {{-- {{ dd($stores) }} --}}
-                            <select class="form-control" name="store_name" id="store_name" required>
-                                <option value="" selected disabled>None selected</option>
-                                @isset($stores)
-                                    @foreach ($stores as $store)
-                                        <option value="{{ $store->store_name }}">{{ $store->store_name }}</option>
-                                    @endforeach
-                                @endisset
-                              </select>
+                            <input type="text" class="form-control" id="store_name" name="store_name" placeholder="Store Name">
                         </div>
                     </div>
                     <div class="form-group row mb-3">
@@ -272,7 +263,6 @@
     window.intlTelInput(input, {
         // any initialisation options go here
     });
-
 
 </script>
 @stop
