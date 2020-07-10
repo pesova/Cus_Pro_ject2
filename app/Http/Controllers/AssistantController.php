@@ -175,7 +175,7 @@ class AssistantController extends Controller
                 if ($statusCode == 201  && $data->success) {
                     $request->session()->flash('alert-class', 'alert-success');
                     Session::flash('message', $data->message);
-                    //return redirect()->route('assistants.create');
+                    return redirect()->route('assistants.index');
                 } else {
                     $request->session()->flash('alert-class', 'alert-waring');
                     Session::flash('message', $data->message);
