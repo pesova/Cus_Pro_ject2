@@ -174,10 +174,10 @@
                                             </button>
                                             <div class="dropdown-menu dropdown-menu-right">
                                             @isset($response[$i]->_id)
-                                            <a class="dropdown-item" href="{{ route('assistants.show',['assistant'=>$response[$i]->_id]) }}">View Profile</a>
-                                                <a class="dropdown-item" href="{{route('assistants.show',['assistant'=>$response[$i]->_id])}}">Edit Assistant</a>
-                                                <a class="dropdown-item" href="javascript:void(0)" onclick="$(this).parent().find('form').submit()">Delete store</a>
-                                                <form action="{{ route('assistant.destroy', $response[$i]->_id) }}" method="POST" id="form">
+                                            <a class="dropdown-item" href="{{ route('assistants.show', $response[$i]->_id) }}">View Profile</a>
+                                                <a class="dropdown-item" href="{{route('assistants.edit', $response[$i]->_id) }}">Edit Assistant</a>
+                                                <a class="dropdown-item" href="javascript:void(0)" onclick="$(this).parent().find('form').submit()">Delete Assistant</a>
+                                                <form action="{{ route('assistants.destroy', $response[$i]->_id) }}" method="POST" id="form">
                                                     @method('DELETE')
                                                     @csrf                                                
                                                 </form>

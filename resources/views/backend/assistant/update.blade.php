@@ -38,8 +38,10 @@
                     <div class="card-body">
                         {{-- <h4 class="mb-3 header-title mt-0">Complaint Form</h4> --}}
 
-                            <form action=" {{ route('assistants.store') }}" method="POST" class="mt-4 mb-3 form-horizontal my-form">
-                            @csrf
+                                                                                             
+                            <form action=" {{ route('assistants.update, $response->_id') }}" method="POST" class="mt-4 mb-3 form-horizontal my-form">
+                           
+                        @csrf
                            
                             <div class="form-group row mb-3">
                                 <label for="name" class="col-2 col-sm-3 col-form-label my-label">Name:</label> <br> <br>
@@ -84,7 +86,7 @@
                             <br>
                             <div class="form-group mb-0 justify-content-end row">
                                 <div class="col-12 text-center">
-                                    <button type="submit" class="btn btn-primary my-button">Save</button>
+                                    <button type="submit" class="btn btn-primary my-button">Update Changes</button>
                                 </div>
                             </div>
                         </form>
