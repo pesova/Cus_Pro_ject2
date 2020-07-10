@@ -103,6 +103,19 @@
                 </div><!-- end col-->
             </div>
 
+            @if(Session::has('message'))
+            <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
+            @endif
+
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
             <div class="row">
                 <div class="col-12">
@@ -133,7 +146,7 @@
                                             <span>{{ $debtor->ts_ref_id }}</span>
                                         </td>
                                         <td>
-                                            <span class="badge badge-{{ ($debtor->status == 'unpaid') ? 'danger' : 'sucess' }}">{{ $debtor->status }}</span>
+                                            <span class="badge badge-{{ ($debtor->status == 'unpaid') ? 'danger' : 'success' }}">{{ $debtor->status }}</span>
                                         </td>
                                         <td>
                                             {{ $debtor->message }}
@@ -152,7 +165,13 @@
                                                 <div class="dropdown-menu dropdown-menu-right">
                                                     <a class="dropdown-item" href="{{ route('debtor.show',[$debtor->_id]) }}">View</a>
                                                     <a class="dropdown-item" href="{{ route('debtor.edit',[$debtor->_id]) }}">Edit</a>
-                                                    <a class="dropdown-item" href="{{ route('debtor.destroy',[$debtor->_id]) }}">Delete</a>
+                                                    <form action="{{ route('debtor.destroy',[$debtor->_id]) }}" method="post">
+                                                        <input type="hidden" name="store_name" value=""> {{-- to be added on api then fixes --}}
+                                                        <input type="hidden" name="customer_phone_number" value=" {{ $debtor->customer_phone_number }}">
+                                                        <input class="dropdown-item" type="submit" value="Delete" />
+                                                        @method('delete')
+                                                        @csrf
+                                                    </form>
                                                 </div>
                                             </div>
                                         </td>
