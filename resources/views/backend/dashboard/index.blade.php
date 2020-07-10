@@ -189,7 +189,7 @@
             </div>
             <!-- end col-->
 
-            {{-- <div class="col-xl-5">
+            <div class="col-xl-5">
                 <div class="card">
                     <div class="card-body pt-2">
                         <h5 class="mb-4 header-title">Latest Debts</h5>
@@ -200,8 +200,8 @@
                                     @for ($i = 0; $i < 7; $i++)
                                         <div class="media mt-1 border-top pt-3">
                                             <div class="media-body">
-                                                <h6 class="mt-1 mb-0 font-size-15">{{ $response[2]->data->debts[$i]->type }}</h6>
-                                                <h6 class="text-muted font-weight-normal mt-1 mb-3">July 10, 2020</h6>
+                                                <h6 class="mt-1 mb-0 font-size-15">{{ $response[2]->data->debts[$i]->pay_date }}</h6>
+                                                <h6 class="text-muted font-weight-normal mt-1 mb-3">{{ $response[2]->data->debts[$i]->pay_date }}</h6>
                                             </div>
                                             <div class="dropdown align-self-center float-right">
                                                 <a href="#" class="dropdown-toggle arrow-none text-muted" data-toggle="dropdown" aria-expanded="false">
@@ -219,7 +219,7 @@
                                         <div class="media mt-1 border-top pt-3">
                                             <div class="media-body">
                                                 <h6 class="mt-1 mb-0 font-size-15">Some Title</h6>
-                                                <h6 class="text-muted font-weight-normal mt-1 mb-3">July 10, 2020</h6>
+                                                <h6 class="text-muted font-weight-normal mt-1 mb-3">{{ $response[2]->data->debts[$i]->pay_date }}</h6>
                                             </div>
                                             <div class="dropdown align-self-center float-right">
                                                 <a href="#" class="dropdown-toggle arrow-none text-muted" data-toggle="dropdown" aria-expanded="false">
@@ -241,7 +241,7 @@
                         @endif
                     </div>
                 </div>
-            </div> --}}
+            </div>
         </div>
         <!-- end row -->
     </div>

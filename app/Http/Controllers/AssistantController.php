@@ -18,7 +18,7 @@ class AssistantController extends Controller
 
     public function __construct()
     {
-        $this->host = env('API_URL', 'https://dev.api.customerpay.me/');
+        $this->host = env('API_URL', 'https://dev.api.customerpay.me');
     }
     /**
      * Display a listing of the resource.
@@ -83,7 +83,7 @@ class AssistantController extends Controller
         // }else{
             return view('backend/assistant/create');
         //}
-        
+
     }
     /**
      * Store a newly created resource in storage.
@@ -142,7 +142,7 @@ class AssistantController extends Controller
 
         if ($request->isMethod('post')) {
             //return dd($request->all());
-            
+
             $request->validate([
                 'name' => "required|min:6",
                 'phone_number' => "required",
@@ -166,7 +166,7 @@ class AssistantController extends Controller
                 //return dd($payload);
                 $response = $client->request("POST", $url, $payload);
                 $statusCode = $response->getStatusCode();
-                
+
                 //return $statusCode;
                 $body = $response->getBody();
                 $data = json_decode($body);
@@ -257,10 +257,10 @@ class AssistantController extends Controller
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
             $response = $client->request("GET", $url, $headers);
             $data = json_decode($response->getBody());
-            
+
             if ( $response->getStatusCode() == 200 ) {
                 return view('backend.assistant.update')->with('response', $data->data->assistants);
-                
+
             } else {
                 return view('errors.500');
             }
@@ -288,7 +288,7 @@ class AssistantController extends Controller
     //         $body = $response->getBody();
     //         $StoreData = json_decode($body)->data->store;
     //         if ($statusCode == 200) {
-            
+
     //             return view('backend.assistant.edit')->with('response', $StoreData);
     //         }
     //     } catch (RequestException $e) {
@@ -302,7 +302,7 @@ class AssistantController extends Controller
     //         // get response to catch 4xx errors
     //         $response = json_decode($e->getResponse()->getBody());
     //         Session::flash('alert-class', 'alert-danger');
-            
+
     //         Session::flash('message', $response->message);
     //         return redirect()->route('assistants.index', ['response' => []]);
 
@@ -322,7 +322,7 @@ class AssistantController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $url = env('API_URL', 'https://api.customerpay.me/') . '/assistant/update/' . $id;
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/assistant/update/' . $id;
 
 
         try{
@@ -373,7 +373,7 @@ class AssistantController extends Controller
      */
     public function destroy($assistant_id)
     {
-    //    $url = env('API_URL', 'https://api.customerpay.me/') . '/assistant/delete/' . $user_id;
+    //    $url = env('API_URL', 'https://dev.api.customerpay.me') . '/assistant/delete/' . $user_id;
     //    $client = new Client();
     //    $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
     //    try {
@@ -402,7 +402,7 @@ class AssistantController extends Controller
     //    }
 
     //update
-       $url = env('API_URL', 'https://api.customerpay.me/') . '/assistant/delete/' . $assistant_id;
+       $url = env('API_URL', 'https://dev.api.customerpay.me') . '/assistant/delete/' . $assistant_id;
        $client = new Client();
        $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
        try {
