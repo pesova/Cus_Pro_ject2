@@ -64,7 +64,7 @@ Route::prefix('/admin')->group(function () {
     Route::get('/password', 'Auth\ForgotPasswordController@index')->name('password');
     Route::post('/password', 'Auth\ForgotPasswordController@authenticate')->name('password.reset');
 
-    Route::group(['middleware' => 'backend.auth'], function () {
+    Route::group([], function () {
 
         // activation
         Route::get('/activate', 'ActivateController@index')->name('activate.index');
@@ -75,6 +75,9 @@ Route::prefix('/admin')->group(function () {
         Route::get('/creditor', 'DashboardController@creditor')->name('creditor');
         Route::get('/analytics', 'DashboardController@analytics')->name('analytics');
         Route::get('/notification', 'DashboardController@notification')->name('notification');
+
+        // notifications
+        Route::get('/notification/read-all', 'NotificationsController@readAll')->name('read.all');
 
         //reminder
         Route::post('/reminder/email', 'ReminderController@sendViaEmail');
