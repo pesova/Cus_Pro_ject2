@@ -20,7 +20,6 @@ class ComplaintController extends Controller
         $host = env('API_URL', 'https://dev.api.customerpay.me/');
         $user_id = Cookie::get('user_id');
         $url = $host . "complaints/$user_id";
-        try {
             $client = new Client();
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
             $response = $client->request('GET', $url, $headers);
@@ -30,20 +29,10 @@ class ComplaintController extends Controller
                 $complaints = json_decode($body);
                 return view('backend.complaints.index')->with('responses', $complaints);
             }
-            if ($statusCode == 500) {
-                return view('errors.500');
-            }
-            if ($statusCode == 401) {
-                return view('backend.complaints.index')->with('message', "Unauthoized token");
-            }
-            if ($statusCode == 403) {
+            elseif ($statusCode == 403) {
                 return redirect()->route('login')->with('message', "Please Login Again");
             }
-        } catch (\Exception $e) {
-            return view('errors.500');
-
-        }
-        // return view('backend.complaints.index');
+                // return view('backend.complaints.index');
     }
 
     /**

@@ -26,25 +26,53 @@ class TransactionController extends Controller
     {
         
     // return view('backend.transaction.index');
-    $host = env('API_URL', 'https://dev.api.customerpay.me');
-      $url = $host."/transaction";
-       try {
-          $client = new Client();
-          $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
-          $response = $client->request('GET', $url, $headers);
-          $statusCode = $response->getStatusCode();
-          if ($statusCode == 200) {
-              $body = $response->getBody()->getContents();
-              $transactions = json_decode($body)->data->details;
-              return view('backend.transaction.index')->with('response', $transactions);
-          }
-          if ($statusCode == 500) {
-              return view('errors.500');
-          }
-      } catch (\Exception $e) {
-          return view('errors.500');
-          
-      }
+    $url = env('API_URL', 'https://dev.api.customerpay.me') . '/transaction';
+
+    try {
+
+        $client = new Client;
+        $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+
+        $response = $client->request("GET", $url, $payload);
+        $statusCode = $response->getStatusCode();
+        $body = $response->getBody();
+        $transaction = json_decode($body);
+        // dd($transaction->data->transaction);
+        if(count($transaction->data->transactions)==0)
+        {
+            return view('backend.transaction.index');
+        }
+
+        elseif ($statusCode == 200) {
+    
+            return view('backend.transaction.index')->with('response', $transaction);
+              
+           
+        }
+        
+        else if($statusCode->getStatusCode() == 401){
+           return redirect()->route('logout');
+       }
+       else if($statusCode->getStatusCode() == 500){
+        return view('errors.500');
+       } 
+
+    } catch (RequestException $e) {
+
+        // check for 5xx server error
+        if ($e->getResponse()->getStatusCode() >= 500) {
+            return view('errors.500');
+        }
+        else {
+            return redirect()->route('logout');
+       }
+
+    } catch (\Exception $e) {
+
+        //log error;
+        
+        return view('errors.500');
+    }
     }
 
     /**
