@@ -62,7 +62,7 @@ Route::prefix('/admin')->group(function () {
     Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
 
     Route::get('/password', 'Auth\ForgotPasswordController@index')->name('password');
-    Route::post('/password', 'Auth\ForgotPasswordController@update')->name('password.reset');
+    Route::post('/password', 'Auth\ForgotPasswordController@authenticate')->name('password.reset');
 
     Route::group(['middleware' => 'backend.auth'], function () {
 
