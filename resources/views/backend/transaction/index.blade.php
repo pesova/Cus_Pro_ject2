@@ -2,7 +2,7 @@
 @section("custom_css")
     <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
-    <link rel="stylesheet" href="backend/assets/css/all_users.css">
+    <link rel="stylesheet" href="backend/assets/css/store_list.css">
 @stop
 @section('content')
 <div class="content">
@@ -12,7 +12,7 @@
                 <div class="h4"><i data-feather="file-text" class="icon-dual"></i> Transaction Center</div>
                 @if(Session::has('message') || $errors->any())
                     <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
-                    @endif
+                @endif
                 <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#CustomerModal">
                     New &nbsp;<i class="fa fa-plus my-float"></i>
                 </a>
@@ -93,9 +93,9 @@
                             <th>Ref Id</th>
                             <th>Ref Transaction Type</th>
                             <th>Customer Ref Code</th>
-                            <th>Amount</th>
+                            <th>Total Amount</th>
                             {{-- <th>Expected Pay Date</th> --}}
-                            <th> more</th>
+                            <th> Actions</th>
                         </tr>
                     </thead>
 
@@ -107,12 +107,20 @@
                              <td>{{$transactions->type }}</td>
                             <td>{{$transactions->customer_ref_id }}</td>
                             <td>{{$transactions->total_amount}}</td>
-                           
-                            {{-- <td>{{ date('d M Y', strtotime($transactions->created_date)) }}</td> --}}
-                            <td><a href="{{ route('transaction.show', $transactions->_id) }}" class="btn btn-primary btn-sm">view</i></a>
-                            <a href="{{ route('transaction.edit', $transactions->_id) }}" class="btn btn-success btn-sm">edit</i></a>
-                            <a href="{{ route('transaction.destroy', $transactions->_id) }}" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#CustomerModal1">delete</i></a>
-                             
+                            <td>
+                                <div class="btn-group mt-2 mr-1">
+                                    <button type="button" class="btn btn-info dropdown-toggle"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Actions<i class="icon"><span data-feather="chevron-down"></span></i>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a class="dropdown-item" href="{{ route('transaction.show', $transactions->_id) }}">View
+                                            Transaction</a>
+                                        <a class="dropdown-item" href="{{ route('transaction.edit', $transactions->_id) }}">Edit
+                                            Transaction</a>
+                                        <a class="dropdown-item" href="{{ route('transaction.destroy', $transactions->_id) }}">Delete Transaction</a>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                         @endforeach
@@ -142,52 +150,57 @@
                 <form class="form-horizontal"  id="addTransaction" method="POST" action="{{ route('transaction.store') }}">
                     @csrf
                     <div class="form-group row mb-3">
-                        <label for="inputPassword5" class="col-3 col-form-label">Amount</label>
+                        <label for="amount" class="col-3 col-form-label">Amount</label>
                         <div class="col-9">
-                            <input type="number" class="form-control" id="inputPassword5" name="amount"
+                            <input type="number" class="form-control" id="amount" name="amount"
                                 placeholder="Amount">
                         </div>
                     </div>
                     <div class="form-group row mb-3">
-                        <label for="inputphone" class="col-3 col-form-label">Interest</label>
+                        <label for="interest" class="col-3 col-form-label">Interest</label>
                         <div class="col-9">
-                            <input type="number" class="form-control" id="inputphone" name="interest" placeholder="Interest" >
+                            <input type="number" class="form-control" id="interest" name="interest" placeholder="Interest" >
                         </div>
                     </div>
                     <div class="form-group row mb-3">
-                        <label for="inputPassword3" class="col-3 col-form-label">Total amount</label>
+                        <label for="total_amount" class="col-3 col-form-label">Total amount</label>
                         <div class="col-9">
-                            <input type="number" class="form-control" id="inputPassword3" name="total_amount" placeholder="Total amount">
+                            <input type="number" class="form-control" id="total_amount" name="total_amount" placeholder="Total amount">
                         </div>
                     </div>
                     <div class="form-group row mb-3">
-                        <label for="inputPassword3" class="col-3 col-form-label">Description</label>
+                        <label for="description" class="col-3 col-form-label">Description</label>
                         <div class="col-9">
-                            <input type="text" class="form-control" id="inputPassword3" name="description" placeholder="Description">
+                            <input type="text" class="form-control" id="description" name="description" placeholder="Description">
                         </div>
                     </div>
                     <div class="form-group row mb-3">
-                        <label for="inputPassword3" class="col-3 col-form-label">Transaction Name</label>
+                        <label for="transaction_name" class="col-3 col-form-label">Transaction Name</label>
                         <div class="col-9">
-                            <input type="text" class="form-control" id="inputPassword3" name="transaction_name" placeholder="Transaction Name">
+                            <input type="text" class="form-control" id="transaction_name" name="transaction_name" placeholder="Transaction Name">
                         </div>
                     </div>
                      <div class="form-group row mb-3">
-                        <label for="inputPassword3" class="col-3 col-form-label">Transaction role</label>
+                        <label for="transaction_role" class="col-3 col-form-label">Transaction role</label>
                         <div class="col-9">
-                            <input type="text" class="form-control" id="inputPassword3" name="transaction_role" placeholder="Transaction Role">
+                            <input type="text" class="form-control" id="transaction_role" name="transaction_role" placeholder="Transaction Role">
                         </div>
                     </div>
                     <div class="form-group row mb-3">
-                        <label for="inputPassword3" class="col-3 col-form-label">Transaction Type</label>
+                        <label for="transaction_type" class="col-3 col-form-label">Transaction Type</label>
                         <div class="col-9">
-                            <input type="text" class="form-control" id="inputPassword3" name="transaction_type" placeholder="Transaction Type">
+                            <select id="transaction_type" name="transaction_type" class="form-control">
+                                <option value="Receivables">Receivables</option>
+                                <option value="Paid">Paid</option>
+                                <option value="Debt">Debt</option>
+                            </select>
+                    
                         </div>
                     </div>
                     <div class="form-group row mb-3">
-                        <label for="inputPassword3" class="col-3 col-form-label">Store Name</label>
+                        <label for="store_name" class="col-3 col-form-label">Store Name</label>
                         <div class="col-9">
-                            <input type="text" class="form-control" id="inputPassword3" name="store_name" placeholder="Store Name">
+                            <input type="text" class="form-control" id="store_name" name="store_name" placeholder="Store Name">
                         </div>
                     </div>
                     <div class="form-group row mb-3">
@@ -221,7 +234,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal"  id="addTransaction" method="POST" action="{{ route('transaction.store') }}">
+                <form class="form-horizontal"  id="addTransaction" method="POST" action="">
                     @csrf
                     <div class="form-group row">
                         <div class="col-md-12">
@@ -232,7 +245,7 @@
             </div>
             <div class="modal-footer">
                 <div class="col-12 d-flex justify-content-end align-items-end">
-                    <button class="btn btn-danger">Yes</button>&nbsp;
+                    <button type="submit"  class="btn btn-danger">Yes</button>&nbsp;
                     <button class="btn btn-primary" data-dismiss="modal">No</button>
                 </div>
             </div>

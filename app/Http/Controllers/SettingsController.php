@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Cookie;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use GuzzleHttp\Exception\RequestException;
 use function GuzzleHttp\json_encode;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Cookie;
+use GuzzleHttp\Exception\RequestException;
 
 class SettingsController extends Controller
 {
