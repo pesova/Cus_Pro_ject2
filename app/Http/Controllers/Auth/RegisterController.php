@@ -70,7 +70,6 @@ class RegisterController extends Controller
             'phone_number' => 'required|min:6|max:16',
             'password' => 'required|min:6',
         ]);
-
         try {
 
             if ($data) {
@@ -101,7 +100,7 @@ class RegisterController extends Controller
                         $user = new User;
                         $user->phone_number = $data->phone_number;
                         $user->password = $data->password;
-                        if($user->save()) {
+                        if ($user->save()) {
                             $user->notify(new WelcomeMessage);
                         }
 
