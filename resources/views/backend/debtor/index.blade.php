@@ -143,16 +143,16 @@
                                     <tr>
                                         <th scope="row">{{ $key+1 }}</th>
                                         <td>
-                                            <span>{{ $debtor->ts_ref_id }}</span>
+                                            <span>{{ $debtor->debt_obj->ts_ref_id }}</span>
                                         </td>
                                         <td>
-                                            <span class="badge badge-{{ ($debtor->status == 'unpaid') ? 'danger' : 'success' }}">{{ $debtor->status }}</span>
+                                            <span class="badge badge-{{ ($debtor->debt_obj->status == 'unpaid') ? 'danger' : 'success' }}">{{ $debtor->debt_obj->status }}</span>
                                         </td>
                                         <td>
-                                            {{ $debtor->message }}
+                                            {{ $debtor->debt_obj->message }}
                                         </td>
                                         <td>
-                                            {{ date_format(new DateTime($debtor->expected_pay_date  ),'Y-m-d') }}
+                                            {{ date_format(new DateTime($debtor->debt_obj->expected_pay_date  ),'Y-m-d') }}
                                         </td>
 
                                         <td>
@@ -163,11 +163,11 @@
                                                     Actions<i class="icon"><span data-feather="chevron-down"></span></i>
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="{{ route('debtor.show',[$debtor->_id]) }}">View</a>
-                                                    <a class="dropdown-item" href="{{ route('debtor.edit',[$debtor->_id]) }}">Edit</a>
-                                                    <form action="{{ route('debtor.destroy',[$debtor->_id]) }}" method="post">
-                                                        <input type="hidden" name="store_name" value=""> {{-- to be added on api then fixes --}}
-                                                        <input type="hidden" name="customer_phone_number" value=" {{ $debtor->customer_phone_number }}">
+                                                    <a class="dropdown-item" href="{{ route('debtor.show',[$debtor->debt_obj->_id]) }}">View</a>
+                                                    <a class="dropdown-item" href="{{ route('debtor.edit',[$debtor->debt_obj->_id]) }}">Edit</a>
+                                                    <form action="{{ route('debtor.destroy',[$debtor->debt_obj->_id]) }}" method="post">
+                                                        <input type="hidden" name="store_name" value="{{ $debtor->store_name }}">
+                                                        <input type="hidden" name="customer_phone_number" value=" {{ $debtor->debt_obj->customer_phone_number }}">
                                                         <input class="dropdown-item" type="submit" value="Delete" />
                                                         @method('delete')
                                                         @csrf
