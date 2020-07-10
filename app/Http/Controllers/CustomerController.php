@@ -10,7 +10,6 @@ use Illuminate\Pagination\LengthAwarePaginator as Paginator; // NAMESPACE FOR PA
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
-use GuzzleHttp\Exception\RequestException;
 
 class CustomerController extends Controller
 {
@@ -69,7 +68,7 @@ class CustomerController extends Controller
             if ( $statusCode == 500 ) {
                 return view('errors.500');
             }
-        } catch(RequestException $e) {
+        } catch(\RequestException $e) {
             $statusCode = $e->getResponse()->getStatusCode();
             $data = json_decode($e->getResponse()->getBody()->getContents());
             if ( $statusCode == 401 ) { //401 is error code for invalid token
@@ -77,7 +76,7 @@ class CustomerController extends Controller
             }
 
             return view('errors.500');
-        } catch ( RequestException $e ) {
+        } catch ( \Exception $e ) {
             $statusCode = $e->getResponse()->getStatusCode();
             $data = json_decode($e->getResponse()->getBody()->getContents());
             if ( $statusCode == 401 ) { //401 is error code for invalid token
@@ -142,14 +141,14 @@ class CustomerController extends Controller
 
                     $user = User::where('phone_number', Cookie::get('phone_number'))->first();
                     $user->notify(new NewCustomer);
-
+                    
                     return back();
                 } else {
                     $request->session()->flash('alert-class', 'alert-waring');
                     Session::flash('message', $data->message);
                     return redirect()->view('backend.customer.create');
                 }
-            } catch (RequestException $e) {
+            } catch (\RequestException $e) {
                 $statusCode = $e->getResponse()->getStatusCode();
                 $data = json_decode($e->getResponse()->getBody()->getContents());
                 $request->session()->flash('message', isset($data->message) ? $data->message : $data->error->error);
@@ -159,7 +158,7 @@ class CustomerController extends Controller
                 return back();
                 Log::error((string) $response->getBody());
                 return view('errors.500');
-            } catch ( RequestException $e ) {
+            } catch ( \Exception $e ) {
                 $statusCode = $e->getResponse()->getStatusCode();
                 $data = json_decode($e->getResponse()->getBody()->getContents());
                 $request->session()->flash('message', isset($data->message) ? $data->message : $data->error->error);
@@ -182,7 +181,7 @@ class CustomerController extends Controller
      * @return \Illuminate\Http\Response
      */
     
-    public function show(Request $request, $id)
+    public function show($id)
     {
         // return view('backend.customer.show');
         if ( !$id || empty($id) ) {
@@ -200,7 +199,7 @@ class CustomerController extends Controller
             } else {
                 return view('errors.500');
             }
-        } catch (RequestException $e) {
+        } catch (\RequestException $e) {
             $statusCode = $e->getResponse()->getStatusCode();
             $data = json_decode($e->getResponse()->getBody()->getContents());
             $request->session()->flash('message', isset($data->message) ? $data->message : $data->error->error);
@@ -210,7 +209,7 @@ class CustomerController extends Controller
             return back();
             Log::error((string) $response->getBody());
             return view('errors.500');
-        } catch (RequestException $e ) {
+        } catch ( \Exception $e ) {
             $statusCode = $e->getResponse()->getStatusCode();
             $data = json_decode($e->getResponse()->getBody()->getContents());
             $request->session()->flash('message', isset($data->message) ? $data->message : $data->error->error);
@@ -229,7 +228,7 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $id)
+    public function edit($id)
     {
         //
         if ( !$id || empty($id) ) {
@@ -247,7 +246,7 @@ class CustomerController extends Controller
             } else {
                 return view('errors.500');
             }
-        } catch (RequestException $e) {
+        } catch (\RequestException $e) {
             $statusCode = $e->getResponse()->getStatusCode();
             $data = json_decode($e->getResponse()->getBody()->getContents());
             $request->session()->flash('message', isset($data->message) ? $data->message : $data->error->error);
@@ -257,7 +256,7 @@ class CustomerController extends Controller
             return back();
             Log::error((string) $response->getBody());
             return view('errors.500');
-        } catch (RequestException $e ) {
+        } catch ( \Exception $e ) {
             $statusCode = $e->getResponse()->getStatusCode();
             $data = json_decode($e->getResponse()->getBody()->getContents());
             $request->session()->flash('message', isset($data->message) ? $data->message : $data->error->error);
@@ -317,8 +316,8 @@ class CustomerController extends Controller
                   $request->session()->flash('message', 'Customer update failed');
               }
   
-          } catch (RequestException $e ) {
-              $data = json_decode($e->getResponse->getBody()->getContents());
+          } catch ( \Exception $e ) {
+              $data = json_decode($e->getBody()->getContents());
               $request->session()->flash('alert-class', 'alert-danger');
               $request->session()->flash('message', $data->message);
   
@@ -359,8 +358,8 @@ class CustomerController extends Controller
                 $request->session()->flash('message', 'Customer deleting failed');
             }
 
-        } catch (RequestException $e ) {
-            $data = json_decode($e->getResponse->getBody()->getContents());
+        } catch ( \Exception $e ) {
+            $data = json_decode($e->getBody()->getContents());
             $request->session()->flash('alert-class', 'alert-danger');
             $request->session()->flash('message', $data->message);
 

@@ -38,7 +38,7 @@ class StoreController extends Controller
             if ($statusCode == 200) {
                 return view('backend.stores.index')->with('response', $Stores->data->stores);
             }
-            else if($statusCode == 401){
+            else if($statusCode->getStatusCode() == 401){
                 Session::flash('message', "You are not authorized to perform this action");
                return redirect()->route('store.index');
            }
@@ -116,10 +116,10 @@ class StoreController extends Controller
 
                     $user = User::where('phone_number', Cookie::get('phone_number'))->first();
                     $user->notify(new NewStore);
-
+                    
                     return $this->index();
                 }
-                else if($statusCode == 401){
+                else if($statusCode->getStatusCode() == 401){
                     $request->session()->flash('alert-class', 'alert-danger');
                     Session::flash('message', "You are not authorized to perform this action, please check your details properly");
                    return redirect()->route('store.index');
@@ -155,7 +155,7 @@ class StoreController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id, Request $request)
+    public function show($id)
     {
         // return view('backend.stores.index');
 
@@ -188,7 +188,7 @@ class StoreController extends Controller
             if ($e->getResponse()->getStatusCode() >= 500) {
                 return view('errors.500');
             }
-            else if($statusCode == 401){
+            else if($statusCode->getStatusCode() == 401){
                 $request->session()->flash('alert-class', 'alert-danger');
                 Session::flash('message', "You are not authorized to perform this action");
                return redirect()->route('store.index');
@@ -302,7 +302,7 @@ class StoreController extends Controller
                 return redirect()->route('store.index', ['response' => []]);
                 
             }
-            if ($status == 500) {
+            if ($statusCode == 500) {
                 return view('errors.500');
             }
 
