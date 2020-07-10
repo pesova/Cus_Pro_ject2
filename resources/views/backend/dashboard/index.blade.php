@@ -154,6 +154,7 @@
                         @if ( count($response[1]->data->debts) == 0 )
                             <h5>Nothing to see here 😏</h5>
                         @else
+                            {{-- This is still dummy data because I don't know what to expect from the debt endpoint until @doug and @kofimokome finish the endpoint --}}
                             <div class="media mt-1 border-top pt-3">
                                 <div class="media-body">
                                     <h6 class="mt-1 mb-0 font-size-15">Some Title</h6>
