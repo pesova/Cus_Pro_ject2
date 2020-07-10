@@ -21,7 +21,7 @@ class UsersController extends Controller
         return view('backend.user.index');
         // try {
 
-        //     $url = env('API_URL', 'https://api.customerpay.me'). '/user/all' ;
+        //     $url = env('API_URL', 'https://dev.api.customerpay.me'). '/user/all' ;
         //     $client = new Client();
         //     $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
         //     $user_response = $client->request('GET', $url, $headers);
@@ -119,7 +119,7 @@ class UsersController extends Controller
     public function destroy($id)
     {
        // return view('backend.dashboard.index');
-       $host = env('API_URL', 'https://dev.api.customerpay.me/');
+       $host = env('API_URL', 'https://dev.api.customerpay.me');
        $url = $host."/user/delete/$id";
        // return $url;
        try {

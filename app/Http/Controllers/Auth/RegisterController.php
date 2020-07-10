@@ -44,7 +44,7 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
-        $this->host = env('API_URL', 'https://api.customerpay.me');
+        $this->host = env('API_URL', 'https://dev.api.customerpay.me');
     }
 
 

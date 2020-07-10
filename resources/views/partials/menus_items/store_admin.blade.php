@@ -40,12 +40,12 @@
     </a>
 </li>
 
-<li>
+{{-- <li>
     <a href="{{ route('broadcast.index') }}">
         <i data-feather="message-square"></i>
         <span> Broadcast Message </span>
     </a>
-</li>
+</li> --}}
 {{-- <li>
     <a href="{{ route('complaint.create') }}">
         <i data-feather="book-open"></i>
@@ -66,12 +66,12 @@
 </li>
 
 
-<li>
+{{-- <li>
     <a href="{{ route('notification') }}">
         <i data-feather="bell"></i>
         <span> Notifications </span>
     </a>
-</li>
+</li> --}}
 
 {{--todo: Remove this. it is for super admin only--}}
 {{-- <li>
