@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications\NewStore;
+use App\User;
 use Exception;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
@@ -36,7 +38,7 @@ class StoreController extends Controller
             if ($statusCode == 200) {
                 return view('backend.stores.index')->with('response', $Stores->data->stores);
             }
-            else if($statusCode->getStatusCode() == 401){
+            else if($statusCode == 401){
                 Session::flash('message', "You are not authorized to perform this action");
                return redirect()->route('store.index');
            }
@@ -111,9 +113,13 @@ class StoreController extends Controller
                 if ($statusCode == 201  && $data->success) {
                     $request->session()->flash('alert-class', 'alert-success');
                     Session::flash('message', $data->message);
+
+                    $user = User::where('phone_number', Cookie::get('phone_number'))->first();
+                    $user->notify(new NewStore);
+
                     return $this->index();
                 }
-                else if($statusCode->getStatusCode() == 401){
+                else if($statusCode == 401){
                     $request->session()->flash('alert-class', 'alert-danger');
                     Session::flash('message', "You are not authorized to perform this action, please check your details properly");
                    return redirect()->route('store.index');
@@ -149,7 +155,7 @@ class StoreController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
         // return view('backend.stores.index');
 
@@ -182,7 +188,7 @@ class StoreController extends Controller
             if ($e->getResponse()->getStatusCode() >= 500) {
                 return view('errors.500');
             }
-            else if($statusCode->getStatusCode() == 401){
+            else if($statusCode == 401){
                 $request->session()->flash('alert-class', 'alert-danger');
                 Session::flash('message', "You are not authorized to perform this action");
                return redirect()->route('store.index');
@@ -296,7 +302,7 @@ class StoreController extends Controller
                 return redirect()->route('store.index', ['response' => []]);
                 
             }
-            if ($statusCode == 500) {
+            if ($status == 500) {
                 return view('errors.500');
             }
 
