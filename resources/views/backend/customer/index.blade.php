@@ -429,7 +429,7 @@
 
                     <div class="row page-title">
                         <div class="col-md-12">
-                            <h4 class="card-header mb-1 mt-0 float-left h5">List of Regitered Customers</h4>
+                            <h4 class="card-header mb-1 mt-0 float-left h5">List of Registered Customers</h4>
                             
                             <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#CustomerModal">
                                 New &nbsp;<i class="fa fa-plus my-float"></i>
