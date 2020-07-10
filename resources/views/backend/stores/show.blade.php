@@ -6,9 +6,9 @@
 @stop
 
 @section('content')
-<div class="content">
+   
     <!-- Start Content-->
-    <div class="container-fluid">
+    
         <div class="row page-title">
             <div class="col-md-12">
                 <nav aria-label="breadcrumb" class="float-right mt-1">

@@ -41,9 +41,7 @@ class StoreController extends Controller
            }
            else if($statusCode->getStatusCode() == 500){
             return view('errors.500');
-           } else {
-                return ('jdjjd');
-           }
+           } 
 
         } catch (RequestException $e) {
 
@@ -54,7 +52,7 @@ class StoreController extends Controller
                 return view('errors.500');
             }
             else {
-                return ('xsncnslcnsn');
+                return redirect()->route('logout');
            }
 
         } catch (\Exception $e) {
@@ -89,7 +87,9 @@ class StoreController extends Controller
             $request->validate([
                 'store_name' => 'required|min:2',
                 'shop_address' =>  'required',
-                'phone_number' =>   'numeric',
+                'tagline' =>  'required',
+                'email' =>  'required',
+                'phone_number' =>   'numeric|required',
             ]);
 
             try {
