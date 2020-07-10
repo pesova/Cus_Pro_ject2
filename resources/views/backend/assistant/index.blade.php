@@ -176,7 +176,11 @@
                                             @isset($response[$i]->_id)
                                             <a class="dropdown-item" href="{{ route('assistants.show',['assistant'=>$response[$i]->_id]) }}">View Profile</a>
                                                 <a class="dropdown-item" href="{{route('assistants.show',['assistant'=>$response[$i]->_id])}}">Edit Assistant</a>
-                                                <a class="dropdown-item" href="#">Delete</a>
+                                                <a class="dropdown-item" href="javascript:void(0)" onclick="$(this).parent().find('form').submit()">Delete store</a>
+                                                <form action="{{ route('assistant.destroy', $response[$i]->_id) }}" method="POST" id="form">
+                                                    @method('DELETE')
+                                                    @csrf                                                
+                                                </form>
                                             @endisset
                                                 </div>
                                                 </div></td>
