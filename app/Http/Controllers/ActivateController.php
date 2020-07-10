@@ -23,9 +23,12 @@ class ActivateController extends Controller
         ]);
     }
 
-    public function activate()
+    public function activate(Request $request)
     {
         Cookie::queue('is_active', true);
+        if ($request->has('skip')) {
+            return redirect()->route('dashboard');
+        }
         return 'done'; // this method will be called via ajax. returning "done" is just a placeholder text for the callback function of the calling script
     }
 

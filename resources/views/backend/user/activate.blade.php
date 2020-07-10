@@ -92,9 +92,15 @@
                                         <p class="text-muted">Back to <a href="{{ route('logout') }}"
                                                                          class="text-primary font-weight-bold ml-1">Login</a>
                                         </p>
-                                        <p class="text-muted"><a href="{{ route('dashboard') }}"
-                                                                 class="text-primary font-weight-bold ml-1">Skip for
-                                                now</a>
+                                        <form action="{{route('activate.save')}}" method="POST">
+                                            @csrf
+                                            <p class="text-muted">
+                                                <input type="hidden" name="skip">
+                                                <button href="{{ route('dashboard') }}"
+                                                        class="btn text-primary font-weight-bold ml-1">Skip for
+                                                    now
+                                                </button>
+                                        </form>
                                         </p>
                                     </div> <!-- end col -->
                                 </div>
@@ -143,7 +149,7 @@
                     api_token: '{{$apiToken}}',
                     // token: $("#code").val(),
                     verify: $("#code").val(),
-                    phone_number: '{{$phoneNumber}}'
+                    phone_number: '+{{$phoneNumber}}'
                 };
                 $.ajax({
                     url: "{{env('API_URL') }}/otp/verify",
@@ -181,7 +187,7 @@
                     verifying.show();
                     const data = {
                         api_token: '{{$apiToken}}',
-                        phone_number: '{{$phoneNumber}}',
+                        phone_number: '+{{$phoneNumber}}',
                     };
                     $.ajax({
                         url: "{{env('API_URL') }}/otp/send",
