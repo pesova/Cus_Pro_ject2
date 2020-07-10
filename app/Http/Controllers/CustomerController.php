@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications\NewCustomer;
+use App\User;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator; // NAMESPACE FOR PAGINATOR
@@ -136,6 +138,10 @@ class CustomerController extends Controller
                 if ($statusCode == 201  && $data->success) {
                     $request->session()->flash('alert-class', 'alert-success');
                     Session::flash('message', $data->message);
+
+                    $user = User::where('phone_number', Cookie::get('phone_number'))->first();
+                    $user->notify(new NewCustomer);
+                    
                     return back();
                 } else {
                     $request->session()->flash('alert-class', 'alert-waring');

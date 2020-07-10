@@ -62,7 +62,7 @@ Route::prefix('/admin')->group(function () {
     Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
 
     Route::get('/password', 'Auth\ForgotPasswordController@index')->name('password');
-    Route::post('/password', 'Auth\ForgotPasswordController@update')->name('password.reset');
+    Route::post('/password', 'Auth\ForgotPasswordController@authenticate')->name('password.reset');
 
     Route::group(['middleware' => 'backend.auth'], function () {
 
@@ -76,6 +76,9 @@ Route::prefix('/admin')->group(function () {
         Route::get('/analytics', 'DashboardController@analytics')->name('analytics');
         Route::get('/notification', 'DashboardController@notification')->name('notification');
 
+        // notifications
+        Route::get('/notification/read-all', 'NotificationsController@readAll')->name('read.all');
+
         //reminder
         Route::post('/reminder/email', 'ReminderController@sendViaEmail');
 
@@ -87,8 +90,10 @@ Route::prefix('/admin')->group(function () {
 
         // settings create and update
         Route::get('/setting', 'SettingsController@index')->name('setting');
-        
+
         Route::post('/setting', 'SettingsController@update');
+
+        Route::get('/change_password', 'SettingsController@change_password')->name('change_password');
 
         // transaction crud
         Route::resource('transaction', 'TransactionController');
@@ -111,6 +116,10 @@ Route::prefix('/admin')->group(function () {
         // location
         Route::resource('location', 'LocationController');
 
+
+        Route::get('/debt_reminders', function () {
+            return redirect('/admin/debtor/create');
+        })->name('debts.reminder');
 
         // super admin protected routes
         Route::group(['middleware' => 'backend.super.admin'], function () {

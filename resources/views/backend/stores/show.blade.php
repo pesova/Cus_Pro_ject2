@@ -6,9 +6,9 @@
 @stop
 
 @section('content')
-<div class="content">
+   
     <!-- Start Content-->
-    <div class="container-fluid">
+    
         <div class="row page-title">
             <div class="col-md-12">
                 <nav aria-label="breadcrumb" class="float-right mt-1">
@@ -57,6 +57,17 @@
                                                 <th scope="row">Email</th>
                                                 <td>{{ $response->email }}</td>
                                             </tr>
+
+                                            <tr>
+                                                <th scope="row">TagLine</th>
+                                                <td>{{ $response->tagline }}</td>
+                                            </tr>
+
+                                            <tr>
+                                                <th scope="row">Phone Number</th>
+                                                <td>{{ $response->phone_number }}</td>
+                                            </tr>
+
                                             <tr>
                                                 <th scope="row">Total Number of Customers</th>
                                                 <td>{{count( $response->customers )}}</td>
