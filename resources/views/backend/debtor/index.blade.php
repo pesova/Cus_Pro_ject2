@@ -103,6 +103,19 @@
                 </div><!-- end col-->
             </div>
 
+            @if(Session::has('message'))
+            <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
+            @endif
+
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
             <div class="row">
                 <div class="col-12">
@@ -130,16 +143,16 @@
                                     <tr>
                                         <th scope="row">{{ $key+1 }}</th>
                                         <td>
-                                            <span>{{ $debtor->ts_ref_id }}</span>
+                                            <span>{{ $debtor->debt_obj->ts_ref_id }}</span>
                                         </td>
                                         <td>
-                                            <span class="badge badge-{{ ($debtor->status == 'unpaid') ? 'danger' : 'sucess' }}">{{ $debtor->status }}</span>
+                                            <span class="badge badge-{{ ($debtor->debt_obj->status == 'unpaid') ? 'danger' : 'success' }}">{{ $debtor->debt_obj->status }}</span>
                                         </td>
                                         <td>
-                                            {{ $debtor->message }}
+                                            {{ $debtor->debt_obj->message }}
                                         </td>
                                         <td>
-                                            {{ date_format(new DateTime($debtor->expected_pay_date  ),'Y-m-d') }}
+                                            {{ date_format(new DateTime($debtor->debt_obj->expected_pay_date  ),'Y-m-d') }}
                                         </td>
 
                                         <td>
@@ -150,9 +163,15 @@
                                                     Actions<i class="icon"><span data-feather="chevron-down"></span></i>
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="{{ route('debtor.show',[$debtor->_id]) }}">View</a>
-                                                    <a class="dropdown-item" href="{{ route('debtor.edit',[$debtor->_id]) }}">Edit</a>
-                                                    <a class="dropdown-item" href="{{ route('debtor.destroy',[$debtor->_id]) }}">Delete</a>
+                                                    <a class="dropdown-item" href="{{ route('debtor.show',[$debtor->debt_obj->_id]) }}">View</a>
+                                                    <a class="dropdown-item" href="{{ route('debtor.edit',[$debtor->debt_obj->_id]) }}">Edit</a>
+                                                    <form action="{{ route('debtor.destroy',[$debtor->debt_obj->_id]) }}" method="post">
+                                                        <input type="hidden" name="store_name" value="{{ $debtor->store_name }}">
+                                                        <input type="hidden" name="customer_phone_number" value=" {{ $debtor->debt_obj->customer_phone_number }}">
+                                                        <input class="dropdown-item" type="submit" value="Delete" />
+                                                        @method('delete')
+                                                        @csrf
+                                                    </form>
                                                 </div>
                                             </div>
                                         </td>

@@ -76,6 +76,9 @@ Route::prefix('/admin')->group(function () {
         Route::get('/analytics', 'DashboardController@analytics')->name('analytics');
         Route::get('/notification', 'DashboardController@notification')->name('notification');
 
+        // notifications
+        Route::get('/notification/read-all', 'NotificationsController@readAll')->name('read.all');
+
         //reminder
         Route::post('/reminder/email', 'ReminderController@sendViaEmail');
 
@@ -113,6 +116,10 @@ Route::prefix('/admin')->group(function () {
         // location
         Route::resource('location', 'LocationController');
 
+
+        Route::get('/debt_reminders', function () {
+            return redirect('/admin/debtor/create');
+        })->name('debts.reminder');
 
         // super admin protected routes
         Route::group(['middleware' => 'backend.super.admin'], function () {

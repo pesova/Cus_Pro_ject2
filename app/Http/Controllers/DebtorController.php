@@ -110,6 +110,7 @@ class DebtorController extends Controller
     public function edit($id)
     {
         //
+        return view('backend.debtor.create');
 
     }
 
@@ -131,8 +132,45 @@ class DebtorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
-        //
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt/delete/'. $id;
+        $data = $request->all();
+        $data['debt_id'] = $id;
+
+        try {
+
+            $client = new Client();
+            $payload = [
+                'headers' => ['x-access-token' => Cookie::get('api_token')],
+                'form_params' => $data,
+            ];
+
+            $response = $client->request("DELETE", $url, $payload);
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode == 200) {
+                $body = $response->getBody();
+                $result = json_decode($body);
+                Session::flash('message', $result->message);
+            }
+                return redirect()->route('debtor.index');
+        }  catch (RequestException $e) {
+            Log::info('Catch error: LoginController - ' . $e->getMessage());
+
+            if ($e->hasResponse()) {
+                $response = $e->getResponse()->getBody();
+                $result = json_decode($response);
+                Session::flash('message', $result->message);
+                return redirect()->route('debtor.index');
+            }
+
+            //5xx server error
+            Session::flash('message', 'Request was unssucessful. Retry in a few minutes');
+            return redirect()->route('debtor.index');
+        } catch (\Exception $e) {
+            Log::error('Catch error: StoreController - ' . $e->getMessage());
+            return view('errors.500');
+        }
     }
 }

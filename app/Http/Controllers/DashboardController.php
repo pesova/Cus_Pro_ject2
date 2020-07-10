@@ -68,7 +68,10 @@ class DashboardController extends Controller
     {
         $phone_number = Cookie::get('phone_number');
         $user = User::where('phone_number', $phone_number)->first();
-        return view('backend.dashboard.notification')->with('notifications', $user->notifications);
+        return view('backend.dashboard.notification')->with([
+            'notifications' => $user->notifications,
+            'user' => $user
+        ]);
     }
 
     public function creditor()
