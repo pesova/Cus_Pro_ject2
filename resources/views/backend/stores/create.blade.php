@@ -19,6 +19,11 @@
 
                 @if(Session::has('message'))
                 <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
+                <script>
+                  setTimeout(() => {
+                    document.querySelector('.alert').style.display = 'none'
+                  }, 3000);
+                </script>
                 @endif
 
                 @if ($errors->any())
@@ -50,11 +55,11 @@
                                         <div class="form-row">
                                           <div class="form-group col-md-6">
                                             <label for="inputPhoneNumber">Phone Number</label>
-                                            <input type="text" name="phone_number" class="form-control" placeholder="+1(234) 567-8907" >
+                                            <input type="tel" name="phone_number" class="form-control" placeholder="+2348127737643" >
                                           </div>
                                         <div class="form-group col-md-6" >
                                             <label for="inputEmailAddress"> Email Address (optional) </label>
-                                            <input type="email" name="email" class="form-control" placeholder="you@example.com" >
+                                            <input type="email" name="email" class="form-control" placeholder="you@example.com">
                                         </div>
                                         </div>
                                         <div class="form-group">

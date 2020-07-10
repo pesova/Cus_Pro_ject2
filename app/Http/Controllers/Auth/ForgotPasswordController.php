@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 
 class ForgotPasswordController extends Controller
@@ -74,32 +77,32 @@ class ForgotPasswordController extends Controller
 
                     //check if active
                     if ($data->is_active == false) {
-                        return redirect()->route('activate.user');
+                        return redirect()->route('activate.index');
                     }
 
                     return redirect()->route('dashboard');
                 } else {
                     $message = isset($response->Message) ? $response->Message : $response->message;
                     $request->session()->flash('message', $message);
-                    return redirect()->route('login');
+                    return redirect()->route('password');
                 }
             }
 
             $message = isset($response->Message) ? $response->Message : $response->message;
             $request->session()->flash('message', $message);
-            return redirect()->route('login');
+            return redirect()->route('password');
         } catch (\Exception $e) {
 
             if ($e->getCode() == 400) {
                 $request->session()->flash('message', 'Invalid Phone number or password. Ensure Your phone number uses internations format.e.g +234');
                 $request->session()->flash('alert-class', 'alert-danger');
-                return redirect()->route('login');
+                return redirect()->route('password');
             }
 
-            Log::error("catch error: LoginController - " . $e->getMessage());
+            Log::error("catch error: ForgotPasswordController - " . $e->getMessage());
             $request->session()->flash('message', 'Something bad happened, please try again');
-            return redirect()->route('login');
+            return redirect()->route('password');
         }
-        return redirect()->route('login');
+        return redirect()->route('password');
     }
 }

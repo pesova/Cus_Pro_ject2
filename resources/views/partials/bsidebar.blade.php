@@ -13,7 +13,7 @@
                 <span data-feather="chevron-down"></span>
             </a>
             <div class="dropdown-menu profile-dropdown">
-                <a href="pages-profile.html" class="dropdown-item notify-item">
+                <a href="{{ route('setting') }}" class="dropdown-item notify-item">
                     <i data-feather="user" class="icon-dual icon-xs mr-2"></i>
                     <span>My Account</span>
                 </a>
@@ -23,7 +23,7 @@
                     <span>Settings</span>
                 </a> --}}
 
-                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                {{-- <a href="javascript:void(0);" class="dropdown-item notify-item">
                     <i data-feather="help-circle" class="icon-dual icon-xs mr-2"></i>
                     <span>Support</span>
                 </a>
@@ -31,14 +31,14 @@
                 <a href="javascript:void(0);" class="dropdown-item notify-item">
                     <i data-feather="lock" class="icon-dual icon-xs mr-2"></i>
                     <span>Lock Screen</span>
-                </a>
+                </a> --}}
 
                 <div class="dropdown-divider"></div>
-
                 <a href="{{ route('logout') }}" class="dropdown-item notify-item">
                     <i data-feather="log-out" class="icon-dual icon-xs mr-2"></i>
                     <span>Logout</span>
                 </a>
+                 
             </div>
         </div>
     </div>
@@ -60,15 +60,20 @@
                 {{-- @endif --}}
 
                 {{-- @if(\Illuminate\Support\Facades\Cookie::get('user_role') == 'super_admin') --}}
-                    {{--super admin protected routes here--}}
-                    @include('partials.menus_items.super_admin')
+                    {{-- super admin protected routes here --}}
+                    {{-- @include('partials.menus_items.super_admin') --}}
                 {{-- @endif --}}
 
                 {{-- @if(\Illuminate\Support\Facades\Cookie::get('user_role') == 'super_assistant') --}}
-                    {{--super admin protected routes here--}}
-                    @include('partials.menus_items.store_assistant')
+                    {{-- super admin protected routes here --}}
+                    {{-- @include('partials.menus_items.store_assistant') --}}
                 {{-- @endif --}}
-
+                <li>
+                <a href="{{ route('change_password') }}">
+                     <i class="uil  uil-cog"></i>
+                        <span> Change Password </span>
+                 </a>
+                </li>
 
             </ul>
         </div>

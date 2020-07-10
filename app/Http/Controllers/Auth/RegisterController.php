@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\UserRegistered;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Cookie;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use GuzzleHttp\Exception\RequestException;
+use App\User;
+use App\Notifications\WelcomeMessage;
 
 class RegisterController extends Controller
 {
@@ -42,7 +44,7 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
-        $this->host = env('API_URL', 'https://dev.api.customerpay.me');
+        $this->host = env('API_URL', 'https://api.customerpay.me');
     }
 
 
@@ -66,7 +68,7 @@ class RegisterController extends Controller
 
         $data = $request->validate([
             'phone_number' => 'required|min:6|max:16',
-            'password' => 'required|regex:/[a-zA-Z0-9]{6,20}$/',
+            'password' => 'required|min:6',
         ]);
 
         try {
@@ -87,9 +89,21 @@ class RegisterController extends Controller
 
                     if ($res->success) {
 
+                        $request->session()->flash('message', 'You have registered Successfully');
+                        $request->session()->flash('alert-class', 'alert-success');
+
                         $data = $res->data->user->local;
                         $api_token = $res->data->user->api_token;
                         $user_role = $res->data->user->local->user_role;
+
+                        // event(new UserRegistered($data));
+
+                        $user = new User;
+                        $user->phone_number = $data->phone_number;
+                        $user->password = $data->password;
+                        if($user->save()) {
+                            $user->notify(new WelcomeMessage);
+                        }
 
                         // store data to cookie
                         Cookie::queue('user_role', $user_role);
@@ -99,11 +113,11 @@ class RegisterController extends Controller
                         Cookie::queue('user_id', $res->data->user->_id);
                         Cookie::queue('expires', strtotime('+ 1 day'));
 
-                        return redirect()->route('activate.user');
+                        return redirect()->route('activate.index');
                     }
                 }
 
-                if($response->getStatusCode() == 200) {
+                if ($response->getStatusCode() == 200) {
                     $res = json_decode($response->getBody());
 
 
@@ -129,21 +143,19 @@ class RegisterController extends Controller
             //log error;
             Log::error('Catch error: RegisterController - ' . $e->getMessage());
 
-            // check for 500 server error
-            if ($e->getResponse()->getStatusCode() == 500) {
-                return view('errors.500');
+            // get response
+            if ($e->hasResponse()) {
+                $response = json_decode($e->getResponse()->getBody());
+                $request->session()->flash('alert-class', 'alert-danger');
+                $request->session()->flash('message', $response->error->description);
+                return redirect()->route('signup');
             }
 
-            // get response
-            $response = json_decode($e->getResponse()->getBody());
-
-            $request->session()->flash('alert-class', 'alert-danger');
-            $request->session()->flash('message', $response->error->description);
-            return redirect()->route('signup');
+            // check for 500 server error
+            return view('errors.500');
         } catch (\Exception $e) {
             //log error;
             Log::error('Catch error: RegisterController - ' . $e->getMessage());
-
             return view('errors.500');
         }
     }

@@ -2,7 +2,7 @@
 <div class="navbar navbar-expand flex-column flex-md-row navbar-custom">
     <div class="container-fluid">
         <!-- LOGO -->
-        <a href="{{route('home')}}" class="navbar-brand mr-0 mr-md-2 logo">
+        <a href="{{route('home') }}" class="navbar-brand mr-0 mr-md-2 logo">
             <span class="logo-lg">
                 <img src="{{('/frontend/assets/images/fulllogo.png')}}" alt="" height="48" />
             </span>
@@ -23,7 +23,9 @@
         <ul class="navbar-nav flex-row ml-auto d-flex list-unstyled topnav-menu float-right mb-0">
           <li class="d-none d-sm-block">
             <div class="app-search">
-                <button class="btn btn-primary back-home-button"><a href="{{route('home')}}" style="color: white">Back to home</a></button>
+                <button class="btn btn-primary back-home-button">
+                    <a href="{{route('home')}}" style="color: white">Back to home</a>
+                </button>
             </div>
         </li>
             <li class="d-none d-sm-block">
@@ -37,12 +39,15 @@
                 </div>
             </li>
 
-            <li class="dropdown d-none d-lg-block" data-toggle="tooltip" data-placement="left" title="Change language">
-                <a class="nav-link dropdown-toggle mr-0" data-toggle="dropdown" href="#" role="button"
-                    aria-haspopup="false" aria-expanded="false">
+            <li class="dropdown d-none d-lg-block" data-toggle="tooltip" data-placement="left" title="Change Location">
+                <a class="nav-link mr-0" href="{{ route('location.index') }}">
                     <i data-feather="globe"></i>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right">
+                {{-- <a class="nav-link dropdown-toggle mr-0" data-toggle="dropdown" href="#" role="button"
+                    aria-haspopup="false" aria-expanded="false">
+                    <i data-feather="globe"></i>
+                </a> --}}
+                {{-- <div class="dropdown-menu dropdown-menu-right">
                     <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item notify-item">
                         <img src="/backend/assets/images/flags/germany.jpg" alt="user-image" class="mr-2" height="12">
@@ -66,7 +71,7 @@
                         <img src="/backend/assets/images/flags/russia.jpg" alt="user-image" class="mr-2" height="12">
                         <span class="align-middle">Russian</span>
                     </a>
-                </div>
+                </div> --}}
             </li>
 
 
@@ -191,7 +196,7 @@
                         <span>Settings</span>
                     </a>
 
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                    {{-- <a href="javascript:void(0);" class="dropdown-item notify-item">
                         <i data-feather="help-circle" class="icon-dual icon-xs mr-2"></i>
                         <span>Support</span>
                     </a>
@@ -199,10 +204,9 @@
                     <a href="pages-lock-screen.html" class="dropdown-item notify-item">
                         <i data-feather="lock" class="icon-dual icon-xs mr-2"></i>
                         <span>Lock Screen</span>
-                    </a>
+                    </a> --}}
 
                     <div class="dropdown-divider"></div>
-
                     <a href="{{ route('logout') }}" class="dropdown-item notify-item">
                         <i data-feather="log-out" class="icon-dual icon-xs mr-2"></i>
                         <span>Logout</span>
