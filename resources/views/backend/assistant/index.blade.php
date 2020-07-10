@@ -7,10 +7,10 @@
 @stop
         @section('content')
                 <div class="content">
-                    <a href="#" class="float" data-toggle="modal"
+                    {{-- <a href="#" class="float" data-toggle="modal"
                                                     data-target="#myModal">
 <i class="fa fa-plus my-float" ></i>
-</a>
+</a> --}}
                     <div class="container-fluid">
                             <div class="row page-title">
                                 <div class="col-md-12">
@@ -24,17 +24,17 @@
                                 </div>
                             </div>
                         <div class="row page-title">
-            
+
                                         @if(Session::has('message'))
                                             <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
-                        
+
                                         @endif
-                            
+
                             <div class="col-md-12">
                                 <h4 class="mb-1 mt-0">Assistants</h4>
                             </div>
 
-                            
+
                         </div>
 
                         <div class="row">
@@ -43,7 +43,7 @@
                                     <div class="card-body">
                                         {{-- <h4 class="header-title mt-0 mb-1">Basic Data Table</h4> --}}
                                             <p class="sub-header">
-                                           Find Assistant 
+                                           Find Assistant
                                                 </p>
                                             <div class="container-fluid">
                                                 <div class="row">
@@ -72,7 +72,7 @@
                                                     </div>
                                                     <input type="text" class="form-control" id="password" >
                                                 </div>
-                                                    
+
                                             </div>
 
                                             <div class="form-group col-lg-4 mt-4">
@@ -179,7 +179,7 @@
                                                 <a class="dropdown-item" href="javascript:void(0)" onclick="$(this).parent().find('form').submit()">Delete Assistant</a>
                                                 <form action="{{ route('assistants.destroy', $response[$i]->_id) }}" method="POST" id="form">
                                                     @method('DELETE')
-                                                    @csrf                                                
+                                                    @csrf
                                                 </form>
                                             @endisset
                                                 </div>
@@ -195,13 +195,13 @@
                                       @if(!isset($response))
                                         <P>Ooops could not get assistant to display</P>
                                       @endif
-                                 
+
                                     </div>
                                     </div> <!-- end card body-->
                                 </div> <!-- end card -->
                             </div><!-- end col-->
                         </div>
-                      
+
                     </div>
                 </div>
                                             <div id="myModal" class="modal fade" tabindex="-1" role="dialog"
@@ -216,7 +216,7 @@
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                      
+
                         <form class="mt-4 mb-3 form-horizontal" action="{{ route('assistants.store') }}" method="POST">
                             <div class="form-group row mb-3">
                                 <label for="name" class="col-3 col-form-label">Name</label> <br> <br>

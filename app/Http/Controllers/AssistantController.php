@@ -18,7 +18,7 @@ class AssistantController extends Controller
 
     public function __construct()
     {
-        $this->host = env('API_URL', 'https://dev.api.customerpay.me/');
+        $this->host = env('API_URL', 'https://dev.api.customerpay.me');
     }
     /**
      * Display a listing of the resource.
@@ -83,7 +83,7 @@ class AssistantController extends Controller
         // }else{
             return view('backend/assistant/create');
         //}
-        
+
     }
     /**
      * Store a newly created resource in storage.
@@ -142,7 +142,7 @@ class AssistantController extends Controller
 
         if ($request->isMethod('post')) {
             //return dd($request->all());
-            
+
             $request->validate([
                 'name' => "required|min:2",
                 'phone_number' => "required",
@@ -166,7 +166,7 @@ class AssistantController extends Controller
                 //return dd($payload);
                 $response = $client->request("POST", $url, $payload);
                 $statusCode = $response->getStatusCode();
-                
+
                 //return $statusCode;
                 $body = $response->getBody();
                 $data = json_decode($body);
@@ -301,7 +301,7 @@ class AssistantController extends Controller
      
     public function update(Request $request, $id)
     {
-        $url = env('API_URL', 'https://api.customerpay.me/') . '/assistant/update/' . $id;
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/assistant/update/' . $id;
 
 
         try{

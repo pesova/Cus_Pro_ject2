@@ -17,22 +17,21 @@ class ComplaintController extends Controller
      */
     public function index()
     {
-        $host = env('API_URL', 'https://dev.api.customerpay.me/');
+        $host = env('API_URL', 'https://dev.api.customerpay.me');
         $user_id = Cookie::get('user_id');
-        $url = $host . "complaints/$user_id";
-            $client = new Client();
-            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
-            $response = $client->request('GET', $url, $headers);
-            $statusCode = $response->getStatusCode();
-            if ($statusCode == 200) {
-                $body = $response->getBody()->getContents();
-                $complaints = json_decode($body);
-                return view('backend.complaints.index')->with('responses', $complaints);
-            }
-            elseif ($statusCode == 403) {
-                return redirect()->route('login')->with('message', "Please Login Again");
-            }
-                // return view('backend.complaints.index');
+        $url = $host . "/complaints/$user_id";
+        $client = new Client();
+        $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+        $response = $client->request('GET', $url, $headers);
+        $statusCode = $response->getStatusCode();
+        if ($statusCode == 200) {
+            $body = $response->getBody()->getContents();
+            $complaints = json_decode($body);
+            return view('backend.complaints.index')->with('responses', $complaints);
+        } elseif ($statusCode == 403) {
+            return redirect()->route('login')->with('message', "Please Login Again");
+        }
+        // return view('backend.complaints.index');
     }
 
     /**
@@ -61,7 +60,7 @@ class ComplaintController extends Controller
         ]);
 
         $user_id = Cookie::get('user_id');
-        $url = env('API_URL', 'https://dev.api.customerpay.me/') . "/complaint/new/$user_id";
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . "/complaint/new/$user_id";
 
         try {
             $client = new Client();
@@ -124,9 +123,9 @@ class ComplaintController extends Controller
      */
     public function show($id)
     {
-        $host = env('API_URL', 'https://dev.api.customerpay.me/');
+        $host = env('API_URL', 'https://dev.api.customerpay.me');
         $user_id = Cookie::get('user_id');
-        $url = $host . "complaint/" . $user_id . "/" . $id;
+        $url = $host . "/complaint/" . $user_id . "/" . $id;
         try {
             $client = new Client();
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
@@ -168,7 +167,7 @@ class ComplaintController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $url = env('API_URL', 'https://dev.api.customerpay.me/') . "/complaint/update/$complaint_id";
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . "/complaint/update/" . $id;
 
         try {
             $client = new Client();
@@ -220,9 +219,9 @@ class ComplaintController extends Controller
      */
     public function destroy($id)
     {
-        $host = env('API_URL', 'https://dev.api.customerpay.me/');
+        $host = env('API_URL', 'https://dev.api.customerpay.me');
         $user_id = Cookie::get('user_id');
-        $url = $host . "complaint/delete/" . $user_id . "/" . $id;
+        $url = $host . "/complaint/delete/" . $user_id . "/" . $id;
         $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
         try {
             $client = new Client();
