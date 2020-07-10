@@ -466,10 +466,6 @@ footer {
         outline: none;
     }
 
-    a.mobile__nav__h1__link:hover {
-        color: #FF8C5F !important;
-    }
-
     div.mobile__nav__h1 {
         display: flex;
         flex-direction: column;
@@ -491,10 +487,6 @@ footer {
     nav {
         padding-left: 20px;
         padding-right: 20px;
-    }
-
-    a.mobile__nav__h1__link:hover {
-        color: #FF8C5F !important;
     }
 
     div.mobile__nav__h1 {
@@ -746,10 +738,6 @@ footer {
         a.mobile__nav__h1__link>img {
             width: 20px;
         }
-
-        a.mobile__nav__h1__link:hover {
-            color: #FF8C5F !important;
-        }
     
         div.mobile__nav__h1 {
             display: flex;
@@ -844,10 +832,6 @@ footer {
 
         a.mobile__nav__h1__link>img {
             width: 20px;
-        }
-
-        a.mobile__nav__h1__link:hover {
-        color: #FF8C5F !important;
         }
 
         div.mobile__nav__h1 {
