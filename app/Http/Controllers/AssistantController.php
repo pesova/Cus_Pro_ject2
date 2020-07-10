@@ -259,8 +259,8 @@ class AssistantController extends Controller
             $data = json_decode($response->getBody());
             
             if ( $response->getStatusCode() == 200 ) {
-                return view('backend.assistant.update')->with('response', $data->data->assistant);
-                //return "YEs";
+                return view('backend.assistant.update')->with('response', $data->data->assistants);
+                
             } else {
                 return view('errors.500');
             }

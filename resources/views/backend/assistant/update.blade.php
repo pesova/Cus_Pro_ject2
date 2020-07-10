@@ -1,100 +1,89 @@
 @extends('layout.base')
-
 @section("custom_css")
-    <link href="/backend/assets/css/add-assistant.css" rel="stylesheet" type="text/css"/>
-
+    <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
+    <link rel="stylesheet" href="{{asset('backend/assets/css/store_list.css')}}">
 @stop
-
     @section('content')
+        <div class="content">
+            <!-- Start Content-->
+            <div class="container-fluid">
+                <div class="row page-title">
+                    <div class="col-md-12">
+                        <nav aria-label="breadcrumb" class="float-right mt-1">
+                            <a href="/admin/store" class="btn btn-primary">Go Back</a>
+                        </nav>
+                        <h4 class="mt-2">Edit My Store</h4>
+                    </div>
+                </div>
 
-    <!-- Start Content-->
-    <div class="container-fluid h-100">
-        <div class="row page-title">
-            <div class="col-md-12">
-                <nav aria-label="breadcrumb" class="float-right mt-1">
-                </nav>
-                <h4 class="mb-1 mt-0"><i data-feather="users" style="font-size: 5px; margin-right: 7px"></i>Add new store assistant</h4>
+                @if(session('message'))
+                <p class="alert alert-success">{{ session('message') }}</p>
+                @endif
+
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <div class="row">
+                     <div class="col-lg-12">
+                         <div class="card">
+                            <div class="card-body">
+                                    <form action="{{ route('assistants.update', $response->_id) }}" method="POST">
+                                      @csrf
+                                      @method('PUT')
+                                        <div class="form-row">
+                                          <div class="form-group col-md-6">
+                                            <label for="store name">Name</label>
+                                            <input type="text" name="name" class="form-control" value="{{ $response->name }}"  placeholder="XYZ Stores">
+                                          </div>
+                                          <div class="form-group col-md-6">
+                                            <label for="inputTagline">Email</label>
+                                            <input type="email" name="email" class="form-control" id="inputTagline" value="{{ $response->email }}" placeholder="Your Perfect Stay One Click away....">
+                                          </div>
+                                        </div>
+                                        <div class="form-row">
+                                          <div class="form-group col-md-6">
+                                            <label for="inputPhoneNumber">Phone Number</label>
+                                            <input type="text" name="phone_number" class="form-control" value="{{ $response->phone_number }}" placeholder="+2348173644654">
+                                          </div>
+                                        <div class="form-group col-md-6" >
+                                            <label for="inputEmailAddress"> Password </label>
+                                            <input type="password" name="password" class="form-control" value="" placeholder="you@example.com">
+                                        </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-success">
+                                            Update Changes
+                                        </button>
+                                    </form>
+                                </div>
+                             </div>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
         </div>
 
-
-        @if(Session::has('message'))
-        <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
-        @endif
-
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
+        
+              </div>
             </div>
-        @endif
-                            
-        <div class="row h-100 justify-content-center align-items-center">
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-body">
-                        {{-- <h4 class="mb-3 header-title mt-0">Complaint Form</h4> --}}
+          </div>
+@endsection
 
-                                                                                             
-                            <form action=" {{ route('assistants.update, $response->_id') }}" method="POST" class="mt-4 mb-3 form-horizontal my-form">
-                           
-                        @csrf
-                           
-                            <div class="form-group row mb-3">
-                                <label for="name" class="col-2 col-sm-3 col-form-label my-label">Name:</label> <br> <br>
-                                <div class="col-10 col-sm-7">
-                                    <input name="name" type="text" class="form-control" id="fullname" placeholder="Enter name here">
-                                </div>
-                            </div>
-                            <br>
-                            <!-- <div class="form-group row mb-3">
-                                <label for="name" class="col-2 col-sm-3 col-form-label my-label">Store Name:</label> <br> <br>
-                                <div class="col-10 col-sm-7">
-                                    <input name="store_name" type="text" class="form-control" id="fullname" placeholder="Enter store name here">
-                                </div>
-                            </div> -->
-                            {{-- <div class="form-group row mb-3">
-                                <label for="role" class="col-2 col-sm-3 col-form-label my-label">Role:</label> <br>
-                                <div class="col-10 col-sm-7">
-                                    <input type="text" class="form-control" id="fullname" placeholder="Enter role">
-                                </div>
-                            </div>
-                            <br>   --}}
-                            <div class="form-group row mb-3">
-                                <label for="address" class="col-2 col-sm-3 col-form-label my-label">Email:</label> <br>
-                                <div class="col-10 col-sm-7">
-                                    <input name="email" type="email" class="form-control" id="fullname" placeholder="Enter Address">
-                                </div>
-                            </div>
-                            <br>
-                            <div class="form-group row mb-3">
-                                <label for="number" class="col-2 col-sm-3 col-form-label my-label">Phone Number:</label> <br>
-                                <div class="col-10 col-sm-7">
-                                    <input name="phone_number" type="text" class="form-control" id="fullname" placeholder="Enter phone number">
-                                </div>
-                            </div>
-                            <br>
-                            <div class="form-group row mb-3">
-                                <label for="email" class="col-2 col-sm-3 col-form-label my-label">Password:</label> <br>
-                                <div class="col-10 col-sm-7">
-                                    <input name="password" type="password" class="form-control" id="fullname" placeholder="Enter password">
-                                </div>
-                            </div>
-                            <br>
-                            <div class="form-group mb-0 justify-content-end row">
-                                <div class="col-12 text-center">
-                                    <button type="submit" class="btn btn-primary my-button">Update Changes</button>
-                                </div>
-                            </div>
-                        </form>
-
-                    </div>  <!-- end card-body -->
-                </div>
-            </div>
-            <!-- end col -->
-    </div> <!-- container-fluid -->
-
-    @endsection
+@section("javascript")
+   <script src="/backend/assets/build/js/intlTelInput.js"></script>
+   <script>
+   var input = document.querySelector("#phone");
+   window.intlTelInput(input, {
+       // any initialisation options go here
+   });
+   </script>
+@stop
