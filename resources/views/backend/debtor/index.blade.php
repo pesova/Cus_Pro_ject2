@@ -9,10 +9,10 @@
         <div class="container-fluid">
             <div class="row page-title">
                 <div class="col-md-12">
-                    <h4 class="mb-1 mt-0">Debt Reminders</h4>
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#bs-example-modal-sm">
+                    <h4 class="mb-1 mt-0">Debtors</h4>
+                    {{--<button class="btn btn-primary" data-toggle="modal" data-target="#bs-example-modal-sm">
                         Create a debt reminder
-                    </button>
+                    </button>--}}
                     <div class="modal fade" id="bs-example-modal-sm" tabindex="-1" role="dialog"
                          aria-labelledby="mySmallModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-sm">
