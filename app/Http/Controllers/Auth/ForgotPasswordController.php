@@ -74,7 +74,7 @@ class ForgotPasswordController extends Controller
 
                     //check if active
                     if ($data->is_active == false) {
-                        return redirect()->route('activate.user');
+                        return redirect()->route('activate.index');
                     }
 
                     return redirect()->route('dashboard');
