@@ -50,7 +50,6 @@
         <div id="mobile-menu" class="mobile-menu">
             <div class="close-mobile-menu">
                 <i class="fas fa-times"></i>
-
             </div>
             <div class="mobile__nav__menu">
                 <img src="{{ ('/frontend/assets/images/fulllogo.png') }}" alt="" height="auto"
@@ -103,7 +102,7 @@
                         </a>
                     </h1>
                     @elseif(isset($_COOKIE['api_token']))
-                    <h1 class="mobile__nav__h1">
+                    <div class="mobile__nav__h1">
                         <a href="{{ route('dashboard') }}" class="mobile__nav__h1__link">
                             {{-- <img src="{{ ('/frontend/assets/images/Vector 3.png') }}" /> --}}
                             Dashboard
@@ -113,7 +112,7 @@
                             {{-- <img src="{{ ('/frontend/assets/images/Vector 3.png') }}" /> --}}
                             Logout
                         </a>
-                    </h1>
+                    </div>
                     @endif
                 </div>
             </div>
