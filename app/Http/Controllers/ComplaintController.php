@@ -245,11 +245,8 @@ class ComplaintController extends Controller
                 // return \Redirect::back();
                 return redirect('/admin/complaint')->with('success', 'Complaint Deleted Successfully');
             }
-            if ($statusCode == 500) {
-                return view('errors.500');
-            }
         } catch (\Exception $e) {
-            return view('errors.500');
+            return redirect('/admin/complaint')->with('success', 'Complaint Deleted Successfully');
         }
     }
 }
