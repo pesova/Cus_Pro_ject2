@@ -166,7 +166,7 @@
                                                     <a class="dropdown-item" href="{{ route('debtor.show',[$debtor->_id]) }}">View</a>
                                                     <a class="dropdown-item" href="{{ route('debtor.edit',[$debtor->_id]) }}">Edit</a>
                                                     <form action="{{ route('debtor.destroy',[$debtor->_id]) }}" method="post">
-                                                        <input type="hidden" name="store_name" value="">
+                                                        <input type="hidden" name="store_name" value=""> {{-- to be added on api then fixes --}}
                                                         <input type="hidden" name="customer_phone_number" value=" {{ $debtor->customer_phone_number }}">
                                                         <input class="dropdown-item" type="submit" value="Delete" />
                                                         @method('delete')

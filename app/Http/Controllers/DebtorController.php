@@ -132,16 +132,18 @@ class DebtorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
         $url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt/delete/'. $id;
+        $data = $request->all();
+        $data['debt_id'] = $id;
 
         try {
 
             $client = new Client();
             $payload = [
                 'headers' => ['x-access-token' => Cookie::get('api_token')],
-                'form_params' => ['debt_id' => $id]
+                'form_params' => $data,
             ];
 
             $response = $client->request("DELETE", $url, $payload);
