@@ -39,9 +39,11 @@ class StoreController extends Controller
                 return view('backend.stores.index')->with('response', $Stores->data->stores);
             }
             else if($statusCode->getStatusCode() == 401){
-                Session::flash('message', "You are not authorized to perform this action");
-               return redirect()->route('store.index');
+               return redirect()->route('logout');
            }
+           else if($statusCode->getStatusCode() == 500){
+            return view('errors.500');
+           } 
 
         } catch (RequestException $e) {
 
@@ -51,9 +53,9 @@ class StoreController extends Controller
             if ($e->getResponse()->getStatusCode() >= 500) {
                 return view('errors.500');
             }
-
-
-            return redirect()->route('store.index', ['response' => []]);
+            else {
+                return redirect()->route('logout');
+           }
 
         } catch (\Exception $e) {
 
@@ -87,6 +89,9 @@ class StoreController extends Controller
             $request->validate([
                 'store_name' => 'required|min:2',
                 'shop_address' =>  'required',
+                'tagline' =>  'required',
+                'email' =>  'required',
+                'phone_number' =>   'numeric|required',
             ]);
 
             try {
@@ -121,7 +126,7 @@ class StoreController extends Controller
                 }
                 else if($statusCode->getStatusCode() == 401){
                     $request->session()->flash('alert-class', 'alert-danger');
-                    Session::flash('message', "You are not authorized to perform this action, please check your details properly");
+                    Session::flash('message', "Your Session Has Expired, Please Login Again");
                    return redirect()->route('store.index');
                } else {
                     $request->session()->flash('alert-class', 'alert-waring');
@@ -190,7 +195,7 @@ class StoreController extends Controller
             }
             else if($statusCode->getStatusCode() == 401){
                 $request->session()->flash('alert-class', 'alert-danger');
-                Session::flash('message', "You are not authorized to perform this action");
+                Session::flash('message', "Your Session Has Expired, Please Login Again");
                return redirect()->route('store.index');
            }
             // get response to catch 4xx errors
@@ -277,6 +282,7 @@ class StoreController extends Controller
             $request->validate([
                 'store_name' => 'required|min:2',
                 'shop_address' =>  'required',
+                'phone_number' =>   'numeric',
             ]);
 
             $payload = [
@@ -340,7 +346,7 @@ class StoreController extends Controller
  	        }
          	else if($delete->getStatusCode() == 401){
  		    	$request->session()->flash('alert-class', 'alert-danger');
- 		    	Session::flash('message', "You are not authorized to perform this action, please check your details properly");
+ 		    	Session::flash('message', "Your Session Has Expired, Please Login Again");
                 return redirect()->route('store.index');
  	       }
             else if($delete->getStatusCode() == 500){
