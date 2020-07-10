@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications\NewCustomer;
+use App\User;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator; // NAMESPACE FOR PAGINATOR
@@ -29,13 +31,15 @@ class CustomerController extends Controller
     {
         //
         try {
-            $url = env('API_URL', 'https://dev.api.customerpay.me/'). 'customer' ;
+            $url = env('API_URL', 'https://dev.api.customerpay.me'). '/customer' ;
             $client = new Client();
+
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
             $user_response = $client->request('GET', $url, $headers);
 
             $statusCode = $user_response->getStatusCode();
             $users = json_decode($user_response->getBody());
+
             
             if ( $statusCode == 200 ) {
                 $customerArray = [];
@@ -136,6 +140,10 @@ class CustomerController extends Controller
                 if ($statusCode == 201  && $data->success) {
                     $request->session()->flash('alert-class', 'alert-success');
                     Session::flash('message', $data->message);
+
+                    $user = User::where('phone_number', Cookie::get('phone_number'))->first();
+                    $user->notify(new NewCustomer);
+                    
                     return back();
                 } else {
                     $request->session()->flash('alert-class', 'alert-waring');
@@ -183,7 +191,7 @@ class CustomerController extends Controller
         }
 
         try {
-            $url = $this->host.'customer/'.$id;
+            $url = $this->host.'/customer/'.$id;
             $client = new Client;
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
             $response = $client->request("GET", $url, $headers);
@@ -230,7 +238,7 @@ class CustomerController extends Controller
         }
 
         try {
-            $url = $this->host.'customer/'.$id;
+            $url = $this->host."/customer/".$id;
             $client = new Client;
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
             $response = $client->request("GET", $url, $headers);
@@ -281,7 +289,7 @@ class CustomerController extends Controller
           ]);
   
           try {
-              $url = $this->host.'customer/update/'.$id;
+              $url = $this->host.'/customer/update/'.$id;
   
               $client = new Client();
               
@@ -329,7 +337,7 @@ class CustomerController extends Controller
     {
         //
         try {
-            $url = $this->host.'customer/delete/'.$id;
+            $url = $this->host.'/customer/delete/'.$id;
 
             $client = new Client();
 
