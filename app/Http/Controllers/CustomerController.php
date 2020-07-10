@@ -31,13 +31,15 @@ class CustomerController extends Controller
     {
         //
         try {
-            $url = env('API_URL', 'https://dev.api.customerpay.me/'). 'customer' ;
+            $url = env('API_URL', 'https://dev.api.customerpay.me'). '/customer' ;
             $client = new Client();
+
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
             $user_response = $client->request('GET', $url, $headers);
 
             $statusCode = $user_response->getStatusCode();
             $users = json_decode($user_response->getBody());
+
             
             if ( $statusCode == 200 ) {
                 $customerArray = [];
@@ -77,6 +79,7 @@ class CustomerController extends Controller
 
             return view('errors.500');
         } catch ( \Exception $e ) {
+            return dd(get_class_methods($e));
             $statusCode = $e->getResponse()->getStatusCode();
             $data = json_decode($e->getResponse()->getBody()->getContents());
             if ( $statusCode == 401 ) { //401 is error code for invalid token
@@ -189,7 +192,7 @@ class CustomerController extends Controller
         }
 
         try {
-            $url = $this->host.'customer/'.$id;
+            $url = $this->host.'/customer/'.$id;
             $client = new Client;
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
             $response = $client->request("GET", $url, $headers);
@@ -236,7 +239,7 @@ class CustomerController extends Controller
         }
 
         try {
-            $url = $this->host.'customer/'.$id;
+            $url = $this->host."/customer/".$id;
             $client = new Client;
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
             $response = $client->request("GET", $url, $headers);
@@ -287,7 +290,7 @@ class CustomerController extends Controller
           ]);
   
           try {
-              $url = $this->host.'customer/update/'.$id;
+              $url = $this->host.'/customer/update/'.$id;
   
               $client = new Client();
               
@@ -335,7 +338,7 @@ class CustomerController extends Controller
     {
         //
         try {
-            $url = $this->host.'customer/delete/'.$id;
+            $url = $this->host.'/customer/delete/'.$id;
 
             $client = new Client();
 
