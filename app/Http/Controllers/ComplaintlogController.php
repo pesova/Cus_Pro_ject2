@@ -70,21 +70,21 @@ class ComplaintlogController extends Controller
      */
     public function update(Request $request, $id)
     {
-         $url = env('API_URL', 'https://api.customerpay.me/'). "/user/$id";
+         $url = env('API_URL', 'https://dev.api.customerpay.me'). "/user/$id";
 
         try {
             $client = new Client();
-            
+
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
             $request->validate([
     			'message' => 'required'
 			]);
-			
+
             $data = [ "message" => $request->input('message') ];
             $req = $client->request('PUT', $url, $headers, $data);
-            
+
             $statusCode = $req->getStatusCode();
-            
+
 			if ($statusCode == 200) {
                 $body = $req->getBody()->getContents();
                 $response = json_decode($body);
