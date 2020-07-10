@@ -49,10 +49,9 @@ class TransactionController extends Controller
             } else {
                 $stores = [];
             }
-// dd($transaction);
-            // dd($transaction->data->transaction);
+
             if (count($transaction->data->transactions) == 0) {
-                return view('backend.transaction.index', ['stores' => $stores, 'api_token' => $api_token]);
+                // // return view('backend.transaction.index', ['stores' => $stores, 'api_token' => $api_token]);
             } elseif ($statusCode == 200) {
 
                 return view('backend.transaction.index')->with('response', $transaction)->with('stores', $stores)->with('api_token', $api_token);
@@ -66,7 +65,7 @@ class TransactionController extends Controller
                 return redirect()->route('logout');
             }
         } catch (\Exception $e) {
-dd($e->getMessage());
+            Log::error($e->getMessage());
             //log error;
             return view('errors.500');
         }
@@ -177,7 +176,6 @@ dd($e->getMessage());
             $statusCode = $response->getStatusCode();
             $body = $response->getBody();
             $TransData = json_decode($body)->data->transaction;
-            // dd($StoreData);
             if ($statusCode == 200) {
 
                 return view('backend.transaction.show')->with('response', $TransData);
@@ -192,7 +190,6 @@ dd($e->getMessage());
             // get response to catch 4 errors
             $response = json_decode($e->getResponse()->getBody());
             Session::flash('alert-class', 'alert-danger');
-            // dd($response);
             Session::flash('message', $response->message);
             return redirect()->route('transaction.index', ['response' => []]);
         } catch (\Exception $e) {
@@ -229,7 +226,6 @@ dd($e->getMessage());
                 'id' => $transaction_id,
                 'store_name' => $Storename
             ];
-            // dd($StoreData);
             if ($statusCode == 200) {
 
                 return view('backend.transaction.edit')->with(['response' => $TransData, 'store_name' => $Storename]);
@@ -244,7 +240,6 @@ dd($e->getMessage());
             // get response to catch 4 errors
             $response = json_decode($e->getResponse()->getBody());
             Session::flash('alert-class', 'alert-danger');
-            // dd($response);
             Session::flash('message', $response->message);
             return redirect()->route('transaction.index', ['response' => []]);
         } catch (\Exception $e) {
