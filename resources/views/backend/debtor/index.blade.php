@@ -110,7 +110,7 @@
                         <div class="card-body">
                             {{-- <h4 class="header-title mt-0 mb-1">Basic Data Table</h4> --}}
                             <p class="sub-header">
-                                List of all debts <br>
+                                List of all Debtors <br>
                             </p>
                             <div class="table-responsive">
                                 <table class="table mb-0" id="basic-datatable">
@@ -125,19 +125,21 @@
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    @isset($debtors)
+                                    @foreach ($debtors as $key => $debtor)
                                     <tr>
-                                        <th scope="row">1</th>
-                                        <td><span>TR00001</span> <span
-                                                    class="badge badge-primary">Transaction type</span>
+                                        <th scope="row">{{ $key+1 }}</th>
+                                        <td>
+                                            <span>{{ $debtor->ts_ref_id }}</span>
                                         </td>
                                         <td>
-                                            <span class="badge badge-success">Transaction success</span> <span
-                                                    class="badge badge-danger">Transaction failed</span>
-                                        </td>
-                                        <td>Transaction message would be here
+                                            <span class="badge badge-{{ ($debtor->status == 'unpaid') ? 'danger' : 'sucess' }}">{{ $debtor->status }}</span>
                                         </td>
                                         <td>
-                                            2019-01-01
+                                            {{ $debtor->message }}
+                                        </td>
+                                        <td>
+                                            {{ date_format(new DateTime($debtor->expected_pay_date  ),'Y-m-d') }}
                                         </td>
 
                                         <td>
@@ -148,17 +150,21 @@
                                                     Actions<i class="icon"><span data-feather="chevron-down"></span></i>
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href='show'>View</a>
-                                                    <a class="dropdown-item" href='#'>Edit</a>
-                                                    <a class="dropdown-item" href="#">Delete</a>
+                                                    <a class="dropdown-item" href="{{ route('debtor.show',[$debtor->_id]) }}">View</a>
+                                                    <a class="dropdown-item" href="{{ route('debtor.edit',[$debtor->_id]) }}">Edit</a>
+                                                    <a class="dropdown-item" href="{{ route('debtor.destroy',[$debtor->_id]) }}">Delete</a>
                                                 </div>
                                             </div>
                                         </td>
                                     </tr>
-
+                                    @endforeach
+                                    @endisset
                                     </tbody>
                                 </table>
                             </div>
+                            @isset($debtors)
+                        {{ $debtors->links() }}
+                    @endisset
                         </div> <!-- end card body-->
                     </div> <!-- end card -->
                 </div><!-- end col-->

@@ -23,6 +23,10 @@
                                                 <img src="{{ ('/frontend/assets/images/fulllogo.png') }}" alt=""
                                                     height="auto" /> </a>
                                         </div>
+                                        @if(Session::has('message'))
+                                        <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">
+                                            {{ Session::get('message') }}</p>
+                                        @endif
 
                                         <h6 class="h5 mb-0 mt-4">Reset Password</h6>
                                         <p class="text-muted mt-1 mb-5">
@@ -30,8 +34,9 @@
                                             reset your password.
                                         </p>
 
-                                        
-                                        <form action="{{ route('password.reset') }}" class="authentication-form" method="POST">
+
+                                        <form action="{{ route('password.reset') }}" class="authentication-form"
+                                            method="POST">
                                             @csrf
 
                                             <div class="form-group">
@@ -40,7 +45,8 @@
                                                     <div class="input-group-prepend">
 
                                                     </div>
-                                                    <input type="tel" id="phone" name="phone_number" class="form-control" required>
+                                                    <input type="tel" id="phone" name="phone_number"
+                                                        class="form-control" required>
 
                                                 </div>
                                             </div>
@@ -90,6 +96,7 @@
     window.intlTelInput(input, {
         // any initialisation options go here
     });
+
 </script>
 
 
