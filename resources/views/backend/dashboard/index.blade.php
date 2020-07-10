@@ -124,7 +124,7 @@
                                 <tbody>
                                     {{-- Transaction endpoint is not yet working well ooo. To whom it may concern. I've told sudu 🤦🏾‍♂️ --}}
                                     <tr>
-                                        <td colspan="5" class="text-center">No transaction created yet 🤷🏾‍♂️</td>
+                                        <td colspan="5" class="text-center">No transaction created yet</td>
                                     </tr>
                                     {{-- <tr>
                                         <td>#0</td>
@@ -152,7 +152,7 @@
                         <h5 class="mb-4 header-title">Latest Debts</h5>
 
                         @if ( count($response[1]->data->debts) == 0 )
-                            <h5>Nothing to see here 😏</h5>
+                            <h5>No recent debtors</h5>
                         @else
                             {{-- This is still dummy data because I don't know what to expect from the debt endpoint until @doug and @kofimokome finish the endpoint --}}
                             <div class="media mt-1 border-top pt-3">
