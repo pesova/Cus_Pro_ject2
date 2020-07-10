@@ -100,6 +100,7 @@
                     </thead>
 
                     <tbody>
+                   @isset($response)
                      @foreach ($response as $index => $details)
                         @foreach ($details->transactions as $transactions)
                             <tr>
@@ -126,7 +127,7 @@
                         @endforeach
                         
                       @endforeach 
-                      
+                      @endisset
                     </tbody>
                 </table>
             </div>
