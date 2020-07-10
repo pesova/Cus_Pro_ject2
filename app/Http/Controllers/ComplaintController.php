@@ -30,17 +30,12 @@ class ComplaintController extends Controller
                 $complaints = json_decode($body);
                 return view('backend.complaints.index')->with('responses', $complaints);
             }
-            if ($statusCode == 500) {
-                return view('errors.500');
-            }
-            if ($statusCode == 401) {
-                return view('backend.complaints.index')->with('message', "Unauthoized token");
-            }
             if ($statusCode == 403) {
                 return redirect()->route('login')->with('message', "Please Login Again");
             }
         } catch (\Exception $e) {
-            return view('errors.500');
+            // return view('errors.500');
+            return view('backend.complaints.index')->with('responses', $complaints);
 
         }
         // return view('backend.complaints.index');
@@ -245,11 +240,8 @@ class ComplaintController extends Controller
                 // return \Redirect::back();
                 return redirect('/admin/complaint')->with('success', 'Complaint Deleted Successfully');
             }
-            if ($statusCode == 500) {
-                return view('errors.500');
-            }
         } catch (\Exception $e) {
-            return view('errors.500');
+            return redirect('/admin/complaint')->with('success', 'Complaint Deleted Successfully');
         }
     }
 }

@@ -424,7 +424,7 @@
                 </div>
             </div> --}}
 
-            @if ( isset($response) && count($response) > 0 )
+            
                 <div class="container-fluid">
 
                     <div class="row page-title">
@@ -438,85 +438,89 @@
                         </div>
                     </div>
 
-                  
-                    <div class="card-body p-1 card">
-                        <div class="table-responsive table-data">
-                            <table id="basic-datatable" class="table dt-responsive nowrap table table-striped table-bordered">
-            
-                                <thead> 
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Avatar</th>
-                                        <th>Name</th>
-                                        <th>Tel</th>
-                                        <th>Amount Due</th>
-                                        <th>Balance</th>
-                                        <th>Actions</th>
-                                    </tr>
-            
-                                <tbody>
-                                    @for ($i = 0; $i < count($response); $i++)
-                                    <tr>
-                                        <td>{{$i + 1}}</td>
-                                        <td><img src="/backend/assets/images/users/avatar-5.jpg"
-                                            class="avatar-sm rounded-circle" alt="Shreyu"/>
-                                        </td>
-                                        <td>{{isset($response[$i]->name) ? ucfirst($response[$i]->name) : 'Not available'}}<br>
-                                            <span class="badge badge-danger">Has Credit</span>
-                                        </td>
-                                        <td>{{isset($response[$i]->phone_number) ? $response[$i]->phone_number : 'Not available'}}<br>
-                                        </td>
-                                        <td>
-                                            <span> &#8358; 1 500</span> <br>
-                                            <span class="badge badge-primary">You Paid: 1000</span>
-                                        </td>
-                                        <td>
-                                            <span class="text-danger">&#8358; 500</span>
-                                        </td>
-                                        <td>
-                                            <div class="btn-group mt-2 mr-1">
-                                                <button type="button" class="btn btn-primary dropdown-toggle"
-                                                    data-toggle="dropdown" aria-haspopup="true"
-                                                    aria-expanded="false">
-                                                    Actions<i class="icon"><span
-                                                            data-feather="chevron-down"></span></i>
-                                                </button>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item"
-                                                        href="{{ route('customer.edit', $response[$i]->_id) }}">Edit Customer</a>
-                                                    <a class="dropdown-item"
-                                                        href="{{ route('customer.show', $response[$i]->_id) }}">View Profile</a>
-                                                    <a class="dropdown-item"
-                                                        href="{{ route('transaction.index') }}">View Transaction</a>
-                                                    <a class="dropdown-item"
-                                                        href="{{ route('debtor.create') }}">Send Reminder</a>
-                                                    <form id="delete-form-{{ $response[$i]->_id }}" method="POST"
-                                                        action="{{ route('customer.destroy', $response[$i]->_id) }}"
-                                                        style="display:none">
-                                                        {{csrf_field()}}
-                                                        {{method_field('DELETE')}}
-                                                    </form>
-                                                    <a style="margin-left: 1.5rem;" class="text-danger" href=""
-                                                        onclick="
-                                                                if(confirm('Are you sure You want to delete this user'))
-                                                                {event.preventDefault(); document.getElementById('delete-form-{{ $response[$i]->_id }}').submit();}
-                                                                else{
-                                                                event.preventDefault();
-                                                            }"> Delete </a>
+                    @if ( isset($response) && count($response) > 0 )
+                        <div class="card-body p-1 card">
+                            <div class="table-responsive table-data">
+                                <table id="basic-datatable" class="table dt-responsive nowrap table table-striped table-bordered">
+                                    <thead> 
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Avatar</th>
+                                            <th>Name</th>
+                                            <th>Tel</th>
+                                            <th>Amount Due</th>
+                                            <th>Balance</th>
+                                            <th>Actions</th>
+                                        </tr>
+                
+                                    <tbody>
+                                        @for ($i = 0; $i < count($response); $i++)
+                                        <tr>
+                                            <td>{{$i + 1}}</td>
+                                            <td><img src="/backend/assets/images/users/avatar-5.jpg"
+                                                class="avatar-sm rounded-circle" alt="Shreyu"/>
+                                            </td>
+                                            <td>{{isset($response[$i]->name) ? ucfirst($response[$i]->name) : 'Not available'}}<br>
+                                                <span class="badge badge-danger">Has Credit</span>
+                                            </td>
+                                            <td>{{isset($response[$i]->phone_number) ? $response[$i]->phone_number : 'Not available'}}<br>
+                                            </td>
+                                            <td>
+                                                <span> &#8358; 1 500</span> <br>
+                                                <span class="badge badge-primary">You Paid: 1000</span>
+                                            </td>
+                                            <td>
+                                                <span class="text-danger">&#8358; 500</span>
+                                            </td>
+                                            <td>
+                                                <div class="btn-group mt-2 mr-1">
+                                                    <button type="button" class="btn btn-primary dropdown-toggle"
+                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                        Actions<i class="icon"><span
+                                                                data-feather="chevron-down"></span></i>
+                                                    </button>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('customer.edit', $response[$i]->_id) }}">Edit Customer</a>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('customer.show', $response[$i]->_id) }}">View Profile</a>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('transaction.index') }}">View Transaction</a>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('debtor.create') }}">Send Reminder</a>
+                                                        <form id="delete-form-{{ $response[$i]->_id }}" method="POST"
+                                                            action="{{ route('customer.destroy', $response[$i]->_id) }}"
+                                                            style="display:none">
+                                                            {{csrf_field()}}
+                                                            {{method_field('DELETE')}}
+                                                        </form>
+                                                        <a style="margin-left: 1.5rem;" class="text-danger" href=""
+                                                            onclick="
+                                                                    if(confirm('Are you sure You want to delete this user'))
+                                                                    {event.preventDefault(); document.getElementById('delete-form-{{ $response[$i]->_id }}').submit();}
+                                                                    else{
+                                                                    event.preventDefault();
+                                                                }"> Delete </a>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    @endfor
+                                            </td>
+                                        </tr>
+                                        @endfor
 
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div>
+                    @else
+                        <div class="card-body p-1 card">
+                            <h3 style="font-style: italic; text-align: center;">No registered customers</h3>
+                        </div>
+                    @endif
                     <!-- end card -->
                     </div>
                 </div>
-            @endif
+            
         </div>
     </div>
 
