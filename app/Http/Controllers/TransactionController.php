@@ -28,7 +28,7 @@ class TransactionController extends Controller
     // return view('backend.transaction.index');
     $url = env('API_URL', 'https://dev.api.customerpay.me') . '/transaction';
 
-    // try {
+    try {
 
         $client = new Client;
         $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
@@ -50,33 +50,29 @@ class TransactionController extends Controller
            
         }
         
-           
+        else if($statusCode->getStatusCode() == 401){
+           return redirect()->route('logout');
+       }
+       else if($statusCode->getStatusCode() == 500){
+        return view('errors.500');
+       } 
 
-    //     else if($statusCode->getStatusCode() == 401){
-    //        return redirect()->route('logout');
-    //    }
-    //    else if($statusCode->getStatusCode() == 500){
-    //     return view('errors.500');
-    //    } 
+    } catch (RequestException $e) {
 
-    // } catch (RequestException $e) {
+        // check for 5xx server error
+        if ($e->getResponse()->getStatusCode() >= 500) {
+            return view('errors.500');
+        }
+        else {
+            return redirect()->route('logout');
+       }
 
-    //     // Log::info('Catch error: LoginController - ' . $e->getMessage());
+    } catch (\Exception $e) {
 
-    //     // check for 5xx server error
-    //     if ($e->getResponse()->getStatusCode() >= 500) {
-    //         return view('errors.500');
-    //     }
-    //     else {
-    //         return redirect()->route('logout');
-    //    }
-
-    // } catch (\Exception $e) {
-
-    //     //log error;
-    //     // Log::error('Catch error: StoreController - ' . $e->getMessage());
-    //     return view('errors.500');
-    // }
+        //log error;
+        
+        return view('errors.500');
+    }
     }
 
     /**
