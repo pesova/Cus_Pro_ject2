@@ -28,7 +28,7 @@
                                                                     <i class="uil uil-atm-card"></i>
                                                                 </span>
                                                             </div>
-                                                            <input type="name" class="form-control" id="firstname" aria-describedby="emailHelp" placeholder="Enter First Name">
+                                                            <input type="email" class="form-control" id="firstname" aria-describedby="emailHelp" placeholder="Enter First Name">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -41,7 +41,7 @@
                                                                     <i class="uil uil-atm-card"></i>
                                                                 </span>
                                                             </div>
-                                                            <input type="name" class="form-control" id="lastname" aria-describedby="emailHelp" placeholder="Enter Last Name">
+                                                            <input type="email" class="form-control" id="lastname" aria-describedby="emailHelp" placeholder="Enter Last Name">
                                                         </div>
                                                     </div>
                                                 </div>
