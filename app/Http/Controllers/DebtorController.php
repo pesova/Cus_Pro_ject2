@@ -14,6 +14,12 @@ use Illuminate\Support\Facades\Session;
 
 class DebtorController extends Controller
 {
+    protected $host;
+
+    public function __construct()
+    {
+        $this->host = env('API_URL', 'https://dev.api.customerpay.me');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -109,8 +115,36 @@ class DebtorController extends Controller
      */
     public function edit($id)
     {
-        //
-        return view('backend.debtor.create');
+        //return view('backend.debtor.edit');
+        if ( !$id || empty($id) ) {
+            return view('errors.500');
+        }
+
+        try {
+            $url = $this->host."/debt/".$id;
+            $client = new Client;
+            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+            $response = $client->request("GET", $url, $headers);
+            $data = json_decode($response->getBody());
+            if ( $response->getStatusCode() == 200 ) {
+                return view('backend.debtor.edit')->with('response', $data->data->debt);
+            } else {
+                return view('errors.500');
+            }
+        } catch (\RequestException $e) {
+            $statusCode = $e->getResponse()->getStatusCode();
+            $data = json_decode($e->getResponse()->getBody()->getContents());
+            $request->session()->flash('message', isset($data->message) ? $data->message : $data->error->error);
+            if ( $statusCode == 401 ) {
+                return redirect()->route('logout');
+            }
+            return back();
+            Log::error((string) $response->getBody());
+            return view('errors.500');
+        } catch ( Exception $e ) {
+            Log::error((string) $response->getBody());
+            return view('errors.500');
+        }
 
     }
 
