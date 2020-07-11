@@ -59,7 +59,7 @@
                             <label class="form-control-label">Transaction Type</label>
                             <div class="input-group input-group-merge">
                                 <div class="input-group-prepend">
-                                    
+
                                 </div>
                                 <select id="phone" class="form-control">
                                     <option></option>
@@ -71,7 +71,7 @@
 
                             </div>
                         </div>
-                        
+
                             <button type="button" class="btn btn-primary">Search</button>
                             </div>
 
@@ -83,7 +83,7 @@
         <div class="card-header">
             <div class="h5">All Transactions</div>
         </div>
-        
+
         <div class="card-body p-1 card">
             <div class="table-responsive table-data">
                 <table id="basic-datatable" class="table dt-responsive nowrap">
@@ -101,13 +101,15 @@
 
                     <tbody>
                    @isset($response)
-                     @foreach ($response as $index => $details)
-                        @foreach ($details->transactions as $transactions)
+                     {{-- {{dd($details)}} --}}
+                        @foreach ($response->data->transactions as  $transactions)
+                        {{-- {{dd($transactions)}} --}}
                             <tr>
+                        @foreach ($transactions->transactions as $index => $transaction)
                             <td>{{ $index + 1 }}</td>
-                             <td>{{$transactions->type }}</td>
-                            <td>{{$transactions->customer_ref_id }}</td>
-                            <td>{{$transactions->total_amount}}</td>
+                             <td>{{$transaction->type }}</td>
+                            <td>{{$transaction->customer_ref_id }}</td>
+                            <td>{{$transaction->total_amount}}</td>
                             <td>
                                 <div class="btn-group mt-2 mr-1">
                                     <button type="button" class="btn btn-info dropdown-toggle"
@@ -115,18 +117,17 @@
                                         Actions<i class="icon"><span data-feather="chevron-down"></span></i>
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" href="{{ route('transaction.show', $transactions->_id) }}">View
+                                        <a class="dropdown-item" href="{{ route('transaction.show', $transaction->_id) }}">View
                                             Transaction</a>
-                                        <a class="dropdown-item" href="{{ route('transaction.edit', $transactions->_id) }}">Edit
+                                        <a class="dropdown-item" href="{{ route('transaction.edit', $transaction->_id) }}">Edit
                                             Transaction</a>
-                                        <a class="dropdown-item" href="{{ route('transaction.destroy', $transactions->_id) }}">Delete Transaction</a>
+                                        <a class="dropdown-item" href="{{ route('transaction.destroy', $transaction->_id) }}">Delete Transaction</a>
                                     </div>
                                 </div>
                             </td>
                         </tr>
                         @endforeach
-                        
-                      @endforeach 
+                        @endforeach
                       @endisset
                     </tbody>
                 </table>
@@ -195,13 +196,20 @@
                                 <option value="Paid">Paid</option>
                                 <option value="Debt">Debt</option>
                             </select>
-                    
+
                         </div>
                     </div>
                     <div class="form-group row mb-3">
                         <label for="store_name" class="col-3 col-form-label">Store Name</label>
                         <div class="col-9">
-                            <input type="text" class="form-control" id="store_name" name="store_name" placeholder="Store Name">
+                            <select class="form-control" name="store_name" id="store_name" required>
+                                <option value="" selected disabled>None selected</option>
+                                @isset($stores)
+                                    @foreach ($stores as $store)
+                                        <option value="{{ $store->store_name }}">{{ $store->store_name }}</option>
+                                    @endforeach
+                                @endisset
+                              </select>
                         </div>
                     </div>
                     <div class="form-group row mb-3">
@@ -264,5 +272,17 @@
         // any initialisation options go here
     });
 
+    const hash = "{{ $api_token }}";
+    $('#store_name').change( element => {
+        $.ajax({
+            type: "GET",
+            url: "{{env('API_URL')}}/customer",
+            headers :  {'x-access-token': hash },
+            data: {},
+            success: function (response) {
+                console.log(response.data.data)
+            }
+        });
+    });
 </script>
 @stop
