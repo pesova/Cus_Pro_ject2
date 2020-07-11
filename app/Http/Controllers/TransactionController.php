@@ -7,6 +7,9 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
+use GuzzleHttp\Psr7;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Psr7\Response;
 
 class TransactionController extends Controller
 {
@@ -37,8 +40,8 @@ class TransactionController extends Controller
         $statusCode = $response->getStatusCode();
         $body = $response->getBody();
         $transaction = json_decode($body);
-        // dd($transaction->data->transaction);
-        if(count($transaction->data->transactions)==0)
+        // dd($transaction->data);
+        if(isset($transaction->data))
         {
             return view('backend.transaction.index');
         }
@@ -57,7 +60,7 @@ class TransactionController extends Controller
         return view('errors.500');
        } 
 
-    } catch (RequestException $e) {
+    } catch (ClientException $e) {
 
         // check for 5xx server error
         if ($e->getResponse()->getStatusCode() >= 500) {
@@ -67,7 +70,7 @@ class TransactionController extends Controller
             return redirect()->route('logout');
        }
 
-    } catch (\Exception $e) {
+    } catch (ClientException $e) {
 
         //log error;
         
@@ -105,7 +108,7 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/transaction/new';
+        
 
         // $data = $request->validate([
         //     'amount' => 'required',
@@ -119,56 +122,83 @@ class TransactionController extends Controller
         //     'phone_number' => 'required'
         // ]);
         
-        try{
             // if ($data) {
-
+                $url = env('API_URL', 'https://dev.api.customerpay.me') . '/transaction/new';
                 $client = new Client();
-                $payload = [
-                    'headers' => ['x-access-token' => Cookie::get('api_token')],
-                    'form_params' => [
-                        'amount' => $request->input('amount'),
-                        'interest' => $request->input('interest'),
-                        'total_amount' => $request->input('total_amount'),
-                        'description' => $request->input('description'),
-                        'transaction_name' => $request->input('transaction_name'),
-                        'transaction_role' =>$request->input('transaction_role'),                     
-                        'type' => $request->input('transaction_type'),
-                        'store_name' => $request->input('store_name'),
-                        'phone_number' => $request->input('phone_number'),
-                    ],
-        
-                ];
-                // dd($payload);
-                $response = $client->request("POST", $url, $payload);
-                
-                $statusCode = $response->getStatusCode();
-                $body = $response->getBody();
-                $data = json_decode($body);
-                if ($response->getStatusCode() == 201) {
+               $payload = [
+                'headers' => ['x-access-token' => Cookie::get('api_token')],
+                'form_params' => [
+                    'amount' => $request->input('amount'),
+                    'interest' => $request->input('interest'),
+                    'total_amount' => $request->input('total_amount'),
+                    'description' => $request->input('description'),
+                    'transaction_name' => $request->input('transaction_name'),
+                    'transaction_role' =>$request->input('transaction_role'),                     
+                    'type' => $request->input('transaction_type'),
+                    'store_name' => $request->input('store_name'),
+                    'phone_number' => $request->input('phone_number'),
+                ],
+    
+            ];
+
+                try{
+                    $response = $client->request("POST", $url, $payload);
                     $request->session()->flash('alert-class', 'alert-success');
-                    $request->session()->flash('message', 'Transaction successfully created');
-                        return redirect()->route('transaction.index');
+                        $request->session()->flash('message', 'Transaction successfully created');
+                         return redirect()->route('transaction.index');
+
                 }
-                    $request->session()->flash('message', 'Transaction failed to create');
-                    $request->session()->flash('alert-class', 'alert-danger');
-                    return redirect()->route('transaction.index');
+                catch(ClientException    $e){
+                    $statusCode = $e->getCode();
+                    if ($statusCode == 400){
+                        $request->session()->flash('alert-class', 'alert-danger');
+                        $request->session()->flash('message', 'store or customer is not created');
+                        return redirect()->route('transaction.index');
+                    }
+
+                    if ($statusCode == 500){
+                        return view('errors.500');
+                    }
+
+                   
+
+                    
+                }
+                
+                // $statusCode = $response->getStatusCode();
+                // $body = $response->getBody();
+                // $data = json_decode($body);()
+
+               
+                    
+                // if ($response->getStatusCode() == 201) {
+                //     $request->session()->flash('alert-class', 'alert-success');
+                //     $request->session()->flash('message', 'Transaction successfully created');
+                //         return redirect()->route('transaction.index');
+                // }
+                //     $request->session()->flash('message', 'Transaction failed to create');
+                //     $request->session()->flash('alert-class', 'alert-danger');
+                //     return redirect()->route('transaction.index');
            
 
-        } catch (RequestException $e) {
+        // } catch (RequestException $e) {
 
-            Log::info('Catch error: TransactionController - ' . $e->getMessage());
 
-            // check for 5xx server error
-            if ($e->getResponse()->getStatusCode() >= 500) {
-                return view('errors.500');
-            }
-            // get response to catch 4xx errors
-            $response = json_decode($e->getResponse()->getBody());
-            Session::flash('alert-class', 'alert-danger');
-            Session::flash('message', $response->error->description);
-            return redirect()->route('transaction.index', ['response' => []]);
+        //     if ($e->getResponse()->getStatusCode() == 400) {
+        //         return redirect()->route('transaction.index');
+        //     }
 
-        } 
+        //     // check for 5xx server error
+        //     if ($e->getResponse()->getStatusCode() >= 500) {
+        //         return view('errors.500');
+        //     }
+        //     // get response to catch 4xx errors
+        //     $response = json_decode($e->getResponse()->getBody());
+        //     Session::flash('alert-class', 'alert-danger');
+        //     Session::flash('message', $response->error->description);
+        //     return redirect()->route('transaction.index', ['response' => []]);
+
+        // } 
         
     }
 
