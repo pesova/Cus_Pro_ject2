@@ -35,16 +35,12 @@
                      <div class="col-lg-12">
                          <div class="card">
                             <div class="card-body">
-                                   
-                                   
-
                                     <form action="{{ route('assistants.update', $response->_id) }}" method="POST">
                                       @csrf
                                       @method('PUT')
-                                  
                                         <div class="form-row">
                                           <div class="form-group col-md-6">
-                                            <label for="name">Name</label>
+                                            <label for="store name">Name</label>
                                             <input type="text" name="name" class="form-control" value="{{ $response->name }}"  placeholder="XYZ Stores">
                                           </div>
                                           <div class="form-group col-md-6">
@@ -59,14 +55,13 @@
                                           </div>
                                         <div class="form-group col-md-6" >
                                             <label for="inputEmailAddress"> Password </label>
-                                            <input type="password" name="password" class="form-control" value="" placeholder="Enter Password">
+                                            <input type="password" name="password" class="form-control" value="" placeholder="you@example.com">
                                         </div>
                                         </div>
                                         <button type="submit" class="btn btn-success">
                                             Update Changes
                                         </button>
                                     </form>
-                                    
                                 </div>
                              </div>
                         </div>
