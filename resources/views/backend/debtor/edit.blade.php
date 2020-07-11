@@ -7,54 +7,30 @@
 @stop
         @section('content')
                 <div class="content">
-
+                    @isset($response)
                     <div class="container-fluid">
                         <div class="row justify-content-center">
                             <div class="col-md-7 mb-0">
+                                <a href="{{ route('debtor.index') }}" class="btn btn-primary float-right" >
+                                    Go Back {{-- &nbsp;<i class="fa fa-plus my-float"></i> --}}
+                                </a>
                                 <div class="card mb-3 mt-5 creditor-card">
-                                    <h4 class="pl-3 float-left text-white"> Add Debtor</h4>
+                                    <h4 class="pl-3 float-left text-white"> Edit Debtor Page</h4>
                                 </div>
 
                                 <div class="card">
+                                    @if(Session::has('message') || $errors->any())
+                                        <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
+                                    @endif
                                     <div class="card-body">
-                                        <form>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="firstname">First Name</label>
-                                                        <div class="input-group">
-                                                            <div class="input-group-prepend">
-                                                                <span class="input-group-text">
-                                                                    <i class="uil uil-atm-card"></i>
-                                                                </span>
-                                                            </div>
-                                                            <input type="name" class="form-control" id="firstname" aria-describedby="emailHelp" placeholder="Enter First Name">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="lastname">Last Name</label>
-                                                        <div class="input-group">
-                                                            <div class="input-group-prepend">
-                                                                <span class="input-group-text">
-                                                                    <i class="uil uil-atm-card"></i>
-                                                                </span>
-                                                            </div>
-                                                            <input type="name" class="form-control" id="lastname" aria-describedby="emailHelp" placeholder="Enter Last Name">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        <form method="post" action="{{ route('debtor.update', $response->_id) }}" enctype="multipart/form-data">>
+                                            @csrf
+                                             @method('PUT')
+                                            
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1">Email address</label>
+                                                <label for="exampleInputEmail1">Message</label>
                                                 <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">
-                                                            @
-                                                        </span>
-                                                    </div>
-                                                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Email">
+                                                    <input type="text" class="form-control" name="message" value="{{ $response->message }}" >
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -63,24 +39,38 @@
                                                     <div class="input-group-prepend">
 
                                                     </div>
-                                                    <input type="tel" id="phone" class="form-control">
+                                                    <input type="tel" name="customer_phone_number" value="{{ $response->customer_phone_number }}" disabled class="form-control">
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="phonenumber">Amount</label>
-                                                        <input type="number" class="form-control" id="phonenumber" placeholder="Enter Amount">
+                                                        <input type="number" class="form-control" name="amount" value="{{ $response->amount }}">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="phonenumber">Date due</label>
-                                                        <input type="date" class="form-control" id="phonenumber" placeholder="Enter Due Date">
+                                                        <input type="date" class="form-control" name="expected_pay_date" value="{{ date_format(new DateTime($response->expected_pay_date  ),'Y-m-d') }}">
                                                     </div>
                                                 </div>
                                             </div>
-                                            <button type="submit" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="phonenumber">Status</label>
+                                                        <input type="text" class="form-control" name="status" value="{{ $response->status }}">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="phonenumber">Ts Ref Id</label>
+                                                        <input type="name" class="form-control" name="ts_ref_id" value="{{ $response->ts_ref_id }}" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary float-right">Save Changes</button>
                                         </form>
 
                                     </div> <!-- end card-body-->
@@ -213,6 +203,7 @@
                             </div>
                         </div><!-- /.modal-content -->
                     </div><!-- /.modal-dialog -->
+                    @endisset
                 </div><!-- /.modal -->
         @endsection
 
