@@ -10,6 +10,8 @@ use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use GuzzleHttp\Exception\RequestException;
+use App\Rules\NoZero;
+use App\Rules\DoNotPutCountryCode;
 
 class RegisterController extends Controller
 {
@@ -64,8 +66,8 @@ class RegisterController extends Controller
     {
 
         $data = $request->validate([
-            'phone_number' => 'required|min:6|max:16',
-            'password' => 'required|min:6',
+            'phone_number' => ['required', 'min:6', 'max:16', new NoZero, new DoNotPutCountryCode],
+            'password' => ['required', 'min:6']
         ]);
         
         try {

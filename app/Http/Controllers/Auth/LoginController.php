@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use App\Rules\DoNotPutCountryCode;
+use App\Rules\NoZero;
 use GuzzleHttp\Client;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Cookie;
@@ -57,8 +59,8 @@ class LoginController extends Controller
     public function authenticate(Request $request)
     {
         $request->validate([
-            'phone_number' => 'required|min:6|max:16',
-            'password' => 'required|min:6'
+            'phone_number' => ['required', 'min:6', 'max:16', new NoZero, new DoNotPutCountryCode],
+            'password' => ['required', 'min:6']
         ]);
 
         try {
