@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Notifications\NewStore;
 use App\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -118,9 +117,6 @@ class StoreController extends Controller
                 if ($statusCode == 201  && $data->success) {
                     $request->session()->flash('alert-class', 'alert-success');
                     Session::flash('message', $data->message);
-
-                    $user = User::where('phone_number', Cookie::get('phone_number'))->first();
-                    $user->notify(new NewStore);
 
                     return $this->index();
                 }
