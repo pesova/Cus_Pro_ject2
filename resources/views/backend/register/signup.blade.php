@@ -30,13 +30,11 @@
                                         @endif
 
                                         @if ($errors->any())
-                                        <div class="alert alert-danger">
-                                            <ul>
-                                                @foreach ($errors->all() as $error)
-                                                <li>{{ $error }}</li>
-                                                @endforeach
-                                            </ul>
-                                        </div>
+                                            @foreach ($errors->all() as $error)
+                                                <div class="alert alert-danger">
+                                                        {{ $error }}
+                                                </div>
+                                            @endforeach
                                         @endif
 
                                         <form action="{{route('register')}}" class="authentication-form" method="POST" id="submitForm">
