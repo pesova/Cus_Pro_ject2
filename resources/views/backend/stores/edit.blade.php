@@ -35,7 +35,6 @@
                      <div class="col-lg-12">
                          <div class="card">
                             <div class="card-body">
-                                    @if (isset($response->_id))
                                         <form action="{{ route('store.update', $response->_id) }}" method="POST">
                                       @csrf
                                       @method('PUT')
@@ -67,9 +66,6 @@
                                             Update Changes
                                         </button>
                                     </form>
-                                    @else
-                                        <p>Error retrieving store information please reload</p>
-                                    @endif
                                     
                                 </div>
                              </div>
