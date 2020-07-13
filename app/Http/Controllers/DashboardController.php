@@ -59,7 +59,7 @@ class DashboardController extends Controller
 
         } catch (RequestException $e) {
 
-            return view('backend.debtor.index')->with( 'response', null );
+            return view('backend.dashboard.index')->with( 'response', null );
         } catch (\Exception $e) {
 
             return view('errors.500');

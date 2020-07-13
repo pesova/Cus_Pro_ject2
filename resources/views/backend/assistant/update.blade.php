@@ -54,8 +54,8 @@
                                             <input type="text" name="phone_number" class="form-control" value="{{ $response->phone_number }}" placeholder="+2348173644654">
                                           </div>
                                         <div class="form-group col-md-6" >
-                                            <label for="inputEmailAddress"> Password </label>
-                                            <input type="password" name="password" class="form-control" value="" placeholder="you@example.com">
+                                            <label for="password"> Password </label>
+                                            <input type="password" name="password" class="form-control" value="" placeholder="Enter Password">
                                         </div>
                                         </div>
                                         <button type="submit" class="btn btn-success">
