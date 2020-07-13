@@ -49,17 +49,17 @@
                                           </div>
                                           <div class="form-group col-md-6">
                                             <label for="inputTagline">Tagline*</label>
-                                            <input type="text" name="tagline" class="form-control" id="inputTagline" placeholder="Your Perfect Stay One Click away...."  >
+                                            <input type="text" name="tagline" class="form-control" id="inputTagline" placeholder="Your Perfect Stay One Click away...."  required>
                                           </div>
                                         </div>
                                         <div class="form-row">
                                           <div class="form-group col-md-6">
                                             <label for="inputPhoneNumber">Phone Number*</label>
-                                            <input type="tel" name="phone_number" class="form-control" placeholder="+2348127737643" >
+                                            <input type="tel" name="phone_number" class="form-control" placeholder="+2348127737643" required>
                                           </div>
                                         <div class="form-group col-md-6" >
                                             <label for="inputEmailAddress"> Email Address*</label>
-                                            <input type="email" name="email" class="form-control" placeholder="you@example.com">
+                                            <input type="email" name="email" class="form-control" placeholder="you@example.com" required>
                                         </div>
                                         </div>
                                         <div class="form-group">
