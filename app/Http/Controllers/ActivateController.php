@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class ActivateController extends Controller
 {
@@ -17,6 +22,26 @@ class ActivateController extends Controller
         if (Cookie::get('is_active')) {
             return redirect()->route('dashboard');
         }
+
+        try {
+           $url = env('API_URL', 'https://api.customerpay.me') . '/otp/send';
+           $client = new Client();
+           $response = $client->post($url, [
+               'form_params' => [
+                   'phone_number' => '+' . Cookie::get('phone_number'),
+               ]
+           ]);
+
+        } catch (RequestException $e) {
+            if ($e->hasResponse()) {
+                $response = json_decode($e->getResponse()->getBody());
+                Session::flash('message', $response->message);
+            }
+        } catch (Exception $e) {
+            dd($e->getMessage());
+            Log::error($e->getMessage());
+        }
+
         return view('backend.user.activate')->with([
             'apiToken' => Cookie::get('api_token'),
             'phoneNumber' => Cookie::get('phone_number')
