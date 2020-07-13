@@ -7,7 +7,6 @@
 @stop
 
 
-
 @section('content')
 <div class="container-fluid">
     <div class="row ">
@@ -21,49 +20,45 @@
                                     <div class="col-12 p-5">
                                         <div class="mx-auto mb-5">
                                             <a href="{{ route('home') }}">
-                                                <img src="{{ ('/frontend/assets/images/fulllogo.png') }}" alt="" height="auto" /> </a>
+                                                <img src="{{ ('/frontend/assets/images/fulllogo.png') }}" alt=""
+                                                    height="auto" /> </a>
                                         </div>
                                         <h3 class="h3 mb-0 mt-4 text-center">Register</h3>
                                         <br><br>
                                         @if(Session::has('message'))
-                                        <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
+                                        <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">
+                                            {{ Session::get('message') }}</p>
                                         @endif
 
                                         @if ($errors->any())
-                                            @foreach ($errors->all() as $error)
-                                                <div class="alert alert-danger">
-                                                        {{ $error }}
-                                                </div>
-                                            @endforeach
+                                        @foreach ($errors->all() as $error)
+                                        <div class="alert alert-danger">
+                                            {{ $error }}
+                                        </div>
+                                        @endforeach
                                         @endif
 
-                                        <form action="{{route('register')}}" class="authentication-form" method="POST" id="submitForm">
+                                        <form action="{{route('register')}}" class="authentication-form" method="POST"
+                                            id="submitForm">
                                             @csrf
                                             <div class="form-group">
-                                                {{-- <label class="form-control-label">First Name</label>
-                                                    <div class="input-group input-group-merge">
-                                                        <input type="text" id="first_name" name="first_name" class="form-control" >
-                                                    </div>
-                                                    <label class="form-control-label">Last Name</label>
-                                                    <div class="input-group input-group-merge">
-                                                        <input type="text" id="last_name" name="last_name" class="form-control" >
-                                                    </div>
-                                                    <label class="form-control-label">Email</label>
-                                                    <div class="input-group input-group-merge">
-                                                        <input type="email" id="email" name="email" class="form-control" >
-                                                    </div> --}}
                                                 <label class="form-control-label mt-0 mb-2">Phone Number</label>
                                                 <div class="input-group input-group-merge">
                                                     <div class="input-group-prepend">
                                                     </div>
-                                                    <input type="number" id="phone" name="" class="form-control" value="" aria-describedby="helpPhone" placeholder="813012345" required>
-                                                    <input type="hidden" name="phone_number" id="phone_number" class="form-control">
+                                                    <input type="number" id="phone" name="" class="form-control"
+                                                        value="" aria-describedby="helpPhone" placeholder="813012345"
+                                                        required>
+                                                    <input type="hidden" name="phone_number" id="phone_number"
+                                                        class="form-control">
                                                     <div class="red-warn">Please enter a valid phone number</div>
                                                 </div>
-                                                    <small id="helpPhone" class="form-text text-muted">Enter your number without the starting 0, eg 813012345</small>
+                                                <small id="helpPhone" class="form-text text-muted">Enter your number
+                                                    without the starting 0, eg 813012345</small>
                                                 <label class="form-control-label mt-2 mb-2">Password</label>
                                                 <div class="input-group input-group-merge">
-                                                    <input type="password" id="password" name="password" class="form-control" required>
+                                                    <input type="password" id="password" name="password"
+                                                        class="form-control" required>
                                                 </div>
                                                 <div class="pass-feedback"></div>
                                             </div>
@@ -83,7 +78,8 @@
 
                         <div class="row mt-3">
                             <div class="col-12 text-center">
-                                <p class="text-muted">Back to <a href="{{ route('login') }}" class="text-primary font-weight-bold ml-1">Login</a>
+                                <p class="text-muted">Back to <a href="{{ route('login') }}"
+                                        class="text-primary font-weight-bold ml-1">Login</a>
                                 </p>
                             </div> <!-- end col -->
                         </div>
@@ -98,7 +94,8 @@
 
             </div>
         </div>
-        <div class="col-lg-8 d-none d-md-block bg-cover" style="background-image: url(/backend/assets/images/login.svg);">
+        <div class="col-lg-8 d-none d-md-block bg-cover"
+            style="background-image: url(/backend/assets/images/login.svg);">
 
         </div>
     </div>
@@ -110,7 +107,7 @@
 @section("javascript")
 <script src="/backend/assets/build/js/intlTelInput.js"></script>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         var input = document.querySelector("#phone");
         var test = window.intlTelInput(input, {
             separateDialCode: true,
