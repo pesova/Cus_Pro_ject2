@@ -31,22 +31,29 @@
                 </ul>
             </div>
         @endif
-
+                            
         <div class="row h-100 justify-content-center align-items-center">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
                         {{-- <h4 class="mb-3 header-title mt-0">Complaint Form</h4> --}}
 
-                    <form action=" {{ route('assistant.store') }}" method="POST" class="mt-4 mb-3 form-horizontal my-form">
-                        @csrf
-                        <div class="form-group row mb-3">
+                            <form action=" {{ route('assistants.store') }}" method="POST" class="mt-4 mb-3 form-horizontal my-form">
+                            @csrf
+                           
+                            <div class="form-group row mb-3">
                                 <label for="name" class="col-2 col-sm-3 col-form-label my-label">Name:</label> <br> <br>
                                 <div class="col-10 col-sm-7">
                                     <input name="name" type="text" class="form-control" id="fullname" placeholder="Enter name here">
                                 </div>
                             </div>
                             <br>
+                            <!-- <div class="form-group row mb-3">
+                                <label for="name" class="col-2 col-sm-3 col-form-label my-label">Store Name:</label> <br> <br>
+                                <div class="col-10 col-sm-7">
+                                    <input name="store_name" type="text" class="form-control" id="fullname" placeholder="Enter store name here">
+                                </div>
+                            </div> -->
                             {{-- <div class="form-group row mb-3">
                                 <label for="role" class="col-2 col-sm-3 col-form-label my-label">Role:</label> <br>
                                 <div class="col-10 col-sm-7">
@@ -55,9 +62,9 @@
                             </div>
                             <br>   --}}
                             <div class="form-group row mb-3">
-                                <label for="address" class="col-2 col-sm-3 col-form-label my-label">Address:</label> <br>
+                                <label for="address" class="col-2 col-sm-3 col-form-label my-label">Email:</label> <br>
                                 <div class="col-10 col-sm-7">
-                                    <input type="text" class="form-control" id="fullname" placeholder="Enter Address">
+                                    <input name="email" type="email" class="form-control" id="fullname" placeholder="Enter Address">
                                 </div>
                             </div>
                             <br>
@@ -69,9 +76,9 @@
                             </div>
                             <br>
                             <div class="form-group row mb-3">
-                                <label for="email" class="col-2 col-sm-3 col-form-label my-label">Email:</label> <br>
+                                <label for="email" class="col-2 col-sm-3 col-form-label my-label">Password:</label> <br>
                                 <div class="col-10 col-sm-7">
-                                    <input type="text" class="form-control" id="fullname" placeholder="Enter email">
+                                    <input name="password" type="password" class="form-control" id="fullname" placeholder="Enter password">
                                 </div>
                             </div>
                             <br>

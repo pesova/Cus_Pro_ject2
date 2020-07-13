@@ -6,9 +6,9 @@
 @stop
 
 @section('content')
-<div class="content">
+   
     <!-- Start Content-->
-    <div class="container-fluid">
+    
         <div class="row page-title">
             <div class="col-md-12">
                 <nav aria-label="breadcrumb" class="float-right mt-1">
@@ -31,7 +31,7 @@
                         <div class="text-center">
                             <img src="{{asset('backend/assets/images/users/avatar-7.jpg')}}" alt=""
                                 class="avatar-lg rounded-circle" />
-                                {{-- {{ print_r($response) }} --}}
+                                
                             <h6 class="text-muted font-weight-normal mt-2 mb-0">{{ $response->store_name }}</h6>
                         </div>
                         <div class="mt-5 pt-2 border-top">
@@ -55,8 +55,19 @@
                                         <tbody>
                                             <tr>
                                                 <th scope="row">Email</th>
-                                                <td>{{$response->email}}</td>
+                                                <td>{{ $response->email }}</td>
                                             </tr>
+
+                                            <tr>
+                                                <th scope="row">TagLine</th>
+                                                <td>{{ $response->tagline }}</td>
+                                            </tr>
+
+                                            <tr>
+                                                <th scope="row">Phone Number</th>
+                                                <td>{{ $response->phone_number }}</td>
+                                            </tr>
+
                                             <tr>
                                                 <th scope="row">Total Number of Customers</th>
                                                 <td>{{count( $response->customers )}}</td>

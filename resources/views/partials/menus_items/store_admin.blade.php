@@ -19,17 +19,17 @@
     </a>
 </li>
 
-<li>
+{{-- <li>
     <a href="{{route('analytics')}}">
         <i data-feather="book-open"></i>
         <span> Analytics </span>
     </a>
-</li>
+</li> --}}
 
 <li>
-    <a href="#">
+    <a href="{{ route('debtor.index') }}">
         <i data-feather="bell"></i>
-        <span> Debt Reminders </span>
+        <span> Debtors </span>
     </a>
 </li>
 
@@ -40,22 +40,22 @@
     </a>
 </li>
 
-<li>
+{{-- <li>
     <a href="{{ route('broadcast.index') }}">
         <i data-feather="message-square"></i>
         <span> Broadcast Message </span>
     </a>
-</li>
-<li>
+</li> --}}
+{{-- <li>
     <a href="{{ route('complaint.create') }}">
         <i data-feather="book-open"></i>
         <span> Complaint Forms </span>
     </a>
-</li>
+</li> --}}
 <li>
     <a href="{{ route('complaint.index') }}">
         <i data-feather="book"></i>
-        <span> Complaint Log </span>
+        <span> Complaint</span>
     </a>
 </li>
 <li>
@@ -66,12 +66,12 @@
 </li>
 
 
-<li>
+{{-- <li>
     <a href="{{ route('notification') }}">
         <i data-feather="bell"></i>
         <span> Notifications </span>
     </a>
-</li>
+</li> --}}
 
 {{--todo: Remove this. it is for super admin only--}}
 {{-- <li>

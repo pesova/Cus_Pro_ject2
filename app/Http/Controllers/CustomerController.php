@@ -16,7 +16,7 @@ class CustomerController extends Controller
 
     public function __construct()
     {
-        $this->host = env('API_URL', 'https://dev.api.customerpay.me/');
+        $this->host = env('API_URL', 'https://dev.api.customerpay.me');
     }
 
 
@@ -29,13 +29,16 @@ class CustomerController extends Controller
     {
         //
         try {
-            $url = env('API_URL', 'https://dev.api.customerpay.me/'). 'customer' ;
+            $url = env('API_URL', 'https://dev.api.customerpay.me'). '/customer' ;
             $client = new Client();
+
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
             $user_response = $client->request('GET', $url, $headers);
 
             $statusCode = $user_response->getStatusCode();
             $users = json_decode($user_response->getBody());
+
+
             if ( $statusCode == 200 ) {
                 $customerArray = [];
                 foreach($users->data as $key => $value) {
@@ -100,7 +103,7 @@ class CustomerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-        
+
     public function store(Request $request)
     {
         //
@@ -135,6 +138,7 @@ class CustomerController extends Controller
                 if ($statusCode == 201  && $data->success) {
                     $request->session()->flash('alert-class', 'alert-success');
                     Session::flash('message', $data->message);
+
                     return back();
                 } else {
                     $request->session()->flash('alert-class', 'alert-waring');
@@ -173,7 +177,7 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    
+
     public function show($id)
     {
         // return view('backend.customer.show');
@@ -182,7 +186,7 @@ class CustomerController extends Controller
         }
 
         try {
-            $url = $this->host.'customer/'.$id;
+            $url = $this->host.'/customer/'.$id;
             $client = new Client;
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
             $response = $client->request("GET", $url, $headers);
@@ -229,7 +233,7 @@ class CustomerController extends Controller
         }
 
         try {
-            $url = $this->host.'customer/'.$id;
+            $url = $this->host."/customer/".$id;
             $client = new Client;
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
             $response = $client->request("GET", $url, $headers);
@@ -261,7 +265,7 @@ class CustomerController extends Controller
             return view('errors.500');
         }
     }
-    
+
 
     /**
      * Update the specified resource in storage.
@@ -278,12 +282,12 @@ class CustomerController extends Controller
             'email' => 'required',
             'store_name' => 'required',
           ]);
-  
+
           try {
-              $url = $this->host.'customer/update/'.$id;
-  
+              $url = $this->host.'/customer/update/'.$id;
+
               $client = new Client();
-              
+
               $payload = [
                   'headers' => ['x-access-token' => Cookie::get('api_token')],
                   'form_params' => [
@@ -292,28 +296,28 @@ class CustomerController extends Controller
                       'email' => $request->input('email'),
                       'store_name' => $request->input('store_name'),
                   ],
-  
+
               ];
-  
+
               $response = $client->request("PUT", $url, $payload);
-  
+
               $data = json_decode($response->getBody());
-              
+
               if ( $response->getStatusCode() == 200 ) {
                   $request->session()->flash('alert-class', 'alert-success');
                   $request->session()->flash('message', 'Customer updated successfully');
-              
+
                   return redirect()->back();
               } else {
                   $request->session()->flash('alert-class', 'alert-danger');
                   $request->session()->flash('message', 'Customer update failed');
               }
-  
+
           } catch ( \Exception $e ) {
               $data = json_decode($e->getBody()->getContents());
               $request->session()->flash('alert-class', 'alert-danger');
               $request->session()->flash('message', $data->message);
-  
+
               return redirect()->back();
           }
     }
@@ -328,23 +332,23 @@ class CustomerController extends Controller
     {
         //
         try {
-            $url = $this->host.'customer/delete/'.$id;
+            $url = $this->host.'/customer/delete/'.$id;
 
             $client = new Client();
 
             $payload = [
                 'headers' => ['x-access-token' => Cookie::get('api_token')],
-        
+
             ];
 
             $response = $client->request("DELETE", $url, $payload);
 
             $data = json_decode($response->getBody());
-            
+
             if ( $response->getStatusCode() == 200 ) {
                 $request->session()->flash('alert-class', 'alert-success');
                 $request->session()->flash('message', 'Customer deleted successfully');
-            
+
                 return redirect()->back();
             } else {
                 $request->session()->flash('alert-class', 'alert-danger');

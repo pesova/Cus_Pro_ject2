@@ -7,21 +7,34 @@
 @stop
         @section('content')
                 <div class="content">
-                    <a href="#" class="float" data-toggle="modal"
+                    {{-- <a href="#" class="float" data-toggle="modal"
                                                     data-target="#myModal">
 <i class="fa fa-plus my-float" ></i>
-</a>
+</a> --}}
                     <div class="container-fluid">
+                            <div class="row page-title">
+                                <div class="col-md-12">
+                                    <div class="customer-heading-container">
+                                        <button class="add-customer-button btn btn-primary" data-toggle="modal">
+                                            <a href="{{ route('assistants.create') }}" class="text-white">
+                                                Add New Assistant <i class="fa fa-plus add-new-icon"></i>
+                                            </a>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         <div class="row page-title">
-            
+
                                         @if(Session::has('message'))
                                             <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
-                        
+
                                         @endif
-                            
+
                             <div class="col-md-12">
-                                <h4 class="mb-1 mt-0">Assitants</h4>
+                                <h4 class="mb-1 mt-0">Assistants</h4>
                             </div>
+
+
                         </div>
 
                         <div class="row">
@@ -59,6 +72,7 @@
                                                     </div>
                                                     <input type="text" class="form-control" id="password" >
                                                 </div>
+
                                             </div>
 
                                             <div class="form-group col-lg-4 mt-4">
@@ -109,15 +123,15 @@
                                            @for ($i = 0; $i < count($response); $i++)
                                         <tr>
                                         <th>{{$i + 1 }}</th>
-                                                    <td>{{$response[$i]->first_name ." ". $response[$i]->last_name}}<br> <span>{{$response[$i]->_id}}</span>
+                                                    <td>{{$response[$i]->name }}<br> <span>{{$response[$i]->_id}}</span>
 
-                                                        @if ($response[$i]->user_role == "store_admin")
+                                                        <!-- @if ($response[$i]->user_role == "store_admin")
                                                             <span class="badge badge-primary">owner</span>
                                                         @elseif ($response[$i]->user_role == "store_assistant")
                                                             <span class="badge badge-secondray">assistant</span>
                                                         @else
                                                              <span class="badge badge-info">No role</span>
-                                                        @endif
+                                                        @endif -->
                                                         @if($response[$i]->is_active)
                                                         <span class="badge badge-success">Activated</span>
                                                          </td>
@@ -126,6 +140,20 @@
                                                         </td>
                                                         @endif
                                                     <td>
+                                                       @if(isset($response[$i]->phone_number))
+                                                       {{$response[$i]->phone_number}} <br>
+                                                       @else
+                                                       assistant email here<br>
+                                                       @endif
+                                                    {{-- <span class="badge badge-primary">Store Reference Code:
+                                                        @if(isset($response[$i]->store_ref_code))
+                                                       {{$response[$i]->store_ref_code}} <br>
+                                                       @else
+                                                        ST145M455 <br>
+                                                       @endif
+                                                    </span> --}}
+                                                 </td>
+                                                 <td>
                                                        @if(isset($response[$i]->email))
                                                        {{$response[$i]->email}} <br>
                                                        @else
@@ -146,9 +174,13 @@
                                             </button>
                                             <div class="dropdown-menu dropdown-menu-right">
                                             @isset($response[$i]->_id)
-                                            <a class="dropdown-item" href="{{ route('assistants.show',['assistant'=>$response[$i]->_id]) }}">View Profile</a>
-                                                <a class="dropdown-item" href="{{route('assistants.show',['assistant'=>$response[$i]->_id])}}">Edit Assistant</a>
-                                                <a class="dropdown-item" href="#">Delete</a>
+                                            <a class="dropdown-item" href="{{ route('assistants.show', $response[$i]->_id) }}">View Profile</a>
+                                                <a class="dropdown-item" href="{{route('assistants.edit', $response[$i]->_id) }}">Edit Assistant</a>
+                                                <a class="dropdown-item" href="javascript:void(0)" onclick="$(this).parent().find('form').submit()">Delete Assistant</a>
+                                                <form action="{{ route('assistants.destroy', $response[$i]->_id) }}" method="POST" id="form">
+                                                    @method('DELETE')
+                                                    @csrf
+                                                </form>
                                             @endisset
                                                 </div>
                                                 </div></td>
@@ -163,15 +195,13 @@
                                       @if(!isset($response))
                                         <P>Ooops could not get assistant to display</P>
                                       @endif
-                                 
+
                                     </div>
                                     </div> <!-- end card body-->
                                 </div> <!-- end card -->
                             </div><!-- end col-->
                         </div>
-                         @isset($response)
-                        {{$response->links()}}
-                        @endisset
+
                     </div>
                 </div>
                                             <div id="myModal" class="modal fade" tabindex="-1" role="dialog"
@@ -186,26 +216,33 @@
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                      
-                        <form class="mt-4 mb-3 form-horizontal">
+
+                        <form class="mt-4 mb-3 form-horizontal" action="{{ route('assistants.store') }}" method="POST">
                             <div class="form-group row mb-3">
                                 <label for="name" class="col-3 col-form-label">Name</label> <br> <br>
                                 <div class="col-9">
-                                    <input type="text" class="form-control" id="fullname" placeholder="Enter name here">
+                                    <input type="text" class="form-control" id="fullname" name="name" placeholder="Enter name here">
                                 </div>
                             </div>
                             <br>
                             <div class="form-group row mb-3">
                                 <label for="number" class="col-3 col-form-label">Phone Number</label> <br>
                                 <div class="col-9">
-                                    <input type="text" class="form-control" id="fullname" placeholder="Enter phone number">
+                                    <input type="text" class="form-control" id="fullname" name="phone_number" placeholder="Enter phone number">
                                 </div>
                             </div>
                             <br>
                             <div class="form-group row mb-3">
                                 <label for="email" class="col-3 col-form-label">Email</label> <br>
                                 <div class="col-9">
-                                    <input type="text" class="form-control" id="fullname" placeholder="Enter email">
+                                    <input type="text" class="form-control" id="fullname" name="email" placeholder="Enter email">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-group row mb-3">
+                                <label for="email" class="col-3 col-form-label">Password</label> <br>
+                                <div class="col-9">
+                                    <input type="password" class="form-control" id="fullname" name="password" placeholder="Enter password">
                                 </div>
                             </div>
                             <br>
@@ -216,7 +253,7 @@
                             </div>
                         </form>
                                                 </div>
-                                                                                                <div class="modal-footer">
+                                                    <div class="modal-footer">
                                                 </div>
 
                                             </div><!-- /.modal-content -->

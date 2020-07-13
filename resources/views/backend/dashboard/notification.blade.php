@@ -29,7 +29,7 @@
                             <div class="media p-3">
                                 <div class="media-body">
                                     <span class="text-muted text-uppercase font-size-12 font-weight-bold">Total Notifications</span>
-                                    <h2 class="mb-0">283</h2>
+                                    <h2 class="mb-0">{{$notifications->count()}}</h2>
                                 </div>
                                 <div class="align-self-center">
                                     <span class="text-info font-weight-bold font-size-13"> 
@@ -48,7 +48,7 @@
                                 <div class="media-body">
                                     <span class="text-muted text-uppercase font-size-12 font-weight-bold">
                                         New notifications</span>
-                                    <h2 class="mb-0">15 </i></h2>
+                                    <h2 class="mb-0">{{$user->unreadNotifications->count()}}</i></h2>
                                 </div>
                                 <div class="align-self-center">
                                     <span class="text-danger font-weight-bold font-size-13"> 
@@ -70,11 +70,11 @@
                         <div class="card-body">
                             {{-- <h4 class="header-title mt-0 mb-1">Basic Data Table</h4> --}}
                             <p class="sub-header">
-                                15 new notifications
+                                {{$user->unreadNotifications->count()}} new notifications
 
-                                <button type="button" class="btn btn-primary float-right btn-sm" aria-expanded="false">
+                                <a href="{{route('read.all')}}" type="button" class="btn btn-primary float-right btn-sm" aria-expanded="false">
                                     <i class='uil uil-check ml-1'></i> Mark all as read 
-                               </button><br>                                   
+                                </a><br>                                   
                             </p>
                          
                             {{-- Table designing --}}
@@ -93,222 +93,25 @@
                                     </thead>
 
                                     <tbody>
-                                    <tr>
+                                        @foreach ($notifications as $notification)
+                                            <tr>
                                         <th scope="row">1</th>
 
-                                        <td>                                         
-                                             <img src="/backend/assets/images/users/avatar-1.jpg" class=" rounded-circle img-size-32" alt="" />
-                                          </td>
-
                                         <td>
-                                           <p>Seyi onifade</p>
+                                            <p>{{$notification->data['message']}}</p> 
                                         </td>
 
                                         <td>
-                                            <p>Notifications from my-customers would appear here</p> 
+                                            <p class="text-danger align-self-center">
+                                                {{(is_null($notification->read_at)) ? 'Unread' : 'Read'}}
+                                            </p>
                                         </td>
 
                                         <td>
-                                            <p class="text-danger align-self-center">Unread</p>
-                                        </td>
-
-                                        <td>
-                                            <p>3 mins ago</p>
-                                        </td>
-
-                                        <td>
-                                            <button type="button" class="btn btn-primary btn-sm" aria-expanded="false">
-                                                    View 
-                                            </button>
+                                            <p>{{date_diff($notification->created_at, now())->format("%h hrs %i mins %s secs")}}</p>
                                         </td>
                                     </tr>
-
-                                    {{-- new table row --}}
-                                    <tr>
-                                        <th scope="row">2</th>
-
-                                        <td>                                         
-                                                <img src="/backend/assets/images/users/avatar-1.jpg" class=" rounded-circle img-size-32" alt="" />
-                                          </td>
-
-                                        <td>
-                                           <p>Seyi onifade</p>
-                                        </td>
-
-                                        <td>
-                                            <p>Notifications from my-customers would appear here</p> 
-                                        </td>
-
-                                        <td>
-                                            <p class="text-danger align-self-center">Unread</p>
-                                        </td>
-
-                                        <td>
-                                            <p>10 mins ago</p>
-                                        </td>
-
-                                        <td>
-                                            <button type="button" class="btn btn-primary btn-sm"
-                                             aria-expanded="false">
-                                                    View 
-                                            </button>
-                                        </td>
-                                    </tr> 
-                                    
-                                    <tr>
-                                        <th scope="row">3</th>
-
-                                        <td>                                         
-                                                <img src="/backend/assets/images/users/avatar-1.jpg" class=" rounded-circle img-size-32" alt="" />
-                                          </td>
-
-                                        <td>
-                                           <p>Seyi onifade</p>
-                                        </td>
-
-                                        <td>
-                                            <p>Notifications from my-customers would appear here</p> 
-                                        </td>
-
-                                        <td>
-                                            <p class="text-primary align-self-center">Read</p>
-                                        </td>
-                                        
-                                        <td>
-                                            <p>2 days ago</p>
-                                        </td>
-                                        
-                                        <td>
-                                            <button type="button" class="btn btn-primary btn-sm"
-                                             aria-expanded="false">
-                                                    View 
-                                            </button>
-                                        </td>
-                                    </tr> 
-                                    
-                                    <tr>
-                                        <th scope="row">4</th>
-
-                                        <td>                                         
-                                                <img src="/backend/assets/images/users/avatar-1.jpg" class=" rounded-circle img-size-32" alt="" />
-                                          </td>
-
-                                        <td>
-                                           <p>Seyi onifade</p>
-                                        </td>
-
-                                        <td>
-                                            <p>Notifications from my-customers would appear here</p> 
-                                        </td>
-
-                                        <td>
-                                            <p class="text-primary align-self-center">Read</p>
-                                        </td>
-
-                                        <td>
-                                            <p>1 week ago</p>
-                                        </td>
-
-                                        <td>
-                                            <button type="button" class="btn btn-primary btn-sm"
-                                            aria-expanded="false">
-                                                    View 
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <th scope="row">5</th>
-
-                                        <td>                                         
-                                                <img src="/backend/assets/images/users/avatar-1.jpg" class=" rounded-circle img-size-32" alt="" />
-                                          </td>
-
-                                        <td>
-                                           <p>Seyi onifade</p>
-                                        </td>
-
-                                        <td>
-                                            <p>Notifications from my-customers would appear here</p> 
-                                        </td>
-
-                                        <td>
-                                            <p class="text-primary align-self-center">Read</p>
-                                        </td>
-
-                                        <td>
-                                            <p>1 week ago</p>
-                                        </td>
-
-                                        <td>
-                                            <button type="button" class="btn btn-primary btn-sm"
-                                            aria-expanded="false">
-                                                    View 
-                                            </button>
-                                        </td>
-                                    </tr> 
-                                    
-                                    <tr>
-                                        <th scope="row">6</th>
-
-                                        <td>                                         
-                                                <img src="/backend/assets/images/users/avatar-1.jpg" class=" rounded-circle img-size-32" alt="" />
-                                          </td>
-
-                                        <td>
-                                           <p>Seyi onifade</p>
-                                        </td>
-
-                                        <td>
-                                            <p>Notifications from my-customers would appear here</p> 
-                                        </td>
-
-                                        <td>
-                                            <p class="text-primary align-self-center">Read</p>
-                                        </td>
-
-                                        <td>
-                                            <p>1 week ago</p>
-                                        </td>
-
-                                        <td>
-                                            <button type="button" class="btn btn-primary btn-sm"
-                                            aria-expanded="false">
-                                                    View 
-                                            </button>
-                                        </td>
-                                    </tr> 
-                                    
-                                    <tr>
-                                        <th scope="row">7</th>
-
-                                        <td>                                         
-                                                <img src="/backend/assets/images/users/avatar-1.jpg" class=" rounded-circle img-size-32" alt="" />
-                                          </td>
-
-                                        <td>
-                                           <p>Seyi onifade</p>
-                                        </td>
-
-                                        <td>
-                                            <p>Notifications from my-customers would appear here</p> 
-                                        </td>
-
-                                        <td>
-                                            <p class="text-primary align-self-center">Read</p>
-                                        </td>
-
-                                        <td>
-                                            <p>6 months ago</p>
-                                        </td>
-
-                                        <td>
-                                            <button type="button" class="btn btn-primary btn-sm"
-                                            aria-expanded="false">
-                                                    View 
-                                            </button>
-                                        </td>
-                                    </tr>
+                                        @endforeach
                                     
                                     </tbody>
                                 </table>

@@ -3,7 +3,7 @@
     <nav>
         <div class="container nav">
             <div class="nav__brand">
-                <a href="#" class="nav__brand__logo"><img src="{{ ('/frontend/assets/images/fulllogo.png') }}" alt=""
+                <a href="{{route('home') }}" class="nav__brand__logo"><img src="{{ ('/frontend/assets/images/fulllogo.png') }}" alt=""
                         height="auto" /></a>
             </div>
             <div class="nav__menu">
@@ -28,10 +28,15 @@
                 <button class="nav__button "><a href="/admin/login" class="nav__button__link">Log In</a></button>
                 <a href="{{ route('signup') }}" class="nav__button btn-nav-active">Sign Up</a>
                 @elseif(isset($_COOKIE['api_token']))
-                <button class="nav__button btn-nav-active"><a href="{{ route('dashboard') }}"
-                        class="nav__button__link__active">Dashboard</a></button>
-                <button class="nav__button btn-nav-active"><a href="{{ route('logout') }}"
-                        class="nav__button__link__active">Logout</a></button>
+                {{-- <button class="nav__button btn-nav-active"> --}}
+                    <a href="{{ route('dashboard') }}"
+                        class="nav__button btn-nav-active nav__button__link__active">Dashboard</a>
+                    {{-- </button> --}}
+                {{-- <button class=""> --}}
+                    <a href="{{ route('logout') }}"
+                        class="nav__button btn-nav-active nav__button__link__active">Logout
+                    </a>
+                    {{-- </button> --}}
                 @endif
             </div>
             <div class="hamburger-container">
@@ -45,7 +50,6 @@
         <div id="mobile-menu" class="mobile-menu">
             <div class="close-mobile-menu">
                 <i class="fas fa-times"></i>
-
             </div>
             <div class="mobile__nav__menu">
                 <img src="{{ ('/frontend/assets/images/fulllogo.png') }}" alt="" height="auto"
@@ -98,7 +102,7 @@
                         </a>
                     </h1>
                     @elseif(isset($_COOKIE['api_token']))
-                    <h1 class="mobile__nav__h1">
+                    <div class="mobile__nav__h1">
                         <a href="{{ route('dashboard') }}" class="mobile__nav__h1__link">
                             {{-- <img src="{{ ('/frontend/assets/images/Vector 3.png') }}" /> --}}
                             Dashboard
@@ -108,7 +112,7 @@
                             {{-- <img src="{{ ('/frontend/assets/images/Vector 3.png') }}" /> --}}
                             Logout
                         </a>
-                    </h1>
+                    </div>
                     @endif
                 </div>
             </div>

@@ -3,6 +3,8 @@
 <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
 <link rel="stylesheet" href="backend/assets/css/all_users.css">
+<link rel="stylesheet" href="/backend/assets/css/complaintsLog.css">
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
 @stop
 @section('content')
 <div class="content">
@@ -11,16 +13,16 @@
         <br>
         <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
         @endif
-        <div class="row page-title">
+        {{-- <div class="row page-title">
             <div class="col-md-12">
                 <h4 class="mb-1 mt-0 float-left">My Customers</h4>
                 <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#CustomerModal">
                     New &nbsp;<i class="fa fa-plus my-float"></i>
                 </a>
             </div>
-        </div>
+        </div> --}}
 
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
@@ -60,15 +62,22 @@
                     </div> <!-- end card body-->
                 </div> <!-- end card -->
             </div><!-- end col-->
-        </div>
+        </div> --}}
 
 
-        <div class="col-lg-12">
+        {{-- <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
                     <ul class="nav nav-pills navtab-bg nav-justified" id="pills-tab" role="tablist">
+
                         <li class="nav-item">
-                            <a class="nav-link active" id="pills-activity-tab" data-toggle="pill" href="#pills-activity"
+                            <a class="nav-link active" id="pills-projects-tab" data-toggle="pill" href="#pills-projects"
+                                role="tab" aria-controls="pills-projects" aria-selected="false">
+                                All Customers
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="pills-activity-tab" data-toggle="pill" href="#pills-activity"
                                 role="tab" aria-controls="pills-activity" aria-selected="true">
                                 Debtors
                             </a>
@@ -79,16 +88,96 @@
                                 Creditors
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="pills-projects-tab" data-toggle="pill" href="#pills-projects"
-                                role="tab" aria-controls="pills-projects" aria-selected="false">
-                                All Customers
-                            </a>
-                        </li>
                     </ul>
 
                     <div class="tab-content" id="pills-tabContent">
-                        <div class="tab-pane fade show active" id="pills-activity" role="tabpanel"
+
+                        @if ( isset($response) && count($response) > 0 )
+                        <div class="tab-pane fade  show active" id="pills-projects" role="tabpanel"
+                            aria-labelledby="pills-projects-tab">
+                            <div class="col-md-12">
+                                <p class="sub-header float-left">
+                                    List of Regitered Customers
+                                </p>
+                                <a href="#" class="btn btn-sm btn-primary float-right" data-toggle="modal"
+                                    data-target="#CustomerModal">
+                                    <i class="fa fa-plus my-float"></i>
+                                </a>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table mb-0" id="basic-datatable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Avatar</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Tel</th>
+                                            <th scope="col">Amount Due</th>
+                                            <th scope="col">Balance</th>
+                                            <th scope="col">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for ($i = 0; $i < count($response); $i++) <tr>
+                                            <td scope="row">{{$i + 1}}</td>
+                                            <td><img src="/backend/assets/images/users/avatar-5.jpg"
+                                                    class="avatar-sm rounded-circle" alt="Shreyu" /></td>
+                                            <td>{{isset($response[$i]->name) ? ucfirst($response[$i]->name) : 'Not available'}}<br>
+                                                <span class="badge badge-danger">Has Credit</span>
+                                            </td>
+                                            <td>{{isset($response[$i]->phone_number) ? $response[$i]->phone_number : 'Not available'}}<br>
+                                            </td>
+                                            <td>
+                                                <span> &#8358; 1 500</span> <br>
+                                                <span class="badge badge-primary">You Paid: 1000</span>
+                                            </td>
+                                            <td>
+                                                <span class="text-danger">&#8358; 500</span>
+                                            </td>
+                                            <td>
+                                                <div class="btn-group mt-2 mr-1">
+                                                    <button type="button" class="btn btn-primary dropdown-toggle"
+                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                        Actions<i class="icon"><span
+                                                                data-feather="chevron-down"></span></i>
+                                                    </button>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('customer.edit', $response[$i]->_id) }}">Edit Customer</a>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('customer.show', $response[$i]->_id) }}">View Profile</a>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('transaction.index') }}">View Transaction</a>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('debtor.create') }}">Send Reminder</a>
+                                                        <form id="delete-form-{{ $response[$i]->_id }}" method="POST"
+                                                            action="{{ route('customer.destroy', $response[$i]->_id) }}"
+                                                            style="display:none">
+                                                            {{csrf_field()}}
+                                                            {{method_field('DELETE')}}
+                                                        </form>
+                                                        <a style="margin-left: 1.5rem;" class="text-danger" href=""
+                                                            onclick="
+                                                                    if(confirm('Are you sure You want to delete this user'))
+                                                                    {event.preventDefault(); document.getElementById('delete-form-{{ $response[$i]->_id }}').submit();}
+                                                                    else{
+                                                                    event.preventDefault();
+                                                                }"> Delete </a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            </tr>
+                                            @endfor
+                                    </tbody>
+                                </table>
+                            </div>
+                            {{$response->links()}}
+                        </div>
+                        @endif
+
+                        <div class="tab-pane fade" id="pills-activity" role="tabpanel"
                             aria-labelledby="pills-activity-tab">
                             <div class="row">
                                 <div class="col-md-7 col-sm-6">
@@ -146,10 +235,14 @@
                                                                 data-feather="chevron-down"></span></i>
                                                     </button>
                                                     <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="{{ route('customer.edit', 2) }}">Edit Customer</a>
-                                                        <a class="dropdown-item" href="{{ route('customer.show', 2) }}">ViewProfile</a>
-                                                        <a class="dropdown-item" href="{{ route('transaction.show', 2) }}">ViewTransaction</a>
-                                                        <a class="dropdown-item" href="{{ route('debtor.create') }}">SendReminder</a>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('customer.edit', 2) }}">Edit Customer</a>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('customer.show', 2) }}">ViewProfile</a>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('transaction.show', 2) }}">ViewTransaction</a>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('debtor.create') }}">SendReminder</a>
                                                     </div>
                                                 </div>
                                             </td>
@@ -180,10 +273,14 @@
                                                                 data-feather="chevron-down"></span></i>
                                                     </button>
                                                     <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="{{ route('customer.edit', 1) }}">Edit Customer</a>
-                                                        <a class="dropdown-item" href="{{ route('customer.show', 1) }}">ViewProfile</a>
-                                                        <a class="dropdown-item" href="{{ route('transaction.show', 1) }}">ViewTransaction</a>
-                                                        <a class="dropdown-item" href="{{ route('debtor.create') }}">SendReminder</a>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('customer.edit', 1) }}">Edit Customer</a>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('customer.show', 1) }}">ViewProfile</a>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('transaction.show', 1) }}">ViewTransaction</a>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('debtor.create') }}">SendReminder</a>
                                                     </div>
                                                 </div>
                                             </td>
@@ -252,10 +349,14 @@
                                                                     data-feather="chevron-down"></span></i>
                                                         </button>
                                                         <div class="dropdown-menu dropdown-menu-right">
-                                                            <a class="dropdown-item" href="{{ route('customer.edit', 1) }}">Edit Customer</a>
-                                                            <a class="dropdown-item" href="{{ route('customer.show', 1) }}">ViewProfile</a>
-                                                            <a class="dropdown-item" href="{{ route('transaction.show', 1) }}">ViewTransaction</a>
-                                                            <a class="dropdown-item" href="{{ route('debtor.create') }}">SendReminder</a>
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('customer.edit', 1) }}">Edit Customer</a>
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('customer.show', 1) }}">ViewProfile</a>
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('transaction.show', 1) }}">ViewTransaction</a>
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('debtor.create') }}">SendReminder</a>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -286,10 +387,14 @@
                                                                     data-feather="chevron-down"></span></i>
                                                         </button>
                                                         <div class="dropdown-menu dropdown-menu-right">
-                                                            <a class="dropdown-item" href="{{ route('customer.edit', 1) }}">Edit Customer</a>
-                                                            <a class="dropdown-item" href="{{ route('customer.show', 1) }}">ViewProfile</a>
-                                                            <a class="dropdown-item" href="{{ route('transaction.show', 1) }}">ViewTransaction</a>
-                                                            <a class="dropdown-item" href="{{ route('debtor.create') }}">SendReminder</a>
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('customer.edit', 1) }}">Edit Customer</a>
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('customer.show', 1) }}">ViewProfile</a>
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('transaction.show', 1) }}">ViewTransaction</a>
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('debtor.create') }}">SendReminder</a>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -301,93 +406,124 @@
                             </div>
                         </div>
 
-                        @if ( isset($response) && count($response) > 0 )
-                            <div class="tab-pane fade" id="pills-projects" role="tabpanel"
-                                aria-labelledby="pills-projects-tab">
-                                <div class="col-md-12">
-                                    <p class="sub-header float-left">
-                                        List of Regitered Customers
-                                    </p>
-                                    <a href="#" class="btn btn-sm btn-primary float-right" data-toggle="modal"
-                                        data-target="#CustomerModal">
-                                        <i class="fa fa-plus my-float"></i>
-                                    </a>
-                                </div>
-
-                                <div class="table-responsive">
-                                    <table class="table mb-0" id="basic-datatable">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">ID</th>
-                                                <th scope="col">Avatar</th>
-                                                <th scope="col">Name</th>
-                                                <th scope="col">Tel</th>
-                                                <th scope="col">Amount Due</th>
-                                                <th scope="col">Balance</th>
-                                                <th scope="col">Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @for ($i = 0; $i < count($response); $i++)
-                                                <tr>
-                                                    <td scope="row">{{$i + 1}}</td>
-                                                    <td><img src="/backend/assets/images/users/avatar-5.jpg"
-                                                            class="avatar-sm rounded-circle" alt="Shreyu" /></td>
-                                                    <td>{{isset($response[$i]->name) ? ucfirst($response[$i]->name) : 'Not available'}}<br>
-                                                        <span class="badge badge-danger">Has Credit</span>
-                                                    </td>
-                                                    <td>{{isset($response[$i]->phone_number) ? $response[$i]->phone_number : 'Not available'}}<br>
-                                                    </td>
-                                                    <td>
-                                                        <span> &#8358; 1 500</span> <br>
-                                                        <span class="badge badge-primary">You Paid: 1000</span>
-                                                    </td>
-                                                    <td>
-                                                        <span class="text-danger">&#8358; 500</span>
-                                                    </td>
-                                                    <td>
-                                                        <div class="btn-group mt-2 mr-1">
-                                                            <button type="button" class="btn btn-primary dropdown-toggle"
-                                                                data-toggle="dropdown" aria-haspopup="true"
-                                                                aria-expanded="false">
-                                                                Actions<i class="icon"><span
-                                                                        data-feather="chevron-down"></span></i>
-                                                            </button>
-                                                            <div class="dropdown-menu dropdown-menu-right">
-                                                                <a class="dropdown-item" href="{{ route('customer.edit', $response[$i]->_id) }}">Edit Customer</a>
-                                                                <a class="dropdown-item" href="{{ route('customer.show', $response[$i]->_id) }}">ViewProfile</a>
-                                                                <a class="dropdown-item" href="{{ route('transaction.show', 1) }}">ViewTransaction</a>
-                                                                <a class="dropdown-item" href="{{ route('debtor.create') }}">SendReminder</a>
-                                                                <form id="delete-form-{{ $response[$i]->_id }}" method="POST" action="{{ route('customer.destroy', $response[$i]->_id) }}"
-                                                                    style="display:none">
-                                                                    {{csrf_field()}}
-                                                                    {{method_field('DELETE')}}
-                                                                </form>
-                                                                <a style="margin-left: 1.5rem;" class="text-danger" href="" onclick="
-                                                                    if(confirm('Are you sure You want to delete this user'))
-                                                                    {event.preventDefault(); document.getElementById('delete-form-{{ $response[$i]->_id }}').submit();}
-                                                                    else{
-                                                                    event.preventDefault();
-                                                                }"> Delete </a>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            @endfor
-                                        </tbody>
-                                    </table>
-                                </div>
-                                {{$response->links()}}
-                            </div>
-                        @endif
                     </div>
 
                 </div>
             </div>
             <!-- end card -->
-        </div>
+        </div> --}}
     </div>
 </div>
+
+    <div class="container">
+        <div class="content">
+
+            {{-- <div class="row page-title">
+                <div class="col-md-12">
+                    <div class="h4"><i data-feather="book" class="icon-dual"></i>Complaint Log</div>
+                </div>
+            </div> --}}
+
+            
+                <div class="container-fluid">
+
+                    <div class="row page-title">
+                        <div class="col-md-12">
+                            <h4 class="card-header mb-1 mt-0 float-left h5">List of Registered Customers</h4>
+                            
+                            <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#CustomerModal">
+                                New &nbsp;<i class="fa fa-plus my-float"></i>
+                            </a>
+
+                        </div>
+                    </div>
+
+                    @if ( isset($response) && count($response) > 0 )
+                        <div class="card-body p-1 card">
+                            <div class="table-responsive table-data">
+                                <table id="basic-datatable" class="table dt-responsive nowrap table table-striped table-bordered">
+                                    <thead> 
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Avatar</th>
+                                            <th>Name</th>
+                                            <th>Tel</th>
+                                            <th>Amount Due</th>
+                                            <th>Balance</th>
+                                            <th>Actions</th>
+                                        </tr>
+                
+                                    <tbody>
+                                        @for ($i = 0; $i < count($response); $i++)
+                                        <tr>
+                                            <td>{{$i + 1}}</td>
+                                            <td><img src="/backend/assets/images/users/avatar-5.jpg"
+                                                class="avatar-sm rounded-circle" alt="Shreyu"/>
+                                            </td>
+                                            <td>{{isset($response[$i]->name) ? ucfirst($response[$i]->name) : 'Not available'}}<br>
+                                                <span class="badge badge-danger">Has Credit</span>
+                                            </td>
+                                            <td>{{isset($response[$i]->phone_number) ? $response[$i]->phone_number : 'Not available'}}<br>
+                                            </td>
+                                            <td>
+                                                <span> &#8358; 1 500</span> <br>
+                                                <span class="badge badge-primary">You Paid: 1000</span>
+                                            </td>
+                                            <td>
+                                                <span class="text-danger">&#8358; 500</span>
+                                            </td>
+                                            <td>
+                                                <div class="btn-group mt-2 mr-1">
+                                                    <button type="button" class="btn btn-primary dropdown-toggle"
+                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                        Actions<i class="icon"><span
+                                                                data-feather="chevron-down"></span></i>
+                                                    </button>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('customer.edit', $response[$i]->_id) }}">Edit Customer</a>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('customer.show', $response[$i]->_id) }}">View Profile</a>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('transaction.index') }}">View Transaction</a>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('debtor.create') }}">Send Reminder</a>
+                                                        <form id="delete-form-{{ $response[$i]->_id }}" method="POST"
+                                                            action="{{ route('customer.destroy', $response[$i]->_id) }}"
+                                                            style="display:none">
+                                                            {{csrf_field()}}
+                                                            {{method_field('DELETE')}}
+                                                        </form>
+                                                        <a style="margin-left: 1.5rem;" class="text-danger" href=""
+                                                            onclick="
+                                                                    if(confirm('Are you sure You want to delete this user'))
+                                                                    {event.preventDefault(); document.getElementById('delete-form-{{ $response[$i]->_id }}').submit();}
+                                                                    else{
+                                                                    event.preventDefault();
+                                                                }"> Delete </a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        @endfor
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    @else
+                        <div class="card-body p-1 card">
+                            <h3 style="font-style: italic; text-align: center;">No registered customers</h3>
+                        </div>
+                    @endif
+                    <!-- end card -->
+                    </div>
+                </div>
+            
+        </div>
+    </div>
+
 <div id="CustomerModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
     aria-hidden="true">
     <div class="modal-dialog">
@@ -405,7 +541,7 @@
                     <div class="form-group row mb-3">
                         <label for="inputphone" class="col-3 col-form-label">Phone Number</label>
                         <div class="col-9">
-                            <input type="number" class="form-control" id="inputphone" placeholder="Phone Number"
+                            <input type="tel" class="form-control" id="inputphone" placeholder="Phone Number"
                                 name="phone_number">
                         </div>
                     </div>
@@ -457,7 +593,7 @@
                     <div class="form-group row mb-3">
                         <label for="inputphone" class="col-3 col-form-label">Phone Number</label>
                         <div class="col-9">
-                            <input type="number" class="form-control" id="inputphone" placeholder="Phone Number">
+                            <input type="tel" class="form-control" id="inputphone" placeholder="Phone Number">
                         </div>
                     </div>
                     <div class="form-group row mb-3">
@@ -501,7 +637,7 @@
                     <div class="form-group row mb-3">
                         <label for="inputphone" class="col-3 col-form-label">Phone Number</label>
                         <div class="col-9">
-                            <input type="number" class="form-control" id="inputphone" placeholder="Phone Number">
+                            <input type="text" class="form-control" id="inputphone" placeholder="Phone Number">
                         </div>
                     </div>
                     <div class="form-group row mb-3">
@@ -535,11 +671,19 @@
 
 @section("javascript")
 <script src="/backend/assets/build/js/intlTelInput.js"></script>
+<script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script>
     var input = document.querySelector("#phone");
     window.intlTelInput(input, {
         // any initialisation options go here
     });
 
+</script>
+<script>
+$(document).ready(function() {
+    $('#basic-datatable').DataTable( {
+    paging: false
+} );
+} );
 </script>
 @stop
