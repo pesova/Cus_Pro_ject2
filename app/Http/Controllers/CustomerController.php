@@ -114,6 +114,7 @@ class CustomerController extends Controller
                 'store_name' => 'required',
                 'phone_number' =>  'required',
                 'name' => 'required',
+                'email' => 'requred',
             ]);
 
             try {

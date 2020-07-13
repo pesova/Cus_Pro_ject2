@@ -51,21 +51,21 @@
                             <div class="form-group">
                               <label class="col-lg-3 control-label">Full Name:</label>
                               <div class="col-lg-8">
-                                <input class="form-control" type="text" value="John Doe" required>
+                                <input class="form-control" type="text" value="John Doe" required name="name">
                               </div>
                             </div>
 
                             <div class="form-group">
                               <label class="col-lg-3 control-label">Email:</label>
                               <div class="col-lg-8">
-                                <input class="form-control" type="text" value="johndoe@doetech.com" required>
+                                <input class="form-control" type="text" value="johndoe@doetech.com" name="email" required>
                               </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-lg-3 control-label">Tel:</label>
                                 <div class="col-lg-8">
-                                  <input class="form-control" type="phone" value="+234 90 00 000 000" required>
+                                  <input class="form-control" type="phone" value="+234 90 00 000 000" name="phone_number" required>
                                 </div>
                               </div>
                               <div class="form-group">

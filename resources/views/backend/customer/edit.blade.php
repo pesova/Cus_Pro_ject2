@@ -69,7 +69,7 @@
                             <div class="form-group">
                                 <label class="col-lg-3 control-label">Tel:</label>
                                 <div class="col-lg-8">
-                                  <input class="form-control" type="phone" value="{{$response->phone_number}}" name='phone' required>
+                                  <input class="form-control" type="phone" value="{{$response->phone_number}}" name='phone_number' required>
                                 </div>
                               </div>
                               {{-- <div class="form-group">
