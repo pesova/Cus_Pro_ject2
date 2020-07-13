@@ -54,7 +54,7 @@
                                             <input type="text" name="phone_number" class="form-control" value="{{ $response->phone_number }}" placeholder="+2348173644654">
                                           </div>
                                         <div class="form-group col-md-6" >
-                                            <label for="inputEmailAddress"> Email Address (optional) </label>
+                                            <label for="inputEmailAddress"> Email Address </label>
                                             <input type="email" name="email" class="form-control" value="{{ $response->email }}" placeholder="you@example.com">
                                         </div>
                                         </div>
