@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Notifications\NewStore;
 use App\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -43,7 +42,7 @@ class StoreController extends Controller
            }
            else if($statusCode->getStatusCode() == 500){
             return view('errors.500');
-           } 
+           }
 
         } catch (RequestException $e) {
 
@@ -119,9 +118,6 @@ class StoreController extends Controller
                     $request->session()->flash('alert-class', 'alert-success');
                     Session::flash('message', $data->message);
 
-                    $user = User::where('phone_number', Cookie::get('phone_number'))->first();
-                    $user->notify(new NewStore);
-                    
                     return $this->index();
                 }
                 else if($statusCode->getStatusCode() == 401){
@@ -201,7 +197,7 @@ class StoreController extends Controller
             // get response to catch 4xx errors
             $response = json_decode($e->getResponse()->getBody());
             Session::flash('alert-class', 'alert-danger');
-            
+
             Session::flash('message', $response->message);
             return redirect()->route('store.index', ['response' => []]);
 
@@ -238,7 +234,7 @@ class StoreController extends Controller
             $body = $response->getBody();
             $StoreData = json_decode($body)->data->store;
             if ($statusCode == 200) {
-            
+
                 return view('backend.stores.edit')->with('response', $StoreData);
             }
         } catch (RequestException $e) {
@@ -252,7 +248,7 @@ class StoreController extends Controller
             // get response to catch 4xx errors
             $response = json_decode($e->getResponse()->getBody());
             Session::flash('alert-class', 'alert-danger');
-            
+
             Session::flash('message', $response->message);
             return redirect()->route('store.index', ['response' => []]);
 
@@ -306,7 +302,7 @@ class StoreController extends Controller
             if ($status == 201) {
 
                 return redirect()->route('store.index', ['response' => []]);
-                
+
             }
             if ($statusCode == 500) {
                 return view('errors.500');
@@ -326,7 +322,7 @@ class StoreController extends Controller
     public function destroy(Request $request, $id)
     {
 
-        $url = env('API_URL', 'https://api.customerpay.me/') . '/store/delete/' . $id;
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store/delete/' . $id;
         $client = new Client();
         $payload = [
             'headers' => [
