@@ -34,7 +34,8 @@ class BroadcastController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $url = env('SMS_API_URL', 'https://sms.microapi.dev') . "/v1/sms/twilio_send_single";
+
     }
 
     /**

@@ -55,7 +55,7 @@
                                           </div>
                                         <div class="form-group col-md-6" >
                                             <label for="inputEmailAddress"> Password </label>
-                                            <input type="password" name="password" class="form-control" value="" placeholder="you@example.com">
+                                            <input type="password" name="password" class="form-control" value="" placeholder="Enter Password">
                                         </div>
                                         </div>
                                         <button type="submit" class="btn btn-success">
