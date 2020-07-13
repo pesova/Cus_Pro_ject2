@@ -35,13 +35,14 @@
                      <div class="col-lg-12">
                          <div class="card">
                             <div class="card-body">
-                                    <form action="{{ route('store.update', $response->_id) }}" method="POST">
+                                    @if (isset($response->_id))
+                                        <form action="{{ route('store.update', $response->_id) }}" method="POST">
                                       @csrf
                                       @method('PUT')
                                         <div class="form-row">
                                           <div class="form-group col-md-6">
                                             <label for="store name">Store Name</label>
-                                            <input type="text" name="store_name" class="form-control" value="{{old('store_name', $response->store_name)}}"  placeholder="XYZ Stores" required>
+                                            <input type="text" name="store_name" class="form-control" value="{{old('store_name', $response->store_name)}}"  placeholder="XYZ Stores" required minlength="2" maxlength="25">
                                           </div>
                                           <div class="form-group col-md-6">
                                             <label for="inputTagline">Tagline</label>
@@ -51,7 +52,7 @@
                                         <div class="form-row">
                                           <div class="form-group col-md-6">
                                             <label for="inputPhoneNumber">Phone Number</label>
-                                            <input type="text" name="phone_number" class="form-control" value="{{old('phone_number', $response->phone_number)}}" placeholder="+2348173644654">
+                                            <input type="text" name="phone_number" class="form-control" value="{{old('phone_number', $response->phone_number)}}" placeholder="+2348173644654" minlength="6" maxlength="16">
                                           </div>
                                         <div class="form-group col-md-6" >
                                             <label for="inputEmailAddress"> Email Address </label>
@@ -60,12 +61,16 @@
                                         </div>
                                         <div class="form-group">
                                           <label for="inputAddress">Address</label>
-                                          <input type="text" name="shop_address" class="form-control" value="{{old('shop_address', $response->shop_address)}}"  placeholder="123 Abby Avenue">
+                                          <input type="text" name="shop_address" class="form-control" value="{{old('shop_address', $response->shop_address)}}"  placeholder="123 Abby Avenue" minlength="5" maxlength="50">
                                         </div>
                                         <button type="submit" class="btn btn-success">
                                             Update Changes
                                         </button>
                                     </form>
+                                    @else
+                                        <p>Error retrieving store information please reload</p>
+                                    @endif
+                                    
                                 </div>
                              </div>
                         </div>

@@ -45,7 +45,7 @@
                                         <div class="form-row">
                                           <div class="form-group col-md-6">
                                             <label for="store name">Store Name*</label>
-                                            <input type="text" name="store_name" class="form-control" value="{{ old('store_name') }}"  placeholder="XYZ Stores" required>
+                                            <input type="text" name="store_name" class="form-control" value="{{ old('store_name') }}"  placeholder="XYZ Stores" required minlength="3" maxlength="16">
                                           </div>
                                           <div class="form-group col-md-6">
                                             <label for="inputTagline">Tagline*</label>
