@@ -40,12 +40,12 @@
     </a>
 </li>
 
-{{-- <li>
+ <li>
     <a href="{{ route('broadcast.index') }}">
         <i data-feather="message-square"></i>
         <span> Broadcast Message </span>
     </a>
-</li> --}}
+</li>
 {{-- <li>
     <a href="{{ route('complaint.create') }}">
         <i data-feather="book-open"></i>
