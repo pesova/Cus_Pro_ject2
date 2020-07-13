@@ -44,26 +44,26 @@
                                         @csrf
                                         <div class="form-row">
                                           <div class="form-group col-md-6">
-                                            <label for="store name">Store Name</label>
+                                            <label for="store name">Store Name*</label>
                                             <input type="text" name="store_name" class="form-control"  placeholder="XYZ Stores" required>
                                           </div>
                                           <div class="form-group col-md-6">
-                                            <label for="inputTagline">Tagline</label>
+                                            <label for="inputTagline">Tagline*</label>
                                             <input type="text" name="tagline" class="form-control" id="inputTagline" placeholder="Your Perfect Stay One Click away...."  >
                                           </div>
                                         </div>
                                         <div class="form-row">
                                           <div class="form-group col-md-6">
-                                            <label for="inputPhoneNumber">Phone Number</label>
+                                            <label for="inputPhoneNumber">Phone Number*</label>
                                             <input type="tel" name="phone_number" class="form-control" placeholder="+2348127737643" >
                                           </div>
                                         <div class="form-group col-md-6" >
-                                            <label for="inputEmailAddress"> Email Address (optional) </label>
+                                            <label for="inputEmailAddress"> Email Address*</label>
                                             <input type="email" name="email" class="form-control" placeholder="you@example.com">
                                         </div>
                                         </div>
                                         <div class="form-group">
-                                          <label for="inputAddress">Address</label>
+                                          <label for="inputAddress">Address*</label>
                                           <input type="text" name="shop_address" class="form-control"  placeholder="123 Abby Avenue" required>
                                         </div>
                                         <button type="submit" class="btn btn-success text-white" data-toggle="modal" data-target="#exampleModal">
