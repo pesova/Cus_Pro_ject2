@@ -283,7 +283,7 @@ class AssistantController extends Controller
 
 
         try{
-            $request->validate([
+             $request->validate([
                 'name' => "required|min:6",
                 'phone_number' => "required",
                 'email' => "required|email",
@@ -314,7 +314,7 @@ class AssistantController extends Controller
             }
 
         } catch ( \Exception $e ) {
-            dd($e);
+           // dd($e);
             $request->session()->flash('alert-class', 'alert-danger');
             $request->session()->flash('message', $data->message);
 
