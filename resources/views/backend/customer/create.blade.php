@@ -51,26 +51,26 @@
                             <div class="form-group">
                               <label class="col-lg-3 control-label">Full Name:</label>
                               <div class="col-lg-8">
-                                <input class="form-control" type="text" value="John Doe">
+                                <input class="form-control" type="text" value="John Doe" required>
                               </div>
                             </div>
 
                             <div class="form-group">
                               <label class="col-lg-3 control-label">Email:</label>
                               <div class="col-lg-8">
-                                <input class="form-control" type="text" value="johndoe@doetech.com">
+                                <input class="form-control" type="text" value="johndoe@doetech.com" required>
                               </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-lg-3 control-label">Tel:</label>
                                 <div class="col-lg-8">
-                                  <input class="form-control" type="phone" value="+234 90 00 000 000">
+                                  <input class="form-control" type="phone" value="+234 90 00 000 000" required>
                                 </div>
                               </div>
                               <div class="form-group">
                                 <div class="col-md-8">
-                                    <select class="form-control">
+                                    <select class="form-control" required>
                                         <option selected="">Customer Type</option>
                                         <option>Good Debtor</option>
                                         <option>Bad Debtor</option>
@@ -80,7 +80,7 @@
                               </div>  
                               <div class="form-group">
                                 <div class="col-md-8">
-                                    <select class="form-control">
+                                    <select class="form-control" required>
                                         <option selected="">Status</option>
                                         <option class="text-danger">Has Debt</option>
                                         <option class="text-success">No Debt</option>                                        
