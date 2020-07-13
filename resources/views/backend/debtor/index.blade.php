@@ -1,6 +1,7 @@
 @extends('layout.base')
 @section("custom_css")
-    <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css"/>
+<link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
 
     {{-- <link rel="stylesheet" href="backend/assets/css/all_users.css"> --}}
 @stop
@@ -10,9 +11,12 @@
             <div class="row page-title">
                 <div class="col-md-12">
                     <h4 class="mb-1 mt-0">Debtors</h4>
-                    {{--<button class="btn btn-primary" data-toggle="modal" data-target="#bs-example-modal-sm">
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#bs-example-modal-sm">
                         Create a debt reminder
-                    </button>--}}
+                    </button>
+                    <a href="{{ route('debtor.create') }}" class="btn btn-primary float-right">
+                        Create New Debtors &nbsp;<i class="fa fa-plus my-float"></i>
+                    </a>
                     <div class="modal fade" id="bs-example-modal-sm" tabindex="-1" role="dialog"
                          aria-labelledby="mySmallModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-sm">
@@ -43,11 +47,11 @@
                 </div>
             </div>
 
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            {{-- <h4 class="header-title mt-0 mb-1">Basic Data Table</h4> --}}
+                            <h4 class="header-title mt-0 mb-1">Basic Data Table</h4>
                             <p class="sub-header">
                                 Find Debts
                             </p>
@@ -98,10 +102,10 @@
 
                             </div>
 
-                        </div> <!-- end card body-->
-                    </div> <!-- end card -->
-                </div><!-- end col-->
-            </div>
+                        </div> 
+                    </div>
+                </div>
+            </div> --}}
 
             @if(Session::has('message'))
             <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
@@ -197,10 +201,18 @@
 
 @section("javascript")
     <script src="/backend/assets/build/js/intlTelInput.js"></script>
+    <script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script>
         var input = document.querySelector("#phone");
         window.intlTelInput(input, {
             // any initialisation options go here
         });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#basic-datatable').DataTable( {
+            paging: false
+        } );
+        } );
     </script>
 @stop
