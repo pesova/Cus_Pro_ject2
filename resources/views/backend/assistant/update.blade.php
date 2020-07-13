@@ -11,19 +11,14 @@
                 <div class="row page-title">
                     <div class="col-md-12">
                         <nav aria-label="breadcrumb" class="float-right mt-1">
-                            <a href="{{ route('store.index') }}" class="btn btn-primary">Go Back</a>
+                            <a href="/admin/store" class="btn btn-primary">Go Back</a>
                         </nav>
-                        <h4 class="mt-2">Create A Store</h4>
+                        <h4 class="mt-2">Edit My Store</h4>
                     </div>
                 </div>
 
-                @if(Session::has('message'))
-                <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
-                <script>
-                  setTimeout(() => {
-                    document.querySelector('.alert').style.display = 'none'
-                  }, 3000);
-                </script>
+                @if(session('message'))
+                <p class="alert alert-success">{{ session('message') }}</p>
                 @endif
 
                 @if ($errors->any())
@@ -40,36 +35,33 @@
                      <div class="col-lg-12">
                          <div class="card">
                             <div class="card-body">
-                                    <form action="{{ route('store.store') }}" method="POST">
-                                        @csrf
+                                    <form action="{{ route('assistants.update', $response->_id) }}" method="POST">
+                                      @csrf
+                                      @method('PUT')
                                         <div class="form-row">
                                           <div class="form-group col-md-6">
-                                            <label for="store name">Store Name</label>
-                                            <input type="text" name="store_name" class="form-control"  placeholder="XYZ Stores" required>
+                                            <label for="store name">Name</label>
+                                            <input type="text" name="name" class="form-control" value="{{ $response->name }}"  placeholder="XYZ Stores">
                                           </div>
                                           <div class="form-group col-md-6">
-                                            <label for="inputTagline">Tagline</label>
-                                            <input type="text" name="tagline" class="form-control" id="inputTagline" placeholder="Your Perfect Stay One Click away...."  >
+                                            <label for="inputTagline">Email</label>
+                                            <input type="email" name="email" class="form-control" id="inputTagline" value="{{ $response->email }}" placeholder="Your Perfect Stay One Click away....">
                                           </div>
                                         </div>
                                         <div class="form-row">
                                           <div class="form-group col-md-6">
                                             <label for="inputPhoneNumber">Phone Number</label>
-                                            <input type="tel" name="phone_number" class="form-control" placeholder="+2348127737643" >
+                                            <input type="text" name="phone_number" class="form-control" value="{{ $response->phone_number }}" placeholder="+2348173644654">
                                           </div>
                                         <div class="form-group col-md-6" >
-                                            <label for="inputEmailAddress"> Email Address (optional) </label>
-                                            <input type="email" name="email" class="form-control" placeholder="you@example.com">
+                                            <label for="inputEmailAddress"> Password </label>
+                                            <input type="password" name="password" class="form-control" value="" placeholder="you@example.com">
                                         </div>
                                         </div>
-                                        <div class="form-group">
-                                          <label for="inputAddress">Address</label>
-                                          <input type="text" name="shop_address" class="form-control"  placeholder="123 Abby Avenue" required>
-                                        </div>
-                                        <button type="submit" class="btn btn-success text-white" data-toggle="modal" data-target="#exampleModal">
-                                           Create Store
+                                        <button type="submit" class="btn btn-success">
+                                            Update Changes
                                         </button>
-                                      </form>
+                                    </form>
                                 </div>
                              </div>
                         </div>
@@ -80,6 +72,10 @@
             </div>
         </div>
 
+        
+              </div>
+            </div>
+          </div>
 @endsection
 
 @section("javascript")
