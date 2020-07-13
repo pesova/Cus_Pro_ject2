@@ -41,26 +41,26 @@
                                         <div class="form-row">
                                           <div class="form-group col-md-6">
                                             <label for="store name">Store Name</label>
-                                            <input type="text" name="store_name" class="form-control" value="{{ $response->store_name }}"  placeholder="XYZ Stores">
+                                            <input type="text" name="store_name" class="form-control" value="{{old('store_name', $response->store_name)}}"  placeholder="XYZ Stores" required>
                                           </div>
                                           <div class="form-group col-md-6">
                                             <label for="inputTagline">Tagline</label>
-                                            <input type="text" name="tag_line" class="form-control" id="inputTagline" value="{{ $response->tagline }}" placeholder="Your Perfect Stay One Click away....">
+                                            <input type="text" name="tag_line" class="form-control" id="inputTagline" value="{{old('tagline', $response->tagline)}}" placeholder="Your Perfect Stay One Click away...." required>
                                           </div>
                                         </div>
                                         <div class="form-row">
                                           <div class="form-group col-md-6">
                                             <label for="inputPhoneNumber">Phone Number</label>
-                                            <input type="text" name="phone_number" class="form-control" value="{{ $response->phone_number }}" placeholder="+2348173644654">
+                                            <input type="text" name="phone_number" class="form-control" value="{{old('phone_number', $response->phone_number)}}" placeholder="+2348173644654">
                                           </div>
                                         <div class="form-group col-md-6" >
-                                            <label for="inputEmailAddress"> Email Address (optional) </label>
-                                            <input type="email" name="email" class="form-control" value="{{ $response->email }}" placeholder="you@example.com">
+                                            <label for="inputEmailAddress"> Email Address </label>
+                                            <input type="email" name="email" class="form-control" value="{{old('email', $response->email)}}" placeholder="you@example.com">
                                         </div>
                                         </div>
                                         <div class="form-group">
                                           <label for="inputAddress">Address</label>
-                                          <input type="text" name="shop_address" class="form-control" value="{{ $response->shop_address }}"  placeholder="123 Abby Avenue">
+                                          <input type="text" name="shop_address" class="form-control" value="{{old('shop_address', $response->shop_address)}}"  placeholder="123 Abby Avenue">
                                         </div>
                                         <button type="submit" class="btn btn-success">
                                             Update Changes
