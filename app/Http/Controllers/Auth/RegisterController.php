@@ -134,7 +134,7 @@ class RegisterController extends Controller
             Log::error('Catch error: RegisterController - ' . $e->getMessage());
 
             // get response
-            if ($e->hasResponse()) {
+            if ($e->getResponse()->getStatusCode() > 400) {
                 $response = json_decode($e->getResponse()->getBody());
                 $request->session()->flash('alert-class', 'alert-danger');
                 $request->session()->flash('message', $response->error->description);

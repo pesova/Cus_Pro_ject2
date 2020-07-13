@@ -114,7 +114,7 @@ class LoginController extends Controller
             //log error;
             Log::error('Catch error: LoginController - ' . $e->getMessage());
 
-            if ($e->hasResponse()) {
+            if ($e->getResponse()->getStatusCode() > 400) {
                 // get response to catch 4xx errors
                 $response = json_decode($e->getResponse()->getBody());
                 $request->session()->flash('alert-class', 'alert-danger');
