@@ -50,6 +50,7 @@
                                                             @foreach ($response as $index => $store )
                                                                 <option value="{{ $store->store_name }}">{{ $store->store_name }}</option>
                                                             @endforeach
+
                                                         </select>
                                                     </div>
                                                 </div>
