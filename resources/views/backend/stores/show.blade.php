@@ -29,8 +29,7 @@
                 <div class="card">
                     <div class="card-body pl-3 pr-3 padup">
                         <div class="text-center">
-                            <img src="{{asset('backend/assets/images/users/avatar-7.jpg')}}" alt=""
-                                class="avatar-lg rounded-circle" />
+                            
                                 
                             <h6 class="text-muted font-weight-normal mt-2 mb-0">{{ $response->store_name }}</h6>
                         </div>
