@@ -49,7 +49,7 @@
                                           </div>
                                           <div class="form-group col-md-6">
                                             <label for="inputTagline">Tagline*</label>
-                                            <input type="text" name="tagline" class="form-control" id="inputTagline" value="{{ old('tagline') }}" placeholder="Your Perfect Stay One Click away...."  required minlength="10" maxlength="15">
+                                            <input type="text" name="tagline" class="form-control" id="inputTagline" value="{{ old('tagline') }}" placeholder="Your Perfect Stay One Click away...."  required minlength="4" maxlength="15">
                                           </div>
                                         </div>
                                         <div class="form-row">

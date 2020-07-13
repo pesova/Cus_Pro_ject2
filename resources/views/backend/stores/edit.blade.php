@@ -42,11 +42,11 @@
                                         <div class="form-row">
                                           <div class="form-group col-md-6">
                                             <label for="store name">Store Name</label>
-                                            <input type="text" name="store_name" class="form-control" value="{{old('store_name', $response->store_name)}}"  placeholder="XYZ Stores" required minlength="2" maxlength="25">
+                                            <input type="text" name="store_name" class="form-control" value="{{old('store_name', $response->store_name)}}"  placeholder="XYZ Stores" required minlength="2" maxlength="25" minlength="2">
                                           </div>
                                           <div class="form-group col-md-6">
                                             <label for="inputTagline">Tagline</label>
-                                            <input type="text" name="tag_line" class="form-control" id="inputTagline" value="{{old('tagline', $response->tagline)}}" placeholder="Your Perfect Stay One Click away...." required>
+                                            <input type="text" name="tag_line" class="form-control" id="inputTagline" value="{{old('tagline', $response->tagline)}}" placeholder="Your Perfect Stay One Click away...." required maxlength="15" minlength="4">
                                           </div>
                                         </div>
                                         <div class="form-row">

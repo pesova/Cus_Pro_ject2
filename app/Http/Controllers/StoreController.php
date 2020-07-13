@@ -88,7 +88,7 @@ class StoreController extends Controller
             $request->validate([
                 'store_name' => 'required|min:2|max:25',
                 'shop_address' =>  'required|min:5|max:50',
-                'tagline' =>  'required|min:10|max:15',
+                'tagline' =>  'required|min:4|max:15',
                 'email' =>  'required',
                 'phone_number' =>   'required|digits_between:6,16',
             ]);
@@ -278,7 +278,7 @@ class StoreController extends Controller
             $request->validate([
                 'store_name' => 'required|min:2|max:25',
                 'shop_address' =>  'required|min:5|max:50',
-                'tagline' =>  'required|min:10|max:15',
+                'tagline' =>  'required|min:4|max:15',
                 'phone_number' =>   'required|digits_between:6,16',
             ]);
 
