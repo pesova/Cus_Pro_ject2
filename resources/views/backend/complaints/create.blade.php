@@ -1,10 +1,7 @@
 @extends('layout.base')
 
 @section("custom_css")
-<!-- <link href="/frontend/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" /> -->
-<link href="/backend/assets/css/materialize.min.css" rel="stylesheet" type="text/css" />
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+
 
 @stop
 
@@ -12,62 +9,96 @@
 
 @section('content')
 
-<style type="text/css">
-    @media screen and (max-width: 670px) {
-        .container {
-            max-width: 500px;
-            /*margin: 0px;*/
-            padding: 0px;
-        }
-    }
+                <div class="content">
+                    <!-- Start Content-->
+                    <div class="container-fluid">
+                        <div class="row page-title">
+                            <div class="col-md-12">
+                                <nav aria-label="breadcrumb" class="float-right mt-1">
+                                </nav>
+                                @if(Session::has('message'))
+                                    <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
+                                    @endif
 
-</style>
-<div class="container" style="padding: 20px; background-color: white; margin-top: 15px; border-radius: 10px;">
-    @if(Session::has('message'))
-    <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
-    @endif
+                                    @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+                                <h4 class="mb-1 mt-0">Submit a Complaint</h4>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        
+                                        <h4 class="header-title mt-0 mb-1">Complaint Submission</h4>
+                                        <p class="sub-header">
+                                            Please enter your details carefully and click send to submit your complaint
+                                        </p>
 
-    @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
-    <form method="post" action="{{route('complaint.store')}}">
-        @csrf
-        <h5>Log your Complain</h5><br>
-        <div class="input-field">
-            <i class="material-icons prefix">account_circle</i>
-            <input id="name" name="name" type="text" class="validate" value="{{old('name')}}">
-            <label for="name">Name</label>
-        </div>
-        <br>
-        <div class="input-field">
-            <i class="material-icons prefix">store</i>
-            <input id="email" name="email" type="email" class="validate" value="{{old('email')}}">
-            <label for="email">Email</label>
-        </div>
-        <br>
-        <div class="input-field">
-            <i class="material-icons prefix">edit</i>
-            <textarea id="message" name="message" class="materialize-textarea">{{old('message')}}</textarea>
-            <label for="message">Message</label>
-        </div>
-        <br>
-        <div style="margin-bottom: 50px;" class="d-flex justify-content-between ">
-            <a href="{{ route('complaint.index') }}" class="waves-effect waves-light btn right">
-                <i class="material-icons left">cancel</i>
-                CANCEL
-            </a>
-            <button name="btn" class="text-whtie waves-effect waves-light btn right"><i
-                    class="material-icons left">send</i>SUBMIT
-            </button>
-        </div>
+                                        <form method="post" action="{{route('complaint.store')}}">
+                                            @csrf
+                                            <h5>Log your Complain</h5><br>
+                                            <div class="col">
+                                                    <div class="form-group row">
+                                                        <label class="col-lg-2 col-form-label"
+                                                            for="simpleinput">Full Name</label>
+                                                        <div class="col-lg-10">
+                                                            <input type="text" name="name" class="form-control" id="simpleinput"
+                                                                placeholder="Your name here .....">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-lg-2 col-form-label"
+                                                            for="example-email">Email</label>
+                                                        <div class="col-lg-10">
+                                                            <input type="email" id="example-email"
+                                                                class="form-control" name="email" placeholder="Email">
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="form-group row">
+                                                        <label class="col-lg-2 col-form-label"
+                                                            for="example-textarea">Message</label>
+                                                        <div class="col-lg-10">
+                                                            <textarea class="form-control" name="message" rows="5"
+                                                                id="example-textarea" placeholder="Please enter your complaint here">{{old('message')}}</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="float-right">
+                                            <button class="btn btn-primary">Send</button>
+                                        </div>
+                                                                      
     </form>
-</div>
+                                        <form method="post" action="{{ route('complaint.index') }}">
+
+                                        <div>
+                                            <button class="btn btn-danger">Cancel</button>
+                                        </div>
+                                        </form>
+            
+                                    </div> <!-- end card-body -->
+                                </div> <!-- end card-->
+                            </div><!-- end col -->
+                        </div>
+                        <!-- end row -->
+
+                        <!-- end col -->
+                        </div>
+                        <!-- end row -->
+                        
+                    </div> <!-- container-fluid -->
+
+                </div> 
+
+            </div>
 
 @endsection
 
