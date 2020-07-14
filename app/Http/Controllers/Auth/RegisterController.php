@@ -107,16 +107,12 @@ class RegisterController extends Controller
                     }
                 }
 
+                $res = json_decode($response->getBody());
                 if ($response->getStatusCode() == 200) {
-                    $res = json_decode($response->getBody());
-
-
                     $request->session()->flash('message', $res->Message);
                     $request->session()->flash('alert-class', 'alert-danger');
                     return redirect()->route('signup');
                 }
-
-                $res = json_decode($response->getBody());
 
                 if ($res->success == false) {
                     $request->session()->flash('message', $res->error->description);
@@ -137,11 +133,14 @@ class RegisterController extends Controller
                 if ($e->getResponse()->getStatusCode() > 400) {
                     $response = json_decode($e->getResponse()->getBody());
                     $request->session()->flash('alert-class', 'alert-danger');
-                    $request->session()->flash('message', $response->error->description);
+                    if (is_string($response->error->description)) {
+                        $request->session()->flash('message', $response->error->description);
+                    } else {
+                        $request->session()->flash('message', "Phone number already in use, please use another phone number");
+                    }
                     return redirect()->route('signup');
                 }
             }
-
             // check for 500 server error
             return view('errors.500');
         } catch (\Exception $e) {
