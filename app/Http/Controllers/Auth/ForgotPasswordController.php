@@ -78,17 +78,13 @@ class ForgotPasswordController extends Controller
             if ($e->hasResponse()) {
                 $response = json_decode($e->getResponse()->getBody());
                 $request->session()->flash('message', $response->message);
+                return redirect()->route('password');
             }
-            return redirect()->route('password');
         } catch (\Exception $e) {
 
             Log::error("catch error: ForgotPasswordController - " . $e->getMessage());
             $request->session()->flash('message', 'Something bad happened');
             return view('errors.500');
         }
-    }
-
-    public function reset() {
-        dd('test reset');
     }
 }

@@ -40,7 +40,7 @@
                                         <div class="alert alert-success alert-dismissible" id="success" style="display: none">
                                             <span id="otp-message"></span>
                                         </div>
-                                        <form action="/password/reset" class="authentication-form" method="POST">
+                                        <form action="{{route('password.recover')}}" class="authentication-form" method="POST">
                                             @csrf
                                             <div class="form-group">
                                                 <label class="form-control-label">OTP</label>
