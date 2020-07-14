@@ -284,10 +284,9 @@ class CustomerController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required',
-            'phone' => 'required',
-            'email' => 'required',
             'store_name' => 'required',
+            'phone_number' =>  'required | min:8 | max:15',
+            'name' => 'required | min:5 | max:30',
           ]);
 
           try {
