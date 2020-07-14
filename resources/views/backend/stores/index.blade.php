@@ -135,6 +135,7 @@
 
 <script>
   
+  //for search bar
   let userText = document.querySelector('#customer-name')
   let rows = document.querySelectorAll('.store-name')
 

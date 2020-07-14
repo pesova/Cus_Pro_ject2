@@ -51,7 +51,7 @@
                             <div class="form-group">
                               <label class="col-lg-3 control-label">Full Name:</label>
                               <div class="col-lg-8">
-                                <input class="form-control" type="text" value="John Doe" required name="name">
+                                <input class="form-control" type="text" maxlength="30" value="John Doe" required name="name">
                               </div>
                             </div>
 
@@ -65,7 +65,7 @@
                             <div class="form-group">
                                 <label class="col-lg-3 control-label">Tel:</label>
                                 <div class="col-lg-8">
-                                  <input class="form-control" type="phone" value="+234 90 00 000 000" name="phone_number" required>
+                                  <input class="form-control" type="phone" value="+234 90 00 000 000" maxlength="16" name="phone_number" required>
                                 </div>
                               </div>
                               <div class="form-group">
@@ -91,7 +91,7 @@
                             <div class="form-group">
                               <label class="col-md-3 control-label green-border-focus">House Adddress</label>
                               <div class="col-md-8">                                
-                                <textarea class="form-control " rows="3">1975, Boring Lane, San
+                                <textarea class="form-control " maxlength="50" rows="3">1975, Boring Lane, San
                                     Francisco, California, United
                                     States - 94108</textarea>
                                 
@@ -101,12 +101,12 @@
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Short Comment</label>
                                 <div class="col-md-8">
-                                  <input class="form-control" type="text" value="this is a very very large junk of rubbush that i am just foing to type">
+                                  <input class="form-control" type="text" maxlength="100" value="this is a very very large junk of rubbush that i am just foing to type">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-8">
-                                    <input type="file" id="main-input" class="form-control form-input form-style-base">                                        
+                                    <input type="file"  id="main-input" class="form-control form-input form-style-base">                                        
                                   </div>                                
                               </div>
 
