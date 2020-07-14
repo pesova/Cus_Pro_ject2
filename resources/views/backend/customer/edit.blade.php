@@ -55,7 +55,7 @@
                             <div class="form-group">
                               <label class="col-lg-3 control-label">Full Name:</label>
                               <div class="col-lg-8">
-                                <input class="form-control" type="text" value="{{ ucfirst($response->name) }}" name="name" maxlength="20" required>
+                                <input class="form-control" type="text" value="{{old('name', $response->name)}}" name="name" maxlength="20" required>
                               </div>
                             </div>
 
@@ -69,7 +69,7 @@
                             <div class="form-group">
                                 <label class="col-lg-3 control-label">Tel:</label>
                                 <div class="col-lg-8">
-                                  <input class="form-control" type="phone" value="{{$response->phone_number}}" name='phone_number' maxlength="16" required>
+                                  <input class="form-control" type="phone" value="{{old('phone_number', $response->phone_number)}}" name='phone_number' maxlength="16" required>
                                 </div>
                               </div>
                               {{-- <div class="form-group">
