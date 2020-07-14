@@ -143,7 +143,7 @@ class AssistantController extends Controller
         $request->validate([
             'name' => "required|min:6",
             'phone_number' => "required",
-            //'store' => "required",
+            'store_id' => "required",
             'email' => "required|email",
             'password' => "required"
         ]);
@@ -157,7 +157,8 @@ class AssistantController extends Controller
                     'name' => $request->input('name'),
                     'phone_number' => $request->input('phone_number'),
                     'email' => $request->input('email'),
-                    'password' => $request->input('password')
+                    'password' => $request->input('password'),
+                    'store_id' => $request->input('store_id')
                 ],
             ];
             //return dd($payload);
@@ -193,6 +194,7 @@ class AssistantController extends Controller
             return redirect()->route('assistants.create');
             //return back();
         } catch (Exception $e) {
+            dd($e);
             if ($e->getCode() == 401) {
                 return redirect()->route('logout')->withErrors("Please Login Again");
             }
@@ -261,10 +263,10 @@ class AssistantController extends Controller
                 $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
                 $response = $client->request("GET", $url, $headers);
                 $data = json_decode($response->getBody());
-                //  dd($data);
+                // dd($data);
 
                 if ($response->getStatusCode() == 200) {
-                    return view('backend.assistant.edit')->with('response', $data->data->assistantData)->withStores($stores);
+                    return view('backend.assistant.edit')->with('response', $data->data->store_assistant)->withStores($stores);
 
                 } else {
                     return view('errors.500');
@@ -274,6 +276,7 @@ class AssistantController extends Controller
             }
 
         } catch (\Exception $e) {
+            dd($e);
             // dd($e->getCode());
             if ($e->getCode() == 401) {
                 return redirect()->route('logout')->withErrors("Please Login Again");
@@ -282,6 +285,7 @@ class AssistantController extends Controller
             //return $response->getStatusCode();
         }
     }
+
     /**
      * Update the specified resource in storage.
      *
@@ -297,7 +301,7 @@ class AssistantController extends Controller
             'name' => "required|min:6",
             'phone_number' => "required",
             'email' => "required|email",
-            'store' => "required"
+            'store_id' => "required"
         ]);
 
         try {
@@ -311,10 +315,10 @@ class AssistantController extends Controller
                     'name' => $request->input('name'),
                     'email' => $request->input('email'),
                     'phone_number' => $request->input('phone_number'),
-                    // 'password' => $request->input('password')
+                    'store_id' => $request->input('store_id')
                 ],
             ];
-
+            // dd($data);
             $response = $client->request("PUT", $url, $data);
             $status = $response->getStatusCode();
 
@@ -327,6 +331,7 @@ class AssistantController extends Controller
             }
 
         } catch (\Exception $e) {
+            dd($e);
             //dd($e->getMessage());
             // $data = json_decode($e->getBody()->getContents());
             if ($e->getCode() == 401) {
@@ -354,7 +359,7 @@ class AssistantController extends Controller
         try {
             //return dd($url);
             $delete = $client->delete($url, $headers);
-                //return dd($url);
+            //return dd($url);
             if ($delete->getStatusCode() == 200 || $delete->getStatusCode() == 201) {
                 $request->session()->flash('alert-class', 'alert-success');
                 Session::flash('message', "Store assistant successfully deleted");
@@ -369,8 +374,7 @@ class AssistantController extends Controller
                 Session::flash('message', "A server error encountered, please try again later");
                 return redirect()->route('assistants.index');
             }
-        }   
-        catch(ClientException $e) {
+        } catch (ClientException $e) {
             $request->session()->flash('alert-class', 'alert-danger');
             Session::flash('message', "A technical error occured, we are working to fix this.");
             return redirect()->route('assistants.index');

@@ -78,7 +78,7 @@
                             <div class="form-group row mb-3">
                                 <label for="number" class="col-2 col-sm-3 col-form-label my-label">Store:</label> <br>
                                 <div class="col-10 col-sm-7">
-                                    <select name="store" id="store" class="form-control">
+                                    <select name="store_id" id="store_id" class="form-control">
                                         <option value=""> Select Store</option>
                                         @foreach($stores as $store)
                                             <option value="{{$store->_id}}">{{$store->store_name}}</option>
