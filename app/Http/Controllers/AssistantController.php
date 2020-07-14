@@ -196,6 +196,15 @@ class AssistantController extends Controller
             if ($e->getCode() == 401) {
                 return redirect()->route('logout')->withErrors("Please Login Again");
             }
+
+            $data = json_decode($response->getBody());
+            Session::flash('message', $data->message);
+            return redirect()->route('assistants.create');
+            //return back();
+        } catch (Exception $e) {
+            if ($e->getCode() == 401) {
+                return redirect()->route('logout')->withErrors("Please Login Again");
+            }
             Log::error($e->getMessage());
             return view('errors.500');
         }
@@ -273,7 +282,6 @@ class AssistantController extends Controller
             //return $response->getStatusCode();
         }
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -344,28 +352,28 @@ class AssistantController extends Controller
         $client = new Client();
         $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
         try {
+            //return dd($url);
             $delete = $client->delete($url, $headers);
-
+                //return dd($url);
             if ($delete->getStatusCode() == 200 || $delete->getStatusCode() == 201) {
                 $request->session()->flash('alert-class', 'alert-success');
                 Session::flash('message', "Store assistant successfully deleted");
-                return $this->index();
+                //return $this->index();
+                return back();
             } else if ($delete->getStatusCode() == 401) {
                 $request->session()->flash('alert-class', 'alert-danger');
                 Session::flash('message', "You are not authorized to perform this action, please check your details properly");
-                return redirect()->route('assistant.index');
+                return redirect()->route('assistants.index');
             } else if ($delete->getStatusCode() == 500) {
                 $request->session()->flash('alert-class', 'alert-danger');
                 Session::flash('message', "A server error encountered, please try again later");
-                return redirect()->route('assistant.index');
+                return redirect()->route('assistants.index');
             }
-        } catch (ClientException $e) {
-            if ($e->getCode() == 401) {
-                return redirect()->route('logout')->withErrors("Please Login Again");
-            }
+        }   
+        catch(ClientException $e) {
             $request->session()->flash('alert-class', 'alert-danger');
             Session::flash('message', "A technical error occured, we are working to fix this.");
-            return redirect()->route('assistant.index');
+            return redirect()->route('assistants.index');
         }
     }
 }

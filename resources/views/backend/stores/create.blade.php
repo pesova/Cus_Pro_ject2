@@ -44,27 +44,27 @@
                                         @csrf
                                         <div class="form-row">
                                           <div class="form-group col-md-6">
-                                            <label for="store name">Store Name</label>
-                                            <input type="text" name="store_name" class="form-control"  placeholder="XYZ Stores" required>
+                                            <label for="store name">Store Name*</label>
+                                            <input type="text" name="store_name" class="form-control" value="{{ old('store_name') }}"  placeholder="XYZ Stores" required minlength="3" maxlength="16">
                                           </div>
                                           <div class="form-group col-md-6">
-                                            <label for="inputTagline">Tagline</label>
-                                            <input type="text" name="tagline" class="form-control" id="inputTagline" placeholder="Your Perfect Stay One Click away...."  >
+                                            <label for="inputTagline">Tagline*</label>
+                                            <input type="text" name="tagline" class="form-control" id="inputTagline" value="{{ old('tagline') }}" placeholder="Your Perfect Stay One Click away...."  required minlength="4" maxlength="15">
                                           </div>
                                         </div>
                                         <div class="form-row">
                                           <div class="form-group col-md-6">
-                                            <label for="inputPhoneNumber">Phone Number</label>
-                                            <input type="tel" name="phone_number" class="form-control" placeholder="+2348127737643" >
+                                            <label for="inputPhoneNumber">Phone Number*</label>
+                                            <input type="tel" name="phone_number" value="{{ old('phone_number') }}" class="form-control" placeholder="+2348127737643" required minlength="6" maxlength="16">
                                           </div>
                                         <div class="form-group col-md-6" >
-                                            <label for="inputEmailAddress"> Email Address (optional) </label>
-                                            <input type="email" name="email" class="form-control" placeholder="you@example.com">
+                                            <label for="inputEmailAddress"> Email Address*</label>
+                                            <input type="email" name="email" class="form-control" value="{{ old('email') }}" placeholder="you@example.com" required>
                                         </div>
                                         </div>
                                         <div class="form-group">
-                                          <label for="inputAddress">Address</label>
-                                          <input type="text" name="shop_address" class="form-control"  placeholder="123 Abby Avenue" required>
+                                          <label for="inputAddress">Address*</label>
+                                          <input type="text" name="shop_address" class="form-control" value="{{ old('store_address') }}"  placeholder="123 Abby Avenue" required minlength="5" maxlength="50">
                                         </div>
                                         <button type="submit" class="btn btn-success text-white" data-toggle="modal" data-target="#exampleModal">
                                            Create Store

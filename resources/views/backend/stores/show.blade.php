@@ -29,10 +29,9 @@
                 <div class="card">
                     <div class="card-body pl-3 pr-3 padup">
                         <div class="text-center">
-                            <img src="{{asset('backend/assets/images/users/avatar-7.jpg')}}" alt=""
-                                class="avatar-lg rounded-circle" />
-                                
-                            <h6 class="text-muted font-weight-normal mt-2 mb-0">{{ $response->store_name }}</h6>
+                            
+                                 <b><label for="">Store Name</label></b>
+                            <h5 class="text-muted font-weight-normal mt-2 mb-0">{{ ucfirst($response->store_name) }}</h5>
                         </div>
                         <div class="mt-5 pt-2 border-top">
                             <h4 class="mb-3 font-size-15">Store Address</h4>
@@ -53,6 +52,11 @@
                                 <div class="table-responsive">
                                     <table class="table table-borderless mb-0 text-muted">
                                         <tbody>
+                                            <tr>
+                                                <th scope="row">Store ID</th>
+                                                <td>{{ $response->_id }}</td>
+                                            </tr>
+
                                             <tr>
                                                 <th scope="row">Email</th>
                                                 <td>{{ $response->email }}</td>
