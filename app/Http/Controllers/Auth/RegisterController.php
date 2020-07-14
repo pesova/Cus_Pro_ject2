@@ -93,7 +93,7 @@ class RegisterController extends Controller
 
                         $data = $res->data->user->local;
                         $api_token = $res->data->user->api_token;
-                        $user_role = $res->data->user->local->user_role;
+                        $user_role = $res->data->user->user_role;
 
                         // store data to cookie
                         Cookie::queue('user_role', $user_role);
@@ -146,7 +146,6 @@ class RegisterController extends Controller
             return view('errors.500');
         } catch (\Exception $e) {
             //log error;
-            dd($e->getMessage());
             Log::error('Catch error: RegisterController - ' . $e->getMessage());
             return view('errors.500');
         }
