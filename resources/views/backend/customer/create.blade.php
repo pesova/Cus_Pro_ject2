@@ -51,21 +51,21 @@
                             <div class="form-group">
                               <label class="col-lg-3 control-label">Full Name:</label>
                               <div class="col-lg-8">
-                                <input class="form-control" type="text" maxlength="30" value="John Doe" required name="name">
+                                <input class="form-control" type="text" maxlength="30" value="{{old('name')}}" required name="name">
                               </div>
                             </div>
 
                             <div class="form-group">
                               <label class="col-lg-3 control-label">Email:</label>
                               <div class="col-lg-8">
-                                <input class="form-control" type="text" value="johndoe@doetech.com" name="email" required>
+                                <input class="form-control" type="text" value="{{old('email')}}" name="email" required>
                               </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-lg-3 control-label">Tel:</label>
                                 <div class="col-lg-8">
-                                  <input class="form-control" type="phone" value="+234 90 00 000 000" maxlength="16" name="phone_number" required>
+                                  <input class="form-control" type="phone" value="{{old('phone_number')}}" maxlength="16" name="phone_number" required>
                                 </div>
                               </div>
                               <div class="form-group">
@@ -101,7 +101,7 @@
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Short Comment</label>
                                 <div class="col-md-8">
-                                  <input class="form-control" type="text" maxlength="100" value="this is a very very large junk of rubbush that i am just foing to type">
+                                  <input class="form-control" type="text" maxlength="100" value="{{old('comment')}}">
                                 </div>
                             </div>
                             <div class="form-group">
