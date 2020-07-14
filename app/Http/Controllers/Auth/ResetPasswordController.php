@@ -37,7 +37,7 @@ class ResetPasswordController extends Controller
             $client =  new Client();
             $response = $client->post($this->host . '/reset', [
                 'form_params' => [
-                    'phone_number' => $request->input('phone_number'),
+                    'password' => $request->input('password'),
                     'token' => $request->input('otp')
                     ]
             ]);
