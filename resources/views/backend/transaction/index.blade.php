@@ -291,18 +291,20 @@
         // any initialisation options go here
     });
 
-    const hash = "{{ ('api_token') }}";
+    
 
     $('select[name="store"]').on('change', function () {
-        console.log(1);
+        // console.log(1);
+        // console.log(token);
         var storeID = $(this).val();
+        var token = "{{ $api_token }}";
         if (storeID) {
             $.ajax({
-                url: "{{env('API_URL')}}/store/" + encodeURI(storeID),
+                url: "https://dev.api.customerpay.me/store/" + encodeURI(storeID),
                 type: "GET",
                 dataType: "json",
                 headers: {
-                    'x-access-token': hash
+                    'x-access-token': token
                 },
                 success: function (data) {
                     console.log(data);
