@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use App\Rules\DoNotAddIndianCountryCode;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Cookie;
 use GuzzleHttp\Client;
@@ -66,10 +67,10 @@ class RegisterController extends Controller
     {
 
         $data = $request->validate([
-            'phone_number' => ['required', 'min:6', 'max:16', new NoZero, new DoNotPutCountryCode],
+            'phone_number' => ['required', 'min:6', 'max:16', new NoZero, new DoNotAddIndianCountryCode, new DoNotPutCountryCode],
             'password' => ['required', 'min:6']
         ]);
-        
+
         try {
 
             if ($data) {
@@ -127,24 +128,26 @@ class RegisterController extends Controller
 
             $request->session()->flash('message', 'Please fill the form correctly');
             $request->session()->flash('alert-class', 'alert-danger');
-
             return redirect()->route('signup');
         } catch (RequestException $e) {
             //log error;
             Log::error('Catch error: RegisterController - ' . $e->getMessage());
 
             // get response
-            if ($e->getResponse()->getStatusCode() > 400) {
-                $response = json_decode($e->getResponse()->getBody());
-                $request->session()->flash('alert-class', 'alert-danger');
-                $request->session()->flash('message', $response->error->description);
-                return redirect()->route('signup');
+            if ($e->hasResponse()) {
+                if ($e->getResponse()->getStatusCode() > 400) {
+                    $response = json_decode($e->getResponse()->getBody());
+                    $request->session()->flash('alert-class', 'alert-danger');
+                    $request->session()->flash('message', $response->error->description);
+                    return redirect()->route('signup');
+                }
             }
 
             // check for 500 server error
             return view('errors.500');
         } catch (\Exception $e) {
             //log error;
+            dd($e->getMessage());
             Log::error('Catch error: RegisterController - ' . $e->getMessage());
             return view('errors.500');
         }

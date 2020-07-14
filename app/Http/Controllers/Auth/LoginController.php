@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use App\Rules\DoNotAddIndianCountryCode;
 use App\Rules\DoNotPutCountryCode;
 use App\Rules\NoZero;
 use GuzzleHttp\Client;
@@ -59,9 +60,11 @@ class LoginController extends Controller
     public function authenticate(Request $request)
     {
         $request->validate([
-            'phone_number' => ['required', 'min:6', 'max:16', new NoZero, new DoNotPutCountryCode],
+            'phone_number' => ['required', 'min:6', 'max:16', new NoZero, new DoNotAddIndianCountryCode, new DoNotPutCountryCode],
             'password' => ['required', 'min:6']
         ]);
+
+        // dd($request->input('phone_number'));
 
         try {
             $client = new Client();
@@ -114,12 +117,14 @@ class LoginController extends Controller
             //log error;
             Log::error('Catch error: LoginController - ' . $e->getMessage());
 
-            if ($e->getResponse()->getStatusCode() > 400) {
-                // get response to catch 4xx errors
-                $response = json_decode($e->getResponse()->getBody());
-                $request->session()->flash('alert-class', 'alert-danger');
-                $request->session()->flash('message', $response->error->description);
-                return redirect()->route('login');
+            if ($e->hasResponse()) {
+                if ($e->getResponse()->getStatusCode() > 400) {
+                    // get response to catch 4xx errors
+                    $response = json_decode($e->getResponse()->getBody());
+                    $request->session()->flash('alert-class', 'alert-danger');
+                    $request->session()->flash('message', $response->error->description);
+                    return redirect()->route('login');
+                }
             }
             // check for 500 server error
             return view('errors.500');
