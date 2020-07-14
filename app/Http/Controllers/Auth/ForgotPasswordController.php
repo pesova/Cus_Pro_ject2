@@ -53,7 +53,6 @@ class ForgotPasswordController extends Controller
             $response = $client->post($this->host . '/recover', [
                 'form_params' => ['phone_number' => $request->input('phone_number')]
             ]);
-dd($response);
             if ($response->getStatusCode() == 200) {
                 $response = json_decode($response->getBody());
                 $data = $response->data;
