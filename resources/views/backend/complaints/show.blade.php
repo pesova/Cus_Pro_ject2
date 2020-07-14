@@ -95,7 +95,7 @@
                                     </div>
                                     @if ( \Cookie::get('user_role') == "super_admin")
                                         <div style="padding: 20px;">
-                                            <a href="{{ route('complaint.index') }}" class="btn btn-primary float-left"> Edit &nbsp;<i class="fa fa-plus my-float"></i> </a>
+                                            <a href="{{ route('complaint.edit', $response->data->complaint->_id) }}" class="btn btn-primary float-left"> Edit &nbsp;<i class="fa fa-plus my-float"></i> </a>
                                             <form class="float-right" action="{{ route('complaint.destroy', $response->data->complaint->_id) }}" method="POST">
                                                 <input type="hidden" name="_method" value="DELETE" />
                                                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
@@ -117,4 +117,5 @@
             </div>
         </div>
     </div>
+    
 @endsection
