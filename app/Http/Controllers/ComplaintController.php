@@ -37,7 +37,7 @@ class ComplaintController extends Controller
             $body = $response->getBody()->getContents();
             $complaints = json_decode($body);
             return view('backend.complaints.index')->with('responses', $complaints);
-        } elseif ($statusCode == 403) {
+        } elseif ($statusCode == 401) {
 
             return redirect()
                 ->route('login')
