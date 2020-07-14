@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use App\Rules\DoNotPutCountryCode;
+use App\Rules\NoZero;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Illuminate\Support\Facades\Cookie;
 
 class ForgotPasswordController extends Controller
 {
@@ -41,7 +44,7 @@ class ForgotPasswordController extends Controller
     public function authenticate(Request $request)
     {
         $validation = Validator::make(request()->all(), [
-            'phone_number' => 'required|min:6|max:16',
+            'phone_number' => ['required','min:6','max:16', new NoZero, new DoNotPutCountryCode],
         ]);
 
         if ($validation->fails()) {
@@ -91,10 +94,10 @@ class ForgotPasswordController extends Controller
             $message = isset($response->Message) ? $response->Message : $response->message;
             $request->session()->flash('message', $message);
             return redirect()->route('password');
-        } catch (\Exception $e) {
+        } catch (\GuzzleHttp\Exception\RequestException $e) {
 
-            if ($e->getCode() == 400) {
-                $request->session()->flash('message', 'Invalid Phone number or password. Ensure Your phone number uses internations format.e.g +234');
+            if ($e->getResponse()->getStatusCode() > 400) {
+                $request->session()->flash('message', 'Invalid Phone number');
                 $request->session()->flash('alert-class', 'alert-danger');
                 return redirect()->route('password');
             }
