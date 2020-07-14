@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -124,6 +125,9 @@ class SettingsController extends Controller
             if ($control == 'profile_update') {
                 return redirect()->route('setting');
             }
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return view('errors.500');
         }
     }
 
