@@ -75,7 +75,9 @@ class TransactionController extends Controller
      */
     public function create()
     {
-        return view('backend.transaction.create');
+        
+
+       // return view('backend.transaction.create');
     }
 
     /**
@@ -97,20 +99,22 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        
-        $data = $request->validate([
+       $request->validate([
             'amount' => 'required',
             'interest' => 'required',
             'description' => 'required',
-            'transaction_type' => 'required',
+             'type' => 'required',
+             'transaction_name'=> 'required',
+             'transaction_role' => 'required',
             'store' => 'required',
-            'customer' => 'required'
+            'customer' => 'required',
+            'status'=>'required',
         ]);
         
-            if ($data) {
+           
                 $url = env('API_URL', 'https://dev.api.customerpay.me') . '/transaction/new';
                 $client = new Client();
-               $payload = [
+                $payload = [
                 'headers' => ['x-access-token' => Cookie::get('api_token')],
                 'form_params' => [
                     'amount' => $request->input('amount'),
@@ -118,11 +122,16 @@ class TransactionController extends Controller
                     'total_amount' => $request->input('amount') + $request->input('interest'),
                     'description' => $request->input('description'),                    
                     'type' => $request->input('type'),
+                    'transaction_name' => $request->input('transaction_name'),
+                    'transaction_role' => $request->input('transaction_role'),
                     'store_id' => $request->input('store'),
                     'customer_id' => $request->input('customer'),
+                    'status' => $request->input('status'),
+
                 ],
     
             ];
+            // dd($cash);
 
                 try{
                     $response = $client->request("POST", $url, $payload);
@@ -132,25 +141,24 @@ class TransactionController extends Controller
 
                 }
                 catch(ClientException    $e){
-                    $statusCode = $e->getCode();
+                     $statusCode = $e->getCode();
                     if ($statusCode == 400){
                         $request->session()->flash('alert-class', 'alert-danger');
                         $request->session()->flash('message', 'store or customer is not created');
                         return redirect()->route('transaction.index');
                     }
 
-                    if ($statusCode == 500){
-                        return view('errors.500');
-                    }
-
-                   
-
+                }catch (RequestException $e) {
+                        $response = $e->getResponse();
+                        $statusCode = $response->getStatusCode();
+                        if ($statusCode  == 500) {
+                            $request->session()->flash('alert-class', 'alert-danger');
+                        $request->session()->flash('message', 'some information missing');
+                        return redirect()->route('transaction.index');
+                        }
                     
                 }
-                
-               
-        } 
-        
+
     }
 
     /**

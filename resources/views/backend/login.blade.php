@@ -33,11 +33,11 @@
                                         @endif
 
                                         @if ($errors->any())
-                                        @foreach ($errors->all() as $error)
-                                        <div class="alert alert-danger">
-                                            {{ $error }}
-                                        </div>
-                                        @endforeach
+                                            @foreach ($errors->all() as $error)
+                                            <div class="alert alert-danger">
+                                                {{ $error }}
+                                            </div>
+                                            @endforeach
                                         @endif
 
                                         <form action="{{ route('login.authenticate') }}" class="authentication-form" method="POST" id="submitForm">
