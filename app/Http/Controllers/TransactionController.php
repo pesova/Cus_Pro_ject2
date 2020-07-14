@@ -76,22 +76,27 @@ class TransactionController extends Controller
     public function create()
     {
         
-        $client = new Client;
-        // $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
-        $storesUrl = env('API_URL', 'https://dev.api.customerpay.me') . '/store';
-        $customerUrl = env('API_URL', 'https://dev.api.customerpay.me') . '/customer';
+        // $client = new Client;
+        // // $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+        // $storesUrl = env('API_URL', 'https://dev.api.customerpay.me') . '/store';
+        // $customerUrl = env('API_URL', 'https://dev.api.customerpay.me') . '/customer';
 
-        $storesResponse = $client->request("GET", $storesUrl, ['headers' => ['x-access-token' => Cookie::get('api_token')]]);
-        $customersResponse = $client->request("GET", $customerUrl, ['headers' => ['x-access-token' => Cookie::get('api_token')]]);
+        // $storesResponse = $client->request("GET", $storesUrl, ['headers' => ['x-access-token' => Cookie::get('api_token')]]);
+        // $customersResponse = $client->request("GET", $customerUrl, ['headers' => ['x-access-token' => Cookie::get('api_token')]]);
      
-            // $customer = json_decode($customersResponse->getBody())->data;
-            // dd($customer);
-        $stores = json_decode($storesResponse->getBody())->data->stores;
-        // dd($stores);
+        //     // $customer = json_decode($customersResponse->getBody())->data;
+        //     // dd($customer);
+        // // $stores = json_decode($storesResponse->getBody())->data->stores;
+        // // dd($stores);
         // if ($storesResponse->getStatusCode() == 200) {
         //     $stores = json_decode($storesResponse->getBody())->data->stores;
         // } else {
         //     $stores = [];
+        // }
+        // if ($customersResponse->getStatusCode() == 200) {
+        //     $cus = json_decode($customersResponse->getBody())->data;
+        // } else {
+        //     $cus = [];
         // }
         return view('backend.transaction.create');
     }
@@ -137,19 +142,16 @@ class TransactionController extends Controller
         //     “customer_id”: STRING REQUIRED
         // }
 
-        // $data = $request->validate([
-        //     'amount' => 'required',
-        //     'interest' => 'required',
-        //     'total_amount' => 'required',
-        //     'description' => 'required|string',
-        //     'transaction_name' => 'required',
-        //      'transaction_role' => 'required',
-        //         'type' => 'required',
-        //     'store_name' => 'required',
-        //     'phone_number' => 'required'
-        // ]);
+        $data = $request->validate([
+            'amount' => 'required',
+            'interest' => 'required',
+            'description' => 'required',
+             'transaction_type' => 'required',
+            'store_id' => 'required',
+            'customer_id' => 'required'
+        ]);
         
-            // if ($data) {
+            if ($data) {
                 $url = env('API_URL', 'https://dev.api.customerpay.me') . '/transaction/new';
                 $client = new Client();
                $payload = [
@@ -159,9 +161,9 @@ class TransactionController extends Controller
                     'interest' => $request->input('interest'),
                     'total_amount' => $request->input('amount') + $request->input('interest'),
                     'description' => $request->input('description'),                    
-                    'type' => $request->input('transaction_type'),
-                    'store_id' => $request->input('store_name'),
-                    'customer_id' => $request->input('customer_name'),
+                    'type' => $request->input('type'),
+                    'store_id' => $request->input('store_id'),
+                    'customer_id' => $request->input('customer_id'),
                 ],
     
             ];
@@ -190,40 +192,8 @@ class TransactionController extends Controller
                     
                 }
                 
-                // $statusCode = $response->getStatusCode();
-                // $body = $response->getBody();
-                // $data = json_decode($body);()
-
                
-                    
-                // if ($response->getStatusCode() == 201) {
-                //     $request->session()->flash('alert-class', 'alert-success');
-                //     $request->session()->flash('message', 'Transaction successfully created');
-                //         return redirect()->route('transaction.index');
-                // }
-                //     $request->session()->flash('message', 'Transaction failed to create');
-                //     $request->session()->flash('alert-class', 'alert-danger');
-                //     return redirect()->route('transaction.index');
-           
-
-        // } catch (RequestException $e) {
-
-
-        //     if ($e->getResponse()->getStatusCode() == 400) {
-        //         return redirect()->route('transaction.index');
-        //     }
-
-        //     // check for 5xx server error
-        //     if ($e->getResponse()->getStatusCode() >= 500) {
-        //         return view('errors.500');
-        //     }
-        //     // get response to catch 4xx errors
-        //     $response = json_decode($e->getResponse()->getBody());
-        //     Session::flash('alert-class', 'alert-danger');
-        //     Session::flash('message', $response->error->description);
-        //     return redirect()->route('transaction.index', ['response' => []]);
-
-        // } 
+        } 
         
     }
 

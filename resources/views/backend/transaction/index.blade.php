@@ -164,34 +164,18 @@
                             <input type="number" class="form-control" id="interest" name="interest" placeholder="Interest" >
                         </div>
                     </div>
-                    {{-- <div class="form-group row mb-3">
-                        <label for="total_amount" class="col-3 col-form-label">Total amount</label>
-                        <div class="col-9">
-                            <input type="number" class="form-control" id="total_amount" name="total_amount" placeholder="Total amount">
-                        </div>
-                    </div> --}}
+                   
                     <div class="form-group row mb-3">
                         <label for="description" class="col-3 col-form-label">Description</label>
                         <div class="col-9">
                             <input type="text" class="form-control" id="description" name="description" placeholder="Description">
                         </div>
                     </div>
-                    {{-- <div class="form-group row mb-3">
-                        <label for="transaction_name" class="col-3 col-form-label">Transaction Name</label>
-                        <div class="col-9">
-                            <input type="text" class="form-control" id="transaction_name" name="transaction_name" placeholder="Transaction Name">
-                        </div>
-                    </div> --}}
-                     {{-- <div class="form-group row mb-3">
-                        <label for="transaction_role" class="col-3 col-form-label">Transaction role</label>
-                        <div class="col-9">
-                            <input type="text" class="form-control" id="transaction_role" name="transaction_role" placeholder="Transaction Role">
-                        </div>
-                    </div> --}}
+                  
                     <div class="form-group row mb-3">
                         <label for="transaction_type" class="col-3 col-form-label">Transaction Type</label>
                         <div class="col-9">
-                            <select id="transaction_type" name="transaction_type" class="form-control">
+                            <select id="type" name="type" class="form-control">
                                 <option value="Receivables">Receivables</option>
                                 <option value="Paid">Paid</option>
                                 <option value="Debt">Debt</option>
@@ -202,24 +186,24 @@
                     <div class="form-group row mb-3">
                         <label for="store_name" class="col-3 col-form-label">Store Name</label>
                         <div class="col-9">
-                            <select class="form-control" name="store_name" id="store_name" required>
+                            <select class="form-control" name="store_id" id="store_id" required>
                                 <option value="" selected disabled>None selected</option>
-                                {{-- @isset($stores) --}}
+                                @isset($stores)
                                     @foreach ($stores as $store)
-                                        <option value="{{ $store->store_id }}">{{ $store->store_name }}</option>
+                                        <option value="{{ $store->_id }}">{{ $store->store_name }}</option>
                                     @endforeach
-                                {{-- @endisset --}}
+                                @endisset
                               </select>
                         </div>
                     </div>
                    <div class="form-group row mb-3">
                         <label for="store_name" class="col-3 col-form-label">Customer Name</label>
                         <div class="col-9">
-                            <select class="form-control" name="customer_name" id="customer_name" required>
+                            <select class="form-control" name="customer_id" id="customer_id" required>
                                 <option value="" selected disabled>None selected</option>
                                 @isset($customers)
                                     @foreach ($customers as $customers)
-                                        <option value="{{ $customers->customer_id }}">{{ $customers->customer_id }}</option>
+                                        <option value="{{ $customers->customer_ref_id }}">{{ $customers->customer_name }}</option>
                                     @endforeach
                                 @endisset
                               </select>
