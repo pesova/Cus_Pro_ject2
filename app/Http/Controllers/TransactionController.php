@@ -28,7 +28,6 @@ class TransactionController extends Controller
     public function index()
     {
 
-        // return view('backend.transaction.index');
         $url = env('API_URL', 'https://dev.api.customerpay.me') . '/transaction';
         $storesUrl = env('API_URL', 'https://dev.api.customerpay.me') . '/store';
 
@@ -53,7 +52,6 @@ class TransactionController extends Controller
             if (count($transaction->data->transactions) == 0) {
                 // // return view('backend.transaction.index', ['stores' => $stores, 'api_token' => $api_token]);
             } elseif ($statusCode == 200) {
-
                 return view('backend.transaction.index')->with('response', $transaction)->with('stores', $stores)->with('api_token', $api_token);
             }
         } catch (RequestException $e) {
@@ -78,7 +76,6 @@ class TransactionController extends Controller
      */
     public function create()
     {
-
         return view('backend.transaction.create');
     }
 
@@ -104,7 +101,6 @@ class TransactionController extends Controller
         $url = env('API_URL', 'https://dev.api.customerpay.me') . '/transaction/new';
 
         try {
-            // if ($data) {
 
             $client = new Client();
             $payload = [
