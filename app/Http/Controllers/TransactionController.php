@@ -32,7 +32,7 @@ class TransactionController extends Controller
 
         $url = env('API_URL', 'https://dev.api.customerpay.me') . '/transaction';
         $storesUrl = env('API_URL', 'https://dev.api.customerpay.me') . '/store';
-        $storesUrl = env('API_URL', 'https://dev.api.customerpay.me') . '/customer';
+        $customerUrl = env('API_URL', 'https://dev.api.customerpay.me') . '/customer';
 
         $api_token = Cookie::get('api_token');
 
@@ -51,7 +51,7 @@ class TransactionController extends Controller
             } else {
                 $stores = [];
             }
-            $customersResponse = $client->request("GET", $storesUrl, ['headers' => ['x-access-token' => Cookie::get('api_token')]]);
+            $customersResponse = $client->request("GET", $customerUrl, ['headers' => ['x-access-token' => Cookie::get('api_token')]]);
             if ($customersResponse->getStatusCode() == 200) {
                 $customer = json_decode($customersResponse->getBody())->data->customers;
             } else {
@@ -85,6 +85,24 @@ class TransactionController extends Controller
      */
     public function create()
     {
+        
+        $client = new Client;
+        // $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+        $storesUrl = env('API_URL', 'https://dev.api.customerpay.me') . '/store';
+        $customerUrl = env('API_URL', 'https://dev.api.customerpay.me') . '/customer';
+
+        $storesResponse = $client->request("GET", $storesUrl, ['headers' => ['x-access-token' => Cookie::get('api_token')]]);
+        $customersResponse = $client->request("GET", $customerUrl, ['headers' => ['x-access-token' => Cookie::get('api_token')]]);
+     
+            // $customer = json_decode($customersResponse->getBody())->data;
+            // dd($customer);
+        $stores = json_decode($storesResponse->getBody())->data->stores;
+        // dd($stores);
+        // if ($storesResponse->getStatusCode() == 200) {
+        //     $stores = json_decode($storesResponse->getBody())->data->stores;
+        // } else {
+        //     $stores = [];
+        // }
         return view('backend.transaction.create');
     }
 
@@ -150,12 +168,10 @@ class TransactionController extends Controller
                     'amount' => $request->input('amount'),
                     'interest' => $request->input('interest'),
                     'total_amount' => $request->input('amount') + $request->input('interest'),
-                    'description' => $request->input('description'),
-                    'transaction_name' => $request->input('transaction_name'),
-                    'transaction_role' =>$request->input('transaction_role'),                     
+                    'description' => $request->input('description'),                    
                     'type' => $request->input('transaction_type'),
-                    'store_name' => $request->input('store_name'),
-                    'phone_number' => $request->input('phone_number'),
+                    'store_id' => $request->input('store_name'),
+                    'customer_id' => $request->input('customer_name'),
                 ],
     
             ];

@@ -204,11 +204,11 @@
                         <div class="col-9">
                             <select class="form-control" name="store_name" id="store_name" required>
                                 <option value="" selected disabled>None selected</option>
-                                @isset($stores)
+                                {{-- @isset($stores) --}}
                                     @foreach ($stores as $store)
-                                        <option value="{{ $store->store_name }}">{{ $store->store_name }}</option>
+                                        <option value="{{ $store->store_id }}">{{ $store->store_name }}</option>
                                     @endforeach
-                                @endisset
+                                {{-- @endisset --}}
                               </select>
                         </div>
                     </div>
@@ -219,7 +219,7 @@
                                 <option value="" selected disabled>None selected</option>
                                 @isset($customers)
                                     @foreach ($customers as $customers)
-                                        <option value="{{ $customers->store_name }}">{{ $customers->store_name }}</option>
+                                        <option value="{{ $customers->customer_id }}">{{ $customers->customer_id }}</option>
                                     @endforeach
                                 @endisset
                               </select>
