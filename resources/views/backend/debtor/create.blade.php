@@ -47,7 +47,10 @@
                                                     <div class="form-group">
                                                         <label for="phonenumber">Store Name</label>
                                                         <select name="" class="form-control">
-                                                            <option value="store_name">select a store name</option>
+                                                            @foreach ($response as $index => $store )
+                                                                <option value="{{ $store->store_name }}">{{ $store->store_name }}</option>
+                                                            @endforeach
+
                                                         </select>
                                                     </div>
                                                 </div>

@@ -195,7 +195,7 @@ class AssistantController extends Controller
                 return redirect()->route('assistants.create');
                 //return back();
             } catch (Exception $e) {
-                dd( $e->getMessage());
+               // dd( $e->getMessage());
                 Log::error($e->getMessage());
                 return view('errors.500');
             }
@@ -259,7 +259,7 @@ class AssistantController extends Controller
             $data = json_decode($response->getBody());
 
             if ( $response->getStatusCode() == 200 ) {
-                return view('backend.assistant.update')->with('response', $data->data->assistants);
+                return view('backend.assistant.update')->with('response', $data->data->assistantData);
 
             } else {
                 return view('errors.500');
@@ -269,50 +269,7 @@ class AssistantController extends Controller
             //return $response->getStatusCode();
         }
     }
-    // public function edit($id)
-    // {
-    //     $url = env('API_URL', 'https://dev.api.customerpay.me') . '/assistant/' . $id;
-
-    //     try {
-    //         $client = new Client;
-    //         $payload = [
-    //             'headers' => [
-    //                 'x-access-token' => Cookie::get('api_token')
-    //             ],
-    //             'form_params' => [
-    //                 'current_user' => Cookie::get('user_id'),
-    //             ]
-    //         ];
-    //         $response = $client->request("GET", $url, $payload);
-    //         $statusCode = $response->getStatusCode();
-    //         $body = $response->getBody();
-    //         $StoreData = json_decode($body)->data->store;
-    //         if ($statusCode == 200) {
-
-    //             return view('backend.assistant.edit')->with('response', $StoreData);
-    //         }
-    //     } catch (RequestException $e) {
-
-    //         Log::info('Catch error: LoginController - ' . $e->getMessage());
-
-    //         // check for 5xx server error
-    //         if ($e->getResponse()->getStatusCode() >= 500) {
-    //             return view('errors.500');
-    //         }
-    //         // get response to catch 4xx errors
-    //         $response = json_decode($e->getResponse()->getBody());
-    //         Session::flash('alert-class', 'alert-danger');
-
-    //         Session::flash('message', $response->message);
-    //         return redirect()->route('assistants.index', ['response' => []]);
-
-    //     } catch (\Exception $e) {
-    //         //log error;
-    //         Log::error('Catch error: StoreController - ' . $e->getMessage());
-    //         return redirect()->route('assistants.index', ['response' => []]);
-
-    //     }
-    // }
+    
     /**
      * Update the specified resource in storage.
      *
@@ -326,7 +283,7 @@ class AssistantController extends Controller
 
 
         try{
-            $request->validate([
+             $request->validate([
                 'name' => "required|min:6",
                 'phone_number' => "required",
                 'email' => "required|email",
@@ -357,7 +314,7 @@ class AssistantController extends Controller
             }
 
         } catch ( \Exception $e ) {
-            $data = json_decode($e->getBody()->getContents());
+           // dd($e);
             $request->session()->flash('alert-class', 'alert-danger');
             $request->session()->flash('message', $data->message);
 
