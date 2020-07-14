@@ -46,6 +46,11 @@
                  {{-- start of card --}}
                 @if(Session::has('message') || $errors->any())
                   <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
+                  <script>
+                    setTimeout(() => {
+                      document.querySelector('.alert').style.display = 'none'
+                    }, 3000);
+                  </script>
                 @endif
                 <div class="card">
                     <div class="card-body">
