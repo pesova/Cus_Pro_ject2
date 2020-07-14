@@ -177,13 +177,20 @@
                                 placeholder="Description">
                         </div>
                     </div>
-                    {{-- <div class="form-group row mb-3">
+                    <div class="form-group row mb-3">
                         <label for="transaction_name" class="col-3 col-form-label">Transaction Name</label>
                         <div class="col-9">
                             <input type="text" class="form-control" id="transaction_name" name="transaction_name"
                                 placeholder="Transaction Name">
                         </div>
-                    </div> --}}
+                    </div>
+                     <div class="form-group row mb-3">
+                        <label for="transaction_role" class="col-3 col-form-label">Transaction Role</label>
+                        <div class="col-9">
+                            <input type="text" class="form-control" id="transaction_role" name="transaction_role"
+                                placeholder="transaction_role">
+                        </div>
+                    </div>
                    
                     <div class="form-group row mb-3">
                         <label for="transaction_type" class="col-3 col-form-label">Transaction Type</label>
@@ -218,6 +225,21 @@
                             </select>
                         </div>
                     </div>
+
+                    <div class="form-group row mb-3">
+                    
+                            <label class="col-3 col-form-label"> Status </label>
+                        <div class="col-9">
+                            <select  class="form-control" name="status">
+                                <option value="paid">Paid</option>
+                                <option value="unpaid" selected >Unpaid</option>
+                                <option value="pending">Pending</option>
+                             </select>
+                         </div>
+                    </div>
+
+
+                   
 
                   
                     <div class="form-group mb-0 justify-content-end row">
@@ -269,41 +291,46 @@
 @section("javascript")
 <script src="/backend/assets/build/js/intlTelInput.js"></script>
 <script>
+    jQuery(function($){
     var input = document.querySelector("#phone");
     window.intlTelInput(input, {
         // any initialisation options go here
     });
 
-    const hash = "{{ ('api_token') }}";
-  
+   // const hash = "{{ ('api_token') }}";
+    var token = "{{Cookie::get('api_token')}}"
     $('select[name="store"]').on('change', function () {
-
-    
-        console.log(store.value);
-         console.log(hash);
+        //console.log(store.value);
+         //console.log(hash);
         var storeID = $(this).val();
         if (storeID) {
-            $.ajax({
+            jQuery.ajax({
                 url: "{{env('API_URL')}}/store/" + encodeURI(storeID),
                 type: "GET",
                 dataType: "json",
                 headers: {
-                    'x-access-token': hash
+                    'x-access-token': token
                 },
                 success: function (data) {
-                    console.log(data);
+                    var new_data = data.data.store.customers;
+                  // alert(new_data.length);
+                    var i;
+                     for (i=0; i < 1; i++){
                     $('select[name="customer"]').empty();
-                    $.each(data, function (key, value) {
-                        $('select[name="customer"]').append('<option value="' + value + '">' +
-                            value + '</option>');
-                    });
+                    //jQuery.each(data.data.store.customers[i], function (key, value) {
+                        $('select[name="customer"]').append('<option value="' + data.data.store.customers[i]._id + '">' +
+                           data.data.store.customers[i].name  + '</option>');
+                           //console.log(new_data[i]._id);
+                    //});
+                    }
+                   
                 }
             });
         } else {
             $('select[name="store"]').empty();
         }
     });
-
+    });
     // const hash = "{{ \Cookie::get('api_token') }}";
     // $('#store_name').change( element => {
     //     $.ajax({

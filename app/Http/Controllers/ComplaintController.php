@@ -20,6 +20,7 @@ class ComplaintController extends Controller
     {
         $url = env('API_URL', 'https://dev.api.customerpay.me') . "/complaints";
         $user_id = Cookie::get('user_id');
+
         $client = new Client();
 
         $headers = [
@@ -149,12 +150,9 @@ class ComplaintController extends Controller
             if ($statusCode == 200) {
                 $body = $response->getBody()->getContents();
                 $complaints = json_decode($body);
-                $user_role = cookie::get('user_role');
-                // return view('backend.complaints.index', compact('user_role'));
-                return view('backend.complaints.show')->with('response', $complaints)->with('user_role', $user_role);
-                // return $user_role;
-            } elseif ($statusCode == 403) {
-                return redirect()->route('login')->with('message', "Please Login Again");
+                
+                
+                return view('backend.complaints.show')->with('response', $complaints);
             }
             if ($statusCode == 500) {
 
@@ -165,7 +163,7 @@ class ComplaintController extends Controller
             return view('errors.500');
         }
         // return view('backend.complaints.index');
-    
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -175,7 +173,36 @@ class ComplaintController extends Controller
      */
     public function edit($id)
     {
-        //
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . "/complaint/" . $id;
+        $user_id = Cookie::get('user_id');
+
+        try {
+
+            $client = new Client();
+
+            $headers = [
+                'headers' => [
+                    'x-access-token' => Cookie::get('api_token')
+                ]
+            ];
+
+            $response = $client->request('GET', $url, $headers);
+            $statusCode = $response->getStatusCode();
+            if ($statusCode == 200) {
+                $body = $response->getBody()->getContents();
+                $complaints = json_decode($body);
+                
+                
+                return view('backend.complaints.status')->with('response', $complaints);
+            }
+            if ($statusCode == 500) {
+
+                return view('errors.500');
+            }
+        } catch (\Exception $e) {
+
+            return view('errors.500');
+        }
     }
 
     /**
@@ -193,7 +220,7 @@ class ComplaintController extends Controller
             $client = new Client();
 
             $request->validate([
-                'message' => 'required',
+                'cc' => 'required',
             ]);
 
             $payload = [
@@ -201,7 +228,7 @@ class ComplaintController extends Controller
                     'x-access-token' => Cookie::get('api_token')
                 ],
                 "form_params" => [
-                    "message" => $request->input('message')
+                    "status" => $request->input('cc')
                 ]
             ];
 
@@ -212,7 +239,7 @@ class ComplaintController extends Controller
 
                 $body = $req->getBody()->getContents();
                 $response = json_decode($body);
-                return redirect()->route('complaint.log');
+                return redirect()->route('complaint.index');
             }
             if ($statusCode == 500) {
 
@@ -268,7 +295,7 @@ class ComplaintController extends Controller
 
             if ($statusCode == 200) {
 
-                return redirect()->back()->with('success', 'Complaint Deleted Successfully');
+                return redirect()->route('complaint.index')->with('success', 'Complaint Deleted Successfully');
             }
         } catch (\Exception $e) {
 
