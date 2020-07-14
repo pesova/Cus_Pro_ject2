@@ -38,6 +38,11 @@
                             Add Complaint &nbsp;<i class="fa fa-plus my-float"></i>
                         </a>
                         <h4 class="header-title mt-0 mb-1">Complaints Submitted</h4>
+
+                        <!-- {{$user_role ?? ''}} -->
+                        @if($user_role == 'store_admin')
+                            Welcome Admin
+                        @endif
                         <p class="sub-header">
                             This is the list of all complaints submitted:
                         </p>
@@ -50,7 +55,10 @@
                                     <th style="min-height: 7000;">Message</th>
                                     <th>Status</th>
                                     <th style="min-width: 90px;">Date</th>
-                                    <th>Action</th>
+                                    @if($user_role == 'store_admjin')
+                                    <th>Action</th>    
+                                    @endif
+                                    
                                 </tr>
                             </thead>
                             <tbody>
@@ -64,17 +72,17 @@
                                     </td>
                                     <td>{{ $response->status}}</td>
                                     <td>{{ \Carbon\Carbon::parse($response->date)->diffForHumans() }}</td>
+                                    @if($user_role == 'store_admijn')
                                     <td>
                                     
                                     <form action="{{ route('complaint.destroy', $response->_id) }}" method="POST">
                                             <input type="hidden" name="_method" value="DELETE">
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <button class="btn btn-danger">Delete</button>
-                        </form></td>
-                                    <!-- <td><a href="{{ route('complaint.destroy', $response->_id) }}" class="btn btn-danger "> -->
-   <!-- Delete -->
-<!-- </a> -->
-                                    </td>
+                                    </form></td>
+                                    @endif
+                                    
+                                    
                                 </tr>
                                 @endforeach
                             </tbody>

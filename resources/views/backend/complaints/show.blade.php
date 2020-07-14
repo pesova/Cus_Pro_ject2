@@ -17,6 +17,9 @@
                             Back &nbsp;<i class="fa fa-plus my-float"></i>
                         </a>
                         <h4 class="header-title mt-0 mb-1">Complaint Overview</h4>
+                        @if($user_role == 'store_admin')
+                            Welcome Admin
+                        @endif
                             <!-- <hr> -->
                         </div>
                             <div class="row py-1">
@@ -104,6 +107,7 @@
                                 
                                 
                             </div>
+                            @if($user_role == 'store_admin')
                             <div style="padding: 20px;">
                             <a href="{{ route('complaint.index') }}" class="btn btn-primary float-left">
                             Edit &nbsp;<i class="fa fa-plus my-float"></i>
@@ -113,15 +117,11 @@
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <button class="btn btn-danger">Delete</button>
                         </form>
+                            @endif
                             <!-- <hr> -->
                         </div>
 
-                            {{-- <div class="assign team mt-4">
-                                <h6 class="font-weight-bold">Assign To</h6>
-                                <a href="javascript: void(0);">
-                                    <img src="backend/assets/images/users/avatar-2.jpg" alt="" class="avatar-sm m-1 rounded-circle">
-                                </a>
-                            </div> --}}
+                          
 
 
 

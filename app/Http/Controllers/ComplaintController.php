@@ -19,7 +19,8 @@ class ComplaintController extends Controller
     {
         $host = env('API_URL', 'https://dev.api.customerpay.me');
         $user_id = Cookie::get('user_id');
-        $url = $host . "/complaints/$user_id";
+        $user_role = cookie::get('user_role');
+        $url = $host . "/complaints";
         $client = new Client();
         $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
         $response = $client->request('GET', $url, $headers);
@@ -27,7 +28,10 @@ class ComplaintController extends Controller
         if ($statusCode == 200) {
             $body = $response->getBody()->getContents();
             $complaints = json_decode($body);
-            return view('backend.complaints.index')->with('responses', $complaints);
+            $user_role = cookie::get('user_role');
+            // return view('backend.complaints.index', compact('user_role'));
+            return view('backend.complaints.index')->with('responses', $complaints)->with('user_role', $user_role);
+            // return $user_role;
         } elseif ($statusCode == 403) {
             return redirect()->route('login')->with('message', "Please Login Again");
         }
@@ -60,7 +64,7 @@ class ComplaintController extends Controller
         ]);
 
         $user_id = Cookie::get('user_id');
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . "/complaint/new/$user_id";
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . "/complaint/new";
 
         try {
             $client = new Client();
@@ -93,19 +97,20 @@ class ComplaintController extends Controller
                 return back();
             }
 
-        } catch (RequestException $e) {
-            //log error;
-            Log::error('Catch error: ComplaintController - ' . $e->getMessage());
+        // } 
+        // catch (RequestException $e) {
+        //     //log error;
+        //     Log::error('Catch error: ComplaintController - ' . $e->getMessage());
 
-            if ($e->hasResponse()) {
-                // get response to catch 4xx errors
-                $response = json_decode($e->getResponse()->getBody());
-                $request->session()->flash('alert-class', 'alert-danger');
-                $request->session()->flash('message', "Make sure all fields are filled .\n Make sure the description is more than 10 characters");
-                return back();
-            }
-            // check for 500 server error
-            return view('errors.500');
+        //     if ($e->hasResponse()) {
+        //         // get response to catch 4xx errors
+        //         $response = json_decode($e->getResponse()->getBody());
+        //         $request->session()->flash('alert-class', 'alert-danger');
+        //         $request->session()->flash('message', "Make sure all fields are filled .\n Make sure the description is more than 10 characters");
+        //         return back();
+        //     }
+        //     // check for 500 server error
+        //     return view('errors.500');
         } catch (\Exception $e) {
             //log error;
             Log::error('Catch error: ComplaintController - ' . $e->getMessage());
@@ -125,8 +130,7 @@ class ComplaintController extends Controller
     {
         $host = env('API_URL', 'https://dev.api.customerpay.me');
         $user_id = Cookie::get('user_id');
-        $url = $host . "/complaint/" . $user_id . "/" . $id;
-        try {
+        $url = $host . "/complaint/". $id;
             $client = new Client();
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
             $response = $client->request('GET', $url, $headers);
@@ -134,17 +138,17 @@ class ComplaintController extends Controller
             if ($statusCode == 200) {
                 $body = $response->getBody()->getContents();
                 $complaints = json_decode($body);
-                return view('backend.complaints.show')->with('response', $complaints);
+                $user_role = cookie::get('user_role');
+                // return view('backend.complaints.index', compact('user_role'));
+                return view('backend.complaints.show')->with('response', $complaints)->with('user_role', $user_role);
+                // return $user_role;
+            } elseif ($statusCode == 403) {
+                return redirect()->route('login')->with('message', "Please Login Again");
             }
-            if ($statusCode == 500) {
-                return view('errors.500');
-            }
-        } catch (\Exception $e) {
-            return view('errors.500');
 
         }
         // return view('backend.complaints.index');
-    }
+    
 
 
     /**
