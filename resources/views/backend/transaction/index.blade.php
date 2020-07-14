@@ -155,6 +155,7 @@
                 <form class="form-horizontal" id="addTransaction" method="POST"
                     action="{{ route('transaction.store') }}">
                     @csrf
+                   
                     <div class="form-group row mb-3">
                         <label for="amount" class="col-3 col-form-label">Amount</label>
                         <div class="col-9">
@@ -168,13 +169,7 @@
                                 placeholder="Interest">
                         </div>
                     </div>
-                    <div class="form-group row mb-3">
-                        <label for="total_amount" class="col-3 col-form-label">Total amount</label>
-                        <div class="col-9">
-                            <input type="number" class="form-control" id="total_amount" name="total_amount"
-                                placeholder="Total amount">
-                        </div>
-                    </div>
+                   
                     <div class="form-group row mb-3">
                         <label for="description" class="col-3 col-form-label">Description</label>
                         <div class="col-9">
@@ -182,20 +177,14 @@
                                 placeholder="Description">
                         </div>
                     </div>
-                    <div class="form-group row mb-3">
+                    {{-- <div class="form-group row mb-3">
                         <label for="transaction_name" class="col-3 col-form-label">Transaction Name</label>
                         <div class="col-9">
                             <input type="text" class="form-control" id="transaction_name" name="transaction_name"
                                 placeholder="Transaction Name">
                         </div>
-                    </div>
-                    <div class="form-group row mb-3">
-                        <label for="transaction_role" class="col-3 col-form-label">Transaction role</label>
-                        <div class="col-9">
-                            <input type="text" class="form-control" id="transaction_role" name="transaction_role"
-                                placeholder="Transaction Role">
-                        </div>
-                    </div>
+                    </div> --}}
+                   
                     <div class="form-group row mb-3">
                         <label for="transaction_type" class="col-3 col-form-label">Transaction Type</label>
                         <div class="col-9">
@@ -230,13 +219,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group row mb-3">
-                        <label for="phone" class="col-3 col-form-label">Phone Number</label>
-                        <div class="col-9">
-                            <input type="tel" class="form-control" id="phone" name="phone_number"
-                                placeholder="+2348134346556">
-                        </div>
-                    </div>
+                  
                     <div class="form-group mb-0 justify-content-end row">
                         <div class="col-9">
                             <button type="submit" class="btn btn-primary btn-block ">Create Transaction</button>
@@ -292,9 +275,12 @@
     });
 
     const hash = "{{ ('api_token') }}";
-
+  
     $('select[name="store"]').on('change', function () {
-        console.log(1);
+
+    
+        console.log(store.value);
+         console.log(hash);
         var storeID = $(this).val();
         if (storeID) {
             $.ajax({
@@ -308,7 +294,7 @@
                     console.log(data);
                     $('select[name="customer"]').empty();
                     $.each(data, function (key, value) {
-                        $('select[name="store"]').append('<option value="' + value + '">' +
+                        $('select[name="customer"]').append('<option value="' + value + '">' +
                             value + '</option>');
                     });
                 }

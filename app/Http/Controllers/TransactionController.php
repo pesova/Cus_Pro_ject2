@@ -121,34 +121,14 @@ class TransactionController extends Controller
     public function store(Request $request)
     {
         
-        // POST /transaction/new body {
-        //     “store_id”: STRING REQUIRED,
-        //     “customer_id”: STRING REQUIRED,
-        //     “type”: STRING REQUIRED,
-        //     “amount”: NUMBER REQUIRED,
-        //     “interest”: NUMBER REQUIRED,
-        //     “total_amount”: NUMBER REQUIRED,
-        //     “status”: CAN BE “paid”, “unpaid”, “pending” by default “unpaid”,
-        //     “description”: STRING
-        // } (edited) 
-        // 9:09
-        // GET /transaction body {
-        //     “store_id”: STRING REQUIRED,
-        //     “customer_id”: STRING REQUIRED
-        // }
-        // 9:10
-        // GET /transaction/:transaction_id body {
-        //     “store_id”: STRING REQUIRED,
-        //     “customer_id”: STRING REQUIRED
-        // }
 
         $data = $request->validate([
             'amount' => 'required',
             'interest' => 'required',
             'description' => 'required',
              'transaction_type' => 'required',
-            'store_id' => 'required',
-            'customer_id' => 'required'
+            'store' => 'required',
+            'customer' => 'required'
         ]);
         
             if ($data) {
@@ -162,8 +142,8 @@ class TransactionController extends Controller
                     'total_amount' => $request->input('amount') + $request->input('interest'),
                     'description' => $request->input('description'),                    
                     'type' => $request->input('type'),
-                    'store_id' => $request->input('store_id'),
-                    'customer_id' => $request->input('customer_id'),
+                    'store_id' => $request->input('store'),
+                    'customer_id' => $request->input('customer'),
                 ],
     
             ];
