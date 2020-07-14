@@ -5,14 +5,32 @@
 <link rel="stylesheet" href="backend/assets/css/all_users.css">
 <link rel="stylesheet" href="/backend/assets/css/complaintsLog.css">
 <link rel="stylesheet" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+
+<style>
+    div.dataTables_filter input {
+        border-radius: 5px;
+        border: 1px solid #CCC;
+    }
+</style>
 @stop
 @section('content')
 <div class="content">
     <div class="container-fluid">
-        @if(Session::has('message') || $errors->any())
-        <br>
-        <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
+        @if(Session::has('message'))
+            <br>
+            <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
+            <script>
+                setTimeout(() => {
+                    document.querySelector('.alert').style.display = 'none'
+                }, 3000);
+            </script>
+        @elseif ( $errors->any() )
+            <br class='alert'>
+            @foreach ( $errors->all() as $error )
+                <p class="alert alert-danger">{{$error}}</p>
+            @endforeach
         @endif
+
         {{-- <div class="row page-title">
             <div class="col-md-12">
                 <h4 class="mb-1 mt-0 float-left">My Customers</h4>
@@ -415,6 +433,8 @@
     </div>
 </div>
 
+
+
     <div class="container">
         <div class="content">
 
@@ -424,7 +444,9 @@
                 </div>
             </div> --}}
 
-            
+                
+
+
                 <div class="container-fluid">
 
                     <div class="row page-title">
@@ -445,11 +467,10 @@
                                     <thead> 
                                         <tr>
                                             <th>ID</th>
-                                            <th>Avatar</th>
                                             <th>Name</th>
                                             <th>Tel</th>
-                                            <th>Amount Due</th>
-                                            <th>Balance</th>
+                                           {{-- <th>Amount Due</th> 
+                                            <th>Balance</th> --}}
                                             <th>Actions</th>
                                         </tr>
                 
@@ -457,21 +478,16 @@
                                         @for ($i = 0; $i < count($response); $i++)
                                         <tr>
                                             <td>{{$i + 1}}</td>
-                                            <td><img src="/backend/assets/images/users/avatar-5.jpg"
-                                                class="avatar-sm rounded-circle" alt="Shreyu"/>
-                                            </td>
-                                            <td>{{isset($response[$i]->name) ? ucfirst($response[$i]->name) : 'Not available'}}<br>
-                                                <span class="badge badge-danger">Has Credit</span>
-                                            </td>
+                                            <td>{{isset($response[$i]->name) ? ucfirst($response[$i]->name) : 'Not available'}}</td>
                                             <td>{{isset($response[$i]->phone_number) ? $response[$i]->phone_number : 'Not available'}}<br>
                                             </td>
-                                            <td>
+                                            {{-- <td>
                                                 <span> &#8358; 1 500</span> <br>
                                                 <span class="badge badge-primary">You Paid: 1000</span>
                                             </td>
                                             <td>
                                                 <span class="text-danger">&#8358; 500</span>
-                                            </td>
+                                            </td> --}}
                                             <td>
                                                 <div class="btn-group mt-2 mr-1">
                                                     <button type="button" class="btn btn-primary dropdown-toggle"
@@ -485,10 +501,10 @@
                                                             href="{{ route('customer.edit', $response[$i]->_id) }}">Edit Customer</a>
                                                         <a class="dropdown-item"
                                                             href="{{ route('customer.show', $response[$i]->_id) }}">View Profile</a>
-                                                        <a class="dropdown-item"
+                                                        {{-- <a class="dropdown-item"
                                                             href="{{ route('transaction.index') }}">View Transaction</a>
                                                         <a class="dropdown-item"
-                                                            href="{{ route('debtor.create') }}">Send Reminder</a>
+                                                            href="{{ route('debtor.create') }}">Send Reminder</a> --}}
                                                         <form id="delete-form-{{ $response[$i]->_id }}" method="POST"
                                                             action="{{ route('customer.destroy', $response[$i]->_id) }}"
                                                             style="display:none">
@@ -542,21 +558,31 @@
                         <label for="inputphone" class="col-3 col-form-label">Phone Number</label>
                         <div class="col-9">
                             <input type="tel" class="form-control" id="inputphone" placeholder="Phone Number"
-                                name="phone_number">
+                                name="phone_number"  pattern=".{8,15}" title="Phone number must be between 8 to 15 characters">
                         </div>
                     </div>
                     <div class="form-group row mb-3">
                         <label for="inputPassword3" class="col-3 col-form-label">Customer Name</label>
                         <div class="col-9">
                             <input type="text" class="form-control" id="inputPassword3" placeholder="Customer name"
-                                name="name">
+                                name="name" required pattern=".{5,30}" title="Customer name must be at least 5 characters and not more than 30 characters">
                         </div>
                     </div>
                     <div class="form-group row mb-3">
                         <label for="inputPassword3" class="col-3 col-form-label">Store Name</label>
                         <div class="col-9">
-                            <input type="text" class="form-control" id="inputPassword3" placeholder="Store name"
-                                name="store_name">
+                            <!-- <input type="text" class="form-control" id="inputPassword3" placeholder="Store name"
+                                name="store_name"> -->
+                            <select name="store_name" class="form-control" >
+                                @if ( isset($stores) )
+                                    <option disabled selected value="">-- Select store --</option>
+                                    @foreach ($stores as $store)
+                                        <option value="{{$store->_id}}">{{$store->store_name}}</option>
+                                    @endforeach
+                                @else
+                                    <option disabled selected value="">-- You have not registered a store yet --</option>
+                                @endif
+                            </select>
                         </div>
                     </div>
                     <!-- <div class="form-group row mb-3">
@@ -567,7 +593,7 @@
                         </div> -->
                     <div class="form-group mb-0 justify-content-end row">
                         <div class="col-9">
-                            <button type="submit" class="btn btn-primary btn-block ">Create User</button>
+                            <button type="submit" class="btn btn-primary btn-block ">Create Customer</button>
                         </div>
                     </div>
                 </form>

@@ -30,9 +30,9 @@
              <div class="col-lg-3 col-md-4 col-sm-5" id="h1IdTop">
                  <div class="card">
                      <div class="card-body text-center text-muted">
-                         <img src="../../backend/assets/images/users/avatar-7.jpg" alt="Customer 1" class="img-fluid rounded-circle">
+                         {{-- <img src="../../backend/assets/images/users/avatar-7.jpg" alt="Customer 1" class="img-fluid rounded-circle"> --}}
                          <h4>{{ ucfirst($response->name) }}</h4>
-                          <h5 class="cust-email">{{ $response->email }}</h5>
+                          {{-- <h5 class="cust-email">{{ $response->email }}</h5> --}}
                      </div>
                      {{-- <div class="address">
                          <h5>House Address</h5>
@@ -55,26 +55,26 @@
                             <div class="form-group">
                               <label class="col-lg-3 control-label">Full Name:</label>
                               <div class="col-lg-8">
-                                <input class="form-control" type="text" value="{{ ucfirst($response->name) }}" name="name">
+                                <input class="form-control" type="text" value="{{old('name', $response->name)}}" name="name" maxlength="20" required>
                               </div>
                             </div>
 
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                               <label class="col-lg-3 control-label">Email:</label>
                               <div class="col-lg-8">
-                              <input class="form-control" type="text" value="{{$response->email}}" name="email">
+                              <input class="form-control" type="text" value="{{$response->email}}" name="email" required>
                               </div>
-                            </div>
+                            </div> --}}
 
                             <div class="form-group">
                                 <label class="col-lg-3 control-label">Tel:</label>
                                 <div class="col-lg-8">
-                                  <input class="form-control" type="phone" value="{{$response->phone_number}}" name='phone'>
+                                  <input class="form-control" type="phone" value="{{old('phone_number', $response->phone_number)}}" name='phone_number' maxlength="16" required>
                                 </div>
                               </div>
                               {{-- <div class="form-group">
                                 <div class="col-md-8">
-                                    <select class="form-control">
+                                    <select class="form-control" required>
                                         <option selected="">Customer Type</option>
                                         <option>Good Debtor</option>
                                         <option>Bad Debtor</option>
@@ -84,7 +84,7 @@
                               </div>   --}}
                               {{-- <div class="form-group">
                                 <div class="col-md-8">
-                                    <select class="form-control">
+                                    <select class="form-control" required>
                                         <option selected="">Status</option>
                                         <option class="text-danger">Has Debt</option>
                                         <option class="text-success">No Debt</option>                                        

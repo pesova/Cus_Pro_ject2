@@ -1,4 +1,3 @@
-
 @extends('layout.base')
 @section("custom_css")
     <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
@@ -7,86 +6,106 @@
 @stop
         @section('content')
                 <div class="content">
-
+                 {{-- @isset($response ?? '' ?? '' ?? '')--}}
                     <div class="container-fluid">
                         <div class="row justify-content-center">
                             <div class="col-md-7 mb-0">
+                                <a href="{{ route('debtor.index') }}" class="btn btn-primary float-right" >
+                                    Go Back {{-- &nbsp;<i class="fa fa-plus my-float"></i> --}}
+                                </a>
                                 <div class="card mb-3 mt-5 creditor-card">
-                                    <h4 class="pl-3 float-left text-white"> Add Debtor</h4>
+                                    <h4 class="pl-3 float-left text-white"> Add Debtor Page</h4>
                                 </div>
-
+                                
                                 <div class="card">
+                                    @if(Session::has('message') || $errors->any())
+                                        <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
+                                    @endif
                                     <div class="card-body">
-                                        <form>
+                                        <form method="POST" action="{{route('debtor.store')}}" enctype="multipart/form-data">
+                                            @csrf
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Transaction ID</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" name="transaction_id" placeholder="Transaction ID" >
+                                                </div>
+                                            </div>
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label for="firstname">First Name</label>
-                                                        <div class="input-group">
-                                                            <div class="input-group-prepend">
-                                                                <span class="input-group-text">
-                                                                    <i class="uil uil-atm-card"></i>
-                                                                </span>
-                                                            </div>
-                                                            <input type="email" class="form-control" id="firstname" aria-describedby="emailHelp" placeholder="Enter First Name">
-                                                        </div>
+                                                        <label for="phonenumber">Name</label>
+                                                        <input type="text" class="form-control" name="name" placeholder="Customer Name">
                                                     </div>
                                                 </div>
+                                                {{--<div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="phonenumber">Store Name</label>
+                                                        <input type="text" class="form-control" name="store_name" placeholder="Store Name" >
+                                                    </div>
+                                                </div>--}}
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label for="lastname">Last Name</label>
-                                                        <div class="input-group">
-                                                            <div class="input-group-prepend">
-                                                                <span class="input-group-text">
-                                                                    <i class="uil uil-atm-card"></i>
-                                                                </span>
-                                                            </div>
-                                                            <input type="email" class="form-control" id="lastname" aria-describedby="emailHelp" placeholder="Enter Last Name">
-                                                        </div>
+                                                        <label for="phonenumber">Store Name</label>
+                                                        <select name="" class="form-control">
+                                                            @foreach ($response as $index => $store )
+                                                                <option value="{{ $store->store_name }}">{{ $store->store_name }}</option>
+                                                            @endforeach
+
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1">Email address</label>
+                                                <label for="exampleInputEmail1">Message</label>
                                                 <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">
-                                                            @
-                                                        </span>
-                                                    </div>
-                                                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Email">
+                                                    <input type="text" class="form-control" name="message" placeholder="Message" >
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label for="phonenumber">Phone Number</label>
+                                                <label for="phonenumber">Customer Phone Number</label>
                                                 <div class="input-group input-group-merge">
                                                     <div class="input-group-prepend">
 
                                                     </div>
-                                                    <input type="tel" id="phone" class="form-control">
+                                                    <input type="tel" name="customer_phone_number" placeholder="Customer Phone Number" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="phonenumber">Amount</label>
-                                                        <input type="number" class="form-control" id="phonenumber" placeholder="Enter Amount">
+                                                        <input type="number" class="form-control" name="amount" placeholder="0.00">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="phonenumber">Date due</label>
-                                                        <input type="date" class="form-control" id="phonenumber" placeholder="Enter Due Date">
+                                                        <input type="date" class="form-control" name="expected_pay_date" value="">
                                                     </div>
                                                 </div>
                                             </div>
-                                            <button type="submit" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="phonenumber">Status</label>
+                                                        <input type="text" class="form-control" name="status" value="Paid or Unpaid">
+                                                    </div>
+                                                </div>
+                                                {{--<div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="phonenumber">Ts Ref Id</label>
+                                                        <input type="name" class="form-control" name="ts_ref_id" placeholder="" disabled>
+                                                    </div>
+                                                </div>--}}
+                                            </div>
+                                            <button type="submit" class="btn btn-primary float-right">Create Dept</button>
                                         </form>
 
                                     </div> <!-- end card-body-->
                                 </div> <!-- end card-->
 
                             </div>
+                            {{--
                             <div class="col-md-5 mb-0">
                                 <div class="card contact-list mb-0 mt-2 shadow-none p-3">
                                     <div class="row">
@@ -181,10 +200,10 @@
                                     </div>
 
                                 </div> <!-- end card -->
-                            </div>
+                            </div>--}}
                         </div>
                     </div>
-                </div>
+                </div>{{--
                 <div id="AmountModal" class="modal fade" tabindex="-1" role="dialog"
                     aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -213,7 +232,7 @@
                             </div>
                         </div><!-- /.modal-content -->
                     </div><!-- /.modal-dialog -->
-                </div><!-- /.modal -->
+                </div><!-- /.modal -->--}}
         @endsection
 
 

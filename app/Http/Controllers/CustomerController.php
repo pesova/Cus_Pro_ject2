@@ -29,17 +29,21 @@ class CustomerController extends Controller
     {
         //
         try {
+            $id = Cookie::get('user_id');
             $url = env('API_URL', 'https://dev.api.customerpay.me'). '/customer' ;
+            $url2 = env('API_URL', 'https://dev.api.customerpay.me'). '/store' ;
             $client = new Client();
 
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
             $user_response = $client->request('GET', $url, $headers);
+            $store_response = $client->request('GET', $url2, $headers);
 
             $statusCode = $user_response->getStatusCode();
+            $statusCode2 = $store_response->getStatusCode();
             $users = json_decode($user_response->getBody());
+            $stores = json_decode($store_response->getBody());
 
-
-            if ( $statusCode == 200 ) {
+            if ( $statusCode == 200 && $statusCode2 == 200 ) {
                 $customerArray = [];
                 foreach($users->data as $key => $value) {
                     array_push($customerArray, $users->data[$key]->customers);
@@ -62,7 +66,9 @@ class CustomerController extends Controller
                 $articles = array_slice($allCustomers, $offset, $perPage);
                 $datas = new Paginator($articles, count($allCustomers), $perPage);
 
-                return view('backend.customer.index')->with('response', $datas->withPath('/'.$request->path()));
+                $stores = $stores->data->stores;
+
+                return view('backend.customer.index')->with(['response' => $datas->withPath('/'.$request->path()), 'stores' => $stores]);
             }
 
             if ( $statusCode == 500 ) {
@@ -77,12 +83,13 @@ class CustomerController extends Controller
 
             return view('errors.500');
         } catch ( \Exception $e ) {
-            $statusCode = $e->getResponse()->getStatusCode();
-            $data = json_decode($e->getResponse()->getBody()->getContents());
-            if ( $statusCode == 401 ) { //401 is error code for invalid token
-                return redirect()->route('logout');
-            }
-
+            if ( $e->hasResponse() ) {
+                $statusCode = $e->getResponse()->getStatusCode();
+                $data = json_decode($e->getResponse()->getBody()->getContents());
+                if ( $statusCode == 401 ) { //401 is error code for invalid token
+                    return redirect()->route('logout');
+                }
+            }        
             return view('errors.500');
         }
     }
@@ -112,12 +119,11 @@ class CustomerController extends Controller
         if ($request->isMethod('post')) {
             $request->validate([
                 'store_name' => 'required',
-                'phone_number' =>  'required',
-                'name' => 'required',
+                'phone_number' =>  'required | min:8 | max:15',
+                'name' => 'required | min:5 | max:30',
             ]);
 
             try {
-
                 $client =  new Client();
                 $payload = [
                     'headers' => ['x-access-token' => Cookie::get('api_token')],
@@ -134,6 +140,7 @@ class CustomerController extends Controller
                 $statusCode = $response->getStatusCode();
                 $body = $response->getBody();
                 $data = json_decode($body);
+                return dd($data);
 
                 if ($statusCode == 201  && $data->success) {
                     $request->session()->flash('alert-class', 'alert-success');
@@ -277,10 +284,9 @@ class CustomerController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required',
-            'phone' => 'required',
-            'email' => 'required',
             'store_name' => 'required',
+            'phone_number' =>  'required | min:8 | max:15',
+            'name' => 'required | min:5 | max:30',
           ]);
 
           try {

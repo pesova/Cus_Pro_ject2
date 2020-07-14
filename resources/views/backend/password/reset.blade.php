@@ -20,6 +20,10 @@
                                             <a href="index.html">
                                                 <img src="{{ ('/frontend/assets/images/fulllogo.png') }}" alt="" height="auto" /> </a>
                                         </div>
+                                        @if(Session::has('message'))
+                                        <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">
+                                            {{ Session::get('message') }}</p>
+                                        @endif
 
                                         @if ($errors->any())
                                             @foreach ($errors->all() as $error)
@@ -29,31 +33,35 @@
                                             @endforeach
                                         @endif
 
-                                        @if(Session::has('message'))
-                                        <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">
-                                            {{ Session::get('message') }}</p>
-                                        @endif
-
                                         <h6 class="h5 mb-0 mt-4">Reset Password</h6>
                                         <p class="text-muted mt-1 mb-5">
-                                            Enter your Phone Number and we'll send you a token with instructions to
-                                            reset your password.
+                                            Enter The Otp sent to you and a new password to reset your password.
                                         </p>
-
-                                        <form action="{{ route('password.reset') }}" class="authentication-form" method="POST" id="submitForm">
+                                        <div class="alert alert-success alert-dismissible" id="success" style="display: none">
+                                            <span id="otp-message"></span>
+                                        </div>
+                                        <form action="/password/reset" class="authentication-form" method="POST">
                                             @csrf
-
                                             <div class="form-group">
-                                                <label class="form-control-label">Phone Number</label>
+                                                <label class="form-control-label">OTP</label>
+                                                <a href="" class="float-right text-muted text-unline-dashed ml-1" id="resend_code">resend code</a>
                                                 <div class="input-group input-group-merge">
-                                                    <div class="input-group-prepend">
-                                                    </div>
-                                                    <input type="number" id="phone" name="" class="form-control" value="" aria-describedby="helpPhone" placeholder="813012345" required>
-                                                    <input type="hidden" name="phone_number" id="phone_number" class="form-control">
+                                                    <input type="number" id="otp" name="otp" class="form-control" required>
                                                 </div>
-                                                <small id="helpPhone" class="form-text text-muted">Enter your number without the starting 0, eg 813012345</small>
                                             </div>
-
+                                            <div class="form-group">
+                                                <label class="form-control-label">New Password</label>
+                                                <div class="input-group input-group-merge">
+                                                    <input type="password" id="password" name="password" class="form-control" required>
+                                                </div>
+                                                <div class="pass-feedback"></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-control-label">Confirm Password</label>
+                                                <div class="input-group input-group-merge">
+                                                    <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" required>
+                                                </div>
+                                            </div>
                                             <div class="form-group mb-0 text-center">
                                                 <button class="btn btn-primary btn-block" type="submit"> Submit</button>
                                             </div>
@@ -93,30 +101,6 @@
 @section("javascript")
 <script src="/backend/assets/build/js/intlTelInput.js"></script>
 <script>
-    var input = document.querySelector("#phone");
-    var test = window.intlTelInput(input, {
-        separateDialCode: true,
-        // any initialisation options go here
-    });
-
-    $("#phone").keyup(() => {
-        if ($("#phone").val().charAt(0) == 0) {
-            $("#phone").val($("#phone").val().substring(1));
-        }
-    });
-
-    $("#submitForm").submit((e) => {
-        e.preventDefault();
-        const dialCode = test.getSelectedCountryData().dialCode;
-        if ($("#phone").val().charAt(0) == 0) {
-            $("#phone").val($("#phone").val().substring(1));
-        }
-        $("#phone_number").val(dialCode + $("#phone").val());
-        $("#submitForm").off('submit').submit();
-
-    });
-
+//add js for resend button
 </script>
-
-
 @stop

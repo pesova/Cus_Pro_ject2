@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Cookie;
 
 class ComplaintController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -17,23 +18,29 @@ class ComplaintController extends Controller
      */
     public function index()
     {
-        $host = env('API_URL', 'https://dev.api.customerpay.me');
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . "/complaints";
         $user_id = Cookie::get('user_id');
-        $user_role = cookie::get('user_role');
-        $url = $host . "/complaints";
         $client = new Client();
-        $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+
+        $headers = [
+            'headers' => [
+                'x-access-token' => Cookie::get('api_token')
+            ]
+        ];
+
         $response = $client->request('GET', $url, $headers);
         $statusCode = $response->getStatusCode();
+
         if ($statusCode == 200) {
+
             $body = $response->getBody()->getContents();
             $complaints = json_decode($body);
-            $user_role = cookie::get('user_role');
-            // return view('backend.complaints.index', compact('user_role'));
-            return view('backend.complaints.index')->with('responses', $complaints)->with('user_role', $user_role);
-            // return $user_role;
-        } elseif ($statusCode == 403) {
-            return redirect()->route('login')->with('message', "Please Login Again");
+            return view('backend.complaints.index')->with('responses', $complaints);
+        } elseif ($statusCode == 401) {
+
+            return redirect()
+                ->route('login')
+                ->with('message', "Please Login Again");
         }
         // return view('backend.complaints.index');
     }
@@ -60,7 +67,7 @@ class ComplaintController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email',
-            'message' => 'required|max:300'
+            'message' => 'required|max:300',
         ]);
 
         $user_id = Cookie::get('user_id');
@@ -69,25 +76,24 @@ class ComplaintController extends Controller
         try {
             $client = new Client();
 
-            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
-
-            $data = [
-                "message" => $request->input('message'),
-                "name" => $request->input('name'),
-                "email" => $request->input('email')
+            $payload = [
+                'headers' => [
+                    'x-access-token' => Cookie::get('api_token')
+                ],
+                "form_params" => [
+                    "message" => $request->input('message'),
+                    "name" => $request->input('name'),
+                    "email" => $request->input('email')
+                ]
             ];
 
-            // $req = $client->request('POST', $url, $headers, $data);
-            $req = $client->post($url, [
-                'form_params' => $data
-            ]);
+            $req = $client->request('POST', $url, $payload);
             $statusCode = $req->getStatusCode();
             $response = json_decode($req->getBody()->getContents());
 
             if ($statusCode == 200) {
-                // dd($body);
-                $request->session()->flash('alert-class', 'alert-success');
-                $request->session()->flash('message', $response->message);
+
+                $request->session()->flash('success', $response->message);
 
                 return redirect()->route('complaint.index');
             } else {
@@ -96,26 +102,23 @@ class ComplaintController extends Controller
                 $request->session()->flash('message', $message);
                 return back();
             }
+        } catch (RequestException $e) {
 
-        // } 
-        // catch (RequestException $e) {
-        //     //log error;
-        //     Log::error('Catch error: ComplaintController - ' . $e->getMessage());
+            //log error;
+            Log::error('Catch error: ComplaintController - ' . $e->getMessage());
 
-        //     if ($e->hasResponse()) {
-        //         // get response to catch 4xx errors
-        //         $response = json_decode($e->getResponse()->getBody());
-        //         $request->session()->flash('alert-class', 'alert-danger');
-        //         $request->session()->flash('message', "Make sure all fields are filled .\n Make sure the description is more than 10 characters");
-        //         return back();
-        //     }
-        //     // check for 500 server error
-        //     return view('errors.500');
+            if ($e->hasResponse()) {
+                // get response to catch 4xx errors
+                $response = json_decode($e->getResponse()->getBody());
+                $request->session()->flash('error', "Make sure all fields are filled .\n Make sure the description is more than 10 characters");
+                return back();
+            }
+            // check for 500 server error
+            return view('errors.500');
         } catch (\Exception $e) {
             //log error;
             Log::error('Catch error: ComplaintController - ' . $e->getMessage());
-            $request->session()->flash('alert-class', 'alert-danger');
-            $request->session()->flash('message', 'Could not connect to the server. Please try again later');
+            $request->session()->flash('error', 'Could not connect to the server. Please try again later');
             return back();
         }
     }
@@ -128,11 +131,19 @@ class ComplaintController extends Controller
      */
     public function show($id)
     {
-        $host = env('API_URL', 'https://dev.api.customerpay.me');
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . "/complaint/" . $id;
         $user_id = Cookie::get('user_id');
-        $url = $host . "/complaint/". $id;
+
+        try {
+
             $client = new Client();
-            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+
+            $headers = [
+                'headers' => [
+                    'x-access-token' => Cookie::get('api_token')
+                ]
+            ];
+
             $response = $client->request('GET', $url, $headers);
             $statusCode = $response->getStatusCode();
             if ($statusCode == 200) {
@@ -145,11 +156,16 @@ class ComplaintController extends Controller
             } elseif ($statusCode == 403) {
                 return redirect()->route('login')->with('message', "Please Login Again");
             }
+            if ($statusCode == 500) {
 
+                return view('errors.500');
+            }
+        } catch (\Exception $e) {
+
+            return view('errors.500');
         }
         // return view('backend.complaints.index');
     
-
 
     /**
      * Show the form for editing the specified resource.
@@ -176,41 +192,52 @@ class ComplaintController extends Controller
         try {
             $client = new Client();
 
-            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
             $request->validate([
-                'message' => 'required'
+                'message' => 'required',
             ]);
 
-            $data = ["message" => $request->input('message')];
-            $req = $client->request('PUT', $url, $headers, $data);
+            $payload = [
+                'headers' => [
+                    'x-access-token' => Cookie::get('api_token')
+                ],
+                "form_params" => [
+                    "message" => $request->input('message')
+                ]
+            ];
 
+            $req = $client->request('PUT', $url, $payload);
             $statusCode = $req->getStatusCode();
 
             if ($statusCode == 200) {
+
                 $body = $req->getBody()->getContents();
                 $response = json_decode($body);
                 return redirect()->route('complaint.log');
             }
             if ($statusCode == 500) {
+
                 return view('errors.500');
             }
             if ($statusCode == 401) {
+
                 //Uncomment this when frontend has created the form page
-                //return view('backend.complaintlog.update')->with('error', "Unauthoized token");
-                return response()->json([
-                    "message" => "401, Unauthorized token",
-                    "info" => "Please, If the frontend for the update form has been done, uncomment line 114 of ComplaintsLogController to render the page"
-                ]);
+                return view('backend.complaintlog.update')->with('error', "Unauthoized token");
+                // return response()->json([
+                //     "message" => "401, Unauthorized token",
+                //     "info" => "Please, If the frontend for the update form has been done, uncomment line 114 of ComplaintsLogController to render the page",
+                // ]);
             }
             if ($statusCode == 404) {
+
                 //Uncomment this when frontend has created the form page
-                //return view('backend.complaintlog.update')->with('error', "Complaint not found");
-                return response()->json([
-                    "message" => "401, Unauthorized token",
-                    "info" => "Please, If the frontend for the update form has been done, uncomment line 122 of ComplaintsLogController to render the page"
-                ]);
+                return view('backend.complaintlog.update')->with('error', "Complaint not found");
+                // return response()->json([
+                //     "message" => "401, Unauthorized token",
+                //     "info" => "Please, If the frontend for the update form has been done, uncomment line 122 of ComplaintsLogController to render the page",
+                // ]);
             }
         } catch (\Exception $e) {
+
             return view('errors.500');
         }
     }
@@ -223,22 +250,29 @@ class ComplaintController extends Controller
      */
     public function destroy($id)
     {
-        $host = env('API_URL', 'https://dev.api.customerpay.me');
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . "/complaint/delete/" . $id;
+
         $user_id = Cookie::get('user_id');
-        $url = $host . "/complaint/delete/" . $user_id . "/" . $id;
-        $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+
+        $headers = [
+            'headers' => [
+                'x-access-token' => Cookie::get('api_token')
+            ]
+        ];
+
         try {
+
             $client = new Client();
             $request = $client->delete($url, $headers);
             $statusCode = $request->getStatusCode();
+
             if ($statusCode == 200) {
 
-
-                // return \Redirect::back();
-                return redirect('/admin/complaint')->with('success', 'Complaint Deleted Successfully');
+                return redirect()->back()->with('success', 'Complaint Deleted Successfully');
             }
         } catch (\Exception $e) {
-            return redirect('/admin/complaint')->with('success', 'Complaint Deleted Successfully');
+
+            return redirect()->back()->with('error', 'Error while deleting complaint');
         }
     }
 }
