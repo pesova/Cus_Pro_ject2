@@ -10,8 +10,8 @@ use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
-use GuzzleHttp\Psr7;
-use GuzzleHttp\Psr7\Response;
+// use GuzzleHttp\Psr7;
+// use GuzzleHttp\Psr7\Response;
 
 class TransactionController extends Controller
 {
@@ -75,29 +75,6 @@ class TransactionController extends Controller
      */
     public function create()
     {
-        
-        // $client = new Client;
-        // // $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
-        // $storesUrl = env('API_URL', 'https://dev.api.customerpay.me') . '/store';
-        // $customerUrl = env('API_URL', 'https://dev.api.customerpay.me') . '/customer';
-
-        // $storesResponse = $client->request("GET", $storesUrl, ['headers' => ['x-access-token' => Cookie::get('api_token')]]);
-        // $customersResponse = $client->request("GET", $customerUrl, ['headers' => ['x-access-token' => Cookie::get('api_token')]]);
-     
-        //     // $customer = json_decode($customersResponse->getBody())->data;
-        //     // dd($customer);
-        // // $stores = json_decode($storesResponse->getBody())->data->stores;
-        // // dd($stores);
-        // if ($storesResponse->getStatusCode() == 200) {
-        //     $stores = json_decode($storesResponse->getBody())->data->stores;
-        // } else {
-        //     $stores = [];
-        // }
-        // if ($customersResponse->getStatusCode() == 200) {
-        //     $cus = json_decode($customersResponse->getBody())->data;
-        // } else {
-        //     $cus = [];
-        // }
         return view('backend.transaction.create');
     }
 
@@ -121,12 +98,11 @@ class TransactionController extends Controller
     public function store(Request $request)
     {
         
-
         $data = $request->validate([
             'amount' => 'required',
             'interest' => 'required',
             'description' => 'required',
-             'transaction_type' => 'required',
+            'transaction_type' => 'required',
             'store' => 'required',
             'customer' => 'required'
         ]);

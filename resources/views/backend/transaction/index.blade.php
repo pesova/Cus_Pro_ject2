@@ -2,7 +2,7 @@
 @section("custom_css")
 <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
-<link rel="stylesheet" href="backend/assets/css/store_list.css">
+<link rel="stylesheet" href="{{ asset('/backend/assets/css/store_list.css') }}">
 @stop
 @section('content')
 <div class="content">
@@ -155,7 +155,7 @@
                 <form class="form-horizontal" id="addTransaction" method="POST"
                     action="{{ route('transaction.store') }}">
                     @csrf
-                   
+
                     <div class="form-group row mb-3">
                         <label for="amount" class="col-3 col-form-label">Amount</label>
                         <div class="col-9">
@@ -169,7 +169,7 @@
                                 placeholder="Interest">
                         </div>
                     </div>
-                   
+
                     <div class="form-group row mb-3">
                         <label for="description" class="col-3 col-form-label">Description</label>
                         <div class="col-9">
@@ -184,7 +184,7 @@
                                 placeholder="Transaction Name">
                         </div>
                     </div> --}}
-                   
+
                     <div class="form-group row mb-3">
                         <label for="transaction_type" class="col-3 col-form-label">Transaction Type</label>
                         <div class="col-9">
@@ -219,7 +219,7 @@
                         </div>
                     </div>
 
-                  
+
                     <div class="form-group mb-0 justify-content-end row">
                         <div class="col-9">
                             <button type="submit" class="btn btn-primary btn-block ">Create Transaction</button>
@@ -274,28 +274,49 @@
         // any initialisation options go here
     });
 
-    
 
+    var customers = [];
+    var token = "{{ Cookie::get('api_token') }}"
     $('select[name="store"]').on('change', function () {
         // console.log(1);
         // console.log(token);
         var storeID = $(this).val();
-        var token = "{{ $api_token }}";
         if (storeID) {
             $.ajax({
                 url: "https://dev.api.customerpay.me/store/" + encodeURI(storeID),
                 type: "GET",
                 dataType: "json",
+                contentType: 'json',
                 headers: {
-                    'x-access-token': token
+                    'x-access-token': token,
                 },
-                success: function (data) {
-                    console.log(data);
-                    $('select[name="customer"]').empty();
-                    $.each(data, function (key, value) {
-                        $('select[name="customer"]').append('<option value="' + value + '">' +
-                            value + '</option>');
-                    });
+                error: function (err) {
+                    switch (err.status) {
+                        case "400":
+                            console.log('try again')
+                            break;
+                        case "401":
+                            console.log('try again again')
+                            break;
+                        case "403":
+                            console.log('oops')
+                            break;
+                        default:
+                            window.alert("Refresh the page and try again");
+                            break;
+                    }
+                },
+                success: function (response) {
+                    if (response) {
+                        var customers = response.data.store.customers;
+                        var i;
+                        for (i = 0; i < 1; i++) {
+                            $('select[name="customer"]').empty();
+                            $('select[name="customer"]').append('<option value="' + response.data
+                                .store.customers[i]._id + '">' +
+                                response.data.store.customers[i].name + '</option>');
+                        }
+                    }
                 }
             });
         } else {
