@@ -30,9 +30,9 @@
              <div class="col-lg-3 col-md-4 col-sm-5" id="h1IdTop">
                  <div class="card">
                      <div class="card-body text-center text-muted">
-                         <img src="../../backend/assets/images/users/avatar-7.jpg" alt="Customer 1" class="img-fluid rounded-circle">
+                         {{-- <img src="../../backend/assets/images/users/avatar-7.jpg" alt="Customer 1" class="img-fluid rounded-circle"> --}}
                          <h4>{{ ucfirst($response->name) }}</h4>
-                          <h5 class="cust-email">{{ $response->email }}</h5>
+                          {{-- <h5 class="cust-email">{{ $response->email }}</h5> --}}
                      </div>
                      {{-- <div class="address">
                          <h5>House Address</h5>
@@ -59,12 +59,12 @@
                               </div>
                             </div>
 
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                               <label class="col-lg-3 control-label">Email:</label>
                               <div class="col-lg-8">
                               <input class="form-control" type="text" value="{{$response->email}}" name="email">
                               </div>
-                            </div>
+                            </div> --}}
 
                             <div class="form-group">
                                 <label class="col-lg-3 control-label">Tel:</label>
