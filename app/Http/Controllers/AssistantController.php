@@ -62,7 +62,7 @@ class AssistantController extends Controller
             if ($e->getCode() == 401) {
                 return redirect()->route('logout')->withErrors("Please Login Again");
             }
-            //dd($e);
+            // dd($e);
             /*$statusCode = $e->getResponse()->getStatusCode();
             $data = json_decode($e->getResponse()->getBody()->getContents());
             if ($statusCode == 401) { //401 is error code for invalid token
@@ -143,7 +143,7 @@ class AssistantController extends Controller
         $request->validate([
             'name' => "required|min:6",
             'phone_number' => "required",
-            'store' => "required",
+            //'store' => "required",
             'email' => "required|email",
             'password' => "required"
         ]);
