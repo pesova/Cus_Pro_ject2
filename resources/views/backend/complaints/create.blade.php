@@ -45,7 +45,7 @@
 
                                         <form method="post" action="{{route('complaint.store')}}">
                                             @csrf
-                                            <h5>Log your Complain</h5><br>
+                                            <h5>Log your Complaint</h5><br>
                                             <div class="col">
                                                     <div class="form-group row">
                                                         <label class="col-lg-2 col-form-label"
@@ -77,7 +77,7 @@
                                         </div>
                                                                       
     </form>
-                                        <form method="post" action="{{ route('complaint.index') }}">
+                                        <form method="get" action="{{ route('complaint.index') }}">
 
                                         <div>
                                             <button class="btn btn-danger">Cancel</button>
