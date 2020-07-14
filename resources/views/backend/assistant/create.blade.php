@@ -3,9 +3,13 @@
 @section("custom_css")
     <link href="/backend/assets/css/add-assistant.css" rel="stylesheet" type="text/css"/>
 
+    <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css"/>
+
 @stop
 
-    @section('content')
+
+
+@section('content')
 
     <!-- Start Content-->
     <div class="container-fluid h-100">
@@ -13,13 +17,14 @@
             <div class="col-md-12">
                 <nav aria-label="breadcrumb" class="float-right mt-1">
                 </nav>
-                <h4 class="mb-1 mt-0"><i data-feather="users" style="font-size: 5px; margin-right: 7px"></i>Add new store assistant</h4>
+                <h4 class="mb-1 mt-0"><i data-feather="users" style="font-size: 5px; margin-right: 7px"></i>Add new
+                    store assistant</h4>
             </div>
         </div>
 
 
         @if(Session::has('message'))
-        <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
+            <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
         @endif
 
         @if ($errors->any())
@@ -31,20 +36,22 @@
                 </ul>
             </div>
         @endif
-                            
+
         <div class="row h-100 justify-content-center align-items-center">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
                         {{-- <h4 class="mb-3 header-title mt-0">Complaint Form</h4> --}}
 
-                            <form action=" {{ route('assistants.store') }}" method="POST" class="mt-4 mb-3 form-horizontal my-form">
+                        <form action=" {{ route('assistants.store') }}" method="POST"
+                              class="mt-4 mb-3 form-horizontal my-form" id="submitForm">
                             @csrf
-                           
+
                             <div class="form-group row mb-3">
                                 <label for="name" class="col-2 col-sm-3 col-form-label my-label">Name:</label> <br> <br>
                                 <div class="col-10 col-sm-7">
-                                    <input name="name" type="text" class="form-control" id="fullname" placeholder="Enter name here">
+                                    <input name="name" type="text" class="form-control" id="fullname"
+                                           placeholder="Enter name here">
                                 </div>
                             </div>
                             <br>
@@ -64,21 +71,39 @@
                             <div class="form-group row mb-3">
                                 <label for="address" class="col-2 col-sm-3 col-form-label my-label">Email:</label> <br>
                                 <div class="col-10 col-sm-7">
-                                    <input name="email" type="email" class="form-control" id="fullname" placeholder="Enter Address">
+                                    <input name="email" type="email" class="form-control" id="email"
+                                           placeholder="Enter Address">
                                 </div>
                             </div>
                             <br>
                             <div class="form-group row mb-3">
-                                <label for="number" class="col-2 col-sm-3 col-form-label my-label">Phone Number:</label> <br>
+                                <label for="number" class="col-2 col-sm-3 col-form-label my-label">Phone Number:</label>
+                                <br>
                                 <div class="col-10 col-sm-7">
-                                    <input name="phone_number" type="text" class="form-control" id="fullname" placeholder="Enter phone number">
+                                    <input type="tel" id="phone" name=""
+                                           class="form-control" value="" required>
+                                    <input type="hidden" name="phone_number" id="phone_number"
+                                           class="form-control">
+
+                                </div>
+                            </div>
+                            <div class="form-group row mb-3">
+                                <label for="number" class="col-2 col-sm-3 col-form-label my-label">Store:</label> <br>
+                                <div class="col-10 col-sm-7">
+                                    <select name="store" id="store" class="form-control">
+                                        <option value=""> Select Store</option>
+                                        @foreach($stores as $store)
+                                            <option value="{{$store->_id}}">{{$store->store_name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <br>
                             <div class="form-group row mb-3">
                                 <label for="email" class="col-2 col-sm-3 col-form-label my-label">Password:</label> <br>
                                 <div class="col-10 col-sm-7">
-                                    <input name="password" type="password" class="form-control" id="fullname" placeholder="Enter password">
+                                    <input name="password" type="password" class="form-control" id="fullname"
+                                           placeholder="Enter password">
                                 </div>
                             </div>
                             <br>
@@ -93,6 +118,29 @@
                 </div>
             </div>
             <!-- end col -->
-    </div> <!-- container-fluid -->
+        </div> <!-- container-fluid -->]
+    </div>
 
-    @endsection
+@endsection
+@section('javascript')
+    <script src="/backend/assets/build/js/intlTelInput.js"></script>
+    <script>
+        var input = document.querySelector("#phone");
+        var test = window.intlTelInput(input, {
+            separateDialCode: true,
+            // any initialisation options go here
+        });
+
+        $("#submitForm").submit((e) => {
+
+            e.preventDefault();
+            const dialCode = test.getSelectedCountryData().dialCode;
+            console.log(test.getSelectedCountryData().dialCode);
+            console.log($("#phone").val());
+            $("#phone_number").val(dialCode + $("#phone").val());
+            $("#submitForm").off('submit').submit();
+
+        });
+
+    </script>
+@stop

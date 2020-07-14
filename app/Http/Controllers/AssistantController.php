@@ -177,11 +177,25 @@ class AssistantController extends Controller
                 $request->session()->flash('alert', 'alert-waring');
                 Session::flash('message', $data->message);
                 return redirect()->route('assistants.create');
-                //return back();
-            } /*catch (Exception $e) {
-                Log::error($e->getMessage());
+            }
+        } catch (ClientException $e) {
+            dd($e);
+            $response = $e->getResponse();
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode == 500) {
+                Log::error((string)$response->getBody());
                 return view('errors.500');
-            }*/
+            }
+
+            $data = json_decode($response->getBody());
+            Session::flash('message', $data->message);
+            return redirect()->route('assistants.create');
+            //return back();
+        } catch (Exception $e) {
+            if ($e->getCode() == 401) {
+                return redirect()->route('logout')->withErrors("Please Login Again");
+            }
 
             $data = json_decode($response->getBody());
             Session::flash('message', $data->message);
@@ -249,8 +263,8 @@ class AssistantController extends Controller
                 $data = json_decode($response->getBody());
                 //  dd($data);
 
-            if ( $response->getStatusCode() == 200 ) {
-                return view('backend.assistant.update')->with('response', $data->data->assistantData);
+                if ($response->getStatusCode() == 200) {
+                    return view('backend.assistant.edit')->with('response', $data->data->assistantData)->withStores($stores);
 
                 } else {
                     return view('errors.500');
@@ -268,7 +282,6 @@ class AssistantController extends Controller
             //return $response->getStatusCode();
         }
     }
-    
     /**
      * Update the specified resource in storage.
      *
@@ -286,15 +299,10 @@ class AssistantController extends Controller
             'email' => "required|email",
             'store' => "required"
         ]);
-        try{
-             $request->validate([
-                'name' => "required|min:6",
-                'phone_number' => "required",
-                'email' => "required|email",
-                'password' => "required"
-            ]);
 
-            $client = new Client;
+        try {
+
+            $client = new Client();
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
             $data = [
                 $headers,
@@ -302,7 +310,7 @@ class AssistantController extends Controller
                     'token' => Cookie::get('api_token'),
                     'name' => $request->input('name'),
                     'email' => $request->input('email'),
-                    'phone_number' => $request->input('phone_number')
+                    'phone_number' => $request->input('phone_number'),
                     // 'password' => $request->input('password')
                 ],
             ];
@@ -318,8 +326,12 @@ class AssistantController extends Controller
                 return back()->with('error', "Update Failed");
             }
 
-        } catch ( \Exception $e ) {
-           // dd($e);
+        } catch (\Exception $e) {
+            //dd($e->getMessage());
+            // $data = json_decode($e->getBody()->getContents());
+            if ($e->getCode() == 401) {
+                return redirect()->route('logout')->withErrors("Please Login Again");
+            }
             $request->session()->flash('alert-class', 'alert-danger');
             $request->session()->flash('message', 'An Error Occured. Please Try Again Later');
 
@@ -333,7 +345,6 @@ class AssistantController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-
     public function destroy(Request $request, $assistant_id)
     {
         //update
