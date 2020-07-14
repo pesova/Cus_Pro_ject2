@@ -3,7 +3,11 @@
 @section("custom_css")
     <link href="/backend/assets/css/add-assistant.css" rel="stylesheet" type="text/css"/>
 
+    <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css"/>
+
 @stop
+
+
 
 @section('content')
 
@@ -40,7 +44,7 @@
                         {{-- <h4 class="mb-3 header-title mt-0">Complaint Form</h4> --}}
 
                         <form action=" {{ route('assistants.store') }}" method="POST"
-                              class="mt-4 mb-3 form-horizontal my-form">
+                              class="mt-4 mb-3 form-horizontal my-form" id="submitForm">
                             @csrf
 
                             <div class="form-group row mb-3">
@@ -67,7 +71,7 @@
                             <div class="form-group row mb-3">
                                 <label for="address" class="col-2 col-sm-3 col-form-label my-label">Email:</label> <br>
                                 <div class="col-10 col-sm-7">
-                                    <input name="email" type="email" class="form-control" id="fullname"
+                                    <input name="email" type="email" class="form-control" id="email"
                                            placeholder="Enter Address">
                                 </div>
                             </div>
@@ -76,8 +80,11 @@
                                 <label for="number" class="col-2 col-sm-3 col-form-label my-label">Phone Number:</label>
                                 <br>
                                 <div class="col-10 col-sm-7">
-                                    <input name="phone_number" type="text" class="form-control" id="fullname"
-                                           placeholder="Enter phone number">
+                                    <input type="tel" id="phone" name=""
+                                           class="form-control" value="" required>
+                                    <input type="hidden" name="phone_number" id="phone_number"
+                                           class="form-control">
+
                                 </div>
                             </div>
                             <div class="form-group row mb-3">
@@ -111,6 +118,29 @@
                 </div>
             </div>
             <!-- end col -->
-        </div> <!-- container-fluid -->
+        </div> <!-- container-fluid -->]
+    </div>
 
 @endsection
+@section('javascript')
+    <script src="/backend/assets/build/js/intlTelInput.js"></script>
+    <script>
+        var input = document.querySelector("#phone");
+        var test = window.intlTelInput(input, {
+            separateDialCode: true,
+            // any initialisation options go here
+        });
+
+        $("#submitForm").submit((e) => {
+
+            e.preventDefault();
+            const dialCode = test.getSelectedCountryData().dialCode;
+            console.log(test.getSelectedCountryData().dialCode);
+            console.log($("#phone").val());
+            $("#phone_number").val(dialCode + $("#phone").val());
+            $("#submitForm").off('submit').submit();
+
+        });
+
+    </script>
+@stop
