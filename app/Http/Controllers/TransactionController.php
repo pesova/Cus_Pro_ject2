@@ -15,13 +15,15 @@ use GuzzleHttp\Psr7\Response;
 
 class TransactionController extends Controller
 {
-
+    protected $host;
+    protected $api_token;
 
     public function __construct()
     {
-        // $this->middleware('guest');
         $this->host = env('API_URL', 'https://dev.api.customerpay.me');
+        $this->api_token = Cookie::get('api_token');
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -29,51 +31,39 @@ class TransactionController extends Controller
      */
     public function index()
     {
-
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/transaction';
-        $storesUrl = env('API_URL', 'https://dev.api.customerpay.me') . '/store';
-        $customerUrl = env('API_URL', 'https://dev.api.customerpay.me') . '/customer';
-
-        $api_token = Cookie::get('api_token');
+        $transacUrl = $this->host . '/transaction';
+        $storeUrl = $this->host . '/store';
+        $customerUrl = $this->host . '/customer';
+        $api_token = $this->api_token;
 
         try {
-
             $client = new Client;
             $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
 
-            $response = $client->request("GET", $url, $payload);
-            $statusCode = $response->getStatusCode();
-            $body = $response->getBody();
-            $transaction = json_decode($body);
-            $storesResponse = $client->request("GET", $storesUrl, ['headers' => ['x-access-token' => Cookie::get('api_token')]]);
-            if ($storesResponse->getStatusCode() == 200) {
-                $stores = json_decode($storesResponse->getBody())->data->stores;
-            } else {
-                $stores = [];
-            }
-            $customersResponse = $client->request("GET", $customerUrl, ['headers' => ['x-access-token' => Cookie::get('api_token')]]);
-            if ($customersResponse->getStatusCode() == 200) {
-                $customer = json_decode($customersResponse->getBody())->data->customers;
-            } else {
-                $customer = [];
-            }
-
-            if (count($transaction->data->transactions) == 0) {
-                // // return view('backend.transaction.index', ['stores' => $stores, 'api_token' => $api_token]);
-            } elseif ($statusCode == 200) {
-                return view('backend.transaction.index')->with('response', $transaction)->with('stores', $stores)->with('api_token', $api_token);
-            }
+            // fetch all stores
+            $storeResponse = $client->request("GET", $storeUrl, $payload);
+            $statusCode = $storeResponse->getStatusCode();
+            if($statusCode == 200){
+                $body = $storeResponse->getBody();
+                $stores = json_decode($storeResponse->getBody())->data->stores;
+                return view('backend.transaction.index', compact("stores", "api_token"));
+            } else if($statusCode == 401){
+                return redirect()->route('logout');
+            } 
         } catch (RequestException $e) {
 
+            Log::info('Catch error: LoginController - ' . $e->getMessage());
             // check for 5xx server error
             if ($e->getResponse()->getStatusCode() >= 500) {
                 return view('errors.500');
-            } else {
-                return redirect()->route('logout');
             }
+            else {
+                return redirect()->route('logout');
+           }
+
         } catch (\Exception $e) {
-            Log::error($e->getMessage());
             //log error;
+            Log::error('Catch error: StoreController - ' . $e->getMessage());
             return view('errors.500');
         }
     }

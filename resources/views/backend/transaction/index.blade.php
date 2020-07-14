@@ -105,9 +105,9 @@
                         @foreach ($response->data->transactions as  $transactions)
                         {{-- {{dd($transactions)}} --}}
                             <tr>
-                        @foreach ($transactions->transactions as $index => $transaction)
+                        @foreach($transactions->transactions as $index => $transaction)
                             <td>{{ $index + 1 }}</td>
-                             <td>{{$transaction->type }}</td>
+                            <td>{{$transaction->type }}</td>
                             <td>{{$transaction->customer_ref_id }}</td>
                             <td>{{$transaction->total_amount}}</td>
                             <td>
@@ -275,11 +275,11 @@
 <script src="/backend/assets/build/js/intlTelInput.js"></script>
 <script>
     var input = document.querySelector("#phone");
-    window.intlTelInput(input, {
+        window.intlTelInput(input, {
         // any initialisation options go here
     });
 
-    const hash = "{{ $api_token }}";
+    const hash = "{{ \Cookie::get('api_token') }}";
     $('#store_name').change( element => {
         $.ajax({
             type: "GET",
