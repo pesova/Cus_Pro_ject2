@@ -9,7 +9,8 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
-use Illuminate\Support\Facades\Session;
+use App\Rules\NoZero;
+use App\Rules\DoNotPutCountryCode;
 
 class ForgotPasswordController extends Controller
 {
@@ -43,19 +44,9 @@ class ForgotPasswordController extends Controller
 
     public function authenticate(Request $request)
     {
-        return view('backend.password.reset', [
-            'phoneNumber' => $request->input('phone_number'),
+        $request->validate([
+            'phone_number' => ['required', 'min:6', 'max:16', new NoZero, new DoNotPutCountryCode]
         ]);
-
-        $validation = Validator::make(request()->all(), [
-            'phone_number' => 'required|min:6|max:16',
-        ]);
-
-        if ($validation->fails()) {
-            $request->session()->flash('message', 'Invalid Phone number');
-            $request->session()->flash('alert-class', 'alert-danger');
-            return redirect()->route('login');
-        }
 
         try {
             $client =  new Client();
@@ -68,9 +59,9 @@ class ForgotPasswordController extends Controller
                 $data = $response->data;
                 if ($response->success) {
                     // set alert
-                    $request->session()->flash('alert-class', 'success');
+                    $request->session()->flash('alert-class', 'alert-success');
                     $request->session()->flash('message', 'kindly check your Phone for verification code');
-                    return view('backend.passowrd.reset', [
+                    return view('backend.password.reset', [
                         'data' => $data,
                         'phoneNumber' => $request->input('phone_number'),
                     ]);
@@ -91,16 +82,13 @@ class ForgotPasswordController extends Controller
             return redirect()->route('password');
         } catch (\Exception $e) {
 
-            if ($e->getCode() == 400) {
-                $request->session()->flash('message', 'Invalid Phone number or password. Ensure You entered a valid Phone number');
-                $request->session()->flash('alert-class', 'alert-danger');
-                return redirect()->route('password');
-            }
-
             Log::error("catch error: ForgotPasswordController - " . $e->getMessage());
-            $request->session()->flash('message', 'Somethingwent wrong, please try again in some munites');
-            return redirect()->route('password');
+            $request->session()->flash('message', 'Something bad happened');
+            return view('errors.500');
         }
-        return redirect()->route('password');
+    }
+
+    public function reset() {
+        dd('test reset');
     }
 }
