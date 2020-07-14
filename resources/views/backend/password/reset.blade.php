@@ -93,42 +93,6 @@
 @section("javascript")
 <script src="/backend/assets/build/js/intlTelInput.js"></script>
 <script>
-    $("#resend_code").click(function(e) {
-        e.preventDefault();
-        hide_messages();
-        if (timer <= 0) {
-            verify.hide();
-            verifying.show();
-            const data = {
-                phone_number: '{{$phoneNumber ?? ''}}'
-            , };
-            $.ajax({
-                url: "{{env('API_URL') }}/recover"
-                , data: data
-                , type: "POST"
-            }).done((data) => {
-                success_message.html(
-                    'Your code has been sent. You can request a new code in 60 seconds' +
-                    '<kbd>Your code is ' + data.data.otp + '</kbd>'
-                );
-                success.show();
-                verify.show();
-                verifying.hide();
-                start_timer();
-            }).fail((e) => {
-                e = JSON.parse(e.responseText);
-                error_message.text(e.message);
-                error.show();
-                verify.show();
-                verifying.hide();
-            });
-        } else {
-            error_message.text("You can request a new code in " + timer + " seconds");
-            error.show();
-        }
-    });
-
+//add js for resend button
 </script>
-
-
 @stop

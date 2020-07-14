@@ -24,21 +24,32 @@ class ActivateController extends Controller
         }
 
         try {
-           $url = env('API_URL', 'https://api.customerpay.me') . '/otp/send';
-           $client = new Client();
-           $response = $client->post($url, [
-               'form_params' => [
-                   'phone_number' => '+' . Cookie::get('phone_number'),
-               ]
-           ]);
+            $url = env('API_URL', 'https://api.customerpay.me') . '/otp/send';
+            $client = new Client();
+            $response = $client->post($url, [
+                'form_params' => [
+                    'phone_number' => Cookie::get('phone_number'),
+                ]
+            ]);
 
+            if ($response->getStatusCode() == 200) {
+                $response = json_decode($response->getBody());
+                $data = $response->data;
+            }
+            if ($response->success) {
+                // set alert
+                $request->session()->flash('alert-class', 'alert-success');
+                $request->session()->flash('message', 'kindly check your Phone for verification code');
+            } else {
+                $message = $response->message;
+                $request->session()->flash('message', $message);
+            }
         } catch (RequestException $e) {
             if ($e->hasResponse()) {
                 $response = json_decode($e->getResponse()->getBody());
                 Session::flash('message', $response->message);
             }
         } catch (Exception $e) {
-            dd($e->getMessage());
             Log::error($e->getMessage());
         }
 
@@ -56,5 +67,4 @@ class ActivateController extends Controller
         }
         return 'done'; // this method will be called via ajax. returning "done" is just a placeholder text for the callback function of the calling script
     }
-
 }
