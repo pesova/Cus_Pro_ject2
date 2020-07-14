@@ -48,8 +48,8 @@ class TransactionController extends Controller
                 $stores = json_decode($storeResponse->getBody())->data->stores;
                 return view('backend.transaction.index', compact("stores", "api_token"));
             } else if($statusCode == 401){
-                return redirect()->route('logout');
-            } 
+                return redirect()->route('login')->with('message', "Please Login Again");
+             } 
         } catch (RequestException $e) {
 
             Log::info('Catch error: LoginController - ' . $e->getMessage());
