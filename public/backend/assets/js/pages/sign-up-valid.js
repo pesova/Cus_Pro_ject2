@@ -6,7 +6,7 @@ let numAlert = document.querySelector('.red-warn');
 let password = document.querySelector('#password')
 let passAlert = document.querySelector('.pass-feedback')
 
-form.addEventListener('submit', (e) => {
+form.addEventListener('click', (e) => {
   if (userNumber.value.length < 6) {
     
     e.preventDefault();
