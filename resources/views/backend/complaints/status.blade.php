@@ -70,7 +70,7 @@
                                                         <label class="col-lg-2 col-form-label"
                                                             for="example-textarea">Message</label>
                                                         <div class="col-lg-10">
-                                                        <select data-plugin="customselect" name="cc" class="form-control">
+                                                        <select data-plugin="customselect" name="status" class="form-control">
                                                         <option name="cc" value="New">New</option>
                                                         <option name="cc" value="Investigating">Investigating</option>
                                                         <option name="cc" value="Resolved">Resolved</option>
@@ -80,14 +80,9 @@
                                                     <div class="float-right">
                                             <button class="btn btn-primary">Update</button>
                                         </div>
-                                                                      
-    </form>
-                                        <form method="post" action="{{ route('complaint.index') }}">
-
-                                        <div>
-                                            <button class="btn btn-danger">Cancel</button>
+                                            <a href="{{ route('complaint.index') }}" class="btn btn-danger">Cancel</a>
                                         </div>
-                                        </form>
+                                    
             
                                     </div> <!-- end card-body -->
                                 </div> <!-- end card-->

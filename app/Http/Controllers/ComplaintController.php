@@ -220,7 +220,7 @@ class ComplaintController extends Controller
             $client = new Client();
 
             $request->validate([
-                'cc' => 'required',
+                'status' => 'required',
             ]);
 
             $payload = [
@@ -228,7 +228,7 @@ class ComplaintController extends Controller
                     'x-access-token' => Cookie::get('api_token')
                 ],
                 "form_params" => [
-                    "status" => $request->input('cc')
+                    "status" => $request->input('status')
                 ]
             ];
 
