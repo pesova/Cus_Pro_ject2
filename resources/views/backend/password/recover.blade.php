@@ -20,6 +20,15 @@
                                             <a href="index.html">
                                                 <img src="{{ ('/frontend/assets/images/fulllogo.png') }}" alt="" height="auto" /> </a>
                                         </div>
+
+                                        @if ($errors->any())
+                                            @foreach ($errors->all() as $error)
+                                            <div class="alert alert-danger">
+                                                {{ $error }}
+                                            </div>
+                                            @endforeach
+                                        @endif
+
                                         @if(Session::has('message'))
                                         <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">
                                             {{ Session::get('message') }}</p>
@@ -31,18 +40,18 @@
                                             reset your password.
                                         </p>
 
-                                        <form action="{{ route('password.reset') }}" class="authentication-form" method="POST">
+                                        <form action="{{ route('password.reset') }}" class="authentication-form" method="POST" id="submitForm">
                                             @csrf
 
                                             <div class="form-group">
                                                 <label class="form-control-label">Phone Number</label>
                                                 <div class="input-group input-group-merge">
                                                     <div class="input-group-prepend">
-
                                                     </div>
-                                                    <input type="tel" id="phone" name="phone_number" class="form-control" aria-describedby="helpPhone" placeholder="813012345" required>
+                                                    <input type="number" id="phone" name="" class="form-control" value="" aria-describedby="helpPhone" placeholder="813012345" required>
+                                                    <input type="hidden" name="phone_number" id="phone_number" class="form-control">
                                                 </div>
-                                                    <small id="helpPhone" class="form-text text-muted">Enter your number without the starting 0, eg 813012345</small>
+                                                <small id="helpPhone" class="form-text text-muted">Enter your number without the starting 0, eg 813012345</small>
                                             </div>
 
                                             <div class="form-group mb-0 text-center">

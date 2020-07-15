@@ -150,6 +150,8 @@ class ComplaintController extends Controller
             if ($statusCode == 200) {
                 $body = $response->getBody()->getContents();
                 $complaints = json_decode($body);
+                
+                
                 return view('backend.complaints.show')->with('response', $complaints);
             }
             if ($statusCode == 500) {
@@ -171,7 +173,36 @@ class ComplaintController extends Controller
      */
     public function edit($id)
     {
-        //
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . "/complaint/" . $id;
+        $user_id = Cookie::get('user_id');
+
+        try {
+
+            $client = new Client();
+
+            $headers = [
+                'headers' => [
+                    'x-access-token' => Cookie::get('api_token')
+                ]
+            ];
+
+            $response = $client->request('GET', $url, $headers);
+            $statusCode = $response->getStatusCode();
+            if ($statusCode == 200) {
+                $body = $response->getBody()->getContents();
+                $complaints = json_decode($body);
+                
+                
+                return view('backend.complaints.status')->with('response', $complaints);
+            }
+            if ($statusCode == 500) {
+
+                return view('errors.500');
+            }
+        } catch (\Exception $e) {
+
+            return view('errors.500');
+        }
     }
 
     /**
@@ -189,7 +220,7 @@ class ComplaintController extends Controller
             $client = new Client();
 
             $request->validate([
-                'message' => 'required',
+                'status' => 'required',
             ]);
 
             $payload = [
@@ -197,7 +228,7 @@ class ComplaintController extends Controller
                     'x-access-token' => Cookie::get('api_token')
                 ],
                 "form_params" => [
-                    "message" => $request->input('message')
+                    "status" => $request->input('status')
                 ]
             ];
 
@@ -208,7 +239,7 @@ class ComplaintController extends Controller
 
                 $body = $req->getBody()->getContents();
                 $response = json_decode($body);
-                return redirect()->route('complaint.log');
+                return redirect()->route('complaint.index');
             }
             if ($statusCode == 500) {
 
@@ -264,7 +295,7 @@ class ComplaintController extends Controller
 
             if ($statusCode == 200) {
 
-                return redirect()->back()->with('success', 'Complaint Deleted Successfully');
+                return redirect()->route('complaint.index')->with('success', 'Complaint Deleted Successfully');
             }
         } catch (\Exception $e) {
 
