@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Rules\DoNotPutCountryCode;
+use App\Rules\NoZero;
 use Exception;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
@@ -142,7 +144,7 @@ class AssistantController extends Controller
 
         $request->validate([
             'name' => "required|min:6",
-            'phone_number' => "required",
+            'phone_number' => ["required", new NoZero, new DoNotPutCountryCode],
             'store_id' => "required",
             'email' => "required|email",
             'password' => "required"
