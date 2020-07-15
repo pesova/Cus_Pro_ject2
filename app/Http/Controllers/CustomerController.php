@@ -31,12 +31,12 @@ class CustomerController extends Controller
         try {
             $id = Cookie::get('user_id');
             $url = $this->host.'/customer' ;
-            $url2 = $this->host.'/store' ;
+            $store_url = $this->host.'/store' ;
             $client = new Client();
 
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
             $user_response = $client->request('GET', $url, $headers);
-            $store_response = $client->request('GET', $url2, $headers);
+            $store_response = $client->request('GET', $store_url, $headers);
 
             $statusCode = $user_response->getStatusCode();
             $statusCode2 = $store_response->getStatusCode();
@@ -253,12 +253,12 @@ class CustomerController extends Controller
 
         try {
             $url = $this->host."/customer/".$store_id."/".$customer_id;
-            $url2 = $this->host.'/store';
+            $store_url = $this->host.'/store';
             $client = new Client;
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
 
             $response = $client->request("GET", $url, $headers);
-            $store_response = $client->request('GET', $url2, $headers);
+            $store_response = $client->request('GET', $store_url, $headers);
 
             $data = json_decode($response->getBody());
             $stores = json_decode($store_response->getBody());
