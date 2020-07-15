@@ -2,17 +2,16 @@
 @section("custom_css")
 <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
-<link rel="stylesheet" href="backend/assets/css/store_list.css">
+<link rel="stylesheet" href="{{ asset('/backend/assets/css/store_list.css') }}">
 @stop
+
 @section('content')
 <div class="content">
     <div class="container-fluid">
         <div class="row page-title">
             <div class="col-md-12">
                 <div class="h4"><i data-feather="file-text" class="icon-dual"></i> Transaction Center</div>
-                @if(Session::has('message') || $errors->any())
-                <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
-                @endif
+                @include('partials.alertMessage')
                 <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#CustomerModal">
                     New &nbsp;<i class="fa fa-plus my-float"></i>
                 </a>
@@ -86,14 +85,12 @@
         <div class="card-body p-1 card">
             <div class="table-responsive table-data">
                 <table id="basic-datatable" class="table dt-responsive nowrap">
-
                     <thead>
                         <tr>
                             <th>Ref Id</th>
                             <th>Ref Transaction Type</th>
                             <th>Customer Ref Code</th>
                             <th>Total Amount</th>
-                            {{-- <th>Expected Pay Date</th> --}}
                             <th> Actions</th>
                         </tr>
                     </thead>
@@ -136,9 +133,7 @@
                 </table>
             </div>
         </div>
-        <!-- end card -->
     </div>
-</div>
 </div>
 
 <div id="CustomerModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -155,7 +150,7 @@
                 <form class="form-horizontal" id="addTransaction" method="POST"
                     action="{{ route('transaction.store') }}">
                     @csrf
-                   
+
                     <div class="form-group row mb-3">
                         <label for="amount" class="col-3 col-form-label">Amount</label>
                         <div class="col-9">
@@ -169,7 +164,7 @@
                                 placeholder="Interest">
                         </div>
                     </div>
-                   
+
                     <div class="form-group row mb-3">
                         <label for="description" class="col-3 col-form-label">Description</label>
                         <div class="col-9">
@@ -184,14 +179,14 @@
                                 placeholder="Transaction Name">
                         </div>
                     </div>
-                     <div class="form-group row mb-3">
+                    <div class="form-group row mb-3">
                         <label for="transaction_role" class="col-3 col-form-label">Transaction Role</label>
                         <div class="col-9">
                             <input type="text" class="form-control" id="transaction_role" name="transaction_role"
                                 placeholder="transaction_role">
                         </div>
                     </div>
-                   
+
                     <div class="form-group row mb-3">
                         <label for="transaction_type" class="col-3 col-form-label">Transaction Type</label>
                         <div class="col-9">
@@ -226,22 +221,17 @@
                         </div>
                     </div>
 
-                    <div class="form-group row mb-3">
-                    
-                            <label class="col-3 col-form-label"> Status </label>
+                    {{-- <div class="form-group row mb-3">
+                        <label class="col-3 col-form-label"> Status </label>
                         <div class="col-9">
-                            <select  class="form-control" name="status">
+                            <select class="form-control" name="status">
                                 <option value="paid">Paid</option>
-                                <option value="unpaid" selected >Unpaid</option>
+                                <option value="unpaid" selected>Unpaid</option>
                                 <option value="pending">Pending</option>
-                             </select>
-                         </div>
-                    </div>
+                            </select>
+                        </div>
+                    </div> --}}
 
-
-                   
-
-                  
                     <div class="form-group mb-0 justify-content-end row">
                         <div class="col-9">
                             <button type="submit" class="btn btn-primary btn-block ">Create Transaction</button>
@@ -254,7 +244,6 @@
         </div>
     </div>
 </div>
-
 
 <div id="CustomerModal1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1"
     aria-hidden="true">
@@ -287,62 +276,44 @@
 </div>
 @endsection
 
-
 @section("javascript")
 <script src="/backend/assets/build/js/intlTelInput.js"></script>
 <script>
-    jQuery(function($){
-    var input = document.querySelector("#phone");
-    window.intlTelInput(input, {
-        // any initialisation options go here
-    });
+    jQuery(function ($) {
+        var input = document.querySelector("#phone");
+        window.intlTelInput(input, {
+            // any initialisation options go here
+        });
 
-   // const hash = "{{ ('api_token') }}";
-    var token = "{{Cookie::get('api_token')}}"
-    $('select[name="store"]').on('change', function () {
-        //console.log(store.value);
-         //console.log(hash);
-        var storeID = $(this).val();
-        if (storeID) {
-            jQuery.ajax({
-                url: "{{env('API_URL')}}/store/" + encodeURI(storeID),
-                type: "GET",
-                dataType: "json",
-                headers: {
-                    'x-access-token': token
-                },
-                success: function (data) {
-                    var new_data = data.data.store.customers;
-                  // alert(new_data.length);
-                    var i;
-                     for (i=0; i < 1; i++){
-                    $('select[name="customer"]').empty();
-                    //jQuery.each(data.data.store.customers[i], function (key, value) {
-                        $('select[name="customer"]').append('<option value="' + data.data.store.customers[i]._id + '">' +
-                           data.data.store.customers[i].name  + '</option>');
-                           //console.log(new_data[i]._id);
-                    //});
+        var token = "{{Cookie::get('api_token')}}"
+        $('select[name="store"]').on('change', function () {
+            var storeID = $(this).val();
+            if (storeID) {
+                jQuery.ajax({
+                    url: "https://dev.api.customerpay.me/store/" + encodeURI(storeID),
+                    type: "GET",
+                    dataType: "json",
+                    contentType: 'json',
+                    headers: {
+                        'x-access-token': token
+                    },
+                    success: function (data) {
+                        var new_data = data.data.store.customers;
+                        var i;
+                        for (i = 0; i < 1; i++) {
+                            $('select[name="customer"]').empty();
+                            $('select[name="customer"]').append('<option value="' + data
+                                .data.store.customers[i]._id + '">' +
+                                data.data.store.customers[i].name + '</option>');
+                        }
+
                     }
-                   
-                }
-            });
-        } else {
-            $('select[name="store"]').empty();
-        }
+                });
+            } else {
+                $('select[name="store"]').empty();
+            }
+        });
     });
-    });
-    // const hash = "{{ \Cookie::get('api_token') }}";
-    // $('#store_name').change( element => {
-    //     $.ajax({
-    //         type: "GET",
-    //         url: "{{env('API_URL')}}/customer",
-    //         headers :  {'x-access-token': hash },
-    //         data: {},
-    //         success: function (response) {
-    //             console.log(response.data.data)
-    //         }
-    //     });
-    // });
 
 </script>
 @stop
