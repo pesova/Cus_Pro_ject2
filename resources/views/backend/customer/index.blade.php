@@ -470,9 +470,6 @@
                 </div>
             </div> --}}
 
-                
-
-
                 <div class="container-fluid">
 
                     <div class="row page-title">
@@ -502,52 +499,52 @@
                 
                                     <tbody>
                                         @for ($i = 0; $i < count($response); $i++)
-                                        <tr>
-                                            <td>{{$i + 1}}</td>
-                                            <td>{{isset($response[$i]->name) ? ucfirst($response[$i]->name) : 'Not available'}}</td>
-                                            <td>{{isset($response[$i]->phone_number) ? $response[$i]->phone_number : 'Not available'}}</td>
-                                            <td>{{isset($response[$i]->store_name) ? $response[$i]->store_name : 'Not available'}}</td>
-                                            {{-- <td>
-                                                <span> &#8358; 1 500</span> <br>
-                                                <span class="badge badge-primary">You Paid: 1000</span>
-                                            </td>
-                                            <td>
-                                                <span class="text-danger">&#8358; 500</span>
-                                            </td> --}}
-                                            <td>
-                                                <div class="btn-group mt-2 mr-1">
-                                                    <button type="button" class="btn btn-primary dropdown-toggle"
-                                                        data-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">
-                                                        Actions<i class="icon"><span
-                                                                data-feather="chevron-down"></span></i>
-                                                    </button>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item"
-                                                            href="{{ route('customer.edit', $response[$i]->store_id.'-'.$response[$i]->_id )}}">Edit Customer</a>
-                                                        <a class="dropdown-item"
-                                                            href="{{ route('customer.show', $response[$i]->store_id.'-'.$response[$i]->_id) }}">View Profile</a>
-                                                        {{-- <a class="dropdown-item"
-                                                            href="{{ route('transaction.index') }}">View Transaction</a>
-                                                        <a class="dropdown-item"
-                                                            href="{{ route('debtor.create') }}">Send Reminder</a> --}}
-                                                        <form id="delete-form-{{ $response[$i]->_id }}" method="POST"
-                                                            action="{{ route('customer.destroy', $response[$i]->_id) }}"
-                                                            style="display:none">
-                                                            {{csrf_field()}}
-                                                            {{method_field('DELETE')}}
-                                                        </form>
-                                                        <a style="margin-left: 1.5rem;" class="text-danger" href=""
-                                                            onclick="
-                                                                    if(confirm('Are you sure You want to delete this user'))
-                                                                    {event.preventDefault(); document.getElementById('delete-form-{{ $response[$i]->_id }}').submit();}
-                                                                    else{
-                                                                    event.preventDefault();
-                                                                }"> Delete </a>
+                                            <tr>
+                                                <td>{{$i + 1}}</td>
+                                                <td>{{isset($response[$i]->name) ? ucfirst($response[$i]->name) : 'Not available'}}</td>
+                                                <td>{{isset($response[$i]->phone_number) ? $response[$i]->phone_number : 'Not available'}}</td>
+                                                <td>{{isset($response[$i]->store_name) ? $response[$i]->store_name : 'Not available'}}</td>
+                                                {{-- <td>
+                                                    <span> &#8358; 1 500</span> <br>
+                                                    <span class="badge badge-primary">You Paid: 1000</span>
+                                                </td>
+                                                <td>
+                                                    <span class="text-danger">&#8358; 500</span>
+                                                </td> --}}
+                                                <td>
+                                                    <div class="btn-group mt-2 mr-1">
+                                                        <button type="button" class="btn btn-primary dropdown-toggle"
+                                                            data-toggle="dropdown" aria-haspopup="true"
+                                                            aria-expanded="false">
+                                                            Actions<i class="icon"><span
+                                                                    data-feather="chevron-down"></span></i>
+                                                        </button>
+                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('customer.edit', $response[$i]->store_id.'-'.$response[$i]->_id) }}">Edit Customer</a>
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('customer.show', $response[$i]->store_id.'-'.$response[$i]->_id) }}">View Profile</a>
+                                                            {{-- <a class="dropdown-item"
+                                                                href="{{ route('transaction.index') }}">View Transaction</a>
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('debtor.create') }}">Send Reminder</a> --}}
+                                                            <form id="delete-form-{{ $response[$i]->_id }}" method="POST"
+                                                                action="{{ route('customer.destroy', $response[$i]->_id) }}"
+                                                                style="display:none">
+                                                                {{csrf_field()}}
+                                                                {{method_field('DELETE')}}
+                                                            </form>
+                                                            <a style="margin-left: 1.5rem;" class="text-danger" href=""
+                                                                onclick="
+                                                                        if(confirm('Are you sure You want to delete this user'))
+                                                                        {event.preventDefault(); document.getElementById('delete-form-{{ $response[$i]->_id }}').submit();}
+                                                                        else{
+                                                                        event.preventDefault();
+                                                                    }"> Delete </a>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                                </td>
+                                            </tr>
                                         @endfor
 
                                     </tbody>

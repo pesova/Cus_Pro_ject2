@@ -47,12 +47,11 @@ class CustomerController extends Controller
                 $customerArray = [];
                 $store_ids = [];
                 $store_names = [];
-                foreach($users->data as $key => $value) {
-                    array_push($customerArray, $users->data[$key]->customers);
-                    array_push($store_ids, $users->data[$key]->storeId);
-                    array_push($store_names, $users->data[$key]->storeName);
+                foreach($users->data->customer as $key => $value) {
+                    array_push($customerArray, $users->data->customer[$key]->customers);
+                    array_push($store_ids, $users->data->customer[$key]->storeId);
+                    array_push($store_names, $users->data->customer[$key]->storeName);
                 }
-
 
                 $allCustomers = [];
                 foreach( $customerArray as $key => $value ) {
@@ -306,45 +305,48 @@ class CustomerController extends Controller
         $request->validate([
             'phone_number' =>  'required | min:8 | max:15',
             'name' => 'required | min:5 | max:30',
-          ]);
+        ]);
 
-          try {
-              $url = $this->host.'/customer/update/'.$id;
+        $store_id = explode('-', $id)[0];
+        $customer_id = explode('-', $id)[1];
 
-              $client = new Client();
+        try {
+            $url = $this->host.'/customer/update/'.$customer_id;
 
-              $payload = [
-                  'headers' => ['x-access-token' => Cookie::get('api_token')],
-                  'form_params' => [
-                      'phone_number' => $request->input('phone'),
-                      'name' => $request->input('name'),
-                      'email' => $request->input('email'),
-                      'store_name' => $request->input('store_name'),
-                  ],
+            $client = new Client();
 
-              ];
+            $payload = [
+                'headers' => ['x-access-token' => Cookie::get('api_token')],
+                'form_params' => [
+                    'phone_number' => $request->input('phone_number'),
+                    'name' => $request->input('name'),
+                    'store_id' => $store_id,
+                ],
+            ];
 
-              $response = $client->request("PUT", $url, $payload);
+            // return dd($payload['form_params']);z
 
-              $data = json_decode($response->getBody());
+            $response = $client->request("PUT", $url, $payload);
 
-              if ( $response->getStatusCode() == 200 ) {
-                  $request->session()->flash('alert-class', 'alert-success');
-                  $request->session()->flash('message', 'Customer updated successfully');
+            $data = json_decode($response->getBody());
 
-                  return redirect()->back();
-              } else {
-                  $request->session()->flash('alert-class', 'alert-danger');
-                  $request->session()->flash('message', 'Customer update failed');
-              }
+            if ( $response->getStatusCode() == 200 ) {
+                $request->session()->flash('alert-class', 'alert-success');
+                $request->session()->flash('message', 'Customer updated successfully');
 
-          } catch ( \Exception $e ) {
-              $data = json_decode($e->getresponse()->getBody()->getContents());
-              $request->session()->flash('alert-class', 'alert-danger');
-              $request->session()->flash('message', $data->message);
+                return redirect()->back();
+            } else {
+                $request->session()->flash('alert-class', 'alert-danger');
+                $request->session()->flash('message', 'Customer update failed');
+            }
 
-              return redirect()->back();
-          }
+        } catch ( \Exception $e ) {
+            $data = json_decode($e->getresponse()->getBody()->getContents());
+            $request->session()->flash('alert-class', 'alert-danger');
+            $request->session()->flash('message', $data->message);
+
+            return redirect()->back();
+        }
     }
 
     /**

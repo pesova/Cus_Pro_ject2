@@ -20,7 +20,7 @@
                 <a href="{{ route('customer.index') }}" class="btn btn-primary float-right">
                     Go Back 
                 </a>
-                <a href="#" class="mr-3 btn btn-success float-right" >
+                <a href="{{ route('customer.edit', $response->storeId.'-'.$response->customer->_id ) }}" class="mr-3 btn btn-success float-right" >
                     Edit Customer 
                 </a>
             </div>
