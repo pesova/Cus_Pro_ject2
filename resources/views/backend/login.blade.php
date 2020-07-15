@@ -34,9 +34,9 @@
 
                                         @if ($errors->any())
                                             @foreach ($errors->all() as $error)
-                                                <div class="alert alert-danger">
-                                                        {{ $error }}
-                                                </div>
+                                            <div class="alert alert-danger">
+                                                {{ $error }}
+                                            </div>
                                             @endforeach
                                         @endif
 
@@ -138,15 +138,20 @@
         // any initialisation options go here
     });
 
-    $("#submitForm").submit((e) => {
+    $("#phone").keyup(() => {
+        if ($("#phone").val().charAt(0) == 0) {
+            $("#phone").val($("#phone").val().substring(1));
+        }
+    });
 
+    $("#submitForm").submit((e) => {
         e.preventDefault();
         const dialCode = test.getSelectedCountryData().dialCode;
-        console.log(test.getSelectedCountryData().dialCode);
-        console.log($("#phone").val());
+        if ($("#phone").val().charAt(0) == 0) {
+            $("#phone").val($("#phone").val().substring(1));
+        }
         $("#phone_number").val(dialCode + $("#phone").val());
         $("#submitForm").off('submit').submit();
-
     });
 
 </script>

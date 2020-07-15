@@ -69,7 +69,7 @@ class RegisterController extends Controller
             'phone_number' => ['required', 'min:6', 'max:16', new NoZero, new DoNotPutCountryCode],
             'password' => ['required', 'min:6']
         ]);
-        
+
         try {
 
             if ($data) {
@@ -93,7 +93,7 @@ class RegisterController extends Controller
 
                         $data = $res->data->user->local;
                         $api_token = $res->data->user->api_token;
-                        $user_role = $res->data->user->local->user_role;
+                        $user_role = $res->data->user->user_role;
 
                         // store data to cookie
                         Cookie::queue('user_role', $user_role);
@@ -107,16 +107,12 @@ class RegisterController extends Controller
                     }
                 }
 
+                $res = json_decode($response->getBody());
                 if ($response->getStatusCode() == 200) {
-                    $res = json_decode($response->getBody());
-
-
                     $request->session()->flash('message', $res->Message);
                     $request->session()->flash('alert-class', 'alert-danger');
                     return redirect()->route('signup');
                 }
-
-                $res = json_decode($response->getBody());
 
                 if ($res->success == false) {
                     $request->session()->flash('message', $res->error->description);
@@ -127,20 +123,24 @@ class RegisterController extends Controller
 
             $request->session()->flash('message', 'Please fill the form correctly');
             $request->session()->flash('alert-class', 'alert-danger');
-
             return redirect()->route('signup');
         } catch (RequestException $e) {
             //log error;
             Log::error('Catch error: RegisterController - ' . $e->getMessage());
 
             // get response
-            if ($e->getResponse()->getStatusCode() > 400) {
-                $response = json_decode($e->getResponse()->getBody());
-                $request->session()->flash('alert-class', 'alert-danger');
-                $request->session()->flash('message', $response->error->description);
-                return redirect()->route('signup');
+            if ($e->hasResponse()) {
+                if ($e->getResponse()->getStatusCode() > 400) {
+                    $response = json_decode($e->getResponse()->getBody());
+                    $request->session()->flash('alert-class', 'alert-danger');
+                    if (is_string($response->error->description)) {
+                        $request->session()->flash('message', $response->error->description);
+                    } else {
+                        $request->session()->flash('message', "Phone number already in use, please use another phone number");
+                    }
+                    return redirect()->route('signup');
+                }
             }
-
             // check for 500 server error
             return view('errors.500');
         } catch (\Exception $e) {

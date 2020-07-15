@@ -86,11 +86,10 @@ class StoreController extends Controller
 
         if ($request->isMethod('post')) {
             $request->validate([
-                'store_name' => 'required|min:2',
-                'shop_address' =>  'required',
-                'tagline' =>  'required',
-                'email' =>  'required',
-                'phone_number' =>   'numeric|required',
+                'store_name' => 'required|min:2|max:25',
+                'shop_address' =>  'required|min:5|max:100',
+                'tagline' =>  'required|min:4|max:50',
+                'phone_number' =>   'required|digits_between:6,16',
             ]);
 
             try {
@@ -234,7 +233,7 @@ class StoreController extends Controller
             $body = $response->getBody();
             $StoreData = json_decode($body)->data->store;
             if ($statusCode == 200) {
-
+                
                 return view('backend.stores.edit')->with('response', $StoreData);
             }
         } catch (RequestException $e) {
@@ -276,9 +275,10 @@ class StoreController extends Controller
 
 
             $request->validate([
-                'store_name' => 'required|min:2',
-                'shop_address' =>  'required',
-                'phone_number' =>   'numeric',
+                'store_name' => 'required|min:2|max:25',
+                'shop_address' =>  'required|min:5|max:100',
+                'tagline' =>  'required|min:4|max:50',
+                'phone_number' =>   'required|digits_between:6,16',
             ]);
 
             $payload = [
