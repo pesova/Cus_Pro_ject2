@@ -312,7 +312,7 @@ class StoreController extends Controller
             $status = $req->getStatusCode();
 
             if ($status == 201) {
-
+ 
                 return redirect()->route('store.index', ['response' => []]);
 
             }
