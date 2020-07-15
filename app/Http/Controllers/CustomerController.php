@@ -390,9 +390,4 @@ class CustomerController extends Controller
             return redirect()->back();
         }
     }
-
-    public function ace($store_id, $id)
-    {
-        return dd('here');
-    }
 }
