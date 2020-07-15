@@ -102,6 +102,7 @@ class RegisterController extends Controller
                         Cookie::queue('phone_number', $data->phone_number);
                         Cookie::queue('user_id', $res->data->user->_id);
                         Cookie::queue('expires', strtotime('+ 1 day'));
+                        Cookie::queue('is_first_time_user', true);
 
                         return redirect()->route('activate.index');
                     }

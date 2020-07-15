@@ -16,6 +16,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        Cookie::queue('is_first_time_user', true);
         // API updated
         $transaction_url = env('API_URL', 'https://dev.api.customerpay.me') . '/transaction';
         $customer_url = env('API_URL', 'https://dev.api.customerpay.me') . '/customer';
