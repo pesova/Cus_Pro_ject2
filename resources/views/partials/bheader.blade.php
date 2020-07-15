@@ -21,14 +21,60 @@
         </ul>
 
         <ul class="navbar-nav flex-row ml-auto d-flex list-unstyled topnav-menu float-right mb-0">
-          <li class="d-none d-sm-block">
-            <div class="app-search">
-                <button class="btn btn-primary back-home-button">
-                    <a href="{{route('dashboard')}}" style="color: white">Back to home</a>
-                </button>
-            </div>
-        </li>
             <li class="d-none d-sm-block">
+                <div class="app-search">
+                    <button class="btn btn-primary back-home-button">
+                        <a href="{{route('dashboard')}}" style="color: white">Back to home</a>
+                    </button>
+                </div>
+            </li>
+            <li>
+                <div class="media user-profile mt-2 mb-2">
+                    <img src="/backend/assets/images/users/avatar-7.jpg" class="avatar-sm rounded-circle mr-2" alt="Shreyu"/>
+                    <img src="/backend/assets/images/users/avatar-7.jpg" class="avatar-xs rounded-circle mr-2" alt="Shreyu"/>
+                    <div class="media-body">
+                        <h6 class="pro-user-name mt-0 mb-0">Nik Patel</h6>
+                        <span class="pro-user-desc">Administrator</span>
+                    </div>
+                    <div class="dropdown align-self-center profile-dropdown-menu">
+                        <a class="dropdown-toggle mr-0" data-toggle="dropdown" href="#" role="button" aria-haspopup="false"
+                           aria-expanded="false">
+                            <span data-feather="chevron-down"></span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right profile-dropdown">
+                            <a href="{{ route('setting') }}" class="dropdown-item notify-item">
+                                <i data-feather="user" class="icon-dual icon-xs mr-2"></i>
+                                <span>My Account</span>
+                            </a>
+            
+                            {{-- <a href="{{ route('settings') }}" class="dropdown-item notify-item">
+                                <i data-feather="settings" class="icon-dual icon-xs mr-2"></i>
+                                <span>Settings</span>
+                            </a> --}}
+            
+                            {{-- <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                <i data-feather="help-circle" class="icon-dual icon-xs mr-2"></i>
+                                <span>Support</span>
+                            </a>
+            
+                            <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                <i data-feather="lock" class="icon-dual icon-xs mr-2"></i>
+                                <span>Lock Screen</span>
+                            </a> --}}
+            
+                            <div class="dropdown-divider"></div>
+                            <a href="{{ route('logout') }}" class="dropdown-item notify-item">
+                                <i data-feather="log-out" class="icon-dual icon-xs mr-2"></i>
+                                <span>Logout</span>
+                            </a>
+                             
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+            
+           {{--  <li class="d-none d-sm-block">
                 <div class="app-search">
                     <form>
                         <div class="input-group">
@@ -72,8 +118,7 @@
                         <span class="align-middle">Russian</span>
                     </a>
                 </div> --}}
-            </li>
-
+            {{-- </li>
 
             <li class="dropdown notification-list" data-toggle="tooltip" data-placement="left"
                 title="8 new unread notifications">
@@ -206,13 +251,13 @@
                         <span>Lock Screen</span>
                     </a> --}}
 
-                    <div class="dropdown-divider"></div>
+                    {{-- <div class="dropdown-divider"></div>
                     <a href="{{ route('logout') }}" class="dropdown-item notify-item">
                         <i data-feather="log-out" class="icon-dual icon-xs mr-2"></i>
                         <span>Logout</span>
                     </a>
                 </div>
-            </li>
+            </li>  --}}
         </ul>
     </div>
 
