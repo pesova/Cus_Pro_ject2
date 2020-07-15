@@ -30,8 +30,8 @@ class CustomerController extends Controller
         //
         try {
             $id = Cookie::get('user_id');
-            $url = env('API_URL', 'https://dev.api.customerpay.me'). '/customer' ;
-            $url2 = env('API_URL', 'https://dev.api.customerpay.me'). '/store' ;
+            $url = $this->host.'/customer' ;
+            $url2 = $this->host.'/store' ;
             $client = new Client();
 
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
@@ -45,30 +45,38 @@ class CustomerController extends Controller
 
             if ( $statusCode == 200 && $statusCode2 == 200 ) {
                 $customerArray = [];
+                $store_ids = [];
+                $store_names = [];
                 foreach($users->data as $key => $value) {
                     array_push($customerArray, $users->data[$key]->customers);
+                    array_push($store_ids, $users->data[$key]->storeId);
+                    array_push($store_names, $users->data[$key]->storeName);
                 }
+
 
                 $allCustomers = [];
                 foreach( $customerArray as $key => $value ) {
-                    foreach( $value as $key => $v ) {
-                        array_push($allCustomers, $v);
+                    foreach( $value as $k => $val ) {
+                        $val->store_id = $store_ids[$key];
+                        $val->store_name = $store_names[$key];
+                        array_push($allCustomers, $val);
                     }
                 }
 
                 // start pagination
-                $perPage = 5;
-                $page = $request->get('page', 1);
-                if ($page > count($allCustomers) or $page < 1) {
-                    $page = 1;
-                }
-                $offset = ($page * $perPage) - $perPage;
-                $articles = array_slice($allCustomers, $offset, $perPage);
-                $datas = new Paginator($articles, count($allCustomers), $perPage);
+                // $perPage = 5;
+                // $page = $request->get('page', 1);
+                // if ($page > count($allCustomers) or $page < 1) {
+                //     $page = 1;
+                // }
+                // $offset = ($page * $perPage) - $perPage;
+                // $articles = array_slice($allCustomers, $offset, $perPage);
+                // $datas = new Paginator($articles, count($allCustomers), $perPage);
 
                 $stores = $stores->data->stores;
 
-                return view('backend.customer.index')->with(['response' => $datas->withPath('/'.$request->path()), 'stores' => $stores]);
+                return view('backend.customer.index')->with(['response' => $allCustomers, 'stores' => $stores]);
+                // return view('backend.customer.index')->with(['response' => $datas->withPath('/'.$request->path()), 'stores' => $stores]);
             }
 
             if ( $statusCode == 500 ) {
@@ -114,11 +122,11 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         //
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/customer/new/';
+        $url = $this->host.'/customer/new/';
 
         if ($request->isMethod('post')) {
             $request->validate([
-                'store_name' => 'required',
+                'store_id' => 'required',
                 'phone_number' =>  'required | min:8 | max:15',
                 'name' => 'required | min:5 | max:30',
             ]);
@@ -128,7 +136,7 @@ class CustomerController extends Controller
                 $payload = [
                     'headers' => ['x-access-token' => Cookie::get('api_token')],
                     'form_params' => [
-                        'store_name' => $request->input('store_name'),
+                        'store_id' => $request->input('store_id'),
                         'phone_number' => $request->input('phone_number'),
                         'name' => $request->input('name'),
                     ],
@@ -140,7 +148,6 @@ class CustomerController extends Controller
                 $statusCode = $response->getStatusCode();
                 $body = $response->getBody();
                 $data = json_decode($body);
-                return dd($data);
 
                 if ($statusCode == 201  && $data->success) {
                     $request->session()->flash('alert-class', 'alert-success');
@@ -192,14 +199,17 @@ class CustomerController extends Controller
             return view('errors.500');
         }
 
+        $store_id = explode('-', $id)[0];
+        $customer_id = explode('-', $id)[1];
+
         try {
-            $url = $this->host.'/customer/'.$id;
+            $url = $this->host."/customer/".$store_id."/".$customer_id;
             $client = new Client;
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
             $response = $client->request("GET", $url, $headers);
             $data = json_decode($response->getBody());
             if ( $response->getStatusCode() == 200 ) {
-                return view('backend.customer.show')->with('response', $data->data->customer);
+                return view('backend.customer.show')->with('response', $data->data);
             } else {
                 return view('errors.500');
             }
@@ -236,19 +246,29 @@ class CustomerController extends Controller
     {
         //
         if ( !$id || empty($id) ) {
-            return view('errors.500');
+            return redirect()-route('logout');
         }
 
+        $store_id = explode('-', $id)[0];
+        $customer_id = explode('-', $id)[1];
+
         try {
-            $url = $this->host."/customer/".$id;
+            $url = $this->host."/customer/".$store_id."/".$customer_id;
+            $url2 = $this->host.'/store';
             $client = new Client;
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+
             $response = $client->request("GET", $url, $headers);
+            $store_response = $client->request('GET', $url2, $headers);
+
             $data = json_decode($response->getBody());
-            if ( $response->getStatusCode() == 200 ) {
-                return view('backend.customer.edit')->with('response', $data->data->customer);
+            $stores = json_decode($store_response->getBody());
+            if ( $response->getStatusCode() == 200 && $store_response->getStatusCode() == 200 ) {
+                $stores = $stores->data->stores;
+                return view('backend.customer.edit')->with(['response' => $data->data, 'stores' => $stores]);
             } else {
-                return view('errors.500');
+                Session::flash('message', "Error occured; can't fetch customer's details at the moment");
+                return back();
             }
         } catch (\RequestException $e) {
             $statusCode = $e->getResponse()->getStatusCode();
@@ -263,7 +283,7 @@ class CustomerController extends Controller
         } catch ( \Exception $e ) {
             $statusCode = $e->getResponse()->getStatusCode();
             $data = json_decode($e->getResponse()->getBody()->getContents());
-            $request->session()->flash('message', isset($data->message) ? $data->message : $data->error->error);
+            Session::flash('message', isset($data->message) ? $data->message : $data->error->error);
             if ( $statusCode == 401 ) {
                 return redirect()->route('logout');
             }
@@ -284,7 +304,6 @@ class CustomerController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'store_name' => 'required',
             'phone_number' =>  'required | min:8 | max:15',
             'name' => 'required | min:5 | max:30',
           ]);
@@ -320,7 +339,7 @@ class CustomerController extends Controller
               }
 
           } catch ( \Exception $e ) {
-              $data = json_decode($e->getBody()->getContents());
+              $data = json_decode($e->getresponse()->getBody()->getContents());
               $request->session()->flash('alert-class', 'alert-danger');
               $request->session()->flash('message', $data->message);
 
@@ -368,5 +387,10 @@ class CustomerController extends Controller
 
             return redirect()->back();
         }
+    }
+
+    public function ace($store_id, $id)
+    {
+        return dd('here');
     }
 }

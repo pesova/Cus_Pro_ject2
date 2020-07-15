@@ -11,6 +11,32 @@
         border-radius: 5px;
         border: 1px solid #CCC;
     }
+
+    
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        color: #000 !important;
+        border: 1px solid #CCC !important;
+        background-color: #FFF !important;
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FFF), color-stop(100%, #FFF))!important;
+        background: -webkit-linear-gradient(top, #FFF 0%, #FFF 100%)!important;
+        background: -moz-linear-gradient(top, #FFF 0%, #FFF 100%)!important;
+        background: -ms-linear-gradient(top, #FFF 0%, #FFF 100%)!important;
+        background: -o-linear-gradient(top, #FFF 0%, #FFF 100%)!important;
+        background: linear-gradient(to bottom, #FFF 0%, #FFF 100%)!important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        color: #FFF !important;
+        border: none !important;
+        background-color: #536BF8 !important;
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FFF), color-stop(100%, #536BF8))!important;
+        background: -webkit-linear-gradient(top, #536BF8 0%, #536BF8 100%)!important;
+        background: -moz-linear-gradient(top, #536BF8 0%, #536BF8 100%)!important;
+        background: -ms-linear-gradient(top, #536BF8 0%, #536BF8 100%)!important;
+        background: -o-linear-gradient(top, #536BF8 0%, #536BF8 100%)!important;
+        background: linear-gradient(to bottom, #536BF8 0%, #536BF8 100%)!important;
+    }
+
 </style>
 @stop
 @section('content')
@@ -462,15 +488,15 @@
 
                     @if ( isset($response) && count($response) > 0 )
                         <div class="card-body p-1 card">
-                            <div class="table-responsive table-data">
+                            <div class="table-responsive table-data" style="padding: 10px">
                                 <table id="basic-datatable" class="table dt-responsive nowrap table table-striped table-bordered">
                                     <thead> 
                                         <tr>
                                             <th>ID</th>
                                             <th>Name</th>
                                             <th>Tel</th>
-                                           {{-- <th>Amount Due</th> 
-                                            <th>Balance</th> --}}
+                                           {{-- <th>Amount Due</th> --}}
+                                            <th>Store Name</th> 
                                             <th>Actions</th>
                                         </tr>
                 
@@ -479,8 +505,8 @@
                                         <tr>
                                             <td>{{$i + 1}}</td>
                                             <td>{{isset($response[$i]->name) ? ucfirst($response[$i]->name) : 'Not available'}}</td>
-                                            <td>{{isset($response[$i]->phone_number) ? $response[$i]->phone_number : 'Not available'}}<br>
-                                            </td>
+                                            <td>{{isset($response[$i]->phone_number) ? $response[$i]->phone_number : 'Not available'}}</td>
+                                            <td>{{isset($response[$i]->store_name) ? $response[$i]->store_name : 'Not available'}}</td>
                                             {{-- <td>
                                                 <span> &#8358; 1 500</span> <br>
                                                 <span class="badge badge-primary">You Paid: 1000</span>
@@ -498,9 +524,9 @@
                                                     </button>
                                                     <div class="dropdown-menu dropdown-menu-right">
                                                         <a class="dropdown-item"
-                                                            href="{{ route('customer.edit', $response[$i]->_id) }}">Edit Customer</a>
+                                                            href="{{ route('customer.edit', $response[$i]->store_id.'-'.$response[$i]->_id )}}">Edit Customer</a>
                                                         <a class="dropdown-item"
-                                                            href="{{ route('customer.show', $response[$i]->_id) }}">View Profile</a>
+                                                            href="{{ route('customer.show', $response[$i]->store_id.'-'.$response[$i]->_id) }}">View Profile</a>
                                                         {{-- <a class="dropdown-item"
                                                             href="{{ route('transaction.index') }}">View Transaction</a>
                                                         <a class="dropdown-item"
@@ -558,7 +584,7 @@
                         <label for="inputphone" class="col-3 col-form-label">Phone Number</label>
                         <div class="col-9">
                             <input type="tel" class="form-control" id="inputphone" placeholder="Phone Number"
-                                name="phone_number"  pattern=".{8,15}" title="Phone number must be between 8 to 15 characters">
+                                name="phone_number" required pattern=".{8,15}" title="Phone number must be between 8 to 15 characters">
                         </div>
                     </div>
                     <div class="form-group row mb-3">
@@ -573,7 +599,7 @@
                         <div class="col-9">
                             <!-- <input type="text" class="form-control" id="inputPassword3" placeholder="Store name"
                                 name="store_name"> -->
-                            <select name="store_name" class="form-control" >
+                            <select name="store_id" class="form-control" required>
                                 @if ( isset($stores) )
                                     <option disabled selected value="">-- Select store --</option>
                                     @foreach ($stores as $store)
@@ -708,8 +734,8 @@
 <script>
 $(document).ready(function() {
     $('#basic-datatable').DataTable( {
-    paging: false
-} );
+        "pagingType": "full_numbers"
+    } );
 } );
 </script>
 @stop
