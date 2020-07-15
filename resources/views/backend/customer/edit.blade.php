@@ -69,7 +69,7 @@
                             <div class="form-group">
                                 <label class="col-lg-3 control-label">Tel:</label>
                                 <div class="col-lg-8">
-                                  <input class="form-control" type="phone" value="{{old('phone_number', $response->phone_number)}}" name='phone_number' maxlength="16" required>
+                                  <input class="form-control" type="phone" id="phone" value="{{old('phone_number', $response->phone_number)}}" name='phone_number' maxlength="16" required>
                                 </div>
                               </div>
                               {{-- <div class="form-group">
@@ -147,3 +147,38 @@
 </div>
 
 @endsection
+
+@section("javascript")
+   <script src="/backend/assets/build/js/intlTelInput.js"></script>
+   <script>
+   var input = document.querySelector("#phone");
+   window.intlTelInput(input, {
+       // any initialisation options go here
+   });
+
+
+   //phone Number format
+
+   var input = document.querySelector("#phone");
+    var test = window.intlTelInput(input, {
+        separateDialCode: true,
+        // any initialisation options go here
+    });
+
+    $("#phone").keyup(() => {
+        if ($("#phone").val().charAt(0) == 0) {
+            $("#phone").val($("#phone").val().substring(1));
+        }
+    });
+
+    $("#submitForm").submit((e) => {
+        e.preventDefault();
+        const dialCode = test.getSelectedCountryData().dialCode;
+        if ($("#phone").val().charAt(0) == 0) {
+            $("#phone").val($("#phone").val().substring(1));
+        }
+        $("#phone_number").val(dialCode + $("#phone").val());
+        $("#submitForm").off('submit').submit();
+    });
+   </script>
+@stop
