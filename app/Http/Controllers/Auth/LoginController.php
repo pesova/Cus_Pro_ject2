@@ -90,6 +90,8 @@ class LoginController extends Controller
                     Cookie::queue('phone_number', $data->phone_number);
                     Cookie::queue('user_id', $response->data->user->_id);
                     Cookie::queue('expires', strtotime('+ 1 day'));
+                    Cookie::queue('is_first_time_user', true);
+
 
                     //show success message
                     $request->session()->flash('alert-class', 'alert-success');
