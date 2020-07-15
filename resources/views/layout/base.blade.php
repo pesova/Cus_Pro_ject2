@@ -35,7 +35,7 @@
 @if(\Illuminate\Support\Facades\Cookie::get('is_first_time_user') == true)
 <body class="sidebar-enable">
 @php
-// \Illuminate\Support\Facades\Cookie::queue('is_first_time_user', false);
+\Illuminate\Support\Facades\Cookie::queue('is_first_time_user', false);
 @endphp
 @else
 <body>
