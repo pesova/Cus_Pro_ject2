@@ -343,7 +343,7 @@ class AssistantController extends Controller
             if ($status == 200 || $status == 201) {
                 $body = $response->getBody()->getContents();
                 $res = json_encode($body);
-                return redirect()->route('assistants.index')->with('message', "Update Successful");
+                return redirect()->route('assistants.index')->with('success', "Update Successful");
             } else {
                 return back()->with('error', "Update Failed");
             }
