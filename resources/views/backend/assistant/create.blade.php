@@ -50,29 +50,17 @@
                             <div class="form-group row mb-3">
                                 <label for="name" class="col-2 col-sm-3 col-form-label my-label">Name:</label> <br> <br>
                                 <div class="col-10 col-sm-7">
-                                    <input name="name" type="text" class="form-control" id="fullname"
-                                           placeholder="Enter name here">
+                                    <input name="name" type="text" class="form-control" id="name"
+                                           placeholder="Enter name here" value="{{old('name')}}">
                                 </div>
                             </div>
                             <br>
-                            <!-- <div class="form-group row mb-3">
-                                <label for="name" class="col-2 col-sm-3 col-form-label my-label">Store Name:</label> <br> <br>
-                                <div class="col-10 col-sm-7">
-                                    <input name="store_name" type="text" class="form-control" id="fullname" placeholder="Enter store name here">
-                                </div>
-                            </div> -->
-                            {{-- <div class="form-group row mb-3">
-                                <label for="role" class="col-2 col-sm-3 col-form-label my-label">Role:</label> <br>
-                                <div class="col-10 col-sm-7">
-                                    <input type="text" class="form-control" id="fullname" placeholder="Enter role">
-                                </div>
-                            </div>
-                            <br>   --}}
+
                             <div class="form-group row mb-3">
                                 <label for="address" class="col-2 col-sm-3 col-form-label my-label">Email:</label> <br>
                                 <div class="col-10 col-sm-7">
                                     <input name="email" type="email" class="form-control" id="email"
-                                           placeholder="Enter Address">
+                                           placeholder="Enter Address" value="{{old('email')}}">
                                 </div>
                             </div>
                             <br>
@@ -81,7 +69,7 @@
                                 <br>
                                 <div class="col-10 col-sm-7">
                                     <input type="tel" id="phone" name=""
-                                           class="form-control" value="" required>
+                                           class="form-control" value="{{old('phone_number')}}" required>
                                     <input type="hidden" name="phone_number" id="phone_number"
                                            class="form-control">
 
@@ -130,6 +118,8 @@
             separateDialCode: true,
             // any initialisation options go here
         });
+        if ($("#phone").val().trim() != '')
+            test.setNumber("+" + ($("#phone").val()));
 
         $("#phone").keyup(() => {
             if ($("#phone").val().charAt(0) == 0) {

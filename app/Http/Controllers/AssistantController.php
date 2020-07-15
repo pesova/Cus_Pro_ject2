@@ -115,12 +115,6 @@ class AssistantController extends Controller
             if ($e->getCode() == 401) {
                 return redirect()->route('logout')->withErrors("Please Login Again");
             }
-            //dd($e);
-            /*$statusCode = $e->getResponse()->getStatusCode();
-            $data = json_decode($e->getResponse()->getBody()->getContents());
-            if ($statusCode == 401) { //401 is error code for invalid token
-                return redirect()->route('logout');
-            }*/
 
             return view('errors.500');
         }
@@ -143,7 +137,7 @@ class AssistantController extends Controller
         //return dd($request->all());
 
         $request->validate([
-            'name' => "required|min:6",
+            'name' => "required|min:3",
             'phone_number' => ["required", new NoZero, new DoNotPutCountryCode],
             'store_id' => "required",
             'email' => "required|email",
@@ -201,17 +195,9 @@ class AssistantController extends Controller
                 return redirect()->route('logout')->withErrors("Please Login Again");
             }
 
-            $data = json_decode($response->getBody());
-            Session::flash('message', $data->message);
+            Session::flash('message', "An error occured. Please try again later");
             return redirect()->route('assistants.create');
             //return back();
-        } catch (Exception $e) {
-            //todo: remove one exception
-            if ($e->getCode() == 401) {
-                return redirect()->route('logout')->withErrors("Please Login Again");
-            }
-            Log::error($e->getMessage());
-            return view('errors.500');
         }
 
         //return back();
@@ -269,6 +255,7 @@ class AssistantController extends Controller
                 // dd($data);
 
                 if ($response->getStatusCode() == 200) {
+                    // dd( $data->data->store_assistant);
                     return view('backend.assistant.edit')->with('response', $data->data->store_assistant)->withStores($stores);
 
                 } else {
@@ -279,7 +266,7 @@ class AssistantController extends Controller
             }
 
         } catch (\Exception $e) {
-            // dd($e);
+            //dd($e);
             // dd($e->getCode());
             if ($e->getCode() == 401) {
                 return redirect()->route('logout')->withErrors("Please Login Again");
@@ -301,7 +288,7 @@ class AssistantController extends Controller
         $url = env('API_URL', 'https://dev.api.customerpay.me') . '/assistant/update/' . $id;
 // dd($request->all());
         $request->validate([
-            'name' => "required|min:6",
+            'name' => "required|min:3",
             'phone_number' => "required",
             'email' => "required|email",
             'store_id' => "required"
@@ -321,7 +308,7 @@ class AssistantController extends Controller
                     'store_id' => $request->input('store_id')
                 ],
             ];
-            // dd($data);
+
             $response = $client->request("PUT", $url, $data);
             $status = $response->getStatusCode();
 
@@ -334,9 +321,7 @@ class AssistantController extends Controller
             }
 
         } catch (\Exception $e) {
-            // dd($e);
-            //dd($e->getMessage());
-            // $data = json_decode($e->getBody()->getContents());
+
             if ($e->getCode() == 401) {
                 return redirect()->route('logout')->withErrors("Please Login Again");
             }
@@ -360,13 +345,11 @@ class AssistantController extends Controller
         $client = new Client();
         $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
         try {
-            //return dd($url);
+
             $delete = $client->delete($url, $headers);
-            //return dd($url);
             if ($delete->getStatusCode() == 200 || $delete->getStatusCode() == 201) {
                 $request->session()->flash('alert-class', 'alert-success');
                 Session::flash('message', "Store assistant successfully deleted");
-                //return $this->index();
                 return back();
             } else if ($delete->getStatusCode() == 401) {
                 $request->session()->flash('alert-class', 'alert-danger');

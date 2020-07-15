@@ -1,4 +1,9 @@
 @extends('layout.base')
+@section("custom_css")
+
+    <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css"/>
+
+@stop
 @section('content')
 
     <!-- Start Content-->
@@ -34,15 +39,15 @@
                     <div class="card-body">
                         {{-- <h4 class="mb-3 header-title mt-0">Complaint Form</h4> --}}
 
-                        <form action="{{ route('assistants.update', $response->_id) }}" method="POST">
+                        <form action="{{ route('assistants.update', $response->_id) }}" method="POST" id="submitForm">
                             @csrf
                             @method('PUT')
 
                             <div class="form-group row mb-3">
                                 <label for="name" class="col-2 col-sm-3 col-form-label my-label">Name:</label> <br> <br>
                                 <div class="col-10 col-sm-7">
-                                    <input name="name" type="text" class="form-control" id="fullname"
-                                           placeholder="Enter name here" value="{{ $response->name }}">
+                                    <input name="name" type="text" class="form-control" id="name"
+                                           placeholder="Enter name here" value="{{  old('name', $response->name) }}">
                                 </div>
                             </div>
                             <br>
@@ -63,7 +68,7 @@
                                 <label for="address" class="col-2 col-sm-3 col-form-label my-label">Email:</label> <br>
                                 <div class="col-10 col-sm-7">
                                     <input name="email" type="email" class="form-control" id="fullname"
-                                           placeholder="Enter Address" value="{{ $response->email }}">
+                                           placeholder="Enter Address" value="{{ old('email', $response->email) }}">
                                 </div>
                             </div>
                             <br>
@@ -71,8 +76,12 @@
                                 <label for="number" class="col-2 col-sm-3 col-form-label my-label">Phone Number:</label>
                                 <br>
                                 <div class="col-10 col-sm-7">
-                                    <input name="phone_number" type="text" class="form-control" id="fullname"
-                                           placeholder="Enter phone number" value=" {{ $response->phone_number }}">
+                                    <input type="tel" id="phone" name=""
+                                           class="form-control"
+                                           value="{{ old('phone_number',$response->phone_number) }}" required>
+                                    <input type="hidden" name="phone_number" id="phone_number"
+                                           class="form-control">
+
                                 </div>
                             </div>
                             <div class="form-group row mb-3">
@@ -81,12 +90,12 @@
                                     <select name="store_id" id="store_id" class="form-control">
                                         <option value=""> Select Store</option>
                                         @foreach($stores as $store)
-                                            <option value="{{$store->_id}}">{{$store->store_name}}</option>
+                                            <option value="{{$store->_id}}" {{$store->_id ==$response->store_id? "selected":""}}>{{$store->store_name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
-                            <br>
+                            {{--<br>
                             <div class="form-group row mb-3">
                                 <label for="email" class="col-2 col-sm-3 col-form-label my-label">Password:</label> <br>
                                 <div class="col-10 col-sm-7">
@@ -94,7 +103,7 @@
                                            placeholder="Enter password">
                                 </div>
                             </div>
-                            <br>
+                            <br>--}}
                             <div class="form-group mb-0 justify-content-end row">
                                 <div class="col-12 text-center">
                                     <button type="submit" class="btn btn-primary my-button">Save</button>
@@ -108,4 +117,34 @@
             <!-- end col -->
         </div> <!-- container-fluid -->
 
-@endsection
+        @endsection
+        @section('javascript')
+            <script src="/backend/assets/build/js/intlTelInput.js"></script>
+            <script>
+                var input = document.querySelector("#phone");
+                var test = window.intlTelInput(input, {
+                    separateDialCode: true,
+                    //initialCountry: "de",
+                    // any initialisation options go here
+                });
+
+                test.setNumber("+" + ($("#phone").val()));
+
+                $("#phone").keyup(() => {
+                    if ($("#phone").val().charAt(0) == 0) {
+                        $("#phone").val($("#phone").val().substring(1));
+                    }
+                });
+                $("#submitForm").submit((e) => {
+                    e.preventDefault();
+                    const dialCode = test.getSelectedCountryData().dialCode;
+                    if ($("#phone").val().charAt(0) == 0) {
+                        $("#phone").val($("#phone").val().substring(1));
+                    }
+                    $("#phone_number").val(dialCode + $("#phone").val());
+                    $("#submitForm").off('submit').submit();
+                });
+
+
+            </script>
+@stop
