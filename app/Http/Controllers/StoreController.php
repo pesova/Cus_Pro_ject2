@@ -35,6 +35,7 @@ class StoreController extends Controller
             $Stores = json_decode($body);
 
             if ($statusCode == 200) {
+                // return $Stores->data->stores;
                 return view('backend.stores.index')->with('response', $Stores->data->stores);
             }
             else if($statusCode->getStatusCode() == 401){

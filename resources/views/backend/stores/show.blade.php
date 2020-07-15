@@ -77,9 +77,21 @@
                                                 <td>{{count( $response->customers )}}</td>
                                             </tr>
 
+                                            <tr>
+                                                <th scope="row">Total Number of Transactions</th>
+                                                <td>{{count( $response->transactions )}}</td>
+                                            </tr>
+
                                         </tbody>
                                     </table>
+                                    {{-- <div class="card-body text-muted">
+                                        <div class=" text-center">
+                                            <a href="#" class="btn btn-primary">View Store Transactions</a>
+                                        </div>
+                                      </div> --}}
+                                   
                                 </div>
+                                
                             </div>
                         </div>
                     </div>
