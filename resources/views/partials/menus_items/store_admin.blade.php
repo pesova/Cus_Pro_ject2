@@ -14,7 +14,7 @@
 
 <li>
     <a href="{{ route('store.index') }}">
-        <i class="uil uil-shop second"></i>
+        <i class="uil uil-shop"></i>
         <span>Stores</span>
     </a>
 </li>
