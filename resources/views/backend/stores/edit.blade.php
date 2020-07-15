@@ -45,17 +45,17 @@
                                           </div>
                                           <div class="form-group col-md-6">
                                             <label for="inputTagline">Tagline</label>
-                                            <input type="text" name="tag_line" class="form-control" id="inputTagline" value="{{old('tagline', $response->tagline)}}" required maxlength="50" minlength="4">
+                                            <input type="text" name="tagline" class="form-control" id="inputTagline" value="{{old('tagline', $response->tagline)}}" required maxlength="50" minlength="4">
                                           </div>
                                         </div>
                                         <div class="form-row">
                                           <div class="form-group col-md-6">
                                             <label for="inputPhoneNumber">Phone Number</label>
-                                            <input type="text" name="phone_number" class="form-control" value="{{old('phone_number', $response->phone_number)}}" placeholder="+2348173644654" minlength="6" maxlength="16">
+                                            <input type="text" name="phone_number" id="phone" class="form-control" value="{{old('phone_number', $response->phone_number)}}" placeholder="+2348173644654" minlength="6" maxlength="16">
                                           </div>
                                         <div class="form-group col-md-6" >
                                             <label for="inputEmailAddress"> Email Address (Optional) </label>
-                                            <input type="email" name="email" class="form-control" value="{{old('email', $response->email)}}">
+                                            <input name="email" class="form-control" value="{{old('email', $response->email)}}">
                                         </div>
                                         </div>
                                         <div class="form-group">
