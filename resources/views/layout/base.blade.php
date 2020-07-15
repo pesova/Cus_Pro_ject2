@@ -32,7 +32,15 @@
 
 </head>
 
+{{-- Checks if you are a new user, then show the mobile navbar for walkthrough. the mobile nav bar is hidden by default--}}
+@if(\Illuminate\Support\Facades\Cookie::get('is_first_time_user') == true)
+<body class="sidebar-enable">
+@php
+\Illuminate\Support\Facades\Cookie::queue('is_first_time_user', false);
+@endphp
+@else
 <body>
+@endif
 
     <!-- Begin page -->
     <div id="wrapper">
