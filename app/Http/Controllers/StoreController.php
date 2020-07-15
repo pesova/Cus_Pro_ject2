@@ -179,6 +179,7 @@ class StoreController extends Controller
             $transaction_statusCode = $transaction_response->getStatusCode();
             $body = $response->getBody();
             $transactions_body = $transaction_response->getBody();
+            return $transactions_body;
             $num_store_transactions = count(json_decode($transactions_body)->data->transactions);
             $StoreData = json_decode($body)->data->store;
             $StoreData = [
@@ -212,6 +213,7 @@ class StoreController extends Controller
 
         } catch (\Exception $e) {
             //log error;
+            return $e;
             Log::error('Catch error: StoreController - ' . $e->getMessage());
             return view('errors.500');
 
