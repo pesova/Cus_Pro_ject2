@@ -68,7 +68,7 @@
                           <div class="form-group">
                             <label class="col-lg-3 control-label">Full Name:</label>
                             <div class="col-lg-8">
-                              <input style="width:100%" class="form-control" type="text" value="{{old('name', $response->customer->name)}}" name="name" required pattern=".{5,30}" title="Customer name must be at least 5 characters and not more than 30 characters">
+                              <input class="form-control" type="text" value="{{old('name', $response->customer->name)}}" name="name" required pattern=".{5,30}" title="Customer name must be at least 5 characters and not more than 30 characters">
                             </div>
                           </div>
 
@@ -82,8 +82,9 @@
                             <div class="form-group">
                                 <label class="col-lg-3 control-label">Tel:</label>
                                 <div class="col-lg-8">
-                                  <input class="form-control" type="tel" id="phone" value="{{old('phone_number', $response->customer->phone_number)}}" name='' pattern=".{6,16}" title="Phone number must be between 6 to 16 characters" required>
+                                  <input class="form-control" type="tel" id="phone" value="{{old('phone_number', $response->customer->phone_number)}}" aria-describedby="helpPhone" name='' pattern=".{6,16}" title="Phone number must be between 6 to 16 characters" required>
                                   <input type="hidden" name="phone_number" id="phone_number" class="form-control">
+                                  <small id="helpPhone" class="form-text text-muted">Enter your number without the starting 0, eg 813012345</small>
                                 </div>
                               </div>
                             </div>
@@ -125,8 +126,8 @@
                           </div> --}}
 
                           <div class="form-group">
-                              <label class="col-md-3 control-label">Store Name</label>
-                              <div class="col-md-8">
+                              <label class="col-lg-3 control-label">Store Name:</label>
+                              <div class="col-lg-8">
                                 <select name="store_name" class="form-control" disabled required>
                                   @if ( isset($stores) )
                                     @foreach ($stores as $store)
