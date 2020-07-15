@@ -214,7 +214,35 @@ class AssistantController extends Controller
     public function show($id)
     {
         // todo: get the user from the api and pass to the veiw
-        return view('backend.assistant.show');
+        try {
+            // Get all stores first
+
+
+            $url = env('API_URL', 'https://dev.api.customerpay.me') . '/assistant/' . $id;
+            $client = new Client();
+            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+            $response = $client->request("GET", $url, $headers);
+            $data = json_decode($response->getBody());
+            // dd($data);
+
+            if ($response->getStatusCode() == 200) {
+                // dd( $data->data->store_assistant);
+                return view('backend.assistant.show')->with('assistant', $data->data->store_assistant);
+
+            } else {
+                return back()->withErrors("An Error Occured. Please try again later");
+            }
+
+
+        } catch (\Exception $e) {
+            //dd($e);
+            // dd($e->getCode());
+            if ($e->getCode() == 401) {
+                return redirect()->route('logout')->withErrors("Please Login Again");
+            }
+            return view('errors.500');
+            //return $response->getStatusCode();
+        }
     }
 
     /**
@@ -315,7 +343,7 @@ class AssistantController extends Controller
             if ($status == 200 || $status == 201) {
                 $body = $response->getBody()->getContents();
                 $res = json_encode($body);
-                return back()->with('message', "Update Successful");
+                return redirect()->route('assistants.index')->with('success', "Update Successful");
             } else {
                 return back()->with('error', "Update Failed");
             }
