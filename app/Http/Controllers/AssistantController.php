@@ -180,7 +180,7 @@ class AssistantController extends Controller
                 return redirect()->route('assistants.create');
             }
         } catch (ClientException $e) {
-            dd($e);
+            // dd($e);
             $response = $e->getResponse();
             $statusCode = $response->getStatusCode();
 
@@ -194,7 +194,7 @@ class AssistantController extends Controller
             return redirect()->route('assistants.create');
             //return back();
         } catch (Exception $e) {
-            dd($e);
+            //dd($e);
             if ($e->getCode() == 401) {
                 return redirect()->route('logout')->withErrors("Please Login Again");
             }
@@ -204,6 +204,7 @@ class AssistantController extends Controller
             return redirect()->route('assistants.create');
             //return back();
         } catch (Exception $e) {
+            //todo: remove one exception
             if ($e->getCode() == 401) {
                 return redirect()->route('logout')->withErrors("Please Login Again");
             }
@@ -276,7 +277,7 @@ class AssistantController extends Controller
             }
 
         } catch (\Exception $e) {
-            dd($e);
+            // dd($e);
             // dd($e->getCode());
             if ($e->getCode() == 401) {
                 return redirect()->route('logout')->withErrors("Please Login Again");
@@ -331,7 +332,7 @@ class AssistantController extends Controller
             }
 
         } catch (\Exception $e) {
-            dd($e);
+            // dd($e);
             //dd($e->getMessage());
             // $data = json_decode($e->getBody()->getContents());
             if ($e->getCode() == 401) {
