@@ -61,7 +61,7 @@
                 
                 <div class="card">
                     <div class="card-body">
-                        <form class="form-horizontal" role="form" method="post" action="{{ route('customer.update', $response->customer->_id) }}" enctype="multipart/form-data">
+                        <form class="form-horizontal" role="form" method="post" action="{{ route('customer.update', $response->storeId.'-'.$response->customer->_id) }}" enctype="multipart/form-data">
                           @csrf
                           @method('PUT')
                           <div class="form-group">
