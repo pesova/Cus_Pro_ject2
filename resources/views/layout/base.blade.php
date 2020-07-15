@@ -31,7 +31,7 @@
 
 </head>
 
-<body>
+<body class="kofi sidebar-enable">
 
         <!-- Begin page -->
         <div id="wrapper">
