@@ -52,12 +52,10 @@ class SettingsController extends Controller
 
                     $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store-admin/update';
                     $client = new Client();
-                    $phone_number = intval($request->input('phone_number'));
                     $data = [
                         "first_name" => $request->input('first_name'),
                         "last_name" => $request->input('last_name'),
-                        "email" => $request->input('email'),
-                        "phone_number" => $phone_number
+                        "email" => $request->input('email')
                     ];
                     // make an api call to update the user_details
                     $this->headers = ['headers' => ['x-access-token' => Cookie::get('api_token')], 'form_params' => $data];

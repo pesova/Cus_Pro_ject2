@@ -191,7 +191,7 @@
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <label>Phone Number</label>
-                                                            <input class="form-control" type="text" name="phone_number" value="{{ isset($user_details['phone_number']) ? $user_details['phone_number'] : "not set" }}">
+                                                            <input class="form-control" type="text" name="phone_number" value="{{ isset($user_details['phone_number']) ? $user_details['phone_number'] : "not set" }}" readonly>
                                                         </div>
                                                     </div>
                                                     <div class="clearfix"></div><br>
@@ -216,7 +216,7 @@
                                         </form>
                                     </div>
                                 </div>
-                           
+
                                 {{-- <div class="tab-pane" id="assistant">
                                     <div class="tile user-settings">
                                         <h4 class="line-head">Staff Assistant</h4>
