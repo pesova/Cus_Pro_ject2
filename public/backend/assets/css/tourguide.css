@@ -1,5 +1,5 @@
-    /*
-
+    
+@media only screen and (min-width: 768px) {
     body.shepherd-active::after {
     content: "";
     display: block;
@@ -17,4 +17,4 @@
     position: relative;
     }
 
-    */
+    }
