@@ -557,7 +557,7 @@
                     <div class="form-group row mb-3">
                         <label for="inputphone" class="col-3 col-form-label">Phone Number</label>
                         <div class="col-9">
-                            <input type="tel" class="form-control" id="inputphone" placeholder="Phone Number"
+                            <input type="tel" class="form-control" id="phone" placeholder="Phone Number"
                                 name="phone_number"  pattern=".{8,15}" title="Phone number must be between 8 to 15 characters">
                         </div>
                     </div>
@@ -619,7 +619,7 @@
                     <div class="form-group row mb-3">
                         <label for="inputphone" class="col-3 col-form-label">Phone Number</label>
                         <div class="col-9">
-                            <input type="tel" class="form-control" id="inputphone" placeholder="Phone Number">
+                            <input type="tel" class="form-control" id="phone" placeholder="Phone Number">
                         </div>
                     </div>
                     <div class="form-group row mb-3">
@@ -663,7 +663,7 @@
                     <div class="form-group row mb-3">
                         <label for="inputphone" class="col-3 col-form-label">Phone Number</label>
                         <div class="col-9">
-                            <input type="text" class="form-control" id="inputphone" placeholder="Phone Number">
+                            <input type="text" class="form-control" id="phone" placeholder="Phone Number">
                         </div>
                     </div>
                     <div class="form-group row mb-3">
@@ -696,15 +696,15 @@
 
 
 @section("javascript")
-<script src="/backend/assets/build/js/intlTelInput.js"></script>
-<script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-<script>
-    var input = document.querySelector("#phone");
-    window.intlTelInput(input, {
-        // any initialisation options go here
-    });
 
-</script>
+<script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="/backend/assets/build/js/intlTelInput.js"></script>
+   <script>
+   var input = document.querySelector("#phone");
+   window.intlTelInput(input, {
+       // any initialisation options go here
+   });
+   </script>
 <script>
 $(document).ready(function() {
     $('#basic-datatable').DataTable( {
