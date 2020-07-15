@@ -1,8 +1,13 @@
 <!-- ========== Left Sidebar Start ========== -->
 <div class="left-side-menu">
     <div class="media user-profile mt-2 mb-2">
-        <img src="/backend/assets/images/users/avatar-7.jpg" class="avatar-sm rounded-circle mr-2" alt="Shreyu"/>
-        <img src="/backend/assets/images/users/avatar-7.jpg" class="avatar-xs rounded-circle mr-2" alt="Shreyu"/>
+    <object
+                data="{{Cookie::get('image')}}"
+                type="image/jpg"
+                class="avatar-sm rounded-circle mr-2"
+              >
+        <img src="/backend/assets/images/users/default.png" class="avatar-sm rounded-circle mr-2" alt="Shreyu"/>
+        </object>
         <div class="media-body">
             <h6 class="pro-user-name mt-0 mb-0">{{Cookie::get('first_name')}} {{Cookie::get('last_name')}}</h6>
             <span class="pro-user-desc">@if ( \Cookie::get('user_role') == "store_admin")
@@ -44,7 +49,7 @@
                     <i data-feather="log-out" class="icon-dual icon-xs mr-2"></i>
                     <span>Logout</span>
                 </a>
-                 
+
             </div>
         </div>
     </div>
