@@ -4,6 +4,7 @@
 {{-- add in the basic styling : check the contents of these stylesheets later --}}
 @section("custom_css")
   <link rel="stylesheet" href="{{asset('backend/assets/css/singleCustomer.css')}}">
+  <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
 @stop
 
 
@@ -61,7 +62,7 @@
                 
                 <div class="card">
                     <div class="card-body">
-                        <form class="form-horizontal" role="form" method="post" action="{{ route('customer.update', $response->storeId.'-'.$response->customer->_id) }}" enctype="multipart/form-data">
+                        <form id="submitForm" class="form-horizontal" role="form" method="post" action="{{ route('customer.update', $response->storeId.'-'.$response->customer->_id) }}" enctype="multipart/form-data">
                           @csrf
                           @method('PUT')
                           <div class="form-group">
@@ -81,7 +82,8 @@
                             <div class="form-group">
                                 <label class="col-lg-3 control-label">Tel:</label>
                                 <div class="col-lg-8">
-                                  <input class="form-control" type="phone" id="phone" value="{{old('phone_number', $response->phone_number)}}" name='phone_number' maxlength="16" pattern=".{8,15}" title="Phone number must be between 8 to 15 characters" required>
+                                  <input class="form-control" type="tel" id="phone" value="{{old('phone_number', $response->customer->phone_number)}}" name='' pattern=".{6,16}" title="Phone number must be between 6 to 16 characters" required>
+                                  <input type="hidden" name="phone_number" id="phone_number" class="form-control">
                                 </div>
                               </div>
                             </div>
@@ -172,9 +174,9 @@
 @endsection
 
 @section("javascript")
-   <script src="/backend/assets/build/js/intlTelInput.js"></script>
+  <script src="/backend/assets/build/js/intlTelInput.js"></script>
    <script>
-   var input = document.querySelector("#phone");
+    var input = document.querySelector("#phone");
    window.intlTelInput(input, {
        // any initialisation options go here
    });
@@ -184,24 +186,29 @@
 
    var input = document.querySelector("#phone");
     var test = window.intlTelInput(input, {
-        separateDialCode: true,
         // any initialisation options go here
     });
 
     $("#phone").keyup(() => {
-        if ($("#phone").val().charAt(0) == 0) {
-            $("#phone").val($("#phone").val().substring(1));
-        }
+      if ($("#phone").val().charAt(0) == 0) {
+        $("#phone").val($("#phone").val().substring(1));
+      }
     });
 
     $("#submitForm").submit((e) => {
-        e.preventDefault();
-        const dialCode = test.getSelectedCountryData().dialCode;
-        if ($("#phone").val().charAt(0) == 0) {
-            $("#phone").val($("#phone").val().substring(1));
-        }
+      e.preventDefault();
+      const dialCode = test.getSelectedCountryData().dialCode;
+      if ($("#phone").val().charAt(0) == 0) {
+        $("#phone").val($("#phone").val().substring(1));
+      }
+      
+      if ( dialCode != undefined ) {
         $("#phone_number").val(dialCode + $("#phone").val());
         $("#submitForm").off('submit').submit();
+      } else {
+        $("#phone_number").val($("#phone").val());
+        $("#submitForm").off('submit').submit();
+      }        
     });
    </script>
 @stop
