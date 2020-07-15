@@ -20,7 +20,7 @@
                 <a href="{{ route('assistants.index') }}" class="btn btn-primary float-right">
                     Go Back
                 </a>
-                <a href="{{-- {{ route('assistants.edit', $response->_id) }} --}}" class="mr-3 btn btn-success float-right" >
+                <a href="{{route('assistants.edit', $assistant->_id) }}" class="mr-3 btn btn-success float-right" >
                     Edit Assistant
                 </a>
             </div>
@@ -34,13 +34,10 @@
                  <div class="card">
                      <div class="card-body text-center text-muted">
                          <img src="../../backend/assets/images/users/avatar-7.jpg" alt="Customer 1" class="img-fluid rounded-circle">
-                         <h4>John Doe</h4>
-                         <h5 class="cust-email">Manager</h5>
+                         <h4>{{$assistant->name}}</h4>
+                         <h5 class="cust-email">Assistant</h5>
                      </div>
-                    <div class="address">
-                        <h5>Store Name</h5>
-                        <p class="customer-address">Shoprite, Mile 1, Lagos, Nigeria</p>
-                    </div>
+
                  </div>
              </div>
              {{--end of person profile--}}
@@ -80,15 +77,13 @@
                                         <li class="customer-field">Email</li>
                                         <li class="customer-field">Tel</li>
                                         <li class="customer-field">Status</li>
-                                        <li class="customer-field">Assistant Level</li>
                                     </ul>
                                 </div>
                                 <div class="col-lg-8 col-md-6">
                                     <ul class="customer-info">
-                                        <li class="pt-3">xylzz@hng.com</li>
-                                        <li class="pt-3">+234 90 7038 393</li>
+                                        <li class="pt-3">{{$assistant->email}}</li>
+                                        <li class="pt-3">{{$assistant->phone_number}}</li>
                                         <li class="pt-3"><span class="badge badge-success">Active</span></li>
-                                        <li class="pt-3">Manager</li>
                                     </ul>
                                 </div>
                             </div>

@@ -119,7 +119,7 @@
                                         <tbody>
                                         @foreach ($assistants as $assistant)
                                             <tr>
-                                                <td>{{$assistant->name }}<br> <span>{{$assistant->_id}}</span>
+                                                <td>{{$assistant->name }}
 
                                                     @if ($assistant->user_role == "store_admin")
                                                     @endif
