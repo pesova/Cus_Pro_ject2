@@ -4,8 +4,14 @@
         <img src="/backend/assets/images/users/avatar-7.jpg" class="avatar-sm rounded-circle mr-2" alt="Shreyu"/>
         <img src="/backend/assets/images/users/avatar-7.jpg" class="avatar-xs rounded-circle mr-2" alt="Shreyu"/>
         <div class="media-body">
-            <h6 class="pro-user-name mt-0 mb-0">Nik Patel</h6>
-            <span class="pro-user-desc">Administrator</span>
+            <h6 class="pro-user-name mt-0 mb-0">{{Cookie::get('first_name')}} {{Cookie::get('last_name')}}</h6>
+            <span class="pro-user-desc">@if ( \Cookie::get('user_role') == "store_admin")
+                    STORE ADMIN
+                    @elseif ( \Cookie::get('user_role') == "super_admin")
+                    SUPER ADMIN
+                    @elseif ( \Cookie::get('user_role') == "store_assistant")
+                    STORE ASSISTANT
+            @endif</span>
         </div>
         <div class="dropdown align-self-center profile-dropdown-menu">
             <a class="dropdown-toggle mr-0" data-toggle="dropdown" href="#" role="button" aria-haspopup="false"

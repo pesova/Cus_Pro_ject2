@@ -1,4 +1,3 @@
-
 @extends('layout.base')
 
 @section("custom_css")
@@ -8,8 +7,8 @@
     <link href="/backend/assets/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
     <link href="/backend/assets/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
     <link href="/backend/assets/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-    <link href="/backend/assets/css/select.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-@stop
+    <link href="/backend/assets/css/select.bootstrap4.min.css" rel="stylesheet" type="text/css" /> 
+    @stop
 
 @section('content')
     <div class="container">
@@ -98,11 +97,7 @@
 
 
 @section("javascript")
-    <script src="/backend/assets/js/vendor.min.js"></script>
-    <script type="text/javascript">
-        < script src = "http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js" >
-
-    </script>
+    
     <!-- datatable js -->
     <script src="/backend/assets/libs/datatables/jquery.dataTables.min.js"></script>
     <script src="/backend/assets/libs/datatables/dataTables.bootstrap4.min.js"></script>
@@ -121,6 +116,5 @@
     <!-- Datatables init -->
     <script src="/backend/assets/js/pages/datatables.init.js"></script>
 
-    <!-- App js -->
-    <script src="/backend/assets/js/app.min.js"></script>
+    
 @stop
