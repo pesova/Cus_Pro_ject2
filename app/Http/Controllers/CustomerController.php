@@ -324,8 +324,6 @@ class CustomerController extends Controller
                 ],
             ];
 
-            // return dd($payload['form_params']);z
-
             $response = $client->request("PUT", $url, $payload);
 
             $data = json_decode($response->getBody());
