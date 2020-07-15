@@ -23,12 +23,12 @@ class SettingsController extends Controller
 
         // Setting header
         $user_details = [];
-        Cookie::get('user_id') !== null ?  $user_details['id'] = Cookie::get('user_id') : "Not set";
-        Cookie::get('email') !== null ?  $user_details['email'] = Cookie::get('email') : "Not set";
-        Cookie::get('first_name') !== null ?  $user_details['first_name'] = Cookie::get('first_name') : "Not set";
-        Cookie::get('last_name') !== null ?  $user_details['last_name'] = Cookie::get('last_name') : "Not set";
-        Cookie::get('phone_number') !== null ?  $user_details['phone_number'] = Cookie::get('phone_number') : "Not set";
-        Cookie::get('is_active') !== null ?  $user_details['is_active'] = Cookie::get('is_active') : "Not set";
+        Cookie::get('user_id') !== null ?  $user_details['id'] = Cookie::get('user_id') : "";
+        Cookie::get('email') !== null ?  $user_details['email'] = Cookie::get('email') : "";
+        Cookie::get('first_name') !== null ?  $user_details['first_name'] = Cookie::get('first_name') : "";
+        Cookie::get('last_name') !== null ?  $user_details['last_name'] = Cookie::get('last_name') : "";
+        Cookie::get('phone_number') !== null ?  $user_details['phone_number'] = Cookie::get('phone_number') : "";
+        Cookie::get('is_active') !== null ?  $user_details['is_active'] = Cookie::get('is_active') : "";
         return view('backend.settings.settings')->with("user_details", $user_details);
         // Setting User_id
         $this->user_id = Cookie::get('user_id');
