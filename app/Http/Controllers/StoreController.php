@@ -274,7 +274,12 @@ class StoreController extends Controller
             $client = new Client();
 
 
-            
+            $request->validate([
+                'store_name' => 'required|min:2|max:25',
+                'shop_address' =>  'required|min:5|max:100',
+                'tagline' =>  'required|min:4|max:50',
+                'phone_number' =>   'required|digits_between:6,16',
+            ]);
 
             $payload = [
                 'headers' => ['x-access-token' => Cookie::get('api_token')],
