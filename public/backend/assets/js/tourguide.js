@@ -16,7 +16,7 @@ const tour = new Shepherd.Tour({
         });
 
         tour.addStep('example-step2', {
-            text: 'This is a side navigation, duh!',
+            text: 'First thing you do is create a store',
             attachTo: '.second right',
             buttons: [
                 {
