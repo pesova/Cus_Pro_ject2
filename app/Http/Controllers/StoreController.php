@@ -179,16 +179,16 @@ class StoreController extends Controller
             $transaction_statusCode = $transaction_response->getStatusCode();
             $body = $response->getBody();
             $transactions_body = $transaction_response->getBody();
-            return $transactions_body;
-            $num_store_transactions = count(json_decode($transactions_body)->data->transactions);
+           
+            $store_transactions = json_decode($transactions_body)->data->transactions;
             $StoreData = json_decode($body)->data->store;
             $StoreData = [
             'storeData'=> $StoreData, 
-            "transactions" =>$num_store_transactions
+            "transactions" =>$store_transactions
             ];
             
             if ($statusCode == 200  && $transaction_statusCode == 200) {
-                // return print_r($StoreData);
+                
                 return view('backend.stores.show')->with('response', $StoreData);
             }
         } catch (RequestException $e) {
@@ -213,7 +213,6 @@ class StoreController extends Controller
 
         } catch (\Exception $e) {
             //log error;
-            return $e;
             Log::error('Catch error: StoreController - ' . $e->getMessage());
             return view('errors.500');
 

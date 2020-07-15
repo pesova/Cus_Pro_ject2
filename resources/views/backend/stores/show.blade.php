@@ -85,7 +85,7 @@
 
                                             <tr>
                                                 <th scope="row">Total Number of Transactions</th>
-                                                <td>{{$transactions}}</td>
+                                                <td>{{count($transactions)}}</td>
                                             </tr>
 
                                         </tbody>
