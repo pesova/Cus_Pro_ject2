@@ -135,10 +135,10 @@
                                             <td scope="row">{{$i + 1}}</td>
                                             <td><img src="/backend/assets/images/users/avatar-5.jpg"
                                                     class="avatar-sm rounded-circle" alt="Shreyu" /></td>
-                                            <td>{{isset($response[$i]->name) ? ucfirst($response[$i]->name) : 'Not available'}}<br>
+                                            <td>{{ ucfirst($response[$i]->name) }}<br>
                                                 <span class="badge badge-danger">Has Credit</span>
                                             </td>
-                                            <td>{{isset($response[$i]->phone_number) ? $response[$i]->phone_number : 'Not available'}}<br>
+                                            <td>{{ $response[$i]->phone_number }}<br>
                                             </td>
                                             <td>
                                                 <span> &#8358; 1 500</span> <br>
@@ -469,9 +469,9 @@
                                         @for ($i = 0; $i < count($response); $i++)
                                             <tr>
                                                 <td>{{$i + 1}}</td>
-                                                <td>{{isset($response[$i]->name) ? ucfirst($response[$i]->name) : 'Not available'}}</td>
-                                                <td>{{isset($response[$i]->phone_number) ? $response[$i]->phone_number : 'Not available'}}</td>
-                                                <td>{{isset($response[$i]->store_name) ? $response[$i]->store_name : 'Not available'}}</td>
+                                                <td>{{ ucfirst($response[$i]->name) }}</td>
+                                                <td>{{ $response[$i]->phone_number }}</td>
+                                                <td>{{ $response[$i]->store_name }}</td>
                                                 {{-- <td>
                                                     <span> &#8358; 1 500</span> <br>
                                                     <span class="badge badge-primary">You Paid: 1000</span>
