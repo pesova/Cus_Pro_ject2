@@ -23,7 +23,7 @@ class StoreController extends Controller
     {
         // API updated
         $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store';
-
+        
         try {
 
             $client = new Client;
@@ -38,10 +38,10 @@ class StoreController extends Controller
                 // return $Stores->data->stores;
                 return view('backend.stores.index')->with('response', $Stores->data->stores);
             }
-            else if($statusCode->getStatusCode() == 401){
+            else if($statusCode == 401){
                return redirect()->route('logout');
            }
-           else if($statusCode->getStatusCode() == 500){
+           else if($statusCode == 500){
             return view('errors.500');
            }
 
@@ -120,7 +120,7 @@ class StoreController extends Controller
 
                     return $this->index();
                 }
-                else if($statusCode->getStatusCode() == 401){
+                else if($statusCode == 401){
                     $request->session()->flash('alert-class', 'alert-danger');
                     Session::flash('message', "Your Session Has Expired, Please Login Again");
                    return redirect()->route('store.index');
@@ -156,13 +156,13 @@ class StoreController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         // return view('backend.stores.index');
 
         // API updated
         $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store/' . $id;
-
+        $transactions_url =env('API_URL', 'https://dev.api.customerpay.me') . '/transaction/store/' . $id;
         try {
             $client = new Client;
             $payload = [
@@ -174,11 +174,20 @@ class StoreController extends Controller
                 ]
             ];
             $response = $client->request("GET", $url, $payload);
+            $transaction_response =  $client->request("GET", $transactions_url, $payload);
             $statusCode = $response->getStatusCode();
+            $transaction_statusCode = $transaction_response->getStatusCode();
             $body = $response->getBody();
+            $transactions_body = $transaction_response->getBody();
+            $num_store_transactions = count(json_decode($transactions_body)->data->transactions);
             $StoreData = json_decode($body)->data->store;
-            if ($statusCode == 200) {
-
+            $StoreData = [
+            'storeData'=> $StoreData, 
+            "transactions" =>$num_store_transactions
+            ];
+            
+            if ($statusCode == 200  && $transaction_statusCode == 200) {
+                // return print_r($StoreData);
                 return view('backend.stores.show')->with('response', $StoreData);
             }
         } catch (RequestException $e) {
@@ -189,7 +198,7 @@ class StoreController extends Controller
             if ($e->getResponse()->getStatusCode() >= 500) {
                 return view('errors.500');
             }
-            else if($statusCode->getStatusCode() == 401){
+            else if($statusCode == 401){
                 $request->session()->flash('alert-class', 'alert-danger');
                 Session::flash('message', "Your Session Has Expired, Please Login Again");
                return redirect()->route('store.index');
@@ -305,7 +314,7 @@ class StoreController extends Controller
                 return redirect()->route('store.index', ['response' => []]);
 
             }
-            if ($statusCode == 500) {
+            if ($status == 500) {
                 return view('errors.500');
             }
 
