@@ -597,7 +597,7 @@
                             <!-- <input type="text" class="form-control" id="inputPassword3" placeholder="Store name"
                                 name="store_name"> -->
                             <select name="store_id" class="form-control" required>
-                                @if ( isset($stores) )
+                                @if ( isset($stores) && count($stores) )
                                     <option disabled selected value="">-- Select store --</option>
                                     @foreach ($stores as $store)
                                         <option value="{{$store->_id}}">{{$store->store_name}}</option>
