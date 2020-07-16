@@ -443,7 +443,7 @@
                     <div class="row page-title">
                         <div class="col-md-12">
                             <h4 class="card-header mb-1 mt-0 float-left h5">List of Registered Customers</h4>
-                            
+
                             <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#CustomerModal">
                                 New &nbsp;<i class="fa fa-plus my-float"></i>
                             </a>
@@ -455,16 +455,16 @@
                         <div class="card-body p-1 card">
                             <div class="table-responsive table-data" style="padding: 10px">
                                 <table id="basic-datatable" class="table dt-responsive nowrap table table-striped table-bordered">
-                                    <thead> 
+                                    <thead>
                                         <tr>
                                             <th>ID</th>
                                             <th>Name</th>
                                             <th>Tel</th>
                                            {{-- <th>Amount Due</th> --}}
-                                            <th>Store Name</th> 
+                                            <th>Store Name</th>
                                             <th>Actions</th>
                                         </tr>
-                
+
                                     <tbody>
                                         @for ($i = 0; $i < count($response); $i++)
                                             <tr>
@@ -527,7 +527,7 @@
                     <!-- end card -->
                     </div>
                 </div>
-            
+
         </div>
     </div>
 
@@ -719,4 +719,45 @@
         $("#submitForm").off('submit').submit();
     });
 </script>
+{{-- @if (\Illuminate\Support\Facades\Cookie::get('is_first_time_user') == true) --}}
+<script>
+    var customer_intro_shown = localStorage.getItem('customer_intro_shown');
+
+    if (!customer_intro_shown) {
+
+        const tour = new Shepherd.Tour({
+            defaults: {
+                classes: "shepherd-theme-arrows"
+            }
+        });
+
+        tour.addStep("step", {
+            text: "This is Customer Page",
+            buttons: [
+                {
+                    text: "Next",
+                    action: tour.next
+                }
+            ]
+        });
+
+        // tour.addStep("step2", {
+        //     text: "First thing you do is create a store",
+        //     attachTo: { element: ".second", on: "right" },
+        //     buttons: [
+        //         {
+        //             text: "Next",
+        //             action: tour.next
+        //         }
+        //     ],
+        //     beforeShowPromise: function() {
+        //         document.body.className += ' sidebar-enable';
+        //         document.getElementById('sidebar-menu').style.height = 'auto';
+        //     },
+        // });
+        tour.start();
+        localStorage.setItem('customer_intro_shown', 1);
+    }
+</script>
+{{-- @else --}}
 @stop

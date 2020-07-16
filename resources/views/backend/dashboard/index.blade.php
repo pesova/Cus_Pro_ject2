@@ -49,7 +49,7 @@
                         <div class="media p-3">
                             <div class="media-body">
                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Customers</span>
-                                <h2 class="mb-0 my-customers"> 
+                                <h2 class="mb-0 my-customers">
                                     {{-- @if ($response != null)
                                         {{ count($response[1]->data) }}
                                     @else
@@ -68,7 +68,7 @@
                         <div class="media p-3">
                             <div class="media-body">
                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Stores</span>
-                                <h2 class="mb-0 my-stores"> 
+                                <h2 class="mb-0 my-stores">
                                     {{-- @if ($response != null)
                                         {{ count($response[3]->data->stores) }}
                                     @else
@@ -87,7 +87,7 @@
                         <div class="media p-3">
                             <div class="media-body">
                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Assistants</span>
-                                <h2 class="mb-0 my-assistants"> 
+                                <h2 class="mb-0 my-assistants">
                                     {{-- @if ($response != null)
                                         {{ count($response[4]->data->assistants) }}
                                     @else
@@ -140,7 +140,7 @@
                                 </thead>
 
                                 <tbody class="my-transactions">
-                                  
+
                                 </tbody>
                             </table>
                         </div>
@@ -211,52 +211,94 @@
 @endsection
 
 @section("javascript")
-{{-- <script src="/backend/assets/js/pages/dashboard.js"></script> --}}
+    {{-- <script src="/backend/assets/js/pages/dashboard.js"></script> --}}
 
-<script>
-  document.addEventListener('DOMContentLoaded', getDashboard);
+    <script>
+        document.addEventListener('DOMContentLoaded', getDashboard);
 
-  async function getDashboard() {
+        async function getDashboard() {
 
-    let apiToken = "{{\Illuminate\Support\Facades\Cookie::get('api_token')}}";
+            let apiToken = "{{\Illuminate\Support\Facades\Cookie::get('api_token')}}";
 
-    const res = await fetch(`https://dev.api.customerpay.me/dashboard?token=${apiToken}`);
-    const dash = await res.json();
+            const res = await fetch(`https://dev.api.customerpay.me/dashboard?token=${apiToken}`);
+            const dash = await res.json();
 
-    let myCustomers = document.querySelector('.my-customers');
-    let myStores = document.querySelector('.my-stores');
-    let myAssistants = document.querySelector('.my-assistants');
-    let myDebtors = document.querySelector('.my-debtors');
-    let myTransactions = document.querySelector('.my-transactions')
+            let myCustomers = document.querySelector('.my-customers');
+            let myStores = document.querySelector('.my-stores');
+            let myAssistants = document.querySelector('.my-assistants');
+            let myDebtors = document.querySelector('.my-debtors');
+            let myTransactions = document.querySelector('.my-transactions')
 
-    myCustomers.innerText = dash.data.customerCount;
-    myStores.innerText = dash.data.storeCount;
-    myAssistants.innerText = dash.data.assistantCount;
+            myCustomers.innerText = dash.data.customerCount;
+            myStores.innerText = dash.data.storeCount;
+            myAssistants.innerText = dash.data.assistantCount;
 
-    if (dash.data.transactions.length == 0) {
-      document.querySelector('.table-responsive').innerHTML =
-      `
-        <div style="display:flex; justify-content:center; border-top: 1px solid #eee; padding-top: 25px">
-          <h5 style="text-align:center; margin-top: 5px">Opps, no transactions yet</h5>
-        </div>
-      ` 
-    } else {
-      dash.transactions.forEach(item => {
-        myTransactions.innerHTML += 
-        `
-          <tr>
-            <td>Input</td>
-            <td>Input</td>
-            <td>Input</td>
-            <td>
-                <a href=""><span class="badge badge-soft-warning py-1">View</span></a>
-            </td>
-          </tr>
-        `
-      });
-    }
-    console.log(dash)
-  };
-</script>
+            if (dash.data.transactions.length == 0) {
+            document.querySelector('.table-responsive').innerHTML =
+            `
+                <div style="display:flex; justify-content:center; border-top: 1px solid #eee; padding-top: 25px">
+                <h5 style="text-align:center; margin-top: 5px">Opps, no transactions yet</h5>
+                </div>
+            `
+            } else {
+            dash.transactions.forEach(item => {
+                myTransactions.innerHTML +=
+                `
+                <tr>
+                    <td>Input</td>
+                    <td>Input</td>
+                    <td>Input</td>
+                    <td>
+                        <a href=""><span class="badge badge-soft-warning py-1">View</span></a>
+                    </td>
+                </tr>
+                `
+            });
+            }
+            console.log(dash)
+        };
+    </script>
+
+    {{-- @if (\Illuminate\Support\Facades\Cookie::get('is_first_time_user') == true) --}}
+        <script>
+            var dashboard_intro_shown = localStorage.getItem('dashboard_intro_shown');
+
+            if (!dashboard_intro_shown) {
+
+                const tour = new Shepherd.Tour({
+                    defaults: {
+                        classes: "shepherd-theme-arrows"
+                    }
+                });
+
+                tour.addStep("step", {
+                    text: "Welcome to mycustomer web app.",
+                    buttons: [
+                        {
+                            text: "Next",
+                            action: tour.next
+                        }
+                    ]
+                });
+
+                tour.addStep("step2", {
+                    text: "First thing you do is create a store",
+                    attachTo: { element: ".second", on: "right" },
+                    buttons: [
+                        {
+                            text: "Next",
+                            action: tour.next
+                        }
+                    ],
+                    beforeShowPromise: function() {
+                        document.body.className += ' sidebar-enable';
+                        document.getElementById('sidebar-menu').style.height = 'auto';
+                    },
+                });
+                tour.start();
+                localStorage.setItem('dashboard_intro_shown', 1);
+            }
+        </script>
+    {{-- @else --}}
 
 @stop
