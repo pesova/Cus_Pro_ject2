@@ -56,6 +56,8 @@
                                           <div class="form-group col-md-6">
                                             <label for="inputPhoneNumber">Phone Number*</label>
                                             <input type="tel" name="phone_number" id="phone" value="{{ old('phone_number') }}" class="form-control" placeholder="+2348127737643" required minlength="6" maxlength="16">
+                                            <input type="hidden" name="phone_number" id="phone_number" class="form-control">
+                                            <small id="helpPhone" class="form-text text-muted">Enter your number without the starting 0, eg 813012345</small>
                                           </div>
                                         <div class="form-group col-md-6" >
                                             <label for="inputEmailAddress"> Email Address (Optional)</label>
@@ -89,5 +91,17 @@
    window.intlTelInput(input, {
        // any initialisation options go here
    });
+
+   // phone number format
+
+   $("#submitForm").submit((e) => {
+        e.preventDefault();
+        const dialCode = test.getSelectedCountryData().dialCode;
+        if ($("#phone").val().charAt(0) == 0) {
+            $("#phone").val($("#phone").val().substring(1));
+        }
+        $("#phone_number").val(dialCode + $("#phone").val());
+        $("#submitForm").off('submit').submit();
+    });
    </script>
 @stop
