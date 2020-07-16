@@ -101,7 +101,7 @@ class RegisterController extends Controller
                         Cookie::queue('is_active', $data->is_active);
                         Cookie::queue('phone_number', $data->phone_number);
                         Cookie::queue('user_id', $res->data->user->_id);
-                        Cookie::queue('expires', strtotime('+ 1 day'));
+                        Cookie::queue('expires', strtotime('+ 1 hour'));
                         Cookie::queue('is_first_time_user', true);
 
                         return redirect()->route('activate.index');
@@ -131,10 +131,12 @@ class RegisterController extends Controller
 
             // get response
             if ($e->hasResponse()) {
-                if ($e->getResponse()->getStatusCode() > 400) {
+                if ($e->getResponse()->getStatusCode() >= 400) {
                     $response = json_decode($e->getResponse()->getBody());
                     $request->session()->flash('alert-class', 'alert-danger');
-                    if (is_string($response->error->description)) {
+                    if (is_string($response->error->description) && $response->error->description === 'phone_number Invalid value') {
+                        $request->session()->flash('message', 'The phone number is invalid or already in use');
+                    } elseif (is_string($response->error->description)) {
                         $request->session()->flash('message', $response->error->description);
                     } else {
                         $request->session()->flash('message', "Phone number already in use, please use another phone number");
