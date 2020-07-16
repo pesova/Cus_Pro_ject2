@@ -2,8 +2,10 @@
 @section("custom_css")
 <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css"/>
 <link rel="stylesheet" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
-
-    {{-- <link rel="stylesheet" href="backend/assets/css/all_users.css"> --}}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/all.min.css">
 @stop
 @section('content')
     <div class="content">
@@ -11,12 +13,13 @@
             <div class="row page-title">
                 <div class="col-md-12">
                     <h4 class="mb-1 mt-0">Debtors</h4>
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#bs-example-modal-sm">
-                        Create a debt reminder
-                    </button>
-                    <a href="{{ route('debtor.create') }}" class="btn btn-primary float-right">
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#bs-example-modal-sm">
+                            Create a debt reminder
+                        </button>
+                    
+                    <!--<a href="{{ route('debtor.create') }}" class="btn btn-primary float-right">
                         Create New Debtors &nbsp;<i class="fa fa-plus my-float"></i>
-                    </a>
+                    </a>-->
                     <div class="modal fade" id="bs-example-modal-sm" tabindex="-1" role="dialog"
                          aria-labelledby="mySmallModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-sm">
@@ -29,13 +32,30 @@
                                 </div>
                                 <div class="modal-body">
                                     <form>
-                                        <div class="form-group">
+                                        {{-- <div class="form-group">
                                             <input type="text" class="form-control" id="exampleInput1"
                                                    aria-describedby="transactionid" placeholder="Transaction ID">
+                                        </div> --}}
+                                        <div class="form-group">
+                                            {{-- <div class='input-group date' id='datetimepicker1'>
+                                            <input type='text' class="form-control" />
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                            </div> --}}
+                                            <div class="datepicker date input-group">
+                                                {{-- <label for="reservationDate">Date</label> --}}
+                                                <input type="text" placeholder="Choose a date" class="form-control" id="reservationDate" name="date" autocomplete="off">
+                                                <div class="input-group-append"><span class="input-group-text px-4"><i class="fa fa-calendar"></i></span></div>
+                                            </div>
                                         </div>
                                         <div class="form-group">
-                                                    <textarea class="form-control"
-                                                              id="exampleInput2" placeholder="Message"></textarea>
+                                                    {{-- <textarea class="form-control"
+                                                              id="exampleInput2" placeholder="Message"></textarea> --}}
+                                            <label>Time</label>
+                                            <div class="input-group time" id="timepicker">
+                                                <input class="form-control" id="timepicker" placeholder="HH:MM AM/PM" name="time"/><span class="input-group-append input-group-addon"><span class="input-group-text"><i class="fa fa-clock"></i></span></span>
+                                            </div>
                                         </div>
 
                                         <button type="submit" class="btn btn-primary btn-block">Create Reminder</button>
@@ -44,7 +64,35 @@
                             </div><!-- /.modal-content -->
                         </div><!-- /.modal-dialog -->
                     </div><!-- /.modal -->
+
+
+                    <div class="modal fade" id="bs-example-modal-sm2" tabindex="-1" role="dialog"
+                    aria-labelledby="mySmallModalLabel2" aria-hidden="true">
+                    <div class="modal-dialog modal-sm2">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="mySmallModalLabel">Update Debtor Status</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="form-group">
+                                        <select name="" id="exampleInput1" class="form-control">
+                                            <option value="Unpaid">Unpaid</option>
+                                            <option value="Paid">Paid</option>
+                                        </select>
+                                        
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-block">Save Changes</button>
+                                </form>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
                 </div>
+            </div>
             </div>
 
             {{-- <div class="row">
@@ -102,7 +150,7 @@
 
                             </div>
 
-                        </div> 
+                        </div> <!-- end card body-->
                     </div>
                 </div>
             </div> --}}
@@ -120,7 +168,39 @@
                     </ul>
                 </div>
             @endif
+            
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="sub-header">
+                                Find debtors by store name
+                            </p>
+                            <div class="container-fluid">
+                                <div class="form-group col-lg-4 mt-4">
+                                    <label class="form-control-label">Store Name</label>
+                                    <div class="input-group input-group-merge">
+                                        <div class="input-group-prepend">
 
+                                        </div>
+                                        <select name="store_name" class="form-control">
+                                            <option value="" selected disabled>None selected</option>
+                                            @isset($response)
+                                            @foreach ($response as $index => $store )
+                                                <option value="{{ $store->store_name }}">{{ $store->store_name }}</option>
+                                            @endforeach
+                                            @endisset
+                                        </select>
+                                        <button type="button" class="btn btn-primary">Search</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!-- end card body-->
+                    </div> <!-- end card -->
+                </div><!-- end col-->
+            </div>
+            
+            <!-- For store admin -->
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -169,6 +249,9 @@
                                                 <div class="dropdown-menu dropdown-menu-right">
                                                     <a class="dropdown-item" href="{{ route('debtor.show',[$debtor->debt_obj->_id]) }}">View</a>
                                                     <a class="dropdown-item" href="{{ route('debtor.edit',[$debtor->debt_obj->_id]) }}">Edit</a>
+                                                    <a class="dropdown-item" href="{{ route('debtor.edit',[$debtor->debt_obj->_id]) }}" data-toggle="modal" data-target="#bs-example-modal-sm2">
+                                                        Update Status
+                                                    </a>
                                                     <form action="{{ route('debtor.destroy',[$debtor->debt_obj->_id]) }}" method="post">
                                                         <input type="hidden" name="store_name" value="{{ $debtor->store_name }}">
                                                         <input type="hidden" name="customer_phone_number" value=" {{ $debtor->debt_obj->customer_phone_number }}">
@@ -192,6 +275,84 @@
                     </div> <!-- end card -->
                 </div><!-- end col-->
             </div>
+            <!-- End of store Admin -->
+
+            <!-- For store Assistant -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            {{-- <h4 class="header-title mt-0 mb-1">Basic Data Table</h4> --}}
+                            <p class="sub-header">
+                                List of all Debtors <br>
+                            </p>
+                            <div class="table-responsive">
+                                <table class="table mb-0" id="basic-datatable">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Transaction ID</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Message</th>
+                                        <th scope="col">Publish Date</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @isset($debtors)
+                                    @foreach ($debtors as $key => $debtor)
+                                    <tr>
+                                        <th scope="row">{{ $key+1 }}</th>
+                                        <td>
+                                            <span>{{ $debtor->debt_obj->ts_ref_id }}</span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-{{ ($debtor->debt_obj->status == 'unpaid') ? 'danger' : 'success' }}">{{ $debtor->debt_obj->status }}</span>
+                                        </td>
+                                        <td>
+                                            {{ $debtor->debt_obj->message }}
+                                        </td>
+                                        <td>
+                                            {{ date_format(new DateTime($debtor->debt_obj->expected_pay_date  ),'Y-m-d') }}
+                                        </td>
+
+                                        <td>
+                                            <div class="btn-group mt-2 mr-1">
+                                                <button type="button" class="btn btn-info dropdown-toggle"
+                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                    Actions<i class="icon"><span data-feather="chevron-down"></span></i>
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a class="dropdown-item" href="{{ route('debtor.show',[$debtor->debt_obj->_id]) }}">View</a>
+                                                    <a class="dropdown-item" href="{{ route('debtor.edit',[$debtor->debt_obj->_id]) }}">Edit</a>
+                                                    <a class="dropdown-item" href="{{ route('debtor.edit',[$debtor->debt_obj->_id]) }}" data-toggle="modal" data-target="#bs-example-modal-sm2">
+                                                        Update Status
+                                                    </a>
+                                                    <form action="{{ route('debtor.destroy',[$debtor->debt_obj->_id]) }}" method="post">
+                                                        <input type="hidden" name="store_name" value="{{ $debtor->store_name }}">
+                                                        <input type="hidden" name="customer_phone_number" value=" {{ $debtor->debt_obj->customer_phone_number }}">
+                                                        <input class="dropdown-item" type="submit" value="Delete" />
+                                                        @method('delete')
+                                                        @csrf
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                    @endisset
+                                    </tbody>
+                                </table>
+                            </div>
+                            @isset($debtors)
+                        {{ $debtors->links() }}
+                    @endisset
+                        </div> <!-- end card body-->
+                    </div> <!-- end card -->
+                </div><!-- end col-->
+            </div>
+            <!-- End of store Assistant -->
 
         </div>
     </div>
@@ -214,5 +375,22 @@
             paging: false
         } );
         } );
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/eonasdan-bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript">
+        $('.datepicker').datepicker({
+            clearBtn: true,
+            format: "dd/mm/yyyy"
+        });
+        $("#timepicker").datetimepicker({
+            format: "LT",
+            icons: {
+            up: "fa fa-chevron-up",
+            down: "fa fa-chevron-down"
+            }
+        });
     </script>
 @stop

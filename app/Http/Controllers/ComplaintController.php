@@ -66,6 +66,7 @@ class ComplaintController extends Controller
     {
         //dd($request->all());
         $request->validate([
+            'subject' => 'required',
             'message' => 'required|max:300'
         ]);
 
@@ -83,6 +84,7 @@ class ComplaintController extends Controller
                 ],
                 "form_params" => [
                     "message" => $request->input('message'),
+                    "subject" => $request->input('subject'),
                     "name" => $firstname." ".$lastname,
                     "email" => $email
                 ]

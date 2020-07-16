@@ -48,6 +48,8 @@
                             <ul class="nav flex-column nav-tabs user-tabs">
                                 <li class="nav-item"><a class="nav-link active" href="#user-details" data-toggle="tab">Details</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#user-profile" data-toggle="tab">Profile</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{route('change_password')}}">Change Password</a></li>
+                                {{-- <li class="nav-item"><a class="nav-link" href="{{route('change_profile_picture')}}">Change Profile Picture</a></li> --}}
                             </ul>
                         </div>
                     </div>
@@ -170,28 +172,28 @@
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <label>First Name</label>
-                                                            <input class="form-control" type="text" name="first_name" value="{{ isset($user_details['first_name']) ? $user_details['first_name'] : "Not Set" }}">
+                                                            <input class="form-control" type="text" name="first_name" value="{{ isset($user_details['first_name']) ? $user_details['first_name'] : "" }}">
                                                         </div>
                                                     </div>
                                                     <div class="clearfix"></div><br>
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <label>Last Name</label>
-                                                            <input class="form-control" type="text" name="last_name" value="{{ isset($user_details['last_name']) ? $user_details['last_name'] : "Not Set" }}">
+                                                            <input class="form-control" type="text" name="last_name" value="{{ isset($user_details['last_name']) ? $user_details['last_name'] : "" }}">
                                                         </div>
                                                     </div>
                                                     <div class="clearfix"></div><br>
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <label>Email</label>
-                                                            <input class="form-control" type="text" name="email" value="{{ isset($user_details['email']) ? $user_details['email'] : "Not set" }}">
+                                                            <input class="form-control" type="text" name="email" value="{{ isset($user_details['email']) ? $user_details['email'] : "" }}">
                                                         </div>
                                                     </div>
                                                     <div class="clearfix"></div><br>
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <label>Phone Number</label>
-                                                            <input class="form-control" type="text" name="phone_number" value="{{ isset($user_details['phone_number']) ? $user_details['phone_number'] : "not set" }}">
+                                                            <input class="form-control" type="text" name="phone_number" value="{{ isset($user_details['phone_number']) ? $user_details['phone_number'] : "" }}" readonly>
                                                         </div>
                                                     </div>
                                                     <div class="clearfix"></div><br>
@@ -216,7 +218,7 @@
                                         </form>
                                     </div>
                                 </div>
-                           
+
                                 {{-- <div class="tab-pane" id="assistant">
                                     <div class="tile user-settings">
                                         <h4 class="line-head">Staff Assistant</h4>
