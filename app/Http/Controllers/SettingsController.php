@@ -133,4 +133,9 @@ class SettingsController extends Controller
     {
         return view('backend.change_password.index');
     }
+    
+    public function change_profile_picture()
+    {
+        return view('backend.change_profile_picture.index');
+    }
 }
