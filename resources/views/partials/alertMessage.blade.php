@@ -10,3 +10,9 @@
     </ul>
 </div>
 @endif
+
+<script>
+    setTimeout(() => {
+      document.querySelector('.alert').style.display = 'none'
+    }, 3000);
+</script>
