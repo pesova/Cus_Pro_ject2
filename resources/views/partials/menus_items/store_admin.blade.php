@@ -15,7 +15,7 @@
 <li>
     <a href="{{ route('store.index') }}">
         <i class="uil uil-shop"></i>
-        <span class = third>Stores</span>
+        <span class = "third">Stores</span>
     </a>
 </li>
 
@@ -29,14 +29,14 @@
 <li>
     <a href="{{ route('debtor.index') }}">
         <i data-feather="bell"></i>
-        <span class = sixth> Debtors </span>
+        <span class = "sixth"> Debtors </span>
     </a>
 </li>
 
 <li>
     <a href="{{ route('assistants.index') }}">
         <i data-feather="users"></i>
-        <span class = seventh> Assistants </span>
+        <span class = "seventh"> Assistants </span>
     </a>
 </li>
 
