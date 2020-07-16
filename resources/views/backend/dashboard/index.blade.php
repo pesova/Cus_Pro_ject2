@@ -284,7 +284,7 @@
                 });
 
                 tour.addStep("step2", {
-                    text: "First thing you do is create a store",
+                    text: "First thing you do is update your profile here",
                     attachTo: { element: ".second", on: "right" },
                     buttons: [
                         {
@@ -292,11 +292,59 @@
                             action: tour.next
                         }
                     ],
+
                     beforeShowPromise: function() {
                         document.body.className += ' sidebar-enable';
                         document.getElementById('sidebar-menu').style.height = 'auto';
                     },
                 });
+                  tour.addStep("step3", {
+                    text: "Then create a store here",
+                    attachTo: { element: ".third", on: "right" },
+                    buttons: [
+                        {
+                            text: "Next",
+                            action: tour.next
+                        }
+                    ]});
+                   tour.addStep("step4", {
+                    text: "Then create your customer here",
+                    attachTo: { element: ".fourth", on: "right" },
+                    buttons: [
+                        {
+                            text: "Next",
+                            action: tour.next
+                        }
+                    ]});
+                    tour.addStep("step5", {
+                    text: "Then create a transaction here",
+                    attachTo: { element: ".fifth", on: "right" },
+                    buttons: [
+                        {
+                            text: "Next",
+                            action: tour.next
+                        }
+                    ]});
+                     tour.addStep("step6", {
+                    text: "You can also create a debt reminder here",
+                    attachTo: { element: ".sixth", on: "right" },
+                    buttons: [
+                        {
+                            text: "Next",
+                            action: tour.next
+                        }
+                    ]});
+
+               tour.addStep("step7", {
+                    text: "You can add assistants to help manage your stores here",
+                    attachTo: { element: ".seventh", on: "right" },
+                    buttons: [
+                        {
+                            text: "Next",
+                            action: tour.next
+                        }
+                    ]});
+               
                 tour.start();
                 localStorage.setItem('dashboard_intro_shown', 1);
             }
@@ -585,7 +633,7 @@
     </script>
 
     {{-- @if (\Illuminate\Support\Facades\Cookie::get('is_first_time_user') == true) --}}
-        <script>
+     <!--    <script>
             var dashboard_intro_shown = localStorage.getItem('dashboard_intro_shown');
 
             if (!dashboard_intro_shown) {
@@ -623,7 +671,7 @@
                 tour.start();
                 localStorage.setItem('dashboard_intro_shown', 1);
             }
-        </script>
+        </script> -->
     {{-- @else --}}
 
 @stop
