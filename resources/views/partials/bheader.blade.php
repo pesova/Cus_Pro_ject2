@@ -31,7 +31,7 @@
             <li>
                 <div class="media user-profile mt-2 mb-2">
                     <object
-                            data="{{Cookie::get('image')? Cookie::get('image'):'/backend/assets/images/users/default.png'}}"
+                            data="{{Cookie::get('image')? Cookie::get('image'):'/backend/assets/images/users/avatar-1.jpg'}}"
                             type="image/jpg"
                             class="avatar-sm rounded-circle mr-2"
                           >
