@@ -46,7 +46,26 @@ class AssistantController extends Controller
             if ($statusCode == 200) {
                 $assistants = json_decode($user_response->getBody());
                 $assistants = $assistants->data->assistants;
-                return view('backend.assistant.index')->withAssistants($assistants);
+
+                // get all stores
+                $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store';
+                $client = new Client();
+                $user_response = $client->request('GET', $url, $headers);
+                //dd(json_decode($user_response->getBody()));
+
+                $statusCode = $user_response->getStatusCode();
+
+
+                if ($statusCode == 200) {
+                    $stores = json_decode($user_response->getBody());
+                    // dd($stores);
+                    $stores = $stores->data->stores;
+                    return view('backend.assistant.index')->withAssistants($assistants)->withStores($stores);
+                }
+
+                if ($statusCode == 500) {
+                    return view('errors.500');
+                }
             }
 
             if ($statusCode == 500) {
@@ -64,12 +83,6 @@ class AssistantController extends Controller
             if ($e->getCode() == 401) {
                 return redirect()->route('logout')->withErrors("Please Login Again");
             }
-            // dd($e);
-            /*$statusCode = $e->getResponse()->getStatusCode();
-            $data = json_decode($e->getResponse()->getBody()->getContents());
-            if ($statusCode == 401) { //401 is error code for invalid token
-                return redirect()->route('logout');
-            }*/
 
             return view('errors.500');
         }
@@ -118,7 +131,6 @@ class AssistantController extends Controller
 
             return view('errors.500');
         }
-        return view('backend.assistant.create');
     }
 
     /**
@@ -181,11 +193,14 @@ class AssistantController extends Controller
             $statusCode = $response->getStatusCode();
 
             if ($statusCode == 500) {
+                $request->session()->flash('alert-class', 'alert-danger');
+                Session::flash('message', "An Error occured please try again later");
                 Log::error((string)$response->getBody());
-                return view('errors.500');
+                return back();
             }
 
             $data = json_decode($response->getBody());
+            $request->session()->flash('alert-class', 'alert-danger');
             Session::flash('message', $data->message);
             return redirect()->route('assistants.create');
             //return back();
@@ -222,12 +237,47 @@ class AssistantController extends Controller
             $client = new Client();
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
             $response = $client->request("GET", $url, $headers);
-            $data = json_decode($response->getBody());
-            // dd($data);
+
+            // First get the assistant details
 
             if ($response->getStatusCode() == 200) {
-                // dd( $data->data->store_assistant);
-                return view('backend.assistant.show')->with('assistant', $data->data->store_assistant);
+                $assistant = json_decode($response->getBody());
+                $assistant = $assistant->data->store_assistant;
+
+                // Then get the store details
+
+                $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store/' . $assistant->store_id;
+                $client = new Client();
+                $response = $client->request("GET", $url, $headers);
+
+                if ($response->getStatusCode() == 200) {
+                    $store = json_decode($response->getBody());
+                    $store = $store->data->store;
+
+                    // Finally get the transactions
+                    $url = env('API_URL', 'https://dev.api.customerpay.me') . '/transaction/store/' . $assistant->store_id;
+                    $client = new Client();
+                    $response = $client->request("GET", $url, $headers);
+
+                    if ($response->getStatusCode() == 200) {
+                        $transactions = json_decode($response->getBody());
+                        $transactions = $transactions->data->transactions;
+
+                        // get recent 10 transactions
+                        if (count($transactions) > 10) {
+                            $transactions = array_slice($transactions, 9);
+                        }
+
+                        return view('backend.assistant.show')->with('assistant', $assistant)->withStore($store)->withTransactions($transactions);
+
+                    } else {
+                        return back()->withErrors("An Error Occured. Please try again later");
+                    }
+
+
+                } else {
+                    return back()->withErrors("An Error Occured. Please try again later");
+                }
 
             } else {
                 return back()->withErrors("An Error Occured. Please try again later");
@@ -235,7 +285,6 @@ class AssistantController extends Controller
 
 
         } catch (\Exception $e) {
-            //dd($e);
             // dd($e->getCode());
             if ($e->getCode() == 401) {
                 return redirect()->route('logout')->withErrors("Please Login Again");
@@ -313,6 +362,7 @@ class AssistantController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $url = env('API_URL', 'https://dev.api.customerpay.me') . '/assistant/update/' . $id;
 // dd($request->all());
         $request->validate([
@@ -342,10 +392,14 @@ class AssistantController extends Controller
 
             if ($status == 200 || $status == 201) {
                 $body = $response->getBody()->getContents();
-                $res = json_encode($body);
-                return redirect()->route('assistants.index')->with('success', "Update Successful");
+                // $res = json_encode($body);
+                $request->session()->flash('alert-class', 'alert-success');
+                Session::flash('message', "Update Successful");
+                return redirect()->route('assistants.index');
             } else {
-                return back()->with('error', "Update Failed");
+                $request->session()->flash('alert-class', 'alert-danger');
+                Session::flash('message', "Update Failed");
+                return back();
             }
 
         } catch (\Exception $e) {
