@@ -55,7 +55,7 @@
                                         <div class="form-row">
                                           <div class="form-group col-md-6">
                                             <label for="inputPhoneNumber">Phone Number*</label>
-                                            <input type="tel" name="" id="phone" value="{{ old('phone_number') }}" class="form-control" placeholder="+2348127737643" required minlength="6" maxlength="16">
+                                            <input type="tel" name="" id="phone" value="{{ old('phone_number') }}" class="form-control" placeholder="8127737643" required minlength="6" maxlength="16">
                                             <input type="hidden" name="phone_number" id="phone_number" class="form-control">
                                             <small id="helpPhone" class="form-text text-muted">Enter your number without the starting 0, eg 813012345</small>
                                           </div>
