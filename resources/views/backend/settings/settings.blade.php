@@ -48,6 +48,8 @@
                             <ul class="nav flex-column nav-tabs user-tabs">
                                 <li class="nav-item"><a class="nav-link active" href="#user-details" data-toggle="tab">Details</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#user-profile" data-toggle="tab">Profile</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{route('change_password')}}">Change Password</a></li>
+                                {{-- <li class="nav-item"><a class="nav-link" href="{{route('change_profile_picture')}}">Change Profile Picture</a></li> --}}
                             </ul>
                         </div>
                     </div>

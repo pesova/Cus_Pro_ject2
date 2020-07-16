@@ -89,7 +89,7 @@ class LoginController extends Controller
                     Cookie::queue('is_active', $data->is_active);
                     Cookie::queue('phone_number', $data->phone_number);
                     Cookie::queue('user_id', $response->data->user->_id);
-                    Cookie::queue('image', $response->data->user->image);
+                    // Cookie::queue('image', $response->data->user->image);
                     Cookie::queue('expires', strtotime('+ 1 day'));
                     Cookie::queue('is_first_time_user', true);
 
@@ -118,7 +118,7 @@ class LoginController extends Controller
             Log::error('Catch error: LoginController - ' . $e->getMessage());
 
             if ($e->hasResponse()) {
-                if ($e->getResponse()->getStatusCode() > 400) {
+                if ($e->getResponse()->getStatusCode() >= 400) {
                     // get response to catch 4xx errors
                     $response = json_decode($e->getResponse()->getBody());
                     $request->session()->flash('alert-class', 'alert-danger');
