@@ -2,8 +2,10 @@
 @section("custom_css")
 <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css"/>
 <link rel="stylesheet" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
-
-    {{-- <link rel="stylesheet" href="backend/assets/css/all_users.css"> --}}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/all.min.css">
 @stop
 @section('content')
     <div class="content">
@@ -11,9 +13,10 @@
             <div class="row page-title">
                 <div class="col-md-12">
                     <h4 class="mb-1 mt-0">Debtors</h4>
-                    <button class="btn btn-primary float-right" data-toggle="modal" data-target="#bs-example-modal-sm">
-                        Create a debt reminder
-                    </button>
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#bs-example-modal-sm">
+                            Create a debt reminder
+                        </button>
+                    
                     <!--<a href="{{ route('debtor.create') }}" class="btn btn-primary float-right">
                         Create New Debtors &nbsp;<i class="fa fa-plus my-float"></i>
                     </a>-->
@@ -29,13 +32,30 @@
                                 </div>
                                 <div class="modal-body">
                                     <form>
-                                        <div class="form-group">
+                                        {{-- <div class="form-group">
                                             <input type="text" class="form-control" id="exampleInput1"
                                                    aria-describedby="transactionid" placeholder="Transaction ID">
+                                        </div> --}}
+                                        <div class="form-group">
+                                            {{-- <div class='input-group date' id='datetimepicker1'>
+                                            <input type='text' class="form-control" />
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                            </div> --}}
+                                            <div class="datepicker date input-group">
+                                                {{-- <label for="reservationDate">Date</label> --}}
+                                                <input type="text" placeholder="Choose a date" class="form-control" id="reservationDate" name="date" autocomplete="off">
+                                                <div class="input-group-append"><span class="input-group-text px-4"><i class="fa fa-calendar"></i></span></div>
+                                            </div>
                                         </div>
                                         <div class="form-group">
-                                                    <textarea class="form-control"
-                                                              id="exampleInput2" placeholder="Message"></textarea>
+                                                    {{-- <textarea class="form-control"
+                                                              id="exampleInput2" placeholder="Message"></textarea> --}}
+                                            <label>Time</label>
+                                            <div class="input-group time" id="timepicker">
+                                                <input class="form-control" id="timepicker" placeholder="HH:MM AM/PM" name="time"/><span class="input-group-append input-group-addon"><span class="input-group-text"><i class="fa fa-clock"></i></span></span>
+                                            </div>
                                         </div>
 
                                         <button type="submit" class="btn btn-primary btn-block">Create Reminder</button>
@@ -130,7 +150,7 @@
 
                             </div>
 
-                        </div> 
+                        </div> <!-- end card body-->
                     </div>
                 </div>
             </div> --}}
@@ -355,5 +375,22 @@
             paging: false
         } );
         } );
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/eonasdan-bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript">
+        $('.datepicker').datepicker({
+            clearBtn: true,
+            format: "dd/mm/yyyy"
+        });
+        $("#timepicker").datetimepicker({
+            format: "LT",
+            icons: {
+            up: "fa fa-chevron-up",
+            down: "fa fa-chevron-down"
+            }
+        });
     </script>
 @stop
