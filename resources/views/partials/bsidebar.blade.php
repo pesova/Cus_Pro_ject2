@@ -27,12 +27,14 @@
                     {{-- super admin protected routes here --}}
                     {{-- @include('partials.menus_items.store_assistant') --}}
                 {{-- @endif --}}
-                <li>
+
+                {{-- @wealth removed changed password from here, its now inside settings page --}}
+                {{-- <li>
                 <a href="{{ route('change_password') }}">
                      <i class="uil  uil-cog"></i>
                         <span> Change Password </span>
                  </a>
-                </li>
+                </li> --}}
 
             </ul>
         </div>

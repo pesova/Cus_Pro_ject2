@@ -98,6 +98,8 @@ Route::prefix('/admin')->group(function () {
 
         Route::get('/change_password', 'SettingsController@change_password')->name('change_password');
 
+        Route::get('/change_profile_picture', 'SettingsController@change_profile_picture')->name('change_profile_picture');
+
         // transaction crud
         Route::resource('transaction', 'TransactionController');
 
