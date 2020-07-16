@@ -46,9 +46,8 @@
                                             <thead>
                                                 <tr>
                                                     <th>S/N</th>
-                                                    <th style="min-width: 90px;">Name</th>
-                                                    <th>Email</th>
-                                                    <th style="min-height: 7000;">Message</th>
+                                                    <th style="max-width: 120px;">Complaint ID</th>
+                                                    <th>Subject</th>
                                                     <th>Status</th>
                                                     <th style="min-width: 90px;">Date</th>
                                                     @if ( \Cookie::get('user_role') == "super_admin")
@@ -60,10 +59,8 @@
                                                 @foreach($responses->data->complaints as $index => $response)
                                                     <tr>
                                                         <td>{{ $index + 1 }}</td>
-                                                        <td><a href="{{ route('complaint.show', $response->_id) }}">{{ $response->name}}</td>
-                                                        <td>{{ $response->email}}</td>
-                                                        <td>{{ $response->message}}
-                                                        </td>
+                                                        <td><a href="{{ route('complaint.show', $response->_id) }}">{{ $response->_id}}</td>
+                                                        <td>{{ $response->subject}}</td>
                                                         <td>{{ $response->status}}</td>
                                                         <td>{{ \Carbon\Carbon::parse($response->date)->diffForHumans() }}</td>
                                                         @if ( \Cookie::get('user_role') == "super_admin")
