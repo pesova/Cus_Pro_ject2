@@ -3,6 +3,8 @@
 <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
 <link rel="stylesheet" href="{{ asset('/backend/assets/css/store_list.css') }}">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+<!-- <link rel="stylesheet" href -->
 @stop
 
 @section('content')
@@ -30,31 +32,30 @@
 
                                 <div class="form-group col-lg-4 mt-4">
                                     <div class="row">
-                                        <label class="form-control-label">Transaction Reference Id</label>
+                                        <label class="form-control-label">Store</label>
                                         <div class="input-group input-group-merge">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">
-                                                    <i class="icon-dual" data-feather="lock"></i>
-                                                </span>
-                                            </div>
-                                            <input type="text" class="form-control" id="">
+                                            <select class="form-control" name="store_customer">
+                                                <option value="" selected disabled>None selected</option>
+                                                    @isset($stores)
+                                                    @foreach ($stores as $store)
+                                                    <option value="{{ $store->_id }}">{{ $store->store_name }}</option>
+                                                    @endforeach
+                                                    @endisset
+                                                </select>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="form-group col-lg-4 mt-4">
-                                    <label class="form-control-label">Customer Reference</label>
+                                <div class="form-group col-lg-4 mt-4 d-none">
+                                    <label class="form-control-label">Customer</label>
                                     <div class="input-group input-group-merge">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="icon-dual" data-feather="lock"></i>
-                                            </span>
-                                        </div>
-                                        <input type="text" class="form-control" id="Cus">
+                                       <select class="form-control" name="customer">
+                                            <option>--Select Transaction--</option>
+                                        </select>
                                     </div>
                                 </div>
 
-                                <div class="form-group col-lg-4 mt-4">
+                                <div class="form-group col-lg-4 mt-4 d-none">
                                     <label class="form-control-label">Transaction Type</label>
                                     <div class="input-group input-group-merge">
                                         <div class="input-group-prepend">
@@ -70,7 +71,7 @@
                                     </div>
                                 </div>
 
-                                <button type="button" class="btn btn-primary">Search</button>
+                               
                             </div>
 
                         </div>
@@ -78,60 +79,29 @@
                 </div> <!-- end card -->
             </div><!-- end col-->
         </div>
+        <div class="card">
         <div class="card-header">
             <div class="h5">All Transactions</div>
         </div>
 
-        <div class="card-body p-1 card">
+        <div class="card-body">
             <div class="table-responsive table-data">
-                <table id="basic-datatable" class="table dt-responsive nowrap">
-                    <thead>
-                        <tr>
-                            <th>Ref Id</th>
-                            <th>Ref Transaction Type</th>
-                            <th>Customer Ref Code</th>
-                            <th>Total Amount</th>
-                            <th> Actions</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        @isset($response)
-                        {{-- {{dd($details)}} --}}
-                        @foreach ($response->data->transactions as $transactions)
-                        {{-- {{dd($transactions)}} --}}
-                        <tr>
-                            @foreach($transactions->transactions as $index => $transaction)
-                            <td>{{ $index + 1 }}</td>
-                            <td>{{$transaction->type }}</td>
-                            <td>{{$transaction->customer_ref_id }}</td>
-                            <td>{{$transaction->total_amount}}</td>
-                            <td>
-                                <div class="btn-group mt-2 mr-1">
-                                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                        Actions<i class="icon"><span data-feather="chevron-down"></span></i>
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item"
-                                            href="{{ route('transaction.show', $transaction->_id) }}">View
-                                            Transaction</a>
-                                        <a class="dropdown-item"
-                                            href="{{ route('transaction.edit', $transaction->_id) }}">Edit
-                                            Transaction</a>
-                                        <a class="dropdown-item"
-                                            href="{{ route('transaction.destroy', $transaction->_id) }}">Delete
-                                            Transaction</a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforeach
-                        @endforeach
-                        @endisset
-                    </tbody>
-                </table>
+            <table id="example1" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Ref Id</th>
+                        <th>Ref Transaction Type</th>
+                        <th>Customer Ref Code</th>
+                        <th>Total Amount</th>
+                        <th> Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+             </table>
+               
             </div>
+        </div>
         </div>
     </div>
 </div>
@@ -277,7 +247,16 @@
 @endsection
 
 @section("javascript")
+
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
 <script src="/backend/assets/build/js/intlTelInput.js"></script>
+<script> 
+$(document).ready(function() {
+    $('#example1').DataTable();
+} );
+</script>
+
 <script>
     jQuery(function ($) {
         var input = document.querySelector("#phone");
@@ -298,6 +277,7 @@
                         'x-access-token': token
                     },
                     success: function (data) {
+                       // console.log(data);
                         var new_data = data.data.store.customers;
                         var i;
                         for (i = 0; i < 1; i++) {
@@ -316,4 +296,86 @@
     });
 
 </script>
+<script>
+    jQuery(function ($) {
+        var input = document.querySelector("#phone");
+        window.intlTelInput(input, {
+            // any initialisation options go here
+        });
+
+        var token = "{{Cookie::get('api_token')}}"
+        $('select[name="store_customer"]').on('change', function () {
+            //console.log(('select[name="store_customer"]').val())
+            var storeID = $(this).val();
+            if (storeID) {
+                jQuery.ajax({
+                    url: "https://dev.api.customerpay.me/transaction/store/" + encodeURI(storeID),
+                    type: "GET",
+                    dataType: "json",
+                    contentType: 'json',
+                    headers: {
+                        'x-access-token': token
+                    },
+                    success: function (data1) {
+                        
+                                var nid = 0;
+                                var result;
+                                jQuery.each(data1.data, function(key, item){
+                                    for( nid = 0; nid < item.length; nid++){
+                                        var show_url ="{{ route('transaction.show', 'item[nid]._id')}}";
+                                        var edit_url = "{{ route('transaction.edit', 'item[nid]._id')}}"
+                                        var delete_url = "{{ route('transaction.destroy', 'item[nid]._id')}}"
+                                    //console.log(item[nid]);
+                                     result = result +
+                        
+                        '<tr>' +
+                            '<td>' + item[nid]._id + '</td>' +
+                            '<td>' + item[nid].type + '</td>' +
+                            '<td>' + item[nid].customer_ref_id + '</td>' +
+                            '<td>' + item[nid].total_amount + '</td>' +
+                            '<td>' + '<div class="btn-group mt-2 mr-1">' + '<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Actions<i class="icon"><span data-feather="chevron-down"></span></i> </button>'+'<div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="'+ show_url +'">View Transaction</a> <a class="dropdown-item" href="'+ edit_url + '">Edit Transaction</a> <a class="dropdown-item" href=" ' + delete_url + '">Delete Transaction</a> </div></td>' + 
+
+                            
+                        '</tr>';
+                        
+                                    }
+                                    // console.log(result);
+                        $(".table tbody").html(result);
+                                })
+                    }
+                        
+                        
+
+                  
+                });
+            } else {
+                $('#example tr').empty();
+            }
+        });
+    });
+
+</script>
+
 @stop
+<!-- <div class="btn-group mt-2 mr-1">
+    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        Actions<i class="icon"><span data-feather="chevron-down"></span></i>
+    </button>
+
+
+    <div class="dropdown-menu dropdown-menu-right">
+        <a class="dropdown-item"
+            href="">View
+            Transaction</a>
+        <a class="dropdown-item"
+            href="">Edit
+            Transaction</a>
+        <a class="dropdown-item"
+            href="">Delete
+            Transaction</a>
+</div> -->
+
+
+
+<!-- <a class="dropdown-item" href="">Edit Transaction</a> <a class="dropdown-item" href="">Delete Transaction</a> -->

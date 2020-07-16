@@ -18,7 +18,7 @@
                                     <div class="media p-3">
                                         <i data-feather="grid" class="align-self-center icon-dual icon-sm mr-4"></i>
                                         <div class="media-body">
-                                            <h5 class="mt-0 mb-0">{{$response->_id}}</h5>
+                                            <h5 class="mt-0 mb-0"></h5>
                                             <span class="text-muted font-size-13">Ref Id.</span>
                                         </div>
                                     </div>
@@ -28,7 +28,7 @@
                                     <div class="media p-3">
                                         <i data-feather="check-square" class="align-self-center icon-dual icon-sm mr-4"></i>
                                         <div class="media-body">
-                                               <h4 class="mt-0 mb-0">{{$response->type}}</h4>
+                                               <h4 class="mt-0 mb-0"></h4>
                                             <span class="text-muted">Ref Transaction Type</span>
                                         </div>
                                     </div>
@@ -38,7 +38,7 @@
                                     <div class="media p-3">
                                         <i data-feather="users" class="align-self-center icon-dual icon-sm mr-4"></i>
                                         <div class="media-body">
-                                            <h4 class="mt-0 mb-0">{{$response->customer_ref_id}}</h4>
+                                            <h4 class="mt-0 mb-0"></h4>
                                             <span class="text-muted">Customer Ref. Code</span>
                                         </div>
                                     </div>
@@ -66,15 +66,15 @@
                         <h6 class="mt-0 header-title">Description</h6>
 
                         <div class="text-muted mt-3">
-                            <p>{{$response->description}}</p>
+                            <p></p>
 
                             <h6 class="mt-0 header-title">Financial Details</h6>
 
 
                             <ul class="pl-4 mb-4">
-                            <li>Amount : {{$response->amount}}</li>
-                                <li>Interest : {{$response->interest}}</li>
-                                <li>Total Amount : {{$response->total_amount}}</li>
+                            <li>Amount : </li>
+                                <li>Interest : </li>
+                                <li>Total Amount : </li>
                             </ul>
 
 
@@ -102,7 +102,7 @@
                                 <div class="col-lg-3 col-md-6">
                                     <div class="mt-4">
                                         <p class="mb-2"><i class="uil-dollar-alt text-danger"></i> Total Amount</p>
-                                        <h5 class="font-size-16">{{$response->total_amount}}</h5>
+                                        <h5 class="font-size-16"></h5>
                                     </div>
                                 </div>
 
@@ -116,11 +116,11 @@
                             <div>
                                
                             </div>
-                            <a href="javascript:void(0)" onclick="$(this).parent().find('form').submit()" class="float-right btn btn-danger mt-2"><i class="fas fa-trash-alt mr-2"></i>Delete transaction</a>
+                            {{-- <a href="javascript:void(0)" onclick="$(this).parent().find('form').submit()" class="float-right btn btn-danger mt-2"><i class="fas fa-trash-alt mr-2"></i>Delete transaction</a>
                             <form action="{{ route('transaction.destroy', $response->_id) }}" method="POST" id="form">
                                 @method('DELETE')
                                 @csrf                                                
-                            </form>
+                            </form> --}}
                             {{-- <div class="assign team mt-4">
                                 <h6 class="font-weight-bold">Assign To</h6>
                                 <a href="javascript: void(0);">
