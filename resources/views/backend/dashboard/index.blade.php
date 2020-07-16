@@ -353,7 +353,7 @@
                         <div class="media p-3">
                             <div class="media-body">
                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Store Admin</span>
-                                <h2 class="mb-0 my-debtors">
+                                <h2 class="mb-0 store-admins">
                                     @if ($response != null)
                                         {{ $response[0]->data->storeAdminCount }}
                                     @else
@@ -410,7 +410,7 @@
                         <div class="media p-3">
                             <div class="media-body">
                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Customers</span>
-                                <h2 class="mb-0 my-debtors">
+                                <h2 class="mb-0 my-customers">
                                     @if ($response != null)
                                         {{ $response[0]->data->customerCount }}
                                     @else
@@ -429,7 +429,7 @@
                         <div class="media p-3">
                             <div class="media-body">
                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Users</span>
-                                <h2 class="mb-0 my-debtors">
+                                <h2 class="mb-0 my-users">
                                     @if ($response != null)
                                         {{ $response[0]->data->usersCount }}
                                     @else
@@ -543,20 +543,22 @@
 
             let apiToken = "{{\Illuminate\Support\Facades\Cookie::get('api_token')}}";
 
-            const res = await fetch(`https://dev.api.customerpay.me/dashboard?token=${apiToken}`);
+            const res = await fetch(`https://dev.api.customerpay.me/dashboard/all?token=${apiToken}`);
             const dash = await res.json();
 
-            let myCustomers = document.querySelector('.my-customers');
+            let storeAdmin = document.querySelector('.store-admins');
             let myStores = document.querySelector('.my-stores');
             let myAssistants = document.querySelector('.my-assistants');
-            let myDebtors = document.querySelector('.my-debtors');
-            let myTransactions = document.querySelector('.my-transactions')
+            let myUsers = document.querySelector('.my-users');
+            let myCustomers = document.querySelector('.my-customers');
 
-            myCustomers.innerText = dash.data.customerCount;
+            storeAdmin.innerText = dash.data.storeAdminCount;
             myStores.innerText = dash.data.storeCount;
-            myAssistants.innerText = dash.data.assistantCount;
+            myAssistants.innerText = dash.data.assistantsCount;
+            myUsers.innerText = dash.data.usersCount;
+            myCustomers.innerText = dash.data.customerCount;
 
-            if (dash.data.transactions.length == 0) {
+            if (true) {
             document.querySelector('.table-responsive').innerHTML =
             `
                 <div style="display:flex; justify-content:center; border-top: 1px solid #eee; padding-top: 25px">
