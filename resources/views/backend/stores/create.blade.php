@@ -64,7 +64,7 @@
                                         </div>
                                         <div class="form-group">
                                           <label for="inputAddress">Address*</label>
-                                          <input type="text" name="shop_address" class="form-control" value="{{ old('store_address') }}"  required minlength="5" maxlength="50">
+                                          <input type="text" name="shop_address" class="form-control" value="{{ old('shop_address') }}"  required minlength="5" maxlength="50">
                                         </div>
                                         <button type="submit" class="btn btn-success text-white" data-toggle="modal" data-target="#exampleModal">
                                            Create Store
