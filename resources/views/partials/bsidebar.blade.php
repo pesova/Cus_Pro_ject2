@@ -2,7 +2,7 @@
 <div class="left-side-menu">
     <div class="media user-profile mt-2 mb-2">
     <object
-                data="{{Cookie::get('image')}}"
+                data="{{Cookie::get('image')? Cookie::get('image'):'/backend/assets/images/users/default.png'}}"
                 type="image/jpg"
                 class="avatar-sm rounded-circle mr-2"
               >
