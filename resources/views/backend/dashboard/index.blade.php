@@ -546,17 +546,17 @@
             const res = await fetch(`https://dev.api.customerpay.me/dashboard/all?token=${apiToken}`);
             const dash = await res.json();
 
-            let storeAdmin = document.querySelector('.store-admins');
-            let myStores = document.querySelector('.my-stores');
-            let myAssistants = document.querySelector('.my-assistants');
-            let myUsers = document.querySelector('.my-users');
-            let myCustomers = document.querySelector('.my-customers');
+            // let storeAdmin = document.querySelector('.store-admins');
+            // let myStores = document.querySelector('.my-stores');
+            // let myAssistants = document.querySelector('.my-assistants');
+            // let myUsers = document.querySelector('.my-users');
+            // let myCustomers = document.querySelector('.my-customers');
 
-            storeAdmin.innerText = dash.data.storeAdminCount;
-            myStores.innerText = dash.data.storeCount;
-            myAssistants.innerText = dash.data.assistantsCount;
-            myUsers.innerText = dash.data.usersCount;
-            myCustomers.innerText = dash.data.customerCount;
+            // storeAdmin.innerText = dash.data.storeAdminCount;
+            // myStores.innerText = dash.data.storeCount;
+            // myAssistants.innerText = dash.data.assistantsCount;
+            // myUsers.innerText = dash.data.usersCount;
+            // myCustomers.innerText = dash.data.customerCount;
 
             if (true) {
             document.querySelector('.table-responsive').innerHTML =
