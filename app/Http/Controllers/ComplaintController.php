@@ -246,7 +246,7 @@ class ComplaintController extends Controller
 
                 $body = $req->getBody()->getContents();
                 $response = json_decode($body);
-                return redirect()->route('complaint.index');
+                return redirect()->route('complaint.index')->with('success', 'Complaint Status Changed');
             }
             if ($statusCode == 500) {
 

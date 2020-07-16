@@ -30,7 +30,17 @@
                                         <div class="media p-3">
                                             <i data-feather="check-square" class="align-self-center icon-dual icon-sm mr-4"></i>
                                             <div class="media-body">
-                                                <h6 class="mt-0 mb-0">{{ $response->data->complaint->status }}</h6>
+                                                <h6 class="mt-0 mb-0">
+                                                    @if ( $response->data->complaint->status == 'New' )
+                                                      <div class="badge badge-pill badge-secondary">New</div>  
+                                                    @elseif ( $response->data->complaint->status == 'Pending' )
+                                                      <div class="badge badge-pill badge-primary">Pending</div> 
+                                                    @elseif ( $response->data->complaint->status == 'Resolved' )
+                                                    <div class="badge badge-pill badge-success">Resolved</div> 
+                                                    @elseif ( $response->data->complaint->status == 'Closed' )
+                                                    <div class="badge badge-pill badge-dark">Closed</div> 
+                                                    @endif
+                                                </h6>
                                                 <span class="text-muted">Status</span>
                                             </div>
                                         </div>
@@ -104,14 +114,12 @@
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right">
                                                 <!-- item-->
-                                                <a href="javascript:void(0);" class="dropdown-item"><i
-                                                        class="uil uil-refresh mr-2"></i>Refresh</a>
-                                                <!-- item-->
-                                                <a href="javascript:void(0);" class="dropdown-item"><i
-                                                        class="uil uil-user-plus mr-2"></i>Add Member</a>
+                                                <a href="{{ route('complaint.edit', $response->data->complaint->_id) }}" class="dropdown-item"><i
+                                                        class="uil uil-refresh mr-2"></i>Update Status</a>
+                                                
                                                 <div class="dropdown-divider"></div>
                                                 <!-- item-->
-                                                <a href="javascript:void(0);" class="dropdown-item text-danger"><i
+                                                <a href="{{ route('complaint.index') }}" class="dropdown-item text-danger"><i
                                                         class="uil uil-exit mr-2"></i>Exit</a>
                                             </div>
                                         </div>

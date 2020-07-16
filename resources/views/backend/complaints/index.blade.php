@@ -64,7 +64,17 @@
                                                         <td>{{ $index + 1 }}</td>
                                                         <td><a href="{{ route('complaint.show', $response->_id) }}">{{ $response->_id}}</td>
                                                         <td>{{ $response->subject}}</td>
-                                                        <td>{{ $response->status}}</td>
+                                                        <td>
+                                                        @if ( $response->status == 'New' )
+                                                      <div class="badge badge-pill badge-secondary">New</div>  
+                                                        @elseif ( $response->status == 'Pending' )
+                                                        <div class="badge badge-pill badge-primary">Pending</div> 
+                                                        @elseif ( $response->status == 'Resolved' )
+                                                        <div class="badge badge-pill badge-success">Resolved</div> 
+                                                        @elseif ( $response->status == 'Closed' )
+                                                        <div class="badge badge-pill badge-dark">Closed</div> 
+                                                        @endif
+                                                        </td>
                                                         <td>{{ \Carbon\Carbon::parse($response->date)->diffForHumans() }}</td>
                                                         @if ( \Cookie::get('user_role') == "super_admin")
                                                             <td>
@@ -86,7 +96,17 @@
                                                         <td>{{ $index + 1 }}</td>
                                                         <td><a href="{{ route('complaint.show', $response->_id) }}">{{ $response->_id}}</td>
                                                         <td>{{ $response->subject}}</td>
-                                                        <td>{{ $response->status}}</td>
+                                                        <td>
+                                                        @if ( $response->status == 'New' )
+                                                      <div class="badge badge-pill badge-secondary">New</div>  
+                                                        @elseif ( $response->status == 'Pending' )
+                                                        <div class="badge badge-pill badge-primary">Pending</div> 
+                                                        @elseif ( $response->status == 'Resolved' )
+                                                        <div class="badge badge-pill badge-success">Resolved</div> 
+                                                        @elseif ( $response->status == 'Closed' )
+                                                        <div class="badge badge-pill badge-dark">Closed</div> 
+                                                        @endif
+                                                        </td>
                                                         <td>{{ \Carbon\Carbon::parse($response->date)->diffForHumans() }}</td>
                                                         @if ( \Cookie::get('user_role') == "super_admin")
                                                             <td>
