@@ -74,17 +74,27 @@ class DebtorController extends Controller
     public function create()
     {
         $store_url = env('API_URL', 'https://dev.api.customerpay.me') . '/store';
+        $transaction_url = env('API_URL', 'https://dev.api.customerpay.me') . '/transaction';
 
         $cl = new Client;
+        $cl2 = new Client;
+
         $payloader = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
 
         $resp = $cl->request("GET", $store_url, $payloader);
+        $response = $cl2->request("GET", $transaction_url, $payloader);
+
         $statsCode = $resp->getStatusCode();
+        $statsCode2 = $response->getStatusCode();
+
         $body_response = $resp->getBody();
+        $body_response2 = $response->getBody();
+
         $Stores = json_decode($body_response);
+        $transaction = json_decode($body_response2);
 
         if($statsCode == 200) {
-            return view('backend.debtor.create')->with('response', $Stores->data->stores);
+            return view('backend.debtor.create', compact('transaction'))->with('response', $Stores->data->stores);
         }
         else if($statsCode->getStatusCode() == 500){
             return view('errors.500');
