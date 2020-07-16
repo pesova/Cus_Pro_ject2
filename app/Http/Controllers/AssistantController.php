@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Rules\DoNotPutCountryCode;
+use App\Rules\NoZero;
 use Exception;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
@@ -20,6 +22,7 @@ class AssistantController extends Controller
     {
         $this->host = env('API_URL', 'https://dev.api.customerpay.me');
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -27,45 +30,49 @@ class AssistantController extends Controller
      */
     public function index(Request $request)
     {
-        // API updated
-         $url = env('API_URL', 'https://dev.api.customerpay.me') . '/assistant';
+// TODO: Cleanup codes
 
-         try {
+        try {
+            $url = env('API_URL', 'https://dev.api.customerpay.me') . '/assistant';
+            $client = new Client();
 
-             $client = new Client;
-             $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+            $user_response = $client->request('GET', $url, $headers);
+            //dd(json_decode($user_response->getBody()));
 
-             $response = $client->request("GET", $url, $payload);
-             $statusCode = $response->getStatusCode();
-             $body = $response->getBody();
-             $Stores = json_decode($body);
+            $statusCode = $user_response->getStatusCode();
 
-             if ($statusCode == 200) {
-                 return view('backend.assistant.index')->with('response', $Stores->data->assistants);
-             }
-             else if($statusCode->getStatusCode() == 401){
-                 Session::flash('message', "You are not authorized to perform this action");
-                return redirect()->route('assistants.index');
+
+            if ($statusCode == 200) {
+                $assistants = json_decode($user_response->getBody());
+                $assistants = $assistants->data->assistants;
+                return view('backend.assistant.index')->withAssistants($assistants);
             }
 
-         } catch (RequestException $e) {
+            if ($statusCode == 500) {
+                return view('errors.500');
+            }
+        } catch (\RequestException $e) {
+            $statusCode = $e->getResponse()->getStatusCode();
+            $data = json_decode($e->getResponse()->getBody()->getContents());
+            if ($statusCode == 401) { //401 is error code for invalid token
+                return redirect()->route('logout');
+            }
 
-             Log::info('Catch error: LoginController - ' . $e->getMessage());
+            return view('errors.500');
+        } catch (\Exception $e) {
+            if ($e->getCode() == 401) {
+                return redirect()->route('logout')->withErrors("Please Login Again");
+            }
+            // dd($e);
+            /*$statusCode = $e->getResponse()->getStatusCode();
+            $data = json_decode($e->getResponse()->getBody()->getContents());
+            if ($statusCode == 401) { //401 is error code for invalid token
+                return redirect()->route('logout');
+            }*/
 
-             // check for 5xx server error
-             if ($e->getResponse()->getStatusCode() >= 500) {
-                 return view('errors.500');
-             }
-
-
-            // return redirect()->route('assistants.index', ['response' => []]);
-
-         } catch (\Exception $e) {
-
-             //log error;
-             Log::error('Catch error: StoreController - ' . $e->getMessage());
-             return view('errors.500');
-         }
+            return view('errors.500');
+        }
     }
 
     /**
@@ -75,64 +82,51 @@ class AssistantController extends Controller
      */
     public function create()
     {
-        // if($request){
-        //      $id = $request->get("assistant");
-        //     return view('backend/assistant/create')->with("assistant" , $id);
+        try {
+            $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store';
+            $client = new Client();
 
-        //     //return $request->get("assistant");
-        // }else{
-            return view('backend/assistant/create');
-        //}
+            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+            $user_response = $client->request('GET', $url, $headers);
+            //dd(json_decode($user_response->getBody()));
 
+            $statusCode = $user_response->getStatusCode();
+
+
+            if ($statusCode == 200) {
+                $stores = json_decode($user_response->getBody());
+                // dd($stores);
+                $stores = $stores->data->stores;
+                return view('backend.assistant.create')->withStores($stores);
+            }
+
+            if ($statusCode == 500) {
+                return view('errors.500');
+            }
+        } catch (\RequestException $e) {
+            $statusCode = $e->getResponse()->getStatusCode();
+            $data = json_decode($e->getResponse()->getBody()->getContents());
+            if ($statusCode == 401) { //401 is error code for invalid token
+                return redirect()->route('logout');
+            }
+
+            return view('errors.500');
+        } catch (\Exception $e) {
+            if ($e->getCode() == 401) {
+                return redirect()->route('logout')->withErrors("Please Login Again");
+            }
+
+            return view('errors.500');
+        }
+        return view('backend.assistant.create');
     }
+
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-
-    public function create_assistant(Request $request)
-    {
-        //
-        try {
-            $client = new Client;
-            $inputs = [
-                'phone_number' => $request->phone,
-                'name' => $request->name
-
-            ];
-            $payload = [
-                'headers' => [
-                    'x-access-token' => Cookie::get('api_token')
-                ],
-                'form_params' => [
-                    'phone' => $request->phone,
-                    'name' => $request->name
-                ]
-            ];
-
-            $url = $this->host.'assistant/new';
-            $response = $client->request("POST", $url, $payload);
-            $data = json_decode($response->getBody());
-
-            if ( $response->getStatusCode() == 200 ) {
-                $request->session()->flash('alert-class', 'alert-success');
-                $request->session()->flash('message', 'Assistant created successfully');
-            } else {
-                $request->session()->flash('alert-class', 'alert-danger');
-                $request->session()->flash('message', $data->message || 'An error occured');
-            }
-
-            return redirect()->route('assistants');
-        } catch ( \Exception $e ) {
-            $data = json_decode($e->getBody()->getContents());
-            $request->session()->flash('alert-class', 'alert-danger');
-            $request->session()->flash('message', $data->message);
-
-            return redirect()->route('assistants');
-        }
-    }
 
     public function store(Request $request)
     {
@@ -140,183 +134,227 @@ class AssistantController extends Controller
 
         $url = env('API_URL', 'https://dev.api.customerpay.me') . '/assistant/new';
 
-        if ($request->isMethod('post')) {
-            //return dd($request->all());
+        //return dd($request->all());
 
-            $request->validate([
-                'name' => "required|min:6",
-                'phone_number' => "required",
-                //'store_name' => "required",
-                'email' => "required|email",
-                'password' => "required"
-            ]);
+        $request->validate([
+            'name' => "required|min:3",
+            'phone_number' => ["required", new NoZero, new DoNotPutCountryCode],
+            'store_id' => "required",
+            'email' => "required|email",
+            'password' => "required"
+        ]);
 
-            try {
+        try {
 
-                $client =  new Client();
-                $payload = [
-                    'headers' => ['x-access-token' => Cookie::get('api_token')],
-                    'form_params' => [
-                        'name' => $request->input('name'),
-                        'phone_number' => $request->input('phone_number'),
-                        'email' => $request->input('email'),
-                        'password' => $request->input('password')
-                    ],
-                ];
-                //return dd($payload);
-                $response = $client->request("POST", $url, $payload);
-                $statusCode = $response->getStatusCode();
+            $client = new Client();
+            $payload = [
+                'headers' => ['x-access-token' => Cookie::get('api_token')],
+                'form_params' => [
+                    'name' => $request->input('name'),
+                    'phone_number' => $request->input('phone_number'),
+                    'email' => $request->input('email'),
+                    'password' => $request->input('password'),
+                    'store_id' => $request->input('store_id')
+                ],
+            ];
+            //return dd($payload);
+            $response = $client->request("POST", $url, $payload);
+            $statusCode = $response->getStatusCode();
 
-                //return $statusCode;
-                $body = $response->getBody();
-                $data = json_decode($body);
-                //return dd($data);
+            //return $statusCode;
+            $body = $response->getBody();
+            $data = json_decode($body);
+            //return dd($data);
 
-                if ($statusCode == 201  && $data->success) {
-                    $request->session()->flash('alert-class', 'alert-success');
-                    Session::flash('message', $data->message);
-                    return redirect()->route('assistants.index');
-                } else {
-                    $request->session()->flash('alert-class', 'alert-waring');
-                    Session::flash('message', $data->message);
-                    return redirect()->route('assistants.create');
-                }
-            } catch (ClientException $e) {
-                $response = $e->getResponse();
-                $statusCode = $response->getStatusCode();
-
-                if ($statusCode  == 500) {
-                    Log::error((string) $response->getBody());
-                    return view('errors.500');
-                }
-
-                $data = json_decode($response->getBody());
+            if ($statusCode == 201 || $statusCode == 200) {
+                $request->session()->flash('alert-class', 'alert-success');
+                Session::flash('message', $data->message);
+                return redirect()->route('assistants.index');
+            } else {
+                $request->session()->flash('alert', 'alert-waring');
                 Session::flash('message', $data->message);
                 return redirect()->route('assistants.create');
-                //return back();
-            } catch (Exception $e) {
-               // dd( $e->getMessage());
-                Log::error($e->getMessage());
+            }
+        } catch (ClientException $e) {
+            // dd($e);
+            $response = $e->getResponse();
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode == 500) {
+                Log::error((string)$response->getBody());
                 return view('errors.500');
             }
+
+            $data = json_decode($response->getBody());
+            Session::flash('message', $data->message);
+            return redirect()->route('assistants.create');
+            //return back();
+        } catch (Exception $e) {
+            //dd($e);
+            if ($e->getCode() == 401) {
+                return redirect()->route('logout')->withErrors("Please Login Again");
+            }
+
+            Session::flash('message', "An error occured. Please try again later");
+            return redirect()->route('assistants.create');
+            //return back();
         }
-        return view('backend.assistant.index');
+
         //return back();
     }
+
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
 
-    public function viewAssistant($id)
-    {
-        //
-        if ( !$id || empty($id) ) {
-            return view('errors.500');
-        }
-
-        try {
-            $url = $this->host.'assistant/'.$id;
-            $client = new Client;
-            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
-            $response = $client->request("GET", $url, $headers);
-            $data = json_decode($response->getBody());
-
-            if ( $response->getStatusCode() == 200 ) {
-                return view('backend.assistant.show')->with('response', $data->data);
-            } else {
-                return view('errors.500');
-            }
-        } catch ( \Exception $e ) {
-            return view('errors.500');
-        }
-    }
 
     public function show($id)
     {
-        return view('backend.assistant.show');
-    }
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        if ( !$id || empty($id) ) {
-            return view('errors.500');
-        }
-
+        // todo: get the user from the api and pass to the veiw
         try {
-           // $url = $this->host.'assistant/'.$id;
-           $url = env('API_URL', 'https://dev.api.customerpay.me') . '/assistant/' . $id;
-            $client = new Client;
+            // Get all stores first
+
+
+            $url = env('API_URL', 'https://dev.api.customerpay.me') . '/assistant/' . $id;
+            $client = new Client();
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
             $response = $client->request("GET", $url, $headers);
             $data = json_decode($response->getBody());
+            // dd($data);
 
-            if ( $response->getStatusCode() == 200 ) {
-                return view('backend.assistant.update')->with('response', $data->data->assistantData);
+            if ($response->getStatusCode() == 200) {
+                // dd( $data->data->store_assistant);
+                return view('backend.assistant.show')->with('assistant', $data->data->store_assistant);
 
             } else {
-                return view('errors.500');
+                return back()->withErrors("An Error Occured. Please try again later");
             }
-        } catch ( \Exception $e ) {
+
+
+        } catch (\Exception $e) {
+            //dd($e);
+            // dd($e->getCode());
+            if ($e->getCode() == 401) {
+                return redirect()->route('logout')->withErrors("Please Login Again");
+            }
             return view('errors.500');
             //return $response->getStatusCode();
         }
     }
-    
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        if (!$id || empty($id)) {
+            return view('errors.500');
+        }
+
+        try {
+            // Get all stores first
+
+            $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store';
+            $client = new Client();
+
+            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+            $user_response = $client->request('GET', $url, $headers);
+            //dd(json_decode($user_response->getBody()));
+
+            $statusCode = $user_response->getStatusCode();
+
+
+            if ($statusCode == 200) {
+                $stores = json_decode($user_response->getBody());
+                // dd($stores);
+                $stores = $stores->data->stores;
+
+                $url = env('API_URL', 'https://dev.api.customerpay.me') . '/assistant/' . $id;
+                $client = new Client();
+                $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+                $response = $client->request("GET", $url, $headers);
+                $data = json_decode($response->getBody());
+                // dd($data);
+
+                if ($response->getStatusCode() == 200) {
+                    // dd( $data->data->store_assistant);
+                    return view('backend.assistant.edit')->with('response', $data->data->store_assistant)->withStores($stores);
+
+                } else {
+                    return view('errors.500');
+                }
+            } else {
+                return back()->withErrors("An Error Occured. Please try again later");
+            }
+
+        } catch (\Exception $e) {
+            //dd($e);
+            // dd($e->getCode());
+            if ($e->getCode() == 401) {
+                return redirect()->route('logout')->withErrors("Please Login Again");
+            }
+            return view('errors.500');
+            //return $response->getStatusCode();
+        }
+    }
+
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         $url = env('API_URL', 'https://dev.api.customerpay.me') . '/assistant/update/' . $id;
+// dd($request->all());
+        $request->validate([
+            'name' => "required|min:3",
+            'phone_number' => "required",
+            'email' => "required|email",
+            'store_id' => "required"
+        ]);
 
+        try {
 
-        try{
-             $request->validate([
-                'name' => "required|min:6",
-                'phone_number' => "required",
-                'email' => "required|email",
-                'password' => "required"
-            ]);
-
-            $client = new Client;
+            $client = new Client();
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
             $data = [
                 $headers,
                 'form_params' => [
+                    'token' => Cookie::get('api_token'),
                     'name' => $request->input('name'),
                     'email' => $request->input('email'),
                     'phone_number' => $request->input('phone_number'),
-                    'password' => $request->input('password')
+                    'store_id' => $request->input('store_id')
                 ],
             ];
 
             $response = $client->request("PUT", $url, $data);
             $status = $response->getStatusCode();
 
-            if($status == 200){
+            if ($status == 200 || $status == 201) {
                 $body = $response->getBody()->getContents();
                 $res = json_encode($body);
-                return redirect()->view('backend.assistant.index')->with('message', "Update Successful");
-            }else {
-                return redirect()->view('backend.assistant.index')->with('message', "Update Failed");
+                return redirect()->route('assistants.index')->with('success', "Update Successful");
+            } else {
+                return back()->with('error', "Update Failed");
             }
 
-        } catch ( \Exception $e ) {
-           // dd($e);
+        } catch (\Exception $e) {
+
+            if ($e->getCode() == 401) {
+                return redirect()->route('logout')->withErrors("Please Login Again");
+            }
             $request->session()->flash('alert-class', 'alert-danger');
-            $request->session()->flash('message', $data->message);
+            $request->session()->flash('message', 'An Error Occured. Please Try Again Later');
 
             return redirect()->back();
         }
@@ -325,66 +363,35 @@ class AssistantController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($assistant_id)
+    public function destroy(Request $request, $assistant_id)
     {
-    //    $url = env('API_URL', 'https://dev.api.customerpay.me') . '/assistant/delete/' . $user_id;
-    //    $client = new Client();
-    //    $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
-    //    try {
-	//        $delete = $client->delete($url, $headers);
+        //update
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/assistant/delete/' . $assistant_id;
+        $client = new Client();
+        $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+        try {
 
-	//       if($delete->getStatusCode() == 200 || $delete->getStatusCode() == 201) {
-	// 	    	$request->session()->flash('alert-class', 'alert-success');
-    //             Session::flash('message', "Store assistant successfully deleted");
-    //             return $this->index();
-	//         }
-    //     	else if($delete->getStatusCode() == 401){
-	// 	    	$request->session()->flash('alert-class', 'alert-danger');
-	// 	    	Session::flash('message', "You are not authorized to perform this action, please check your details properly");
-    //             return redirect()->route('assistant.index');
-	//        }
-    //        else if($delete->getStatusCode() == 500){
-	// 	   		$request->session()->flash('alert-class', 'alert-danger');
-	// 	    	Session::flash('message', "A server error encountered, please try again later");
-    //             return redirect()->route('assistant.index');
-	//       	}
-    //    	  }
-    //    	  catch(ClientException $e) {
-	// 			$request->session()->flash('alert-class', 'alert-danger');
-	// 			Session::flash('message', "A technical error occured, we are working to fix this.");
-    //             return redirect()->route('assistant.index');
-    //    }
-
-    //update
-       $url = env('API_URL', 'https://dev.api.customerpay.me') . '/assistant/delete/' . $assistant_id;
-       $client = new Client();
-       $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
-       try {
-	       $delete = $client->delete($url, $headers);
-
-	      if($delete->getStatusCode() == 200 || $delete->getStatusCode() == 201) {
-		    	$request->session()->flash('alert-class', 'alert-success');
+            $delete = $client->delete($url, $headers);
+            if ($delete->getStatusCode() == 200 || $delete->getStatusCode() == 201) {
+                $request->session()->flash('alert-class', 'alert-success');
                 Session::flash('message', "Store assistant successfully deleted");
-                return $this->index();
-	        }
-        	else if($delete->getStatusCode() == 401){
-		    	$request->session()->flash('alert-class', 'alert-danger');
-		    	Session::flash('message', "You are not authorized to perform this action, please check your details properly");
-                return redirect()->route('assistant.index');
-	       }
-           else if($delete->getStatusCode() == 500){
-		   		$request->session()->flash('alert-class', 'alert-danger');
-		    	Session::flash('message', "A server error encountered, please try again later");
-                return redirect()->route('assistant.index');
-	      	}
-       	  }
-       	  catch(ClientException $e) {
-				$request->session()->flash('alert-class', 'alert-danger');
-				Session::flash('message', "A technical error occured, we are working to fix this.");
-                return redirect()->route('assistant.index');
-       }
+                return back();
+            } else if ($delete->getStatusCode() == 401) {
+                $request->session()->flash('alert-class', 'alert-danger');
+                Session::flash('message', "You are not authorized to perform this action, please check your details properly");
+                return redirect()->route('assistants.index');
+            } else if ($delete->getStatusCode() == 500) {
+                $request->session()->flash('alert-class', 'alert-danger');
+                Session::flash('message', "A server error encountered, please try again later");
+                return redirect()->route('assistants.index');
+            }
+        } catch (ClientException $e) {
+            $request->session()->flash('alert-class', 'alert-danger');
+            Session::flash('message', "A technical error occured, we are working to fix this.");
+            return redirect()->route('assistants.index');
+        }
     }
 }

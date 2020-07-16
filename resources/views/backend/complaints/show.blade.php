@@ -72,6 +72,10 @@
                                 <div class="text-muted mt-3">
                                     <p>{{ $response->data->complaint->email }}</p>
 
+                                    <h6 class="mt-0 header-title">Subject</h6>
+
+                                    <p>{{ $response->data->complaint->subject }}</p>
+
                                     <h6 class="mt-0 header-title">Message</h6>
 
                                     <p>{{ $response->data->complaint->message }}</p>
