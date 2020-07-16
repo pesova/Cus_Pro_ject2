@@ -339,13 +339,14 @@ class StoreController extends Controller
 
             $req = $client->request('PUT', $url, $payload);
 
-            $status = $req->getStatusCode();
+            $statusCode = $req->getStatusCode();
 
-            if ($status == 201) {
+
+            if ($statusCode == 201) {
 
                 return redirect()->route('store.index', ['response' => []]);
             }
-            if ($status == 500) {
+            if ($statusCode == 500) {
                 return view('errors.500');
             }
         } catch (\Exception $e) {
