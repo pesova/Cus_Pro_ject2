@@ -19,7 +19,8 @@ class ComplaintController extends Controller
     public function index()
     {
         $url = env('API_URL', 'https://dev.api.customerpay.me') . "/complaints";
-        $user_id = Cookie::get('user_id');
+        $url_s = env('API_URL', 'https://dev.api.customerpay.me') . "/complaints/all";
+        $user_role = Cookie::get('user_role');
 
         $client = new Client();
 
@@ -28,8 +29,12 @@ class ComplaintController extends Controller
                 'x-access-token' => Cookie::get('api_token')
             ]
         ];
-
-        $response = $client->request('GET', $url, $headers);
+        if ($user_role == 'super_admin'){
+            $response = $client->request('GET', $url_s, $headers);
+        }else{
+            $response = $client->request('GET', $url, $headers);
+        }
+        
         $statusCode = $response->getStatusCode();
 
         if ($statusCode == 200) {
