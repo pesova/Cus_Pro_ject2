@@ -18,10 +18,10 @@
                                 </div>
                                 
                                 <div class="card">
-                                    @if(Session::has('message') || $errors->any())
+                                    <div class="card-body">
+                                        @if(Session::has('message') || $errors->any())
                                         <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
                                     @endif
-                                    <div class="card-body">
                                         <form method="POST" action="{{route('debtor.store')}}" enctype="multipart/form-data">
                                             @csrf
                                             <div class="form-group">
@@ -98,7 +98,7 @@
                                                     </div>
                                                 </div>--}}
                                             </div>
-                                            <button type="submit" class="btn btn-primary float-right">Create Dept</button>
+                                            <button type="submit" class="btn btn-primary float-right">Create Debt</button>
                                         </form>
 
                                     </div> <!-- end card-body-->

@@ -28,6 +28,10 @@
                     <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
 
                 @endif
+                @if(Session::has('success'))
+                    <p class="alert {{ Session::get('alert-class', 'alert-success') }}">{{ Session::get('success') }}</p>
+
+                @endif
 
                 <div class="col-md-12">
                     <h4 class="mb-1 mt-0">Assistants</h4>
@@ -119,7 +123,7 @@
                                         <tbody>
                                         @foreach ($assistants as $assistant)
                                             <tr>
-                                                <td>{{$assistant->name }}<br> <span>{{$assistant->_id}}</span>
+                                                <td>{{$assistant->name }}
 
                                                     @if ($assistant->user_role == "store_admin")
                                                     @endif

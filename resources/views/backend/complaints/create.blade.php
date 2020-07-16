@@ -51,7 +51,7 @@
                                                         <label class="col-lg-2 col-form-label"
                                                             for="simpleinput">Subject</label>
                                                         <div class="col-lg-10">
-                                                            <input type="text" class="form-control" id="simpleinput"
+                                                            <input type="text" name="subject" class="form-control" id="simpleinput"
                                                                 placeholder="Subject">
                                                         </div>
                                                     </div>
