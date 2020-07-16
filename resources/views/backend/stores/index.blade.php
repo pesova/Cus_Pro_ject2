@@ -171,11 +171,7 @@
             <div class="col-md-12">
                 <div class="customer-heading-container">
                     <h4 class="mb-1 mt-0">All Stores</h4>
-                    <button class="add-customer-button btn btn-primary" data-toggle="modal">
-                        <a href="{{ route('store.create') }}" class="text-white">
-                            Add New <i class="fa fa-plus add-new-icon"></i>
-                        </a>
-                    </button>
+
                 </div>
             </div>
         </div>
