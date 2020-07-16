@@ -30,11 +30,22 @@
             </li>
             <li>
                 <div class="media user-profile mt-2 mb-2">
-                    <img src="/backend/assets/images/users/avatar-7.jpg" class="avatar-sm rounded-circle mr-2" alt="Shreyu"/>
-                    <img src="/backend/assets/images/users/avatar-7.jpg" class="avatar-xs rounded-circle mr-2" alt="Shreyu"/>
+                    <object
+                            data="{{Cookie::get('image')? Cookie::get('image'):'/backend/assets/images/users/default.png'}}"
+                            type="image/jpg"
+                            class="avatar-sm rounded-circle mr-2"
+                          >
+                        <img src="/backend/assets/images/users/default.png" class="avatar-sm rounded-circle mr-2" alt="Shreyu"/>
+                    </object>
                     <div class="media-body">
-                        <h6 class="pro-user-name mt-0 mb-0">Nik Patel</h6>
-                        <span class="pro-user-desc">Administrator</span>
+                        <h6 class="pro-user-name mt-0 mb-0">{{Cookie::get('first_name')}} {{Cookie::get('last_name')}}</h6>
+                        <span class="pro-user-desc">@if ( \Cookie::get('user_role') == "store_admin")
+                                STORE ADMIN
+                                @elseif ( \Cookie::get('user_role') == "super_admin")
+                                SUPER ADMIN
+                                @elseif ( \Cookie::get('user_role') == "store_assistant")
+                                STORE ASSISTANT
+                        @endif</span>
                     </div>
                     <div class="dropdown align-self-center profile-dropdown-menu">
                         <a class="dropdown-toggle mr-0" data-toggle="dropdown" href="#" role="button" aria-haspopup="false"
@@ -67,7 +78,7 @@
                                 <i data-feather="log-out" class="icon-dual icon-xs mr-2"></i>
                                 <span>Logout</span>
                             </a>
-                             
+            
                         </div>
                     </div>
                 </div>
