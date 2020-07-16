@@ -49,18 +49,10 @@
                                             <div class="col">
                                                     <div class="form-group row">
                                                         <label class="col-lg-2 col-form-label"
-                                                            for="simpleinput">Full Name</label>
+                                                            for="simpleinput">Subject</label>
                                                         <div class="col-lg-10">
-                                                            <input type="text" name="name" class="form-control" id="simpleinput"
-                                                                placeholder="Your name here .....">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group row">
-                                                        <label class="col-lg-2 col-form-label"
-                                                            for="example-email">Email</label>
-                                                        <div class="col-lg-10">
-                                                            <input type="email" id="example-email"
-                                                                class="form-control" name="email" placeholder="Email">
+                                                            <input type="text" name="subject" class="form-control" id="simpleinput"
+                                                                placeholder="Subject">
                                                         </div>
                                                     </div>
                                                     

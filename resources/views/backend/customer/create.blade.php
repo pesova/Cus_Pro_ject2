@@ -51,21 +51,21 @@
                             <div class="form-group">
                               <label class="col-lg-3 control-label">Full Name:</label>
                               <div class="col-lg-8">
-                                <input class="form-control" type="text" maxlength="30" value="{{old('name')}}" required name="name">
+                                <input class="form-control" type="text" placeholder="John Doe" maxlength="30" value="{{old('name')}}" required name="name">
                               </div>
                             </div>
 
                             <div class="form-group">
                               <label class="col-lg-3 control-label">Email:</label>
                               <div class="col-lg-8">
-                                <input class="form-control" type="text" value="{{old('email')}}" name="email" required>
+                                <input class="form-control" type="text" placeholder="example@gmail.com" value="{{old('email')}}" name="email" required>
                               </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-lg-3 control-label">Tel:</label>
                                 <div class="col-lg-8">
-                                  <input class="form-control" type="phone" value="{{old('phone_number')}}" maxlength="16" name="phone_number" required>
+                                  <input class="form-control" type="phone" id="phone" placeholder="2348127277467" value="{{old('phone_number')}}" maxlength="16" name="phone_number" required>
                                 </div>
                               </div>
                               <div class="form-group">
@@ -91,9 +91,9 @@
                             <div class="form-group">
                               <label class="col-md-3 control-label green-border-focus">House Adddress</label>
                               <div class="col-md-8">                                
-                                <textarea class="form-control " maxlength="50" rows="3">1975, Boring Lane, San
-                                    Francisco, California, United
-                                    States - 94108</textarea>
+                                <textarea class="form-control " placeholder="1975, Boring Lane, San
+                                Francisco, California, United
+                                States - 94108" maxlength="50" rows="3"></textarea>
                                 
                               </div>
                             </div>
@@ -135,3 +135,38 @@
 </div>
 
 @endsection
+
+@section("javascript")
+   <script src="/backend/assets/build/js/intlTelInput.js"></script>
+   <script>
+   var input = document.querySelector("#phone");
+   window.intlTelInput(input, {
+       // any initialisation options go here
+   });
+
+
+   //phone Number format
+
+   var input = document.querySelector("#phone");
+    var test = window.intlTelInput(input, {
+        separateDialCode: true,
+        // any initialisation options go here
+    });
+
+    $("#phone").keyup(() => {
+        if ($("#phone").val().charAt(0) == 0) {
+            $("#phone").val($("#phone").val().substring(1));
+        }
+    });
+
+    $("#submitForm").submit((e) => {
+        e.preventDefault();
+        const dialCode = test.getSelectedCountryData().dialCode;
+        if ($("#phone").val().charAt(0) == 0) {
+            $("#phone").val($("#phone").val().substring(1));
+        }
+        $("#phone_number").val(dialCode + $("#phone").val());
+        $("#submitForm").off('submit').submit();
+    });
+   </script>
+@stop

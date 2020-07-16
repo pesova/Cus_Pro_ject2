@@ -21,6 +21,24 @@ class DebtorController extends Controller
      */
     public function index(Request $request)
     {
+        //display my stores
+        $store_url = env('API_URL', 'https://dev.api.customerpay.me') . '/store';
+
+        $cl = new Client;
+        $payloader = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+
+        $resp = $cl->request("GET", $store_url, $payloader);
+        $statsCode = $resp->getStatusCode();
+        $body_response = $resp->getBody();
+        $Stores = json_decode($body_response);
+
+        if($statsCode == 200) {
+            return view('backend.debtor.index')->with('response', $Stores->data->stores);
+        }
+        else if($statsCode->getStatusCode() == 500){
+            return view('errors.500');
+        }
+
         // return view('backend.debtor.index');
         $url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt';
 

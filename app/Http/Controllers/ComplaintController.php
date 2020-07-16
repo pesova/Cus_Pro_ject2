@@ -66,9 +66,8 @@ class ComplaintController extends Controller
     {
         //dd($request->all());
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
-            'message' => 'required|max:300',
+            'subject' => 'required',
+            'message' => 'required|max:300'
         ]);
 
         $user_id = Cookie::get('user_id');
@@ -76,15 +75,18 @@ class ComplaintController extends Controller
 
         try {
             $client = new Client();
-
+            $firstname = Cookie::get('first_name');
+            $lastname = Cookie::get('last_name');
+            $email = Cookie::get('email');
             $payload = [
                 'headers' => [
                     'x-access-token' => Cookie::get('api_token')
                 ],
                 "form_params" => [
                     "message" => $request->input('message'),
-                    "name" => $request->input('name'),
-                    "email" => $request->input('email')
+                    "subject" => $request->input('subject'),
+                    "name" => $firstname." ".$lastname,
+                    "email" => $email
                 ]
             ];
 
