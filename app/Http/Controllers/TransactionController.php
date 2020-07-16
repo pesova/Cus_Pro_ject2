@@ -212,10 +212,11 @@ class TransactionController extends Controller
      */
     public function edit($id)
     {
+        // return view('backend.transaction.edit');
 
         $url = env('API_URL', 'https://dev.api.customerpay.me') . '/transaction/' . $id;
 
-        try {
+        // try {
             $client = new Client;
             $payload = [
                 'headers' => [
@@ -228,30 +229,30 @@ class TransactionController extends Controller
             $TransData = json_decode($body)->data->transaction;
             $Storename = json_decode($body)->data->storeName;
             $transaction_id = $TransData->_id;
-            $changes = [
-                'id' => $transaction_id,
-                'store_name' => $Storename
-            ];
+            // $changes = [
+            //     'id' => $transaction_id,
+            //     'store_name' => $Storename
+            // ];
             if ($statusCode == 200) {
 
-                return view('backend.transaction.edit')->with(['response' => $TransData, 'store_name' => $Storename]);
+                return view('backend.transaction.edit')->with('response', $TransData);
             }
-        } catch (RequestException $e) {
+        // } catch (RequestException $e) {
 
 
-            // check for  server error
-            if ($e->getResponse()->getStatusCode() >= 500) {
-                return view('backend.transaction.show')->with('errors.500');
-            }
-            // get response to catch 4 errors
-            $response = json_decode($e->getResponse()->getBody());
-            Session::flash('alert-class', 'alert-danger');
-            Session::flash('message', $response->message);
-            return redirect()->route('transaction.index', ['response' => []]);
-        } catch (\Exception $e) {
+        //     // check for  server error
+        //     if ($e->getResponse()->getStatusCode() >= 500) {
+        //         return view('backend.transaction.show')->with('errors.500');
+        //     }
+        //     // get response to catch 4 errors
+        //     $response = json_decode($e->getResponse()->getBody());
+        //     Session::flash('alert-class', 'alert-danger');
+        //     Session::flash('message', $response->message);
+        //     return redirect()->route('transaction.index', ['response' => []]);
+        // } catch (\Exception $e) {
 
-            return view('backend.transaction.index')->with('errors.500');
-        }
+        //     return view('backend.transaction.index')->with('errors.500');
+        // }
     }
 
     /**

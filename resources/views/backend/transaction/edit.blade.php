@@ -36,50 +36,50 @@
                      <div class="col-lg-12">
                          <div class="card">
                             <div class="card-body">
-                                    <form action="{{ route('transaction.update', $response->_id) }}" method="POST">
+                                    <form action="" method="POST">
                                       @csrf
                                       @method('PUT')
                                       <div class="form-group row mb-3">
                                         <label for="amount" class="col-3 col-form-label">Amount</label>
                                         <div class="col-9">
-                                            <input type="number" class="form-control" id="amount" name="amount" value="{{ $response->amount }}"
+                                            <input type="number" class="form-control" id="amount" name="amount" value=""
                                                 placeholder="Amount">
                                         </div>
                                     </div>
                                     <div class="form-group row mb-3">
                                         <label for="interest" class="col-3 col-form-label">Interest</label>
                                         <div class="col-9">
-                                            <input type="number" class="form-control" id="interest" name="interest" value="{{ $response->interest }}" placeholder="Interest" >
+                                            <input type="number" class="form-control" id="interest" name="interest" value="" placeholder="Interest" >
                                         </div>
                                     </div>
                                     <div class="form-group row mb-3">
                                         <label for="total_amount" class="col-3 col-form-label">Total amount</label>
                                         <div class="col-9">
-                                            <input type="number" class="form-control" id="total_amount" name="total_amount" value="{{ $response->total_amount }}" placeholder="Total amount">
+                                            <input type="number" class="form-control" id="total_amount" name="total_amount" value="" placeholder="Total amount">
                                         </div>
                                     </div>
                                     <div class="form-group row mb-3">
                                         <label for="description" class="col-3 col-form-label">Description</label>
                                         <div class="col-9">
-                                            <input type="text" class="form-control" id="description" name="description" value="{{ $response->description }}" placeholder="Description">
+                                            <input type="text" class="form-control" id="description" name="description" value="" placeholder="Description">
                                         </div>
                                     </div>
                                     <div class="form-group row mb-3">
                                         <label for="transaction_name" class="col-3 col-form-label">Transaction Name</label>
                                         <div class="col-9">
-                                            <input type="text" class="form-control" id="transaction_name" name="transaction_name" value="{{ $response->transaction_name }}" placeholder="Transaction Name">
+                                            <input type="text" class="form-control" id="transaction_name" name="transaction_name" value="" placeholder="Transaction Name">
                                         </div>
                                     </div>
                                      <div class="form-group row mb-3">
                                         <label for="transaction_role" class="col-3 col-form-label">Transaction role</label>
                                         <div class="col-9">
-                                            <input type="text" class="form-control" id="transaction_role" name="transaction_role" value="{{ $response->transaction_role}}" placeholder="Transaction Role">
+                                            <input type="text" class="form-control" id="transaction_role" name="transaction_role" value="" placeholder="Transaction Role">
                                         </div>
                                     </div>
                                      <div class="form-group row mb-3">
                                         <label for="store_name" class="col-3 col-form-label">Store Name</label>
                                         <div class="col-9">
-                                            <input type="text" class="form-control" id="store_name" name="store_name" value="{{ $store_name}}" placeholder="Store Name">
+                                            <input type="text" class="form-control" id="store_name" name="store_name" value="" placeholder="Store Name">
                                         </div>
                                     </div>
                                     <div class="form-group row mb-3">
@@ -87,7 +87,7 @@
                                         <div class="col-9">
                                             <select id="transaction_type" name="transaction_type" class="form-control">
                                                 
-                                                <option value="{{ $response->type }}">{{ $response->type }}</option>
+                                                <option value=""></option>
                                                 <option value="Receivables">Receivables</option>
                                                 <option value="Paid">Paid</option>
                                                 <option value="Debt">Debt</option>
