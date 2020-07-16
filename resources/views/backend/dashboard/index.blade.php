@@ -284,7 +284,7 @@
                 });
 
                 tour.addStep("step2", {
-                    text: "First thing you do is update your profile here",
+                    text: "update your profile",
                     attachTo: { element: ".second", on: "right" },
                     buttons: [
                         {
@@ -299,7 +299,7 @@
                     },
                 });
                   tour.addStep("step3", {
-                    text: "Then create a store here",
+                    text: "Then create a store",
                     attachTo: { element: ".third", on: "right" },
                     buttons: [
                         {
@@ -308,7 +308,7 @@
                         }
                     ]});
                    tour.addStep("step4", {
-                    text: "Then create your customer here",
+                    text: "then create your customer",
                     attachTo: { element: ".fourth", on: "right" },
                     buttons: [
                         {
@@ -317,7 +317,7 @@
                         }
                     ]});
                     tour.addStep("step5", {
-                    text: "Then create a transaction here",
+                    text: "then create a transaction",
                     attachTo: { element: ".fifth", on: "right" },
                     buttons: [
                         {
@@ -326,7 +326,7 @@
                         }
                     ]});
                      tour.addStep("step6", {
-                    text: "You can also create a debt reminder here",
+                    text: "create a debt reminder here",
                     attachTo: { element: ".sixth", on: "right" },
                     buttons: [
                         {
@@ -336,7 +336,7 @@
                     ]});
 
                tour.addStep("step7", {
-                    text: "You can add assistants to help manage your stores here",
+                    text: "manage your stores",
                     attachTo: { element: ".seventh", on: "right" },
                     buttons: [
                         {
