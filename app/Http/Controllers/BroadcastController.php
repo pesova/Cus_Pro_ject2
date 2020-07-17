@@ -106,7 +106,7 @@ class BroadcastController extends Controller
      */
     public function store(Request $request)
     {
-        $url = "https://api.sandbox.africastalking.com/version1/messaging";
+        $url = env("SMS_API_URL","https://api.sandbox.africastalking.com/version1/messaging");
 
         try{
             $client = new Client;
