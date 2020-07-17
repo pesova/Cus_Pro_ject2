@@ -385,4 +385,45 @@
             }
         });
     </script>
+    {{-- @if (\Illuminate\Support\Facades\Cookie::get('is_first_time_user') == true) --}}
+<script>
+    var debtors_intro_shown = localStorage.getItem('debtors_intro_shown');
+
+    if (!debtors_intro_shown) {
+
+        const tour = new Shepherd.Tour({
+            defaults: {
+                classes: "shepherd-theme-arrows"
+            }
+        });
+
+        tour.addStep("step", {
+            text: "Welcome to debtors Page, here you can track your debtors",
+            buttons: [
+                {
+                    text: "Next",
+                    action: tour.next
+                }
+            ]
+        });
+
+        // tour.addStep("step2", {
+        //     text: "First thing you do is create a store",
+        //     attachTo: { element: ".second", on: "right" },
+        //     buttons: [
+        //         {
+        //             text: "Next",
+        //             action: tour.next
+        //         }
+        //     ],
+        //     beforeShowPromise: function() {
+        //         document.body.className += ' sidebar-enable';
+        //         document.getElementById('sidebar-menu').style.height = 'auto';
+        //     },
+        // });
+        tour.start();
+        localStorage.setItem('debtors_intro_shown', 1);
+    }
+</script>
+{{-- @else --}}
 @stop

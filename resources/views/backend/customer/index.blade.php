@@ -732,7 +732,7 @@
         });
 
         tour.addStep("step", {
-            text: "This is Customer Page",
+            text: "Welcome to Customer Page, here you can create your customers",
             buttons: [
                 {
                     text: "Next",
