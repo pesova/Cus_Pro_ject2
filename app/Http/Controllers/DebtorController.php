@@ -25,20 +25,13 @@ class DebtorController extends Controller
         // $store_url = env('API_URL', 'http://localhost:3000') . '/store';
         $store_url = env('API_URL', 'https://dev.api.customerpay.me') . '/store';
 
-        // $cl = new Client;
-        // $payloader = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+        $cl = new Client;
+        $payloader = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
 
-        // $resp = $cl->request("GET", $store_url, $payloader);
-        // $statsCode = $resp->getStatusCode();
-        // $body_response = $resp->getBody();
-        // $Stores = json_decode($body_response);
-
-        // if($statsCode == 200) {
-        //     return view('backend.debtor.index')->with('response', $Stores->data->stores);
-        // }
-        // else if($statsCode->getStatusCode() == 500){
-        //     return view('errors.500');
-        // }
+        $store_resp = $cl->request("GET", $store_url, $payloader);
+        $statsCode = $store_resp->getStatusCode();
+        $store_response = $store_resp->getBody();
+        $Stores = json_decode($store_response);
 
         // return view('backend.debtor.index');
         // $url = env('API_URL', 'http://localhost:3000') . '/debt';
@@ -51,14 +44,6 @@ class DebtorController extends Controller
 
             $response = $client->request("GET", $url, $payload);
             $statusCode = $response->getStatusCode();
-
-            $cl = new Client;
-            $payloader = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
-
-            $store_resp = $cl->request("GET", $store_url, $payloader);
-            $statsCode = $store_resp->getStatusCode();
-            $store_response = $store_resp->getBody();
-            $Stores = json_decode($store_response);
 
             if ($statusCode == 200 && $statsCode == 200) {
                 $body = $response->getBody();
@@ -230,12 +215,19 @@ class DebtorController extends Controller
             $client = new Client;
             $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
             $response = $client->request("GET", $url, $payload);
-            $statusCode = $response->getStatusCode();
-            $body = $response->getBody();
-            $debt = json_decode($body)->data->debt;
+            $statsCode = $response->getStatusCode();
+            $debt_response = $response->getBody();
+            $debts = json_decode($debt_response);
+            $debts = $debts->data->debts;
+
+
+            //$statusCode = $response->getStatusCode();
+            //$body = $response->getBody();
+            //$debt = json_decode($body)->data->debts;
             //dd($debt);
             if ($statusCode == 200) {
-                return view('backend.debtor.show')->with('debt', $debt);
+                //return view('backend.debtor.show')->with('debt', $debt);
+                return view('backend.debtor.show', compact('debts'));
             } else if($statusCode == 401){
                 return redirect()->route('login')->with('message', "Please Login Again");
             } 
@@ -250,7 +242,7 @@ class DebtorController extends Controller
             Session::flash('message', $response->message);
             return redirect()->route('debtor.index', ['response' => []]);
         } catch (\Exception $e) {
-            return view('backend.debtor.index')->with('errors.500');
+            return view('backend.debtor.show')->with('errors.500');
         }
     }
 
@@ -333,7 +325,7 @@ class DebtorController extends Controller
 
         // $url = 'http://localhost:3000/debt/' . $id;
 
-        $url = env('API_URL', 'https://dev.api.customerpay.me/debt') . $id;
+        $url = env('API_URL', 'https://dev.api.customerpay.me/') . '/debt/' . $id;
 
         // $store_url = env('API_URL', 'http://localhost:3000') . '/store';
         $store_url = env('API_URL', 'https://dev.api.customerpay.me') . '/store';
@@ -342,6 +334,7 @@ class DebtorController extends Controller
         $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
 
         $response = $client->request("GET", $url, $payload);
+
         $statusCode = $response->getStatusCode();
 
         $cl = new Client;
