@@ -124,7 +124,7 @@
                                     <tr>
                                         <th scope="col">#</th>
                                         <th scope="col">Type</th>
-                                        <th scope="col">Name</th>
+                                        <th scope="col">Store Name</th>
                                         <th scope="col">Amount</th>
                                         <th scope="col"></th>
                                     </tr>
@@ -172,7 +172,8 @@
 
           let apiToken = "{{\Illuminate\Support\Facades\Cookie::get('api_token')}}";
 
-          const res = await fetch(`https://dev.api.customerpay.me/dashboard?token=${apiToken}`);
+          // const res = await fetch(`https://dev.api.customerpay.me/dashboard?token=${apiToken}`);
+          const res = await fetch(`{{env('API_URL')}}/dashboard?token=${apiToken}`);
           const dash = await res.json();
 
           let myCustomers = document.querySelector('.my-customers');
@@ -209,9 +210,9 @@
                   <td>${index}</td>
                   <td>${item.transaction.type}</td>
                   <td>${item.storeName}</td>
-                  <td>${item.transaction.amount}</td>
+                  <td>N${item.transaction.amount}</td>
                   <td>
-                      <a href=""><span class="badge badge-soft-warning py-1">View</span></a>
+                      <a href="{{ route("/admin/transaction/${item.transaction._id}-${item.transaction.store_ref_id}-${item.transaction.customer_ref_id}") }}"><span class="badge badge-soft-warning py-1">View</span></a>
                   </td>
               </tr>
               `
@@ -261,7 +262,7 @@
               </div>
               `
               debtList.innerHTML += row;
-            })
+            });
           };
         };
     </script>
