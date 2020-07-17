@@ -277,45 +277,62 @@ class TransactionController extends Controller
     public function update(Request $request, $id)
     {
 
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/transaction/update/' . $id;
+        $transaction_id = explode('-', $id)[0];
+        $store_id = explode('-', $id)[1];
+        $customer_id = explode('-', $id)[2];
+
+        // $getTransUrl = $this->host.'/transaction/update'.'/'.$transaction_id.'/'.$store_id.'/'.$customer_id;
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/transaction/update/' . $transaction_id;
 
         try {
             $client = new Client();
 
+
+            $request->validate([
+                'amount' => 'required|max:15',
+                'interest' => 'sometimes',
+                'description' => 'required|max:150',
+                'type' => 'required',
+                'customer' => 'required',
+                'store' => 'required',
+                'status' => 'required',
+            ]);
+
             $payload = [
                 'headers' => ['x-access-token' => Cookie::get('api_token')],
-                'form_params' => [
-
-                    'amount' => $request->input('amount'),
-                    'interest' => $request->input('interest'),
-                    'total_amount' => $request->input('total_amount'),
-                    'description' => $request->input('description'),
-                    'transaction_name' => $request->input('transaction_name'),
-                    'transaction_role' => $request->input('transaction_role'),
-                    'store_name' => $request->input('store_name'),
-                    'type' => $request->input('transaction_type'),
-
+                    'form_params' => [
+                      'amount' => $request->input('amount'),
+                      'interest' => $request->input('interest'),
+                      'description' => $request->input('description'),                    
+                      'type' => $request->input('type'),
+                      'store_id' => $request->input('store'),
+                      'customer_id' => $request->input('customer'),
+                      'status' => $request->input('status'),
                 ],
 
             ];
+            // dd($payload);
 
+            $request = $client->request('PATCH', $url, $payload);
 
-            $req = $client->request('PUT', $url, $payload);
-
-            $status = $req->getStatusCode();
-
-            if ($status == 200) {
-
+            $statusCode = $request->getStatusCode();
+            return redirect()->route('transaction.index');
+            // dd($statusCode);
+            if ($statusCode == 201) {
                 $request->session()->flash('alert-class', 'alert-success');
-                $request->session()->flash('message', 'Transaction successfully Updated');
+                $request->session()->flash('message', 'Transaction successfully updated');
+
                 return redirect()->route('transaction.index');
             }
-            if ($status == 500) {
+            if ($statusCode == 500) {
                 return view('errors.500');
             }
         } catch (\Exception $e) {
-            return redirect()->route('transaction.edit', $id);
+            return redirect()->route('transaction.index');
         }
+        
+      
+        
     }
 
     /**
@@ -326,8 +343,13 @@ class TransactionController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        // return view('backend.transaction.index');
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/transaction/delete/' . $id;
+        
+        $transaction_id = explode('-', $id)[0];
+        $store_id = explode('-', $id)[1];
+        $customer_id = explode('-', $id)[2];
+
+        $getTransUrl = $this->host.'/transaction/delete'.'/'.$transaction_id.'/'.$store_id.'/'.$customer_id;
+        // $url = env('API_URL', 'https://dev.api.customerpay.me') . '/transaction/delete/' . $id;
         $client = new Client();
         $payload = [
             'headers' => [
@@ -335,7 +357,7 @@ class TransactionController extends Controller
             ]
         ];
         try {
-            $delete = $client->delete($url, $payload);
+            $delete = $client->delete($getTransUrl, $payload);
 
             if ($delete->getStatusCode() == 200 || $delete->getStatusCode() == 201) {
                 $request->session()->flash('alert-class', 'alert-success');
