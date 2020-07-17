@@ -64,6 +64,9 @@ Route::prefix('/admin')->group(function () {
     Route::get('/password', 'Auth\ForgotPasswordController@index')->name('password');
     Route::post('/password', 'Auth\ForgotPasswordController@authenticate')->name('password.reset');
 
+    Route::post('/password/reset', 'Auth\ResetPasswordController@index')->name('password.recover');
+
+
     Route::group(['middleware' => 'backend.auth'], function () {
 
         // activation
@@ -93,7 +96,9 @@ Route::prefix('/admin')->group(function () {
 
         Route::post('/setting', 'SettingsController@update');
 
-        Route::get('/change_password', 'SettingsController@change_password')->name('change_password');
+        Route::get('/setting/password', 'SettingsController@change_password')->name('change_password');
+
+        Route::get('/setting/picture', 'SettingsController@change_profile_picture')->name('change_profile_picture');
 
         // transaction crud
         Route::resource('transaction', 'TransactionController');
@@ -120,6 +125,12 @@ Route::prefix('/admin')->group(function () {
         Route::get('/debt_reminders', function () {
             return redirect('/admin/debtor/create');
         })->name('debts.reminder');
+
+        Route::get('debt.search','DebtorController@search')->name('debt.search');
+
+        Route::post('reminder', 'DebtorController@sendReminder')->name('reminder');
+
+        Route::post('schedule-reminder', 'DebtorController@sheduleReminder')->name('schedule-reminder');
 
         // super admin protected routes
         Route::group(['middleware' => 'backend.super.admin'], function () {

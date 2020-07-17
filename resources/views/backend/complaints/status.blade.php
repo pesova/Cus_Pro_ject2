@@ -1,15 +1,7 @@
 @extends('layout.base')
 
-@section("custom_css")
-
-
-@stop
-
-
-
 @section('content')
-
-                <div class="content">
+    <div class="content">
                     <!-- Start Content-->
                     <div class="container-fluid">
                         <div class="row page-title">
@@ -43,16 +35,26 @@
                                             Please enter your details carefully and click send to submit your complaint
                                         </p>
 
-                                        <form method="post" action="{{route('complaint.store')}}">
-                                            @csrf
-                                            <h5>Log your Complaint</h5><br>
+                                        <form method="post" action="{{route('complaint.update', $response->data->complaint->_id)}}">
+                                            
+                                            <input type="hidden" name="_method" value="PUT" />
+                                                <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                                            <h5>Log your Complain</h5><br>
                                             <div class="col">
                                                     <div class="form-group row">
                                                         <label class="col-lg-2 col-form-label"
-                                                            for="simpleinput">Subject</label>
+                                                            for="simpleinput">Full Name</label>
                                                         <div class="col-lg-10">
-                                                            <input type="text" name="subject" class="form-control" id="simpleinput"
-                                                                placeholder="Subject">
+                                                            <input type="text" class="form-control" id="simpleinput" readonly
+                                                                value="{{ $response->data->complaint->name }}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-lg-2 col-form-label"
+                                                            for="example-email">Email</label>
+                                                        <div class="col-lg-10">
+                                                            <input type="email" id="example-email"
+                                                                class="form-control"  readonly value="{{ $response->data->complaint->email }}">
                                                         </div>
                                                     </div>
                                                     
@@ -60,21 +62,28 @@
                                                         <label class="col-lg-2 col-form-label"
                                                             for="example-textarea">Message</label>
                                                         <div class="col-lg-10">
-                                                            <textarea class="form-control" name="message" rows="5"
-                                                                id="example-textarea" placeholder="Please enter your complaint here">{{old('message')}}</textarea>
+                                                            <textarea class="form-control" rows="5"
+                                                                id="example-textarea" readonly placeholder="Please enter your complaint here">{{ $response->data->complaint->message }}</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-lg-2 col-form-label"
+                                                            for="example-textarea">Message</label>
+                                                        <div class="col-lg-10">
+                                                        <select data-plugin="customselect" name="status" class="form-control">
+                                                        <option name="cc" value="New">New</option>
+                                                        <option name="cc" value="Pending">Pending</option>
+                                                        <option name="cc" value="Resolved">Resolved</option>
+                                                        <option name="cc" value="Closed">Closed</option>
+                                                    </select>
                                                         </div>
                                                     </div>
                                                     <div class="float-right">
-                                            <button class="btn btn-primary">Send</button>
+                                            <button class="btn btn-primary">Update</button>
                                         </div>
-                                                                      
-    </form>
-                                        <form method="get" action="{{ route('complaint.index') }}">
-
-                                        <div>
-                                            <button class="btn btn-danger">Cancel</button>
+                                            <a href="{{ route('complaint.index') }}" class="btn btn-danger">Cancel</a>
                                         </div>
-                                        </form>
+                                    
             
                                     </div> <!-- end card-body -->
                                 </div> <!-- end card-->
@@ -91,12 +100,4 @@
                 </div> 
 
             </div>
-
 @endsection
-
-
-@section("javascript")
-<script type="text/javascript" src="/backend/assets/js/materialize.min.js"></script>
-
-
-@stop

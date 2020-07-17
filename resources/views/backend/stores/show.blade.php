@@ -5,6 +5,12 @@
 <link rel="stylesheet" href="{{asset('backend/assets/css/store_list.css')}}">
 @stop
 
+
+@php
+    $storeData = $response['storeData'];
+    $transactions = $response['transactions'];
+@endphp
+
 @section('content')
    
     <!-- Start Content-->
@@ -12,7 +18,7 @@
         <div class="row page-title">
             <div class="col-md-12">
                 <nav aria-label="breadcrumb" class="float-right mt-1">
-                    <a href="{{ route('store.edit', $response->_id) }}" class="btn btn-success mr-2"><i class="far mr-2 fa-edit"></i>Edit
+                    <a href="{{ route('store.edit', $storeData->_id) }}" class="btn btn-success mr-2"><i class="far mr-2 fa-edit"></i>Edit
                         Store</a>
                     <a href="/admin/store" class="btn btn-primary">Go Back</a>
                 </nav>
@@ -29,14 +35,13 @@
                 <div class="card">
                     <div class="card-body pl-3 pr-3 padup">
                         <div class="text-center">
-                            <img src="{{asset('backend/assets/images/users/avatar-7.jpg')}}" alt=""
-                                class="avatar-lg rounded-circle" />
-                                
-                            <h6 class="text-muted font-weight-normal mt-2 mb-0">{{ $response->store_name }}</h6>
+                            
+                                 <b><label for="">Store Name</label></b>
+                            <h5 class="text-muted font-weight-normal mt-2 mb-0">{{ ucfirst($storeData->store_name) }}</h5>
                         </div>
                         <div class="mt-5 pt-2 border-top">
                             <h4 class="mb-3 font-size-15">Store Address</h4>
-                            <p class="text-muted mb-4">{{ $response->shop_address }}</p>
+                            <p class="text-muted mb-4">{{ $storeData->shop_address }}</p>
                         </div>
 
                     </div>
@@ -54,28 +59,45 @@
                                     <table class="table table-borderless mb-0 text-muted">
                                         <tbody>
                                             <tr>
+                                                <th scope="row">Store ID</th>
+                                                <td>{{ $storeData->_id }}</td>
+                                            </tr>
+
+                                            <tr>
                                                 <th scope="row">Email</th>
-                                                <td>{{ $response->email }}</td>
+                                                <td>{{ $storeData->email }}</td>
                                             </tr>
 
                                             <tr>
                                                 <th scope="row">TagLine</th>
-                                                <td>{{ $response->tagline }}</td>
+                                                <td>{{ $storeData->tagline }}</td>
                                             </tr>
 
                                             <tr>
                                                 <th scope="row">Phone Number</th>
-                                                <td>{{ $response->phone_number }}</td>
+                                                <td>{{ $storeData->phone_number }}</td>
                                             </tr>
 
                                             <tr>
                                                 <th scope="row">Total Number of Customers</th>
-                                                <td>{{count( $response->customers )}}</td>
+                                                <td>{{count( $storeData->customers )}}</td>
+                                            </tr>
+
+                                            <tr>
+                                                <th scope="row">Total Number of Transactions</th>
+                                                <td>{{count($transactions)}}</td>
                                             </tr>
 
                                         </tbody>
                                     </table>
+                                    {{-- <div class="card-body text-muted">
+                                        <div class=" text-center">
+                                            <a href="#" class="btn btn-primary">View Store Transactions</a>
+                                        </div>
+                                      </div> --}}
+                                   
                                 </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -83,7 +105,7 @@
 
                 
                 <a href="javascript:void(0)" onclick="$(this).parent().find('form').submit()" class="float-right btn btn-danger mt-2"><i class="fas fa-trash-alt mr-2"></i>Delete store</a>
-                    <form action="{{ route('store.destroy', $response->_id) }}" method="POST" id="form">
+                    <form action="{{ route('store.destroy', $storeData->_id) }}" method="POST" id="form">
                         @method('DELETE')
                         @csrf                                                
                     </form>
@@ -99,6 +121,7 @@
     window.intlTelInput(input, {
         // any initialisation options go here
     });
+   
 
 </script>
 @stop

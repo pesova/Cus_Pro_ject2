@@ -29,6 +29,9 @@ class LogoutController extends Controller
         Cookie::queue(Cookie::forget('first_name'));
         Cookie::queue(Cookie::forget('last_name'));
         Cookie::queue(Cookie::forget('email'));
+        Cookie::queue(Cookie::forget('user_role'));
+        Cookie::queue(Cookie::forget('expires'));
+        Cookie::queue(Cookie::forget('is_first_time_user'));
 
         $request->session()->invalidate();
         return redirect()->route('login');

@@ -5,8 +5,12 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use App\Rules\NoZero;
+use App\Rules\DoNotPutCountryCode;
 
 class ForgotPasswordController extends Controller
 {
@@ -23,7 +27,7 @@ class ForgotPasswordController extends Controller
 
     use SendsPasswordResetEmails;
 
-        /**
+    /**
      * Create a new controller instance.
      *
      * @return void
@@ -40,69 +44,46 @@ class ForgotPasswordController extends Controller
 
     public function authenticate(Request $request)
     {
-        $validation = Validator::make(request()->all(), [
-            'phone_number' => 'required|min:6|max:16',
+        $request->validate([
+            'phone_number' => ['required', 'min:6', 'max:16', new NoZero, new DoNotPutCountryCode]
         ]);
 
-        if ($validation->fails()) {
-            $request->session()->flash('message', 'Invalid Phone number');
-            $request->session()->flash('alert-class', 'alert-danger');
-            return redirect()->route('login');
-        }
-
         try {
-            $client =  new \GuzzleHttp\Client();
-            $response = $client->post($this->host . '/forgot-password', [
-                'form_params' => [
-                    'phone_number' => $request->input('phone_number'),
-                ]
+            $client =  new Client();
+            $response = $client->post($this->host . '/recover', [
+                'form_params' => ['phone_number' => $request->input('phone_number')]
             ]);
-
             if ($response->getStatusCode() == 200) {
-
                 $response = json_decode($response->getBody());
-
-                if (isset($response->success) && $response->success) {
-
-                    $data = $response->data->user->local;
-
-                    // store data to cookie
-                    Cookie::queue('api_token', $data->api_token);
-                    Cookie::queue('phone_number', $data->phone_number);
-                    Cookie::queue('user_id', $response->data->user->_id);
-                    Cookie::queue('expires', strtotime('+ 1 day'));
-
+                $data = $response->data;
+                if ($response->success) {
+                    // set alert
                     $request->session()->flash('alert-class', 'alert-success');
-                    $request->session()->flash('message', $response->message);
-
-                    //check if active
-                    if ($data->is_active == false) {
-                        return redirect()->route('activate.index');
-                    }
-
-                    return redirect()->route('dashboard');
+                    $request->session()->flash('message', 'kindly check your Phone for verification code');
+                    return view('backend.password.reset', [
+                        'data' => $data,
+                        'phoneNumber' => $request->input('phone_number'),
+                    ]);
                 } else {
-                    $message = isset($response->Message) ? $response->Message : $response->message;
+                    $message = $response->message;
                     $request->session()->flash('message', $message);
                     return redirect()->route('password');
                 }
             }
-
-            $message = isset($response->Message) ? $response->Message : $response->message;
-            $request->session()->flash('message', $message);
+            $request->session()->flash('message', $response->message);
             return redirect()->route('password');
-        } catch (\Exception $e) {
-
-            if ($e->getCode() == 400) {
-                $request->session()->flash('message', 'Invalid Phone number or password. Ensure Your phone number uses internations format.e.g +234');
-                $request->session()->flash('alert-class', 'alert-danger');
+        } catch (RequestException $e) {
+            Log::info('ClientException ForgotPasswordController - .' . $e->getMessage());
+            if ($e->hasResponse()) {
+                $response = json_decode($e->getResponse()->getBody());
+                $request->session()->flash('message', $response->message);
                 return redirect()->route('password');
             }
+        } catch (\Exception $e) {
 
             Log::error("catch error: ForgotPasswordController - " . $e->getMessage());
-            $request->session()->flash('message', 'Something bad happened, please try again');
-            return redirect()->route('password');
+            $request->session()->flash('message', 'Something bad happened');
+            return view('errors.500');
         }
-        return redirect()->route('password');
     }
 }

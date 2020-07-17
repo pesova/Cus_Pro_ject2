@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Events\UserRegistered;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -11,8 +10,8 @@ use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use GuzzleHttp\Exception\RequestException;
-use App\User;
-use App\Notifications\WelcomeMessage;
+use App\Rules\NoZero;
+use App\Rules\DoNotPutCountryCode;
 
 class RegisterController extends Controller
 {
@@ -67,9 +66,10 @@ class RegisterController extends Controller
     {
 
         $data = $request->validate([
-            'phone_number' => 'required|min:6|max:16',
-            'password' => 'required|min:6',
+            'phone_number' => ['required', 'min:6', 'max:16', new NoZero, new DoNotPutCountryCode],
+            'password' => ['required', 'min:6']
         ]);
+
         try {
 
             if ($data) {
@@ -93,16 +93,7 @@ class RegisterController extends Controller
 
                         $data = $res->data->user->local;
                         $api_token = $res->data->user->api_token;
-                        $user_role = $res->data->user->local->user_role;
-
-                        // event(new UserRegistered($data));
-
-                        $user = new User;
-                        $user->phone_number = $data->phone_number;
-                        $user->password = $data->password;
-                        if ($user->save()) {
-                            $user->notify(new WelcomeMessage);
-                        }
+                        $user_role = $res->data->user->user_role;
 
                         // store data to cookie
                         Cookie::queue('user_role', $user_role);
@@ -110,22 +101,19 @@ class RegisterController extends Controller
                         Cookie::queue('is_active', $data->is_active);
                         Cookie::queue('phone_number', $data->phone_number);
                         Cookie::queue('user_id', $res->data->user->_id);
-                        Cookie::queue('expires', strtotime('+ 1 day'));
+                        Cookie::queue('expires', strtotime('+ 1 hour'));
+                        Cookie::queue('is_first_time_user', true);
 
                         return redirect()->route('activate.index');
                     }
                 }
 
+                $res = json_decode($response->getBody());
                 if ($response->getStatusCode() == 200) {
-                    $res = json_decode($response->getBody());
-
-
                     $request->session()->flash('message', $res->Message);
                     $request->session()->flash('alert-class', 'alert-danger');
                     return redirect()->route('signup');
                 }
-
-                $res = json_decode($response->getBody());
 
                 if ($res->success == false) {
                     $request->session()->flash('message', $res->error->description);
@@ -136,7 +124,6 @@ class RegisterController extends Controller
 
             $request->session()->flash('message', 'Please fill the form correctly');
             $request->session()->flash('alert-class', 'alert-danger');
-
             return redirect()->route('signup');
         } catch (RequestException $e) {
             //log error;
@@ -144,12 +131,19 @@ class RegisterController extends Controller
 
             // get response
             if ($e->hasResponse()) {
-                $response = json_decode($e->getResponse()->getBody());
-                $request->session()->flash('alert-class', 'alert-danger');
-                $request->session()->flash('message', $response->error->description);
-                return redirect()->route('signup');
+                if ($e->getResponse()->getStatusCode() >= 400) {
+                    $response = json_decode($e->getResponse()->getBody());
+                    $request->session()->flash('alert-class', 'alert-danger');
+                    if (is_string($response->error->description) && $response->error->description === 'phone_number Invalid value') {
+                        $request->session()->flash('message', 'The phone number is invalid or already in use');
+                    } elseif (is_string($response->error->description)) {
+                        $request->session()->flash('message', $response->error->description);
+                    } else {
+                        $request->session()->flash('message', "Phone number already in use, please use another phone number");
+                    }
+                    return redirect()->route('signup');
+                }
             }
-
             // check for 500 server error
             return view('errors.500');
         } catch (\Exception $e) {

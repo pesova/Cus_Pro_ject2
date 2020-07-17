@@ -1,141 +1,210 @@
 @extends('layout.base')
 
 @section('content')
-
-<div class="account-pages my-5">
-    <div class="container-fluid">
-        <div class="row-justify-content-center">
-
-            <div class="row">
-                            <div class="col">
-                            <div class="card">
-                        <div class="card-body p-0">
-
-                            <!-- <input class="btn btn-primary right pull-right" value="Back"> -->
-                            <div style="padding: 20px;">
-                            <a href="{{ route('complaint.index') }}" class="btn btn-primary float-right">
-                            Back &nbsp;<i class="fa fa-plus my-float"></i>
-                        </a>
-                        <h4 class="header-title mt-0 mb-1">Complaint Overview</h4>
-                            <!-- <hr> -->
-                        </div>
-                            <div class="row py-1">
-                                <div class="col-xl-4 col-sm-6">
-                                    <!-- stat 1 -->
-                                    <div class="media p-3">
-                                        <i data-feather="grid" class="align-self-center icon-dual icon-sm mr-4"></i>
-                                        <div class="media-body">
-                                            <h6 class="mt-0 mb-0">{{ $response->data->complaint->_id }}</h6>
-                                            <span class="text-muted font-size-13">Complaint ID</span>
+    <div class="account-pages my-5">
+        <div class="container-fluid">
+            <div class="row-justify-content-center">
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body p-0">
+                                <!-- <input class="btn btn-primary right pull-right" value="Back"> -->
+                                <div style="padding: 20px;">
+                                    <a href="{{ route('complaint.index') }}" class="btn btn-primary float-right"> Back &nbsp;<i class="fa fa-plus my-float"></i> </a>
+                                    <h4 class="header-title mt-0 mb-1">Complaint Overview</h4>
+                                    <!-- <hr> -->
+                                </div>
+                                <div class="row py-1">
+                                    <div class="col-xl-4 col-sm-6">
+                                        <!-- stat 1 -->
+                                        <div class="media p-3">
+                                            <i data-feather="grid" class="align-self-center icon-dual icon-sm mr-4"></i>
+                                            <div class="media-body">
+                                                <h6 class="mt-0 mb-0">{{ $response->data->complaint->_id }}</h6>
+                                                <span class="text-muted font-size-13">Complaint ID</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-xl-2 col-sm-6">
-                                    <!-- stat 2 -->
-                                    <div class="media p-3">
-                                        <i data-feather="check-square" class="align-self-center icon-dual icon-sm mr-4"></i>
-                                        <div class="media-body">
-                                               <h6 class="mt-0 mb-0">{{ $response->data->complaint->status }}</h6>
-                                            <span class="text-muted">Status</span>
+                                    <div class="col-xl-2 col-sm-6">
+                                        <!-- stat 2 -->
+                                        <div class="media p-3">
+                                            <i data-feather="check-square" class="align-self-center icon-dual icon-sm mr-4"></i>
+                                            <div class="media-body">
+                                                <h6 class="mt-0 mb-0">
+                                                    @if ( $response->data->complaint->status == 'New' )
+                                                      <div class="badge badge-pill badge-secondary">New</div>  
+                                                    @elseif ( $response->data->complaint->status == 'Pending' )
+                                                      <div class="badge badge-pill badge-primary">Pending</div> 
+                                                    @elseif ( $response->data->complaint->status == 'Resolved' )
+                                                    <div class="badge badge-pill badge-success">Resolved</div> 
+                                                    @elseif ( $response->data->complaint->status == 'Closed' )
+                                                    <div class="badge badge-pill badge-dark">Closed</div> 
+                                                    @endif
+                                                </h6>
+                                                <span class="text-muted">Status</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-xl-3 col-sm-6">
-                                    <!-- stat 3 -->
-                                    <div class="media p-3">
-                                        <i data-feather="user-check" class="align-self-center icon-dual icon-sm mr-4"></i>
-                                        <div class="media-body">
-                                            <h6 class="mt-0 mb-0">{{ $response->data->complaint->email }}</h6>
-                                            <span class="text-muted">Email</span>
+                                    <div class="col-xl-3 col-sm-6">
+                                        <!-- stat 3 -->
+                                        <div class="media p-3">
+                                            <i data-feather="user-check" class="align-self-center icon-dual icon-sm mr-4"></i>
+                                            <div class="media-body">
+                                                <h6 class="mt-0 mb-0">{{ \Cookie::get('phone_number') }}</h6>
+                                                <span class="text-muted">Phone Number</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-xl-3 col-sm-6">
-                                    <!-- stat 3 -->
-                                    <div class="media p-3">
-                                        <i data-feather="clock" class="align-self-center icon-dual icon-lg mr-4"></i>
-                                        <div class="media-body">
-                                            <h6 class="mt-0 mb-0">
-                                                {{ \Carbon\Carbon::parse($response->data->complaint->date)->diffForHumans() }}
-                                            </h6>
-                                            <span class="text-muted">Date Created</span>
-                                            
+                                    <div class="col-xl-3 col-sm-6">
+                                        <!-- stat 3 -->
+                                        <div class="media p-3">
+                                            <i data-feather="clock" class="align-self-center icon-dual icon-lg mr-4"></i>
+                                            <div class="media-body">
+                                                <h6 class="mt-0 mb-0">
+                                                    {{ \Carbon\Carbon::parse($response->data->complaint->date)->diffForHumans() }}
+                                                </h6>
+                                                <span class="text-muted">Date Created</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                            </div>
-                        </div>
-                        <!-- details-->
-                        <div class="row">
-                            <div class="col-xl-8">
-                                <div class="card offset-1">
-                                    <div class="card-body">
-                                    <h6 class="mt-0 header-title">Email</h6>
+                </div>
+                <!-- details-->
+                <div class="row">
+                    <div class="col-xl-6">
+                    <div class="card">
+                            <div class="card-body">
+                                <h6 class="mt-0 header-title">Subject</h6>
 
-                                    <div class="text-muted mt-3">
-                            <p>{{ $response->data->complaint->email }}</p>
+                                <div class="text-muted mt-3">
+                                    
 
-                            <h6 class="mt-0 header-title">Message</h6>
+                                    <p>{{ $response->data->complaint->subject }}</p>
 
-                            <p>{{ $response->data->complaint->message }}</p>
-                            
+                                    <h6 class="mt-0 header-title">Message</h6>
 
-                            <div class="tags">
-                                <h6 class="font-weight-bold">Complaint created by:</h6>
-                                <div class="text-uppercase">
-                                    <p class="badge badge-soft-primary mr-2">{{ $response->data->complaint->name }}</p>
+                                    <p>{{ $response->data->complaint->message }}</p>
 
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-lg-3 col-md-6">
-                                    <div class="mt-4">
-                                        <p class="mb-2"><i class="uil-calender text-danger"></i> Created At</p>
-                                        <h6 class="font-size-10">
-                                            {{ \Carbon\Carbon::parse($response->data->complaint->date)->diffForHumans() }}
-                                        </h6>
-                                    </div>
+                                    
+                                    <!-- @if ( \Cookie::get('user_role') == "super_admin")
+                                        <div style="padding: 20px;">
+                                            <a href="{{ route('complaint.edit', $response->data->complaint->_id) }}" class="btn btn-primary float-left"> Edit &nbsp;<i class="fa fa-plus my-float"></i> </a>
+                                            <form class="float-right" action="{{ route('complaint.destroy', $response->data->complaint->_id) }}" method="POST">
+                                                <input type="hidden" name="_method" value="DELETE" />
+                                                <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                                                <button class="btn btn-danger">Delete</button>
+                                            </form>
+                                        </div>
+                                    @endif -->
                                     
                                 </div>
-                                
-                                
                             </div>
-                            <div style="padding: 20px;">
-                            <a href="{{ route('complaint.index') }}" class="btn btn-primary float-left">
-                            Edit &nbsp;<i class="fa fa-plus my-float"></i>
-                        </a>
-                        <form class="float-right" action="{{ route('complaint.destroy', $response->data->complaint->_id) }}" method="POST">
-                                            <input type="hidden" name="_method" value="DELETE">
-                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <button class="btn btn-danger">Delete</button>
-                        </form>
-                            <!-- <hr> -->
                         </div>
+                    </div>
+                    <div class="col-xl-6">
+                    <div class="card">
+                                    <div class="card-body pt-2">
+                                        <div class="dropdown mt-2 float-right">
+                                            <a href="#" class="dropdown-toggle arrow-none text-muted" data-toggle="dropdown"
+                                                aria-expanded="false">
+                                                <i class="uil uil-ellipsis-v"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <!-- item-->
+                                                <a href="{{ route('complaint.edit', $response->data->complaint->_id) }}" class="dropdown-item"><i
+                                                        class="uil uil-refresh mr-2"></i>Update Status</a>
+                                                
+                                                <div class="dropdown-divider"></div>
+                                                <!-- item-->
+                                                <a href="{{ route('complaint.index') }}" class="dropdown-item text-danger"><i
+                                                        class="uil uil-exit mr-2"></i>Exit</a>
+                                            </div>
+                                        </div>
+                                        <h5 class="mb-4 header-title">Recent Conversation</h5>
+                                        <div class="chat-conversation">
+                                            <ul class="conversation-list slimscroll" style="max-height: 328px;">
+                                                <li class="clearfix">
+                                                    <div class="chat-avatar">
+                                                        <img src="/backend/assets/images/users/default.png" alt="Female">
+                                                        <i>10:00</i>
+                                                    </div>
+                                                    <div class="conversation-text">
+                                                        <div class="ctext-wrap">
+                                                            <i>Greeva</i>
+                                                            <p>
+                                                                Hello!
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="clearfix odd">
+                                                    <div class="chat-avatar">
+                                                        <img src="/backend/assets/images/users/default.png" alt="Male">
+                                                        <i>10:01</i>
+                                                    </div>
+                                                    <div class="conversation-text">
+                                                        <div class="ctext-wrap">
+                                                            <i>Shreyu</i>
+                                                            <p>
+                                                                Hi, How are you? What about our next meeting?
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="clearfix">
+                                                    <div class="chat-avatar">
+                                                        <img src="/backend/assets/images/users/default.png" alt="female">
+                                                        <i>10:01</i>
+                                                    </div>
+                                                    <div class="conversation-text">
+                                                        <div class="ctext-wrap">
+                                                            <i>Greeva</i>
+                                                            <p>
+                                                                Yeah everything is fine
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="clearfix odd">
+                                                    <div class="chat-avatar">
+                                                        <img src="/backend/assets/images/users/default.png" alt="male">
+                                                        <i>10:02</i>
+                                                    </div>
+                                                    <div class="conversation-text">
+                                                        <div class="ctext-wrap">
+                                                            <i>Shreyu</i>
+                                                            <p>
+                                                                Awesome! let me know if we can talk in 20 min
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <form class="needs-validation" novalidate name="chat-form" id="chat-form">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <input type="text" class="form-control chat-input"
+                                                            placeholder="Enter your text" required>
+                                                        <div class="invalid-feedback">
+                                                            Please enter your messsage
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <button type="submit"
+                                                            class="btn btn-danger chat-send btn-block waves-effect waves-light">Send</button>
+                                                    </div>
+                                                </div>
+                                            </form>
 
-                            {{-- <div class="assign team mt-4">
-                                <h6 class="font-weight-bold">Assign To</h6>
-                                <a href="javascript: void(0);">
-                                    <img src="backend/assets/images/users/avatar-2.jpg" alt="" class="avatar-sm m-1 rounded-circle">
-                                </a>
-                            </div> --}}
-
-
-
-                        </div>
-
+                                        </div> <!-- end .chat-conversation-->
                                     </div>
                                 </div>
-
-           
-
-
-           
-        </div>
+                    </div>
+                </div>
+               
     </div>
-</div>
-
+    
 @endsection
