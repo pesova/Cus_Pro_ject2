@@ -81,8 +81,8 @@
 
 
                             <ul class="pl-4 mb-4">
-                            <li>Amount : ${{ $debt->amount }}</li>
-                                <li>Total Amount : ${{ $debt->total_amount }}</li>
+                            <li>Amount : {{ $debt->amount }}</li>
+                                <li>Total Amount : {{ $debt->total_amount }}</li>
                             </ul>
 
 
@@ -110,7 +110,7 @@
                                 <div class="col-lg-3 col-md-6">
                                     <div class="mt-4">
                                         <p class="mb-2"><i class="uil-dollar-alt text-danger"></i> Total Amount</p>
-                                        <h5 class="font-size-16">${{$debt->total_amount}}</h5>
+                                        <h5 class="font-size-16">{{$debt->total_amount}}</h5>
                                     </div>
                                 </div>
 

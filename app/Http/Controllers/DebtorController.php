@@ -208,7 +208,7 @@ class DebtorController extends Controller
     public function show($id)
     {
         //return view('backend.debtor.show');
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt/' . '/single/' .$id;
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt/single/' .$id;
         //$getTransUrl = $this->host.'/debt'.'/'.$id;
         
         try {
