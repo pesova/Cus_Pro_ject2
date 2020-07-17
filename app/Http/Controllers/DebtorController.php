@@ -221,8 +221,8 @@ class DebtorController extends Controller
             $response = $client->request("GET", $url, $payload);
             $statsCode = $response->getStatusCode();
             $debt_response = $response->getBody();
-            $debt = json_decode($debt_response);
-            $debts = $debt->data->debt;
+            $single_debt = json_decode($debt_response);
+            $debts = $single_debt->data->debt;
 
 
             //$statusCode = $response->getStatusCode();
