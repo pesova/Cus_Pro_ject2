@@ -56,12 +56,25 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($responses->data->complaints as $index => $response)
+                                                @if ( \Cookie::get('user_role') == "super_admin")
+                                                    @foreach($responses->data as $index => $response)
+                                                
+                                                
                                                     <tr>
                                                         <td>{{ $index + 1 }}</td>
                                                         <td><a href="{{ route('complaint.show', $response->_id) }}">{{ $response->_id}}</td>
                                                         <td>{{ $response->subject}}</td>
-                                                        <td>{{ $response->status}}</td>
+                                                        <td>
+                                                        @if ( $response->status == 'New' )
+                                                      <div class="badge badge-pill badge-secondary">New</div>  
+                                                        @elseif ( $response->status == 'Pending' )
+                                                        <div class="badge badge-pill badge-primary">Pending</div> 
+                                                        @elseif ( $response->status == 'Resolved' )
+                                                        <div class="badge badge-pill badge-success">Resolved</div> 
+                                                        @elseif ( $response->status == 'Closed' )
+                                                        <div class="badge badge-pill badge-dark">Closed</div> 
+                                                        @endif
+                                                        </td>
                                                         <td>{{ \Carbon\Carbon::parse($response->date)->diffForHumans() }}</td>
                                                         @if ( \Cookie::get('user_role') == "super_admin")
                                                             <td>
@@ -75,6 +88,39 @@
                                                         </td>
                                                     </tr>
                                                 @endforeach
+                                                @else
+                                                    @foreach($responses->data->complaints as $index => $response)
+                                                
+                                                
+                                                    <tr>
+                                                        <td>{{ $index + 1 }}</td>
+                                                        <td><a href="{{ route('complaint.show', $response->_id) }}">{{ $response->_id}}</td>
+                                                        <td>{{ $response->subject}}</td>
+                                                        <td>
+                                                        @if ( $response->status == 'New' )
+                                                      <div class="badge badge-pill badge-secondary">New</div>  
+                                                        @elseif ( $response->status == 'Pending' )
+                                                        <div class="badge badge-pill badge-primary">Pending</div> 
+                                                        @elseif ( $response->status == 'Resolved' )
+                                                        <div class="badge badge-pill badge-success">Resolved</div> 
+                                                        @elseif ( $response->status == 'Closed' )
+                                                        <div class="badge badge-pill badge-dark">Closed</div> 
+                                                        @endif
+                                                        </td>
+                                                        <td>{{ \Carbon\Carbon::parse($response->date)->diffForHumans() }}</td>
+                                                        @if ( \Cookie::get('user_role') == "super_admin")
+                                                            <td>
+                                                                <form action="{{ route('complaint.destroy', $response->_id) }}" method="POST">
+                                                                    <input type="hidden" name="_method" value="DELETE">
+                                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                                    <button class="btn btn-danger">Delete</button>
+                                                                </form>
+                                                            </td>
+                                                        @endif
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                                @endif
                                             </tbody>
                                         </table>
 
