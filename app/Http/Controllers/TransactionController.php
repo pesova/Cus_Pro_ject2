@@ -226,29 +226,29 @@ class TransactionController extends Controller
     {
         // return view('backend.transaction.edit');
 
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/transaction/' . $id;
+        // $url = env('API_URL', 'https://dev.api.customerpay.me') . '/transaction/' . $id;
 
-        // try {
-            $client = new Client;
-            $payload = [
-                'headers' => [
-                    'x-access-token' => Cookie::get('api_token')
-                ]
-            ];
-            $response = $client->request("GET", $url, $payload);
-            $statusCode = $response->getStatusCode();
-            $body = $response->getBody();
-            $TransData = json_decode($body)->data->transaction;
-            $Storename = json_decode($body)->data->storeName;
-            $transaction_id = $TransData->_id;
-            // $changes = [
-            //     'id' => $transaction_id,
-            //     'store_name' => $Storename
-            // ];
-            if ($statusCode == 200) {
+        // // try {
+        //     $client = new Client;
+        //     $payload = [
+        //         'headers' => [
+        //             'x-access-token' => Cookie::get('api_token')
+        //         ]
+        //     ];
+        //     $response = $client->request("GET", $url, $payload);
+        //     $statusCode = $response->getStatusCode();
+        //     $body = $response->getBody();
+        //     $TransData = json_decode($body)->data->transaction;
+        //     $Storename = json_decode($body)->data->storeName;
+        //     $transaction_id = $TransData->_id;
+        //     // $changes = [
+        //     //     'id' => $transaction_id,
+        //     //     'store_name' => $Storename
+        //     // ];
+        //     if ($statusCode == 200) {
 
-                return view('backend.transaction.edit')->with('response', $TransData);
-            }
+        //         return view('backend.transaction.edit')->with('response', $TransData);
+            // }
         // } catch (RequestException $e) {
 
 
@@ -284,7 +284,7 @@ class TransactionController extends Controller
         // $getTransUrl = $this->host.'/transaction/update'.'/'.$transaction_id.'/'.$store_id.'/'.$customer_id;
         $url = env('API_URL', 'https://dev.api.customerpay.me') . '/transaction/update/' . $transaction_id;
 
-        try {
+        
             $client = new Client();
 
 
@@ -313,23 +313,33 @@ class TransactionController extends Controller
             ];
             // dd($payload);
 
-            $request = $client->request('PATCH', $url, $payload);
+            try{
 
-            $statusCode = $request->getStatusCode();
-            return redirect()->route('transaction.index');
-            // dd($statusCode);
-            if ($statusCode == 201) {
+                $response = $client->request("PATCH", $url, $payload);
                 $request->session()->flash('alert-class', 'alert-success');
                 $request->session()->flash('message', 'Transaction successfully updated');
-
                 return redirect()->route('transaction.index');
+    
             }
-            if ($statusCode == 500) {
-                return view('errors.500');
+            catch(ClientException    $e){
+                    $statusCode = $e->getCode();
+                if ($statusCode == 400){
+                    $request->session()->flash('alert-class', 'alert-danger');
+                    $request->session()->flash('message', 'some information misisng');
+                    return redirect()->route('transaction.index');
+                }
+    
+            }catch (RequestException $e) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                if ($statusCode  == 500) {
+                    $request->session()->flash('alert-class', 'alert-danger');
+                    $request->session()->flash('message', 'Oops! something went wrong, Try Again');
+                return redirect()->route('transaction.index');
+                }
             }
-        } catch (\Exception $e) {
-            return redirect()->route('transaction.index');
-        }
+
+       
         
       
         

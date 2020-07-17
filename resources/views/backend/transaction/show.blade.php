@@ -252,6 +252,7 @@
                                     <div class="col-9">
 
                                         <select class="form-control" name="status">
+                                        
                                             <option value="1">Paid</option>
                                             <option value="0" selected>Pending</option>
                                         </select>
