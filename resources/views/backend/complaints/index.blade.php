@@ -7,8 +7,8 @@
     <link href="/backend/assets/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
     <link href="/backend/assets/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
     <link href="/backend/assets/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-    <link href="/backend/assets/css/select.bootstrap4.min.css" rel="stylesheet" type="text/css" /> 
-    @stop
+    <link href="/backend/assets/css/select.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+@stop
 
 @section('content')
     <div class="container">
@@ -58,25 +58,22 @@
                                             <tbody>
                                                 @if ( \Cookie::get('user_role') == "super_admin")
                                                     @foreach($responses->data as $index => $response)
-                                                
-                                                
-                                                    <tr>
-                                                        <td>{{ $index + 1 }}</td>
-                                                        <td><a href="{{ route('complaint.show', $response->_id) }}">{{ $response->_id}}</td>
-                                                        <td>{{ $response->subject}}</td>
-                                                        <td>
-                                                        @if ( $response->status == 'New' )
-                                                      <div class="badge badge-pill badge-secondary">New</div>  
-                                                        @elseif ( $response->status == 'Pending' )
-                                                        <div class="badge badge-pill badge-primary">Pending</div> 
-                                                        @elseif ( $response->status == 'Resolved' )
-                                                        <div class="badge badge-pill badge-success">Resolved</div> 
-                                                        @elseif ( $response->status == 'Closed' )
-                                                        <div class="badge badge-pill badge-dark">Closed</div> 
-                                                        @endif
-                                                        </td>
-                                                        <td>{{ \Carbon\Carbon::parse($response->date)->diffForHumans() }}</td>
-                                                        @if ( \Cookie::get('user_role') == "super_admin")
+                                                        <tr>
+                                                            <td>{{ $index + 1 }}</td>
+                                                            <td><a href="{{ route('complaint.show', $response->_id) }}">{{ $response->_id}}</td>
+                                                            <td>{{ $response->subject}}</td>
+                                                            <td>
+                                                                @if ( $response->status == 'New' )
+                                                                    <div class="badge badge-pill badge-secondary">New</div>
+                                                                @elseif ( $response->status == 'Pending' )
+                                                                    <div class="badge badge-pill badge-primary">Pending</div>
+                                                                @elseif ( $response->status == 'Resolved' )
+                                                                    <div class="badge badge-pill badge-success">Resolved</div>
+                                                                @elseif ( $response->status == 'Closed' )
+                                                                    <div class="badge badge-pill badge-dark">Closed</div>
+                                                                @endif
+                                                            </td>
+                                                            <td>{{ \Carbon\Carbon::parse($response->date)->diffForHumans() }}</td>
                                                             <td>
                                                                 <form action="{{ route('complaint.destroy', $response->_id) }}" method="POST">
                                                                     <input type="hidden" name="_method" value="DELETE">
@@ -84,55 +81,39 @@
                                                                     <button class="btn btn-danger">Delete</button>
                                                                 </form>
                                                             </td>
-                                                        @endif
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
+                                                        </tr>
+                                                    @endforeach
                                                 @else
                                                     @foreach($responses->data->complaints as $index => $response)
-                                                
-                                                
-                                                    <tr>
-                                                        <td>{{ $index + 1 }}</td>
-                                                        <td><a href="{{ route('complaint.show', $response->_id) }}">{{ $response->_id}}</td>
-                                                        <td>{{ $response->subject}}</td>
-                                                        <td>
-                                                        @if ( $response->status == 'New' )
-                                                      <div class="badge badge-pill badge-secondary">New</div>  
-                                                        @elseif ( $response->status == 'Pending' )
-                                                        <div class="badge badge-pill badge-primary">Pending</div> 
-                                                        @elseif ( $response->status == 'Resolved' )
-                                                        <div class="badge badge-pill badge-success">Resolved</div> 
-                                                        @elseif ( $response->status == 'Closed' )
-                                                        <div class="badge badge-pill badge-dark">Closed</div> 
-                                                        @endif
-                                                        </td>
-                                                        <td>{{ \Carbon\Carbon::parse($response->date)->diffForHumans() }}</td>
-                                                        @if ( \Cookie::get('user_role') == "super_admin")
+                                                        <tr>
+                                                            <td>{{ $index + 1 }}</td>
+                                                            <td><a href="{{ route('complaint.show', $response->_id) }}">{{ $response->_id}}</td>
+                                                            <td>{{ $response->subject}}</td>
                                                             <td>
-                                                                <form action="{{ route('complaint.destroy', $response->_id) }}" method="POST">
-                                                                    <input type="hidden" name="_method" value="DELETE">
-                                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                                    <button class="btn btn-danger">Delete</button>
-                                                                </form>
+                                                                @if ( $response->status == 'New' )
+                                                                    <div class="badge badge-pill badge-secondary">New</div>
+                                                                @elseif ( $response->status == 'Pending' )
+                                                                    <div class="badge badge-pill badge-primary">Pending</div>
+                                                                @elseif ( $response->status == 'Resolved' )
+                                                                    <div class="badge badge-pill badge-success">Resolved</div>
+                                                                @elseif ( $response->status == 'Closed' )
+                                                                    <div class="badge badge-pill badge-dark">Closed</div>
+                                                                @endif
                                                             </td>
-                                                        @endif
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
+                                                            <td>{{ \Carbon\Carbon::parse($response->date)->diffForHumans() }}</td>
+                                                        </tr>
+                                                    @endforeach
                                                 @endif
                                             </tbody>
                                         </table>
+                                    </div>
 
-                                    </div> <!-- end card body-->
-                                </div> <!-- end card -->
-                            </div><!-- end col-->
+                                </div>
+                            </div>
                         </div>
-                        <!-- end row-->
                     </div>
-
-                    <!-- end card -->
                 </div>
+
             </div>
         </div>
     </div>
@@ -140,7 +121,7 @@
 
 
 @section("javascript")
-    
+
     <!-- datatable js -->
     <script src="/backend/assets/libs/datatables/jquery.dataTables.min.js"></script>
     <script src="/backend/assets/libs/datatables/dataTables.bootstrap4.min.js"></script>
@@ -159,5 +140,4 @@
     <!-- Datatables init -->
     <script src="/backend/assets/js/pages/datatables.init.js"></script>
 
-    
 @stop
