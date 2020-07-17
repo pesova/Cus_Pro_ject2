@@ -51,7 +51,6 @@ class TransactionController extends Controller
             if($storeStatusCode == 200 && $transacStatusCode == 200){
                 $stores = json_decode($storeResponse->getBody())->data->stores;
                 $transactions = json_decode($transactionResponse->getBody())->data->transactions;
-                // dd($transactions);
                 return view('backend.transaction.index', compact("stores", "api_token", "transactions"));
             } else if($storeStatusCode == 401 && $transacStatusCode == 401){
                 return redirect()->route('login')->with('message', "Please Login Again");
@@ -106,12 +105,10 @@ class TransactionController extends Controller
         $validator = Validator::make($request->all(), [
             'amount' => 'required|max:15',
             'interest' => 'sometimes',
-            'description' => 'required|max:80',
+            'description' => 'required|max:150',
             'type' => 'required',
             'customer' => 'required',
             'store' => 'required',
-            // 'transaction_role' => 'required|max:30',
-            // 'transaction_name'=> 'required|max:30',
         ]);
 
         if ($validator->fails()) {
@@ -129,24 +126,19 @@ class TransactionController extends Controller
                 'type' => $request->input('type'),
                 'store_id' => $request->input('store'),
                 'customer_id' => $request->input('customer'),
-                'total_amount' => $request->input('amount') + $request->input('interest'),
-                // 'transaction_name' => $request->input('transaction_name'),
-                // 'transaction_role' => $request->input('transaction_role'),
-
             ],
         ];
 
         try{
             $response = $client->request("POST", $url, $payload);
             $request->session()->flash('alert-class', 'alert-success');
-                $request->session()->flash('message', 'Transaction successfully created');
-                    return redirect()->route('transaction.index');
+            $request->session()->flash('message', 'Transaction successfully created');
+            return redirect()->route('transaction.index');
 
         }
         catch(ClientException    $e){
                 $statusCode = $e->getCode();
             if ($statusCode == 400){
-                dd($statusCode);
                 $request->session()->flash('alert-class', 'alert-danger');
                 $request->session()->flash('message', 'store or customer is not created');
                 return redirect()->route('transaction.index');
@@ -157,7 +149,7 @@ class TransactionController extends Controller
             $statusCode = $response->getStatusCode();
             if ($statusCode  == 500) {
                 $request->session()->flash('alert-class', 'alert-danger');
-            $request->session()->flash('message', 'some information missing');
+                $request->session()->flash('message', 'Oops! something went wrong, Try Again');
             return redirect()->route('transaction.index');
             }
         }
@@ -171,22 +163,43 @@ class TransactionController extends Controller
      */
     public function show($id)
     {
-        $getTransUrl = $this->host.'/transaction'.'/'.$id;
+        // return view('backend.customer.show');
+        if ( !$id || empty($id) ) {
+            return redirect()->route('dashboard');
+        }
+
+        $transaction_id = explode('-', $id)[0];
+        $store_id = explode('-', $id)[1];
+        $customer_id = explode('-', $id)[2];
+
+        $getTransUrl = $this->host.'/transaction'.'/'.$transaction_id.'/'.$store_id.'/'.$customer_id;
+        $storeUrl = $this->host . '/store';
+        $customerUrl = $this->host . '/customer';
+        $api_token = $this->api_token;
         
         try {
             $client = new Client;
             $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
 
-            $response = $client->request("GET", $getTransUrl, $payload);
-            $statusCode = $response->getStatusCode();
-            $body = $response->getBody();
-            $transaction = json_decode($body)->data->transaction;
-            dd($transaction);
-            if ($statusCode == 200) {
-                return view('backend.transaction.show')->with('response', $transaction);
-            } else if($statusCode == 401){
+            // fetch all stores
+            $customerResponse = $client->request("GET", $customerUrl, $payload);
+            $customerStatusCode = $customerResponse->getStatusCode();
+
+            // fetch single transaction
+            $transactionResponse = $client->request("GET", $getTransUrl, $payload);
+            $transacStatusCode = $transactionResponse->getStatusCode();
+
+            if($customerStatusCode == 200 && $transacStatusCode == 200){
+                $stores = json_decode($customerResponse->getBody())->data->customer;
+                $transaction = json_decode($transactionResponse->getBody())->data->transaction;
+                // dd($transaction);
+
+                // dd($stores);
+                return view('backend.transaction.show', compact("stores", "api_token", "transaction"));
+            } else if($customerStatusCode == 401 && $transacStatusCode == 401){
                 return redirect()->route('login')->with('message', "Please Login Again");
-            } 
+             } 
+
         } catch (RequestException $e) {
             // check for  server error
             if ($e->getResponse()->getStatusCode() >= 500) {
