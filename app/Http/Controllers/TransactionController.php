@@ -311,11 +311,9 @@ class TransactionController extends Controller
                 ],
 
             ];
-            // dd($payload);
-
             try{
 
-                $response = $client->request("PATCH", $url, $payload);
+                $res = $client->request("PATCH", $url, $payload);
                 $request->session()->flash('alert-class', 'alert-success');
                 $request->session()->flash('message', 'Transaction successfully updated');
                 return redirect()->route('transaction.index');
@@ -330,8 +328,8 @@ class TransactionController extends Controller
                 }
     
             }catch (RequestException $e) {
-                $response = $e->getResponse();
-                $statusCode = $response->getStatusCode();
+                $res = $e->getResponse();
+                $statusCode = $res->getStatusCode();
                 if ($statusCode  == 500) {
                     $request->session()->flash('alert-class', 'alert-danger');
                     $request->session()->flash('message', 'Oops! something went wrong, Try Again');
@@ -339,9 +337,6 @@ class TransactionController extends Controller
                 }
             }
 
-       
-        
-      
         
     }
 
