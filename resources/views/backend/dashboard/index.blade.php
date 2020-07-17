@@ -202,10 +202,11 @@
           document.querySelector('.trans-error').classList.add('dissapear');
           document.querySelector('.trans-table').classList.remove('dissapear');
 
-          dash.data.recentTransactions.forEach(item => {
+          dash.data.recentTransactions.forEach((item, index) => {
               let output =
               `
               <tr>
+                  <td>${index}</td>
                   <td>${item.transaction.type}</td>
                   <td>${item.storeName}</td>
                   <td>${item.transaction.amount}</td>
@@ -242,7 +243,7 @@
           } else {
             document.querySelector('.debts-error').classList.add('dissapear');
             document.querySelector('.debts-table').classList.remove('dissapear');
-            
+
             dash.data.recentDebts.forEach(debt => {
               let row = 
               `
