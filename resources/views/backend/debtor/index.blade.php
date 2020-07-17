@@ -213,11 +213,15 @@
                                         </td> --}}
 
                                             <td>
-                                                <div class="btn-group mt-2 mr-1">
+                                                <a class="btn btn-info btn-small py-1 px-2"
+                                                    href="{{ route('debtor.show', $debtor->_id) }}">
+                                                    View More
+                                                </a>
+                                              <!--  <div class="btn-group mt-2 mr-1">
                                                     <button type="button" class="btn btn-info dropdown-toggle"
                                                             data-toggle="dropdown" aria-haspopup="true"
                                                             aria-expanded="false">
-                                                        Actions<i class="icon"><span data-feather="chevron-down"></span></i>
+                                                        View More<i class="icon"><span data-feather="chevron-down"></span></i>
                                                     </button>
                                                     <div class="dropdown-menu dropdown-menu-right">
                                                         {{-- <a class="dropdown-item" href="{{ route('debtor.show',[$debtor->_id]) }}">View</a> --}}
@@ -244,58 +248,13 @@
                                                                         else{
                                                                         event.preventDefault();
                                                                     }"> Send a reminder </a>
-                                                    </div>
+                                                    </div>-->
                                                 </div>
                                             </td>
                                         <th>
                                     </tr>
                                     
-                                    <div class="modal fade" id="bs-example-modal-sm" tabindex="-1" role="dialog"
-                         aria-labelledby="mySmallModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-sm">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="mySmallModalLabel">New Debt Reminder</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="{{ route('schedule-reminder') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="transaction_id" value="{{ $debtor->_id }}">
-                                        {{-- <div class="form-group">
-                                            <input type="text" class="form-control" id="exampleInput1"
-                                                   aria-describedby="transactionid" placeholder="Transaction ID">
-                                        </div> --}}
-                                        <div class="form-group">
-                                            {{-- <div class='input-group date' id='datetimepicker1'>
-                                            <input type='text' class="form-control" />
-                                            <span class="input-group-addon">
-                                                <span class="glyphicon glyphicon-calendar"></span>
-                                            </span>
-                                            </div> --}}
-                                            <div class="datepicker date input-group">
-                                                {{-- <label for="reservationDate">Date</label> --}}
-                                                <input type="text" placeholder="Choose a date" class="form-control" id="reservationDate" name="scheduleDate" autocomplete="off">
-                                                <div class="input-group-append"><span class="input-group-text px-4"><i class="fa fa-calendar"></i></span></div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                                    {{-- <textarea class="form-control"
-                                                              id="exampleInput2" placeholder="Message"></textarea> --}}
-                                            <label>Time</label>
-                                            <div class="input-group time" id="timepicker">
-                                                <input class="form-control" id="timepicker" placeholder="HH:MM AM/PM" name="time"/><span class="input-group-append input-group-addon"><span class="input-group-text"><i class="fa fa-clock"></i></span></span>
-                                            </div>
-                                        </div>
-
-                                        <button type="submit" class="btn btn-primary btn-block">Create Reminder</button>
-                                    </form>
-                                </div>
-                            </div><!-- /.modal-content -->
-                        </div><!-- /.modal-dialog -->
-                    </div>
+                                    
                                     @endforeach
                                     @endisset
                                     </tbody>
