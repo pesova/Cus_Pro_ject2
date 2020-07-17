@@ -46,7 +46,7 @@ class StoreController extends Controller
                 }
             } catch (RequestException $e) {
 
-                Log::info('Catch error: LoginController - ' . $e->getMessage());
+                Log::info('Catch error: StoreController - ' . $e->getMessage());
 
                 // check for 5xx server error
                 if ($e->getResponse()->getStatusCode() >= 500) {
@@ -85,7 +85,7 @@ class StoreController extends Controller
                 }
             } catch (RequestException $e) {
 
-                Log::info('Catch error: LoginController - ' . $e->getMessage());
+                Log::info('Catch error: StoreController - ' . $e->getMessage());
 
                 // check for 5xx server error
                 if ($e->getResponse()->getStatusCode() >= 500) {
