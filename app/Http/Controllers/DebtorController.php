@@ -21,6 +21,24 @@ class DebtorController extends Controller
      */
     public function index(Request $request)
     {
+        //display my stores
+        $store_url = env('API_URL', 'https://dev.api.customerpay.me') . '/store';
+
+        $cl = new Client;
+        $payloader = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+
+        $resp = $cl->request("GET", $store_url, $payloader);
+        $statsCode = $resp->getStatusCode();
+        $body_response = $resp->getBody();
+        $Stores = json_decode($body_response);
+
+        if($statsCode == 200) {
+            return view('backend.debtor.index')->with('response', $Stores->data->stores);
+        }
+        else if($statsCode->getStatusCode() == 500){
+            return view('errors.500');
+        }
+
         // return view('backend.debtor.index');
         $url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt';
 
@@ -73,7 +91,33 @@ class DebtorController extends Controller
      */
     public function create()
     {
-        return view('backend.debtor.create');
+        $store_url = env('API_URL', 'https://dev.api.customerpay.me') . '/store';
+        $transaction_url = env('API_URL', 'https://dev.api.customerpay.me') . '/transaction';
+
+        $cl = new Client;
+        $cl2 = new Client;
+
+        $payloader = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+
+        $resp = $cl->request("GET", $store_url, $payloader);
+        $response = $cl2->request("GET", $transaction_url, $payloader);
+
+        $statsCode = $resp->getStatusCode();
+        $statsCode2 = $response->getStatusCode();
+
+        $body_response = $resp->getBody();
+        $body_response2 = $response->getBody();
+
+        $Stores = json_decode($body_response);
+        $transaction = json_decode($body_response2);
+
+        if($statsCode == 200) {
+            return view('backend.debtor.create', compact('transaction'))->with('response', $Stores->data->stores);
+        }
+        else if($statsCode->getStatusCode() == 500){
+            return view('errors.500');
+        }
+        // return view('backend.debtor.create');
     }
 
 
@@ -86,7 +130,77 @@ class DebtorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt/new';
+
+        if ($request->isMethod('post')) {
+            $request->validate([
+                'name' => 'required|min:2',
+                'store_name' => 'required|min:2',
+                'customer_phone_number' =>  'required',
+                'amount' =>  'numeric|required',
+                'status' =>  'required',
+                'transaction_id' =>   'required',
+                'pay_date' =>   'required',
+            ]);
+
+            try {
+
+                $client =  new Client();
+                $payload = [
+                    'headers' => ['x-access-token' => Cookie::get('api_token')],
+                    'form_params' => [
+                        'name' => $request->input('name'),
+                        'store_name' => $request->input('store_name'),
+                        'customer_phone_number' => $request->input('customer_phone_number'),
+                        'amount' => $request->input('amount'),
+                        'status' => $request->input('status'),
+                        'transaction_id' => $request->input('transaction_id'),
+                        'pay_date' => $request->input('pay_date'),
+                        'message' => $request->input('message'),
+                    ],
+
+                ];
+
+                $response = $client->request("POST", $url, $payload);
+
+                $statusCode = $response->getStatusCode();
+                $body = $response->getBody();
+                $data = json_decode($body);
+
+                if ($statusCode == 201  && $data->success) {
+                    $request->session()->flash('alert-class', 'alert-success');
+                    Session::flash('message', $data->message);
+
+                    return $this->index();
+                }
+                else if($statusCode->getStatusCode() == 401){
+                    $request->session()->flash('alert-class', 'alert-danger');
+                    Session::flash('message', "Your Session Has Expired, Please Login Again");
+                   return redirect()->route('store.index');
+               } else {
+                    $request->session()->flash('alert-class', 'alert-waring');
+                    Session::flash('message', $data->message);
+                    return redirect()->route('debtor.create');
+                }
+            } catch (RequestException $e) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                if ($statusCode  == 500) {
+                    Log::error((string) $response->getBody());
+                    return view('errors.500');
+                }
+
+                $data = json_decode($response->getBody());
+                Session::flash('message', $data->message);
+                return redirect()->route('debtor.create');
+            } catch (Exception $e) {
+                Log::error((string) $response->getBody());
+                return view('errors.500');
+            }
+        }
+
+        return view('backend.debtor.create');
     }
 
     /**
@@ -110,7 +224,7 @@ class DebtorController extends Controller
     public function edit($id)
     {
         //
-        return view('backend.debtor.create');
+        return view('backend.debtor.edit');
 
     }
 

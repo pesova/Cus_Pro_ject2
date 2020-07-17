@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -22,12 +23,12 @@ class SettingsController extends Controller
 
         // Setting header
         $user_details = [];
-        Cookie::get('user_id') !== null ?  $user_details['id'] = Cookie::get('user_id') : "Not set";
-        Cookie::get('email') !== null ?  $user_details['email'] = Cookie::get('email') : "Not set";
-        Cookie::get('first_name') !== null ?  $user_details['first_name'] = Cookie::get('first_name') : "Not set";
-        Cookie::get('last_name') !== null ?  $user_details['last_name'] = Cookie::get('last_name') : "Not set";
-        Cookie::get('phone_number') !== null ?  $user_details['phone_number'] = Cookie::get('phone_number') : "Not set";
-        Cookie::get('is_active') !== null ?  $user_details['is_active'] = Cookie::get('is_active') : "Not set";
+        Cookie::get('user_id') !== null ?  $user_details['id'] = Cookie::get('user_id') : "";
+        Cookie::get('email') !== null ?  $user_details['email'] = Cookie::get('email') : "";
+        Cookie::get('first_name') !== null ?  $user_details['first_name'] = Cookie::get('first_name') : "";
+        Cookie::get('last_name') !== null ?  $user_details['last_name'] = Cookie::get('last_name') : "";
+        Cookie::get('phone_number') !== null ?  $user_details['phone_number'] = Cookie::get('phone_number') : "";
+        Cookie::get('is_active') !== null ?  $user_details['is_active'] = Cookie::get('is_active') : "";
         return view('backend.settings.settings')->with("user_details", $user_details);
         // Setting User_id
         $this->user_id = Cookie::get('user_id');
@@ -51,65 +52,36 @@ class SettingsController extends Controller
 
                     $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store-admin/update';
                     $client = new Client();
-                    $phone_number = intval($request->input('phone_number'));
                     $data = [
                         "first_name" => $request->input('first_name'),
                         "last_name" => $request->input('last_name'),
-                        "email" => $request->input('email'),
-                        "phone_number" => $phone_number
+                        "email" => $request->input('email')
                     ];
                     // make an api call to update the user_details
                     $this->headers = ['headers' => ['x-access-token' => Cookie::get('api_token')], 'form_params' => $data];
-                    $form_response_process = $client->request('PUT', $url, $this->headers);
+                    $response = $client->request('PUT', $url, $this->headers);
                 } elseif ($control == 'password_change') {
-                    $validator = Validator::make($request->all(), [
-                        'new_password' => 'required|regex:/^(?=.*\d)(?=.*[a-z]).{6,20}$/|confirmed',
+                    $request->validate([
+                        'current_password' => 'required|min:6',
+                        'new_password' => 'required|min:6|confirmed',
                     ]);
-                    if ($validator->fails()) {
-                        $request->session()->flash('alert-class', 'alert-danger');
-                        $request->session()->flash('message', "password update failed, invalid input");
-                        return redirect()->route('change_password');
-                    } else {
-                        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/update-password';
-                        $client = new Client();
-                        $data = [
-                            "oldPassword" => $request->input('current_password'),
-                            "newPassword" => $request->input('new_password'),
-                            "confirmPassword" => $request->input('new_password_confirmation')
-                        ];
-                        // make an api call to update the user_details
-                        $this->headers = ['headers' => ['x-access-token' => Cookie::get('api_token')], 'form_params' => $data];
-                        $form_response_process = $client->request('POST', $url, $this->headers);
-                    }
+                    $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store-admin/update/password';
+                    $client = new Client();
+                    $data = [
+                        "old_password" => $request->input('current_password'),
+                        "new_password" => $request->input('new_password'),
+                        "confirm_password" => $request->input('new_password_confirmation')
+                    ];
+                    // make an api call to update the user_details
+                    $this->headers = ['headers' => ['x-access-token' => Cookie::get('api_token')], 'form_params' => $data];
+                    $response = $client->request('POST', $url, $this->headers);
                 } else {
                     return view('errors.404');
                 }
-                if ($form_response_process->getStatusCode() == 500) {
-                    return view('errors.500');
-                }
-                if ($form_response_process->getStatusCode() == 400) {
-                    if ($control == 'profile_update') {
-                        $response = json_decode($form_response_process->getBody(), true);
-                        $message = $response->error->description;
-                        return view('backend.settings.settings')->with("user_details", $message);
-                    }
-                }
-                if ($form_response_process->getStatusCode() == 401) {
-                    $response = json_decode($form_response_process->getBody(), true);
-                    $message = $response->error->description;
-                    $request->session()->flash('alert-class', 'alert-success');
-                    $request->session()->flash('message', "Password updated successfully");
-                    if ($control == 'profile_update') {
-                        return view('backend.settings.settings');
-                    }
-                    if ($control == 'password_change') {
-                        return redirect()->route('change_password');
-                    }
-                }
-                if ($form_response_process->getStatusCode() == 200) {
+                if ($response->getStatusCode() == 200) {
                     $request->session()->flash('alert-class', 'alert-success');
                     if ($control == 'profile_update') {
-                        $user_detail_res = json_decode($form_response_process->getBody(), true);
+                        $user_detail_res = json_decode($response->getBody(), true);
                         $filtered_user_detail = $user_detail_res['data']['store_admin']['local'];
                         $user_details = [
                             "email" => $filtered_user_detail['email'],
@@ -134,20 +106,36 @@ class SettingsController extends Controller
                 return redirect()->route('settings');
             }
         } catch (RequestException $e) {
-            $request_res = json_decode($e->getResponse()->getBody());
-            $request->session()->flash('alert-class', 'alert-danger');
-            $request->session()->flash('message', $request_res->message);
+
+            if ($e->hasResponse()) {
+                $response = json_decode($e->getResponse()->getBody());
+                $request->session()->flash('alert-class', 'alert-danger');
+                if ($response->message == 'Error updating password') {
+                    $request->session()->flash('message', 'current password is incorrect');
+                } else {
+                    $request->session()->flash('message', $response->message);
+                }
+            }
+
             if ($control == 'password_change') {
                 return redirect()->route('change_password');
             }
             if ($control == 'profile_update') {
                 return redirect()->route('setting');
             }
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return view('errors.500');
         }
     }
 
     public function change_password()
     {
         return view('backend.change_password.index');
+    }
+    
+    public function change_profile_picture()
+    {
+        return view('backend.change_profile_picture.index');
     }
 }

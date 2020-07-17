@@ -51,26 +51,26 @@
                             <div class="form-group">
                               <label class="col-lg-3 control-label">Full Name:</label>
                               <div class="col-lg-8">
-                                <input class="form-control" type="text" value="John Doe">
+                                <input class="form-control" type="text" placeholder="John Doe" maxlength="30" value="{{old('name')}}" required name="name">
                               </div>
                             </div>
 
                             <div class="form-group">
                               <label class="col-lg-3 control-label">Email:</label>
                               <div class="col-lg-8">
-                                <input class="form-control" type="text" value="johndoe@doetech.com">
+                                <input class="form-control" type="text" placeholder="example@gmail.com" value="{{old('email')}}" name="email" required>
                               </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-lg-3 control-label">Tel:</label>
                                 <div class="col-lg-8">
-                                  <input class="form-control" type="phone" value="+234 90 00 000 000">
+                                  <input class="form-control" type="phone" id="phone" placeholder="2348127277467" value="{{old('phone_number')}}" maxlength="16" name="phone_number" required>
                                 </div>
                               </div>
                               <div class="form-group">
                                 <div class="col-md-8">
-                                    <select class="form-control">
+                                    <select class="form-control" required>
                                         <option selected="">Customer Type</option>
                                         <option>Good Debtor</option>
                                         <option>Bad Debtor</option>
@@ -80,7 +80,7 @@
                               </div>  
                               <div class="form-group">
                                 <div class="col-md-8">
-                                    <select class="form-control">
+                                    <select class="form-control" required>
                                         <option selected="">Status</option>
                                         <option class="text-danger">Has Debt</option>
                                         <option class="text-success">No Debt</option>                                        
@@ -91,9 +91,9 @@
                             <div class="form-group">
                               <label class="col-md-3 control-label green-border-focus">House Adddress</label>
                               <div class="col-md-8">                                
-                                <textarea class="form-control " rows="3">1975, Boring Lane, San
-                                    Francisco, California, United
-                                    States - 94108</textarea>
+                                <textarea class="form-control " placeholder="1975, Boring Lane, San
+                                Francisco, California, United
+                                States - 94108" maxlength="50" rows="3"></textarea>
                                 
                               </div>
                             </div>
@@ -101,12 +101,12 @@
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Short Comment</label>
                                 <div class="col-md-8">
-                                  <input class="form-control" type="text" value="this is a very very large junk of rubbush that i am just foing to type">
+                                  <input class="form-control" type="text" maxlength="100" value="{{old('comment')}}">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-8">
-                                    <input type="file" id="main-input" class="form-control form-input form-style-base">                                        
+                                    <input type="file"  id="main-input" class="form-control form-input form-style-base">                                        
                                   </div>                                
                               </div>
 
@@ -135,3 +135,38 @@
 </div>
 
 @endsection
+
+@section("javascript")
+   <script src="/backend/assets/build/js/intlTelInput.js"></script>
+   <script>
+   var input = document.querySelector("#phone");
+   window.intlTelInput(input, {
+       // any initialisation options go here
+   });
+
+
+   //phone Number format
+
+   var input = document.querySelector("#phone");
+    var test = window.intlTelInput(input, {
+        separateDialCode: true,
+        // any initialisation options go here
+    });
+
+    $("#phone").keyup(() => {
+        if ($("#phone").val().charAt(0) == 0) {
+            $("#phone").val($("#phone").val().substring(1));
+        }
+    });
+
+    $("#submitForm").submit((e) => {
+        e.preventDefault();
+        const dialCode = test.getSelectedCountryData().dialCode;
+        if ($("#phone").val().charAt(0) == 0) {
+            $("#phone").val($("#phone").val().substring(1));
+        }
+        $("#phone_number").val(dialCode + $("#phone").val());
+        $("#submitForm").off('submit').submit();
+    });
+   </script>
+@stop
