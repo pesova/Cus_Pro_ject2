@@ -75,8 +75,8 @@
                 </div>
             </div>
 
-            <div class="col-xl-10 col-md-12 col-sm-12 pt-2">
-                <div class="card offset-1">
+            <div class="col-xl-10 col-md-10 col-sm-12 pt-2 mx-auto">
+                <div class="card">
                     <div class="card-body">
 
                         <div class="">
@@ -95,11 +95,11 @@
                                             <tbody>
                                                 <tr>
                                                     <th scope="row">Amount</th>
-                                                    <td  colspan="2">{{ $transaction->amount }}</td>
+                                                    <td colspan="2">{{ $transaction->amount }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">Interest</th>
-                                                    <td  colspan="2">{{ $transaction->interest }} % / Yr</td>
+                                                    <td colspan="2">{{ $transaction->interest }} % / Yr</td>
                                                 </tr>
                                                 <tr class="font-weight-bolder">
                                                     <th scope="row">Total Amount</th>
@@ -226,23 +226,33 @@
                                             name="description" placeholder="Description">
                                     </div>
                                 </div>
+
                                 <div class="form-group row mb-3">
                                     <label for="transaction_type" class="col-3 col-form-label">Transaction Type</label>
                                     <div class="col-9">
                                         <select class="form-control" id="type" name="type">
                                             <option value="paid"
-                                                {{ old('type', $transaction->status) == 'paid' ? 'selected' : '' }}>
+                                                {{ old('type', $transaction->type) == 'paid' ? 'selected' : '' }}>
                                                 Paid</option>
                                             <option value="debt"
-                                                {{ old('type', $transaction->status) == 'debt' ? 'selected' : '' }}>
+                                                {{ old('type', $transaction->type) == 'debt' ? 'selected' : '' }}>
                                                 Debt</option>
                                             <option value="receivable"
-                                                {{ old('type', $transaction->status) == 'receivable' ? 'selected' : '' }}>
+                                                {{ old('type', $transaction->type) == 'receivable' ? 'selected' : '' }}>
                                                 Receivable
                                             </option>
                                         </select>
                                     </div>
                                 </div>
+
+                                <div class="form-group row mb-3">
+                                    <label for="description" class="col-3 col-form-label">Due Date</label>
+                                    <div class="col-9">
+                                        <input type="date" class="form-control" id="expected_pay_date"
+                                            name="expected_pay_date">
+                                    </div>
+                                </div>
+
                                 <div class="form-group row mb-3">
                                     <label for="store" class="col-3 col-form-label">Store</label>
                                     <div class="col-9">
@@ -274,8 +284,12 @@
                                     <div class="col-9">
 
                                         <select class="form-control" name="status">
-                                            <option value="1">Paid</option>
-                                            <option value="0" selected>Pending</option>
+                                            <option value="0"
+                                                {{ old('type', $transaction->status) == '0' ? 'selected' : '' }}>Pending
+                                            </option>
+                                            <option value="1"
+                                                {{ old('type', $transaction->status) == '1' ? 'selected' : '' }}>Paid
+                                            </option>
                                         </select>
                                     </div>
                                 </div>

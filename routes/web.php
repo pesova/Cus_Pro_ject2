@@ -121,6 +121,7 @@ Route::prefix('/admin')->group(function () {
         // location
         Route::resource('location', 'LocationController');
 
+        Route::patch('changeStatus', 'TransactionController@changeStatus');
 
         Route::get('/debt_reminders', function () {
             return redirect('/admin/debtor/create');

@@ -215,7 +215,6 @@ class TransactionController extends Controller
             Session::flash('message', $response->message);
             return redirect()->route('transaction.index', ['response' => []]);
         } catch (\Exception $e) {
-
             return view('backend.transaction.index')->with('errors.500');
         }
     }
@@ -282,15 +281,10 @@ class TransactionController extends Controller
     {
 
         $transaction_id = explode('-', $id)[0];
-        $store_id = explode('-', $id)[1];
-        $customer_id = explode('-', $id)[2];
 
-        // $getTransUrl = $this->host.'/transaction/update'.'/'.$transaction_id.'/'.$store_id.'/'.$customer_id;
         $url = env('API_URL', 'https://dev.api.customerpay.me') . '/transaction/update/' . $transaction_id;
-
         
             $client = new Client();
-
 
             $request->validate([
                 'amount' => 'required|max:15',
@@ -312,8 +306,8 @@ class TransactionController extends Controller
                       'store_id' => $request->input('store'),
                       'customer_id' => $request->input('customer'),
                       'status' => $request->input('status'),
+                        'expected_pay_date' => $request->input('expected_pay_date'),
                 ],
-
             ];
             try{
 
@@ -323,7 +317,7 @@ class TransactionController extends Controller
                 return redirect()->route('transaction.index');
     
             }
-            catch(ClientException    $e){
+            catch(ClientException $e){
                     $statusCode = $e->getCode();
                 if ($statusCode == 400){
                     $request->session()->flash('alert-class', 'alert-danger');
@@ -337,11 +331,49 @@ class TransactionController extends Controller
                 if ($statusCode  == 500) {
                     $request->session()->flash('alert-class', 'alert-danger');
                     $request->session()->flash('message', 'Oops! something went wrong, Try Again');
-                return redirect()->route('transaction.index');
+                    return redirect()->route('transaction.index');
                 }
             }
+    }
 
+    /**
+     * Responds with a welcome message with instructions
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function changeStatus(Request $request)
+    {
+
+        $transaction_id = $request->tran_id;
+        $store_id = $request->store_id;
+        $customer_id = $request->customer_id;
+
+        return response()->json(['success'=>'Oops! Something went wrong.']);
+
+        $getTransUrl = $this->host.'/transaction'.'/'.$transaction_id.'/'.$store_id.'/'.$customer_id;
+
+        $payload = [
+            'headers' => ['x-access-token' => Cookie::get('api_token')],
+                'form_params' => [
+                'expected_pay_date' => $request->status,
+            ],
+        ];
         
+        try {
+            
+            $client = new Client;
+            $response = $client->request("PATCH", $getTransUrl, $payload);
+
+            if($response == 200){
+                return response()->json(['success'=>'Status change successfully.']);
+            } else {
+                return response()->json(['error'=>'Oops! Something went wrong.']);
+            }
+
+        } catch (\Exception $e) {
+            return response()->json(['error'=>'Oops! Something went wrong.']);
+        }
+  
     }
 
     /**
