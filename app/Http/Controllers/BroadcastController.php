@@ -11,9 +11,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
-// use SmoDav\AfricasTalking\Config\Config;
-// use SmoDav\AfricasTalking\Native\NativeConfig;
-use AfricasTalking\SDK\AfricasTalking;
 
 class BroadcastController extends Controller
 {
@@ -115,17 +112,15 @@ class BroadcastController extends Controller
             $client = new Client;
             $payload = [
                 'headers' => [
-                    //'apiToken' => Cookie::get('api_token'),
-                    'apiKey' => "bfce7f8d6151c4e386abb40439899bcc7b5a52a2fe839729099113255edbccc2",
+                    'apiKey' => env('AT_KEY', "3f18b458d8d12b7fbdd7f85665e878f05d99c1f8c773dccc5ef21d3ea80cfb21"),
                     "Content-type" => "application/x-www-form-urlencoded",
                     "Accept" => "application/json"
                 ],
                 'form_params' => [
-                   "username" => "sandbox",
-                   //'current_user' => Cookie::get('user_id'),
+                   "username" => env('AT_USERNAME',"sandbox"),
                    "to" => $request->input('receiver'),
-                   "message" => $request->input("title") ."<br>" . $request->input('message'),
-                   "from" => "Am4r4ch1",
+                   "message" => $request->input('message'),
+                   "from" => env('AT_FROM',"AFRICASTKNG"),
                    "bulkSMSMode" => "1",
                    "enqueue" => "1",
                 ]
@@ -143,7 +138,7 @@ class BroadcastController extends Controller
             }           
                       
                
-            if ($dt["0"] == 101){
+            if ($dt["0"] == 101 || $dt["0"] == 102){
                return redirect()->route('broadcast.index')->with('response', $dt["3"]);               
             }else {
                return redirect()->route('broadcast.create')->with('response', "Failed");     

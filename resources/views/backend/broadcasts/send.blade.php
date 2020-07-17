@@ -28,11 +28,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-row">
+                             <!-- <div class="form-row">
                                 <div class="col">
                                     <div class="form-group"><label for="title"><strong>Message Title</strong></label><input class="form-control" type="text" placeholder="Enter your message title here" name="title"></div>
                                 </div>
-                            </div>
+                            </div>  -->
                             <p class="header"> Message Body</p>
                             <textarea name="message" id="body" cols="30" rows="10" placeholder="Enter message here" class="w-100"></textarea>
                             <input type="checkbox" id="temp" name="temp" value="template">
