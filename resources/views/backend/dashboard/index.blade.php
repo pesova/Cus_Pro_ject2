@@ -114,7 +114,7 @@
                     <div class="card-body pt-2">
                       <h5 class="mb-4 header-title">Recent Transactions</h5>       
                       <div style="display:flex; justify-content:center; text-align:center; width:100%" class='mt-2 mb-3 trans-error'>
-                        Opps! Couldn't get content. Try refreshing
+                        
                       </div>
 
                         <div class="table-responsive mt-4 trans-table dissapear">
@@ -124,7 +124,7 @@
                                     <tr>
                                         <th scope="col">#</th>
                                         <th scope="col">Type</th>
-                                        <th scope="col">Name</th>
+                                        <th scope="col">Store Name</th>
                                         <th scope="col">Amount</th>
                                         <th scope="col"></th>
                                     </tr>
@@ -148,7 +148,7 @@
                     <div class="card-body pt-2">
                         <h5 class="mb-4 header-title">Latest Debts</h5>       
                         <div style="display:flex; justify-content:center; text-align:center; width:100%" class='mt-2 mb-3 debts-error'>
-                          Opps! Couldn't get content. Try refreshing
+                          
                         </div>
 
                         <div class="debts-table dissapear">
@@ -166,13 +166,14 @@
     {{-- <script src="/backend/assets/js/pages/dashboard.js"></script> --}}
 
     <script>
-        document.addEventListener('DOMContentLoaded', getDashboard);
+        document.addEventListener('DOMContentLoaded', makeRequest);
 
         async function getDashboard() {
 
           let apiToken = "{{\Illuminate\Support\Facades\Cookie::get('api_token')}}";
 
-          const res = await fetch(`https://dev.api.customerpay.me/dashboard?token=${apiToken}`);
+          // const res = await fetch(`https://dev.api.customerpay.me/dashboard?token=${apiToken}`);
+          const res = await fetch(`{{env('API_URL')}}/dashboard?token=${apiToken}`);
           const dash = await res.json();
 
           let myCustomers = document.querySelector('.my-customers');
@@ -209,9 +210,9 @@
                   <td>${index}</td>
                   <td>${item.transaction.type}</td>
                   <td>${item.storeName}</td>
-                  <td>${item.transaction.amount}</td>
+                  <td>N${item.transaction.amount}</td>
                   <td>
-                      <a href=""><span class="badge badge-soft-warning py-1">View</span></a>
+                      <a href="/admin/transaction/${item.transaction._id}-${item.transaction.store_ref_id}-${item.transaction.customer_ref_id}"><span class="badge badge-soft-warning py-1">View</span></a>
                   </td>
               </tr>
               `
@@ -261,9 +262,16 @@
               </div>
               `
               debtList.innerHTML += row;
-            })
+            });
           };
         };
+
+        function makeRequest (params) {
+          getDashboard().catch(err => {
+            document.querySelector('.trans-error').innerText = "Opps! Couldn't get content. Try refreshing"
+            document.querySelector('.debts-error').innerText = "Opps! Couldn't get content. Try refreshing"
+          })
+        }
     </script>
 
     {{-- @if (\Illuminate\Support\Facades\Cookie::get('is_first_time_user') == true) --}}
