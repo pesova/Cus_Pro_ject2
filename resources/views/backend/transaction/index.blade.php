@@ -225,12 +225,10 @@
     $(document).ready(function () {
         $('#transactionTable').DataTable();
     });
-
 </script>
 
 <script>
     jQuery(function ($) {
-
         var token = "{{Cookie::get('api_token')}}"
         $('select[name="store"]').on('change', function () {
             var storeID = $(this).val();
@@ -253,7 +251,6 @@
                                 .data.store.customers[i]._id + '">' +
                                 data.data.store.customers[i].name + '</option>');
                         }
-
                     }
                 });
             } else {
@@ -261,7 +258,6 @@
             }
         });
     });
-
 </script>
 {{-- <script>
     jQuery(function ($) {
@@ -269,7 +265,6 @@
         window.intlTelInput(input, {
             // any initialisation options go here
         });
-
         var token = "{{Cookie::get('api_token')}}"
 $('select[name="store_customer"]').on('change', function () {
 //console.log(('select[name="store_customer"]').val())
@@ -285,13 +280,13 @@ headers: {
 'x-access-token': token
 },
 success: function (data1) {
-
 var nid = 0;
 var result;
 jQuery.each(data1.data, function (key, item) {
-for (nid = 0; nid < item.length; nid++) { var show_url="{{ route('transaction.show', 'item[nid]._id')}}" ; var
-    edit_url="{{ route('transaction.edit', 'item[nid]._id')}}" var
-    delete_url="{{ route('transaction.destroy', 'item[nid]._id')}}" //console.log(item[nid]); result=result + '<tr>'
+for (nid = 0; nid < item.length; nid++) { 
+    var show_url="{{ route('transaction.show', 'item[nid]._id')}}" ; 
+    var edit_url="{{ route('transaction.edit', 'item[nid]._id')}}" ;
+    var delete_url="{{ route('transaction.destroy', 'item[nid]._id')}}"; //console.log(item[nid]); result=result + '<tr>'
     + '<td>' + item[nid]._id + '</td>' + '<td>' + item[nid].type + '</td>' + '<td>' + item[nid].customer_ref_id
     + '</td>' + '<td>' + item[nid].total_amount + '</td>' + '<td>' + '<div class="btn-group mt-2 mr-1">'
     + '<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Actions<i class="icon"><span data-feather="chevron-down"></span></i> </button>'
@@ -299,4 +294,7 @@ for (nid = 0; nid < item.length; nid++) { var show_url="{{ route('transaction.sh
     + '">View Transaction</a> <a class="dropdown-item" href="' + edit_url
     + '">Edit Transaction</a> <a class="dropdown-item" href=" ' + delete_url + '">Delete Transaction</a> </div></td>'
     + '</tr>' ; } // console.log(result); $(".table tbody").html(result); }) } }); } else { $('#example tr').empty(); }
-    }); }); </script> --}} @stop
+    });
+     });
+      </script> 
+      --}} @stop
