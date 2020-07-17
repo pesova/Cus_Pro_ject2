@@ -15,12 +15,17 @@
                 <div class="col-md-12">
                     <div class="customer-heading-container">
 
+                        <button class="add-customer-button btn btn-primary" onclick="showModal()">
+
+                            Add New Assistant <i class="fa fa-plus add-new-icon"></i>
+
+                        </button>{{--
                         <button class="add-customer-button btn btn-primary" data-toggle="modal"
                                 data-target="#AssistantModal">
 
                             Add New Assistant <i class="fa fa-plus add-new-icon"></i>
 
-                        </button>
+                        </button>--}}
                     </div>
                 </div>
             </div>
@@ -250,8 +255,7 @@
                                 <br>
                                 <div class="col-10 col-sm-7">
                                     <input type="tel" id="phone" name=""
-                                           class="form-control" value="{{old('phone_number')}}"
-                                           style="padding-left: 96%; !important;" required>
+                                           class="form-control" value="{{old('phone_number')}}"  required>
                                     <input type="hidden" name="phone_number" id="phone_number"
                                            class="form-control">
 
@@ -304,7 +308,7 @@
             separateDialCode: true,
             // any initialisation options go here
         });
-        // $("#phone").css('paddingLeft', '96%'); // fix issue with too long number field when modal is opened
+        //  $("#phone").css('paddingLeft', '96%'); // fix issue with too long number field when modal is opened
 
         if ($("#phone").val().trim() != '')
             test.setNumber("+" + ($("#phone").val()));
@@ -324,6 +328,10 @@
             $("#submitForm").off('submit').submit();
         });
 
+        function showModal() {
+            $('#phone').css('paddingLeft', "unset");
+            $("#AssistantModal").modal('show');
+        }
 
     </script>
 @stop
