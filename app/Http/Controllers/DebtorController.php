@@ -68,8 +68,8 @@ class DebtorController extends Controller
             if ($e->hasResponse()) {
                 $response = $e->getResponse()->getBody();
                 $result = json_decode($response);
-                Session::flash('message', $result->message);
-                return view('backend.debtor.index', []);
+                $session = Session::flash('message', $result->message);
+                return view('backend.debtor.index')->with($session);
             }
 
             //5xx server error
@@ -208,7 +208,7 @@ class DebtorController extends Controller
     public function show($id)
     {
         //return view('backend.debtor.show');
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt'.'/'.$id;
+        $url = env('API_URL', 'https://dev.api.customerpay.me/') . 'debt/'.$id;
         //$getTransUrl = $this->host.'/debt'.'/'.$id;
         
         try {
@@ -225,10 +225,10 @@ class DebtorController extends Controller
             //$body = $response->getBody();
             //$debt = json_decode($body)->data->debts;
             //dd($debt);
-            if ($statusCode == 200) {
+            if ($statsCode == 200) {
                 //return view('backend.debtor.show')->with('debt', $debt);
                 return view('backend.debtor.show', compact('debts'));
-            } else if($statusCode == 401){
+            } else if($statsCode == 401){
                 return redirect()->route('login')->with('message', "Please Login Again");
             } 
         } catch (RequestException $e) {
