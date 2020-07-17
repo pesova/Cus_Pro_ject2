@@ -126,6 +126,12 @@ Route::prefix('/admin')->group(function () {
             return redirect('/admin/debtor/create');
         })->name('debts.reminder');
 
+        Route::get('debt.search','DebtorController@search')->name('debt.search');
+
+        Route::post('reminder', 'DebtorController@sendReminder')->name('reminder');
+
+        Route::post('schedule-reminder', 'DebtorController@sheduleReminder')->name('schedule-reminder');
+
         // super admin protected routes
         Route::group(['middleware' => 'backend.super.admin'], function () {
             // Route::get('/users', 'UsersController@index')->name('users');

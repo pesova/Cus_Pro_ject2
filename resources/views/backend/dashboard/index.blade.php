@@ -2,6 +2,7 @@
 
 @section("custom_css")
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+
 @stop
 
 @if(\Illuminate\Support\Facades\Cookie::get('user_role') == 'store_admin')
@@ -52,11 +53,7 @@
                             <div class="media-body">
                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Customers</span>
                                 <h2 class="mb-0 my-customers">
-                                    {{-- @if ($response != null)
-                                        {{ count($response[1]->data) }}
-                                    @else
-                                        NaN
-                                    @endif --}}
+                                    
                                 </h2>
                             </div>
                         </div>
@@ -71,11 +68,7 @@
                             <div class="media-body">
                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Stores</span>
                                 <h2 class="mb-0 my-stores">
-                                    {{-- @if ($response != null)
-                                        {{ count($response[3]->data->stores) }}
-                                    @else
-                                        NaN
-                                    @endif --}}
+                                    
                                 </h2>
                             </div>
                         </div>
@@ -90,11 +83,7 @@
                             <div class="media-body">
                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Assistants</span>
                                 <h2 class="mb-0 my-assistants">
-                                    {{-- @if ($response != null)
-                                        {{ count($response[4]->data->assistants) }}
-                                    @else
-                                        NaN
-                                    @endif --}}
+                                    
                                 </h2>
                             </div>
                         </div>
@@ -108,12 +97,8 @@
                         <div class="media p-3">
                             <div class="media-body">
                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Debtors</span>
-                                <h2 class="mb-0 my-debtors"> 0
-                                    {{-- @if ($response != null)
-                                        {{ count($response[2]->data->debts) }}
-                                    @else
-                                        NaN
-                                    @endif --}}
+                                <h2 class="mb-0 my-debtors"> 
+                              
                                 </h2>
                             </div>
                         </div>
@@ -126,10 +111,14 @@
         <div class="row">
             <div class="col-xl-7">
                 <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title mt-0 mb-0 header-title">Recent Transactions</h5>
+                    <div class="card-body pt-2">
+                      <h5 class="mb-4 header-title">Recent Transactions</h5>       
+                      <div style="display:flex; justify-content:center; text-align:center; width:100%" class='mt-2 mb-3 trans-error'>
+                        Opps! Couldn't get content. Try refreshing
+                      </div>
 
-                        <div class="table-responsive mt-4">
+                        <div class="table-responsive mt-4 trans-table dissapear">
+
                             <table class="table table-hover table-nowrap mb-0">
                                 <thead>
                                     <tr>
@@ -157,53 +146,14 @@
             <div class="col-xl-5">
                 <div class="card">
                     <div class="card-body pt-2">
-                        <h5 class="mb-4 header-title">Latest Debts</h5>
+                        <h5 class="mb-4 header-title">Latest Debts</h5>       
+                        <div style="display:flex; justify-content:center; text-align:center; width:100%" class='mt-2 mb-3 debts-error'>
+                          Opps! Couldn't get content. Try refreshing
+                        </div>
 
-                        {{-- @if ($response != null)
-                            @if (count($response[2]->data->debts) > 0)
-                                @if (count($response[2]->data->debts) > 7)
-                                    @for ($i = 0; $i < 7; $i++) --}}
-                                        {{-- <div class="media mt-1 border-top pt-3">
-                                            <div class="media-body">
-                                                <h6 class="mt-1 mb-0 font-size-15">{{ $response[2]->data->debts[$i]->pay_date }}</h6>
-                                                <h6 class="text-muted font-weight-normal mt-1 mb-3">{{ $response[2]->data->debts[$i]->pay_date }}</h6>
-                                            </div>
-                                            <div class="dropdown align-self-center float-right">
-                                                <a href="#" class="dropdown-toggle arrow-none text-muted" data-toggle="dropdown" aria-expanded="false">
-                                                    <i class="uil uil-ellipsis-v"></i>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a href="javascript:void(0);" class="dropdown-item"><i class="uil uil-edit-alt mr-2"></i>View</a>
-                                                </div>
-                                            </div>
-                                        </div> --}}
-                                    {{-- @endfor
-                                @else
-                                    {{ $i = 0 }}
-                                    @foreach ($response[2]->data->debts as $transaction) --}}
-                                        {{-- <div class="media mt-1 border-top pt-3">
-                                            <div class="media-body">
-                                                <h6 class="mt-1 mb-0 font-size-15">Some Title</h6>
-                                                <h6 class="text-muted font-weight-normal mt-1 mb-3">{{ $response[2]->data->debts[$i]->pay_date }}</h6>
-                                            </div>
-                                            <div class="dropdown align-self-center float-right">
-                                                <a href="#" class="dropdown-toggle arrow-none text-muted" data-toggle="dropdown" aria-expanded="false">
-                                                    <i class="uil uil-ellipsis-v"></i>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a href="javascript:void(0);" class="dropdown-item"><i class="uil uil-edit-alt mr-2"></i>View</a>
-                                                </div>
-                                            </div>
-                                        </div> --}}
-                                        {{-- {{ $i++ }}
-                                    @endforeach
-                                @endif
-                            @else
-                                <h5>No recent debtors</h5>
-                            @endif
-                        @else
-                            <h5>Error while fetching data. <a href="">Refresh Page</a></td>
-                        @endif --}}
+                        <div class="debts-table dissapear">
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -220,44 +170,99 @@
 
         async function getDashboard() {
 
-            let apiToken = "{{\Illuminate\Support\Facades\Cookie::get('api_token')}}";
+          let apiToken = "{{\Illuminate\Support\Facades\Cookie::get('api_token')}}";
 
-            const res = await fetch(`https://dev.api.customerpay.me/dashboard?token=${apiToken}`);
-            const dash = await res.json();
+          const res = await fetch(`https://dev.api.customerpay.me/dashboard?token=${apiToken}`);
+          const dash = await res.json();
 
-            let myCustomers = document.querySelector('.my-customers');
-            let myStores = document.querySelector('.my-stores');
-            let myAssistants = document.querySelector('.my-assistants');
-            let myDebtors = document.querySelector('.my-debtors');
-            let myTransactions = document.querySelector('.my-transactions')
+          let myCustomers = document.querySelector('.my-customers');
+          let myStores = document.querySelector('.my-stores');
+          let myAssistants = document.querySelector('.my-assistants');
+          let myDebtors = document.querySelector('.my-debtors');
+          let myTransactions = document.querySelector('.my-transactions');
+          let debtList = document.querySelector('.debts-table');
 
-            myCustomers.innerText = dash.data.customerCount;
-            myStores.innerText = dash.data.storeCount;
-            myAssistants.innerText = dash.data.assistantCount;
+          myCustomers.innerText = dash.data.customerCount;
+          myStores.innerText = dash.data.storeCount;
+          myAssistants.innerText = dash.data.assistantCount;
+          myDebtors.innerText = dash.data.recentDebts.length
 
-            if (dash.data.transactions.length == 0) {
-            document.querySelector('.table-responsive').innerHTML =
+          if (dash.data.recentTransactions.length == 0) {
+          document.querySelector('.trans-error').classList.add('dissapear');
+          document.querySelector('.trans-table').classList.remove('dissapear');
+          
+          document.querySelector('.trans-table').innerHTML =
+          `   <span style='width:100%; border-bottom:1px solid #eee; height: 1px'></span>
+              <div style="display:flex; justify-content:center;" class='mt-4 mb-3'>
+              You haven't made any transactions yet
+              </div>
+          `
+          } else {
+
+          document.querySelector('.trans-error').classList.add('dissapear');
+          document.querySelector('.trans-table').classList.remove('dissapear');
+
+          dash.data.recentTransactions.forEach((item, index) => {
+              let output =
+              `
+              <tr>
+                  <td>${index}</td>
+                  <td>${item.transaction.type}</td>
+                  <td>${item.storeName}</td>
+                  <td>${item.transaction.amount}</td>
+                  <td>
+                      <a href=""><span class="badge badge-soft-warning py-1">View</span></a>
+                  </td>
+              </tr>
+              `
+              myTransactions.innerHTML += output
+          });
+          }
+          console.log(dash)
+
+          /*
+          "recentDebts": [{
+            "user_phone_number": "0903748484",
+            "customer_phone_number": "08077272888",
+            "name": "",
+            "amount": 30000,
+            "ts_ref_id": 5f0cf1e8f370e342104cca42,
+            "message": "Payment for sold shoes",
+            "status": "unpaid",
+            "expected_pay_date": "Mon Jul 13 2020 14:11:36 GMT+0100 (West Africa Standard Time)" }]
+          }] 
+          */
+
+          if (dash.data.recentDebts.length == 0) {
+            document.querySelector('.debts-error').classList.add('dissapear');
+            document.querySelector('.debts-table').classList.remove('dissapear');
+
+            debtList.innerHTML = `
+              <div style="display:flex; justify-content:center; text-align:center; width:100%" class='mt-2 mb-3'>No one is oweing you</div>
             `
-                <div style="display:flex; justify-content:center; border-top: 1px solid #eee; padding-top: 25px">
-                <h5 style="text-align:center; margin-top: 5px">Opps, no transactions yet</h5>
-                </div>
-            `
-            } else {
-            dash.transactions.forEach(item => {
-                myTransactions.innerHTML +=
-                `
-                <tr>
-                    <td>Input</td>
-                    <td>Input</td>
-                    <td>Input</td>
-                    <td>
-                        <a href=""><span class="badge badge-soft-warning py-1">View</span></a>
-                    </td>
-                </tr>
-                `
-            });
-            }
-            console.log(dash)
+          } else {
+            document.querySelector('.debts-error').classList.add('dissapear');
+            document.querySelector('.debts-table').classList.remove('dissapear');
+
+            dash.data.recentDebts.forEach(debt => {
+              let row = 
+              `
+              <div class="media-body">
+                  <h6 class="mt-1 mb-0 font-size-15">${debt.name}</h6>
+                  <h6 class="text-muted font-weight-normal mt-1 mb-3">${debt.expected_pay_date.slice(0, 15)}</h6>
+              </div>
+              <div class="dropdown align-self-center float-right">
+                  <a href="#" class="dropdown-toggle arrow-none text-muted" data-toggle="dropdown" aria-expanded="false">
+                      <i class="uil uil-ellipsis-v"></i>
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right">
+                      <a href="javascript:void(0);" class="dropdown-item"><i class="uil uil-edit-alt mr-2"></i>View</a>
+                  </div>
+              </div>
+              `
+              debtList.innerHTML += row;
+            })
+          };
         };
     </script>
 
@@ -284,8 +289,8 @@
                 });
 
                 tour.addStep("step2", {
-                    text: "update your profile",
-                    attachTo: { element: ".second", on: "right" },
+                    text: "first, update your profile",
+                    attachTo: { element: ".second", on: "left" },
                     buttons: [
                         {
                             text: "Next",
@@ -300,7 +305,7 @@
                 });
                   tour.addStep("step3", {
                     text: "Then create a store",
-                    attachTo: { element: ".third", on: "right" },
+                    attachTo: { element: ".third", on: "left" },
                     buttons: [
                         {
                             text: "Next",
@@ -308,8 +313,8 @@
                         }
                     ]});
                    tour.addStep("step4", {
-                    text: "then create your customer",
-                    attachTo: { element: ".fourth", on: "right" },
+                    text: "create your customer",
+                    attachTo: { element: ".fourth", on: "left" },
                     buttons: [
                         {
                             text: "Next",
@@ -318,7 +323,7 @@
                     ]});
                     tour.addStep("step5", {
                     text: "then create a transaction",
-                    attachTo: { element: ".fifth", on: "right" },
+                    attachTo: { element: ".fifth", on: "left" },
                     buttons: [
                         {
                             text: "Next",
@@ -327,7 +332,7 @@
                     ]});
                      tour.addStep("step6", {
                     text: "create a debt reminder here",
-                    attachTo: { element: ".sixth", on: "right" },
+                    attachTo: { element: ".sixth", on: "left" },
                     buttons: [
                         {
                             text: "Next",
