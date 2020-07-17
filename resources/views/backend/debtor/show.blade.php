@@ -80,7 +80,7 @@
 
 
                             <ul class="pl-4 mb-4">
-                            <li>Amount : 3000</li>
+                            <li>Amount : {{$debts->amount}}</li>
                                 <li>Total Amount : 3000</li>
                             </ul>
 

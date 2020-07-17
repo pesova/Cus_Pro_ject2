@@ -20,7 +20,7 @@
                                     <a href="#" class="btn btn-primary mr-3" data-toggle="modal"
                                         data-target="#editTransactionModal"> Edit &nbsp;<i data-feather="edit-3"></i>
                                     </a>
-                                    <a href="#" class="btn btn-danger"> Delete &nbsp;<i data-feather="delete"></i>
+                                    <a data-toggle="modal" data-target="#exampleModal" href="" class="btn btn-danger"> Delete &nbsp;<i data-feather="delete"></i>
                                     </a>
                                 </div>
                             </div>
@@ -174,27 +174,28 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="editTransactionLabel">Add New Transaction</h5>
+                            <h5 class="modal-title" id="editTransactionLabel">Update Transaction</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
                             <form class="form-horizontal" id="editTransaction" method="POST"
-                                action="{{ route('transaction.update', 1) }}">
+                                action="{{ route('transaction.update', $transaction->_id.'-'.$transaction->store_ref_id.'-'.$transaction->customer_ref_id) }}">
                                 @csrf
+                                @method('PUT')
 
                                 <div class="form-group row mb-3">
                                     <label for="amount" class="col-3 col-form-label">Amount</label>
                                     <div class="col-9">
                                         <input type="number" class="form-control" id="amount" name="amount"
-                                            placeholder="0000.00" required>
+                                            placeholder="0000.00" value="{{$transaction->amount}}" required>
                                     </div>
                                 </div>
                                 <div class="form-group row mb-3">
                                     <label for="interest" class="col-3 col-form-label">Interest</label>
                                     <div class="col-9">
-                                        <input type="number" class="form-control" id="interest" name="interest"
+                                        <input type="number" class="form-control" id="interest"  value="{{$transaction->interest}}" name="interest"
                                             placeholder="0%">
                                     </div>
                                 </div>
@@ -202,7 +203,7 @@
                                 <div class="form-group row mb-3">
                                     <label for="description" class="col-3 col-form-label">Description</label>
                                     <div class="col-9">
-                                        <input type="text" class="form-control" id="description" name="description"
+                                        <input type="text" class="form-control" id="description"  value="{{$transaction->description}}" name="description"
                                             placeholder="Description">
                                     </div>
                                 </div>
@@ -210,10 +211,10 @@
                                     <label for="transaction_type" class="col-3 col-form-label">Transaction Type</label>
                                     <div class="col-9">
                                         <select class="form-control" id="type" name="type">
+                                         <option value="paid" {{ $transaction->status == 'paid' ? 'selected' : '' }}>
+                                                Paid</option>
                                             <option value="debt" {{ $transaction->status == 'debt' ? 'selected' : '' }}>
                                                 Debt</option>
-                                            <option value="paid" {{ $transaction->status == 'paid' ? 'selected' : '' }}>
-                                                Paid</option>
                                             <option value="receivable"
                                                 {{ $transaction->status == 'receivable' ? 'selected' : '' }}>Receivable
                                             </option>
@@ -223,22 +224,26 @@
                                 <div class="form-group row mb-3">
                                     <label for="store" class="col-3 col-form-label">Store</label>
                                     <div class="col-9">
+                                    <select name="store"  class="form-control">
                                         @if ($store->storeId === $transaction->store_ref_id)
                                         <option class="text-uppercase form-control" value="{{ $store->storeId }}">
                                             {{ $store->storeName }}</option>
                                         @endif
+                                        </select>
                                     </div>
                                 </div>
 
                                 <div class="form-group row mb-3">
                                     <label for="customer" class="col-3 col-form-label">Customer</label>
                                     <div class="col-9">
+                                    <select name="customer" class="form-control">
                                         @foreach ($store->customers as $customer)
                                         @if ($customer->_id === $transaction->customer_ref_id)
                                         <option class="text-uppercase form-control" value="{{ $customer->_id }}">
                                             {{ $customer->name }}</option>
                                         @endif
                                         @endforeach
+                                        </select>
                                     </div>
                                 </div>
 
@@ -247,8 +252,9 @@
                                     <div class="col-9">
 
                                         <select class="form-control" name="status">
-                                            <option value="Paid">Paid</option>
-                                            <option value="Pending" selected>Pending</option>
+                                        
+                                            <option value="1">Paid</option>
+                                            <option value="0" selected>Pending</option>
                                         </select>
                                     </div>
                                 </div>
@@ -271,6 +277,38 @@
 
         </div>
     </div>
+</div>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete Transaction</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" method="POST" action="{{route('transaction.destroy', $transaction->_id.'-'.$transaction->store_ref_id.'-'.$transaction->customer_ref_id)}}">
+            @csrf
+            @method('DELETE')
+            Are you sure you want to delete this transaction
+
+            <div class="form-group mb-0 justify-content-end row">
+
+            <button type="submit" class="btn btn-primary p-1" data-dismiss="modal">Close</button>
+             &nbsp;
+            <button type="submit" class="btn btn-danger">Delete</button>
+            </div>
+    
+        </form>
+     </div>
+      <div class="modal-footer">
+        
+      </div>
+    </div>
+  </div>
 </div>
 
 @endsection
