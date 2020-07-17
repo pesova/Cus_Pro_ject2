@@ -208,8 +208,12 @@ class DebtorController extends Controller
     public function show($id)
     {
         //return view('backend.debtor.show');
-        $url = env('API_URL', 'https://dev.api.customerpay.me/') . 'debt/'.$id;
+        // $url = env('API_URL', 'https://dev.api.customerpay.me/debt/single') .$id;
         //$getTransUrl = $this->host.'/debt'.'/'.$id;
+
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt' .'/single/' .$id;
+
+            // dd($debts);
         
         try {
             $client = new Client;
@@ -217,8 +221,8 @@ class DebtorController extends Controller
             $response = $client->request("GET", $url, $payload);
             $statsCode = $response->getStatusCode();
             $debt_response = $response->getBody();
-            $debts = json_decode($debt_response);
-            $debts = $debts->data->debts;
+            $debt = json_decode($debt_response);
+            $debts = $debt->data->debt;
 
 
             //$statusCode = $response->getStatusCode();
