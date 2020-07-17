@@ -194,7 +194,9 @@
                                                 {{ $debtor->_id }}
                                             </td>
                                             <td>
-                                                <span class="badge badge-{{ ($debtor->status == 'unpaid') ? 'danger' : 'success' }}">{{ $debtor->status }}</span>
+                                                @if(print($debtor->status == 1))
+                                                    <span class="badge badge-danger }}">Unpaid</span>
+                                                @endif
                                             </td>
                                             <td>
                                                 <span>{{ $debtor->transaction_name }}</span>
