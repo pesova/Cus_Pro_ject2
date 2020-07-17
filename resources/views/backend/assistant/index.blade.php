@@ -60,7 +60,8 @@
                                                             <i class="icon-dual" data-feather="lock"></i>
                                                         </span>
                                                 </div>
-                                                <input type="text" class="form-control" id="password">
+                                                <input type="text" class="form-control" id="assistant-email"
+                                                       placeholder="search email">
                                             </div>
                                         </div>
                                     </div>
@@ -73,7 +74,8 @@
                                                             <i class="icon-dual" data-feather="lock"></i>
                                                         </span>
                                             </div>
-                                            <input type="text" class="form-control" id="password">
+                                            <input type="text" class="form-control" id="assistant-name"
+                                                   placeholder="search name">
                                         </div>
 
                                     </div>
@@ -84,11 +86,11 @@
                                             <div class="input-group-prepend">
 
                                             </div>
-                                            <input type="tel" id="phone2" class="form-control">
+                                            <input type="tel" id="assistant-phone" class="form-control"
+                                                   placeholder="search phone number">
 
                                         </div>
                                     </div>
-                                    <button type="button" class="btn btn-primary">Search</button>
                                 </div>
 
 
@@ -123,7 +125,7 @@
                                     <tbody>
                                     @foreach ($assistants as $assistant)
                                         <tr>
-                                            <td>{{$assistant->name }}
+                                            <td class="assistant-name">{{$assistant->name }}
 
                                                 @if ($assistant->user_role == "store_admin")
                                                 @endif
@@ -135,10 +137,10 @@
 
                                                 @endif
                                             </td>
-                                            <td>
+                                            <td class="assistant-phone">
                                                 {{$assistant->phone_number}}
                                             </td>
-                                            <td>
+                                            <td class="assistant-email">
                                                 {{$assistant->email}}
 
                                             </td>
@@ -255,7 +257,7 @@
                                 <br>
                                 <div class="col-10 col-sm-7">
                                     <input type="tel" id="phone" name=""
-                                           class="form-control" value="{{old('phone_number')}}"  required>
+                                           class="form-control" value="{{old('phone_number')}}" required>
                                     <input type="hidden" name="phone_number" id="phone_number"
                                            class="form-control">
 
@@ -332,6 +334,63 @@
             $('#phone').css('paddingLeft', "unset");
             $("#AssistantModal").modal('show');
         }
+
+        let assistantName = $('#assistant-name');
+        let assistantEmail = $('#assistant-email');
+        let assistantPhone = $('#assistant-phone');
+
+        //add input event listener
+        assistantName.on('keyup', (e) => {
+            assistantEmail.val('');
+            assistantPhone.val('');
+            const assistants = $('.assistant-name');
+            const filterText = e.target.value.toLowerCase();
+
+            assistants.each(function (i, item) {
+                if ($(this).html().toLowerCase().indexOf(filterText) !== -1) {
+                    $(this).parent().css('display', 'table-row');
+
+                } else {
+                    $(this).parent().css('display', 'none');
+                }
+
+            });
+        });
+        assistantEmail.on('keyup', (e) => {
+            assistantPhone.val('');
+            assistantName.val('');
+            const assistants = $('.assistant-email');
+            const filterText = e.target.value.toLowerCase();
+
+            assistants.each(function (i, item) {
+                if ($(this).html().toLowerCase().indexOf(filterText) !== -1) {
+                    $(this).parent().css('display', 'table-row');
+
+                } else {
+                    $(this).parent().css('display', 'none');
+
+                }
+
+            });
+        });
+        assistantPhone.on('keyup', (e) => {
+            assistantEmail.val('');
+            assistantName.val('');
+            const assistants = $('.assistant-phone');
+            const filterText = e.target.value.toLowerCase();
+
+            assistants.each(function (i, item) {
+                if ($(this).html().toLowerCase().indexOf(filterText) !== -1) {
+                    $(this).parent().css('display', 'table-row');
+
+                } else {
+                    $(this).parent().css('display', 'none');
+
+                }
+
+            });
+        });
+
 
     </script>
 @stop
