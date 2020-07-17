@@ -284,7 +284,7 @@ class AssistantController extends Controller
 
         try{
              $request->validate([
-                'name' => "required|min:6",
+                'name' => "required",
                 'phone_number' => "required",
                 'email' => "required|email",
                 'password' => "required"
@@ -314,9 +314,9 @@ class AssistantController extends Controller
             }
 
         } catch ( \Exception $e ) {
-           // dd($e);
+            //dd($e);
             $request->session()->flash('alert-class', 'alert-danger');
-            $request->session()->flash('message', $data->message);
+            $request->session()->flash('message', "Invalid data input");
 
             return redirect()->back();
         }

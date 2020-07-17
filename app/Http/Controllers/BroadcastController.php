@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
+// use SmoDav\AfricasTalking\Config\Config;
+// use SmoDav\AfricasTalking\Native\NativeConfig;
+use AfricasTalking\SDK\AfricasTalking;
 
 class BroadcastController extends Controller
 {
@@ -21,7 +24,71 @@ class BroadcastController extends Controller
      */
     public function index()
     {
-        return view('backend.broadcasts.create');
+
+        try {
+            $url = env('API_URL', 'https://dev.api.customerpay.me'). '/customer' ;
+            $client = new Client();
+
+            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+            $user_response = $client->request('GET', $url, $headers);
+
+            $statusCode = $user_response->getStatusCode();
+            $users = json_decode($user_response->getBody());
+            $dt = $users->data->customer;
+
+            //dd($dt);
+
+            
+
+            if ( $statusCode == 200 ) {
+
+
+                // $customerArray = [];
+                // foreach($users->data as $key => $value) {
+                //     array_push($customerArray, $users->data[$key]->customers);
+                // }
+
+                // $allCustomers = [];
+                // foreach( $customerArray as $key => $value ) {
+                //     foreach( $value as $key => $v ) {
+                //         array_push($allCustomers, $v);
+                //     }
+                // }
+
+                // // start pagination
+                // $perPage = 5;
+                // $page = $request->get('page', 1);
+                // if ($page > count($allCustomers) or $page < 1) {
+                //     $page = 1;
+                // }
+                // $offset = ($page * $perPage) - $perPage;
+                // $articles = array_slice($allCustomers, $offset, $perPage);
+                // $datas = new Paginator($articles, count($allCustomers), $perPage);
+
+                return view('backend.broadcasts.create')->with('data', $dt);
+            }
+
+            if ( $statusCode == 500 ) {
+                return view('errors.500');
+            }
+        } catch(\RequestException $e) {
+            $statusCode = $e->getResponse()->getStatusCode();
+            $data = json_decode($e->getResponse()->getBody()->getContents());
+            if ( $statusCode == 401 ) { //401 is error code for invalid token
+                return redirect()->route('logout');
+            }
+
+            return view('errors.500');
+        } catch ( \Exception $e ) {
+            $statusCode = $e->getResponse()->getStatusCode();
+            $data = json_decode($e->getResponse()->getBody()->getContents());
+            if ( $statusCode == 401 ) { //401 is error code for invalid token
+                return redirect()->route('logout');
+            }
+
+            return view('errors.500');
+        }
+        
     }
 
     /**
@@ -42,34 +109,44 @@ class BroadcastController extends Controller
      */
     public function store(Request $request)
     {
-        $url = env('SMS_API_URL', 'https://sms.microapi.dev') . "/v1/sms/infobip/send_sms";
-        // $url = env('API_URL', 'https://dev.api.customerpay.me/register/user');
-
+        $url = "https://api.sandbox.africastalking.com/version1/messaging";
 
         try{
             $client = new Client;
             $payload = [
                 'headers' => [
-                    'x-access-token' => Cookie::get('api_token')
+                    //'apiToken' => Cookie::get('api_token'),
+                    'apiKey' => "bfce7f8d6151c4e386abb40439899bcc7b5a52a2fe839729099113255edbccc2",
+                    "Content-type" => "application/x-www-form-urlencoded",
+                    "Accept" => "application/json"
                 ],
                 'form_params' => [
-                   'senderID' => Cookie::get('user_id'),
-                   //'senderID' => 1,
-                    'receiver' => $request->input('receiver'),
-                    'content' => $request->input('message')
+                   "username" => "sandbox",
+                   //'current_user' => Cookie::get('user_id'),
+                   "to" => $request->input('receiver'),
+                   "message" => $request->input("title") ."<br>" . $request->input('message'),
+                   "from" => "Am4r4ch1",
+                   "bulkSMSMode" => "1",
+                   "enqueue" => "1",
                 ]
             ];
 
             $response = $client->request("POST", $url, $payload);
             $data = json_decode($response->getBody());
-            $status = $response->getStatusCode();
-
-            if ($status == 200){
-               //return dd($data);
-
-               return redirect()->route('broadcast.create')->with('response', "Message sent");
-            }else{
-                return view("errors.500");
+            $status = $data->SMSMessageData->Recipients;
+            $dt = [];
+         
+            for($i = 0; $i < count($status); $i++){
+                foreach($status[$i] as $key){
+                    array_push($dt, $key);
+                }
+            }           
+                      
+               
+            if ($dt["0"] == 101){
+               return redirect()->route('broadcast.index')->with('response', $dt["3"]);               
+            }else {
+               return redirect()->route('broadcast.create')->with('response', "Failed");     
             }
 
         }catch(\RequestException $e){
