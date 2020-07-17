@@ -72,8 +72,9 @@
                                                         <div class="col-lg-10">
                                                         <select data-plugin="customselect" name="status" class="form-control">
                                                         <option name="cc" value="New">New</option>
-                                                        <option name="cc" value="Investigating">Investigating</option>
+                                                        <option name="cc" value="Pending">Pending</option>
                                                         <option name="cc" value="Resolved">Resolved</option>
+                                                        <option name="cc" value="Closed">Closed</option>
                                                     </select>
                                                         </div>
                                                     </div>

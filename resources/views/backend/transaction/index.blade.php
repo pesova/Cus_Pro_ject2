@@ -2,6 +2,7 @@
 @section("custom_css")
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
 <link rel="stylesheet" href="{{ asset('/backend/assets/css/store_list.css') }}">
+<link rel="stylesheet" href="{{ asset('/backend/assets/css/transac.css') }}">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
 @stop
 
@@ -47,39 +48,23 @@
                                 <td>{{ $transaction->interest }}</td>
                                 <td>{{ $transaction->type }}</td>
                                 <td>
-                                    @if ($transaction->status === "paid")
-                                    <span class="badge badge-soft-success p-1">Paid</span>
-                                    @else
-                                    <span class="badge badge-soft-warning p-1">Pending</span>
-                                    @endif
+                                    <label class="switch">
+                                        <input type="checkbox" id="togBtn"
+                                            {{ $transaction->status == true ? 'checked' : '' }}
+                                            data-id="{{ $transaction->_id }}"
+                                            data-store="{{ $transaction->store_ref_id }}"
+                                            data-customer="{{ $transaction->customer_ref_id}}">
+                                        <div class="slider round">
+                                            <span class="on">Paid</span><span class="off">Pending</span>
+                                        </div>
+                                    </label>
                                 </td>
                                 <td> {{ \Carbon\Carbon::parse($transaction->createdAt)->diffForhumans() }}</td>
                                 <td>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-info btn-small p-1 dropdown-toggle"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Actions<i class="icon"><span data-feather="chevron-down"></span></i>
-                                        </button>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item"
-                                                href="{{ route('transaction.show', $transaction->_id) }}">
-                                                View
-                                            </a>
-                                            <a class="dropdown-item"
-                                                href="{{ route('transaction.edit', $transaction->_id) }}">
-                                                Edit
-                                            </a>
-                                            <a class="dropdown-item" href="javascript:void(0)"
-                                                onclick="$(this).parent().find('form').submit()">
-                                                Delete
-                                            </a>
-                                            <form action="{{ route('transaction.destroy', $transaction->_id) }}"
-                                                method="POST" id="form">
-                                                @method('DELETE')
-                                                @csrf
-                                            </form>
-                                        </div>
-                                    </div>
+                                    <a class="btn btn-info btn-small py-1 px-2"
+                                        href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id.'-'.$transaction->customer_ref_id) }}">
+                                        View More
+                                    </a>
                                 </td>
                             </tr>
                             @endforeach
@@ -109,7 +94,7 @@
                     <div class="form-group row mb-3">
                         <label for="amount" class="col-3 col-form-label">Amount</label>
                         <div class="col-9">
-                            <input type="number" class="form-control" id="amount" name="amount" placeholder="0000.00"
+                            <input type="number" class="form-control" id="amount" name="amount" placeholder="0000"
                                 required>
                         </div>
                     </div>
@@ -161,17 +146,6 @@
                         </div>
                     </div>
 
-                    {{-- <div class="form-group row mb-3">
-                        <label class="col-3 col-form-label"> Status </label>
-                        <div class="col-9">
-                            <select class="form-control" name="status">
-                                <option value="paid">Paid</option>
-                                <option value="unpaid" selected>Unpaid</option>
-                                <option value="pending">Pending</option>
-                            </select>
-                        </div>
-                    </div> --}}
-
                     <div class="form-group mb-0 justify-content-end row">
                         <div class="col-9">
                             <button type="submit" class="btn btn-primary btn-block ">Create Transaction</button>
@@ -185,7 +159,7 @@
     </div>
 </div>
 
-<div id="CustomerModal1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1"
+{{-- <div id="CustomerModal1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1"
     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -196,7 +170,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" id="deleteTransaction" method="POST" action="">
+                <form class="form-horizontal" id="deleteConfirmation" method="POST" action="">
                     @csrf
                     <div class="form-group row">
                         <div class="col-md-12">
@@ -213,7 +187,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 @endsection
 
 @section("javascript")
