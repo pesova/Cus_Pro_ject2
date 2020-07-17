@@ -99,11 +99,11 @@ class SettingsController extends Controller
                     }
                     if ($control == 'password_change') {
                         $request->session()->flash('message', "Password updated successfully");
-                        return redirect()->route('change_password');
+                        return redirect(route('setting').'#change-password');
                     }
                 }
             } else {
-                return redirect()->route('settings');
+                return redirect()->route('setting');
             }
         } catch (RequestException $e) {
 
@@ -118,7 +118,7 @@ class SettingsController extends Controller
             }
 
             if ($control == 'password_change') {
-                return redirect()->route('change_password');
+                return redirect(route('setting').'#change-password');
             }
             if ($control == 'profile_update') {
                 return redirect()->route('setting');
@@ -133,7 +133,7 @@ class SettingsController extends Controller
     {
         return view('backend.change_password.index');
     }
-    
+
     public function change_profile_picture()
     {
         return view('backend.change_profile_picture.index');
