@@ -284,8 +284,8 @@
                 });
 
                 tour.addStep("step2", {
-                    text: "update your profile",
-                    attachTo: { element: ".second", on: "right" },
+                    text: "first, update your profile",
+                    attachTo: { element: ".second", on: "left" },
                     buttons: [
                         {
                             text: "Next",
@@ -300,7 +300,7 @@
                 });
                   tour.addStep("step3", {
                     text: "Then create a store",
-                    attachTo: { element: ".third", on: "right" },
+                    attachTo: { element: ".third", on: "left" },
                     buttons: [
                         {
                             text: "Next",
@@ -308,8 +308,8 @@
                         }
                     ]});
                    tour.addStep("step4", {
-                    text: "then create your customer",
-                    attachTo: { element: ".fourth", on: "right" },
+                    text: "create your customer",
+                    attachTo: { element: ".fourth", on: "left" },
                     buttons: [
                         {
                             text: "Next",
@@ -318,7 +318,7 @@
                     ]});
                     tour.addStep("step5", {
                     text: "then create a transaction",
-                    attachTo: { element: ".fifth", on: "right" },
+                    attachTo: { element: ".fifth", on: "left" },
                     buttons: [
                         {
                             text: "Next",
@@ -327,7 +327,7 @@
                     ]});
                      tour.addStep("step6", {
                     text: "create a debt reminder here",
-                    attachTo: { element: ".sixth", on: "right" },
+                    attachTo: { element: ".sixth", on: "left" },
                     buttons: [
                         {
                             text: "Next",
