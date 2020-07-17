@@ -35,7 +35,7 @@
                      <div class="col-lg-12">
                          <div class="card">
                             <div class="card-body">
-                                        <form action="{{ route('store.update', $response->_id) }}" method="POST">
+                                        <form id="submitForm" action="{{ route('store.update', $response->_id) }}" method="POST">
                                       @csrf
                                       @method('PUT')
                                         <div class="form-row">
@@ -51,7 +51,9 @@
                                         <div class="form-row">
                                           <div class="form-group col-md-6">
                                             <label for="inputPhoneNumber">Phone Number</label>
-                                            <input type="text" name="phone_number" id="phone" class="form-control" value="{{old('phone_number', $response->phone_number)}}" placeholder="+2348173644654" minlength="6" maxlength="16">
+                                            <input type="text" name="" id="phone" class="form-control" value="{{old('phone_number', $response->phone_number)}}" placeholder="8173644654" minlength="6" maxlength="16">
+                                            <input type="hidden" name="phone_number" id="phone_number" class="form-control">
+                                            <small id="helpPhone" class="form-text text-muted">Enter your number without the starting 0, eg 813012345</small>
                                           </div>
                                         <div class="form-group col-md-6" >
                                             <label for="inputEmailAddress"> Email Address (Optional) </label>
@@ -86,9 +88,27 @@
 @section("javascript")
    <script src="/backend/assets/build/js/intlTelInput.js"></script>
    <script>
-   var input = document.querySelector("#phone");
-   window.intlTelInput(input, {
-       // any initialisation options go here
-   });
-   </script>
+    var input = document.querySelector("#phone");
+    var test = window.intlTelInput(input, {
+        separateDialCode: true,
+        // any initialisation options go here
+    });
+
+    $("#phone").keyup(() => {
+        if ($("#phone").val().charAt(0) == 0) {
+            $("#phone").val($("#phone").val().substring(1));
+        }
+    });
+
+    $("#submitForm").submit((e) => {
+        e.preventDefault();
+        const dialCode = test.getSelectedCountryData().dialCode;
+        if ($("#phone").val().charAt(0) == 0) {
+            $("#phone").val($("#phone").val().substring(1));
+        }
+        $("#phone_number").val(dialCode + $("#phone").val());
+        $("#submitForm").off('submit').submit();
+    });
+
+</script>
 @stop
