@@ -293,4 +293,46 @@ for (nid = 0; nid < item.length; nid++) { var show_url="{{ route('transaction.sh
     + '">View Transaction</a> <a class="dropdown-item" href="' + edit_url
     + '">Edit Transaction</a> <a class="dropdown-item" href=" ' + delete_url + '">Delete Transaction</a> </div></td>'
     + '</tr>' ; } // console.log(result); $(".table tbody").html(result); }) } }); } else { $('#example tr').empty(); }
-    }); }); </script> --}} @stop
+    }); }); </script> --}}
+{{-- @if (\Illuminate\Support\Facades\Cookie::get('is_first_time_user') == true) --}}
+<script>
+    var transaction_intro_shown = localStorage.getItem('transaction_intro_shown');
+
+    if (!transaction_intro_shown) {
+
+        const tour = new Shepherd.Tour({
+            defaults: {
+                classes: "shepherd-theme-arrows"
+            }
+        });
+
+        tour.addStep("step", {
+            text: "Welcome to Transactions Page, here you can add your transactions",
+            buttons: [
+                {
+                    text: "Next",
+                    action: tour.next
+                }
+            ]
+        });
+
+        // tour.addStep("step2", {
+        //     text: "First thing you do is create a store",
+        //     attachTo: { element: ".second", on: "right" },
+        //     buttons: [
+        //         {
+        //             text: "Next",
+        //             action: tour.next
+        //         }
+        //     ],
+        //     beforeShowPromise: function() {
+        //         document.body.className += ' sidebar-enable';
+        //         document.getElementById('sidebar-menu').style.height = 'auto';
+        //     },
+        // });
+        tour.start();
+        localStorage.setItem('transaction_intro_shown', 1);
+    }
+</script>
+{{-- @else --}}
+     @stop
