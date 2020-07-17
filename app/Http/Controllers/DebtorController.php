@@ -22,24 +22,26 @@ class DebtorController extends Controller
     public function index(Request $request)
     {
         //display my stores
+        // $store_url = env('API_URL', 'http://localhost:3000') . '/store';
         $store_url = env('API_URL', 'https://dev.api.customerpay.me') . '/store';
 
-        $cl = new Client;
-        $payloader = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+        // $cl = new Client;
+        // $payloader = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
 
-        $resp = $cl->request("GET", $store_url, $payloader);
-        $statsCode = $resp->getStatusCode();
-        $body_response = $resp->getBody();
-        $Stores = json_decode($body_response);
+        // $resp = $cl->request("GET", $store_url, $payloader);
+        // $statsCode = $resp->getStatusCode();
+        // $body_response = $resp->getBody();
+        // $Stores = json_decode($body_response);
 
-        if($statsCode == 200) {
-            return view('backend.debtor.index')->with('response', $Stores->data->stores);
-        }
-        else if($statsCode->getStatusCode() == 500){
-            return view('errors.500');
-        }
+        // if($statsCode == 200) {
+        //     return view('backend.debtor.index')->with('response', $Stores->data->stores);
+        // }
+        // else if($statsCode->getStatusCode() == 500){
+        //     return view('errors.500');
+        // }
 
         // return view('backend.debtor.index');
+        // $url = env('API_URL', 'http://localhost:3000') . '/debt';
         $url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt';
 
         try {
@@ -50,18 +52,27 @@ class DebtorController extends Controller
             $response = $client->request("GET", $url, $payload);
             $statusCode = $response->getStatusCode();
 
-            if ($statusCode == 200) {
+            $cl = new Client;
+            $payloader = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+
+            $store_resp = $cl->request("GET", $store_url, $payloader);
+            $statsCode = $store_resp->getStatusCode();
+            $store_response = $store_resp->getBody();
+            $Stores = json_decode($store_response);
+
+            if ($statusCode == 200 && $statsCode == 200) {
                 $body = $response->getBody();
                 $result = json_decode($body);
-                $debts = $result->data->debts;
+                $debtors = $result->data->debts;
+                $stores = $Stores->data->stores;
 
-                $perPage = 10;
-                $debts = collect($debts);
+                // $perPage = 10;
+                // $debts = collect($debts);
 
-                $page = $request->get('page') ?: (Paginator::resolveCurrentPage() ?: 1);
-                $debts = $debts instanceof Collection ? $debts : Collection::make($debts);
-                $debtors = new LengthAwarePaginator($debts->forPage($page, $perPage), $debts->count(), $perPage, $page);
-                return view('backend.debtor.index', compact('debtors'));
+                // $page = $request->get('page') ?: (Paginator::resolveCurrentPage() ?: 1);
+                // $debts = $debts instanceof Collection ? $debts : Collection::make($debts);
+                // $debtors = new LengthAwarePaginator($debts->forPage($page, $perPage), $debts->count(), $perPage, $page);
+                return view('backend.debtor.index',compact('debtors','stores'));
             }
 
             Session::flash('message', "Temporarily unable to get all stores");
@@ -211,8 +222,36 @@ class DebtorController extends Controller
      */
     public function show($id)
     {
-        //
-        return view('backend.debtor.show');
+        //return view('backend.debtor.show');
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt'.'/'.$id;
+        //$getTransUrl = $this->host.'/debt'.'/'.$id;
+        
+        try {
+            $client = new Client;
+            $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+            $response = $client->request("GET", $url, $payload);
+            $statusCode = $response->getStatusCode();
+            $body = $response->getBody();
+            $debt = json_decode($body)->data->debt;
+            //dd($debt);
+            if ($statusCode == 200) {
+                return view('backend.debtor.show')->with('debt', $debt);
+            } else if($statusCode == 401){
+                return redirect()->route('login')->with('message', "Please Login Again");
+            } 
+        } catch (RequestException $e) {
+            // check for  server error
+            if ($e->getResponse()->getStatusCode() >= 500) {
+                return view('backend.debtor.show')->with('errors.500');
+            }
+            // get response to catch 4 errors
+            $response = json_decode($e->getResponse()->getBody());
+            Session::flash('alert-class', 'alert-danger');
+            Session::flash('message', $response->message);
+            return redirect()->route('debtor.index', ['response' => []]);
+        } catch (\Exception $e) {
+            return view('backend.debtor.index')->with('errors.500');
+        }
     }
 
     /**
@@ -286,5 +325,166 @@ class DebtorController extends Controller
             Log::error('Catch error: StoreController - ' . $e->getMessage());
             return view('errors.500');
         }
+    }
+
+    public function search(Request $request) {
+
+        $id = $request->store_id;
+
+        // $url = 'http://localhost:3000/debt/' . $id;
+
+        $url = env('API_URL', 'https://dev.api.customerpay.me/debt') . $id;
+
+        // $store_url = env('API_URL', 'http://localhost:3000') . '/store';
+        $store_url = env('API_URL', 'https://dev.api.customerpay.me') . '/store';
+
+        $client = new Client();
+        $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+
+        $response = $client->request("GET", $url, $payload);
+        $statusCode = $response->getStatusCode();
+
+        $cl = new Client;
+        $payloader = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+
+        $store_resp = $cl->request("GET", $store_url, $payloader);
+        $statsCode = $store_resp->getStatusCode();
+        $store_response = $store_resp->getBody();
+        $Stores = json_decode($store_response);
+
+        // return $statusCode;
+
+        try {
+
+            $client = new Client();
+            $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+
+            $response = $client->request("GET", $url, $payload);
+            $statusCode = $response->getStatusCode();
+
+            // return $statusCode;
+
+            if ($statusCode == 200 && $statsCode == 200) {
+                $body = $response->getBody();
+                $result = json_decode($body);
+                $debtors = $result->data->debts;
+                $stores = $Stores->data->stores;
+
+                return view('backend.debtor.index',compact('debtors','stores'));
+            }
+
+            Session::flash('message', "Temporarily unable to get all stores");
+            return view('backend.debtor.index', []);
+        } catch (RequestException $e) {
+            Log::info('Catch error: LoginController - ' . $e->getMessage());
+
+            if ($e->hasResponse()) {
+                $response = $e->getResponse()->getBody();
+                $result = json_decode($response);
+                Session::flash('message', $result->message);
+                return view('backend.debtor.index', []);
+            }
+
+            //5xx server error
+            return view('errors.500');
+        } catch (\Exception $e) {
+            Log::error('Catch error: StoreController - ' . $e->getMessage());
+            return view('errors.500');
+        }
+    }
+
+    public function sendReminder(Request $request) {
+        // /debt/send
+        $_id = $request->transaction_id;
+
+        // dd($_id);
+
+        // $url = 'http://localhost:3000/debt' . '/send';
+
+        $url = env('API_URL', 'https://dev.api.customerpay.me/debt') . '/send'; 
+
+
+        try {
+            $client =  new Client();
+            $payload = [
+                'headers' => ['x-access-token' => Cookie::get('api_token')],
+                'form_params' => [
+                    '_id' => $_id,
+                ],
+            ];
+
+            $response = $client->request("POST", $url, $payload);
+
+            $statusCode = $response->getStatusCode();
+            $body = $response->getBody();
+            $data = json_decode($body);
+
+            if($statusCode == 200) {
+
+            }
+        } catch(\Exception $e) {
+            Session::flash('message', $e->getMessage());
+            Log::error(' ' . $e->getMessage());
+            return view('errors.500');
+        }
+    }
+
+    public function sheduleReminder(Request $request) {
+        $request->validate([
+            'transaction_id' => 'required',
+            'scheduleDate' => 'required',
+            'time' =>  'required',
+        ]);
+
+        // dd($_id);
+
+        // $url = 'http://localhost:3000/debt' . '/schedule';
+
+        $url = env('API_URL', 'https://dev.api.customerpay.me/debt') . '/schedule'; 
+
+                
+            try {
+                $client =  new Client();
+                $payload = [
+                    'headers' => ['x-access-token' => Cookie::get('api_token')],
+                    'form_params' => [
+                        'scheduleDate' => $request->scheduleDate,
+                        'time' => $request->time,
+                        'transaction_id' => $request->transaction_id,
+                    ],
+                ];
+                $response = $client->request("POST", $url, $payload);
+
+                $statusCode = $response->getStatusCode();
+                $body = $response->getBody();
+                $data = json_decode($body);
+
+                if ($statusCode == 200  && $data->success) {
+                    $request->session()->flash('alert-class', 'alert-success');
+                    Session::flash('message', $data->message);
+
+                    return back();
+                } else {
+                    $request->session()->flash('alert-class', 'alert-waring');
+                    // Session::flash('message', $data->message);
+                    return redirect()->back();
+                }
+            } catch (RequestException $e) {
+                Log::info('Catch error: LoginController - ' . $e->getMessage());
+    
+                if ($e->hasResponse()) {
+                    $response = $e->getResponse()->getBody();
+                    $result = json_decode($response);
+                    Session::flash('message', $result->message);
+                    return view('backend.debtor.index', []);
+                }
+    
+                //5xx server error
+                return view('errors.500');
+            } catch (\Exception $e) {
+                Session::flash('message', $e->getMessage());
+                Log::error(' ' . $e->getMessage());
+                return view('errors.500');
+            }
     }
 }
