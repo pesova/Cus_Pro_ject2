@@ -215,12 +215,19 @@ class DebtorController extends Controller
             $client = new Client;
             $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
             $response = $client->request("GET", $url, $payload);
-            $statusCode = $response->getStatusCode();
-            $body = $response->getBody();
-            $debt = json_decode($body)->data->debt;
+            $statsCode = $response->getStatusCode();
+            $debt_response = $response->getBody();
+            $debts = json_decode($debt_response);
+            $debts = $debts->data->debts;
+
+
+            //$statusCode = $response->getStatusCode();
+            //$body = $response->getBody();
+            //$debt = json_decode($body)->data->debts;
             //dd($debt);
             if ($statusCode == 200) {
-                return view('backend.debtor.show')->with('debt', $debt);
+                //return view('backend.debtor.show')->with('debt', $debt);
+                return view('backend.debtor.show', compact('debts'));
             } else if($statusCode == 401){
                 return redirect()->route('login')->with('message', "Please Login Again");
             } 
@@ -235,7 +242,7 @@ class DebtorController extends Controller
             Session::flash('message', $response->message);
             return redirect()->route('debtor.index', ['response' => []]);
         } catch (\Exception $e) {
-            return view('backend.debtor.index')->with('errors.500');
+            return view('backend.debtor.show')->with('errors.500');
         }
     }
 
