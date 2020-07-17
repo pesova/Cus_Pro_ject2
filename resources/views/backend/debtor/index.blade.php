@@ -175,8 +175,8 @@
                                         <th scope="col">ID</th>
                                         <th scope="col">Transaction ID</th>
                                         <th scope="col">Status</th>
-                                        <th scope="col">Transaction Name</th>
-                                        <th scope="col">Total Amount</th>
+                                        <th scope="col">Description</th>
+                                        <th scope="col"> Amount</th>
                                         <th scope="col">Created Date</th>
                                         <th scope="col">Actions</th>
                                     </tr>
@@ -194,13 +194,15 @@
                                                 {{ $debtor->_id }}
                                             </td>
                                             <td>
-                                                <span class="badge badge-{{ ($debtor->status == 'unpaid') ? 'danger' : 'success' }}">{{ $debtor->status }}</span>
+                                                @if(print($debtor->status == 1))
+                                                    <span class="badge badge-danger }}">Unpaid</span>
+                                                @endif
                                             </td>
                                             <td>
-                                                <span>{{ $debtor->transaction_name }}</span>
+                                                <span>{{ $debtor->description }}</span>
                                             </td>
                                             <td>
-                                                <span>{{ $debtor->total_amount }}</span>
+                                                <span>{{ $debtor->amount }}</span>
                                             </td>
                                             <td>
                                                 {{ date_format(new DateTime($debtor->createdAt  ),'Y-m-d') }}

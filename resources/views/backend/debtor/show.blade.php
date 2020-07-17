@@ -1,7 +1,16 @@
 @extends('layout.base')
 
 @section('content')
-
+<div class="row page-title">
+    <div class="col-md-12">
+        <nav aria-label="breadcrumb" class="float-right mt-1">
+            <a href="" class="btn btn-success mr-2"><i class="far mr-2"></i>mark as paid</a>
+            <a href="" class="btn btn-success mr-2"><i class="far mr-2 fa-edit"></i>send reminder</a>
+            <a href="" class="btn btn-success mr-2"><i class="far mr-2 fa-edit"></i>schedule remindet</a>
+            <a href="/admin/debtor" class="btn btn-primary">Go Back</a>
+        </nav>
+    </div>
+</div>
 <div class="account-pages my-5">
     <div class="container-fluid">
         <div class="row-justify-content-center">
@@ -17,7 +26,7 @@
                                     <div class="media p-3">
                                         <i data-feather="grid" class="align-self-center icon-dual icon-sm mr-4"></i>
                                         <div class="media-body">
-                                            {{-- <h5 class="mt-0 mb-0">{{$response->_id}}</h5> --}}
+                                            {{-- <h5 class="mt-0 mb-0">{{$response ?? ''->_id}}</h5> --}}
                                             <span class="text-muted font-size-13">Ref Id.</span>
                                         </div>
                                     </div>
@@ -71,7 +80,7 @@
 
 
                             <ul class="pl-4 mb-4">
-                            <li>Amount : 3000</li>
+                            <li>Amount : {{$debts->amount}}</li>
                                 <li>Total Amount : 3000</li>
                             </ul>
 

@@ -68,8 +68,8 @@ class DebtorController extends Controller
             if ($e->hasResponse()) {
                 $response = $e->getResponse()->getBody();
                 $result = json_decode($response);
-                Session::flash('message', $result->message);
-                return view('backend.debtor.index', []);
+                $session = Session::flash('message', $result->message);
+                return view('backend.debtor.index')->with($session);
             }
 
             //5xx server error
@@ -208,20 +208,27 @@ class DebtorController extends Controller
     public function show($id)
     {
         //return view('backend.debtor.show');
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt'.'/'.$id;
+        $url = env('API_URL', 'https://dev.api.customerpay.me/') . 'debt/'.$id;
         //$getTransUrl = $this->host.'/debt'.'/'.$id;
         
         try {
             $client = new Client;
             $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
             $response = $client->request("GET", $url, $payload);
-            $statusCode = $response->getStatusCode();
-            $body = $response->getBody();
-            $debt = json_decode($body)->data->debt;
+            $statsCode = $response->getStatusCode();
+            $debt_response = $response->getBody();
+            $debts = json_decode($debt_response);
+            $debts = $debts->data->debts;
+
+
+            //$statusCode = $response->getStatusCode();
+            //$body = $response->getBody();
+            //$debt = json_decode($body)->data->debts;
             //dd($debt);
-            if ($statusCode == 200) {
-                return view('backend.debtor.show')->with('debt', $debt);
-            } else if($statusCode == 401){
+            if ($statsCode == 200) {
+                //return view('backend.debtor.show')->with('debt', $debt);
+                return view('backend.debtor.show', compact('debts'));
+            } else if($statsCode == 401){
                 return redirect()->route('login')->with('message', "Please Login Again");
             } 
         } catch (RequestException $e) {
@@ -235,7 +242,7 @@ class DebtorController extends Controller
             Session::flash('message', $response->message);
             return redirect()->route('debtor.index', ['response' => []]);
         } catch (\Exception $e) {
-            return view('backend.debtor.index')->with('errors.500');
+            return view('backend.debtor.show')->with('errors.500');
         }
     }
 
