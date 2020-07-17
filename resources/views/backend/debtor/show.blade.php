@@ -4,9 +4,10 @@
 <div class="row page-title">
     <div class="col-md-12">
         <nav aria-label="breadcrumb" class="float-right mt-1">
+
             <a href="" class="btn btn-success mr-2"><i class="far mr-2"></i>mark as paid</a>
-            <a href="" class="btn btn-success mr-2"><i class="far mr-2 fa-edit"></i>send reminder</a>
-            <a href="" class="btn btn-success mr-2"><i class="far mr-2 fa-edit"></i>schedule remindet</a>
+            <a href="" data-toggle="modal" data-target="#bs-example-modal-sm2" class="btn btn-success mr-2"><i class="far mr-2 fa-edit"></i>send reminder</a>
+            <a href="" data-toggle="modal" data-target="#bs-example-modal-sm" class="btn btn-success mr-2"><i class="far mr-2 fa-edit"></i>schedule remindet</a>
             <a href="/admin/debtor" class="btn btn-primary">Go Back</a>
         </nav>
     </div>
@@ -80,7 +81,7 @@
 
 
                             <ul class="pl-4 mb-4">
-                            <li>Amount : {{$debts->amount}}</li>
+                            <li>Amount : </li>
                                 <li>Total Amount : 3000</li>
                             </ul>
 
@@ -136,6 +137,82 @@
                 </div>
 
             </div>
+
+
+            <div class="modal fade" id="bs-example-modal-sm" tabindex="-1" role="dialog"
+                         aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="mySmallModalLabel">New Debt Reminder</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{route('schedule-reminder') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="transaction_id" value="{{-- $debtor->_id --}}">
+                                {{-- <div class="form-group">
+                                    <input type="text" class="form-control" id="exampleInput1"
+                                            aria-describedby="transactionid" placeholder="Transaction ID">
+                                </div> --}}
+                                <div class="form-group">
+                                    {{-- <div class='input-group date' id='datetimepicker1'>
+                                    <input type='text' class="form-control" />
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                    </div> --}}
+                                    <div class="datepicker date input-group">
+                                        {{-- <label for="reservationDate">Date</label> --}}
+                                        <input type="text" placeholder="Choose a date" class="form-control" id="reservationDate" name="scheduleDate" autocomplete="off">
+                                        <div class="input-group-append"><span class="input-group-text px-4"><i class="fa fa-calendar"></i></span></div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                            {{-- <textarea class="form-control"
+                                                        id="exampleInput2" placeholder="Message"></textarea> --}}
+                                    <label>Time</label>
+                                    <div class="input-group time" id="timepicker">
+                                        <input class="form-control" id="timepicker" placeholder="HH:MM AM/PM" name="time"/><span class="input-group-append input-group-addon"><span class="input-group-text"><i class="fa fa-clock"></i></span></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Message</label>
+                                    <textarea name="message" class="form-control" id="exampleInput2" placeholder="Message"></textarea>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary btn-block">Create Reminder</button>
+                            </form>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div>
+
+            <div class="modal fade" id="bs-example-modal-sm2" tabindex="-1" role="dialog"
+                         aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <form action="{{ route('reminder') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="transaction_id" value="{{-- $debtor->_id --}}">
+                               
+                                <div class="form-group">
+                                            {{-- <textarea class="form-control"
+                                                        id="exampleInput2" placeholder="Message"></textarea> --}}
+                                    <label>Message</label>
+                                    <textarea name="message" class="form-control" id="exampleInput2" placeholder="Message"></textarea>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary btn-block">Create Reminder</button>
+                            </form>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div>
+
         </div>
     </div>
 </div>
