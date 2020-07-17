@@ -386,20 +386,22 @@ class DebtorController extends Controller
     public function sendReminder(Request $request) {
         // /debt/send
         $_id = $request->transaction_id;
+        $message = $request->message;
 
         // dd($_id);
 
         // $url = 'http://localhost:3000/debt' . '/send';
 
         $url = env('API_URL', 'https://dev.api.customerpay.me/debt') . '/send'; 
-
+        
 
         try {
             $client =  new Client();
             $payload = [
                 'headers' => ['x-access-token' => Cookie::get('api_token')],
                 'form_params' => [
-                    '_id' => $_id,
+                    'transaction_id' => $_id,
+                    'message' => $message,
                 ],
             ];
 
@@ -409,10 +411,32 @@ class DebtorController extends Controller
             $body = $response->getBody();
             $data = json_decode($body);
 
-            if($statusCode == 200) {
+            if($statusCode == 200 && $data->success) {
+                // return \
+                $request->session()->flash('alert-class', 'alert-success');
+                Session::flash('message', $data->Message);
+
+                return redirect()->back();
 
             }
-        } catch(\Exception $e) {
+            else {
+                $request->session()->flash('alert-class', 'alert-waring');
+                // Session::flash('message', $data->message);
+                return redirect()->back();
+            }
+        } catch (RequestException $e) {
+            Log::info('Catch error: LoginController - ' . $e->getMessage());
+
+            if ($e->hasResponse()) {
+                $response = $e->getResponse()->getBody();
+                $result = json_decode($response);
+                Session::flash('message', $result->Message);
+                return view('backend.debtor.index', []);
+            }
+
+            //5xx server error
+            return view('errors.500');
+        } catch (\Exception $e) {
             Session::flash('message', $e->getMessage());
             Log::error(' ' . $e->getMessage());
             return view('errors.500');
@@ -420,13 +444,12 @@ class DebtorController extends Controller
     }
 
     public function sheduleReminder(Request $request) {
+
         $request->validate([
             'transaction_id' => 'required',
             'scheduleDate' => 'required',
             'time' =>  'required',
         ]);
-
-        // dd($_id);
 
         // $url = 'http://localhost:3000/debt' . '/schedule';
 
@@ -441,6 +464,7 @@ class DebtorController extends Controller
                         'scheduleDate' => $request->scheduleDate,
                         'time' => $request->time,
                         'transaction_id' => $request->transaction_id,
+                        'message' => $request->message,
                     ],
                 ];
                 $response = $client->request("POST", $url, $payload);
@@ -451,11 +475,11 @@ class DebtorController extends Controller
 
                 if ($statusCode == 200  && $data->success) {
                     $request->session()->flash('alert-class', 'alert-success');
-                    Session::flash('message', $data->message);
+                    Session::flash('message', $data->Message);
 
                     return back();
                 } else {
-                    $request->session()->flash('alert-class', 'alert-waring');
+                    $request->session()->flash('alert-class', 'alert-success');
                     // Session::flash('message', $data->message);
                     return redirect()->back();
                 }
@@ -465,7 +489,7 @@ class DebtorController extends Controller
                 if ($e->hasResponse()) {
                     $response = $e->getResponse()->getBody();
                     $result = json_decode($response);
-                    Session::flash('message', $result->message);
+                    Session::flash('message', $result->Message);
                     return view('backend.debtor.index', []);
                 }
     
@@ -476,5 +500,51 @@ class DebtorController extends Controller
                 Log::error(' ' . $e->getMessage());
                 return view('errors.500');
             }
+    }
+
+    public function markPaid(Request $request, $id) {
+
+        $url = env('API_URL', 'https://dev.api.customerpay.me') .'/debt' . '/update/' .$id;
+            // dd($data);
+
+        try {
+            $client =  new Client();
+            $payload = [
+                'headers' => ['x-access-token' => Cookie::get('api_token')],
+            ];
+            
+            $response = $client->request("PUT", $url, $payload);
+
+            $statusCode = $response->getStatusCode();
+            $body = $response->getBody();
+            $data = json_decode($body);
+
+            if ($statusCode == 200  && $data->success) {
+                $request->session()->flash('alert-class', 'alert-success');
+                Session::flash('message', $data->message);
+
+                return back();
+            } else {
+                $request->session()->flash('alert-class', 'alert-waring');
+                Session::flash('message', $data->message);
+                return redirect()->back();
+            }
+        } catch (RequestException $e) {
+            Log::info('Catch error: LoginController - ' . $e->getMessage());
+
+            if ($e->hasResponse()) {
+                $response = $e->getResponse()->getBody();
+                $result = json_decode($response);
+                Session::flash('message', $result->message);
+                return view('backend.debtor.index', []);
+            }
+
+            //5xx server error
+            return view('errors.500');
+        } catch (\Exception $e) {
+            Session::flash('message', $e->getMessage());
+            Log::error(' ' . $e->getMessage());
+            return view('errors.500');
+        }
     }
 }
