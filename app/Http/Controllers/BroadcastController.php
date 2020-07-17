@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
+use App\Rules\DoNotPutCountryCode;
+use App\Rules\NoZero;
 
 class BroadcastController extends Controller
 {
@@ -23,51 +25,48 @@ class BroadcastController extends Controller
     {
 
         try {
-            $url = env('API_URL', 'https://dev.api.customerpay.me'). '/customer' ;
+            $user_url = env('API_URL', 'https://dev.api.customerpay.me'). '/customer' ;
+            $store_url = env('API_URL', 'https://dev.api.customerpay.me'). '/store' ;
             $client = new Client();
 
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
-            $user_response = $client->request('GET', $url, $headers);
+            $user_response = $client->request('GET', $user_url, $headers);
+            $store_response = $client->request('GET', $store_url, $headers);
 
             $statusCode = $user_response->getStatusCode();
+            $statusCode2 = $store_response->getStatusCode();
             $users = json_decode($user_response->getBody());
-            $dt = $users->data->customer;
+            $stores = json_decode($store_response->getBody());
 
-            //dd($dt);
+            if ( $statusCode == 200 && $statusCode2 == 200 ) {
+                $customerArray = [];
+                $store_ids = [];
+                $store_names = [];
 
-            
+                foreach($users->data->customer as $key => $value) {
+                    array_push($customerArray, $users->data->customer[$key]->customers);
+                    array_push($store_ids, $users->data->customer[$key]->storeId);
+                    array_push($store_names, $users->data->customer[$key]->storeName);
+                }
 
-            if ( $statusCode == 200 ) {
+                $allCustomers = [];
+                foreach( $customerArray as $key => $value ) {
+                    foreach( $value as $k => $val ) {
+                        $val->store_id = $store_ids[$key];
+                        $val->store_name = $store_names[$key];
+                        array_push($allCustomers, $val);
+                    }
+                }
 
+                $stores = $stores->data->stores;
 
-                // $customerArray = [];
-                // foreach($users->data as $key => $value) {
-                //     array_push($customerArray, $users->data[$key]->customers);
-                // }
-
-                // $allCustomers = [];
-                // foreach( $customerArray as $key => $value ) {
-                //     foreach( $value as $key => $v ) {
-                //         array_push($allCustomers, $v);
-                //     }
-                // }
-
-                // // start pagination
-                // $perPage = 5;
-                // $page = $request->get('page', 1);
-                // if ($page > count($allCustomers) or $page < 1) {
-                //     $page = 1;
-                // }
-                // $offset = ($page * $perPage) - $perPage;
-                // $articles = array_slice($allCustomers, $offset, $perPage);
-                // $datas = new Paginator($articles, count($allCustomers), $perPage);
-
-                return view('backend.broadcasts.create')->with('data', $dt);
+                return view('backend.broadcasts.create')->with(['data' => $allCustomers, 'stores' => $stores]);
             }
 
             if ( $statusCode == 500 ) {
                 return view('errors.500');
             }
+
         } catch(\RequestException $e) {
             $statusCode = $e->getResponse()->getStatusCode();
             $data = json_decode($e->getResponse()->getBody()->getContents());

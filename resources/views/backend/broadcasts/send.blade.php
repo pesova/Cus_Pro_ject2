@@ -23,8 +23,9 @@
                                             <div class="input-group-prepend">
 
                                             </div>
-                                            <input class="form-control" type="text" placeholder="Enter your recipient's number" name="receiver">
+                                            <input class="form-control" type="text" placeholder="Enter your recipient's number" name="receiver">                                            
                                         </div>                                       
+                                        <p><small id="helpPhone" class="form-text text-muted">Enter your number without the starting 0, eg 234813012345</small></p>
                                     </div>
                                 </div>
                             </div>

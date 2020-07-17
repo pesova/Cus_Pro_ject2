@@ -61,7 +61,7 @@
                     <h4>Frequently Contacted</h4>
                 </div>
                 
-            
+                @if ( isset($data) && count($data) > 0 )
                 <div class="contacts">
                     <div class="table-responsive">
                         <table class="table mb-0" id="basic-datatable">
@@ -78,8 +78,8 @@
                             </thead>
                             <tbody>
 
-                            @if ( isset($data) && count($data) > 0 )
-                            @for ($i = 0; $i < count($data); $i++)          
+                         
+                            @for ($i = 0; $i < count($data); $i++)        
                                 <tr>
                                     <td scope="row" class="indexing">{{$i + 1}}</td>
                                     <td><img src="/backend/assets/images/users/avatar-1.jpg"
@@ -103,10 +103,10 @@
                                                 Actions<i class="icon"><span data-feather="chevron-down"></span></i>
                                             </button>
                                             <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="{{ route('customer.edit', 2) }}">Edit Customer</a>
-                                                <a class="dropdown-item" href="{{ route('customer.show', 2) }}">View
+                                                <a class="dropdown-item" href="{{ route('customer.edit', $data[$i]->_id) }}">Edit Customer</a>
+                                                <a class="dropdown-item" href="{{ route('customer.show', $data[$i]->_id) }}">View
                                                     Profile</a>
-                                                <a class="dropdown-item" href="{{ route('transaction.show', 2) }}">View
+                                                <a class="dropdown-item" href="{{ route('transaction.show', $data[$i]->_id) }}">View
                                                     Transaction</a>
                                                 <a class="dropdown-item" href="{{ route('debtor.create') }}">Send
                                                     Reminder</a>
