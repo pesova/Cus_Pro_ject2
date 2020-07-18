@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="{{ asset('/backend/assets/css/store_list.css') }}">
 <link rel="stylesheet" href="{{ asset('/backend/assets/css/transac.css') }}">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 @stop
 
 @section('content')
@@ -197,36 +197,7 @@
     });
 
 </script>
-<script>
-    $(function () {
-        $('.updateStatus').change(function () {
-            var status = $(this).prop('checked') == true ? 1 : 0;
-            var tran_id = $(this).data('id');
-            var store_id = $(this).data('store');
-            var customer_id = $(this).data('customer');
 
-            console.log(tran_id);
-            console.log(store_id);
-            console.log(customer_id);
-
-            $.ajax({
-                type: "PATCH",
-                dataType: "json",
-                url: '/changeStatus',
-                data: {
-                    'status': status,
-                    'tran_id': tran_id,
-                    'store_id': store_id,
-                    'customer_id': customer_id
-                },
-                success: function (data) {
-                    console.log(data.success)
-                }
-            });
-        })
-    })
-
-</script>
 <script>
     jQuery(function ($) {
         var token = "{{Cookie::get('api_token')}}"
@@ -256,6 +227,36 @@
             } else {
                 $('select[name="store"]').empty();
             }
+        });
+
+        $('.updateStatus').on('change', function () {
+            var status = $(this).prop('checked') == true ? 1 : 0;
+            var tran_id = $(this).data('id');
+            var store_id = $(this).data('store');
+            var customer_id = $(this).data('customer');
+
+            if (tran_id) {
+                jQuery.ajax({
+                    url: "https://dev.api.customerpay.me/transaction/update/" + encodeURI(tran_id),
+                    type: "PATCH",
+                    dataType: "json",
+                    contentType: 'json',
+                    headers: {
+                        'x-access-token': token
+                    },
+                    data: {
+                        'status': status,
+                        // 'tran_id': tran_id,
+                        'store_id': store_id,
+                        'customer_id': customer_id
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        var new_data = data.data.store.customers;
+                        var i;
+                    }
+                });
+            } 
         });
     });
 
