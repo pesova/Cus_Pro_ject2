@@ -119,7 +119,6 @@ class BroadcastController extends Controller
                    "username" => env('AT_USERNAME',"sandbox"),
                    "to" => $request->input('receiver'),
                    "message" => $request->input('message'),
-                   "from" => env('AT_FROM',"AFRICASTKNG"),
                    "bulkSMSMode" => "1",
                    "enqueue" => "1",
                 ]
