@@ -12,7 +12,9 @@
 @endif
 
 <script>
-    setTimeout(() => {
-      document.querySelector('.alert').style.display = 'none'
-    }, 3000);
+    $(document).ready(function () {
+        setTimeout(function () {
+            $(".alert").alert('close');
+        }, 3000);
+    });
 </script>
