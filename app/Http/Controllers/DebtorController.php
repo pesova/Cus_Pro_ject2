@@ -392,8 +392,7 @@ class DebtorController extends Controller
 
         // $url = 'http://localhost:3000/debt' . '/send';
 
-        $url = env('API_URL', 'https://dev.api.customerpay.me/debt') . '/send'; 
-        
+        $url = env('API_URL', 'https://dev.api.customerpay.me') .'/debt'. '/send'; 
 
         try {
             $client =  new Client();
@@ -453,7 +452,7 @@ class DebtorController extends Controller
 
         // $url = 'http://localhost:3000/debt' . '/schedule';
 
-        $url = env('API_URL', 'https://dev.api.customerpay.me/debt') . '/schedule'; 
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt' . '/schedule'; 
 
                 
             try {
