@@ -1,18 +1,83 @@
 @extends('layout.base')
 
+@section('custom_css')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/all.min.css">
+<style>
+    .debt-show.alert {
+        width: 40%;
+    }
+
+    @media only screen and (max-width: 600px) {
+        .debtor-button {
+            display: flex;
+            flex-flow: wrap;
+            justify-content: flex-start;
+            align-items: flex-start;
+            max-width: 100%;
+            float: none!important;
+        }
+
+        .debtor-button .btn {
+            color: #fff;
+            max-width: 43%;
+            width: 100%;
+            margin: 1rem .5rem;
+        }
+
+        .debtor-button .btn.go-back {
+            order: -1;
+        }
+
+        .debtor.account-pages.my-5 {
+            margin-top: 1rem!important;
+        }
+
+        .debtor.pt-5 {
+            padding-top: 1rem!important;
+        }
+
+        .debtor .offset-1 {
+            margin-left: 0 !important;
+        }
+
+        .debt-show.alert {
+            width: 90%;
+            margin: auto;
+        }
+    }
+</style>
+@endsection
+
 @section('content')
 <div class="row page-title">
     <div class="col-md-12">
-        <nav aria-label="breadcrumb" class="float-right mt-1">
+        <nav aria-label="breadcrumb" class="float-right mt-1 debtor-button">
 
-            <a href="" class="btn btn-success mr-2"><i class="far mr-2"></i>mark as paid</a>
-            <a href="" data-toggle="modal" data-target="#bs-example-modal-sm2" class="btn btn-success mr-2"><i class="far mr-2 fa-edit"></i>send reminder</a>
-            <a href="" data-toggle="modal" data-target="#bs-example-modal-sm" class="btn btn-success mr-2"><i class="far mr-2 fa-edit"></i>schedule remindet</a>
-            <a href="/admin/debtor" class="btn btn-primary">Go Back</a>
+            <a href="{{ route('markpaid', $debt->_id) }}" class="btn btn-success mr-2"><i class="far mr-2"></i>Mark as paid</a>
+            <a href="" data-toggle="modal" data-target="#bs-example-modal-sm2" class="btn btn-success mr-2"><i class="far mr-2 fa-edit"></i>Send Reminder</a>
+            <a href="" data-toggle="modal" data-target="#bs-example-modal-sm" class="btn btn-success mr-2"><i class="far mr-2 fa-edit"></i>Schedule Reminder</a>
+            <a href="/admin/debtor" class="btn btn-primary go-back">Go Back</a>
         </nav>
+
+        @if(Session::has('message'))
+            <p class="debt-show alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
+        @endif
+
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
     </div>
 </div>
-<div class="account-pages my-5">
+<div class="debtor account-pages my-5">
     <div class="container-fluid">
         <div class="row-justify-content-center">
            
@@ -69,7 +134,7 @@
             </div>
 
 
-            <div class="col-xl-8 col-md-8 col-sm-8 pt-5">
+            <div class="debtor col-xl-8 col-md-8 col-sm-8 pt-5">
                 <div class="card offset-1">
                     <div class="card-body">
                         <h6 class="mt-0 header-title">Description</h6>
@@ -152,7 +217,7 @@
                         <div class="modal-body">
                             <form action="{{route('schedule-reminder') }}" method="POST">
                                 @csrf
-                                <input type="hidden" name="transaction_id" value="{{-- $debtor->_id --}}">
+                                <input type="hidden" name="transaction_id" value="{{$debt->_id}}">
                                 {{-- <div class="form-group">
                                     <input type="text" class="form-control" id="exampleInput1"
                                             aria-describedby="transactionid" placeholder="Transaction ID">
@@ -197,7 +262,7 @@
                         <div class="modal-body">
                             <form action="{{ route('reminder') }}" method="POST">
                                 @csrf
-                                <input type="hidden" name="transaction_id" value="{{-- $debtor->_id --}}">
+                                <input type="hidden" name="transaction_id" value="{{$debt->_id}}">
                                
                                 <div class="form-group">
                                             {{-- <textarea class="form-control"
@@ -217,4 +282,26 @@
     </div>
 </div>
 
+@endsection
+
+@section('javascript')
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/eonasdan-bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript">
+    $('.datepicker').datepicker({
+        clearBtn: true,
+        format: "dd/mm/yyyy"
+    });
+    $("#timepicker").datetimepicker({
+        format: "HH:mm",
+        icons: {
+        up: "fa fa-chevron-up",
+        down: "fa fa-chevron-down"
+        }
+    });
+</script>
+    
 @endsection
