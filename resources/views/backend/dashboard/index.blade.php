@@ -145,16 +145,15 @@
 
             <div class="col-xl-5">
                 <div class="card">
-                    <div class="card-body pt-2">
-                        <h5 class="mb-4 header-title">Latest Debts</h5>       
-                        <div style="display:flex; justify-content:center; text-align:center; width:100%" class='mt-2 mb-3 debts-error'>
-                          
-                        </div>
-
-                        <div class="debts-table dissapear">
-
-                        </div>
+                  <div class="card-body pt-2">
+                    <h5 class="mb-4 header-title">Latest Debts</h5>       
+                    <div style="display:flex; justify-content:center; text-align:center; width:100%" class='mt-2 mb-3 debts-error'>
                     </div>
+
+                    <div class="debts-table dissapear">
+
+                    </div>
+                  </div>
                 </div>
             </div>
         </div>
@@ -172,7 +171,6 @@
 
           let apiToken = "{{\Illuminate\Support\Facades\Cookie::get('api_token')}}";
 
-          // const res = await fetch(`https://dev.api.customerpay.me/dashboard?token=${apiToken}`);
           const res = await fetch(`{{env('API_URL')}}/dashboard?token=${apiToken}`);
           const dash = await res.json();
 
@@ -188,7 +186,9 @@
           myAssistants.innerText = dash.data.assistantCount;
           myDebtors.innerText = dash.data.recentDebts.length
 
-          if (dash.data.recentTransactions.length == 0) {
+          let recentTransactions = dash.data.recentTransactions.slice(0, 9)
+
+          if (recentTransactions.length == 0) {
           document.querySelector('.trans-error').classList.add('dissapear');
           document.querySelector('.trans-table').classList.remove('dissapear');
           
@@ -203,7 +203,7 @@
           document.querySelector('.trans-error').classList.add('dissapear');
           document.querySelector('.trans-table').classList.remove('dissapear');
 
-          dash.data.recentTransactions.forEach((item, index) => {
+          recentTransactions.forEach((item, index) => {
               let output =
               `
               <tr>
@@ -221,20 +221,9 @@
           }
           console.log(dash)
 
-          /*
-          "recentDebts": [{
-            "user_phone_number": "0903748484",
-            "customer_phone_number": "08077272888",
-            "name": "",
-            "amount": 30000,
-            "ts_ref_id": 5f0cf1e8f370e342104cca42,
-            "message": "Payment for sold shoes",
-            "status": "unpaid",
-            "expected_pay_date": "Mon Jul 13 2020 14:11:36 GMT+0100 (West Africa Standard Time)" }]
-          }] 
-          */
+          let recentDebts = dash.data.recentDebts.slice(0, 9)
 
-          if (dash.data.recentDebts.length == 0) {
+          if (recentDebts.length == 0) {
             document.querySelector('.debts-error').classList.add('dissapear');
             document.querySelector('.debts-table').classList.remove('dissapear');
 
@@ -245,20 +234,38 @@
             document.querySelector('.debts-error').classList.add('dissapear');
             document.querySelector('.debts-table').classList.remove('dissapear');
 
-            dash.data.recentDebts.forEach(debt => {
+            recentDebts.forEach(debt => {
+              
+              let status;
+              
+              if (debt.status == false) {
+                status = `<span class="badge badge-danger py-1">Unpaid</span>`
+              } else {
+                status = `<span class="badge badge-success py-1">Paid</span>`
+              }
+
               let row = 
               `
-              <div class="media-body">
-                  <h6 class="mt-1 mb-0 font-size-15">${debt.name}</h6>
-                  <h6 class="text-muted font-weight-normal mt-1 mb-3">${debt.expected_pay_date.slice(0, 15)}</h6>
-              </div>
-              <div class="dropdown align-self-center float-right">
+              <div class="pt-2 pb-2" style="display: flex; justify-content:space-between; border-top: 1px solid #eee">
+                            
+                <div class="media-body">
+                  <h6 class="mt-1 mb-1 font-size-15">${debt.customerName}</h6>
+                  ${status}
+                </div>
+
+                <div class="media-body" style="display: flex">
+                  <p style="margin: 0; align-self: flex-end"><b> N${debt.debt.amount} </b></p>
+                </div>
+
+                <div class="dropdown float-right" style="align-self: flex-end">
                   <a href="#" class="dropdown-toggle arrow-none text-muted" data-toggle="dropdown" aria-expanded="false">
                       <i class="uil uil-ellipsis-v"></i>
                   </a>
                   <div class="dropdown-menu dropdown-menu-right">
                       <a href="javascript:void(0);" class="dropdown-item"><i class="uil uil-edit-alt mr-2"></i>View</a>
                   </div>
+                </div>
+
               </div>
               `
               debtList.innerHTML += row;
@@ -266,7 +273,7 @@
           };
         };
 
-        function makeRequest (params) {
+        function makeRequest () {
           getDashboard().catch(err => {
             document.querySelector('.trans-error').innerText = "Opps! Couldn't get content. Try refreshing"
             document.querySelector('.debts-error').innerText = "Opps! Couldn't get content. Try refreshing"
