@@ -1,4 +1,10 @@
 <li>
+    <a href="{{ route('dashboard') }}">
+        <i data-feather="home"></i>
+        <span> Dashboard </span>
+    </a>
+</li>
+<li>
     <a href="{{ route('customer.index') }}">
         <i class='uil uil-chat-bubble-user'></i>
         <span class="fourth"> Customers </span>
@@ -18,13 +24,6 @@
         <span class="third">Stores</span>
     </a>
 </li>
-
-{{-- <li>
-    <a href="{{route('analytics')}}">
-        <i data-feather="book-open"></i>
-        <span> Analytics </span>
-    </a>
-</li> --}}
 
 <li>
     <a href="{{ route('debtor.index') }}">
@@ -46,12 +45,7 @@
         <span> Broadcast Message </span>
     </a>
 </li>
-{{-- <li>
-    <a href="{{ route('complaint.create') }}">
-        <i data-feather="book-open"></i>
-        <span> Complaint Forms </span>
-    </a>
-</li> --}}
+
 <li>
     <a href="{{ route('complaint.index') }}">
         <i data-feather="book"></i>
@@ -65,18 +59,3 @@
     </a>
 </li>
 
-
-{{-- <li>
-    <a href="{{ route('notification') }}">
-        <i data-feather="bell"></i>
-        <span> Notifications </span>
-    </a>
-</li> --}}
-
-{{--todo: Remove this. it is for super admin only--}}
-{{-- <li>
-    <a href="{{ route('users.index') }}">
-        <i data-feather="users"></i>
-        <span> Users </span>
-    </a>
-</li> --}}

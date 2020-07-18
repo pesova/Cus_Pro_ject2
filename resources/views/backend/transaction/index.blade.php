@@ -233,7 +233,6 @@
             }
         });
 
-
         $('.updateStatus').on('change', function () {
 
             var status = $(this).prop('checked') == true ? 1 : 0;
@@ -244,25 +243,25 @@
 
             if (tran_id) {
                 jQuery.ajax({
+                    type: "POST",
                     url: host + "/transaction/update/" + encodeURI(tran_id),
-                    type: "PATCH",
                     dataType: "json",
                     contentType: 'json',
                     headers: {
                         'x-access-token': token
                     },
-                    data: JSON.stringify({
-                        'status': status,
-                        // 'tran_id': tran_id,
-                        'store_id': store_id,
-                        'customer_id': customer_id
-                    }),
-                    // data: {
+                    // data: JSON.stringify({
                     //     'status': status,
                     //     // 'tran_id': tran_id,
                     //     'store_id': store_id,
                     //     'customer_id': customer_id
-                    // },
+                    // }),
+                    data: {
+                        'status': status,
+                        'store_id': store_id,
+                        'customer_id': customer_id,
+                        _method: "PATCH"
+                    },
                     success: function (data) {
                         console.log(data);
                         var new_data = data.data.store.customers;

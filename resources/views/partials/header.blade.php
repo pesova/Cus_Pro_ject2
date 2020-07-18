@@ -3,8 +3,8 @@
     <nav>
         <div class="container nav">
             <div class="nav__brand">
-                <a href="{{route('home') }}" class="nav__brand__logo"><img src="{{ ('/frontend/assets/images/fulllogo.png') }}" alt=""
-                        height="auto" /></a>
+                <a href="{{route('home') }}" class="nav__brand__logo"><img
+                        src="{{ ('/frontend/assets/images/fulllogo.png') }}" alt="" height="auto" /></a>
             </div>
             <div class="nav__menu">
                 <div class="menu__container">
@@ -29,14 +29,13 @@
                 <a href="{{ route('signup') }}" class="nav__button btn-nav-active">Sign Up</a>
                 @elseif(isset($_COOKIE['api_token']))
                 {{-- <button class="nav__button btn-nav-active"> --}}
-                    <a href="{{ route('dashboard') }}"
-                        class="nav__button btn-nav-active nav__button__link__active">Dashboard</a>
-                    {{-- </button> --}}
+                <a href="{{ route('dashboard') }}"
+                    class="nav__button btn-nav-active nav__button__link__active">Dashboard</a>
+                {{-- </button> --}}
                 {{-- <button class=""> --}}
-                    <a href="{{ route('logout') }}"
-                        class="nav__button btn-nav-active nav__button__link__active">Logout
-                    </a>
-                    {{-- </button> --}}
+                <a href="{{ route('logout') }}" class="nav__button btn-nav-active nav__button__link__active">Logout
+                </a>
+                {{-- </button> --}}
                 @endif
             </div>
             <div class="hamburger-container">
@@ -74,8 +73,7 @@
                                 FAQ</a>
                         </li>
                         <li class="mobile__menu__list__item">
-                            <a href="{{ route('blog') }}"
-                                class="mobile__menu__list__link mobile__menu__list_link_diff">
+                            <a href="{{ route('blog') }}" class="mobile__menu__list__link mobile__menu__list_link_diff">
                                 Blog
                             </a>
                         </li>
