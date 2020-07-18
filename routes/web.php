@@ -133,6 +133,8 @@ Route::prefix('/admin')->group(function () {
 
         Route::post('schedule-reminder', 'DebtorController@sheduleReminder')->name('schedule-reminder');
 
+        Route::get('markpaid/{id}', 'DebtorController@markPaid')->name('markpaid');
+
         // super admin protected routes
         Route::group(['middleware' => 'backend.super.admin'], function () {
             // Route::get('/users', 'UsersController@index')->name('users');

@@ -131,7 +131,9 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @for ($i = 0; $i < count($response); $i++) <tr>
+                                        @for ($i = 0; $i < count($response); $i++) 
+                                        
+                                        <tr>
                                             <td scope="row">{{$i + 1}}</td>
                                             <td><img src="/backend/assets/images/users/avatar-5.jpg"
                                                     class="avatar-sm rounded-circle" alt="Shreyu" /></td>

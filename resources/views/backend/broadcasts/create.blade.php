@@ -12,6 +12,9 @@
     <div class="container-content">
 
         <div class='heading-container'>
+                @if(session('response'))
+                <p class="alert alert-success">{{ session('response') }}</p>
+                @endif
 
             <h2>
                 <i class="far fa-envelope"></i>
@@ -35,8 +38,10 @@
                         </div>
 
                         <div class="message-card-link">
-                            <p>Send a Happy New Year wish</p>
-                            <i class="fas fa-arrow-right"></i>
+
+                         
+                            <p><a href="{{ route('broadcast.create') }}"> Send a Happy New Year wish</a></p>
+                            <i class="fas fa-arrow-right" ></i>
                         </div>
                     </div>
                 </div>
@@ -55,7 +60,8 @@
                 <div>
                     <h4>Frequently Contacted</h4>
                 </div>
-
+                
+                @if ( isset($data) && count($data) > 0 )
                 <div class="contacts">
                     <div class="table-responsive">
                         <table class="table mb-0" id="basic-datatable">
@@ -71,14 +77,17 @@
                                 </tr>
                             </thead>
                             <tbody>
+
+                         
+                            @for ($i = 0; $i < count($data); $i++)        
                                 <tr>
-                                    <td scope="row" class="indexing">1</td>
+                                    <td scope="row" class="indexing">{{$i + 1}}</td>
                                     <td><img src="/backend/assets/images/users/avatar-1.jpg"
                                             class="avatar-sm rounded-circle" alt="Shreyu" /></td>
-                                    <td>John Doe <br>
+                                    <td>{{isset($data[$i]->name) ? ucfirst($data[$i]->name) : 'Not available'}} <br>
                                         <span class="badge badge-success">Has debt</span>
                                     </td>
-                                    <td>+234 90 000 000 00<br>
+                                    <td>{{isset($data[$i]->phone_number) ? $data[$i]->phone_number : 'Not available'}}<br>
                                     </td>
                                     {{-- <td>
                                                                 <span> &#8358; 6 000</span> <br>
@@ -94,10 +103,10 @@
                                                 Actions<i class="icon"><span data-feather="chevron-down"></span></i>
                                             </button>
                                             <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="{{ route('customer.edit', 2) }}">Edit Customer</a>
-                                                <a class="dropdown-item" href="{{ route('customer.show', 2) }}">View
+                                                <a class="dropdown-item" href="{{ route('customer.edit', $data[$i]->_id) }}">Edit Customer</a>
+                                                <a class="dropdown-item" href="{{ route('customer.show', $data[$i]->_id) }}">View
                                                     Profile</a>
-                                                <a class="dropdown-item" href="{{ route('transaction.show', 2) }}">View
+                                                <a class="dropdown-item" href="{{ route('transaction.show', $data[$i]->_id) }}">View
                                                     Transaction</a>
                                                 <a class="dropdown-item" href="{{ route('debtor.create') }}">Send
                                                     Reminder</a>
@@ -105,45 +114,14 @@
                                         </div>
                                     </td>
                                 </tr>
+                                @endfor
 
-                                <tr>
-                                    <td scope="row" class="indexing">2</td>
-                                    <td><img src="/backend/assets/images/users/avatar-6.jpg"
-                                            class="avatar-sm rounded-circle" alt="Shreyu" /></td>
-                                    <td>Mary Doe <br>
-                                        <span class="badge badge-success">Has Debt</span>
-                                    </td>
-                                    <td>+44 0000 123456 <br>
-                                    </td>
-                                    {{-- <td>
-                                                                <span> &#8358; 10 000</span> <br>
-                                                                <span class="badge badge-primary">Paid: 9 000</span>
-                                                            </td>
-                                                            <td>
-                                                                <span class="text-success">&#8358; 1 000</span>
-                                                            </td> --}}
-                                    <td>
-                                        <div class="btn-group mt-2 mr-1">
-                                            <button type="button" class="btn btn-primary dropdown-toggle"
-                                                data-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false">
-                                                Actions<i class="icon"><span
-                                                        data-feather="chevron-down"></span></i>
-                                            </button>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="{{ route('customer.edit', 2) }}">Edit Customer</a>
-                                                <a class="dropdown-item" href="{{ route('customer.show', 2) }}">View Profile</a>
-                                                <a class="dropdown-item" href="{{ route('transaction.show', 2) }}">View Transaction</a>
-                                                <a class="dropdown-item" href="{{ route('debtor.create') }}">Send Reminder</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                            </tbody>
+                             </tbody>
                         </table>
                     </div>
                 </div>
+
+                @endif
 
                 <div class="button-container">
                     <a href="{{ route('broadcast.create') }}" class="buttons">
