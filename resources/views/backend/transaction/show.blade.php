@@ -62,7 +62,9 @@
                                     <div class="media">
                                         <i data-feather="clock" class="align-self-center icon-dual icon-lg mr-2"></i>
                                         <div class="media-body">
-                                            <h4 class="mt-0 mb-0">{{ \Carbon\Carbon::parse($transaction->expected_pay_date)->diffForhumans() }}</h4>
+                                            <h4 class="mt-0 mb-0">
+                                                {{ \Carbon\Carbon::parse($transaction->expected_pay_date)->diffForhumans() }}
+                                            </h4>
                                             <span class="text-muted">Payment Due</span>
                                         </div>
                                     </div>
@@ -73,53 +75,67 @@
                 </div>
             </div>
 
-            <div class="col-xl-10 col-md-12 col-sm-12 pt-2">
-                <div class="card offset-1">
+            <div class="col-xl-10 col-md-10 col-sm-12 pt-2 mx-auto">
+                <div class="card">
                     <div class="card-body">
 
-                        <div class="text-muted">
-                            <div class="d-flex">
-                                <div class="col-md-8">
-                                    <h6 class="mt-0 header-title">Description</h6>
-                                    <textarea name="" readonly id="" cols="auto" rows="5" sty
-                                        class="form-control w-100 flex-1">{{ $transaction->description }}</textarea>
-                                </div>
+                        <div class="">
+                            <div class="">
+                                <h6 class="mt-0 header-title">Description</h6>
+                                <textarea name="" readonly id="" cols="auto" rows="3" sty
+                                    class="form-control w-100 flex-1">{{ $transaction->description }}</textarea>
+                            </div>
 
-                                <div class="col-md-4">
-                                    <div class="tags mb-5">
-                                        <h6 class="font-weight-bold">Store Name:</h6>
+                            <div class="d-flex justify-content-between my-3">
+                                <div class="list-group">
+                                    <h6 class="header-title">Financial Details</h6>
+
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered mb-0">
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row">Amount</th>
+                                                    <td colspan="2">{{ $transaction->amount }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Interest</th>
+                                                    <td colspan="2">{{ $transaction->interest }} % / Yr</td>
+                                                </tr>
+                                                <tr class="font-weight-bolder">
+                                                    <th scope="row">Total Amount</th>
+                                                    <td colspan="2">
+                                                        {{ floor($transaction->amount/100+12 * $transaction->interest + $transaction->amount) }}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                                <div class="">
+                                    <h6 class="header-title">Store Name:</h6>
+                                    <h5>
                                         <a href="{{ route('store.show', $transaction->store_ref_id)}}"
                                             class="mr-2 text-uppercase">
                                             {{ $transaction->store_name }}
                                         </a>
-                                    </div>
-
-                                    <div class="tags mt-5">
-                                        <h6 class="font-weight-bold">Transaction Status:
-                                        </h6>
-                                        <label class="switch">
-                                            <input type="checkbox" id="togBtn"
-                                                {{ $transaction->status == true ? 'checked' : '' }}
-                                                data-id="{{ $transaction->_id }}"
-                                                data-store="{{ $transaction->store_ref_id }}"
-                                                data-customer="{{ $transaction->customer_ref_id}}">
-                                            <div class="slider round">
-                                                <span class="on">Paid</span><span class="off">Pending</span>
-                                            </div>
-                                        </label>
-                                    </div>
+                                    </h5>
                                 </div>
-                            </div>
 
-                            <div class="mt-3">
-                                <h6 class="mt-0 header-title">Financial Details</h6>
-                                <ul class="pl-4 mb-4">
-                                    <li>Amount : {{ $transaction->amount }}</li>
-                                    <li>Interest : {{ $transaction->interest }} % / Yr</li>
-                                    <li>Total Amount :
-                                        {{ floor($transaction->amount/100+12 * $transaction->interest + $transaction->amount) }}
-                                    </li>
-                                </ul>
+                                <div class="">
+                                    <h6 class="header-title">Transaction Status:
+                                    </h6>
+                                    <label class="switch">
+                                        <input type="checkbox" id="togBtn"
+                                            {{ $transaction->status == true ? 'checked' : '' }}
+                                            data-id="{{ $transaction->_id }}"
+                                            data-store="{{ $transaction->store_ref_id }}"
+                                            data-customer="{{ $transaction->customer_ref_id}}">
+                                        <div class="slider round">
+                                            <span class="on">Paid</span><span class="off">Pending</span>
+                                        </div>
+                                    </label>
+                                </div>
                             </div>
 
                             <div class="row">
@@ -153,10 +169,11 @@
                                         @foreach ($stores as $store)
                                         @foreach ($store->customers as $customer)
                                         @if ($customer->_id === $transaction->customer_ref_id)
-                                        <a href="{{ route('customer.show', $transaction->store_ref_id.'-'.$transaction->customer_ref_id)}}"
-                                            class="">
-                                            <h5 class="font-size-16">{{ $customer->name }}</h5>
-                                        </a>
+                                        <h5>
+                                            <a href="{{ route('customer.show', $transaction->store_ref_id.'-'.$transaction->customer_ref_id)}}"
+                                                class="font-size-16">{{ $customer->name }}
+                                            </a>
+                                        </h5>
                                         @endif
                                         @endforeach
                                         @endforeach
@@ -209,23 +226,33 @@
                                             name="description" placeholder="Description">
                                     </div>
                                 </div>
+
                                 <div class="form-group row mb-3">
                                     <label for="transaction_type" class="col-3 col-form-label">Transaction Type</label>
                                     <div class="col-9">
                                         <select class="form-control" id="type" name="type">
                                             <option value="paid"
-                                                {{ old('type', $transaction->status) == 'paid' ? 'selected' : '' }}>
+                                                {{ old('type', $transaction->type) == 'paid' ? 'selected' : '' }}>
                                                 Paid</option>
                                             <option value="debt"
-                                                {{ old('type', $transaction->status) == 'debt' ? 'selected' : '' }}>
+                                                {{ old('type', $transaction->type) == 'debt' ? 'selected' : '' }}>
                                                 Debt</option>
                                             <option value="receivable"
-                                                {{ old('type', $transaction->status) == 'receivable' ? 'selected' : '' }}>
+                                                {{ old('type', $transaction->type) == 'receivable' ? 'selected' : '' }}>
                                                 Receivable
                                             </option>
                                         </select>
                                     </div>
                                 </div>
+
+                                <div class="form-group row mb-3">
+                                    <label for="description" class="col-3 col-form-label">Due Date</label>
+                                    <div class="col-9">
+                                        <input type="date" class="form-control" id="expected_pay_date"
+                                            name="expected_pay_date">
+                                    </div>
+                                </div>
+
                                 <div class="form-group row mb-3">
                                     <label for="store" class="col-3 col-form-label">Store</label>
                                     <div class="col-9">
@@ -257,8 +284,12 @@
                                     <div class="col-9">
 
                                         <select class="form-control" name="status">
-                                            <option value="1">Paid</option>
-                                            <option value="0" selected>Pending</option>
+                                            <option value="0"
+                                                {{ old('type', $transaction->status) == '0' ? 'selected' : '' }}>Pending
+                                            </option>
+                                            <option value="1"
+                                                {{ old('type', $transaction->status) == '1' ? 'selected' : '' }}>Paid
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
