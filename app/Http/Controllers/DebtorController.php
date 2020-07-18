@@ -208,26 +208,23 @@ class DebtorController extends Controller
     public function show($id)
     {
         //return view('backend.debtor.show');
-        $url = env('API_URL', 'https://dev.api.customerpay.me/debt/') . 'single/'.$id;
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt/single/' .$id;
         //$getTransUrl = $this->host.'/debt'.'/'.$id;
         
         try {
             $client = new Client;
             $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
             $response = $client->request("GET", $url, $payload);
-            //$statsCode = $response->getStatusCode();
-            //$debt_response = $response->getBody();
-            //$debts = json_decode($debt_response);
-            //$debts = $debts->data->debts;
-
 
             $statusCode = $response->getStatusCode();
-            $body = $response->getBody();
-            $debt = json_decode($body)->data->debts;
+            $debt_response = $response->getBody();
+            $single_debt = json_decode($debt_response);
+            $debt = $single_debt->data->debt;
             //dd($debt);
             if ($statusCode == 200) {
                 //return view('backend.debtor.show')->with('debt', $debt);
-                return view('backend.debtor.show', compact('debts'));
+                return view('backend.debtor.show', compact('debt'));
+                
             } else if($statusCode == 401){
                 return redirect()->route('login')->with('message', "Please Login Again");
             } 
