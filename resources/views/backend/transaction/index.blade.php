@@ -201,6 +201,8 @@
 <script>
     jQuery(function ($) {
         var token = "{{Cookie::get('api_token')}}"
+        var host = "{{ env('API_URL', 'https://dev.api.customerpay.me') }}";
+
         $('select[name="store"]').on('change', function () {
             var storeID = $(this).val();
             if (storeID) {
@@ -229,34 +231,45 @@
             }
         });
 
+
         $('.updateStatus').on('change', function () {
+
             var status = $(this).prop('checked') == true ? 1 : 0;
             var tran_id = $(this).data('id');
             var store_id = $(this).data('store');
             var customer_id = $(this).data('customer');
+                   
+            var host = "{{ env('API_URL', 'https://dev.api.customerpay.me') }}";
+            // console.log(host);
 
             if (tran_id) {
                 jQuery.ajax({
-                    url: "https://dev.api.customerpay.me/transaction/update/" + encodeURI(tran_id),
+                    url: host + '/transaction/update/' + encodeURI(tran_id),
                     type: "PATCH",
                     dataType: "json",
                     contentType: 'json',
                     headers: {
                         'x-access-token': token
                     },
-                    data: {
+                    data: JSON.stringify({
                         'status': status,
                         // 'tran_id': tran_id,
                         'store_id': store_id,
                         'customer_id': customer_id
-                    },
+                    }),
+                    // data: {
+                    //     'status': status,
+                    //     // 'tran_id': tran_id,
+                    //     'store_id': store_id,
+                    //     'customer_id': customer_id
+                    // },
                     success: function (data) {
                         console.log(data);
                         var new_data = data.data.store.customers;
                         var i;
                     }
                 });
-            } 
+            }
         });
     });
 
