@@ -228,7 +228,7 @@
             document.querySelector('.debts-table').classList.remove('dissapear');
 
             debtList.innerHTML = `
-              <div style="display:flex; justify-content:center; text-align:center; width:100%" class='mt-2 mb-3'>No one is oweing you</div>
+              <div style="display:flex; justify-content:center; text-align:center; width:100%" class='mt-2 mb-3'>No one is owing you</div>
             `
           } else {
             document.querySelector('.debts-error').classList.add('dissapear');
@@ -262,7 +262,7 @@
                       <i class="uil uil-ellipsis-v"></i>
                   </a>
                   <div class="dropdown-menu dropdown-menu-right">
-                      <a href="javascript:void(0);" class="dropdown-item"><i class="uil uil-edit-alt mr-2"></i>View</a>
+                      <a href="/admin/debtor/${debt.debt._id}" class="dropdown-item"><i class="uil uil-edit-alt mr-2"></i>View</a>
                   </div>
                 </div>
 
