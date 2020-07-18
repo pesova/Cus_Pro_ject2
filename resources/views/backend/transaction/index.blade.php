@@ -203,9 +203,11 @@
         var token = "{{Cookie::get('api_token')}}"
         $('select[name="store"]').on('change', function () {
             var storeID = $(this).val();
+            var host = "{{ env('API_URL', 'https://dev.api.customerpay.me') }}";
+
             if (storeID) {
                 jQuery.ajax({
-                    url: "https://dev.api.customerpay.me/store/" + encodeURI(storeID),
+                    url: host + "/store/" + encodeURI(storeID),
                     type: "GET",
                     dataType: "json",
                     contentType: 'json',
@@ -234,10 +236,11 @@
             var tran_id = $(this).data('id');
             var store_id = $(this).data('store');
             var customer_id = $(this).data('customer');
+            var host = "{{ env('API_URL', 'https://dev.api.customerpay.me') }}";
 
             if (tran_id) {
                 jQuery.ajax({
-                    url: "https://dev.api.customerpay.me/transaction/update/" + encodeURI(tran_id),
+                    url: host + "/transaction/update/" + encodeURI(tran_id),
                     type: "PATCH",
                     dataType: "json",
                     contentType: 'json',
@@ -256,7 +259,7 @@
                         var i;
                     }
                 });
-            } 
+            }
         });
     });
 
