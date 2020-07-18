@@ -84,7 +84,7 @@ class BroadcastController extends Controller
 
             return view('errors.500');
         }
-        
+
     }
 
     /**
@@ -119,7 +119,6 @@ class BroadcastController extends Controller
                    "username" => env('AT_USERNAME',"sandbox"),
                    "to" => $request->input('receiver'),
                    "message" => $request->input('message'),
-                   "from" => env('AT_FROM',"AFRICASTKNG"),
                    "bulkSMSMode" => "1",
                    "enqueue" => "1",
                 ]
@@ -128,19 +127,12 @@ class BroadcastController extends Controller
             $response = $client->request("POST", $url, $payload);
             $data = json_decode($response->getBody());
             $status = $data->SMSMessageData->Recipients;
-            $dt = [];
-         
-            for($i = 0; $i < count($status); $i++){
-                foreach($status[$i] as $key){
-                    array_push($dt, $key);
+
+            foreach($status as $recepient) {
+                if ($recepient->status == "Success") {
+                    return redirect()->route('broadcast.index')->with('response', $recepient->status);
                 }
-            }           
-                      
-               
-            if ($dt["0"] == 101 || $dt["0"] == 102){
-               return redirect()->route('broadcast.index')->with('response', $dt["3"]);               
-            }else {
-               return redirect()->route('broadcast.create')->with('response', "Failed");     
+                return redirect()->route('broadcast.create')->with('response', "Failed");
             }
 
         }catch(\RequestException $e){
