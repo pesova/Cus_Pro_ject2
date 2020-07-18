@@ -129,7 +129,10 @@ class BroadcastController extends Controller
             $status = $data->SMSMessageData->Recipients;
 
             foreach($status as $recepient) {
-                return redirect()->route('broadcast.index')->with('response', $recepient->status);
+                if ($recepient->status == "Success") {
+                    return redirect()->route('broadcast.index')->with('response', $recepient->status);
+                }
+                return redirect()->route('broadcast.create')->with('response', "Failed");
             }
 
         }catch(\RequestException $e){
