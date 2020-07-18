@@ -145,39 +145,15 @@
 
             <div class="col-xl-5">
                 <div class="card">
-                    <div class="card-body pt-2">
-                        <h5 class="mb-4 header-title">Latest Debts</h5>       
-                        <div style="display:flex; justify-content:center; text-align:center; width:100%" class='mt-2 mb-3 debts-error'>
-                          
-                        </div>
-
-                        {{-- <div class="debts-table dissapear"> --}}
-                        <div class="debts-table">
-                          
-                          {{-- <div class="pt-2 pb-2" style="display: flex; justify-content:space-between; border-top: 1px solid #eee">
-                            
-                            <div class="media-body">
-                              <h6 class="mt-1 mb-0 font-size-15">Kadet stores</h6>
-                              <span class="badge badge-success py-1">View</span>
-                            </div>
-
-                            <div class="media-body" style="display: flex">
-                              <p class="align-self-center" style="margin: 0">N10000</p>
-                            </div>
-
-                            <div class="dropdown align-self-center float-right">
-                              <a href="#" class="dropdown-toggle arrow-none text-muted" data-toggle="dropdown" aria-expanded="false">
-                                  <i class="uil uil-ellipsis-v"></i>
-                              </a>
-                              <div class="dropdown-menu dropdown-menu-right">
-                                  <a href="javascript:void(0);" class="dropdown-item"><i class="uil uil-edit-alt mr-2"></i>View</a>
-                              </div>
-                            </div>
-
-                          </div> --}}
-
-                        </div>
+                  <div class="card-body pt-2">
+                    <h5 class="mb-4 header-title">Latest Debts</h5>       
+                    <div style="display:flex; justify-content:center; text-align:center; width:100%" class='mt-2 mb-3 debts-error'>
                     </div>
+
+                    <div class="debts-table dissapear">
+
+                    </div>
+                  </div>
                 </div>
             </div>
         </div>
