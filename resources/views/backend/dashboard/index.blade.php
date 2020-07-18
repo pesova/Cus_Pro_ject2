@@ -238,7 +238,7 @@
               
               let status;
               
-              if (debt.status == false) {
+              if (debt.debt.status == false) {
                 status = `<span class="badge badge-danger py-1">Unpaid</span>`
               } else {
                 status = `<span class="badge badge-success py-1">Paid</span>`
