@@ -9,6 +9,7 @@
 
                 @if(\Illuminate\Support\Facades\Cookie::get('user_role') == 'super_admin')
                     {{-- super admin protected routes here --}}
+                    @include('partials.menus_items.store_admin')
                     @include('partials.menus_items.super_admin')
                 @endif
 
