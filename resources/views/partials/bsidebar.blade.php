@@ -6,27 +6,22 @@
         <div id="sidebar-menu" class="slimscroll-menu">
             <ul class="metismenu" id="menu-bar">
                 <li class="menu-title">Navigation</li>
-                <li>
-                    <a href="{{ route('dashboard') }}">
-                        <i data-feather="home"></i>
-                        <span> Dashboard </span>
-                    </a>
-                </li>
 
-                {{-- @if(\Illuminate\Support\Facades\Cookie::get('user_role') == 'store_admin') --}}
+                @if(\Illuminate\Support\Facades\Cookie::get('user_role') == 'super_admin')
+                    {{-- super admin protected routes here --}}
+                    @include('partials.menus_items.store_admin')
+                    @include('partials.menus_items.super_admin')
+                @endif
+
+                @if(\Illuminate\Support\Facades\Cookie::get('user_role') == 'store_admin')
                     {{--super admin protected routes here--}}
                     @include('partials.menus_items.store_admin')
-                {{-- @endif --}}
+                @endif
 
-                {{-- @if(\Illuminate\Support\Facades\Cookie::get('user_role') == 'super_admin') --}}
+                @if(\Illuminate\Support\Facades\Cookie::get('user_role') == 'store_assistant')
                     {{-- super admin protected routes here --}}
-                    {{-- @include('partials.menus_items.super_admin') --}}
-                {{-- @endif --}}
-
-                {{-- @if(\Illuminate\Support\Facades\Cookie::get('user_role') == 'super_assistant') --}}
-                    {{-- super admin protected routes here --}}
-                    {{-- @include('partials.menus_items.store_assistant') --}}
-                {{-- @endif --}}
+                    @include('partials.menus_items.store_assistant')
+                @endif
 
                 {{-- @wealth removed changed password from here, its now inside settings page --}}
                 {{-- <li>

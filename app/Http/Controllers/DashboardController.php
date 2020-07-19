@@ -20,7 +20,6 @@ class DashboardController extends Controller
         if (Cookie::get('user_role') === 'super_admin') {
             $allInfo_url = env('API_URL', 'https://dev.api.customerpay.me') . '/dashboard/all';
 
-
             try {
 
                 $client = new Client;

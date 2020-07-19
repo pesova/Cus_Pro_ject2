@@ -201,6 +201,8 @@
 <script>
     jQuery(function ($) {
         var token = "{{Cookie::get('api_token')}}"
+        var host = "{{ env('API_URL', 'https://dev.api.customerpay.me') }}";
+
         $('select[name="store"]').on('change', function () {
             var storeID = $(this).val();
             var host = "{{ env('API_URL', 'https://dev.api.customerpay.me') }}";
@@ -232,6 +234,7 @@
         });
 
         $('.updateStatus').on('change', function () {
+
             var status = $(this).prop('checked') == true ? 1 : 0;
             var tran_id = $(this).data('id');
             var store_id = $(this).data('store');
@@ -240,18 +243,24 @@
 
             if (tran_id) {
                 jQuery.ajax({
+                    type: "POST",
                     url: host + "/transaction/update/" + encodeURI(tran_id),
-                    type: "PATCH",
                     dataType: "json",
                     contentType: 'json',
                     headers: {
                         'x-access-token': token
                     },
+                    // data: JSON.stringify({
+                    //     'status': status,
+                    //     // 'tran_id': tran_id,
+                    //     'store_id': store_id,
+                    //     'customer_id': customer_id
+                    // }),
                     data: {
                         'status': status,
-                        // 'tran_id': tran_id,
                         'store_id': store_id,
-                        'customer_id': customer_id
+                        'customer_id': customer_id,
+                        _method: "PATCH"
                     },
                     success: function (data) {
                         console.log(data);
