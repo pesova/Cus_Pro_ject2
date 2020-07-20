@@ -47,6 +47,17 @@ Route::get('/admin', function () {
     return redirect()->route('dashboard');
 });
 
+// Store Assistant Access 
+Route::prefix('/assistant')->group(function () {
+    Route::get('/login', ['uses' => "Auth\LoginController@assistant"])->name('login.assistant');
+    Route::post('/authenticate', ['uses' => "Auth\LoginController@authenticateAssistant"])->name('assistant.authenticate');
+   
+    Route::group(['middleware' => ['backend.auth', 'store.assistant']], function () {
+        // Route::get('/dashboard', 'DashboardController@index')->name('dashboard.assistant');
+
+    });
+});
+
 // backend codes
 Route::prefix('/admin')->group(function () {
 
@@ -121,10 +132,19 @@ Route::prefix('/admin')->group(function () {
         // location
         Route::resource('location', 'LocationController');
 
+        Route::patch('changeStatus', 'TransactionController@changeStatus');
 
         Route::get('/debt_reminders', function () {
             return redirect('/admin/debtor/create');
         })->name('debts.reminder');
+
+        Route::get('debt.search','DebtorController@search')->name('debt.search');
+
+        Route::post('reminder', 'DebtorController@sendReminder')->name('reminder');
+
+        Route::post('schedule-reminder', 'DebtorController@sheduleReminder')->name('schedule-reminder');
+
+        Route::get('markpaid/{id}', 'DebtorController@markPaid')->name('markpaid');
 
         // super admin protected routes
         Route::group(['middleware' => 'backend.super.admin'], function () {
