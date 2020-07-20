@@ -107,6 +107,9 @@
                     <div class="col-xl-6">
                     <div class="card">
                                     <div class="card-body pt-2">
+                                    @if ( \Cookie::get('user_role') == "super_admin")
+                                                        
+                                                    
                                         <div class="dropdown mt-2 float-right">
                                             <a href="#" class="dropdown-toggle arrow-none text-muted" data-toggle="dropdown"
                                                 aria-expanded="false">
@@ -123,6 +126,7 @@
                                                         class="uil uil-exit mr-2"></i>Exit</a>
                                             </div>
                                         </div>
+                                        @endif
                                         <h5 class="mb-4 header-title">Recent Conversation</h5>
                                         <div class="chat-conversation">
                                             <ul class="conversation-list slimscroll" style="max-height: 328px;">
