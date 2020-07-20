@@ -29,7 +29,10 @@ $transactions = $response['transactions'];
                 @method('DELETE')
                 @csrf
             </form>
+
+
         </nav>
+
         <h4 class="mt-2">My Store</h4>
     </div>
 </div>
@@ -152,6 +155,22 @@ $transactions = $response['transactions'];
         <div class="card">
             <div class="card-body">
                 <h6 class="card-title mb-4 float-sm-left">Transaction Overview</h6>
+                <div class="btn-group float-right">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class='uil uil-file-alt mr-1'></i>Export
+                        <i class="icon"><span data-feather="chevron-down"></span></i></button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a href="#" class="dropdown-item notify-item">
+                            <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
+                            <span>Excel</span>
+                        </a>
+                        <a href="#" class="dropdown-item notify-item">
+                            <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
+                            <span>PDF</span>
+                        </a>
+                    </div>
+                </div>
                 <div class="clearfix"></div>
                 <div id="transactionchart"></div>
             </div>

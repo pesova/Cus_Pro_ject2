@@ -11,15 +11,31 @@
 <div class="content">
     <div class="container-fluid">
         <div class="mb-0 d-flex justify-content-between align-items-center page-title">
-            <div class="h4"><i data-feather="file-text" class="icon-dual"></i> Transaction Center</div>
+            <div class="h6"><i data-feather="file-text" class="icon-dual"></i> Transaction Center</div>
             <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#addTransactionModal">
                 New &nbsp;<i class="fa fa-plus my-float"></i>
             </a>
+
         </div>
         @include('partials.alertMessage')
         <div class="card mt-0">
             <div class="card-header">
-                <div class="h5">All Transactions</div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class='uil uil-file-alt mr-1'></i>Export
+                        <i class="icon"><span data-feather="chevron-down"></span></i></button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a href="#" class="dropdown-item notify-item">
+                            <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
+                            <span>Excel</span>
+                        </a>
+                        <a href="#" class="dropdown-item notify-item">
+                            <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
+                            <span>PDF</span>
+                        </a>
+                    </div>
+                </div>
             </div>
             <div class="card-body">
                 <div class="table-responsive table-data">

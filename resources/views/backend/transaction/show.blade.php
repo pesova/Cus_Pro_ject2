@@ -14,12 +14,17 @@
                         <div class="card-body p-0">
                             <div class="d-flex justify-content-between px-4 py-2 border-bottom align-items-center">
                                 <div>
-                                    <h4 class="card-title">Transaction Overview</h4>
+                                    <h6 class="card-title">Transaction Overview - Created
+                                        {{ \Carbon\Carbon::parse($transaction->createdAt)->diffForhumans() }}</h6>
                                 </div>
                                 <div>
+                                    <a href="#" class="btn btn-warning mr-3"> Send Debt Reminder </i>
+                                    </a>
+
                                     <a href="#" class="btn btn-primary mr-3" data-toggle="modal"
                                         data-target="#editTransactionModal"> Edit &nbsp;<i data-feather="edit-3"></i>
                                     </a>
+
                                     <a data-toggle="modal" data-target="#exampleModal" href="" class="btn btn-danger">
                                         Delete &nbsp;<i data-feather="delete"></i>
                                     </a>
@@ -31,8 +36,8 @@
                                     <div class="media">
                                         <i data-feather="grid" class="align-self-center icon-dual icon-sm mr-2"></i>
                                         <div class="media-body">
-                                            <h5 class="mt-0 mb-0">{{ $transaction->_id }}</h5>
-                                            <span class="text-muted font-size-13">Ref Id.</span>
+                                            <h6 class="mt-0 mb-0">{{ $transaction->_id }}</h6>
+                                            <span class="text-muted font-size-13">Transaction Reference code</span>
                                         </div>
                                     </div>
                                 </div>
@@ -42,8 +47,8 @@
                                         <i data-feather="check-square"
                                             class="align-self-center icon-dual icon-sm mr-2"></i>
                                         <div class="media-body">
-                                            <h5 class="mt-0 mb-0 text-capitalize">{{ $transaction->type }}</h5>
-                                            <span class="text-muted">Ref Transaction Type</span>
+                                            <h6 class="mt-0 mb-0 text-capitalize">{{ $transaction->type }}</h6>
+                                            <span class="text-muted">Transaction Type</span>
                                         </div>
                                     </div>
                                 </div>
@@ -52,8 +57,18 @@
                                     <div class="media">
                                         <i data-feather="users" class="align-self-center icon-dual icon-sm mr-2"></i>
                                         <div class="media-body">
-                                            <h5 class="mt-0 mb-0">{{ $transaction->customer_ref_id }}</h5>
-                                            <span class="text-muted">Customer Ref. Code</span>
+                                            @foreach ($stores as $store)
+                                            @foreach ($store->customers as $customer)
+                                            @if ($customer->_id === $transaction->customer_ref_id)
+                                            <h6 class="m-0">
+                                                <a
+                                                    href="{{ route('customer.show', $transaction->store_ref_id.'-'.$transaction->customer_ref_id)}}">{{ $customer->name }}
+                                                </a>
+                                            </h6>
+                                            @endif
+                                            @endforeach
+                                            @endforeach
+                                            <span class="text-muted">Customer Name</span>
                                         </div>
                                     </div>
                                 </div>
@@ -62,10 +77,10 @@
                                     <div class="media">
                                         <i data-feather="clock" class="align-self-center icon-dual icon-lg mr-2"></i>
                                         <div class="media-body">
-                                            <h4 class="mt-0 mb-0">
-                                                {{ \Carbon\Carbon::parse($transaction->expected_pay_date)->diffForhumans() }}
-                                            </h4>
-                                            <span class="text-muted">Payment Due</span>
+                                            <h6 class="mt-0 mb-0">
+                                                replace with customer phone number
+                                            </h6>
+                                            <span class="text-muted">Customer Phone Number</span>
                                         </div>
                                     </div>
                                 </div>
@@ -74,117 +89,123 @@
                     </div>
                 </div>
             </div>
+            {{-- end --}}
 
-            <div class="col-xl-10 col-md-10 col-sm-12 pt-2 mx-auto">
-                <div class="card">
-                    <div class="card-body">
+            {{-- end --}}
+            <div class="col-xl-12 col-md-12 col-sm-12 pt-2">
+                <div class="row">
+                    <div class="col p-0">
+                        <div class="card">
 
-                        <div class="">
-                            <div class="">
-                                <h6 class="mt-0 header-title">Description</h6>
-                                <textarea name="" readonly id="" cols="auto" rows="3" sty
-                                    class="form-control w-100 flex-1">{{ $transaction->description }}</textarea>
-                            </div>
-
-                            <div class="d-flex justify-content-between my-3">
-                                <div class="list-group">
-                                    <h6 class="header-title">Financial Details</h6>
-
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered mb-0">
-                                            <tbody>
-                                                <tr>
-                                                    <th scope="row">Amount</th>
-                                                    <td colspan="2">{{ $transaction->amount }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">Interest</th>
-                                                    <td colspan="2">{{ $transaction->interest }} % / Yr</td>
-                                                </tr>
-                                                <tr class="font-weight-bolder">
-                                                    <th scope="row">Total Amount</th>
-                                                    <td colspan="2">
-                                                        {{ floor($transaction->amount/100+12 * $transaction->interest + $transaction->amount) }}
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <h6 class="mt-0 ">Description</h6>
+                                        <textarea name="" readonly id="" cols="auto" rows="3" sty
+                                            class="form-control w-100 flex-1">{{ $transaction->description }}</textarea>
                                     </div>
 
-                                </div>
-                                <div class="">
-                                    <h6 class="header-title">Store Name:</h6>
-                                    <h5>
-                                        <a href="{{ route('store.show', $transaction->store_ref_id)}}"
-                                            class="mr-2 text-uppercase">
-                                            {{ $transaction->store_name }}
-                                        </a>
-                                    </h5>
-                                </div>
+                                    <div class="col-lg-6">
+                                        <div class="d-flex justify-content-between">
+                                            <div class="list-group">
+                                                <h6 class="">Financial Details</h6>
 
-                                <div class="">
-                                    <h6 class="header-title">Transaction Status:
-                                    </h6>
-                                    <label class="switch">
-                                        <input type="checkbox" id="togBtn"
-                                            {{ $transaction->status == true ? 'checked' : '' }}
-                                            data-id="{{ $transaction->_id }}"
-                                            data-store="{{ $transaction->store_ref_id }}"
-                                            data-customer="{{ $transaction->customer_ref_id}}">
-                                        <div class="slider round">
-                                            <span class="on">Paid</span><span class="off">Pending</span>
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered mb-0">
+                                                        <tbody>
+                                                            <tr>
+                                                                <th scope="row">Amount</th>
+                                                                <td colspan="2">{{ $transaction->amount }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">Interest</th>
+                                                                <td colspan="2">{{ $transaction->interest }} % / Yr</td>
+                                                            </tr>
+                                                            <tr class="font-weight-bolder">
+                                                                <th scope="row">Total Amount</th>
+                                                                <td colspan="2">
+                                                                    {{ floor($transaction->amount/100+12 * $transaction->interest + $transaction->amount) }}
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                            </div>
+                                            <div class="">
+                                                <h6 class="">Store Name:</h6>
+                                                <p>
+                                                    <a href="{{ route('store.show', $transaction->store_ref_id)}}"
+                                                        class="mr-2 text-uppercase">
+                                                        {{ $transaction->store_name }}
+                                                    </a>
+                                                </p>
+                                            </div>
+
+                                            <div class="">
+                                                <h6 class="">Transaction Status:
+                                                </h6>
+                                                <label class="switch">
+                                                    <input type="checkbox" id="togBtn"
+                                                        {{ $transaction->status == true ? 'checked' : '' }}
+                                                        data-id="{{ $transaction->_id }}"
+                                                        data-store="{{ $transaction->store_ref_id }}"
+                                                        data-customer="{{ $transaction->customer_ref_id}}">
+                                                    <div class="slider round">
+                                                        <span class="on">Paid</span><span class="off">Pending</span>
+                                                    </div>
+                                                </label>
+                                            </div>
                                         </div>
-                                    </label>
-                                </div>
-                            </div>
 
-                            <div class="row">
-                                <div class="col-lg-3 col-md-6">
-                                    <div class="mt-4">
-                                        <p class="mb-2"><i class="uil-calender text-danger"></i> Created</p>
-                                        <h6 class="font-size-10">
-                                            {{ \Carbon\Carbon::parse($transaction->createdAt)->diffForhumans() }}
-                                        </h6>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-6">
-                                    <div class="mt-4">
-                                        <p class="mb-2"><i class="uil-calendar-slash text-danger"></i> Updated At</p>
-                                        <h6 class="font-size-10">
-                                            {{ \Carbon\Carbon::parse($transaction->updatedAt)->diffForhumans() }}</h6>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-6">
-                                    <div class="mt-4">
-                                        <p class="mb-2"><i class="uil-dollar-alt text-danger"></i> Total Amount</p>
-                                        <h5 class="font-size-16">
-                                            {{ floor($transaction->amount/100+12 * $transaction->interest + $transaction->amount) }}
-                                        </h5>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-3 col-md-6">
-                                    <div class="mt-4">
-                                        <p class="mb-2"><i class="uil-user text-danger"></i>Customer</p>
-                                        @foreach ($stores as $store)
-                                        @foreach ($store->customers as $customer)
-                                        @if ($customer->_id === $transaction->customer_ref_id)
-                                        <h5>
-                                            <a href="{{ route('customer.show', $transaction->store_ref_id.'-'.$transaction->customer_ref_id)}}"
-                                                class="font-size-16">{{ $customer->name }}
-                                            </a>
-                                        </h5>
-                                        @endif
-                                        @endforeach
-                                        @endforeach
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
+
+            {{-- end --}}
+
+
+            <div class="card mt-0">
+                <div class="card-header">
+                    <div class="">History: Debt Reminder Messages</div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive table-data">
+                        <table id="transactionTable" class="table table-striped table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Reference id</th>
+                                    <th>Message</th>
+                                    <th>Status</th>
+                                    <th>Date Sent</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr>
+                                    <td>1</td>
+                                    <td>
+                                        message shall be here
+                                    </td>
+                                    <td><span class="badge badge-success">Message Sent</span></td>
+                                    <td>January 10, 1995</td>
+                                    <td><a href="#" class="btn btn-primary btn-sm mt-2">
+                                            Resend
+                                        </a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            {{-- start of edit transaction modal --}}
 
             <div id="editTransactionModal" class="modal fade" tabindex="-1" role="dialog"
                 aria-labelledby="editTransactionLabel" aria-hidden="true">
