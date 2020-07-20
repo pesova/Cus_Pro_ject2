@@ -47,6 +47,17 @@ Route::get('/admin', function () {
     return redirect()->route('dashboard');
 });
 
+// Store Assistant Access 
+Route::prefix('/assistant')->group(function () {
+    Route::get('/login', ['uses' => "Auth\LoginController@assistant"])->name('login.assistant');
+    Route::post('/authenticate', ['uses' => "Auth\LoginController@authenticateAssistant"])->name('assistant.authenticate');
+   
+    Route::group(['middleware' => ['backend.auth', 'store.assistant']], function () {
+        // Route::get('/dashboard', 'DashboardController@index')->name('dashboard.assistant');
+
+    });
+});
+
 // backend codes
 Route::prefix('/admin')->group(function () {
 
@@ -63,6 +74,9 @@ Route::prefix('/admin')->group(function () {
 
     Route::get('/password', 'Auth\ForgotPasswordController@index')->name('password');
     Route::post('/password', 'Auth\ForgotPasswordController@authenticate')->name('password.reset');
+
+    Route::post('/password/reset', 'Auth\ResetPasswordController@index')->name('password.recover');
+
 
     Route::group(['middleware' => 'backend.auth'], function () {
 
@@ -93,7 +107,9 @@ Route::prefix('/admin')->group(function () {
 
         Route::post('/setting', 'SettingsController@update');
 
-        Route::get('/change_password', 'SettingsController@change_password')->name('change_password');
+        Route::get('/setting/password', 'SettingsController@change_password')->name('change_password');
+
+        Route::get('/setting/picture', 'SettingsController@change_profile_picture')->name('change_profile_picture');
 
         // transaction crud
         Route::resource('transaction', 'TransactionController');
@@ -116,10 +132,19 @@ Route::prefix('/admin')->group(function () {
         // location
         Route::resource('location', 'LocationController');
 
+        Route::patch('changeStatus', 'TransactionController@changeStatus');
 
         Route::get('/debt_reminders', function () {
             return redirect('/admin/debtor/create');
         })->name('debts.reminder');
+
+        Route::get('debt.search','DebtorController@search')->name('debt.search');
+
+        Route::post('reminder', 'DebtorController@sendReminder')->name('reminder');
+
+        Route::post('schedule-reminder', 'DebtorController@sheduleReminder')->name('schedule-reminder');
+
+        Route::get('markpaid/{id}', 'DebtorController@markPaid')->name('markpaid');
 
         // super admin protected routes
         Route::group(['middleware' => 'backend.super.admin'], function () {

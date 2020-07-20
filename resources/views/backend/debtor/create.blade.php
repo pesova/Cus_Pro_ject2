@@ -3,6 +3,7 @@
     <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
     <link rel="stylesheet" href="/backend/assets/css/add_creditor.css">
+    
 @stop
         @section('content')
                 <div class="content">
@@ -18,16 +19,21 @@
                                 </div>
                                 
                                 <div class="card">
-                                    @if(Session::has('message') || $errors->any())
+                                    <div class="card-body">
+                                        @if(Session::has('message') || $errors->any())
                                         <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
                                     @endif
-                                    <div class="card-body">
                                         <form method="POST" action="{{route('debtor.store')}}" enctype="multipart/form-data">
                                             @csrf
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1">Transaction ID</label>
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" name="transaction_id" placeholder="Transaction ID" >
+                                                    {{-- <input type="text" class="form-control" name="transaction_id" placeholder="Transaction ID" > --}}
+                                                    <select name="" class="form-control">
+                                                        @foreach ($Transaction as $index => $transact )
+                                                            <option value="{{ $transact->name }}">{{ $transact->name }}</option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -86,9 +92,14 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    <div class="form-group">
+                                                     <div class="form-group">
                                                         <label for="phonenumber">Status</label>
-                                                        <input type="text" class="form-control" name="status" value="Paid or Unpaid">
+                                                        <select name="status" class="form-control">
+
+                                                            <option value="Paid">Paid</option>
+                                                            <option value="Unpaid">Unpaid</option>
+                                                        
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 {{--<div class="col-md-6">
@@ -98,7 +109,7 @@
                                                     </div>
                                                 </div>--}}
                                             </div>
-                                            <button type="submit" class="btn btn-primary float-right">Create Dept</button>
+                                            <button type="submit" class="btn btn-primary float-right">Create Debt</button>
                                         </form>
 
                                     </div> <!-- end card-body-->
@@ -244,4 +255,5 @@ window.intlTelInput(input, {
     // any initialisation options go here
 });
 </script>
+
     @stop

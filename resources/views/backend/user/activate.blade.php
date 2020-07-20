@@ -88,9 +88,9 @@
 
                             <div class="row mt-3">
                                 <div class="col-12 text-center">
-                                    {{-- <p class="text-muted">Back to <a href="{{ route('logout') }}"
+                                    <p class="text-muted">Back to <a href="{{ route('logout') }}"
                                     class="text-primary font-weight-bold ml-1">Login</a>
-                                    </p> --}}
+                                    </p>
                                     <form action="{{route('activate.save')}}" method="POST">
                                         @csrf
                                         <p class="text-muted">
@@ -191,17 +191,24 @@
                     , phone_number: '{{$phoneNumber}}'
                 , };
                 $.ajax({
-                    url: "{{env('API_URL') }}/otp/send"
+                    url: "{{ env('API_URL') }}/otp/send"
                     , headers: {
                         'x-access-token': '{{$apiToken}}'
                     }
                     , data: data
                     , type: "POST"
                 }).done((data) => {
-                    success_message.html(
+                    let app_env = "{{ env('APP_ENV') }}";
+                    if (app_env == 'local') {
+                        success_message.html(
                         'Your code has been sent. You can request a new code in 60 seconds' +
                         '<kbd>Your code is ' + data.data.otp + '</kbd>'
-                    );
+                        );
+                    }  else {
+                        success_message.html(
+                        'A new code has been sent to your Phone. You can request a new code in 60 seconds'
+                        );
+                    }
                     success.show();
                     verify.show();
                     verifying.hide();

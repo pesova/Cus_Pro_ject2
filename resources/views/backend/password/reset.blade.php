@@ -34,6 +34,14 @@
                                             {{ Session::get('message') }}</p>
                                         @endif
 
+                                        @if ($errors->any())
+                                            @foreach ($errors->all() as $error)
+                                            <div class="alert alert-danger">
+                                                {{ $error }}
+                                            </div>
+                                            @endforeach
+                                        @endif
+
                                         <h6 class="h5 mb-0 mt-4">Reset Password</h6>
                                         <p class="text-muted mt-1 mb-5">
                                             Enter The Otp sent to you and a new password to reset your password.
@@ -41,7 +49,7 @@
                                         <div class="alert alert-success alert-dismissible" id="success" style="display: none">
                                             <span id="otp-message"></span>
                                         </div>
-                                        <form action="{{ route('password') }}" class="authentication-form" method="POST">
+                                        <form action="{{route('password.recover')}}" class="authentication-form" method="POST">
                                             @csrf
                                             <div class="form-group">
                                                 <label class="form-control-label">OTP</label>
@@ -60,7 +68,7 @@
                                             <div class="form-group">
                                                 <label class="form-control-label">Confirm Password</label>
                                                 <div class="input-group input-group-merge">
-                                                    <input type="password_confirmation" id="password_confirmation" name="password_confirmation" class="form-control" required>
+                                                    <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" required>
                                                 </div>
                                             </div>
                                             <div class="form-group mb-0 text-center">

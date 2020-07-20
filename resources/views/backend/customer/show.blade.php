@@ -10,103 +10,239 @@
 {{-- yield body content --}}
 
 @section('content')
+
 <div class="content">
-@isset ( $response )
+
     <div class="container-fluid">
         {{-- start of page title --}}
         <div class="row page-title">
             <div class="col-md-12">
-                <h4 class="mb-1 mt-0 float-left">Profile</h4>
+                <h6 class="mb-1 mt-0 float-left">Customer Profile</h6>
                 <a href="{{ route('customer.index') }}" class="btn btn-primary float-right">
-                    Go Back 
+                    Go Back
                 </a>
-                <a href="{{ route('customer.edit', $response->_id) }}" class="mr-3 btn btn-success float-right" >
-                    Edit Customer 
+                <a href="{{ route('customer.edit', $response->storeId.'-'.$response->customer->_id ) }}"
+                    class="mr-3 btn btn-success float-right">
+                    Edit Customer
                 </a>
+
+
             </div>
         </div>
-         {{-- end of page title --}}
+        {{-- end of page title --}}
 
-         {{-- start of content section --}}
-         <div class="row contentrow">
-             {{--start of person profile--}}
-             <div class="col-lg-3 col-md-4 col-sm-5" id="h1IdTop">
-                 <div class="card">
-                     <div class="card-body text-center text-muted">
-                         <img src="../../backend/assets/images/users/avatar-7.jpg" alt="Customer 1" class="img-fluid rounded-circle">
-                         <h4>{{ucfirst($response->name)}}</h4>
-                         <h5 class="cust-email">{{ $response->email }}</h5>
-                     </div>
-                    {{-- <div class="address">
-                        <h5>House Address</h5>
-                        <p class="customer-address">1975, Boring Lane, San <br>Francisco, California, United<br> States - 94108</p>
-                    </div> --}}
-                 </div>
-             </div>
-             {{--end of person profile--}}
-
-                <div class="col-lg-9 col-md-8 col-sm-7">
-                    {{-- start of card --}}
-                    <div class="card">
-                        <div class="card-body">
-                            <ul class="nav nav-pills navtab-bg nav-justified" id="pills-tab" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" id="pills-activity-tab" data-toggle="pill"
-                                        href="#pills-activity" role="tab" aria-controls="pills-activity"
-                                        aria-selected="true">
-                                        Basic Information
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="pills-messages-tab" data-toggle="pill"
-                                        href="#pills-messages" role="tab" aria-controls="pills-messages"
-                                        aria-selected="false">
-                                        Transactions
-                                    </a>
-                                </li>
-                                {{-- <li class="nav-item">
-                                    <a class="nav-link" id="pills-projects-tab" data-toggle="pill"
-                                        href="#pills-projects" role="tab" aria-controls="pills-projects"
-                                        aria-selected="false">
-                                        Messages
-                                    </a>
-                                </li> --}}
-                            </ul>
-                            {{-- customer basic information --}}
-                            <h6 class="customer-acct pt-3">Account Information</h6>
-                            <div class="row profile-fields p-2">
-                                <div class="col-lg-4 col-md-6 ">
-                                    <ul class="customer-info text-capitalize">
-                                        <li class="customer-field">email</li>
-                                        <li class="customer-field">tel</li>
-                                        <li class="customer-field">status</li>
-                                        <li class="customer-field">customer type</li>
-                                    </ul>
-                                </div>
-                                <div class="col-lg-8 col-md-6">
-                                    <ul class="customer-info">
-                                        <li class="pt-3">{{ $response->email }}</li>
-                                        <li class="pt-3">{{ $response->phone_number }}</li>
-                                        <li class="pt-3"><span class="badge badge-danger">Has Debt</span></li>
-                                        <li class="pt-3">Good Debtor</li>
-                                    </ul>
+        <div class="row">
+            <div class="col-xl-4">
+                <div class="card overflow-hidden">
+                    <div class="bg-soft-primary">
+                        <div class="row">
+                            <div class="col-7">
+                                <div class="text-primary p-3">
+                                    <h5 class="text-primary">Store Name</h5>
+                                    <p>Store address</p>
                                 </div>
                             </div>
-
-                            {{--customer basic info end--}}
+                            <div class="col-5 align-self-end">
+                                <img src="/backend/assets/images/profile-img.png" alt="" class="img-fluid">
+                            </div>
                         </div>
                     </div>
-                    <!-- end card -->
+                    <div class="card-body pt-0">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="pt-4">
+
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <h5 class="font-size-15">109</h5>
+                                            <p class="text-muted mb-0">Transactions</p>
+                                        </div>
+                                        <div class="col-6">
+                                            <h5 class="font-size-15">$1245</h5>
+                                            <p class="text-muted mb-0">Revenue</p>
+                                        </div>
+                                    </div>
+                                    <div class="mt-4">
+                                        <a href="#" class="btn btn-primary waves-effect waves-light btn-sm">Delete
+                                            Customer
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end card -->
+
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-title mb-4">Personal Information</h6>
+                        <div class="table-responsive">
+                            <table class="table table-nowrap mb-0">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">Full Name :</th>
+                                        <td>{{ucfirst($response->customer->name)}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Mobile :</th>
+                                        <td>Customer Phone</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- end card -->
+
+            </div>
+
+            <div class="col-xl-8">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card mini-stats-wid">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <p class="text-muted font-weight-medium">Revenue</p>
+                                        <h4 class="mb-0">125</h4>
+                                    </div>
+
+                                    <div class="mini-stat-icon avatar-sm align-self-center rounded-circle bg-primary">
+                                        <span class="avatar-title">
+                                            <i class="uil-atm-card font-size-14"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card mini-stats-wid">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <p class="text-muted font-weight-medium">Debt</p>
+                                        <h4 class="mb-0">12</h4>
+                                    </div>
+
+                                    <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
+                                        <span class="avatar-title">
+                                            <i class="uil-atm-card font-size-14"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card mini-stats-wid">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <p class="text-muted font-weight-medium">Receivables</p>
+                                        <h4 class="mb-0">$36,524</h4>
+                                    </div>
+
+                                    <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
+                                        <span class="avatar-title">
+                                            <i class="uil-atm-card font-size-14"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-            {{--End of person profile--}}
-         </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-title mb-4 float-left">Total Transactions</h6>
+                        <div class="btn-group float-right">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                <i class='uil uil-file-alt mr-1'></i>Export
+                                <i class="icon"><span data-feather="chevron-down"></span></i></button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a href="#" class="dropdown-item notify-item">
+                                    <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
+                                    <span>Excel</span>
+                                </a>
+                                <a href="#" class="dropdown-item notify-item">
+                                    <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
+                                    <span>PDF</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                        <div id="revenue-chart" class="apex-charts"></div>
+                    </div>
+                </div>
 
-    
-        
-        {{--end of column--}}
+            </div>
+        </div>
+        <!-- end row -->
+
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-title mb-4">Recent Transactions</h6>
+                        <div class="table-responsive">
+                            <table class="table table-nowrap table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#Ref ID</th>
+                                        <th scope="col">Transaction Type</th>
+                                        <th scope="col">Amount</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col"> </th>
+                                    </tr>
+                                </thead>
+
+                                {{-- @if(count($transactions) == 0) --}}
+                                <tr>
+                                    <td colspan="4" class="text-center"> No Recent Transactions</td>
+                                </tr>
+                                {{-- @else --}}
+                                {{-- @foreach($transactions as $transaction) --}}
+
+                                <tr>
+                                    <th scope="row">transaction id</th>
+                                    <td>debt</td>
+                                    <td>N1000</td>
+                                    <td>paid</td>
+                                    <td>
+                                        <div class="btn-group mt-2 mr-1">
+                                            <button type="button" class="btn btn-info dropdown-toggle"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Actions<i class="icon"><span data-feather="chevron-down"></span></i>
+                                            </button>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a class="dropdown-item" href="">Send debt reminder</a>
+                                                <a class="dropdown-item" href="">View Transaction</a>
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                                {{-- @endforeach
+                                @endif --}}
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
     </div>
-@endisset
 </div>
+
 
 @endsection

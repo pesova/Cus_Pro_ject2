@@ -1,5 +1,4 @@
-/*
-    body.shepherd-active::after {
+body.shepherd-active::after {
     content: "";
     display: block;
     background-color: #000;
@@ -15,5 +14,3 @@
     z-index: 10000000;
     position: relative;
     }
-
-*/
