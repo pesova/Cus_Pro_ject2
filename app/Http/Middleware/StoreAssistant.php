@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class BackendAuth
+class StoreAssistant
 {
     /**
      * Handle an incoming request.
@@ -15,7 +15,6 @@ class BackendAuth
      */
     public function handle($request, Closure $next)
     {
-
         $expires = $request->cookie('expires');
         $expires = intval($expires);
 
@@ -26,8 +25,13 @@ class BackendAuth
                  return redirect()->route('activate.index');
              }
 
+             if($request->cookie('user_role') != 'store_assistant'){
+                 return redirect()->route('login.assistant');
+             }
+
             return $next($request);
         }
         return redirect()->route('logout')->with('message', 'Permission Denied!!! You need to login first.');
+
     }
 }

@@ -185,7 +185,7 @@ class AssistantController extends Controller
             } else {
                 $request->session()->flash('alert', 'alert-waring');
                 Session::flash('message', $data->message);
-                return redirect()->route('assistants.create');
+                return redirect()->route('assistants.index');
             }
         } catch (ClientException $e) {
             // dd($e);
@@ -202,16 +202,16 @@ class AssistantController extends Controller
             $data = json_decode($response->getBody());
             $request->session()->flash('alert-class', 'alert-danger');
             Session::flash('message', $data->message);
-            return redirect()->route('assistants.create');
+            return redirect()->route('assistants.index');
             //return back();
         } catch (Exception $e) {
-            //dd($e);
+            // dd($e);
             if ($e->getCode() == 401) {
                 return redirect()->route('logout')->withErrors("Please Login Again");
             }
 
             Session::flash('message', "An error occured. Please try again later");
-            return redirect()->route('assistants.create');
+            return redirect()->route('assistants.index');
             //return back();
         }
 
