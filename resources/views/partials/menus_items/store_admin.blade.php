@@ -4,6 +4,46 @@
         <span> Dashboard </span>
     </a>
 </li>
+
+
+<li>
+    <a href="javascript: void(0);">
+        <i class="uil uil-shop"></i>
+        <span> Store </span>
+        <span class="menu-arrow"></span>
+    </a>
+
+    <ul class="nav-second-level" aria-expanded="false">
+        <li>
+            <a href="{{ route('store.index') }}">Manage Store</a>
+        </li>
+        <li>
+            <a href="{{ route('assistants.index') }}">Manage Store Assistant</a>
+        </li>
+
+    </ul>
+</li>
+
+
+<li>
+    <a href="javascript: void(0);">
+        <i data-feather="credit-card"></i>
+        <span> Transactions </span>
+        <span class="menu-arrow"></span>
+    </a>
+
+    <ul class="nav-second-level" aria-expanded="false">
+        <li>
+            <a href="{{ route('transaction.index') }}">Manage Transactions</a>
+        </li>
+        <li>
+            <a href="{{ route('debtor.index') }}">Manage Debtors</a>
+        </li>
+
+    </ul>
+</li>
+
+
 <li>
     <a href="{{ route('customer.index') }}">
         <i class='uil uil-chat-bubble-user'></i>
@@ -11,19 +51,13 @@
     </a>
 </li>
 
-<li>
+{{-- <li>
     <a href="{{ route('transaction.index') }}">
-        <i data-feather="credit-card"></i>
-        <span class="fifth"> Transactions </span>
-    </a>
+<i data-feather="credit-card"></i>
+<span class="fifth"> Transactions </span>
+</a>
 </li>
 
-<li>
-    <a href="{{ route('store.index') }}">
-        <i class="uil uil-shop"></i>
-        <span class="third">Stores</span>
-    </a>
-</li>
 
 <li>
     <a href="{{ route('debtor.index') }}">
@@ -37,9 +71,9 @@
         <i data-feather="users"></i>
         <span class="seventh"> Assistants </span>
     </a>
-</li>
+</li> --}}
 
- <li>
+<li>
     <a href="{{ route('broadcast.index') }}">
         <i data-feather="message-square"></i>
         <span> Broadcast Message </span>
@@ -58,4 +92,3 @@
         <span class="second"> Settings </span>
     </a>
 </li>
-

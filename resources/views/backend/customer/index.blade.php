@@ -30,7 +30,7 @@
 
 
 
-<div class="container">
+<div class="container-fluid">
     <div class="content">
 
         <div class="container-fluid">
@@ -43,6 +43,22 @@
                         New &nbsp;<i class="fa fa-plus my-float"></i>
                     </a>
 
+                    <div class="btn-group float-right mr-2">
+                        <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            <i class='uil uil-file-alt mr-1'></i>Export
+                            <i class="icon"><span data-feather="chevron-down"></span></i></button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a href="#" class="dropdown-item notify-item">
+                                <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
+                                <span>Excel</span>
+                            </a>
+                            <a href="#" class="dropdown-item notify-item">
+                                <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
+                                <span>PDF</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
 
