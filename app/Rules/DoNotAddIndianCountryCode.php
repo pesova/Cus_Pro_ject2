@@ -4,7 +4,7 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class DoNotPutCountryCode implements Rule
+class DoNotAddIndianCountryCode implements Rule
 {
     /**
      * Create a new rule instance.
@@ -25,7 +25,7 @@ class DoNotPutCountryCode implements Rule
      */
     public function passes($attribute, $value)
     {
-        $arr = str_split(strval($value), 3);
+        $arr = str_split(strval($value), 2);
 
         return $arr[0] !== $arr[1];
     }
