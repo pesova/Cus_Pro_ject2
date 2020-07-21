@@ -3,9 +3,8 @@
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
-use PhpParser\Node\Expr\Cast\String_;
 
-class NoZero implements Rule
+class DoNotAddIndianCountryCode implements Rule
 {
     /**
      * Create a new rule instance.
@@ -26,10 +25,9 @@ class NoZero implements Rule
      */
     public function passes($attribute, $value)
     {
-        $arr = str_split(strval($value));
+        $arr = str_split(strval($value), 2);
 
-        // return $arr[3] !== "0";
-        return true;
+        return $arr[0] !== $arr[1];
     }
 
     /**
@@ -39,6 +37,6 @@ class NoZero implements Rule
      */
     public function message()
     {
-        return 'Please do not start with a zero for the phone number';
+        return 'Please choose your country from the dropdown and dont include it in your number';
     }
 }
