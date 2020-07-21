@@ -73,7 +73,7 @@ class LoginController extends Controller
             $client = new Client();
             $response = $client->post($this->host . '/login/assistant', [
                 'form_params' => [
-                    'phone_number' => str_replace('+','',$request->input('phone_number')),
+                    'phone_number' => $request->input('phone_number'),
                     'password' => $request->input('password'),
                 ]
             ]);
@@ -144,13 +144,11 @@ class LoginController extends Controller
     {
         $this->validateUser($request);
 
-        // dd($request->input('phone_number'));
-
         try {
             $client = new Client();
             $response = $client->post($this->host . '/login/user', [
                 'form_params' => [
-                    'phone_number' => str_replace('+', '', $request->input('phone_number')),
+                    'phone_number' => $request->input('phone_number'),
                     'password' => $request->input('password')
                 ]
             ]);
@@ -226,7 +224,7 @@ class LoginController extends Controller
     public function validateUser(Request $request){
 
 		$rules = [
-            'phone_number' => ['required', 'min:6', 'max:16', new NoZero, new DoNotPutCountryCode],
+            'phone_number' => ['required', 'min:6', 'max:16', new DoNotAddIndianCountryCode, new DoNotPutCountryCode],
             'password' => ['required', 'min:6']
         ];
 

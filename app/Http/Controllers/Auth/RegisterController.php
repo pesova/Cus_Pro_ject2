@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Log;
 use GuzzleHttp\Exception\RequestException;
 use App\Rules\NoZero;
 use App\Rules\DoNotPutCountryCode;
+use Symfony\Component\Console\Input\Input;
 
 class RegisterController extends Controller
 {
@@ -67,7 +68,7 @@ class RegisterController extends Controller
     {
 
         $data = $request->validate([
-            'phone_number' => ['required', 'min:6', 'max:16', new NoZero, new DoNotAddIndianCountryCode, new DoNotPutCountryCode],
+            'phone_number' => ['required', 'min:6', 'max:16', new DoNotAddIndianCountryCode, new DoNotPutCountryCode],
             'password' => ['required', 'min:6']
         ]);
 
@@ -78,7 +79,7 @@ class RegisterController extends Controller
                 $client = new Client();
                 $response = $client->post($this->host . '/register/user', [
                     'form_params' => [
-                        'phone_number' => str_replace('+','',$request->input('phone_number')),
+                        'phone_number' => $request->input('phone_number'),
                         'password' => $request->input('password')
                     ]
                 ]);
