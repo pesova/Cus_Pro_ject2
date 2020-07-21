@@ -3,6 +3,10 @@
 <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
 <link rel="stylesheet" href="{{asset('backend/assets/css/store_list.css')}}">
+<link href="/backend/assets/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<link href="/backend/assets/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<link href="/backend/assets/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<link href="/backend/assets/css/select.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 @stop
 
 
@@ -184,38 +188,59 @@ $transactions = $response['transactions'];
     <div class="col-12">
         <div class="card">
             <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                            <h4 class="card-title">{{ ucfirst($storeData->store_name) }} Transaction Overview</h4>
+                                    
+                                    <table id="datatable-buttons" class="table dt-responsive">
+                                        <thead>
+                                        <tr>
+                                            <th>S/N</th>
+                                            <th>Customer Name </th>
+                                            <th data-priority="1">Amount</th>
+                                            <th data-priority="3">Transaction Type</th>
+                                            <th data-priority="1">Status</th>
+                                            <th data-priority="3"> </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach ($response['storeData']->customers as $transactions)
+                                        
+                                        @foreach ($transactions->transactions as $index => $transaction)  
+                                        
+                                        <tr>
+                                            <td>{{ $number++ }}</td>
+                                            <th>{{$transactions->name}}<span class="co-name"></span>
+                                                <br> <span class="font-light">{{$transactions->phone_number}}</span>
+                                            </th>
+                                            <td>{{$transaction->amount}}</td>
+                                            <td>{{$transaction->type}}</td>
+                                            <td>
+                                            @if ($transaction->status == 0)
+                                                Unpaid
+                                            @else
+                                                Paid
+                                            @endif
+                                            </td>
+                                            <td> <a href="javascript: void(0);"
+                                                    class="btn btn-primary waves-effect waves-light"> View Transaction</a>
+                                            </td>
+                                        </tr>
+                                        
+                                        @endforeach
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
 
-                <h4 class="card-title">{{ ucfirst($storeData->store_name) }} Transaction Overview</h4>
-                <div class="table-rep-plugin">
-                    <div class="table-responsive mb-0" data-pattern="priority-columns">
-                        <table id="tech-companies-1" class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Customer Name </th>
-                                    <th data-priority="1">Amount</th>
-                                    <th data-priority="3">Transaction Type</th>
-                                    <th data-priority="1">Status</th>
-                                    <th data-priority="3"> </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th>GOOG <span class="co-name">Google Inc.</span>
-                                        <br> <span class="font-light"> Phone number</span>
-                                    </th>
-                                    <td>597.74</td>
-                                    <td>Debt</td>
-                                    <td>Paid</td>
-                                    <td> <a href="javascript: void(0);"
-                                            class="btn btn-primary waves-effect waves-light"> View Transaction</a>
-                                    </td>
-                                </tr>
-
-                            </tbody>
-                        </table>
+                            </div>
+                        </div>
                     </div>
+                
+    </div>
+</div>
 
-                </div>
 
             </div>
         </div>
@@ -227,6 +252,20 @@ $transactions = $response['transactions'];
 
 @section("javascript")
 <script src="/backend/assets/build/js/intlTelInput.js"></script>
+<script src="/backend/assets/libs/datatables/jquery.dataTables.min.js"></script>
+<script src="/backend/assets/libs/datatables/dataTables.bootstrap4.min.js"></script>
+<script src="/backend/assets/libs/datatables/dataTables.responsive.min.js"></script>
+<script src="/backend/assets/libs/datatables/responsive.bootstrap4.min.js"></script>
+
+<script src="/backend/assets/libs/datatables/dataTables.buttons.min.js"></script>
+<script src="/backend/assets/libs/datatables/buttons.bootstrap4.min.js"></script>
+<script src="/backend/assets/libs/datatables/buttons.html5.min.js"></script>
+<script src="/backend/assets/libs/datatables/buttons.flash.min.js"></script>
+<script src="/backend/assets/libs/datatables/buttons.print.min.js"></script>
+
+<script src="/backend/assets/libs/datatables/dataTables.keyTable.min.js"></script>
+<script src="/backend/assets/js/pages/datatables.init.js"></script>
+<script src="/backend/assets/libs/datatables/dataTables.select.min.js"></script>
 <script>
     $(document).ready(function () {
     // start of transaction charts

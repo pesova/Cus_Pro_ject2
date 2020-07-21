@@ -225,7 +225,7 @@ class StoreController extends Controller
 
             if ($statusCode == 200  && $transaction_statusCode == 200) {
 
-                return view('backend.stores.show')->with('response', $StoreData);
+                return view('backend.stores.show')->with('response', $StoreData)->with('number', 1);
             }
         } catch (RequestException $e) {
 
@@ -234,7 +234,7 @@ class StoreController extends Controller
             // check for 5xx server error
             if ($e->getResponse()->getStatusCode() >= 500) {
                 return view('errors.500');
-            } else if ($statusCode == 401) {
+            } else if ($e->getResponse()->getStatusCode() >= 401) {
                 $request->session()->flash('alert-class', 'alert-danger');
                 Session::flash('message', "Your Session Has Expired, Please Login Again");
                 return redirect()->route('store.index');
