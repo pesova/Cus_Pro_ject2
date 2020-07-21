@@ -356,13 +356,13 @@
                         <div class="modal-body">
                             <form action="{{ route('reminder') }}" method="POST">
                                 @csrf
-                                <input type="hidden" name="transaction_id" value="{{$transaction->_id}}">
+                                <input type="hidden" name="transaction_id" value="{{old('transaction_id', $transaction->_id)}}">
                                
                                 <div class="form-group">
                                             {{-- <textarea class="form-control"
                                                         id="exampleInput2" placeholder="Message"></textarea> --}}
                                     <label>Message</label>
-                                    <textarea name="message" class="form-control" id="exampleInput2" placeholder="Message"></textarea>
+                                    <textarea name="message" class="form-control" id="exampleInput2" placeholder="Message" maxlength="140"></textarea>
                                 </div>
 
                                 <button type="submit" class="btn btn-primary btn-block">Create Reminder</button>
