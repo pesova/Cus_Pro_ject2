@@ -361,8 +361,12 @@
                                 <div class="form-group">
                                             {{-- <textarea class="form-control"
                                                         id="exampleInput2" placeholder="Message"></textarea> --}}
+                                
                                     <label>Message</label>
-                                    <textarea name="message" class="form-control" id="exampleInput2" placeholder="Message" maxlength="140"></textarea>
+                                    <p>
+                                        <span>characters remaining: <span id="rem_exampleInput2" title="140"></span></span>
+                                    </p>
+                                    <textarea name="message" class="countit form-control" id="exampleInput2" placeholder="Message" maxlength="140"></textarea>
                                 </div>
 
                                 <button type="submit" class="btn btn-primary btn-block">Create Reminder</button>
@@ -440,6 +444,18 @@
                 $('#statusSpiner').addClass('d-none');
             });
         });
+    });
+
+
+    $(".countit").keyup(function () {
+    var cmax = $("#rem_" + $(this).attr("id")).attr("title");
+
+    if ($(this).val().length >= cmax) {
+        $(this).val($(this).val().substr(0, cmax));
+    }
+
+    $("#rem_" + $(this).attr("id")).text(cmax - $(this).val().length);
+
     });
 
 </script>
