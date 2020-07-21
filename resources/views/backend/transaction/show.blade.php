@@ -18,7 +18,7 @@
                                         {{ \Carbon\Carbon::parse($transaction->createdAt)->diffForhumans() }}</h6>
                                 </div>
                                 <div>
-                                    <a href="#" class="btn btn-warning mr-3"> Send Debt Reminder </i>
+                                    <a href="" data-toggle="modal" data-target="#bs-example-modal-sm2" class="btn btn-warning mr-3"> Send Debt Reminder </i>
                                     </a>
 
                                     <a href="#" class="btn btn-primary mr-3" data-toggle="modal"
@@ -346,6 +346,32 @@
         </div>
     </div>
 </div>
+
+
+{{-- Modal for send reminder --}}
+            <div class="modal fade" id="bs-example-modal-sm2" tabindex="-1" role="dialog"
+                         aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <form action="{{ route('reminder') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="transaction_id" value="{{$transaction->_id}}">
+                               
+                                <div class="form-group">
+                                            {{-- <textarea class="form-control"
+                                                        id="exampleInput2" placeholder="Message"></textarea> --}}
+                                    <label>Message</label>
+                                    <textarea name="message" class="form-control" id="exampleInput2" placeholder="Message"></textarea>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary btn-block">Create Reminder</button>
+                            </form>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div>
+
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
