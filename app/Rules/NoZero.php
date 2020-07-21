@@ -28,8 +28,7 @@ class NoZero implements Rule
     {
         $arr = str_split(strval($value));
 
-        // return $arr[3] !== "0";
-        return true;
+        return $arr[3] !== "0";
     }
 
     /**
