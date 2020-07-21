@@ -26,14 +26,14 @@
                         <i class='uil uil-file-alt mr-1'></i>Export
                         <i class="icon"><span data-feather="chevron-down"></span></i></button>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a href="#" class="dropdown-item notify-item">
+                        <button id="ExportReporttoExcel" class="dropdown-item notify-item">
                             <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
                             <span>Excel</span>
-                        </a>
-                        <a href="#" class="dropdown-item notify-item">
+                        </button>
+                        <button id="ExportReporttoPdf" class="dropdown-item notify-item">
                             <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
                             <span>PDF</span>
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -144,7 +144,7 @@
                         <label for="amount" class="col-3 col-form-label">Amount</label>
                         <div class="col-9">
                             <input type="number" class="form-control" id="amount" name="amount" placeholder="0000"
-                                required>
+                                required min="0">
                         </div>
                     </div>
                     <div class="form-group row mb-3">
@@ -210,9 +210,35 @@
 <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
 <script src="/backend/assets/build/js/intlTelInput.js"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-html5-1.6.2/datatables.min.js"></script>
+
 <script>
     $(document).ready(function () {
-        $('#transactionTable').DataTable();
+        var export_filename = 'MycustomerTransactions';
+        $('#transactionTable').DataTable({
+            dom: 'Bftrip',
+            buttons:[
+                {
+                    extend: 'excel',
+                    className: 'd-none',
+                    title: export_filename,
+                }, {
+                    extend: 'pdf',
+                    className: 'd-none',
+                    title: export_filename,
+                    extension: '.pdf'
+                }
+            ]
+        } );
+        $("#ExportReporttoExcel").on("click", function() {
+            $( '.buttons-excel' ).trigger('click');
+        });
+        $("#ExportReporttoPdf").on("click", function() {
+            $( '.buttons-pdf' ).trigger('click');
+        });
     });
 
 </script>
@@ -227,6 +253,7 @@
             var host = "{{ env('API_URL', 'https://dev.api.customerpay.me') }}";
 
             if (storeID) {
+                $('select[name="customer"]').empty();
                 jQuery.ajax({
                     url: host + "/store/" + encodeURI(storeID),
                     type: "GET",
@@ -239,12 +266,10 @@
                         // console.log(data);
                         var new_data = data.data.store.customers;
                         var i;
-                        for (i = 0; i < 1; i++) {
-                            $('select[name="customer"]').empty();
-                            $('select[name="customer"]').append('<option value="' + data
-                                .data.store.customers[i]._id + '">' +
-                                data.data.store.customers[i].name + '</option>');
-                        }
+                        new_data.forEach(customer => {
+                            $('select[name="customer"]').append('<option value="' + customer._id + '">' +
+                                customer.name + '</option>');
+                        });
                     }
                 });
             } else {
