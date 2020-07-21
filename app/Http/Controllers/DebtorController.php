@@ -5,9 +5,6 @@ namespace App\Http\Controllers;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
@@ -184,7 +181,6 @@ class DebtorController extends Controller
             $store_response = $store_resp->getBody();
             $Stores = json_decode($store_response);
 
-
             $client = new Client();
             $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
             $response = $client->request("GET", $url, $payload);
@@ -204,7 +200,7 @@ class DebtorController extends Controller
             $stores = [];
             return view('backend.debtor.index',  compact('debtors', 'stores'));
         } catch (RequestException $e) {
-            Log::info('Catch error: LoginController - ' . $e->getMessage());
+            Log::info('Catch error: DebtorController - ' . $e->getMessage());
 
             if ($e->getCode() == 401) {
                 Session::flash('message', 'session expired');
@@ -230,15 +226,10 @@ class DebtorController extends Controller
 
     public function sendReminder(Request $request)
     {
-        // /debt/send
         $_id = $request->transaction_id;
         $message = $request->message;
 
-        // dd($_id);
-
-        // $url = 'http://localhost:3000/debt' . '/send';
-
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt' . '/send';
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt/send';
 
         try {
             $client =  new Client();
@@ -268,10 +259,10 @@ class DebtorController extends Controller
                 return redirect()->back();
             }
         } catch (RequestException $e) {
-            Log::info('Catch error: LoginController - ' . $e->getMessage());
+            Log::info('Catch error: DebtorController - ' . $e->getMessage());
 
             if ($e->hasResponse()) {
-                if ($e->getResponse()->getStatusCode() == 401) {
+                if ($e->getCode() == 401) {
                     Session::flash('message', 'session expired');
                     return redirect()->route('logout');
                 }
@@ -302,9 +293,7 @@ class DebtorController extends Controller
             'time' =>  'required',
         ]);
 
-        // $url = 'http://localhost:3000/debt' . '/schedule';
-
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt' . '/schedule';
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt/schedule';
 
 
         try {
@@ -331,11 +320,15 @@ class DebtorController extends Controller
                 return back();
             } else {
                 $request->session()->flash('alert-class', 'alert-success');
-                // Session::flash('message', $data->message);
                 return redirect()->back();
             }
         } catch (RequestException $e) {
-            Log::info('Catch error: LoginController - ' . $e->getMessage());
+            Log::info('Catch error: DebtorController - ' . $e->getMessage());
+
+            if ($e->getCode() == 401) {
+                Session::flash('message', 'session expired');
+                return redirect()->route('logout');
+            }
 
             if ($e->hasResponse()) {
                 $response = $e->getResponse()->getBody();
@@ -358,8 +351,7 @@ class DebtorController extends Controller
     public function markPaid(Request $request, $id)
     {
 
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt' . '/update/' . $id;
-        // dd($data);
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt/update/' . $id;
 
         try {
             $client =  new Client();
@@ -384,7 +376,12 @@ class DebtorController extends Controller
                 return redirect()->back();
             }
         } catch (RequestException $e) {
-            Log::info('Catch error: LoginController - ' . $e->getMessage());
+            Log::info('Catch error: DebtorController - ' . $e->getMessage());
+
+            if ($e->getCode() == 401) {
+                Session::flash('message', 'session expired');
+                return redirect()->route('logout');
+            }
 
             if ($e->hasResponse()) {
                 $response = $e->getResponse()->getBody();

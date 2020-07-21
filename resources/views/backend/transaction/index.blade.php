@@ -253,6 +253,7 @@
             var host = "{{ env('API_URL', 'https://dev.api.customerpay.me') }}";
 
             if (storeID) {
+                $('select[name="customer"]').empty();
                 jQuery.ajax({
                     url: host + "/store/" + encodeURI(storeID),
                     type: "GET",
@@ -265,12 +266,10 @@
                         // console.log(data);
                         var new_data = data.data.store.customers;
                         var i;
-                        for (i = 0; i < 1; i++) {
-                            $('select[name="customer"]').empty();
-                            $('select[name="customer"]').append('<option value="' + data
-                                .data.store.customers[i]._id + '">' +
-                                data.data.store.customers[i].name + '</option>');
-                        }
+                        new_data.forEach(customer => {
+                            $('select[name="customer"]').append('<option value="' + customer._id + '">' +
+                                customer.name + '</option>');
+                        });
                     }
                 });
             } else {
