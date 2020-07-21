@@ -78,7 +78,7 @@
                                         <i data-feather="clock" class="align-self-center icon-dual icon-lg mr-2"></i>
                                         <div class="media-body">
                                             <h6 class="mt-0 mb-0">
-                                                replace with customer phone number
+                                            {{ $customer->phone_number }}
                                             </h6>
                                             <span class="text-muted">Customer Phone Number</span>
                                         </div>
@@ -124,7 +124,7 @@
                                                             <tr class="font-weight-bolder">
                                                                 <th scope="row">Total Amount</th>
                                                                 <td colspan="2">
-                                                                    {{ floor($transaction->amount/100+12 * $transaction->interest + $transaction->amount) }}
+                                                                    {{ (($transaction->interest / 100) * $transaction->amount) + $transaction->amount }}
                                                                 </td>
                                                             </tr>
                                                         </tbody>
