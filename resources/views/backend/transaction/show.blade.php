@@ -18,7 +18,7 @@
                                         {{ \Carbon\Carbon::parse($transaction->createdAt)->diffForhumans() }}</h6>
                                 </div>
                                 <div>
-                                    <a href="" data-toggle="modal" data-target="#bs-example-modal-sm2" class="btn btn-warning mr-3"> Send Debt Reminder </i>
+                                    <a href="" data-toggle="modal" data-target="#sendReminderModal" class="btn btn-warning mr-3"> Send Debt Reminder </i>
                                     </a>
 
                                     <a href="#" class="btn btn-primary mr-3" data-toggle="modal"
@@ -349,7 +349,7 @@
 
 
 {{-- Modal for send reminder --}}
-            <div class="modal fade" id="bs-example-modal-sm2" tabindex="-1" role="dialog"
+            <div class="modal fade" id="sendReminderModal" tabindex="-1" role="dialog"
                          aria-labelledby="mySmallModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
@@ -360,13 +360,13 @@
                                
                                 <div class="form-group">
                                             {{-- <textarea class="form-control"
-                                                        id="exampleInput2" placeholder="Message"></textarea> --}}
+                                                        id="reminderMessage" placeholder="Message"></textarea> --}}
                                 
                                     <label>Message</label>
                                     <p>
-                                        <span>characters remaining: <span id="rem_exampleInput2" title="140"></span></span>
+                                        <span>characters remaining: <span id="rem_reminderMessage" title="140"></span></span>
                                     </p>
-                                    <textarea name="message" class="countit form-control" id="exampleInput2" placeholder="Message" maxlength="140"></textarea>
+                                    <textarea name="message" class="countit form-control" id="reminderMessage" placeholder="Message" maxlength="140"></textarea>
                                 </div>
 
                                 <button type="submit" class="btn btn-primary btn-block">Create Reminder</button>
@@ -447,6 +447,7 @@
     });
 
 
+    //Character count in dept reminder modal
     $(".countit").keyup(function () {
     var cmax = $("#rem_" + $(this).attr("id")).attr("title");
 
