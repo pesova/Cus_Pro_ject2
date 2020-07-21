@@ -414,7 +414,6 @@ class DebtorController extends Controller
                 // return \
                 $request->session()->flash('alert-class', 'alert-success');
                 Session::flash('message', $data->Message);
-                dd($payload);
 
                 return redirect()->back();
 
