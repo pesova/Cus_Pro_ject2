@@ -77,7 +77,7 @@ class RegisterController extends Controller
                 $client = new Client();
                 $response = $client->post($this->host . '/register/user', [
                     'form_params' => [
-                        'phone_number' => $request->input('phone_number'),
+                        'phone_number' => str_replace('+','',str_replace('+','',$request->input('phone_number'))),
                         'password' => $request->input('password')
                     ]
                 ]);
