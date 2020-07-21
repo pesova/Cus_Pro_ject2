@@ -78,7 +78,17 @@
                                         <i data-feather="clock" class="align-self-center icon-dual icon-lg mr-2"></i>
                                         <div class="media-body">
                                             <h6 class="mt-0 mb-0">
-                                                replace with customer phone number
+                                                @foreach ($stores as $store)
+                                                @foreach ($store->customers as $customer)
+                                                @if ($customer->_id === $transaction->customer_ref_id)
+                                                <h6 class="m-0">
+                                                    <a
+                                                        href="tel:+{{ $customer->phone_number }}">{{ $customer->phone_number }}
+                                                    </a>
+                                                </h6>
+                                                @endif
+                                                @endforeach
+                                                @endforeach
                                             </h6>
                                             <span class="text-muted">Customer Phone Number</span>
                                         </div>
@@ -155,6 +165,9 @@
                                                         <span class="on">Paid</span><span class="off">Pending</span>
                                                     </div>
                                                 </label>
+                                                    <div id="statusSpiner" class="spinner-border spinner-border-sm text-primary d-none" role="status">
+                                                        <span class="sr-only">Loading...</span>
+                                                  </div>
                                             </div>
                                         </div>
 
@@ -270,7 +283,7 @@
                                     <label for="description" class="col-3 col-form-label">Due Date</label>
                                     <div class="col-9">
                                         <input type="date" class="form-control" id="expected_pay_date"
-                                            name="expected_pay_date">
+                                            name="expected_pay_date" value="{{ old('description', \Carbon\Carbon::parse($transaction->expected_pay_date)->format('Y-m-d')) }}">
                                     </div>
                                 </div>
 
@@ -334,7 +347,6 @@
     </div>
 </div>
 
-
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -364,4 +376,45 @@
     </div>
 </div>
 
+@endsection
+
+@section('javascript')
+<script>
+    $(function() {
+        const api = "{{ Cookie::get('api_token') }}";
+        const host = "{{ env('API_URL', 'https://dev.api.customerpay.me') }}";
+
+        $('#togBtn').change(function () {
+            $(this).attr("disabled", true);
+            $('#statusSpiner').removeClass('d-none');
+
+            const id = $(this).data('id');
+            const store = $(this).data('store');
+            let _status = $(this).is(':checked') ? 1 : 0;
+            let _customer_id = $(this).data('customer');
+
+           $.ajax({
+            url: `${host}/transaction/update/${id}`,
+             headers: {'x-access-token': api},
+             data: {
+                 store_id:store,
+                 status:_status,
+                 customer_id:_customer_id,
+                 },
+             type: 'PATCH',
+            }).done(response => {
+                if (response.success != true) {
+                    $(this).prop("checked", !this.checked);
+                }
+                $(this).removeAttr("disabled")
+                $('#statusSpiner').addClass('d-none');
+            }).fail( e => {
+                $(this).removeAttr("disabled")
+                $(this).prop("checked", !this.checked);
+                $('#statusSpiner').addClass('d-none');
+            });
+        });
+    });
+
+</script>
 @endsection

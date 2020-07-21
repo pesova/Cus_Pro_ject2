@@ -73,18 +73,17 @@ class LoginController extends Controller
             $client = new Client();
             $response = $client->post($this->host . '/login/assistant', [
                 'form_params' => [
-                    'phone_number' => $request->input('phone_number'),
-                    'password' => $request->input('password')
+                    'phone_number' => str_replace('+','',$request->input('phone_number')),
+                    'password' => $request->input('password'),
                 ]
             ]);
 
             if ($response->getStatusCode() == 200) {
                 $response = json_decode($response->getBody());
-                
+
                 if ($response->success) {
 
                     $assistant = $response->data;
-                    // dd($assistant->store);
 
                     //check if active
                     if ($assistant->user->is_active == false) {
@@ -106,7 +105,6 @@ class LoginController extends Controller
                     Cookie::queue('expires', strtotime('+ 1 day'));
                     Cookie::queue('is_first_time_user', true);
 
-                    // dd($assistant);
                     return view('backend.dashboard.assistant.index', compact('assistant'));
                     // return view('backend.dashboard.assistant.index')->with('assistant', $assistant);
 
@@ -127,7 +125,6 @@ class LoginController extends Controller
                 if ($e->getResponse()->getStatusCode() >= 400) {
                     // get response to catch 4xx errors
                     $response = json_decode($e->getResponse()->getBody());
-                    dd($response);
                     $request->session()->flash('alert-class', 'alert-danger');
                     $request->session()->flash('message', $response->message);
                     return redirect()->route('login.assistant');
@@ -153,7 +150,7 @@ class LoginController extends Controller
             $client = new Client();
             $response = $client->post($this->host . '/login/user', [
                 'form_params' => [
-                    'phone_number' => $request->input('phone_number'),
+                    'phone_number' => str_replace('+', '', $request->input('phone_number')),
                     'password' => $request->input('password')
                 ]
             ]);
@@ -207,7 +204,12 @@ class LoginController extends Controller
                     // get response to catch 4xx errors
                     $response = json_decode($e->getResponse()->getBody());
                     $request->session()->flash('alert-class', 'alert-danger');
-                    $request->session()->flash('message', $response->error->description);
+                    if (isset($response->error->description)) {
+                        $request->session()->flash('message', $response->error->description);
+                    } else {
+                        $message = isset($response->Message) ? $response->Message : $response->message;
+                        $request->session()->flash('message', $message);
+                    }
                     return redirect()->route('login');
                 }
             }
@@ -227,7 +229,7 @@ class LoginController extends Controller
             'phone_number' => ['required', 'min:6', 'max:16', new NoZero, new DoNotPutCountryCode],
             'password' => ['required', 'min:6']
         ];
-         
+
 		$this->validate($request, $rules);
     }
 }
