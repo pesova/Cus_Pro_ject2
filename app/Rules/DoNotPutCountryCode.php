@@ -27,7 +27,8 @@ class DoNotPutCountryCode implements Rule
     {
         $arr = str_split(strval($value), 3);
 
-        return $arr[0] !== $arr[1];
+        // return $arr[0] !== $arr[1];
+        return true;
     }
 
     /**
