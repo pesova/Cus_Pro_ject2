@@ -163,7 +163,7 @@
                             var messages_gotten;
 
                             for (var i = 0; i < feedback_history_array.length; i++) {
-                                if ( feedback_history_array[i].userRole == "store_admin" ){
+                                if ( feedback_history_array[i].userRole != "super_admin" ){
                                     messages_gotten += `
                                         <li class="clearfix odd">
                                             {{-- <div class="chat-avatar">
