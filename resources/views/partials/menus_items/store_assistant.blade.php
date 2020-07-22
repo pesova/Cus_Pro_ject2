@@ -23,6 +23,13 @@
 </li>
 
 <li>
+    <a href="{{ route('broadcast.index') }}">
+        <i data-feather="message-square"></i>
+        <span> Broadcast Message </span>
+    </a>
+</li>
+
+<li>
     <a href="{{ route('customer.index') }}">
         <i class='uil uil-chat-bubble-user'></i>
         <span class="fourth"> Customers </span>

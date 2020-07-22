@@ -18,7 +18,7 @@
                                         {{ \Carbon\Carbon::parse($transaction->createdAt)->diffForhumans() }}</h6>
                                 </div>
                                 <div>
-                                    <a href="#" class="btn btn-warning mr-3"> Send Debt Reminder </i>
+                                    <a href="" data-toggle="modal" data-target="#sendReminderModal" class="btn btn-warning mr-3"> Send Debt Reminder </i>
                                     </a>
 
                                     <a href="#" class="btn btn-primary mr-3" data-toggle="modal"
@@ -347,6 +347,36 @@
     </div>
 </div>
 
+
+{{-- Modal for send reminder --}}
+            <div class="modal fade" id="sendReminderModal" tabindex="-1" role="dialog"
+                         aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <form action="{{ route('reminder') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="transaction_id" value="{{old('transaction_id', $transaction->_id)}}">
+                               
+                                <div class="form-group">
+                                            {{-- <textarea class="form-control"
+                                                        id="reminderMessage" placeholder="Message"></textarea> --}}
+                                
+                                    <label>Message</label>
+                                    <p>
+                                        <span>characters remaining: <span id="rem_reminderMessage" title="140"></span></span>
+                                    </p>
+                                    <textarea name="message" class="countit form-control" id="reminderMessage" placeholder="Message" maxlength="140"></textarea>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary btn-block">Create Reminder</button>
+                            </form>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div>
+
+
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -414,6 +444,19 @@
                 $('#statusSpiner').addClass('d-none');
             });
         });
+    });
+
+
+    //Character count in dept reminder modal
+    $(".countit").keyup(function () {
+    var cmax = $("#rem_" + $(this).attr("id")).attr("title");
+
+    if ($(this).val().length >= cmax) {
+        $(this).val($(this).val().substr(0, cmax));
+    }
+
+    $("#rem_" + $(this).attr("id")).text(cmax - $(this).val().length);
+
     });
 
 </script>

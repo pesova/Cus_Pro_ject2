@@ -122,7 +122,7 @@ $transactions = $response['transactions'];
                                     <i class="uil-atm-card"></i>
                                 </span>
                             </div>
-                            <h5 class="font-size-14 mb-0">Debt</h5>
+                            <h5 class="font-size-14 mb-0"><a href="{{ route('store_debt', $storeData->_id) }}">Debt</a></h5>
                         </div>
                         <div class="text-muted mt-4">
                             <h4>$ 16.2 <i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>

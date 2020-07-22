@@ -75,6 +75,9 @@ Route::prefix('/admin')->group(function () {
 
     Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
 
+    Route::get('/card_v1',"BusinessCard@card_v1");
+    Route::get('/card_v2', 'BusinessCard@card_v2');
+
     Route::get('/password', 'Auth\ForgotPasswordController@index')->name('password');
     Route::post('/password', 'Auth\ForgotPasswordController@authenticate')->name('password.reset');
 
@@ -143,7 +146,7 @@ Route::prefix('/admin')->group(function () {
             Route::resource('complaint', 'ComplaintController')->only(['index', 'create', 'store']);
 
             // customer crud
-            Route::resource('customer', 'CustomerController')->only(['index', 'show', 'store']); //todo: remove store
+            Route::resource('customer', 'CustomerController')->only(['index', 'show', 'store','edit','destroy']); //todo: remove edit, destroy and store
 
             // });
         }
@@ -203,6 +206,7 @@ Route::prefix('/admin')->group(function () {
 
         Route::get('markpaid/{id}', 'DebtorController@markPaid')->name('markpaid');
 
+        Route::get('store_debt/{id}', 'StoreController@debt')->name('store_debt');
     });
     // ------------ GENERAL ROUTES ENDS HERE ------------------------ //
 
