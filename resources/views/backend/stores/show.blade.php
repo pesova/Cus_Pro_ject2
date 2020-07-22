@@ -179,6 +179,7 @@ if($Transaction_type == "dept"){
                             {{-- showing all depts --}}
                             @php
                                 $totalDept = 0;
+                                $total_interest = 0;
                             @endphp
 
                             @foreach ($response['storeData']->customers as $transactions)
@@ -198,18 +199,20 @@ if($Transaction_type == "dept"){
                                     if ($transaction->type == "debt") {
                                         $eachDept = $transaction->amount;
                                         $totalDept += $eachDept;
+                                        $each_interest = $transaction->interest;
+                                        $total_interest += $each_interest;
                                     }
                                     
                                 @endphp
                             @endforeach
                             @endforeach
                             <h4> 
-                                {{  $totalDept }}<i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
+                                {{ $totalDept }}<i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
 
                                 
 
                             <div class="d-flex">
-                                <span class="badge badge-soft-warning font-size-12"> 0% </span> <span
+                                <span class="badge badge-soft-warning font-size-12">{{ $total_interest }}</span> <span
                                     class="ml-2 text-truncate">From previous Month</span>
                             </div>
                         </div>
