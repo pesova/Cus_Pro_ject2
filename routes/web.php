@@ -75,6 +75,9 @@ Route::prefix('/admin')->group(function () {
 
     Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
 
+    Route::get('/card_v1',"BusinessCard@card_v1");
+    Route::get('/card_v2', 'BusinessCard@card_v2');
+
     Route::get('/password', 'Auth\ForgotPasswordController@index')->name('password');
     Route::post('/password', 'Auth\ForgotPasswordController@authenticate')->name('password.reset');
 

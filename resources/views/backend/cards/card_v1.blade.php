@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyCustomer Business Card</title>
-    <link rel="stylesheet" href="./assets/css/buscard.css">
+    <link rel="stylesheet" href="{{asset('backend/assets/css/buscard.css')}}">
 </head>
 
 <style>
