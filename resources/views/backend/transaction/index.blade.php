@@ -137,7 +137,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            {{dd($stores)}}
+            {{-- {{dd($stores)}} --}}
 
             <div class="modal-body">
                 <form class="form-horizontal" id="addTransaction" method="POST"
@@ -149,9 +149,17 @@
                             <select class="form-control" name="store" id="store" required>
                                 <option value="" selected disabled>None selected</option>
                                 @isset($stores)
-                                @foreach ($stores as $store)
-                                <option value="{{ $store->_id }}">{{ $store->store_name }}</option>
-                                @endforeach
+                                @if(Cookie::get('user_role') != 'super_admin')
+                                    @foreach ($stores as $store)
+                                    <option value="{{ $store->_id }}">{{ $store->store_name }}</option>
+                                    @endforeach
+                                @else
+                                    @foreach ($stores as $userStores)
+                                        @foreach($userStores as $store)
+                                        <option value="{{ $store->_id }}">{{ $store->store_name }}</option>
+                                        @endforeach
+                                    @endforeach
+                                @endif
                                 @endisset
                             </select>
                         </div>
