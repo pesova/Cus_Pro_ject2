@@ -206,6 +206,7 @@ Route::prefix('/admin')->group(function () {
 
         Route::get('markpaid/{id}', 'DebtorController@markPaid')->name('markpaid');
 
+        Route::get('store_debt/{id}', 'StoreController@debt')->name('store_debt');
     });
     // ------------ GENERAL ROUTES ENDS HERE ------------------------ //
 
