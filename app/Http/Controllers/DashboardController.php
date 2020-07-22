@@ -50,7 +50,7 @@ class DashboardController extends Controller
 
                 return view('errors.500');
             }
-        } else {
+        } elseif (Cookie::get('user_role') === 'store_admin') {
             $transaction_url = env('API_URL', 'https://dev.api.customerpay.me') . '/transaction';
             $customer_url = env('API_URL', 'https://dev.api.customerpay.me') . '/customer';
             $debt_url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt';
@@ -96,6 +96,73 @@ class DashboardController extends Controller
             } catch (\Exception $e) {
 
                 return view('errors.500');
+            }
+        } else { // Todo: remove this when dashboard API is available
+            try {
+                // Get all stores first
+
+
+                $url = env('API_URL', 'https://dev.api.customerpay.me') . '/assistant/' . Cookie::get('user_id');
+                $client = new Client();
+                $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+                $response = $client->request("GET", $url, $headers);
+
+                // First get the assistant details
+
+                if ($response->getStatusCode() == 200) {
+                    $assistant = json_decode($response->getBody());
+                    $assistant = $assistant->data->store_assistant;
+
+                    // Then get the store details
+
+                    $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store/' . $assistant->store_id;
+                    $client = new Client();
+                    $response = $client->request("GET", $url, $headers);
+
+                    if ($response->getStatusCode() == 200) {
+                        $store = json_decode($response->getBody());
+                        $store = $store->data->store;
+
+                        // Finally get the transactions
+                        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/transaction/store/' . $assistant->store_id;
+                        $client = new Client();
+                        $response = $client->request("GET", $url, $headers);
+
+                        if ($response->getStatusCode() == 200) {
+                            $transactions = json_decode($response->getBody());
+                            $transactions = $transactions->data->transactions;
+
+                            // get recent 10 transactions
+                            if (count($transactions) > 10) {
+                                $transactions = array_slice($transactions, 9);
+                            }
+
+                            return view('backend.dashboard.index')->with('assistant', $assistant)->withStore($store)->withTransactions($transactions);
+
+                        } else {
+                            return view('errors.500');
+                            // return back()->withErrors("An Error Occured. Please try again later");
+                        }
+
+
+                    } else {
+                        return view('errors.500');
+                        // return back()->withErrors("An Error Occured. Please try again later");
+                    }
+
+                } else {
+                    return view('errors.500');
+                    // return back()->withErrors("An Error Occured. Please try again later");
+                }
+
+
+            } catch (\Exception $e) {
+                // dd($e->getCode());
+                if ($e->getCode() == 401) {
+                    return redirect()->route('logout')->withErrors("Please Login Again");
+                }
+                return view('errors.500');
+                //return $response->getStatusCode();
             }
         }
     }

@@ -1,12 +1,4 @@
 <li>
-    <a href="{{ route('dashboard') }}">
-        <i data-feather="home"></i>
-        <span> Dashboard </span>
-    </a>
-</li>
-
-
-<li>
     <a href="javascript: void(0);">
         <i class="uil uil-shop"></i>
         <span> Store </span>
@@ -51,27 +43,6 @@
     </a>
 </li>
 
-{{-- <li>
-    <a href="{{ route('transaction.index') }}">
-<i data-feather="credit-card"></i>
-<span class="fifth"> Transactions </span>
-</a>
-</li>
-
-
-<li>
-    <a href="{{ route('debtor.index') }}">
-        <i data-feather="bell"></i>
-        <span class="sixth"> Debtors </span>
-    </a>
-</li>
-
-<li>
-    <a href="{{ route('assistants.index') }}">
-        <i data-feather="users"></i>
-        <span class="seventh"> Assistants </span>
-    </a>
-</li> --}}
 
 <li>
     <a href="{{ route('broadcast.index') }}">
@@ -84,11 +55,5 @@
     <a href="{{ route('complaint.index') }}">
         <i data-feather="book"></i>
         <span> Complaint</span>
-    </a>
-</li>
-<li>
-    <a href="{{ route('setting') }}">
-        <i class="uil  uil-cog"></i>
-        <span class="second"> Settings </span>
     </a>
 </li>
