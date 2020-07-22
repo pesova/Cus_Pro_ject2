@@ -20,8 +20,8 @@
                             <img src="/backend/assets/images/users/avatar-1.jpg" alt=""
                                  class="img-thumbnail rounded-circle">
                         </div>
-                        <h5 class="font-size-15 text-truncate">Henry Price</h5>
-                        <p class="text-muted mb-0 text-truncate">UI/UX Designer</p>
+                        <h5 class="font-size-15 text-truncate">{{ Cookie::get('name') }}</h5>
+                        <p class="text-muted mb-0 text-truncate">Store Admin</p>
                     </div>
 
                     <div class="col-sm-8">
@@ -29,18 +29,18 @@
 
                             <div class="row">
                                 <div class="col-6">
-                                    <h5 class="font-size-15">125</h5>
+                                    <h5 class="font-size-15">{{ count($customers) }}</h5>
                                     <p class="text-muted mb-0">Customers</p>
                                 </div>
                                 <div class="col-6">
-                                    <h5 class="font-size-15">1245</h5>
+                                    <h5 class="font-size-15">{{ count($stores) }}</h5>
                                     <p class="text-muted mb-0">Store(s)</p>
                                 </div>
                             </div>
                             <div class="mt-4">
                                 <a href="#" class="btn btn-primary waves-effect waves-light btn-sm">View Profile
-                                    <i
-                                            class="uil-arrow-right ml-1"></i></a>
+                                    <i class="uil-arrow-right ml-1"></i>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -61,19 +61,14 @@
                             previous month</p>
 
                         <div class="mt-4">
-                            <a href="#" class="btn btn-primary waves-effect waves-light btn-sm">View More <i
-                                        class="uil-arrow-right ml-1"></i></a>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="mt-4 mt-sm-0">
-
+                            <a href="#" class="btn btn-primary waves-effect waves-light btn-sm">
+                                View More <i class="uil-arrow-right ml-1"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        {{-- end col-4 --}}
     </div>
 
     <div class="col-xl-8">
@@ -84,7 +79,7 @@
                         <div class="media">
                             <div class="media-body">
                                 <p class="text-muted font-weight-medium">Debt</p>
-                                <h4 class="mb-0">1,235</h4>
+                                <h4 class="mb-0">$1,235</h4>
                             </div>
 
                             <div class="mini-stat-icon avatar-sm rounded-circle bg-primary align-self-center">

@@ -49,17 +49,6 @@ Route::get('/admin', function () {
     return redirect()->route('dashboard');
 });
 
-// Store Assistant Access 
-Route::prefix('/assistant')->group(function () {
-    Route::get('/login', ['uses' => "Auth\LoginController@assistant"])->name('login.assistant');
-    Route::post('/authenticate', ['uses' => "Auth\LoginController@authenticateAssistant"])->name('assistant.authenticate');
-
-    Route::group(['middleware' => ['backend.auth', 'store.assistant']], function () {
-        // Route::get('/dashboard', 'DashboardController@index')->name('dashboard.assistant');
-
-    });
-});
-
 // backend codes
 Route::prefix('/admin')->group(function () {
 
