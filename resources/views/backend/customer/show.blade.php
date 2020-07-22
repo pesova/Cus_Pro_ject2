@@ -21,16 +21,16 @@
                 <a href="{{ route('customer.index') }}" class="btn btn-primary float-right">
                     Go Back
                 </a>
-                <a href="{{ route('customer.edit', $response->storeId.'-'.$response->customer->_id ) }}"
-                    class="mr-3 btn btn-success float-right">
-                    Edit Customer
-                </a>
-
-
+                @if(Cookie::get('user_role') != 'store_assistant')
+                    <a href="{{ route('customer.edit', $customer->storeId.'-'.$customer->customer->_id ) }}"
+                        class="mr-3 btn btn-success float-right">
+                        Edit Customer
+                    </a>
+                @endif
             </div>
         </div>
         {{-- end of page title --}}
-
+{{-- {{dd($customer)}} --}}
         <div class="row">
             <div class="col-xl-4">
                 <div class="card overflow-hidden">
@@ -38,8 +38,12 @@
                         <div class="row">
                             <div class="col-7">
                                 <div class="text-primary p-3">
-                                    <h5 class="text-primary">Store Name</h5>
-                                    <p>Store address</p>
+                                    @if(Cookie::get('user_role') != 'store_assistant')
+                                    <h5 class="text-primary"><a href="{{ route('store.show', $customer->storeId) }}">{{ $customer->storeName }}</a></h5>
+                                    @else
+                                    <h5 class="text-primary">{{ $customer->storeName }}</h5>
+                                    @endif
+                                    <p>Store Name</p>
                                 </div>
                             </div>
                             <div class="col-5 align-self-end">
@@ -49,7 +53,7 @@
                     </div>
                     <div class="card-body pt-0">
                         <div class="row">
-                            <div class="col-sm-8">
+                            <div class="col-sm-12">
                                 <div class="pt-4">
 
                                     <div class="row">
@@ -82,7 +86,7 @@
                                 <tbody>
                                     <tr>
                                         <th scope="row">Full Name :</th>
-                                        <td>{{ucfirst($response->customer->name)}}</td>
+                                        <td>{{ucfirst($customer->customer->name)}}</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">Mobile :</th>

@@ -58,6 +58,8 @@ class CustomerController extends Controller
 
                 foreach ($userData as $store) {
                     foreach ($store->customers as $customer) {
+                        $customer->store_name = $store->storeName;
+                        $customer->store_id  = $store->storeId;
                         $allCustomers[] = $customer;
                     }
                 }
@@ -209,7 +211,10 @@ class CustomerController extends Controller
             $response = $client->request("GET", $url, $headers);
             $data = json_decode($response->getBody());
             if ($response->getStatusCode() == 200) {
-                return view('backend.customer.show')->with('response', $data->data);
+
+
+
+                return view('backend.customer.show')->with('customer', $data->data);
             } else {
                 return view('errors.500');
             }

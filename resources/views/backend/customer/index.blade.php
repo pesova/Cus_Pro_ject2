@@ -65,7 +65,7 @@
             @if ( isset($response) && count($response) > 0 )
             <div class="card-body p-1 card">
                 <div class="table-responsive table-data" style="padding: 10px">
-                    <table id="basic-datatable" class="table dt-responsive nowrap table table-striped table-bordered">
+                    <table id="customerTable" class="table dt-responsive nowrap table table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -77,11 +77,12 @@
                             </tr>
 
                         <tbody>
-                            @for ($i = 0; $i < count($response); $i++) <tr>
+                            {{-- {{ dd($response) }} --}}
+                            @foreach($response as $i => $customer) <tr>
                                 <td>{{$i + 1}}</td>
-                                <td>{{ ucfirst($response[$i]->name) }}</td>
-                                <td>{{ $response[$i]->phone_number }}</td>
-                                <td>{{ $response[$i]->store_name }}</td>
+                                <td>{{ ucfirst($customer->name) }}</td>
+                                <td>{{ $customer->phone_number }}</td>
+                                <td>{{ $customer->store_name }}</td>
 
                                 <td>
                                     <div class="btn-group mt-2 mr-1">
@@ -92,11 +93,11 @@
                                         <div class="dropdown-menu dropdown-menu-right">
                                             @if(Cookie::get('user_role') == 'store_admin')
                                                 <a class="dropdown-item"
-                                                href="{{ route('customer.edit', $response[$i]->store_id.'-'.$response[$i]->_id) }}">
+                                                href="{{ route('customer.edit', $customer->store_id.'-'.$customer->_id) }}">
                                                 Edit Customer</a>
                                             @endif
                                             <a class="dropdown-item"
-                                                href="{{ route('customer.show', $response[$i]->store_id.'-'.$response[$i]->_id) }}">View
+                                                href="{{ route('customer.show', $customer->store_id.'-'.$customer->_id) }}">View
                                                 Profile</a>
                                             {{-- <a class="dropdown-item"
                                                                 href="{{ route('transaction.index') }}">View
@@ -104,15 +105,15 @@
                                             <a class="dropdown-item" href="{{ route('debtor.create') }}">Send
                                                 Reminder</a> --}}
                                             @if(Cookie::get('user_role') == 'store_admin')
-                                                <form id="delete-form-{{ $response[$i]->_id }}" method="POST"
-                                                    action="{{ route('customer.destroy', $response[$i]->_id) }}"
+                                                <form id="delete-form-{{ $customer->_id }}" method="POST"
+                                                    action="{{ route('customer.destroy', $customer->_id) }}"
                                                     style="display:none">
                                                     {{csrf_field()}}
                                                     {{method_field('DELETE')}}
                                                 </form>
                                                 <a style="margin-left: 1.5rem;" class="text-danger" href="" onclick="
                                                         if(confirm('Are you sure You want to delete this user'))
-                                                        {event.preventDefault(); document.getElementById('delete-form-{{ $response[$i]->_id }}').submit();}
+                                                        {event.preventDefault(); document.getElementById('delete-form-{{ $customer->_id }}').submit();}
                                                         else{
                                                         event.preventDefault();
                                                     }"> Delete </a>
@@ -121,8 +122,7 @@
                                     </div>
                                 </td>
                                 </tr>
-                                @endfor
-
+                                @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -303,11 +303,13 @@
 
 <script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script src="/backend/assets/build/js/intlTelInput.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-html5-1.6.2/datatables.min.js"></script>
 <script>
     const export_filename = 'Mycustomers';
     $(document).ready(function () {
-        $('#basic-datatable').DataTable({
-            "pagingType": "full_numbers"
+        $('#customerTable').DataTable({
             dom: 'Bftrip',
             buttons:[
                 {
@@ -329,25 +331,26 @@
             $( '.buttons-pdf' ).trigger('click');
         });
 
-    var input = document.querySelector("#phone");
-    var test = window.intlTelInput(input, {
-            // separateDialCode: true,
-        });
+        var input = document.querySelector("#phone");
+        var test = window.intlTelInput(input, {
+                // separateDialCode: true,
+            });
 
-        $("#phone").keyup(() => {
+            $("#phone").keyup(() => {
+                if ($("#phone").val().charAt(0) == 0) {
+                    $("#phone").val($("#phone").val().substring(1));
+                }
+            });
+
+        $("#submitForm").submit((e) => {
+            e.preventDefault();
+            const dialCode = test.getSelectedCountryData().dialCode;
             if ($("#phone").val().charAt(0) == 0) {
                 $("#phone").val($("#phone").val().substring(1));
             }
+            $("#phone_number").val(dialCode + $("#phone").val());
+            $("#submitForm").off('submit').submit();
         });
-
-    $("#submitForm").submit((e) => {
-        e.preventDefault();
-        const dialCode = test.getSelectedCountryData().dialCode;
-        if ($("#phone").val().charAt(0) == 0) {
-            $("#phone").val($("#phone").val().substring(1));
-        }
-        $("#phone_number").val(dialCode + $("#phone").val());
-        $("#submitForm").off('submit').submit();
     });
 
 </script>
