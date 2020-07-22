@@ -240,7 +240,6 @@
             $( '.buttons-pdf' ).trigger('click');
         });
     });
-
 </script>
 
 <script>
@@ -263,7 +262,6 @@
                         'x-access-token': token
                     },
                     success: function (data) {
-                        // console.log(data);
                         var new_data = data.data.store.customers;
                         var i;
                         new_data.forEach(customer => {

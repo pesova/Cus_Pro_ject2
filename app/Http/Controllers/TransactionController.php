@@ -11,8 +11,6 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-// use GuzzleHttp\Psr7;
-// use GuzzleHttp\Psr7\Response;
 
 class TransactionController extends Controller
 {
@@ -33,6 +31,7 @@ class TransactionController extends Controller
     public function index()
     {
         $transacUrl = $this->host . '/transaction/store_admin';
+        // display all stores
         $storeUrl = $this->host . '/store';
         $api_token = $this->api_token;
 
@@ -52,15 +51,13 @@ class TransactionController extends Controller
                 $stores = json_decode($storeResponse->getBody())->data->stores;
                 $transactions = json_decode($transactionResponse->getBody())->data->transactions;
 
-                // dd($transactions);
-
                 return view('backend.transaction.index', compact("stores", "api_token", "transactions"));
             } else if($storeStatusCode == 401 && $transacStatusCode == 401){
                 return redirect()->route('login')->with('message', "Please Login Again");
              } 
         } catch (RequestException $e) {
 
-            Log::info('Catch error: LoginController - ' . $e->getMessage());
+            Log::info('Catch error: TransactionController - ' . $e->getMessage());
             // check for 5xx server error
             if ($e->getResponse()->getStatusCode() >= 500) {
                 return view('errors.500');
