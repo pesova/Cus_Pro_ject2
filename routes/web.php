@@ -143,7 +143,7 @@ Route::prefix('/admin')->group(function () {
             Route::resource('complaint', 'ComplaintController')->only(['index', 'create', 'store']);
 
             // customer crud
-            Route::resource('customer', 'CustomerController')->only(['index', 'show', 'store','edit','destroy']); //todo: remove edit, destroy and store
+            Route::resource('customer', 'CustomerController')->only(['index', 'show', 'store','edit','destroy','update']); //todo: remove edit, update, destroy and store
 
             // });
         }

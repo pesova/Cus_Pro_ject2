@@ -93,7 +93,8 @@ class LoginController extends Controller
                     }
 
                     // store data to cookie
-                    Cookie::queue('id', $assistant->user->_id);
+                    Cookie::queue('id', $assistant->user->_id); // todo: remove this later. I left it just in case an error occurs. it has been here for a long time
+                    Cookie::queue('user_id', $assistant->user->_id);
                     Cookie::queue('name', $assistant->user->name);
                     Cookie::queue('email', $assistant->user->email);
                     Cookie::queue('store_id', $assistant->user->store_id);
