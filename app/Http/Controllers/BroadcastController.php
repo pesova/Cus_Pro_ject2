@@ -60,7 +60,7 @@ class BroadcastController extends Controller
 
                 $stores = $stores->data->stores;
 
-                return view('backend.broadcasts.create')->with(['data' => $allCustomers, 'stores' => $stores]);
+                return view('backend.broadcasts.index')->with(['data' => $allCustomers, 'stores' => $stores]);
             }
 
             if ( $statusCode == 500 ) {
@@ -94,7 +94,7 @@ class BroadcastController extends Controller
      */
     public function create()
     {
-        return view('backend.broadcasts.send');
+        return view('backend.broadcasts.create');
     }
 
     /**
