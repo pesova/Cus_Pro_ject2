@@ -49,14 +49,14 @@
                             <i class='uil uil-file-alt mr-1'></i>Export
                             <i class="icon"><span data-feather="chevron-down"></span></i></button>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a href="#" class="dropdown-item notify-item">
+                            <button id="ExportReporttoExcel" class="dropdown-item notify-item">
                                 <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
                                 <span>Excel</span>
-                            </a>
-                            <a href="#" class="dropdown-item notify-item">
+                            </button>
+                            <button id="ExportReporttoPdf" class="dropdown-item notify-item">
                                 <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
                                 <span>PDF</span>
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -304,11 +304,30 @@
 <script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script src="/backend/assets/build/js/intlTelInput.js"></script>
 <script>
+    const export_filename = 'Mycustomers';
     $(document).ready(function () {
         $('#basic-datatable').DataTable({
             "pagingType": "full_numbers"
+            dom: 'Bftrip',
+            buttons:[
+                {
+                    extend: 'excel',
+                    className: 'd-none',
+                    title: export_filename,
+                }, {
+                    extend: 'pdf',
+                    className: 'd-none',
+                    title: export_filename,
+                    extension: '.pdf'
+                }
+            ]
+        } );
+        $("#ExportReporttoExcel").on("click", function() {
+            $( '.buttons-excel' ).trigger('click');
         });
-    });
+        $("#ExportReporttoPdf").on("click", function() {
+            $( '.buttons-pdf' ).trigger('click');
+        });
 
     var input = document.querySelector("#phone");
     var test = window.intlTelInput(input, {

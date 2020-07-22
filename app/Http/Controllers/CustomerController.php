@@ -32,9 +32,6 @@ class CustomerController extends Controller
      */
     public function index(Request $request)
     {
-
-        $id = Cookie::get('user_id');
-
         if (Cookie::get('user_role') == 'super_admin') {
             $url = $this->host . '/customer/all';
             $store_url = $this->host . '/store/all';
