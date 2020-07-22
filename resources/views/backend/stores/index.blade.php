@@ -262,11 +262,11 @@
                                                         Store</a>
                                                     <a class="dropdown-item" href="{{ route('store.edit', $store->_id) }}">Edit
                                                         store</a>
-                                                    <a class="dropdown-item" href="javascript:void(0)" onclick="$(this).parent().find('form').submit()">Delete store</a>
-                                                    <form action="{{ route('store.destroy', $store->_id) }}" method="POST" id="form">
+                                                    <a class="dropdown-item" href="rrr" data-toggle="modal" data-target="#storeDelete">Delete store</a>
+                                                    {{-- <form action="{{ route('store.destroy', $store->_id) }}" method="POST" id="form">
                                                         @method('DELETE')
                                                         @csrf
-                                                    </form>
+                                                    </form> --}}
                                                 </div>
                                             </div>
                                         </td>
@@ -275,6 +275,37 @@
 
 
                                     @endforeach
+
+
+{{-- Modal for delete Store --}}
+<div class="modal fade" id="storeDelete" tabindex="-1" role="dialog" aria-labelledby="storeDeleteLabel"
+aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="storeDeleteLabel">Delete Transaction</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <form class="form-horizontal" method="POST"
+            action="{{ route('store.destroy', $storeData->_id) }}">
+            <div class="modal-body">
+                @csrf
+                @method('DELETE')
+                <h6>Are you sure you want to delete this Store</h6>
+            </div>
+            <div class="modal-footer">
+                <div class="">
+                    <button type="submit" class="btn btn-primary mr-3" data-dismiss="modal"><i data-feather="x"></i>
+                        Close</button>
+                    <button type="submit" class="btn btn-danger"><i data-feather="trash-2"></i> Delete</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
 
 
                                 </tbody>
