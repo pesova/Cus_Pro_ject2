@@ -118,18 +118,6 @@
 @endsection
 
 @section("javascript")
-<<<<<<< HEAD
-
-<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
-<script src="/backend/assets/build/js/intlTelInput.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#debtorsTable').DataTable({});
-    });
-
-</script>
-=======
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
@@ -168,7 +156,6 @@
 </script>
 
 {{-- @if (\Illuminate\Support\Facades\Cookie::get('is_first_time_user') == true) --}}
->>>>>>> 745591df9d1eccfed29b3636e54bc57c65a34674
 <script>
     var debtors_intro_shown = localStorage.getItem('debtors_intro_shown');
 
