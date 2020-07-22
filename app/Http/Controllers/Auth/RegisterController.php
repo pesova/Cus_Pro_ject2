@@ -95,7 +95,7 @@ class RegisterController extends Controller
 
                         $data = $res->data->user->local;
                         $api_token = $res->data->user->api_token;
-                        $user_role = $res->data->user->user_role;
+                        $user_role = $res->data->user->local->user_role;
 
                         // store data to cookie
                         Cookie::queue('user_role', $user_role);
@@ -103,8 +103,10 @@ class RegisterController extends Controller
                         Cookie::queue('is_active', $data->is_active);
                         Cookie::queue('phone_number', $data->phone_number);
                         Cookie::queue('user_id', $res->data->user->_id);
-                        Cookie::queue('expires', strtotime('+ 1 hour'));
-                        Cookie::queue('is_first_time_user', true);
+                        Cookie::queue('expires', strtotime('+ 1 day'));
+
+                        // Set is first timer so intros can show
+                        Cookie::queue('is_first_time_user' , true);
 
                         return redirect()->route('activate.index');
                     }
