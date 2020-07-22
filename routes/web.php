@@ -195,7 +195,7 @@ Route::prefix('/admin')->group(function () {
             return redirect('/admin/debtor/create');
         })->name('debts.reminder');
 
-        Route::get('debt.search', 'DebtorController@search')->name('debt.search');
+        // Route::get('debt.search', 'DebtorController@search')->name('debt.search');
 
         Route::post('reminder', 'DebtorController@sendReminder')->name('reminder');
 

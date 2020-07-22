@@ -214,7 +214,6 @@
     $(document).ready(function () {
         $('#transactionTable').DataTable();
     });
-
 </script>
 
 <script>
@@ -236,7 +235,6 @@
                         'x-access-token': token
                     },
                     success: function (data) {
-                        // console.log(data);
                         var new_data = data.data.store.customers;
                         var i;
                         for (i = 0; i < 1; i++) {
