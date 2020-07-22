@@ -67,7 +67,6 @@ class TransactionController extends Controller
                 return redirect()->route('logout');
             }
             // get response to catch 4 errors
-            Log::info('Catch error: DebtorController - ' . $e->getMessage());
             if ($e->hasResponse()) {
                 $response = $e->getResponse()->getBody();
                 $result = json_decode($response);
@@ -76,10 +75,6 @@ class TransactionController extends Controller
                 $stores = [];
 
                 return view('backend.transaction.index',  compact('transactions', 'stores', 'api_token'));
-            }
-            if ($e->getCode() == 401) {
-                Session::flash('message', 'session expired');
-                return redirect()->route('logout');
             }
             return view('backend.transaction.show')->with('errors.500');
 

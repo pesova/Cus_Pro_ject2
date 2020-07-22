@@ -38,11 +38,11 @@
             <div class="row page-title">
                 <div class="col-md-12">
                     <h4 class="card-header mb-1 mt-0 float-left h5">List of Registered Customers</h4>
-
-                    <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#CustomerModal">
-                        New &nbsp;<i class="fa fa-plus my-float"></i>
-                    </a>
-
+                    @if(Cookie::get('user_role') != 'store_assistant')
+                        <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#CustomerModal">
+                            New &nbsp;<i class="fa fa-plus my-float"></i>
+                        </a>
+                    @endif
                     <div class="btn-group float-right mr-2">
                         <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
@@ -82,13 +82,7 @@
                                 <td>{{ ucfirst($response[$i]->name) }}</td>
                                 <td>{{ $response[$i]->phone_number }}</td>
                                 <td>{{ $response[$i]->store_name }}</td>
-                                {{-- <td>
-                                                    <span> &#8358; 1 500</span> <br>
-                                                    <span class="badge badge-primary">You Paid: 1000</span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-danger">&#8358; 500</span>
-                                                </td> --}}
+
                                 <td>
                                     <div class="btn-group mt-2 mr-1">
                                         <button type="button" class="btn btn-primary dropdown-toggle"
@@ -96,9 +90,11 @@
                                             Actions<i class="icon"><span data-feather="chevron-down"></span></i>
                                         </button>
                                         <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item"
-                                                href="{{ route('customer.edit', $response[$i]->store_id.'-'.$response[$i]->_id) }}">Edit
-                                                Customer</a>
+                                            @if(Cookie::get('user_role') == 'store_admin')
+                                                <a class="dropdown-item"
+                                                href="{{ route('customer.edit', $response[$i]->store_id.'-'.$response[$i]->_id) }}">
+                                                Edit Customer</a>
+                                            @endif
                                             <a class="dropdown-item"
                                                 href="{{ route('customer.show', $response[$i]->store_id.'-'.$response[$i]->_id) }}">View
                                                 Profile</a>
@@ -107,18 +103,20 @@
                                             Transaction</a>
                                             <a class="dropdown-item" href="{{ route('debtor.create') }}">Send
                                                 Reminder</a> --}}
-                                            <form id="delete-form-{{ $response[$i]->_id }}" method="POST"
-                                                action="{{ route('customer.destroy', $response[$i]->_id) }}"
-                                                style="display:none">
-                                                {{csrf_field()}}
-                                                {{method_field('DELETE')}}
-                                            </form>
-                                            <a style="margin-left: 1.5rem;" class="text-danger" href="" onclick="
-                                                                        if(confirm('Are you sure You want to delete this user'))
-                                                                        {event.preventDefault(); document.getElementById('delete-form-{{ $response[$i]->_id }}').submit();}
-                                                                        else{
-                                                                        event.preventDefault();
-                                                                    }"> Delete </a>
+                                            @if(Cookie::get('user_role') == 'store_admin')
+                                                <form id="delete-form-{{ $response[$i]->_id }}" method="POST"
+                                                    action="{{ route('customer.destroy', $response[$i]->_id) }}"
+                                                    style="display:none">
+                                                    {{csrf_field()}}
+                                                    {{method_field('DELETE')}}
+                                                </form>
+                                                <a style="margin-left: 1.5rem;" class="text-danger" href="" onclick="
+                                                        if(confirm('Are you sure You want to delete this user'))
+                                                        {event.preventDefault(); document.getElementById('delete-form-{{ $response[$i]->_id }}').submit();}
+                                                        else{
+                                                        event.preventDefault();
+                                                    }"> Delete </a>
+                                            @endif
                                         </div>
                                     </div>
                                 </td>
@@ -139,7 +137,7 @@
     </div>
 
 </div>
-
+@if(Cookie::get('user_role') != 'store_assistant')
 <div id="CustomerModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
     aria-hidden="true">
     <div class="modal-dialog">
@@ -209,6 +207,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div>
+@endif
 
 <div id="DebtModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -313,8 +312,14 @@
 
     var input = document.querySelector("#phone");
     var test = window.intlTelInput(input, {
-        // any initialisation options go here
-    })
+            // separateDialCode: true,
+        });
+
+        $("#phone").keyup(() => {
+            if ($("#phone").val().charAt(0) == 0) {
+                $("#phone").val($("#phone").val().substring(1));
+            }
+        });
 
     $("#submitForm").submit((e) => {
         e.preventDefault();
