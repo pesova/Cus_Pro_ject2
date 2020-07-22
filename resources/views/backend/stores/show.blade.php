@@ -24,11 +24,9 @@ $transactions = $response['transactions'];
         <nav aria-label="breadcrumb" class="float-right mt-1">
             <a href="javascript: void(0);" class="btn btn-warning waves-effect waves-light"> Edit Business Card</a>
 
-            <a href="{{ route('store.edit', $storeData->_id) }}" class="btn btn-success mr-2"><i
-                    class="far mr-2 fa-edit"></i>Edit
+            <a href="{{ route('store.edit', $storeData->_id) }}" class="btn btn-success mr-2"><i class="far mr-2 fa-edit"></i>Edit
                 Store</a>
-            <a href="javascript:void(0)" onclick="$(this).parent().find('form').submit()"
-                class="float-right btn btn-danger"><i class="fas fa-trash-alt mr-2"></i>Delete store</a>
+            <a href="javascript:void(0)" onclick="$(this).parent().find('form').submit()" class="float-right btn btn-danger"><i class="fas fa-trash-alt mr-2"></i>Delete store</a>
             <form action="{{ route('store.destroy', $storeData->_id) }}" method="POST" id="form">
                 @method('DELETE')
                 @csrf
@@ -83,8 +81,7 @@ $transactions = $response['transactions'];
                         <div class="text-muted mt-4">
                             <h4>1,452 <i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
                             <div class="d-flex">
-                                <span class="badge badge-soft-success font-size-12"> + 0.2% </span> <span
-                                    class="ml-2 text-truncate">From previous Month</span>
+                                <span class="badge badge-soft-success font-size-12"> + 0.2% </span> <span class="ml-2 text-truncate">From previous Month</span>
                             </div>
                         </div>
                     </div>
@@ -105,8 +102,7 @@ $transactions = $response['transactions'];
                         <div class="text-muted mt-4">
                             <h4>$ 28,452 <i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
                             <div class="d-flex">
-                                <span class="badge badge-soft-success font-size-12"> + 0.2% </span> <span
-                                    class="ml-2 text-truncate">From previous period</span>
+                                <span class="badge badge-soft-success font-size-12"> + 0.2% </span> <span class="ml-2 text-truncate">From previous period</span>
                             </div>
                         </div>
                     </div>
@@ -128,8 +124,7 @@ $transactions = $response['transactions'];
                             <h4>$ 16.2 <i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
 
                             <div class="d-flex">
-                                <span class="badge badge-soft-warning font-size-12"> 0% </span> <span
-                                    class="ml-2 text-truncate">From previous Month</span>
+                                <span class="badge badge-soft-warning font-size-12"> 0% </span> <span class="ml-2 text-truncate">From previous Month</span>
                             </div>
                         </div>
                     </div>
@@ -160,8 +155,7 @@ $transactions = $response['transactions'];
             <div class="card-body">
                 <h6 class="card-title mb-4 float-sm-left">Transaction Overview</h6>
                 <div class="btn-group float-right">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class='uil uil-file-alt mr-1'></i>Export
                         <i class="icon"><span data-feather="chevron-down"></span></i></button>
                     <div class="dropdown-menu dropdown-menu-right">
@@ -188,27 +182,46 @@ $transactions = $response['transactions'];
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card">
-                            <h4 class="card-title">{{ ucfirst($storeData->store_name) }} Transaction Overview</h4>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+
+                            <div class="card-body">
+                                <div class="btn-group float-right">
+                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class='uil uil-file-alt mr-1'></i>Export
+                                        <i class="icon"><span data-feather="chevron-down"></span></i></button>
+                                    <div class=" dropdown-menu dropdown-menu-right">
+                                        <button id="downloadLink" onclick="exportTableToExcel('basic-datatables', '{{ ucfirst($storeData->store_name) }} Transaction Overview')" class=" dropdown-item notify-item">
+                                            <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
+                                            <span>EXCEL</span>
+</button>
+                                        <button id="pdf" class="dropdown-item notify-item">
+                                            <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
+                                            <span>PDF</span>
+</button>
+                                    </div>
+                                </div>
+                                <h4 class="card-title">{{ ucfirst($storeData->store_name) }} Transaction Overview</h4><br>
+                                
+
+                                <table id="basic-datatables" class="table dt-responsive nowrap">
                                     
-                                    <table id="datatable-buttons" class="table dt-responsive">
-                                        <thead>
+                                    <thead>
                                         <tr>
                                             <th>S/N</th>
                                             <th>Customer Name </th>
-                                            <th data-priority="1">Amount</th>
-                                            <th data-priority="3">Transaction Type</th>
-                                            <th data-priority="1">Status</th>
-                                            <th data-priority="3"> </th>
+                                            <th>Transaction Type</th>
+                                            <th>Amount</th>
+                                            <th>Status</th>
+                                            <th></th>
                                         </tr>
-                                        </thead>
-                                        <tbody>
+                                    </thead>
+                                    <tbody>
                                         @foreach ($response['storeData']->customers as $transactions)
-                                        
-                                        @foreach ($transactions->transactions as $index => $transaction)  
-                                        
+
+                                        @foreach ($transactions->transactions as $index => $transaction)
+
                                         <tr>
                                             <td>{{ $number++ }}</td>
                                             <th>{{$transactions->name}}<span class="co-name"></span>
@@ -217,125 +230,151 @@ $transactions = $response['transactions'];
                                             <td>{{$transaction->amount}}</td>
                                             <td>{{$transaction->type}}</td>
                                             <td>
-                                            @if ($transaction->status == 0)
+                                                @if ($transaction->status == 0)
                                                 Unpaid
-                                            @else
+                                                @else
                                                 Paid
-                                            @endif
+                                                @endif
                                             </td>
-                                            <td> <a href="javascript: void(0);"
-                                                    class="btn btn-primary waves-effect waves-light"> View Transaction</a>
+                                            <td> <a href="javascript: void(0);" class="btn btn-primary waves-effect waves-light"> View Transaction</a>
                                             </td>
                                         </tr>
-                                        
+
                                         @endforeach
                                         @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
+                                    </tbody>
+                                </table>
 
                             </div>
+
                         </div>
                     </div>
-                
-    </div>
-</div>
-
+                </div>
 
             </div>
         </div>
-    </div> <!-- end col -->
+
+
+    </div>
+</div>
+</div> <!-- end col -->
 </div> <!-- end row -->
 
 
 @endsection
 
 @section("javascript")
-<script src="/backend/assets/build/js/intlTelInput.js"></script>
-<script src="/backend/assets/libs/datatables/jquery.dataTables.min.js"></script>
-<script src="/backend/assets/libs/datatables/dataTables.bootstrap4.min.js"></script>
-<script src="/backend/assets/libs/datatables/dataTables.responsive.min.js"></script>
-<script src="/backend/assets/libs/datatables/responsive.bootstrap4.min.js"></script>
-
-<script src="/backend/assets/libs/datatables/dataTables.buttons.min.js"></script>
-<script src="/backend/assets/libs/datatables/buttons.bootstrap4.min.js"></script>
-<script src="/backend/assets/libs/datatables/buttons.html5.min.js"></script>
-<script src="/backend/assets/libs/datatables/buttons.flash.min.js"></script>
-<script src="/backend/assets/libs/datatables/buttons.print.min.js"></script>
-
-<script src="/backend/assets/libs/datatables/dataTables.keyTable.min.js"></script>
-<script src="/backend/assets/js/pages/datatables.init.js"></script>
-<script src="/backend/assets/libs/datatables/dataTables.select.min.js"></script>
 <script>
-    $(document).ready(function () {
-    // start of transaction charts
-    var options = {
-    series: [{
-    name: 'Likes',
-    data: [4, 3, 10, 9, 29, 19, 22, 9, 12, 7, 19, 5, 13, 9, 17, 2, 7, 5]
-    }],
-    chart: {
-    height: 350,
-    type: 'line',
-    },
-    stroke: {
-    width: 7,
-    curve: 'smooth'
-    },
-    xaxis: {
-    type: 'datetime',
-    categories: ['1/11/2000', '2/11/2000', '3/11/2000', '4/11/2000', '5/11/2000', '6/11/2000', '7/11/2000', '8/11/2000',
-    '9/11/2000', '10/11/2000', '11/11/2000', '12/11/2000', '1/11/2001', '2/11/2001', '3/11/2001','4/11/2001' ,'5/11/2001'
-    ,'6/11/2001'],
-    },
-    title: {
-    text: '',
-    align: 'left',
-    style: {
-    fontSize: "16px",
-    color: '#666'
-    }
-    },
-    fill: {
-    type: 'gradient',
-    gradient: {
-    shade: 'dark',
-    gradientToColors: [ '#FDD835'],
-    shadeIntensity: 1,
-    type: 'horizontal',
-    opacityFrom: 1,
-    opacityTo: 1,
-    stops: [0, 100, 100, 100]
-    },
-    },
-    markers: {
-    size: 4,
-    colors: ["#FFA41B"],
-    strokeColors: "#fff",
-    strokeWidth: 2,
-    hover: {
-    size: 7,
-    }
-    },
-    yaxis: {
-    min: -10,
-    max: 40,
-    title: {
-    text: 'Cash Flow',
-    },
-    }
-    };
+    $('#basic-datatables').dataTable( {
+  "lengthMenu": [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"] ]
+} );
+</script>
+<script>
+   $('#pdf').on('click',function(){
+    $("#basic-datatables").tableHTMLExport({type:'pdf',filename:'{{ ucfirst($storeData->store_name) }} Transaction Overview.pdf'});
+  })
+</script>
+  <script>
+     function exportTableToExcel(tableID, filename = ''){
+    var downloadLink;
+    var dataType = 'application/vnd.ms-excel';
+    var tableSelect = document.getElementById(tableID);
+    var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
     
-    var chart = new ApexCharts(document.querySelector("#transactionchart"), options);
-    chart.render();
+    // Specify file name
+    filename = filename?filename+'.xls':'excel_data.xls';
     
+    // Create download link element
+    downloadLink = document.createElement("a");
     
+    document.body.appendChild(downloadLink);
+    
+    if(navigator.msSaveOrOpenBlob){
+        var blob = new Blob(['\ufeff', tableHTML], {
+            type: dataType
+        });
+        navigator.msSaveOrOpenBlob( blob, filename);
+    }else{
+        // Create a link to the file
+        downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+    
+        // Setting the file name
+        downloadLink.download = filename;
+        
+        //triggering the function
+        downloadLink.click();
+    }
+}
+  </script>
+<script>
+    $(document).ready(function() {
+        // start of transaction charts
+        var options = {
+            series: [{
+                name: 'Likes',
+                data: [4, 3, 10, 9, 29, 19, 22, 9, 12, 7, 19, 5, 13, 9, 17, 2, 7, 5]
+            }],
+            chart: {
+                height: 350,
+                type: 'line',
+            },
+            stroke: {
+                width: 7,
+                curve: 'smooth'
+            },
+            xaxis: {
+                type: 'datetime',
+                categories: ['1/11/2000', '2/11/2000', '3/11/2000', '4/11/2000', '5/11/2000', '6/11/2000', '7/11/2000', '8/11/2000',
+                    '9/11/2000', '10/11/2000', '11/11/2000', '12/11/2000', '1/11/2001', '2/11/2001', '3/11/2001', '4/11/2001', '5/11/2001', '6/11/2001'
+                ],
+            },
+            title: {
+                text: '',
+                align: 'left',
+                style: {
+                    fontSize: "16px",
+                    color: '#666'
+                }
+            },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    shade: 'dark',
+                    gradientToColors: ['#FDD835'],
+                    shadeIntensity: 1,
+                    type: 'horizontal',
+                    opacityFrom: 1,
+                    opacityTo: 1,
+                    stops: [0, 100, 100, 100]
+                },
+            },
+            markers: {
+                size: 4,
+                colors: ["#FFA41B"],
+                strokeColors: "#fff",
+                strokeWidth: 2,
+                hover: {
+                    size: 7,
+                }
+            },
+            yaxis: {
+                min: -10,
+                max: 40,
+                title: {
+                    text: 'Cash Flow',
+                },
+            }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#transactionchart"), options);
+        chart.render();
+
+
     });
-    
+
     var input = document.querySelector("#phone");
     window.intlTelInput(input, {
         // any initialisation options go here
     });
-   
 </script>
 @stop
