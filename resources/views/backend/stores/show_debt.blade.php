@@ -53,14 +53,14 @@ $transactions = $response['transactions'];
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        @foreach ($response['storeData']->customers as $transactions)
+                                        @foreach ($response['storeData']->customers as $customers)
                                         
-                                        @foreach ($transactions->transactions as $index => $transaction)  
+                                        @foreach ($customers->transactions as $index => $transaction)  
                                         @if ($transaction->status == 0)
                                         <tr>
                                             <td>{{$number++ }}</td>
-                                            <th>{{$transactions->name}}<span class="co-name"></span>
-                                                <br> <span class="font-light">{{$transactions->phone_number}}</span>
+                                            <th>{{$customers->name}}<span class="co-name"></span>
+                                                <br> <span class="font-light">{{$customers->phone_number}}</span>
                                             </th>
                                             <td>{{$transaction->amount}}</td>
                                             <td>{{$transaction->type}}</td>
@@ -95,7 +95,7 @@ $transactions = $response['transactions'];
             <div class="modal-body">
                 <form action="{{ route('reminder') }}" method="POST">
                     @csrf
-                    <input type="hidden" name="transaction_id" value="{{$transactions->_id}}">
+                    <input type="hidden" name="transaction_id" value="{{$customers->_id}}">
                     
                     <div class="form-group">
                         <label>Message</label>

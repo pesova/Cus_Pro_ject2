@@ -443,10 +443,10 @@ class StoreController extends Controller
             // check for 5xx server error
             if ($e->getResponse()->getStatusCode() >= 500) {
                 return view('errors.500');
-            } else if ($e->getResponse()->getStatusCode() >= 401) {
+            } else if ($e->getResponse()->getStatusCode() == 401) {
                 $request->session()->flash('alert-class', 'alert-danger');
                 Session::flash('message', "Your Session Has Expired, Please Login Again");
-                return redirect()->route('store.index');
+                return redirect()->route('logout');
             }
             // get response to catch 4xx errors
             $response = json_decode($e->getResponse()->getBody());
