@@ -227,7 +227,7 @@ class LoginController extends Controller
     public function validateUser(Request $request){
 
 		$rules = [
-            'phone_number' => ['required', 'min:6', 'max:16', new DoNotAddIndianCountryCode, new DoNotPutCountryCode],
+            'phone_number' => ['required', 'min:6', new DoNotAddIndianCountryCode, new DoNotPutCountryCode],
             'password' => ['required', 'min:6']
         ];
 
