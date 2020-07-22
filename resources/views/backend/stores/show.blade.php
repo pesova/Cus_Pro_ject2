@@ -221,7 +221,6 @@ $transactions = $response['transactions'];
                                         @foreach ($response['storeData']->customers as $transactions)
 
                                         @foreach ($transactions->transactions as $index => $transaction)
-
                                         <tr>
                                             <td>{{ $number++ }}</td>
                                             <th>{{$transactions->name}}<span class="co-name"></span>
@@ -236,7 +235,7 @@ $transactions = $response['transactions'];
                                                 Paid
                                                 @endif
                                             </td>
-                                            <td> <a href="javascript: void(0);" class="btn btn-primary waves-effect waves-light"> View Transaction</a>
+                                            <td> <a href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id.'-'.$transaction->customer_ref_id) }}" class="btn btn-primary waves-effect waves-light"> View Transaction</a>
                                             </td>
                                         </tr>
 
