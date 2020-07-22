@@ -111,14 +111,12 @@ class LoginController extends Controller
                     // return view('backend.dashboard.assistant.index')->with('assistant', $assistant);
 
                 } else {
-                    $message = $response->message;
-                    $request->session()->flash('message', $message);
+                    $request->session()->flash('message', 'Invalid Credentials');
                     return redirect()->route('login.assistant');
                 }
             }
 
-            $message = $response->message;
-            $request->session()->flash('message', $message);
+            $request->session()->flash('message', 'Invalid Credentials');
             return redirect()->route('login.assistant');
         } catch (RequestException $e) {
             //log error;
@@ -128,7 +126,7 @@ class LoginController extends Controller
                     // get response to catch 4xx errors
                     $response = json_decode($e->getResponse()->getBody());
                     $request->session()->flash('alert-class', 'alert-danger');
-                    $request->session()->flash('message', $response->message);
+                    $request->session()->flash('message', 'Invalid Credentials');
                     return redirect()->route('login.assistant');
                 }
             }
@@ -187,14 +185,12 @@ class LoginController extends Controller
                     }
                     return redirect()->route('dashboard');
                 } else {
-                    $message = isset($response->Message) ? $response->Message : $response->message;
-                    $request->session()->flash('message', $message);
+                    $request->session()->flash('message', 'Invalid Credentials');
                     return redirect()->route('login');
                 }
             }
 
-            $message = isset($response->Message) ? $response->Message : $response->message;
-            $request->session()->flash('message', $message);
+            $request->session()->flash('message', 'Invalid Credentials');
             return redirect()->route('login');
         } catch (RequestException $e) {
             //log error;
@@ -205,12 +201,7 @@ class LoginController extends Controller
                     // get response to catch 4xx errors
                     $response = json_decode($e->getResponse()->getBody());
                     $request->session()->flash('alert-class', 'alert-danger');
-                    if (isset($response->error->description)) {
-                        $request->session()->flash('message', $response->error->description);
-                    } else {
-                        $message = isset($response->Message) ? $response->Message : $response->message;
-                        $request->session()->flash('message', $message);
-                    }
+                    $request->session()->flash('message', 'Invalid Credentials');
                     return redirect()->route('login');
                 }
             }
@@ -231,6 +222,11 @@ class LoginController extends Controller
             'password' => ['required', 'min:6']
         ];
 
-		$this->validate($request, $rules);
+        $messages = [
+            'phone_number.*' => 'Invalid Credentials',
+            'password.*' => 'Invalid Credentials',
+        ];
+
+		$this->validate($request, $rules, $messages);
     }
 }
