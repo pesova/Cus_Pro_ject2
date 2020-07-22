@@ -15,6 +15,36 @@ $storeData = $response['storeData'];
 $transactions = $response['transactions'];
 @endphp
 
+
+
+
+{{-- @foreach ($response['storeData']->customers as $transactions)
+                                        
+@foreach ($transactions->transactions as $index => $transaction)  
+
+@php
+$customers_name = $transactions->name;
+$customers_phoneNumber = $transactions->phone_number;
+
+$Transaction_Amount = $transaction->amount;
+$Transaction_type = $transaction->type;
+
+if($Transaction_type == "dept"){
+    $each_Dept = $Transaction_Amount;
+}
+
+@endphp
+     
+
+@endforeach
+@endforeach --}}
+
+
+
+
+
+
+
 @section('content')
 
 <!-- Start Content-->
@@ -56,7 +86,7 @@ $transactions = $response['transactions'];
 
                             <ul class="pl-3 mb-0">
                                 <li class="py-1">Assistants: 130</li>
-                                <li class="py-1">Customers: 1234</li>
+                                <li class="py-1">Customers: {{count( $storeData->customers )}}</li>
                             </ul>
                         </div>
                     </div>
@@ -68,6 +98,27 @@ $transactions = $response['transactions'];
         </div>
     </div>
     <div class="col-xl-8">
+        {{-- @foreach ($response['storeData']->customers as $transactions)
+                                                
+        @foreach ($transactions->transactions as $index => $transaction)  
+
+        @php
+            $customers_name = $transactions->name;
+            $customers_phoneNumber = $transactions->phone_number;
+
+            $Transaction_Amount = $transaction->amount;
+            $Transaction_type = $transaction->type;
+
+            if($transaction->type == "debt"){
+                $each_Debt = $transaction->amount;
+            } else {
+                $each_Debt = "hee";
+            }
+
+        @endphp --}}
+            
+
+        
         <div class="row">
             <div class="col-sm-4">
                 <div class="card">
@@ -125,7 +176,37 @@ $transactions = $response['transactions'];
                             <h5 class="font-size-14 mb-0">Debt</h5>
                         </div>
                         <div class="text-muted mt-4">
-                            <h4>$ 16.2 <i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
+                            {{-- showing all depts --}}
+                            @php
+                                $totalDept = 0;
+                            @endphp
+
+                            @foreach ($response['storeData']->customers as $transactions)
+                                                
+                            @foreach ($transactions->transactions as $index => $transaction) 
+
+                                {{-- @if ($transaction->type == "debt")
+                                    {{ $totalDept = 0 }}
+                                    {{ $totalDept += $transaction->amount }}
+                                    
+                                @else
+                                    {{ $totalDept = $transaction->amount}}                               
+
+                                @endif --}}
+
+                                @php
+                                    if ($transaction->type == "debt") {
+                                        $eachDept = $transaction->amount;
+                                        $totalDept += $eachDept;
+                                    }
+                                    
+                                @endphp
+                            @endforeach
+                            @endforeach
+                            <h4> 
+                                {{  $totalDept }}<i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
+
+                                
 
                             <div class="d-flex">
                                 <span class="badge badge-soft-warning font-size-12"> 0% </span> <span
