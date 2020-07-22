@@ -104,7 +104,8 @@ class LoginController extends Controller
                     Cookie::queue('phone_number', $assistant->user->phone_number);
 
                     Cookie::queue('expires', strtotime('+ 1 day'));
-                    Cookie::queue('is_first_time_user', true);
+
+                    Cookie::queue('is_first_time_user', false);
 
                     return view('backend.dashboard.assistant.index', compact('assistant'));
                     // return view('backend.dashboard.assistant.index')->with('assistant', $assistant);
@@ -173,7 +174,8 @@ class LoginController extends Controller
                     Cookie::queue('user_id', $response->data->user->_id);
                     // Cookie::queue('image', $response->data->user->image);
                     Cookie::queue('expires', strtotime('+ 1 day'));
-                    Cookie::queue('is_first_time_user', true);
+
+                    Cookie::queue('is_first_time_user', false);
 
                     //show success message
                     $request->session()->flash('alert-class', 'alert-success');
