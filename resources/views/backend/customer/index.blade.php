@@ -327,7 +327,7 @@
     });
 
 </script>
-{{-- @if (\Illuminate\Support\Facades\Cookie::get('is_first_time_user') == true) --}}
+{{-- @if ( Cookie::get('is_first_time_user') == true) --}}
 <script>
     var customer_intro_shown = localStorage.getItem('customer_intro_shown');
 
@@ -364,7 +364,6 @@
         tour.start();
         localStorage.setItem('customer_intro_shown', 1);
     }
-
 </script>
-{{-- @else --}}
+{{-- @endif --}}
 @stop

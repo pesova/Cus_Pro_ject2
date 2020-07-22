@@ -93,7 +93,8 @@ class LoginController extends Controller
                     }
 
                     // store data to cookie
-                    Cookie::queue('id', $assistant->user->_id);
+                    Cookie::queue('id', $assistant->user->_id); // todo: remove this later. I left it just in case an error occurs. it has been here for a long time
+                    Cookie::queue('user_id', $assistant->user->_id);
                     Cookie::queue('name', $assistant->user->name);
                     Cookie::queue('email', $assistant->user->email);
                     Cookie::queue('store_id', $assistant->user->store_id);
@@ -103,7 +104,8 @@ class LoginController extends Controller
                     Cookie::queue('phone_number', $assistant->user->phone_number);
 
                     Cookie::queue('expires', strtotime('+ 1 day'));
-                    Cookie::queue('is_first_time_user', true);
+
+                    Cookie::queue('is_first_time_user', false);
 
                     return view('backend.dashboard.assistant.index', compact('assistant'));
                     // return view('backend.dashboard.assistant.index')->with('assistant', $assistant);
@@ -172,7 +174,8 @@ class LoginController extends Controller
                     Cookie::queue('user_id', $response->data->user->_id);
                     // Cookie::queue('image', $response->data->user->image);
                     Cookie::queue('expires', strtotime('+ 1 day'));
-                    Cookie::queue('is_first_time_user', true);
+
+                    Cookie::queue('is_first_time_user', false);
 
                     //show success message
                     $request->session()->flash('alert-class', 'alert-success');

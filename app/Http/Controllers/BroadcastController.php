@@ -60,7 +60,7 @@ class BroadcastController extends Controller
 
                 $stores = $stores->data->stores;
 
-                return view('backend.broadcasts.create')->with(['data' => $allCustomers, 'stores' => $stores]);
+                return view('backend.broadcasts.index')->with(['data' => $allCustomers, 'stores' => $stores]);
             }
 
             if ( $statusCode == 500 ) {
@@ -94,23 +94,7 @@ class BroadcastController extends Controller
      */
     public function create()
     {
-        $presetMessages = [
-            "Count not the candles…see the lights they give. 
-            Count not the years, but the life you live. 
-            Wishing you a wonderful time ahead. 
-            Happy birthday.",
-
-            "Wave goodbye to the old and embrace the new with hope, 
-            dreams and ambition. Wishing you a Happy New Year full of happiness!.",
-
-            "As you celebrate your Nation today, celebrate your freedom with head
-            held high, no one has the right to take it from you, Happy Independence Day.",
-            
-            "Seasons Greetings, as you celebrate this period with your loved ones, 
-            we wish you good tidings to you and your loved ones. Merry Christmas",
-
-        ];
-        return view('backend.broadcasts.send');
+        return view('backend.broadcasts.create');
     }
 
     /**
