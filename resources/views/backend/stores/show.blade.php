@@ -118,7 +118,7 @@ if($Transaction_type == "dept"){
                             <h5 class="text-primary">{{ ucfirst($storeData->store_name) }}</h5>
 
                             <ul class="pl-3 mb-0">
-                                <li class="py-1">Assistants: 130</li>
+                                <li class="py-1">Assistants: {{count( $storeData->assistants )}}</li>
                                 <li class="py-1">Customers: {{count( $storeData->customers )}}</li>
                             </ul>
                         </div>
