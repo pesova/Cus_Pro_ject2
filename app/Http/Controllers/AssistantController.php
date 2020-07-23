@@ -252,8 +252,8 @@ class AssistantController extends Controller
 
 
             } else {
-                return view('errors.500');
-                // return back()->withErrors("An Error Occured. Please try again later");
+                // return view('errors.500');
+                return back()->withErrors("An Error Occured. Please try again later");
             }
 
 
