@@ -15,6 +15,64 @@ $storeData = $response['storeData'];
 $transactions = $response['transactions'];
 @endphp
 
+
+@php
+$totalDept = 0;
+$total_interest = 0;
+$total_Revenue = 0;
+$total_interestRevenue = 0;
+$total_Receivables = 0;
+$total_interestReceivables = 0;
+@endphp
+
+@foreach ($response['storeData']->customers as $transactions)
+                
+@foreach ($transactions->transactions as $index => $transaction) 
+
+{{-- @if ($transaction->type == "debt")
+    {{ $totalDept = 0 }}
+    {{ $totalDept += $transaction->amount }}
+    
+@else
+    {{ $totalDept = $transaction->amount}}                               
+
+@endif --}}
+
+@php
+//get for all debts
+    if ($transaction->type == "debt") {
+        $eachDept = $transaction->amount;
+        $totalDept += $eachDept;
+        $each_interest = $transaction->interest;
+        $total_interest += $each_interest;
+    }
+
+//get for all revenues
+    if ($transaction->type == "Paid") {
+        $eachRevenue = $transaction->amount;
+        $total_Revenue += $eachRevenue;
+        $each_interestRevenue = $transaction->interest;
+        $total_interestRevenue += $each_interestRevenue;
+    }
+
+    //get for all receivables
+    if ($transaction->type == "receivables") {
+        $eachReceivables = $transaction->amount;
+        $total_Receivables += $eachReceivables;
+        $each_interestReceivables = $transaction->interest;
+        $total_interestReceivables += $each_interestReceivables;
+    }
+    
+@endphp
+@endforeach
+@endforeach
+
+
+
+
+
+
+
 @section('content')
 
 <!-- Start Content-->
@@ -26,12 +84,46 @@ $transactions = $response['transactions'];
 
             <a href="{{ route('store.edit', $storeData->_id) }}" class="btn btn-success mr-2"><i class="far mr-2 fa-edit"></i>Edit
                 Store</a>
-            <a href="javascript:void(0)" onclick="$(this).parent().find('form').submit()" class="float-right btn btn-danger"><i class="fas fa-trash-alt mr-2"></i>Delete store</a>
-            <form action="{{ route('store.destroy', $storeData->_id) }}" method="POST" id="form">
-                @method('DELETE')
-                @csrf
-            </form>
+            
 
+                <a data-toggle="modal" data-target="#storeDelete" href="" class="btn btn-danger">
+                    Delete &nbsp;<i data-feather="delete"></i>
+                </a>
+
+
+
+{{-- Modal for delete Store --}}
+                <div class="modal fade" id="storeDelete" tabindex="-1" role="dialog" aria-labelledby="storeDeleteLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="storeDeleteLabel">Delete Transaction</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form class="form-horizontal" method="POST"
+                action="{{ route('store.destroy', $storeData->_id) }}">
+                <div class="modal-body">
+                    @csrf
+                    @method('DELETE')
+                    <h6>Are you sure you want to delete this Store</h6>
+                </div>
+                <div class="modal-footer">
+                    <div class="">
+                        <button type="submit" class="btn btn-primary mr-3" data-dismiss="modal"><i data-feather="x"></i>
+                            Close</button>
+                        <button type="submit" class="btn btn-danger"><i data-feather="trash-2"></i> Delete</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+            
 
         </nav>
 
@@ -53,8 +145,8 @@ $transactions = $response['transactions'];
                             <h5 class="text-primary">{{ ucfirst($storeData->store_name) }}</h5>
 
                             <ul class="pl-3 mb-0">
-                                <li class="py-1">Assistants: 130</li>
-                                <li class="py-1">Customers: 1234</li>
+                                <li class="py-1">Assistants: {{count( $storeData->assistants )}}</li>
+                                <li class="py-1">Customers: {{count( $storeData->customers )}}</li>
                             </ul>
                         </div>
                     </div>
@@ -66,6 +158,10 @@ $transactions = $response['transactions'];
         </div>
     </div>
     <div class="col-xl-8">
+
+            
+
+        
         <div class="row">
             <div class="col-sm-4">
                 <div class="card">
@@ -79,9 +175,10 @@ $transactions = $response['transactions'];
                             <h5 class="font-size-14 mb-0">Revenue</h5>
                         </div>
                         <div class="text-muted mt-4">
-                            <h4>1,452 <i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
+                            <h4> {{ $total_Revenue }} <i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
                             <div class="d-flex">
-                                <span class="badge badge-soft-success font-size-12"> + 0.2% </span> <span class="ml-2 text-truncate">From previous Month</span>
+                                <span class="badge badge-soft-success font-size-12"> {{ $total_interestRevenue }}% </span> <span
+                                    class="ml-2 text-truncate">From previous Month</span>
                             </div>
                         </div>
                     </div>
@@ -97,12 +194,13 @@ $transactions = $response['transactions'];
                                     <i class="uil-atm-card"></i>
                                 </span>
                             </div>
-                            <h5 class="font-size-14 mb-0">Revenue</h5>
+                            <h5 class="font-size-14 mb-0">Receivables</h5>
                         </div>
                         <div class="text-muted mt-4">
-                            <h4>$ 28,452 <i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
+                            <h4>{{ $total_Receivables }} <i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
                             <div class="d-flex">
-                                <span class="badge badge-soft-success font-size-12"> + 0.2% </span> <span class="ml-2 text-truncate">From previous period</span>
+                                <span class="badge badge-soft-success font-size-12"> {{ $total_interestReceivables }}% </span> <span
+                                    class="ml-2 text-truncate">From previous period</span>
                             </div>
                         </div>
                     </div>
@@ -121,10 +219,16 @@ $transactions = $response['transactions'];
                             <h5 class="font-size-14 mb-0"><a href="{{ route('store_debt', $storeData->_id) }}">Debt</a></h5>
                         </div>
                         <div class="text-muted mt-4">
-                            <h4>$ 16.2 <i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
+                            {{-- showing all depts --}}
+
+                            <h4> 
+                                {{ $totalDept }}<i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
+
+                                
 
                             <div class="d-flex">
-                                <span class="badge badge-soft-warning font-size-12"> 0% </span> <span class="ml-2 text-truncate">From previous Month</span>
+                                <span class="badge badge-soft-warning font-size-12">{{ $total_interest }}%</span> <span
+                                    class="ml-2 text-truncate">From previous Month</span>
                             </div>
                         </div>
                     </div>

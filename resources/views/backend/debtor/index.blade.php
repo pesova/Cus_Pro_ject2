@@ -51,14 +51,14 @@
                         <i class='uil uil-file-alt mr-1'></i>Export
                         <i class="icon"><span data-feather="chevron-down"></span></i></button>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a href="#" class="dropdown-item notify-item">
+                        <button id="ExportReporttoExcel" class="dropdown-item notify-item">
                             <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
                             <span>Excel</span>
-                        </a>
-                        <a href="#" class="dropdown-item notify-item">
+                        </button>
+                        <button id="ExportReporttoPdf" class="dropdown-item notify-item">
                             <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
                             <span>PDF</span>
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -131,7 +131,7 @@
 <script>
     $(document).ready(function() {
         var export_filename = 'Mycustomerdebts';
-        $('#debtor-datatable').DataTable( {
+        $('#debtorsTable').DataTable( {
             dom: 'Bftrip',
             buttons:[
                 {
