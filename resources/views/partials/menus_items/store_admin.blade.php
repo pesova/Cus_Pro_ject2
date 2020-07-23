@@ -1,7 +1,7 @@
 <li>
     <a href="javascript: void(0);">
         <i class="uil uil-shop"></i>
-        <span> Store </span>
+        <span class = 'second'> Store </span>
         <span class="menu-arrow"></span>
     </a>
 
@@ -20,7 +20,7 @@
 <li>
     <a href="javascript: void(0);">
         <i data-feather="credit-card"></i>
-        <span> Transactions </span>
+        <span class='fourth'> Transactions </span>
         <span class="menu-arrow"></span>
     </a>
 
@@ -39,7 +39,7 @@
 <li>
     <a href="{{ route('customer.index') }}">
         <i class='uil uil-chat-bubble-user'></i>
-        <span class="fourth"> Customers </span>
+        <span class="third"> Customers </span>
     </a>
 </li>
 
@@ -47,13 +47,13 @@
 <li>
     <a href="{{ route('broadcast.index') }}">
         <i data-feather="message-square"></i>
-        <span> Broadcast Message </span>
+        <span class ='fifth'> Broadcast Message </span>
     </a>
 </li>
 
 <li>
     <a href="{{ route('complaint.index') }}">
         <i data-feather="book"></i>
-        <span> Complaint</span>
+        <span class ='sixth'> Complaint</span>
     </a>
 </li>

@@ -13,6 +13,7 @@ use GuzzleHttp\Exception\RequestException;
 // FOR COUNTRY CODE AND PHONE NUMBER IMPLEMENTATION
 use App\Rules\DoNotPutCountryCode;
 use App\Rules\NoZero;
+use stdClass;
 
 class CustomerController extends Controller
 {
@@ -52,18 +53,33 @@ class CustomerController extends Controller
 
             if ($statusCode == 200 && $statusCode2 == 200) {
 
-                $userData = json_decode($user_response->getBody())->data->customer;
                 $stores = json_decode($store_response->getBody())->data->stores;
                 $allCustomers = [];
 
-                foreach ($userData as $store) {
-                    foreach ($store->customers as $customer) {
-                        $customer->store_name = $store->storeName;
-                        $customer->store_id  = $store->storeId;
-                        $allCustomers[] = $customer;
+                if (Cookie::get('user_role') == 'super_admin') {
+                    $userData = json_decode($user_response->getBody())->data->customers;
+                    $_stores = [];
+                    foreach ($stores as $adminStores) {
+                        foreach ($adminStores as $store) {
+                            foreach ($store->customers as $customer) {
+                                $customer->store_name = $store->store_name;
+                                $customer->store_id  = $store->_id;
+                                $allCustomers[] = $customer;
+                            }
+                            $_stores[] = $store;
+                        }
+                    }
+                    $stores = $_stores;
+                } else {
+                    $userData = json_decode($user_response->getBody())->data->customer;
+                    foreach ($userData as $store) {
+                        foreach ($store->customers as $customer) {
+                            $customer->store_name = $store->storeName;
+                            $customer->store_id  = $store->storeId;
+                            $allCustomers[] = $customer;
+                        }
                     }
                 }
-
                 return view('backend.customer.index')->with(['response' => $allCustomers, 'stores' => $stores]);
             }
             $request->session()->flash('message', $user_response . '<br>' . $store_response);
@@ -91,6 +107,7 @@ class CustomerController extends Controller
             return view('backend.customer.show')->with('errors.500');
         } catch (Exception $e) {
             // token expired
+            dd($e->getMessage());
             if ($e->getCode() == 401) {
                 Session::flash('message', 'session expired');
                 return redirect()->route('logout');
@@ -204,17 +221,21 @@ class CustomerController extends Controller
         $store_id = explode('-', $id)[0];
         $customer_id = explode('-', $id)[1];
 
-        try {
+        if (Cookie::get('user_role') == 'super_admin') {
+            $url = $this->host . "/customer/admin/" . $store_id . "/" . $customer_id;
+        } else {
             $url = $this->host . "/customer/" . $store_id . "/" . $customer_id;
+        }
+
+        try {
             $client = new Client;
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
             $response = $client->request("GET", $url, $headers);
-            $data = json_decode($response->getBody());
+            $customer = json_decode($response->getBody())->data;
             if ($response->getStatusCode() == 200) {
-
-
-
-                return view('backend.customer.show')->with('customer', $data->data);
+                $result = $this->calculations($customer);
+                $chartData = $this->chartData($customer);
+                return view('backend.customer.show', compact('customer', 'result', 'chartData'));
             } else {
                 return view('errors.500');
             }
@@ -447,4 +468,47 @@ class CustomerController extends Controller
             return view('errors.500');
         }
     }
+
+    public function calculations($data)
+    {
+        $transactions = $data->customer->transactions;
+        $result = new stdClass;
+        $result->total_revenue = 0;
+        $result->total_debt = 0;
+        $result->total_receivables = 0;
+        $result->transactions = 0;
+
+        foreach ($transactions as $trensaction) {
+            if ($trensaction->type == 'debt') {
+                $result->total_debt += $trensaction->amount + ($trensaction->amount * $trensaction->interest);
+            } elseif ($trensaction->type == 'paid') {
+                $result->total_revenue += $trensaction->amount;
+            } else {
+                $result->total_receivables += $trensaction->amount;
+            }
+            $result->transactions += 1;
+        }
+
+        return $result;
+    }
+
+    public function chartData($data)
+    {
+        $transactions = $data->customer->transactions;
+        $result = [];
+
+        if (count($transactions) < 2) {
+            $_transactions['y'] = 0;
+            $_transactions['x'] = date('D, d M Y H:i:s');
+            $result[] = $_transactions;
+        }
+
+        foreach ($transactions as $trensaction) {
+            $_transactions['y'] = $trensaction->amount;
+            $_transactions['x'] = $trensaction->createdAt;
+            $result[] = $_transactions;
+        }
+        return $result;
+    }
+
 }
