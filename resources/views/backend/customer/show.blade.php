@@ -225,16 +225,10 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <div class="btn-group mt-2 mr-1">
-                                                    <button type="button" class="btn btn-info dropdown-toggle"
-                                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        Actions<i class="icon"><span data-feather="chevron-down"></span></i>
-                                                    </button>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="">Send debt reminder</a>
-                                                        <a class="dropdown-item" href="">View Transaction</a>
-                                                    </div>
-                                                </div>
+                                            <a class="btn btn-info btn-small py-1 px-2"
+                                                href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id.'-'.$transaction->customer_ref_id) }}">
+                                                View More
+                                            </a>
                                             </td>
                                         </tr>
                                         @endforeach
