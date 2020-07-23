@@ -5,8 +5,8 @@
                 <div class="row">
                     <div class="col-7">
                         <div class="text-primary p-3">
-                            <h5 class="text-primary">{{$store->store_name}}</h5>
-                            <p>{{$store->shop_address}}</p>
+                            <h5 class="text-primary">{{$data->storeName}}</h5>
+                            <p>{{$data->storeAddress}}</p>
                         </div>
                     </div>
                     <div class="col-5 align-self-end">
@@ -21,19 +21,54 @@
 
                             <div class="row">
                                 <div class="col-6">
-                                    <h5 class="font-size-15">125</h5>
+                                    <h5 class="font-size-15">{{$data->customerCount}}</h5>
                                     <p class="text-muted mb-0">Customers</p>
                                 </div>
                                 <div class="col-6">
-                                    <h5 class="font-size-15">$1245</h5>
+                                    <h5 class="font-size-15">${{$data->revenueAmount}}</h5>
                                     <p class="text-muted mb-0">Revenue</p>
                                 </div>
                             </div>
-                            <div class="mt-4">
-                                <a href="#" class="btn btn-primary waves-effect waves-light btn-sm">Delete
-                                    User
-                                </a>
-                            </div>
+                            @if(\Cookie::get('user_role') != 'store_assistant')
+                                <div class="mt-4">
+                                    <a href="#" class="btn btn-primary waves-effect waves-light btn-sm"  data-toggle="modal"
+                                       data-target="#DeleteModal">Delete
+                                        Assistant
+                                    </a>
+                                </div>
+                                <div id="DeleteModal" class="modal fade bd-example-modal-sm"
+                                     tabindex="-2" role="dialog" aria-labelledby="DeleteModal"
+                                     aria-hidden="true">
+                                    <div class="modal-dialog modal-sm">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="Title">
+                                                    Delete Assistant </h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Do you want to delete {{$data->name}}?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <form action="{{ route('assistants.destroy', $data->_id) }}"
+                                                      method="POST" id="form">
+                                                    @method('DELETE')
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-primary btn-danger">
+                                                        Delete
+                                                    </button>
+                                                </form>
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">No,
+                                                    I changed my mind
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -49,15 +84,15 @@
                         <tbody>
                         <tr>
                             <th scope="row">Full Name :</th>
-                            <td>{{$assistant->name}}</td>
+                            <td>{{$data->name}}</td>
                         </tr>
                         <tr>
                             <th scope="row">Mobile :</th>
-                            <td>{{$assistant->phone_number}}</td>
+                            <td>{{$data->phone_number}}</td>
                         </tr>
                         <tr>
                             <th scope="row">E-mail :</th>
-                            <td>{{$assistant->email}}</td>
+                            <td>{{$data->email}}</td>
                         </tr>
                         </tbody>
                     </table>
@@ -77,7 +112,7 @@
                         <div class="media">
                             <div class="media-body">
                                 <p class="text-muted font-weight-medium">Revenue</p>
-                                <h4 class="mb-0">125</h4>
+                                <h4 class="mb-0">{{$data->revenueCount}}</h4>
                             </div>
 
                             <div class="mini-stat-icon avatar-sm align-self-center rounded-circle bg-primary">
@@ -95,7 +130,7 @@
                         <div class="media">
                             <div class="media-body">
                                 <p class="text-muted font-weight-medium">Debt</p>
-                                <h4 class="mb-0">12</h4>
+                                <h4 class="mb-0">{{$data->debtCount}}</h4>
                             </div>
 
                             <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
@@ -113,7 +148,7 @@
                         <div class="media">
                             <div class="media-body">
                                 <p class="text-muted font-weight-medium">Receivables</p>
-                                <h4 class="mb-0">$36,524</h4>
+                                <h4 class="mb-0">${{$data->receivablesAmount}}</h4>
                             </div>
 
                             <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
@@ -156,12 +191,12 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @if(count($transactions) == 0)
+                        @if(count($data->recentTransactions) == 0)
                             <tr>
                                 <td colspan="4" class="text-center"> No Recent Transactions</td>
                             </tr>
                         @else
-                            @foreach($transactions as $transaction)
+                            @foreach($data->recentTransactions as $transaction)
 
                                 <tr>
                                     <th scope="row">{{$transaction->_id}}</th>

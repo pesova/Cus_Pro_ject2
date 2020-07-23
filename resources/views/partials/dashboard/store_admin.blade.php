@@ -20,7 +20,7 @@
                             <img src="/backend/assets/images/users/avatar-1.jpg" alt=""
                                  class="img-thumbnail rounded-circle">
                         </div>
-                        <h5 class="font-size-15 text-truncate">{{ Cookie::get('name') }}</h5>
+                        <h5 class="font-size-15 text-truncate">{{ Cookie::get('first_name') }}</h5>
                         <p class="text-muted mb-0 text-truncate">Store Admin</p>
                     </div>
 
@@ -29,16 +29,16 @@
 
                             <div class="row">
                                 <div class="col-6">
-                                    <h5 class="font-size-15">{{ count($customers) }}</h5>
+                                    <h5 class="font-size-15">{{ $data->customerCount }}</h5>
                                     <p class="text-muted mb-0">Customers</p>
                                 </div>
                                 <div class="col-6">
-                                    <h5 class="font-size-15">{{ count($stores) }}</h5>
+                                    <h5 class="font-size-15">{{ $data->storeCount }}</h5>
                                     <p class="text-muted mb-0">Store(s)</p>
                                 </div>
                             </div>
                             <div class="mt-4">
-                                <a href="#" class="btn btn-primary waves-effect waves-light btn-sm">View Profile
+                                <a href="{{route('setting')}}" class="btn btn-primary waves-effect waves-light btn-sm">View Profile
                                     <i class="uil-arrow-right ml-1"></i>
                                 </a>
                             </div>
@@ -54,9 +54,9 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <p class="text-muted">This month</p>
-                        <h3>$34,252</h3>
-                        <p class="text-muted"><span class="text-success mr-2"> 12% <i
-                                        class="mdi mdi-arrow-up"></i>
+                        <h3>${{$data->amountForCurrentMonth}}</h3>
+                        <p class="text-muted"><span class="text-{{$profit['profit']? 'success':'danger'}} mr-2"> {{$profit['percentage']}}
+                                % <i class="mdi mdi-arrow-down"></i>
                                 </span> From
                             previous month</p>
 
@@ -79,7 +79,7 @@
                         <div class="media">
                             <div class="media-body">
                                 <p class="text-muted font-weight-medium">Debt</p>
-                                <h4 class="mb-0">$1,235</h4>
+                                <h4 class="mb-0">${{$data->debtAmount}}</h4>
                             </div>
 
                             <div class="mini-stat-icon avatar-sm rounded-circle bg-primary align-self-center">
@@ -97,7 +97,7 @@
                         <div class="media">
                             <div class="media-body">
                                 <p class="text-muted font-weight-medium">Revenue</p>
-                                <h4 class="mb-0">$35, 723</h4>
+                                <h4 class="mb-0">${{$data->revenueAmount}}</h4>
                             </div>
 
                             <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
@@ -115,7 +115,7 @@
                         <div class="media">
                             <div class="media-body">
                                 <p class="text-muted font-weight-medium">Receivables</p>
-                                <h4 class="mb-0">$16.2</h4>
+                                <h4 class="mb-0">${{$data->receivablesAmount}}</h4>
                             </div>
 
                             <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
@@ -151,21 +151,37 @@
 
                 </div>
 
-                <div class="table-responsive mt-4 trans-table dissapear">
+                <div class="table-responsive mt-4 trans-table">
 
                     <table class="table table-hover table-nowrap mb-0">
                         <thead>
                         <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Type</th>
                             <th scope="col">Store Name</th>
+
+                            <th scope="col">Type</th>
                             <th scope="col">Amount</th>
                             <th scope="col"></th>
                         </tr>
                         </thead>
 
-                        <tbody class="my-transactions">
-
+                        <tbody class="my-transactionsb">
+                        @if(count($data->recentTransactions) > 0)
+                            @foreach($data->recentTransactions as $recentTransaction)
+                                <tr>
+                                    <td>{{$recentTransaction->storeName}}</td>
+                                    <td>{{$recentTransaction->transaction->type}}</td>
+                                    <td>{{$recentTransaction->transaction->amount}}</td>
+                                    <td>
+                                        <a class="btn btn-primary btn-sm"
+                                           href="{{ route('transaction.show', $recentTransaction->transaction->_id.'-'.$recentTransaction->transaction->store_ref_id.'-'.$recentTransaction->transaction->customer_ref_id) }}">View</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr>
+                                <td colspan="4" class="text-center">No Recent Transaction</td>
+                            </tr>
+                        @endif
                         </tbody>
                     </table>
                 </div>
@@ -185,8 +201,43 @@
                      class='mt-2 mb-3 debts-error'>
                 </div>
 
-                <div class="debts-table dissapear">
+                <div class="debts-table">
+                    <table class="table table-hover table-nowrap mb-0">
+                        <thead>
+                        <tr>
+                            <th scope="col">Store Name</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
 
+                        <tbody class="my-transactionsb">
+                        @if(count($data->recentDebts) > 0)
+                            @foreach($data->recentDebts as $recentDebt)
+                                <tr>
+                                    <td>{{$recentDebt->storeName}}</td>
+                                    <td>
+                                        @if($recentDebt->debt->status)
+                                            <span class="badge badge-success">Paid</span>
+                                        @else
+                                            <span class="badge badge-danger">Unpaid</span>
+                                        @endif
+                                    </td>
+                                    <td>{{$recentDebt->debt->amount}}</td>
+                                    <td>
+                                        <a class="btn btn-primary btn-sm"
+                                           href="{{ route('debtor.show', $recentDebt->debt->_id) }}">View</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr>
+                                <td colspan="4" class="text-center">No Recent Debts</td>
+                            </tr>
+                        @endif
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -262,124 +313,6 @@
 
         });
 
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', makeRequest);
-
-        async function getDashboard() {
-
-            let apiToken = "{{\Illuminate\Support\Facades\Cookie::get('api_token')}}";
-
-            const res = await fetch(`{{env('API_URL')}}/dashboard?token=${apiToken}`);
-            const dash = await res.json();
-
-            let myCustomers = document.querySelector('.my-customers');
-            let myStores = document.querySelector('.my-stores');
-            let myAssistants = document.querySelector('.my-assistants');
-            let myDebtors = document.querySelector('.my-debtors');
-            let myTransactions = document.querySelector('.my-transactions');
-            let debtList = document.querySelector('.debts-table');
-
-            myCustomers.innerText = dash.data.customerCount;
-            myStores.innerText = dash.data.storeCount;
-            myAssistants.innerText = dash.data.assistantCount;
-            myDebtors.innerText = dash.data.recentDebts.length
-
-            let recentTransactions = dash.data.recentTransactions.slice(0, 9)
-
-            if (recentTransactions.length == 0) {
-                document.querySelector('.trans-error').classList.add('dissapear');
-                document.querySelector('.trans-table').classList.remove('dissapear');
-
-                document.querySelector('.trans-table').innerHTML =
-                    `   <span style='width:100%; border-bottom:1px solid #eee; height: 1px'></span>
-              <div style="display:flex; justify-content:center;" class='mt-4 mb-3'>
-              You haven't made any transactions yet
-              </div>
-          `
-            } else {
-
-                document.querySelector('.trans-error').classList.add('dissapear');
-                document.querySelector('.trans-table').classList.remove('dissapear');
-
-                recentTransactions.forEach((item, index) => {
-                    let output =
-                        `
-              <tr>
-                  <td>${index}</td>
-                  <td>${item.transaction.type}</td>
-                  <td>${item.storeName}</td>
-                  <td>N${item.transaction.amount}</td>
-                  <td>
-                      <a href="/admin/transaction/${item.transaction._id}-${item.transaction.store_ref_id}-${item.transaction.customer_ref_id}"><span class="badge badge-soft-warning py-1">View</span></a>
-                  </td>
-              </tr>
-              `
-                    myTransactions.innerHTML += output
-                });
-            }
-            console.log(dash)
-
-            let recentDebts = dash.data.recentDebts.slice(0, 9)
-
-            if (recentDebts.length == 0) {
-                document.querySelector('.debts-error').classList.add('dissapear');
-                document.querySelector('.debts-table').classList.remove('dissapear');
-
-                debtList.innerHTML = `
-              <div style="display:flex; justify-content:center; text-align:center; width:100%" class='mt-2 mb-3'>No one is owing you</div>
-            `
-            } else {
-                document.querySelector('.debts-error').classList.add('dissapear');
-                document.querySelector('.debts-table').classList.remove('dissapear');
-
-                recentDebts.forEach(debt => {
-
-                    let status;
-
-                    if (debt.debt.status == false) {
-                        status = `<span class="badge badge-danger py-1">Unpaid</span>`
-                    } else {
-                        status = `<span class="badge badge-success py-1">Paid</span>`
-                    }
-
-                    let row =
-                        `
-              <div class="pt-2 pb-2" style="display: flex; justify-content:space-between; border-top: 1px solid #eee">
-
-                <div class="media-body">
-                  <h6 class="mt-1 mb-1 font-size-15">${debt.customerName}</h6>
-                  ${status}
-                </div>
-
-                <div class="media-body" style="display: flex">
-                  <p style="margin: 0; align-self: flex-end"><b> N${debt.debt.amount} </b></p>
-                </div>
-
-                <div class="dropdown float-right" style="align-self: flex-end">
-                  <a href="#" class="dropdown-toggle arrow-none text-muted" data-toggle="dropdown" aria-expanded="false">
-                      <i class="uil uil-ellipsis-v"></i>
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-right">
-                      <a href="/admin/debtor/${debt.debt._id}" class="dropdown-item"><i class="uil uil-edit-alt mr-2"></i>View</a>
-                  </div>
-                </div>
-
-              </div>
-              `
-                    debtList.innerHTML += row;
-                });
-            }
-            ;
-        };
-
-        function makeRequest() {
-            getDashboard().catch(err => {
-                document.querySelector('.trans-error').innerText = "Opps! Couldn't get content. Try refreshing"
-                document.querySelector('.debts-error').innerText = "Opps! Couldn't get content. Try refreshing"
-            })
-        }
     </script>
 
     {{-- @if ( Cookie::get('is_first_time_user') == true) --}}

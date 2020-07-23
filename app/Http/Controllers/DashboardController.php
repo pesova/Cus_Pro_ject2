@@ -57,6 +57,8 @@ class DashboardController extends Controller
             $debt_url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt';
             $store_url = env('API_URL', 'https://dev.api.customerpay.me') . '/store';
             $assistant_url = env('API_URL', 'https://dev.api.customerpay.me') . '/assistant';
+            $url = env('API_URL', 'https://dev.api.customerpay.me') . '/dashboard/';// . Cookie::get('user_id');
+
 
             try {
                 $client = new Client;
@@ -66,57 +68,37 @@ class DashboardController extends Controller
                     ]
                 ];
 
-                $transaction_response = $client->request('GET', $transaction_url, $payload);
-                $customer_response = $client->request('GET', $customer_url, $payload);
-                $debt_response = $client->request('GET', $debt_url, $payload);
-                $store_response = $client->request('GET', $store_url, $payload);
-                $assistant_response = $client->request('GET', $assistant_url, $payload);
+                $response = $client->request('GET', $url, $payload);
 
-                // Transaction endpoint is having issues
-                $transactionStatusCode = $transaction_response->getStatusCode();
-                $customerStatusCode = $customer_response->getStatusCode();
-                $debtStatusCode = $debt_response->getStatusCode();
-                $storeStatusCode = $store_response->getStatusCode();
-                $assistantStatusCode = $assistant_response->getStatusCode();
 
-                if ($transactionStatusCode == 200 && $customerStatusCode == 200 && $debtStatusCode == 200  
-                    && $storeStatusCode == 200 && $assistantStatusCode == 200) {
-
-                    $transactions = json_decode($transaction_response->getBody())->data->transactions;
-                    $customers = json_decode($customer_response->getBody())->data->customer;
-                    $debtors = json_decode($debt_response->getBody())->data->debts;
-                    $stores = json_decode($store_response->getBody())->data->stores;
-                    $assistants = json_decode($assistant_response->getBody())->data->assistants;
-                    
-                    // foreach ($debtors as $debtor){
-                        // $a = array($debtors()->amount);
-                        // dd($a);
-                    // }
-
-                    return view('backend.dashboard.index', compact([
-                        'transactions', 'customers', 'debtors', 'stores', 'assistants'
-                    ]));
+                if ($response->getStatusCode() == 200) {
+                    $data = json_decode($response->getBody());
+                    $data = $data->data;
+                    $thisMonth = $data->amountForCurrentMonth;
+                    $lastMonth = $data->amountForPreviousMonth;
+                    $diff = $thisMonth - $lastMonth;
+                    $profit = ($thisMonth > $lastMonth) ? true : false;
+                    $percentage = sprintf("%.2f", ($diff / 100));
+                    return view('backend.dashboard.index')->withData($data)->withProfit(['profit' => $profit, 'percentage' => $percentage]);
                 }
             } catch (RequestException $e) {
-
                 Log::info('Catch error: DashboardController - ' . $e->getMessage());
                 // check for 5xx server error
                 if ($e->getResponse()->getStatusCode() >= 500) {
                     return view('errors.500');
-                }
-                else {
+                } else {
                     return redirect()->route('logout');
-               }
+                }
 
             } catch (\Exception $e) {
-
                 Log::error('Catch error: StoreController - ' . $e->getMessage());
                 return view('errors.500');
             }
         } else { // Todo: remove this when dashboard API is available
+            //die();
             try {
                 // Get all stores first
-                $url = env('API_URL', 'https://dev.api.customerpay.me') . '/assistant/' . Cookie::get('user_id');
+                $url = env('API_URL', 'https://dev.api.customerpay.me') . '/dashboard/assistant/';// . Cookie::get('user_id');
                 $client = new Client();
                 $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
                 $response = $client->request("GET", $url, $headers);
@@ -124,45 +106,15 @@ class DashboardController extends Controller
                 // First get the assistant details
 
                 if ($response->getStatusCode() == 200) {
-                    $assistant = json_decode($response->getBody());
-                    $assistant = $assistant->data->store_assistant;
+                    $data = json_decode($response->getBody());
+                    $data = $data->data;
 
-                    // Then get the store details
+                    $data->name = $data->user->first_name;
+                    $data->phone_number = $data->user->phone_number;
+                    $data->email = $data->user->email;
 
-                    $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store/' . $assistant->store_id;
-                    $client = new Client();
-                    $response = $client->request("GET", $url, $headers);
+                    return view('backend.dashboard.index')->withData($data);
 
-                    if ($response->getStatusCode() == 200) {
-                        $store = json_decode($response->getBody());
-                        $store = $store->data->store;
-
-                        // Finally get the transactions
-                        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/transaction/store/' . $assistant->store_id;
-                        $client = new Client();
-                        $response = $client->request("GET", $url, $headers);
-
-                        if ($response->getStatusCode() == 200) {
-                            $transactions = json_decode($response->getBody());
-                            $transactions = $transactions->data->transactions;
-
-                            // get recent 10 transactions
-                            if (count($transactions) > 10) {
-                                $transactions = array_slice($transactions, 9);
-                            }
-
-                            return view('backend.dashboard.index')->with('assistant', $assistant)->withStore($store)->withTransactions($transactions);
-
-                        } else {
-                            return view('errors.500');
-                            // return back()->withErrors("An Error Occured. Please try again later");
-                        }
-
-
-                    } else {
-                        return view('errors.500');
-                        // return back()->withErrors("An Error Occured. Please try again later");
-                    }
 
                 } else {
                     return view('errors.500');
@@ -173,7 +125,7 @@ class DashboardController extends Controller
             } catch (\Exception $e) {
                 // dd($e->getCode());
                 if ($e->getCode() == 401) {
-                    return redirect()->route('logout')->withErrors("Please Login Again");
+                    return redirect()->route('logout');
                 }
                 return view('errors.500');
                 //return $response->getStatusCode();
