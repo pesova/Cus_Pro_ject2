@@ -106,9 +106,15 @@ class BroadcastController extends Controller
                 $request->session()->flash('alert-class', 'Broadcast message sent !');
                 return back();
             }
+
+            
         } catch (RequestException $e) {
             Log::error('Catch error: Create Broadcast' . $e->getMessage());
             $request->session()->flash('message', 'Ooops, failed to send broadcast, please try again');
+            if($e->getStatusCode() == 401){
+               
+                return redirect()->route("logout");
+            }
             return back();
         }
 

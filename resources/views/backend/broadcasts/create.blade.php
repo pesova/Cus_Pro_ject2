@@ -72,7 +72,7 @@
 
                                 <div class="form-group">
                                     <label>Message</label>
-                                    <textarea rows="5" class="form-control col-12" name="message">
+                                    <textarea rows="5" class="form-control col-12" name="message" maxlength="100">
                                     @if(isset($template))
                                     {{$template}}  
                                     @endif                                                                                      
