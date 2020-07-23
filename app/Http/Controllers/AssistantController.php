@@ -253,7 +253,9 @@ class AssistantController extends Controller
 
             } else {
                 // return view('errors.500');
-                return back()->withErrors("An Error Occured. Please try again later");
+                Session::flash('alert-class', 'alert-danger');
+                Session::flash('message', "An Error occured please try again later");
+                return back();
             }
 
 
@@ -317,7 +319,7 @@ class AssistantController extends Controller
             }
 
         } catch (\Exception $e) {
-           //  dd($e);
+            //  dd($e);
             // dd($e->getCode());
             if ($e->getCode() == 401) {
                 return redirect()->route('logout')->withErrors("Please Login Again");
