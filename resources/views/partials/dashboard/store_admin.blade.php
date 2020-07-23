@@ -405,7 +405,7 @@
             });
 
             tour.addStep("step2", {
-                text: "first, update your profile",
+                text: "first, create a store",
                 attachTo: {element: ".second", on: "left"},
                 buttons: [
                     {
@@ -420,7 +420,7 @@
                 },
             });
             tour.addStep("step3", {
-                text: "Then create a store",
+                text: "Then create a customer",
                 attachTo: {element: ".third", on: "left"},
                 buttons: [
                     {
@@ -430,7 +430,7 @@
                 ]
             });
             tour.addStep("step4", {
-                text: "create your customer",
+                text: "create your transaction",
                 attachTo: {element: ".fourth", on: "left"},
                 buttons: [
                     {
@@ -440,7 +440,7 @@
                 ]
             });
             tour.addStep("step5", {
-                text: "then create a transaction",
+                text: "You can also send broadcast messages",
                 attachTo: {element: ".fifth", on: "left"},
                 buttons: [
                     {
@@ -450,7 +450,7 @@
                 ]
             });
             tour.addStep("step6", {
-                text: "create a debt reminder here",
+                text: "make your complaints here",
                 attachTo: {element: ".sixth", on: "left"},
                 buttons: [
                     {
@@ -460,16 +460,16 @@
                 ]
             });
 
-            tour.addStep("step7", {
-                text: "manage your stores",
-                attachTo: {element: ".seventh", on: "right"},
-                buttons: [
-                    {
-                        text: "Next",
-                        action: tour.next
-                    }
-                ]
-            });
+            // tour.addStep("step7", {
+            //     text: "manage your stores",
+            //     attachTo: {element: ".seventh", on: "right"},
+            //     buttons: [
+            //         {
+            //             text: "Next",
+            //             action: tour.next
+            //         }
+            //     ]
+            // });
 
             tour.start();
             localStorage.setItem('dashboard_intro_shown', 1);
