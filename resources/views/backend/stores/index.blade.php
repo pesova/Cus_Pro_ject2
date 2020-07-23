@@ -1,8 +1,8 @@
 @extends('layout.base')
 @section("custom_css")
-<link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
-<link rel="stylesheet" href="{{asset('backend/assets/css/store_list.css')}}">
+    <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
+    <link rel="stylesheet" href="{{asset('backend/assets/css/store_list.css')}}">
 @stop
 
 @if(\Illuminate\Support\Facades\Cookie::get('user_role') == 'store_admin')
@@ -14,49 +14,33 @@
             <div class="col-md-12">
                 <div class="customer-heading-container">
                     <h4 class="mb-1 mt-0">All Stores</h4>
+                    <button class="add-customer-button btn btn-primary" data-toggle="modal">
+                        <a href="{{ route('store.create') }}" class="text-white">
+                            Add New <i class="fa fa-plus add-new-icon"></i>
+                        </a>
 
-                    <div class="btn-group">
-                        <button class="add-customer-button btn btn-primary" data-toggle="modal">
-                            <a href="{{ route('store.create') }}" class="text-white">
-                                Add New <i class="fa fa-plus add-new-icon"></i>
-                            </a>
-                        </button>
-
-                        <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                            <i class='uil uil-file-alt mr-1'></i>Export
-                            <i class="icon"><span data-feather="chevron-down"></span></i></button>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <a href="#" class="dropdown-item notify-item">
-                                <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
-                                <span>Excel</span>
-                            </a>
-                            <a href="#" class="dropdown-item notify-item">
-                                <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
-                                <span>PDF</span>
-                            </a>
-                        </div>
-                    </div>
+                        
+                    </button>
                 </div>
             </div>
         </div>
         @if(Session::has('message'))
         <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
         <script>
-            setTimeout(() => {
+          setTimeout(() => {
             document.querySelector('.alert').style.display = 'none'
           }, 3000);
         </script>
         @endif
 
         @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
         @endif
         <div class="row">
             <div class="col-12">
@@ -107,33 +91,28 @@
 
                                     @foreach ($response as $index => $store )
                                     <tr>
-                                        <td>{{ $index + 1 }}</td>
-                                        <td class="store-name">{{ $store->store_name }}</td>
-                                        <td>{{ $store->shop_address }}</td>
-                                        <td>
-                                            <div class="btn-group mt-2 mr-1">
-                                                <button type="button" class="btn btn-info dropdown-toggle"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    Actions<i class="icon"><span data-feather="chevron-down"></span></i>
-                                                </button>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item"
-                                                        href="{{ route('store.show', $store->_id) }}">View
-                                                        Store</a>
-                                                    <a class="dropdown-item"
-                                                        href="{{ route('store.edit', $store->_id) }}">Edit
-                                                        store</a>
-                                                    <a class="dropdown-item" href="javascript:void(0)"
-                                                        onclick="$(this).parent().find('form').submit()">Delete
-                                                        store</a>
-                                                    <form action="{{ route('store.destroy', $store->_id) }}"
-                                                        method="POST" id="form">
-                                                        @method('DELETE')
-                                                        @csrf
-                                                    </form>
-                                                </div>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td class="store-name">{{ $store->store_name }}</td>
+                                    <td>{{ $store->shop_address }}</td>
+                                    <td>
+                                        <div class="btn-group mt-2 mr-1">
+                                            <button type="button" class="btn btn-info dropdown-toggle"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Actions<i class="icon"><span data-feather="chevron-down"></span></i>
+                                            </button>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a class="dropdown-item" href="{{ route('store.show', $store->_id) }}">View
+                                                    Store</a>
+                                                <a class="dropdown-item" href="{{ route('store.edit', $store->_id) }}">Edit
+                                                    store</a>
+                                                <a class="dropdown-item" href="javascript:void(0)" onclick="$(this).parent().find('form').submit()">Delete store</a>
+                                                <form action="{{ route('store.destroy', $store->_id) }}" method="POST" id="form">
+                                                    @method('DELETE')
+                                                    @csrf
+                                                </form>
                                             </div>
-                                        </td>
+                                        </div>
+                                    </td>
                                     </tr>
                                     @endforeach
 
@@ -158,7 +137,8 @@
 </script>
 
 <script>
-    //for search bar
+
+  //for search bar
   let userText = document.querySelector('#customer-name')
   let rows = document.querySelectorAll('.store-name')
 
@@ -199,20 +179,20 @@
         @if(Session::has('message'))
         <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
         <script>
-            setTimeout(() => {
+          setTimeout(() => {
             document.querySelector('.alert').style.display = 'none'
           }, 3000);
         </script>
         @endif
 
         @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
         @endif
         <div class="row">
             <div class="col-12">
@@ -262,7 +242,7 @@
                                 </thead>
                                 <tbody>
                                     @php
-                                    $count = 0
+                                        $count = 0
                                     @endphp
                                     @foreach ($response as $index => $stores )
                                     @foreach ($stores as $store)
@@ -278,24 +258,19 @@
                                                     Actions<i class="icon"><span data-feather="chevron-down"></span></i>
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item"
-                                                        href="{{ route('store.show', $store->_id) }}">View
+                                                    <a class="dropdown-item" href="{{ route('store.show', $store->_id) }}">View
                                                         Store</a>
-                                                    <a class="dropdown-item"
-                                                        href="{{ route('store.edit', $store->_id) }}">Edit
+                                                    <a class="dropdown-item" href="{{ route('store.edit', $store->_id) }}">Edit
                                                         store</a>
-                                                    <a class="dropdown-item" href="javascript:void(0)"
-                                                        onclick="$(this).parent().find('form').submit()">Delete
-                                                        store</a>
-                                                    <form action="{{ route('store.destroy', $store->_id) }}"
-                                                        method="POST" id="form">
+                                                    <a class="dropdown-item" href="javascript:void(0)" onclick="$(this).parent().find('form').submit()">Delete store</a>
+                                                    <form action="{{ route('store.destroy', $store->_id) }}" method="POST" id="form">
                                                         @method('DELETE')
                                                         @csrf
                                                     </form>
                                                 </div>
                                             </div>
                                         </td>
-                                    </tr>
+                                        </tr>
                                     @endforeach
 
 
@@ -323,7 +298,8 @@
 </script>
 
 <script>
-    //for search bar
+
+  //for search bar
   let userText = document.querySelector('#customer-name')
   let rows = document.querySelectorAll('.store-name')
 
@@ -345,46 +321,5 @@
     });
   };
 </script>
-{{-- @if (\Illuminate\Support\Facades\Cookie::get('is_first_time_user') == true) --}}
-<script>
-    var stores_intro_shown = localStorage.getItem('stores_intro_shown');
-
-    if (!stores_intro_shown) {
-
-        const tour = new Shepherd.Tour({
-            defaults: {
-                classes: "shepherd-theme-arrows"
-            }
-        });
-
-        tour.addStep("step", {
-            text: "Welcome to Stores Page, here you can create your stores",
-            buttons: [
-                {
-                    text: "Next",
-                    action: tour.next
-                }
-            ]
-        });
-
-        // tour.addStep("step2", {
-        //     text: "First thing you do is create a store",
-        //     attachTo: { element: ".second", on: "right" },
-        //     buttons: [
-        //         {
-        //             text: "Next",
-        //             action: tour.next
-        //         }
-        //     ],
-        //     beforeShowPromise: function() {
-        //         document.body.className += ' sidebar-enable';
-        //         document.getElementById('sidebar-menu').style.height = 'auto';
-        //     },
-        // });
-        tour.start();
-        localStorage.setItem('stores_intro_shown', 1);
-    }
-</script>
-{{-- @else --}}
 @stop
 @endif

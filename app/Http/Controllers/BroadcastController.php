@@ -16,6 +16,19 @@ use App\Rules\NoZero;
 
 class BroadcastController extends Controller
 {
+    protected $host;
+    protected $headers;
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->host = env('API_URL', 'https://dev.api.customerpay.me');
+        $this->headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -60,14 +73,14 @@ class BroadcastController extends Controller
 
                 $stores = $stores->data->stores;
 
-                return view('backend.broadcasts.create')->with(['data' => $allCustomers, 'stores' => $stores]);
+                return view('backend.broadcasts.index')->with(['data' => $allCustomers, 'stores' => $stores]);
             }
 
             if ( $statusCode == 500 ) {
                 return view('errors.500');
             }
 
-        } catch(\RequestException $e) {
+        } catch(RequestException $e) {
             $statusCode = $e->getResponse()->getStatusCode();
             $data = json_decode($e->getResponse()->getBody()->getContents());
             if ( $statusCode == 401 ) { //401 is error code for invalid token
@@ -92,9 +105,23 @@ class BroadcastController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('backend.broadcasts.send');
+        try {
+            $client = new Client();
+            $response = $client->get($this->host . '/message/numbers', ['headers' => ['x-access-token' => Cookie::get('api_token')]]);
+
+            if ($response->getStatusCode() == 200) {
+                $res = json_decode($response->getBody());
+                $customers = get_object_vars($res->data);
+                return view('backend.broadcasts.create')->with(['customers' => $customers]);
+            }
+        } catch (RequestException $e) {
+            Log::error('Catch error: Create Broadcast'. $e->getMessage());
+            $request->session()->flash('message', 'Failed to fetch customer, please try again');
+            return view('backend.broadcasts.create');
+        }
+
     }
 
     /**
@@ -105,45 +132,69 @@ class BroadcastController extends Controller
      */
     public function store(Request $request)
     {
-        $url = env("SMS_API_URL","https://api.sandbox.africastalking.com/version1/messaging");
-
-        try{
-            $client = new Client;
-            $payload = [
-                'headers' => [
-                    'apiKey' => env('AT_KEY', "3f18b458d8d12b7fbdd7f85665e878f05d99c1f8c773dccc5ef21d3ea80cfb21"),
-                    "Content-type" => "application/x-www-form-urlencoded",
-                    "Accept" => "application/json"
-                ],
+        try {
+            $client = new Client();
+            $response = $client->post($this->host . '/message/send', [
                 'form_params' => [
-                   "username" => env('AT_USERNAME',"sandbox"),
-                   "to" => $request->input('receiver'),
-                   "message" => $request->input('message'),
-                   "bulkSMSMode" => "1",
-                   "enqueue" => "1",
-                ]
-            ];
+                    'message' => $request->input('message'),
+                    'numbers' => $request->input('numbers')
+                ],
+                'headers' => [
+                    'x-access-token' => Cookie::get('api_token'),
+                    'Content-Type' => 'application/json'
+                    ]
+                ]);
 
-            $response = $client->request("POST", $url, $payload);
-            $data = json_decode($response->getBody());
-            $status = $data->SMSMessageData->Recipients;
-
-            foreach($status as $recepient) {
-                if ($recepient->status == "Success") {
-                    return redirect()->route('broadcast.index')->with('response', $recepient->status);
-                }
-                return redirect()->route('broadcast.create')->with('response', "Failed");
+            if ($response->getStatusCode() == 200) {
+                $request->session()->flash('alert-class', 'alert-success');
+                $request->session()->flash('alert-class', 'Broadcast message sent !');
+                return back();
             }
-
-        }catch(\RequestException $e){
-            $statusCode = $e->getResponse()->getStatusCode();
-            $data = json_decode($e->getResponse()->getBody()->getContents());
-            if ( $statusCode == 401 ) { //401 is error code for invalid token
-                return redirect()->route('broadcast.create')->with('response', $data->message);
-            }
-        }catch(\Exception $e){
-            return view("errors.500");
+        } catch (RequestException $e) {
+            Log::error('Catch error: Create Broadcast' . $e->getMessage());
+            $request->session()->flash('message', 'Ooops, failed to send broadcast, please try again');
+            return back();
         }
+
+        // $url = env("SMS_API_URL","https://api.sandbox.africastalking.com/version1/messaging");
+
+        // try{
+        //     $client = new Client;
+        //     $payload = [
+        //         'headers' => [
+        //             'apiKey' => env('AT_KEY', "3f18b458d8d12b7fbdd7f85665e878f05d99c1f8c773dccc5ef21d3ea80cfb21"),
+        //             "Content-type" => "application/x-www-form-urlencoded",
+        //             "Accept" => "application/json"
+        //         ],
+        //         'form_params' => [
+        //            "username" => env('AT_USERNAME',"sandbox"),
+        //            "to" => $request->input('receiver'),
+        //            "message" => $request->input('message'),
+        //            "bulkSMSMode" => "1",
+        //            "enqueue" => "1",
+        //         ]
+        //     ];
+
+        //     $response = $client->request("POST", $url, $payload);
+        //     $data = json_decode($response->getBody());
+        //     $status = $data->SMSMessageData->Recipients;
+
+        //     foreach($status as $recepient) {
+        //         if ($recepient->status == "Success") {
+        //             return redirect()->route('broadcast.index')->with('response', $recepient->status);
+        //         }
+        //         return redirect()->route('broadcast.create')->with('response', "Failed");
+        //     }
+
+        // }catch(\RequestException $e){
+        //     $statusCode = $e->getResponse()->getStatusCode();
+        //     $data = json_decode($e->getResponse()->getBody()->getContents());
+        //     if ( $statusCode == 401 ) { //401 is error code for invalid token
+        //         return redirect()->route('broadcast.create')->with('response', $data->message);
+        //     }
+        // }catch(\Exception $e){
+        //     return view("errors.500");
+        // }
 
     }
 

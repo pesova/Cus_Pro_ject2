@@ -93,7 +93,8 @@ class LoginController extends Controller
                     }
 
                     // store data to cookie
-                    Cookie::queue('id', $assistant->user->_id);
+                    Cookie::queue('id', $assistant->user->_id); // todo: remove this later. I left it just in case an error occurs. it has been here for a long time
+                    Cookie::queue('user_id', $assistant->user->_id);
                     Cookie::queue('name', $assistant->user->name);
                     Cookie::queue('email', $assistant->user->email);
                     Cookie::queue('store_id', $assistant->user->store_id);
@@ -103,20 +104,19 @@ class LoginController extends Controller
                     Cookie::queue('phone_number', $assistant->user->phone_number);
 
                     Cookie::queue('expires', strtotime('+ 1 day'));
-                    Cookie::queue('is_first_time_user', true);
+
+                    Cookie::queue('is_first_time_user', false);
 
                     return view('backend.dashboard.assistant.index', compact('assistant'));
                     // return view('backend.dashboard.assistant.index')->with('assistant', $assistant);
 
                 } else {
-                    $message = $response->message;
-                    $request->session()->flash('message', $message);
+                    $request->session()->flash('message', 'Invalid Credentials');
                     return redirect()->route('login.assistant');
                 }
             }
 
-            $message = $response->message;
-            $request->session()->flash('message', $message);
+            $request->session()->flash('message', 'Invalid Credentials');
             return redirect()->route('login.assistant');
         } catch (RequestException $e) {
             //log error;
@@ -126,7 +126,7 @@ class LoginController extends Controller
                     // get response to catch 4xx errors
                     $response = json_decode($e->getResponse()->getBody());
                     $request->session()->flash('alert-class', 'alert-danger');
-                    $request->session()->flash('message', $response->message);
+                    $request->session()->flash('message', 'Invalid Credentials');
                     return redirect()->route('login.assistant');
                 }
             }
@@ -172,7 +172,8 @@ class LoginController extends Controller
                     Cookie::queue('user_id', $response->data->user->_id);
                     // Cookie::queue('image', $response->data->user->image);
                     Cookie::queue('expires', strtotime('+ 1 day'));
-                    Cookie::queue('is_first_time_user', true);
+
+                    Cookie::queue('is_first_time_user', false);
 
                     //show success message
                     $request->session()->flash('alert-class', 'alert-success');
@@ -184,14 +185,12 @@ class LoginController extends Controller
                     }
                     return redirect()->route('dashboard');
                 } else {
-                    $message = isset($response->Message) ? $response->Message : $response->message;
-                    $request->session()->flash('message', $message);
+                    $request->session()->flash('message', 'Invalid Credentials');
                     return redirect()->route('login');
                 }
             }
 
-            $message = isset($response->Message) ? $response->Message : $response->message;
-            $request->session()->flash('message', $message);
+            $request->session()->flash('message', 'Invalid Credentials');
             return redirect()->route('login');
         } catch (RequestException $e) {
             //log error;
@@ -202,12 +201,7 @@ class LoginController extends Controller
                     // get response to catch 4xx errors
                     $response = json_decode($e->getResponse()->getBody());
                     $request->session()->flash('alert-class', 'alert-danger');
-                    if (isset($response->error->description)) {
-                        $request->session()->flash('message', $response->error->description);
-                    } else {
-                        $message = isset($response->Message) ? $response->Message : $response->message;
-                        $request->session()->flash('message', $message);
-                    }
+                    $request->session()->flash('message', 'Invalid Credentials');
                     return redirect()->route('login');
                 }
             }
@@ -224,10 +218,15 @@ class LoginController extends Controller
     public function validateUser(Request $request){
 
 		$rules = [
-            'phone_number' => ['required', 'min:6', 'max:16', new DoNotAddIndianCountryCode, new DoNotPutCountryCode],
+            'phone_number' => ['required', 'min:6','max:16', new DoNotAddIndianCountryCode, new DoNotPutCountryCode],
             'password' => ['required', 'min:6']
         ];
 
-		$this->validate($request, $rules);
+        $messages = [
+            'phone_number.*' => 'Invalid Credentials',
+            'password.*' => 'Invalid Credentials',
+        ];
+
+		$this->validate($request, $rules, $messages);
     }
 }

@@ -12,10 +12,11 @@
     <div class="container-fluid">
         <div class="mb-0 d-flex justify-content-between align-items-center page-title">
             <div class="h6"><i data-feather="file-text" class="icon-dual"></i> Transaction Center</div>
+            @if(Cookie::get('user_role') != 'store_assistant')
             <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#addTransactionModal">
                 New &nbsp;<i class="fa fa-plus my-float"></i>
             </a>
-
+            @endif
         </div>
         @include('partials.alertMessage')
         <div class="card mt-0">
@@ -58,43 +59,57 @@
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>
-                                    <a class="" href="{{ route('store.show', $transaction->store_ref_id) }}">
+                                    @if(Cookie::get('user_role') != 'store_assistant')
+                                        {{-- check for supper admin, response does not return store name --}}
+                                    @isset($transaction->store_name)
+                                        <a class="" href="{{ route('store.show', $transaction->store_ref_id) }}">
+                                            {{ $transaction->store_name }}
+                                        </a>
+                                    @endif
+                                    @else
                                         {{ $transaction->store_name }}
-                                    </a>
+                                    @endif
+
                                 </td>
                                 <td>{{ $transaction->amount }}</td>
                                 <td>{{ $transaction->interest }} %</td>
                                 <td>{{ $transaction->type }}</td>
 
                                 <td>
-                                    @if (\Carbon\Carbon::parse($transaction->expected_pay_date)->isPast())
-                                    <span
-                                        class="badge badge-soft-danger">{{ \Carbon\Carbon::parse($transaction->expected_pay_date)->diffForhumans() }}</span>
+                                @isset($transaction->expected_pay_date)
+                                    @if ( \Carbon\Carbon::parse($transaction->expected_pay_date)->isPast())
+                                        <span
+                                            class="badge badge-soft-danger">{{ \Carbon\Carbon::parse($transaction->expected_pay_date)->diffForhumans() }}</span>
                                     @else
-                                    @if (\Carbon\Carbon::parse($transaction->expected_pay_date)->isToday())
-                                    <span
-                                        class="badge badge-soft-warning">{{ \Carbon\Carbon::parse($transaction->expected_pay_date)->diffForhumans() }}</span>
+                                        @if (\Carbon\Carbon::parse($transaction->expected_pay_date)->isToday())
+                                            <span
+                                                class="badge badge-soft-warning">{{ \Carbon\Carbon::parse($transaction->expected_pay_date)->diffForhumans() }}</span>
+                                        @endif
+                                        <span
+                                            class="badge badge-soft-success">{{ \Carbon\Carbon::parse($transaction->expected_pay_date)->diffForhumans() }}</span>
                                     @endif
-                                    <span
-                                        class="badge badge-soft-success">{{ \Carbon\Carbon::parse($transaction->expected_pay_date)->diffForhumans() }}</span>
-                                    @endif
+                                @endif
                                 </td>
                                 <td> {{ \Carbon\Carbon::parse($transaction->createdAt)->diffForhumans() }}</td>
                                 <td>
                                     <label class="switch">
-                                        <input type="checkbox" id="togBtn" class="updateStatus"
+                                        @if(Cookie::get('user_role') != 'store_assistant') disabled
+                                            <input class="togBtn" type="checkbox" id="togBtn"
                                             {{ $transaction->status == true ? 'checked' : '' }}
                                             data-id="{{ $transaction->_id }}"
                                             data-store="{{ $transaction->store_ref_id }}"
-                                            data-customer="{{ $transaction->customer_ref_id}}" data-toggle="toggle"
-                                            data-on="Active" data-off="InActive">
+                                            data-customer="{{ $transaction->customer_ref_id}}">
+                                        @else
+                                            <input type="checkbox" id="togBtn" {{ $transaction->status == true ? 'checked' : '' }} disabled>
+                                        @endif
+
                                         <div class="slider round">
                                             <span class="on">Paid</span><span class="off">Pending</span>
                                         </div>
                                     </label>
-                                    <div id="statusSpiner" class="spinner-border spinner-border-sm text-primary d-none" role="status">
-                                        <span class="sr-only">Loading...</span>
-                                  </div>
+                                        <div id="statusSpiner" class="spinner-border spinner-border-sm text-primary d-none" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                      </div>
                                 </td>
                                 <td>
                                     <a class="btn btn-info btn-small py-1 px-2"
@@ -122,6 +137,8 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            {{-- {{dd($stores)}} --}}
+
             <div class="modal-body">
                 <form class="form-horizontal" id="addTransaction" method="POST"
                     action="{{ route('transaction.store') }}">
@@ -132,9 +149,17 @@
                             <select class="form-control" name="store" id="store" required>
                                 <option value="" selected disabled>None selected</option>
                                 @isset($stores)
-                                @foreach ($stores as $store)
-                                <option value="{{ $store->_id }}">{{ $store->store_name }}</option>
-                                @endforeach
+                                @if(Cookie::get('user_role') != 'super_admin')
+                                    @foreach ($stores as $store)
+                                    <option value="{{ $store->_id }}">{{ $store->store_name }}</option>
+                                    @endforeach
+                                @else
+                                    @foreach ($stores as $userStores)
+                                        @foreach($userStores as $store)
+                                        <option value="{{ $store->_id }}">{{ $store->store_name }}</option>
+                                        @endforeach
+                                    @endforeach
+                                @endif
                                 @endisset
                             </select>
                         </div>
@@ -240,7 +265,6 @@
             $( '.buttons-pdf' ).trigger('click');
         });
     });
-
 </script>
 
 <script>
@@ -263,7 +287,6 @@
                         'x-access-token': token
                     },
                     success: function (data) {
-                        // console.log(data);
                         var new_data = data.data.store.customers;
                         var i;
                         new_data.forEach(customer => {
@@ -277,7 +300,7 @@
             }
         });
 
-        $('#togBtn').change(function () {
+        $('.togBtn').change(function () {
             $(this).attr("disabled", true);
             $('#statusSpiner').removeClass('d-none');
 
