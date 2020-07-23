@@ -16,28 +16,56 @@ $transactions = $response['transactions'];
 @endphp
 
 
+@php
+$totalDept = 0;
+$total_interest = 0;
+$total_Revenue = 0;
+$total_interestRevenue = 0;
+$total_Receivables = 0;
+$total_interestReceivables = 0;
+@endphp
 
+@foreach ($response['storeData']->customers as $transactions)
+                
+@foreach ($transactions->transactions as $index => $transaction) 
 
-{{-- @foreach ($response['storeData']->customers as $transactions)
-                                        
-@foreach ($transactions->transactions as $index => $transaction)  
+{{-- @if ($transaction->type == "debt")
+    {{ $totalDept = 0 }}
+    {{ $totalDept += $transaction->amount }}
+    
+@else
+    {{ $totalDept = $transaction->amount}}                               
+
+@endif --}}
 
 @php
-$customers_name = $transactions->name;
-$customers_phoneNumber = $transactions->phone_number;
+//get for all debts
+    if ($transaction->type == "debt") {
+        $eachDept = $transaction->amount;
+        $totalDept += $eachDept;
+        $each_interest = $transaction->interest;
+        $total_interest += $each_interest;
+    }
 
-$Transaction_Amount = $transaction->amount;
-$Transaction_type = $transaction->type;
+//get for all revenues
+    if ($transaction->type == "Paid") {
+        $eachRevenue = $transaction->amount;
+        $total_Revenue += $eachRevenue;
+        $each_interestRevenue = $transaction->interest;
+        $total_interestRevenue += $each_interestRevenue;
+    }
 
-if($Transaction_type == "dept"){
-    $each_Dept = $Transaction_Amount;
-}
-
+    //get for all receivables
+    if ($transaction->type == "receivables") {
+        $eachReceivables = $transaction->amount;
+        $total_Receivables += $eachReceivables;
+        $each_interestReceivables = $transaction->interest;
+        $total_interestReceivables += $each_interestReceivables;
+    }
+    
 @endphp
-     
-
 @endforeach
-@endforeach --}}
+@endforeach
 
 
 
@@ -131,24 +159,7 @@ if($Transaction_type == "dept"){
         </div>
     </div>
     <div class="col-xl-8">
-        {{-- @foreach ($response['storeData']->customers as $transactions)
-                                                
-        @foreach ($transactions->transactions as $index => $transaction)  
 
-        @php
-            $customers_name = $transactions->name;
-            $customers_phoneNumber = $transactions->phone_number;
-
-            $Transaction_Amount = $transaction->amount;
-            $Transaction_type = $transaction->type;
-
-            if($transaction->type == "debt"){
-                $each_Debt = $transaction->amount;
-            } else {
-                $each_Debt = "hee";
-            }
-
-        @endphp --}}
             
 
         
@@ -165,9 +176,9 @@ if($Transaction_type == "dept"){
                             <h5 class="font-size-14 mb-0">Revenue</h5>
                         </div>
                         <div class="text-muted mt-4">
-                            <h4>1,452 <i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
+                            <h4> {{ $total_Revenue }} <i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
                             <div class="d-flex">
-                                <span class="badge badge-soft-success font-size-12"> + 0.2% </span> <span
+                                <span class="badge badge-soft-success font-size-12"> {{ $total_interestRevenue }}% </span> <span
                                     class="ml-2 text-truncate">From previous Month</span>
                             </div>
                         </div>
@@ -184,12 +195,12 @@ if($Transaction_type == "dept"){
                                     <i class="uil-atm-card"></i>
                                 </span>
                             </div>
-                            <h5 class="font-size-14 mb-0">Revenue</h5>
+                            <h5 class="font-size-14 mb-0">Receivables</h5>
                         </div>
                         <div class="text-muted mt-4">
-                            <h4>$ 28,452 <i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
+                            <h4>{{ $total_Receivables }} <i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
                             <div class="d-flex">
-                                <span class="badge badge-soft-success font-size-12"> + 0.2% </span> <span
+                                <span class="badge badge-soft-success font-size-12"> {{ $total_interestReceivables }}% </span> <span
                                     class="ml-2 text-truncate">From previous period</span>
                             </div>
                         </div>
@@ -210,42 +221,14 @@ if($Transaction_type == "dept"){
                         </div>
                         <div class="text-muted mt-4">
                             {{-- showing all depts --}}
-                            @php
-                                $totalDept = 0;
-                                $total_interest = 0;
-                            @endphp
 
-                            @foreach ($response['storeData']->customers as $transactions)
-                                                
-                            @foreach ($transactions->transactions as $index => $transaction) 
-
-                                {{-- @if ($transaction->type == "debt")
-                                    {{ $totalDept = 0 }}
-                                    {{ $totalDept += $transaction->amount }}
-                                    
-                                @else
-                                    {{ $totalDept = $transaction->amount}}                               
-
-                                @endif --}}
-
-                                @php
-                                    if ($transaction->type == "debt") {
-                                        $eachDept = $transaction->amount;
-                                        $totalDept += $eachDept;
-                                        $each_interest = $transaction->interest;
-                                        $total_interest += $each_interest;
-                                    }
-                                    
-                                @endphp
-                            @endforeach
-                            @endforeach
                             <h4> 
                                 {{ $totalDept }}<i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
 
                                 
 
                             <div class="d-flex">
-                                <span class="badge badge-soft-warning font-size-12">{{ $total_interest }}</span> <span
+                                <span class="badge badge-soft-warning font-size-12">{{ $total_interest }}%</span> <span
                                     class="ml-2 text-truncate">From previous Month</span>
                             </div>
                         </div>
