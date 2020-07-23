@@ -215,13 +215,20 @@ class DebtorController extends Controller
     {
     }
 
-    public function sendReminder(Request $request) {
+    public function sendReminder(Request $request, $id) {
         // /debt/send
+
+
+        $store_ref_id = explode('-', $id)[0];
+        $customer_ref_id = explode('-', $id)[1];
+        $ts_ref_id = explode('-', $id)[2];
+
+
         $_id = $request->transaction_id;
         $message = $request->message;
 
 
-        $url = env('API_URL', 'https://dev.api.customerpay.me') .'/debt'. '/send';
+        $url = env('API_URL', 'https://dev.api.customerpay.me') .'/debt'. '/send'.'/'.$store_ref_id.'/'.$customer_ref_id.'/'.$ts_ref_id;
 
         try {
             $client =  new Client();
@@ -264,7 +271,7 @@ class DebtorController extends Controller
                 Session::flash('message', isset($result->message) ? $result->message : $result->Message);
                 $debtors = [];
                 $stores = [];
-                return view('backend.debtor.index',  compact('debtors', 'stores'));
+                return view('backend.transaction.index',  compact('debtors', 'stores'));
             }
 
             //5xx server error
