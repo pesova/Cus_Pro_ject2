@@ -58,11 +58,11 @@
 
                                     <div class="row">
                                         <div class="col-6">
-                                            <h5 class="font-size-15">109</h5>
+                                            <h5 class="font-size-15">{{ $result->transactions }}</h5>
                                             <p class="text-muted mb-0">Transactions</p>
                                         </div>
                                         <div class="col-6">
-                                            <h5 class="font-size-15">$1245</h5>
+                                            <h5 class="font-size-15">{{ $result->total_revenue }}</h5>
                                             <p class="text-muted mb-0">Revenue</p>
                                         </div>
                                     </div>
@@ -89,8 +89,8 @@
                                         <td>{{ucfirst($customer->customer->name)}}</td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Mobile :</th>
-                                        <td>Customer Phone</td>
+                                        <th scope="row">Mobile :</a></th>
+                                        <td> <a href="tel:+{{ $customer->customer->phone_number }}">{{ $customer->customer->phone_number }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -109,7 +109,7 @@
                                 <div class="media">
                                     <div class="media-body">
                                         <p class="text-muted font-weight-medium">Revenue</p>
-                                        <h4 class="mb-0">125</h4>
+                                        <h4 class="mb-0">{{ $result->total_revenue }}</h4>
                                     </div>
 
                                     <div class="mini-stat-icon avatar-sm align-self-center rounded-circle bg-primary">
@@ -127,7 +127,7 @@
                                 <div class="media">
                                     <div class="media-body">
                                         <p class="text-muted font-weight-medium">Debt</p>
-                                        <h4 class="mb-0">12</h4>
+                                        <h4 class="mb-0">{{ $result->total_debt }}</h4>
                                     </div>
 
                                     <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
@@ -145,7 +145,7 @@
                                 <div class="media">
                                     <div class="media-body">
                                         <p class="text-muted font-weight-medium">Receivables</p>
-                                        <h4 class="mb-0">$36,524</h4>
+                                        <h4 class="mb-0">{{ $result->total_receivables }}</h4>
                                     </div>
 
                                     <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
@@ -204,37 +204,39 @@
                                         <th scope="col"> </th>
                                     </tr>
                                 </thead>
-
-                                {{-- @if(count($transactions) == 0) --}}
-                                <tr>
-                                    <td colspan="4" class="text-center"> No Recent Transactions</td>
-                                </tr>
-                                {{-- @else --}}
-                                {{-- @foreach($transactions as $transaction) --}}
-
-                                <tr>
-                                    <th scope="row">transaction id</th>
-                                    <td>debt</td>
-                                    <td>N1000</td>
-                                    <td>paid</td>
-                                    <td>
-                                        <div class="btn-group mt-2 mr-1">
-                                            <button type="button" class="btn btn-info dropdown-toggle"
-                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Actions<i class="icon"><span data-feather="chevron-down"></span></i>
-                                            </button>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="">Send debt reminder</a>
-                                                <a class="dropdown-item" href="">View Transaction</a>
-                                            </div>
-                                        </div>
-
-                                    </td>
-                                </tr>
-                                {{-- @endforeach
-                                @endif --}}
-
-
+                            <tbody>
+                                    @if(count($customer->customer->transactions) < 1)
+                                    <tr>
+                                        <td colspan="4" class="text-center"> No Recent Transactions</td>
+                                    </tr>
+                                    @else
+                                        @foreach($customer->customer->transactions as $transaction)
+                                        <tr>
+                                        <th scope="row">{{ $transaction->_id }}</th>
+                                            <td>{{ $transaction->type }}</td>
+                                            <td>{{ $transaction->amount }}</td>
+                                            <td>
+                                                @if($transaction->status == false)
+                                                <span class="badge badge-danger">Unpaid</span>
+                                                @else
+                                                <span class="badge badge-success">Paid</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <div class="btn-group mt-2 mr-1">
+                                                    <button type="button" class="btn btn-info dropdown-toggle"
+                                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Actions<i class="icon"><span data-feather="chevron-down"></span></i>
+                                                    </button>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <a class="dropdown-item" href="">Send debt reminder</a>
+                                                        <a class="dropdown-item" href="">View Transaction</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
@@ -242,11 +244,7 @@
                 </div>
             </div>
         </div>
-
-
-
     </div>
 </div>
-
 
 @endsection

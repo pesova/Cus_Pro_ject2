@@ -13,6 +13,7 @@ use GuzzleHttp\Exception\RequestException;
 // FOR COUNTRY CODE AND PHONE NUMBER IMPLEMENTATION
 use App\Rules\DoNotPutCountryCode;
 use App\Rules\NoZero;
+use stdClass;
 
 class CustomerController extends Controller
 {
@@ -63,7 +64,6 @@ class CustomerController extends Controller
                         $allCustomers[] = $customer;
                     }
                 }
-
                 return view('backend.customer.index')->with(['response' => $allCustomers, 'stores' => $stores]);
             }
             $request->session()->flash('message', $user_response . '<br>' . $store_response);
@@ -209,12 +209,11 @@ class CustomerController extends Controller
             $client = new Client;
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
             $response = $client->request("GET", $url, $headers);
-            $data = json_decode($response->getBody());
+            $customer = json_decode($response->getBody())->data;
             if ($response->getStatusCode() == 200) {
-
-
-
-                return view('backend.customer.show')->with('customer', $data->data);
+                $result = $this->calculations($customer);
+                $chartData = [];
+                return view('backend.customer.show', compact('customer', 'result'));
             } else {
                 return view('errors.500');
             }
@@ -447,4 +446,29 @@ class CustomerController extends Controller
             return view('errors.500');
         }
     }
+
+    public function calculations($data)
+    {
+        $transactions = $data->customer->transactions;
+        $result = new stdClass;
+        $result->total_revenue = 0;
+        $result->total_debt = 0;
+        $result->total_receivables = 0;
+        $result->transactions = 0;
+
+        foreach ($transactions as $trensaction) {
+            if ($trensaction->type == 'debt') {
+                $result->total_debt += $trensaction->amount;
+            } elseif ($trensaction->type == 'paid') {
+                $result->total_revenue += $trensaction->amount;
+            } else {
+                $result->total_receivables += $trensaction->amount;
+            }
+            $result->transactions += 1;
+        }
+
+        return $result;
+    }
+
+
 }

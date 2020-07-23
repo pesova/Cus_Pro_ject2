@@ -77,7 +77,6 @@
                             </tr>
 
                         <tbody>
-                            {{-- {{ dd($response) }} --}}
                             @foreach($response as $i => $customer) <tr>
                                 <td>{{$i + 1}}</td>
                                 <td>{{ ucfirst($customer->name) }}</td>
