@@ -36,114 +36,122 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h3 class="card-title mb-4 float-sm-left">Choose a Message Template</h3>
+                        <form action="{{ route('broadcast.create') }}" method="get">
+                            <h3 class="card-title mb-4 float-sm-left">Choose a Message Template</h3>
 
-                        <a href="{{ route('broadcast.create') }}" class="btn btn-primary float-right">
-                            Create New &nbsp;<i class="fa fa-edit my-float"></i>
-                        </a>
+                            <a href="{{ route('broadcast.create') }}" class="btn btn-primary float-right">
+                                Create New &nbsp;<i class="fa fa-edit my-float"></i>
+                            </a>
 
-                        <div class="row col-md-12">
-                            <div class="col-md-12">
-                                <div class="card mini-stats-wid">
-                                    <div class="card-body">
-                                        <div class="media">
-                                            <div class="media-body">
-                                                <h4 class="mb-0"><input type="checkbox"> Happy new year!</h4>
+                            @if(isset($template))
+                            @foreach($template as $temp)
+                            <div class="row col-md-12">
+                                <div class="col-md-12">
+                                    <div class="card mini-stats-wid">
+                                        <div class="card-body">
+                                            <div class="media">
+                                                <div class="media-body">
+                                                    <h4 class="mb-0"><input type="radio" name="temp" value="{{ $temp }}">&nbsp;{{ $temp }}</h4>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <hr>
                             </div>
-                            <hr>
-                            <div class="col-md-12">
-                                <div class="card mini-stats-wid">
-                                    <div class="card-body">
-                                        <div class="media">
-                                            <div class="media-body">
-                                                <h4 class="mb-0"><input type="checkbox"> We are now open!</h4>
+                            @endforeach
+                            @endif
+                            
+                            {{--    <div class="col-md-12">
+                                    <div class="card mini-stats-wid">
+                                        <div class="card-body">
+                                            <div class="media">
+                                                <div class="media-body">
+                                                    <h4 class="mb-0"><input type="checkbox" name="temp[]"> We are now open!</h4>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <hr>
-                            <div class="col-md-12">
-                                <div class="card mini-stats-wid">
-                                    <div class="card-body">
-                                        <div class="media">
-                                            <div class="media-body">
-                                                <h4 class="mb-0"><input type="checkbox"> New Stocks just arrived!</h4>
+                                <hr>
+                                <div class="col-md-12">
+                                    <div class="card mini-stats-wid">
+                                        <div class="card-body">
+                                            <div class="media">
+                                                <div class="media-body">
+                                                    <h4 class="mb-0"><input type="checkbox" name="temp[]"> New Stocks just arrived!</h4>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <hr>
-                            <div class="col-md-12">
-                                <div class="card mini-stats-wid">
-                                    <div class="card-body">
-                                        <div class="media">
-                                            <div class="media-body">
-                                                <h4 class="mb-0"><input type="checkbox"> Happy new month. God Bless you.</h4>
+                                <hr>
+                                <div class="col-md-12">
+                                    <div class="card mini-stats-wid">
+                                        <div class="card-body">
+                                            <div class="media">
+                                                <div class="media-body">
+                                                    <h4 class="mb-0"><input type="checkbox" name="temp[]"> Happy new month. God Bless you.</h4>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <hr>
-                            <div class="col-md-12">
-                                <div class="card mini-stats-wid">
-                                    <div class="card-body">
-                                        <div class="media">
-                                            <div class="media-body">
-                                                <h4 class="mb-0"><input type="checkbox"> Happy New Month.</h4>
+                                <hr>
+                                <div class="col-md-12">
+                                    <div class="card mini-stats-wid">
+                                        <div class="card-body">
+                                            <div class="media">
+                                                <div class="media-body">
+                                                    <h4 class="mb-0"><input type="checkbox" name="temp[]"> Happy New Month.</h4>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <hr>
-                            <div class="col-md-12">
-                                <div class="card mini-stats-wid">
-                                    <div class="card-body">
-                                        <div class="media">
-                                            <div class="media-body">
-                                                <h4 class="mb-0"><input type="checkbox"> Shop with ...., we Deliver!</h4>
+                                <hr>
+                                <div class="col-md-12">
+                                    <div class="card mini-stats-wid">
+                                        <div class="card-body">
+                                            <div class="media">
+                                                <div class="media-body">
+                                                    <h4 class="mb-0"><input type="checkbox" name="temp[]"> Shop with ...., we Deliver!</h4>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <hr>
-                            <div class="col-md-12">
-                                <div class="card mini-stats-wid">
-                                    <div class="card-body">
-                                        <div class="media">
-                                            <div class="media-body">
-                                                <h4 class="mb-0"><input type="checkbox"> Thank you for shopping with ...</h4>
+                                <hr>
+                                <div class="col-md-12">
+                                    <div class="card mini-stats-wid">
+                                        <div class="card-body">
+                                            <div class="media">
+                                                <div class="media-body">
+                                                    <h4 class="mb-0"><input type="checkbox" name="temp[]"> Thank you for shopping with ...</h4>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <hr>
-                            <div class="col-md-12">
-                                <div class="card mini-stats-wid">
-                                    <div class="card-body">
-                                        <div class="media">
-                                            <div class="media-body">
-                                                <h4 class="mb-0"><input type="checkbox"> We now sell Bobo!</h4>
+                                <hr>
+                                <div class="col-md-12">
+                                    <div class="card mini-stats-wid">
+                                        <div class="card-body">
+                                            <div class="media">
+                                                <div class="media-body">
+                                                    <h4 class="mb-0"><input type="checkbox" name="temp[]"> We now sell Bobo!</h4>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <hr>
-                        </div>
+                                <hr>
+                            </div> --}}
 
-                        <a href="{{ route('broadcast.create') }}" class="btn btn-primary">
-                            Continue &nbsp;<i class="my-float"></i>
-                        </a>
+                            <button type= "submit" class="btn btn-primary">
+                                Continue &nbsp;<i class="my-float"></i>
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>

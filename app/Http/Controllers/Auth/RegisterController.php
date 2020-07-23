@@ -95,7 +95,7 @@ class RegisterController extends Controller
 
                         $data = $res->data->user->local;
                         $api_token = $res->data->user->api_token;
-                        $user_role = $res->data->user->user_role;
+                        $user_role = $res->data->user->local->user_role;
 
                         // store data to cookie
                         Cookie::queue('user_role', $user_role);

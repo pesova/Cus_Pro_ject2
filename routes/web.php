@@ -49,17 +49,6 @@ Route::get('/admin', function () {
     return redirect()->route('dashboard');
 });
 
-// Store Assistant Access 
-Route::prefix('/assistant')->group(function () {
-    Route::get('/login', ['uses' => "Auth\LoginController@assistant"])->name('login.assistant');
-    Route::post('/authenticate', ['uses' => "Auth\LoginController@authenticateAssistant"])->name('assistant.authenticate');
-
-    Route::group(['middleware' => ['backend.auth', 'store.assistant']], function () {
-        // Route::get('/dashboard', 'DashboardController@index')->name('dashboard.assistant');
-
-    });
-});
-
 // backend codes
 Route::prefix('/admin')->group(function () {
 
@@ -75,7 +64,7 @@ Route::prefix('/admin')->group(function () {
 
     Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
 
-    Route::get('/card_v1',"BusinessCard@card_v1");
+    Route::get('/card_v1', "BusinessCard@card_v1");
     Route::get('/card_v2', 'BusinessCard@card_v2');
 
     Route::get('/password', 'Auth\ForgotPasswordController@index')->name('password');
@@ -143,7 +132,7 @@ Route::prefix('/admin')->group(function () {
         if ($user_role == 'store_assistant') {
             //Route::group(['middleware' => 'backend.store.assistant'], function () {
 
-            Route::resource('complaint', 'ComplaintController')->only(['index', 'create', 'store']);
+            Route::resource('complaint', 'ComplaintController')->only(['index', 'create', 'store', 'show']);
 
             // customer crud
             Route::resource('customer', 'CustomerController')->only(['index', 'show']);
