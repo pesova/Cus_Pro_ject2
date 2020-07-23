@@ -221,16 +221,21 @@ class CustomerController extends Controller
         $store_id = explode('-', $id)[0];
         $customer_id = explode('-', $id)[1];
 
-        try {
+        if (Cookie::get('user_role') == 'super_admin') {
+            $url = $this->host . "/customer/admin/" . $store_id . "/" . $customer_id;
+        } else {
             $url = $this->host . "/customer/" . $store_id . "/" . $customer_id;
+        }
+
+        try {
             $client = new Client;
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
             $response = $client->request("GET", $url, $headers);
             $customer = json_decode($response->getBody())->data;
             if ($response->getStatusCode() == 200) {
                 $result = $this->calculations($customer);
-                $chartData = [];
-                return view('backend.customer.show', compact('customer', 'result'));
+                $chartData = $this->chartData($customer);
+                return view('backend.customer.show', compact('customer', 'result', 'chartData'));
             } else {
                 return view('errors.500');
             }
@@ -475,7 +480,7 @@ class CustomerController extends Controller
 
         foreach ($transactions as $trensaction) {
             if ($trensaction->type == 'debt') {
-                $result->total_debt += $trensaction->amount;
+                $result->total_debt += $trensaction->amount + ($trensaction->amount * $trensaction->interest);
             } elseif ($trensaction->type == 'paid') {
                 $result->total_revenue += $trensaction->amount;
             } else {
@@ -486,4 +491,24 @@ class CustomerController extends Controller
 
         return $result;
     }
+
+    public function chartData($data)
+    {
+        $transactions = $data->customer->transactions;
+        $result = [];
+
+        if (count($transactions) < 2) {
+            $_transactions['y'] = 0;
+            $_transactions['x'] = date('D, d M Y H:i:s');
+            $result[] = $_transactions;
+        }
+
+        foreach ($transactions as $trensaction) {
+            $_transactions['y'] = $trensaction->amount;
+            $_transactions['x'] = $trensaction->createdAt;
+            $result[] = $_transactions;
+        }
+        return $result;
+    }
+
 }

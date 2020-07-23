@@ -21,7 +21,7 @@
                 <a href="{{ route('customer.index') }}" class="btn btn-primary float-right">
                     Go Back
                 </a>
-                @if(Cookie::get('user_role') != 'store_assistant')
+                @if(Cookie::get('user_role') == 'store_admin')
                     <a href="{{ route('customer.edit', $customer->storeId.'-'.$customer->customer->_id ) }}"
                         class="mr-3 btn btn-success float-right">
                         Edit Customer
@@ -30,7 +30,6 @@
             </div>
         </div>
         {{-- end of page title --}}
-{{-- {{dd($customer)}} --}}
         <div class="row">
             <div class="col-xl-4">
                 <div class="card overflow-hidden">
@@ -39,9 +38,9 @@
                             <div class="col-7">
                                 <div class="text-primary p-3">
                                     @if(Cookie::get('user_role') != 'store_assistant')
-                                    <h5 class="text-primary"><a href="{{ route('store.show', $customer->storeId) }}">{{ $customer->storeName }}</a></h5>
+                                    {{-- <h5 class="text-primary"><a href="{{ route('store.show', $customer->storeId) }}">{{ $customer->storeName }}</a></h5> --}}
                                     @else
-                                    <h5 class="text-primary">{{ $customer->storeName }}</h5>
+                                    {{-- <h5 class="text-primary">{{ $customer->storeName }}</h5> --}}
                                     @endif
                                     <p>Store Name</p>
                                 </div>
@@ -62,7 +61,7 @@
                                             <p class="text-muted mb-0">Transactions</p>
                                         </div>
                                         <div class="col-6">
-                                            <h5 class="font-size-15">{{ $result->total_revenue }}</h5>
+                                            <h5 class="font-size-15">NGN {{ number_format($result->total_revenue,2) }}</h5>
                                             <p class="text-muted mb-0">Revenue</p>
                                         </div>
                                     </div>
@@ -109,7 +108,7 @@
                                 <div class="media">
                                     <div class="media-body">
                                         <p class="text-muted font-weight-medium">Revenue</p>
-                                        <h4 class="mb-0">{{ $result->total_revenue }}</h4>
+                                        <h4 class="mb-0">NGN {{ number_format($result->total_revenue,2) }}</h4>
                                     </div>
 
                                     <div class="mini-stat-icon avatar-sm align-self-center rounded-circle bg-primary">
@@ -127,7 +126,7 @@
                                 <div class="media">
                                     <div class="media-body">
                                         <p class="text-muted font-weight-medium">Debt</p>
-                                        <h4 class="mb-0">{{ $result->total_debt }}</h4>
+                                        <h4 class="mb-0">NGN {{ number_format($result->total_debt,2) }}</h4>
                                     </div>
 
                                     <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
@@ -145,7 +144,7 @@
                                 <div class="media">
                                     <div class="media-body">
                                         <p class="text-muted font-weight-medium">Receivables</p>
-                                        <h4 class="mb-0">{{ $result->total_receivables }}</h4>
+                                        <h4 class="mb-0">NGN {{ number_format($result->total_receivables, 2) }}</h4>
                                     </div>
 
                                     <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
@@ -161,7 +160,7 @@
 
                 <div class="card">
                     <div class="card-body pb-5">
-                        <h6 class="card-title mb-4 float-left">Total Transactions</h6>
+                        <h6 class="card-title mb-4 float-left">Transactions</h6>
                         <div class="btn-group float-right">
                             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
@@ -179,14 +178,13 @@
                             </div>
                         </div>
                         <div class="clear"></div>
-                        <div id="customer-chart" class="apex-charts" style="min-height: 365px;"></div>
+                        <div id="customer-chart" class="apex-charts mt-5" style="min-height: 365px;"></div>
                     </div>
                 </div>
 
             </div>
         </div>
         <!-- end row -->
-
 
         <div class="row">
             <div class="col-lg-12">
@@ -214,7 +212,7 @@
                                         <tr>
                                         <th scope="row">{{ $transaction->_id }}</th>
                                             <td>{{ $transaction->type }}</td>
-                                            <td>{{ $transaction->amount }}</td>
+                                            <td>{{ number_format($transaction->amount,2) }}</td>
                                             <td>
                                                 @if($transaction->status == false)
                                                 <span class="badge badge-danger">Unpaid</span>
@@ -250,17 +248,12 @@
 @endsection
 @section('javascript')
 <script>
+    var chartData = @json($chartData) ;
     var options = {
           series: [{
-          name: 'debts',
-          data: [31, 40, 28, 51, 42, 109, 100]
-        }, {
-          name: 'revenue',
-          data: [11, 32, 45, 32, 34, 52, 41]
-        }, {
-          name: 'receivables',
-          data: [11, 32, 45, 32, 34, 52, 41]
-        }],
+          name: 'amount',
+          data: chartData,
+        },],
           chart: {
           height: 350,
           type: 'area'
@@ -272,13 +265,18 @@
           curve: 'smooth'
         },
         xaxis: {
-          type: 'date',
-          categories: ["2018-09-19", "2018-09-19", "2018-09-19", "2018-09-19", "2018-09-19", "2018-09-19", "2018-09-19"]
+          type: 'datetime',
         },
-        tooltip: {
-          x: {
-            format: 'dd/MM/yy HH:mm'
-          },
+        toolbar: {
+        show: true,
+        tools: {
+          download: true,
+          selection: true,
+          zoom: true,
+          zoomin: true,
+          zoomout: true,
+          pan: true,
+        },
         },
         };
 
