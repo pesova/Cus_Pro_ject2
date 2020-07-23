@@ -385,5 +385,6 @@ aria-hidden="true">
     });
   };
 </script>
+
 @stop
 @endif
