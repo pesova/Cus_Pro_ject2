@@ -53,15 +53,31 @@ class CustomerController extends Controller
 
             if ($statusCode == 200 && $statusCode2 == 200) {
 
-                $userData = json_decode($user_response->getBody())->data->customer;
                 $stores = json_decode($store_response->getBody())->data->stores;
                 $allCustomers = [];
 
-                foreach ($userData as $store) {
-                    foreach ($store->customers as $customer) {
-                        $customer->store_name = $store->storeName;
-                        $customer->store_id  = $store->storeId;
-                        $allCustomers[] = $customer;
+                if (Cookie::get('user_role') == 'super_admin') {
+                    $userData = json_decode($user_response->getBody())->data->customers;
+                    $_stores = [];
+                    foreach ($stores as $adminStores) {
+                        foreach ($adminStores as $store) {
+                            foreach ($store->customers as $customer) {
+                                $customer->store_name = $store->store_name;
+                                $customer->store_id  = $store->_id;
+                                $allCustomers[] = $customer;
+                            }
+                            $_stores[] = $store;
+                        }
+                    }
+                    $stores = $_stores;
+                } else {
+                    $userData = json_decode($user_response->getBody())->data->customer;
+                    foreach ($userData as $store) {
+                        foreach ($store->customers as $customer) {
+                            $customer->store_name = $store->storeName;
+                            $customer->store_id  = $store->storeId;
+                            $allCustomers[] = $customer;
+                        }
                     }
                 }
                 return view('backend.customer.index')->with(['response' => $allCustomers, 'stores' => $stores]);
@@ -91,6 +107,7 @@ class CustomerController extends Controller
             return view('backend.customer.show')->with('errors.500');
         } catch (Exception $e) {
             // token expired
+            dd($e->getMessage());
             if ($e->getCode() == 401) {
                 Session::flash('message', 'session expired');
                 return redirect()->route('logout');
@@ -469,6 +486,4 @@ class CustomerController extends Controller
 
         return $result;
     }
-
-
 }

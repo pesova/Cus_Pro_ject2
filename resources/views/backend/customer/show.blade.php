@@ -160,7 +160,7 @@
                 </div>
 
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body pb-5">
                         <h6 class="card-title mb-4 float-left">Total Transactions</h6>
                         <div class="btn-group float-right">
                             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
@@ -179,7 +179,7 @@
                             </div>
                         </div>
                         <div class="clear"></div>
-                        <div id="revenue-chart" class="apex-charts"></div>
+                        <div id="customer-chart" class="apex-charts" style="min-height: 365px;"></div>
                     </div>
                 </div>
 
@@ -247,4 +247,42 @@
     </div>
 </div>
 
+@endsection
+@section('javascript')
+<script>
+    var options = {
+          series: [{
+          name: 'debts',
+          data: [31, 40, 28, 51, 42, 109, 100]
+        }, {
+          name: 'revenue',
+          data: [11, 32, 45, 32, 34, 52, 41]
+        }, {
+          name: 'receivables',
+          data: [11, 32, 45, 32, 34, 52, 41]
+        }],
+          chart: {
+          height: 350,
+          type: 'area'
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          curve: 'smooth'
+        },
+        xaxis: {
+          type: 'date',
+          categories: ["2018-09-19", "2018-09-19", "2018-09-19", "2018-09-19", "2018-09-19", "2018-09-19", "2018-09-19"]
+        },
+        tooltip: {
+          x: {
+            format: 'dd/MM/yy HH:mm'
+          },
+        },
+        };
+
+    var chart = new ApexCharts(document.querySelector("#customer-chart"), options);
+    chart.render();
+</script>
 @endsection
