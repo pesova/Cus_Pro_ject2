@@ -135,19 +135,18 @@ class BroadcastController extends Controller
         try {
             $client = new Client();
             $response = $client->post($this->host . '/message/send', [
-                'form_params' => [
+                'json' => [
                     'message' => $request->input('message'),
                     'numbers' => $request->input('numbers')
                 ],
                 'headers' => [
-                    'x-access-token' => Cookie::get('api_token'),
-                    'Content-Type' => 'application/json'
+                    'x-access-token' => Cookie::get('api_token')
                     ]
                 ]);
 
             if ($response->getStatusCode() == 200) {
                 $request->session()->flash('alert-class', 'alert-success');
-                $request->session()->flash('alert-class', 'Broadcast message sent !');
+                $request->session()->flash('message', 'Broadcast message sent !');
                 return back();
             }
         } catch (RequestException $e) {
