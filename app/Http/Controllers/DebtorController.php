@@ -27,15 +27,17 @@ class DebtorController extends Controller
      */
     public function index(Request $request)
     {
-        // display all stores
-        $storeUrl = $this->host . '/store';
+        if (Cookie::get('user_role') != 'super_admin') {
+            $storeUrl = $this->host . '/store';
+            $debtorUrl = $this->host . '/debt';
 
-        // debtors list
-        $debtorUrl = $this->host . '/debt';
-
-        if ($request->has('store_id')) {
-            $storeID = $request->store_id;
-            $debtorUrl = $this->host . '/debt'.'/'.$storeID;
+            if ($request->has('store_id')) {
+                $storeID = $request->store_id;
+                $debtorUrl = $this->host . '/debt' . '/' . $storeID;
+            }
+        } else {
+            $storeUrl = $this->host . '/store/all';
+            $debtorUrl = $this->host . '/transaction/all';
         }
 
         try {
@@ -50,16 +52,27 @@ class DebtorController extends Controller
             $debtorResponse = $client->request("GET", $debtorUrl, $payload);
             $debtorStatusCode = $debtorResponse->getStatusCode();
 
-            if($storeStatusCode == 200 && $debtorStatusCode == 200){
+            if ($storeStatusCode == 200 && $debtorStatusCode == 200) {
                 $stores = json_decode($storeResponse->getBody())->data->stores;
-                $debtors = json_decode($debtorResponse->getBody())->data->debts;
-                return view('backend.debtor.index',compact('debtors','stores'));
-            } else if($storeStatusCode == 401 && $debtorStatusCode == 401){
+
+                if (Cookie::get('user_role') != 'super_admin') {
+                    $debtors = json_decode($debtorResponse->getBody())->data->debts;
+                } else {
+                    $debtors = [];
+                    $transactions = json_decode($debtorResponse->getBody())->data->transactions;
+                    foreach ($transactions as $transaction) {
+
+                        if ($transaction->type == 'debt' || $transaction->type == 'Debt' ) {
+                            $debtors[] = $transaction;
+                        }
+                    }
+                }
+                return view('backend.debtor.index', compact('debtors', 'stores'));
+            } else if ($storeStatusCode == 401 && $debtorStatusCode == 401) {
                 return redirect()->route('login')->with('message', "Please Login Again");
             }
             Session::flash('message', "Temporarily unable to get all stores");
             return view('backend.debtor.index', []);
-
         } catch (RequestException $e) {
             Log::info('Catch error: DebtorController - ' . $e->getMessage());
             if ($e->hasResponse()) {
@@ -133,7 +146,7 @@ class DebtorController extends Controller
     public function show($id)
     {
         // return view('backend.customer.show');
-        if ( !$id || empty($id) ) {
+        if (!$id || empty($id)) {
             return redirect()->route('debtors.index');
         }
 
@@ -141,7 +154,7 @@ class DebtorController extends Controller
         $storeUrl = $this->host . '/store';
 
         // debtors list
-        $debtorUrl = $this->host . '/debt/single/' .$id;
+        $debtorUrl = $this->host . '/debt/single/' . $id;
 
         try {
             $client = new Client();
@@ -155,16 +168,15 @@ class DebtorController extends Controller
             $debtorResponse = $client->request("GET", $debtorUrl, $payload);
             $debtorStatusCode = $debtorResponse->getStatusCode();
 
-            if($storeStatusCode == 200 && $debtorStatusCode == 200){
+            if ($storeStatusCode == 200 && $debtorStatusCode == 200) {
                 $stores = json_decode($storeResponse->getBody())->data->stores;
                 $debtor = json_decode($debtorResponse->getBody())->data->debt;
-                return view('backend.debtor.show',compact('debtor','stores'));
-            } else if($storeStatusCode == 401 && $debtorStatusCode == 401){
+                return view('backend.debtor.show', compact('debtor', 'stores'));
+            } else if ($storeStatusCode == 401 && $debtorStatusCode == 401) {
                 return redirect()->route('login')->with('message', "Please Login Again");
             }
             Session::flash('message', "Temporarily unable to get all stores");
             return redirect()->route('debtor.index');
-
         } catch (RequestException $e) {
             Log::info('Catch error: DebtorController - ' . $e->getMessage());
             if ($e->hasResponse()) {
@@ -215,13 +227,14 @@ class DebtorController extends Controller
     {
     }
 
-    public function sendReminder(Request $request) {
+    public function sendReminder(Request $request)
+    {
         // /debt/send
         $_id = $request->transaction_id;
         $message = $request->message;
 
 
-        $url = env('API_URL', 'https://dev.api.customerpay.me') .'/debt'. '/send';
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt' . '/send';
 
         try {
             $client =  new Client();
@@ -343,7 +356,7 @@ class DebtorController extends Controller
     public function markPaid(Request $request, $id)
     {
 
-        $url = env('API_URL', 'https://dev.api.customerpay.me') .'/debt' . '/update/' .$id;
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt' . '/update/' . $id;
 
         try {
             $client =  new Client();

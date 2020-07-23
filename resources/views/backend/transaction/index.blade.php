@@ -244,7 +244,7 @@
     $(document).ready(function () {
         var export_filename = 'MycustomerTransactions';
         $('#transactionTable').DataTable({
-            dom: 'Bftrip',
+            dom: 'frtipB',
             buttons:[
                 {
                     extend: 'excel',
