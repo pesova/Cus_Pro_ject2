@@ -227,12 +227,7 @@ class DebtorController extends Controller
     {
     }
 
-<<<<<<< HEAD
     public function sendReminder(Request $request, $id) {
-=======
-    public function sendReminder(Request $request)
-    {
->>>>>>> 96e0037aa20302d1899eed32343685ebcc46c2d2
         // /debt/send
 
 
@@ -245,11 +240,7 @@ class DebtorController extends Controller
         $message = $request->message;
 
 
-<<<<<<< HEAD
         $url = env('API_URL', 'https://dev.api.customerpay.me') .'/debt'. '/send'.'/'.$store_ref_id.'/'.$customer_ref_id.'/'.$ts_ref_id;
-=======
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt' . '/send';
->>>>>>> 96e0037aa20302d1899eed32343685ebcc46c2d2
 
         try {
             $client =  new Client();
