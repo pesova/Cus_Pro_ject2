@@ -21,8 +21,7 @@
     <link href="{{asset('backend/assets/css/icons.min.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('backend/assets/css/app.min.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('backend/assets/css/custom.css')}}" rel="stylesheet" type="text/css">
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/shepherd/2.0.0-beta.1/css/shepherd-theme-arrows.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shepherd/2.0.0-beta.1/css/shepherd-theme-arrows.css" />
     <link href="{{asset('backend/assets/css/tourguide.css')}}" rel="stylesheet" type="text/css">
     <style>
         .dissapear {
@@ -81,6 +80,24 @@
     <!-- App js -->
     <script src="/backend/assets/js/app.min.js"></script>
 
+    <!-- Transactions -->
+    <script src="/backend/assets/build/js/intlTelInput.js"></script>
+    <script src="/backend/assets/libs/datatables/jquery.dataTables.min.js"></script>
+    <script src="/backend/assets/libs/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="/backend/assets/libs/datatables/dataTables.responsive.min.js"></script>
+    <script src="/backend/assets/libs/datatables/responsive.bootstrap4.min.js"></script>
+
+    <script src="/backend/assets/libs/datatables/dataTables.buttons.min.js"></script>
+    <script src="/backend/assets/libs/datatables/buttons.flash.min.js"></script>
+    <script src="/backend/assets/libs/datatables/buttons.html5.min.js"></script>
+    <script src="/backend/assets/libs/datatables/buttons.print.min.js"></script>
+    <script src="/backend/assets/libs/datatables/buttons.bootstrap4.min.js"></script>
+    <script src="/backend/assets/libs/datatables/dataTables.keyTable.min.js"></script>
+    <script src="/backend/assets/js/pages/datatables.init.js"></script>
+    <script src="/backend/assets/libs/datatables/dataTables.select.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.0.10/jspdf.plugin.autotable.min.js"></script>
+    <script src="/backend/assets/libs/datatables/tableHTMLExport.js"></script>
     @yield('javascript')
 </body>
 
