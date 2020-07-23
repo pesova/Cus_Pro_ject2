@@ -112,7 +112,7 @@
                         <div class="media">
                             <div class="media-body">
                                 <p class="text-muted font-weight-medium">Revenue</p>
-                                <h4 class="mb-0">{{$data->revenueCount}}</h4>
+                                <h4 class="mb-0">$ {{$data->revenueAmount}}</h4>
                             </div>
 
                             <div class="mini-stat-icon avatar-sm align-self-center rounded-circle bg-primary">
@@ -130,7 +130,7 @@
                         <div class="media">
                             <div class="media-body">
                                 <p class="text-muted font-weight-medium">Debt</p>
-                                <h4 class="mb-0">{{$data->debtCount}}</h4>
+                                <h4 class="mb-0">${{$data->debtAmount}}</h4>
                             </div>
 
                             <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
