@@ -129,7 +129,7 @@ aria-hidden="true">
             </button>
         </div>
         <form class="form-horizontal" method="POST"
-            action="{{ route('store.destroy', $store->_id) }}">
+            action="{{ route('store.destroy', $store->_id ?? '') }}">
             <div class="modal-body">
                 @csrf
                 @method('DELETE')
