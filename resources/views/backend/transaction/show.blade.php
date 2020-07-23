@@ -209,18 +209,19 @@
                                 </tr>
                             </thead>
                             <tbody>
-
+                                @foreach ($transaction->debts as $Debts)
                                 <tr>
                                     <td>1</td>
                                     <td>
-                                        message shall be here
+                                        {{ $Debts->message }}
                                     </td>
-                                    <td><span class="badge badge-success">Message Sent</span></td>
-                                    <td>January 10, 1995</td>
+                                    <td><span class="badge badge-success">{{ $Debts->status }}</span></td>
+                                    <td>{{ \Carbon\Carbon::parse($Debts->createdAt)->diffForhumans() }}</td>
                                     <td><a href="#" class="btn btn-primary btn-sm mt-2">
                                             Resend
                                         </a></td>
                                 </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -364,7 +365,7 @@
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
                         <div class="modal-body">
-                            <form action="{{ route('reminder') }}" method="POST">
+                            <form action="{{ route('reminder', $transaction->store_ref_id.'-'.$transaction->customer_ref_id.'-'.$transaction->_id) }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="transaction_id" value="{{old('transaction_id', $transaction->_id)}}">
 
