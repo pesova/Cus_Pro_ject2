@@ -50,14 +50,9 @@ class DashboardController extends Controller
                 return view('errors.500');
             }
 
-            // Jeremiahiro fixed dashboard for store admin
+
         } elseif (Cookie::get('user_role') === 'store_admin') {
-            $transaction_url = env('API_URL', 'https://dev.api.customerpay.me') . '/transaction/store_admin';
-            $customer_url = env('API_URL', 'https://dev.api.customerpay.me') . '/customer';
-            $debt_url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt';
-            $store_url = env('API_URL', 'https://dev.api.customerpay.me') . '/store';
-            $assistant_url = env('API_URL', 'https://dev.api.customerpay.me') . '/assistant';
-            $url = env('API_URL', 'https://dev.api.customerpay.me') . '/dashboard/';// . Cookie::get('user_id');
+            $url = env('API_URL', 'https://dev.api.customerpay.me') . '/dashboard/';
 
 
             try {
