@@ -38,9 +38,13 @@
                             <div class="col-7">
                                 <div class="text-primary p-3">
                                     @if(Cookie::get('user_role') != 'store_assistant')
-                                    {{-- <h5 class="text-primary"><a href="{{ route('store.show', $customer->storeId) }}">{{ $customer->storeName }}</a></h5> --}}
+                                    {{-- Checks are for super admin because vvariable naming is different from admin --}}
+                                    <h5 class="text-primary">
+                                        <a href="{{ route('store.show', isset($customer->storeId) ? $customer->storeId : $customer->customer->store_ref_id) }}">
+                                            {{ isset($customer->storeName) ? $customer->storeName : $customer->customer->store_name }}
+                                        </a></h5>
                                     @else
-                                    {{-- <h5 class="text-primary">{{ $customer->storeName }}</h5> --}}
+                                    <h5 class="text-primary">{{ $customer->storeName }}</h5>
                                     @endif
                                     <p>Store Name</p>
                                 </div>
