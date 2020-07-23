@@ -61,7 +61,7 @@
                             previous month</p>
 
                         <div class="mt-4">
-                            <a href="#" class="btn btn-primary waves-effect waves-light btn-sm">
+                            <a href="{{route('transaction.index')}}" class="btn btn-primary waves-effect waves-light btn-sm">
                                 View More <i class="uil-arrow-right ml-1"></i>
                             </a>
                         </div>
