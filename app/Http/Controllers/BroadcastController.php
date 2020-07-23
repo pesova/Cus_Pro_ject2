@@ -38,6 +38,8 @@ class BroadcastController extends Controller
             $users = json_decode($user_response->getBody());
             $stores = json_decode($store_response->getBody());
 
+           // dd($users);
+
             if ( $statusCode == 200 && $statusCode2 == 200 ) {
                 $customerArray = [];
                 $store_ids = [];
@@ -94,7 +96,33 @@ class BroadcastController extends Controller
      */
     public function create()
     {
-        return view('backend.broadcasts.create');
+        //get customers
+        $customer_url = env('API_URL', 'https://dev.api.customerpay.me'). '/customer' ;
+
+        try{
+            $client = new Client;
+            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+            $customer = $client->request("GET",$customer_url, $headers);
+
+            $customerStatusCode = $customer->getStatusCode();
+            $customerData = json_decode($customer->getBody());
+            $data = $customerData->data->customer;
+            
+            //dd($customerData);
+            if($customerStatusCode == 200){
+                $customerArray = [];
+               
+                for ($i = 0; $i < count($data); $i++) {
+                    print_r($data[$i]);
+                }
+            } 
+
+
+
+        }catch(\Exception $e){
+            dd($e);
+        }
+        //return view('backend.broadcasts.create');
     }
 
     /**
