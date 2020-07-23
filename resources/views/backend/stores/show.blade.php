@@ -257,7 +257,7 @@ $total_interestReceivables = 0;
     <div class="col-lg-8">
         <div class="card">
             <div class="card-body">
-                <h6 class="card-title mb-4 float-sm-left">Transaction Overview</h6>
+                <h6 class="card-title mb-4 float-sm-left">Transaction Chart</h6>
                 <div class="btn-group float-right">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class='uil uil-file-alt mr-1'></i>Export
@@ -310,7 +310,42 @@ $total_interestReceivables = 0;
                                 
 
                                 <table id="basic-datatables" class="table dt-responsive nowrap">
-                                    
+                                    @php
+                                        $view = 2;
+                                        
+                                        $c =[];
+                                        foreach ($response['storeData']->customers as $transactions)
+                                    {   
+                                        foreach ($transactions->transactions as $i => $transaction)
+                                    {
+                                        $date = date("m-d-Y", strtotime(date($transaction->createdAt)));
+                                        $value = $transaction->amount;
+                                            
+                                        $key = $i;
+
+                                        if ($view > 0)
+                                        {
+                                            $key = array_search($date, array_column($c, 'date'));
+                                            if ($key !== false)
+                                            {
+                                                $value = $c[$key]['value'] + $value;
+                                            }
+                                            else
+                                            {
+                                                $key = count($c); // Create a new index here instead of $i
+                                            }
+                                        }
+                                        else
+                                        {
+                                            $key = $i;
+                                        }
+
+                                        $c[$key]['name'] = 'Combined';
+                                        $c[$key]['date'] = $date;
+                                        $c[$key]['value'] = $value;
+                                    }
+                                }
+                                    @endphp
                                     <thead>
                                         <tr>
                                             <th>S/N</th>
@@ -367,6 +402,26 @@ $total_interestReceivables = 0;
 @endsection
 
 @section("javascript")
+<script src="/backend/assets/build/js/intlTelInput.js"></script>
+    <script src="/backend/assets/libs/datatables/jquery.dataTables.min.js"></script>
+    <script src="/backend/assets/libs/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="/backend/assets/libs/datatables/dataTables.responsive.min.js"></script>
+    <script src="/backend/assets/libs/datatables/responsive.bootstrap4.min.js"></script>
+
+    <script src="/backend/assets/libs/datatables/dataTables.buttons.min.js"></script>
+    <script src="/backend/assets/libs/datatables/buttons.flash.min.js"></script>
+    <script src="/backend/assets/libs/datatables/buttons.html5.min.js"></script>
+    <script src="/backend/assets/libs/datatables/buttons.print.min.js"></script>
+    <script src="/backend/assets/libs/datatables/buttons.bootstrap4.min.js"></script>
+    <script src="/backend/assets/libs/datatables/dataTables.keyTable.min.js"></script>
+    <script src="/backend/assets/js/pages/datatables.init.js"></script>
+    <script src="/backend/assets/libs/datatables/dataTables.select.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.0.10/jspdf.plugin.autotable.min.js"></script>
+    <script src="/backend/assets/libs/datatables/tableHTMLExport.js"></script>
+<script type=text/javascript>
+  var product = <?php echo json_encode( $c ) ?>;
+</script>
 <script>
     $('#basic-datatables').dataTable( {
   "lengthMenu": [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"] ]
@@ -413,9 +468,12 @@ $total_interestReceivables = 0;
     $(document).ready(function() {
         // start of transaction charts
         var options = {
+            
             series: [{
-                name: 'Likes',
-                data: [4, 3, 10, 9, 29, 19, 22, 9, 12, 7, 19, 5, 13, 9, 17, 2, 7, 5]
+                name: 'Amount',
+                data: [<?php foreach($c as $key){                                            
+                            $aaa = (string)$key['value'].",";                                            
+                                echo $aaa;}?>]
             }],
             chart: {
                 height: 350,
@@ -427,10 +485,12 @@ $total_interestReceivables = 0;
             },
             xaxis: {
                 type: 'datetime',
-                categories: ['1/11/2000', '2/11/2000', '3/11/2000', '4/11/2000', '5/11/2000', '6/11/2000', '7/11/2000', '8/11/2000',
-                    '9/11/2000', '10/11/2000', '11/11/2000', '12/11/2000', '1/11/2001', '2/11/2001', '3/11/2001', '4/11/2001', '5/11/2001', '6/11/2001'
-                ],
+                
+                categories: [<?php foreach($c as $key){                                            
+                            $aaa = "'".$key['date']."'".",";
+                                echo $aaa;}?>],
             },
+            
             title: {
                 text: '',
                 align: 'left',
@@ -461,10 +521,9 @@ $total_interestReceivables = 0;
                 }
             },
             yaxis: {
-                min: -10,
-                max: 40,
+                
                 title: {
-                    text: 'Cash Flow',
+                    text: "{{ ucfirst($storeData->store_name) }}'s Amount",
                 },
             }
         };
