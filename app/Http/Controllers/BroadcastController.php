@@ -113,8 +113,10 @@ class BroadcastController extends Controller
                 $customerArray = [];
                
                 for ($i = 0; $i < count($data); $i++) {
-                    print_r($data[$i]);
+                    array_push($customerArray, $data[$i]->customers);
                 }
+
+                dd($customerArray);
             } 
 
 
