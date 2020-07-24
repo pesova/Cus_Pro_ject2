@@ -1,12 +1,22 @@
 @extends('layout.base')
 @section("custom_css")
 <link rel="stylesheet" href="{{ asset('/backend/assets/css/transac.css') }}">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
 @stop
 @section('content')
 
 <div class="account-pages my-2">
     <div class="container-fluid">
         <div class="row-justify-content-center">
+
+            @if(Session::has('message'))
+                <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
+                <script>
+                setTimeout(() => {
+                    document.querySelector('.alert').style.display = 'none'
+                }, 3000);
+                </script>
+            @endif
 
             <div class="row">
                 <div class="col">
@@ -20,7 +30,7 @@
                                 <div>
                                     <a href="" data-toggle="modal" data-target="#sendReminderModal" class="btn btn-warning mr-3"> Send Debt Reminder </i>
                                     </a>
-                                    @if(Cookie::get('user_role') != 'store_assistant')
+                                    @if(Cookie::get('user_role') == 'store_admin')
                                     <a href="#" class="btn btn-primary mr-3" data-toggle="modal"
                                         data-target="#editTransactionModal"> Edit &nbsp;<i data-feather="edit-3"></i>
                                     </a>
@@ -209,18 +219,19 @@
                                 </tr>
                             </thead>
                             <tbody>
-
+                                @foreach ($transaction->debts as $index => $Debts)
                                 <tr>
-                                    <td>1</td>
+                                    <td>{{ $index + 1 }}</td>
                                     <td>
-                                        message shall be here
+                                        {{ $Debts->message }}
                                     </td>
-                                    <td><span class="badge badge-success">Message Sent</span></td>
-                                    <td>January 10, 1995</td>
-                                    <td><a href="#" class="btn btn-primary btn-sm mt-2">
+                                    <td><span class="badge badge-success">{{ $Debts->status }}</span></td>
+                                    <td>{{ \Carbon\Carbon::parse($Debts->createdAt)->diffForhumans() }}</td>
+                                    <td><a href="" data-toggle="modal" onclick="return previousMessage('{{ $Debts->message }}')" data-target="#ResendReminderModal" class="btn btn-primary btn-sm mt-2">
                                             Resend
                                         </a></td>
                                 </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -293,7 +304,7 @@
                                     <label for="description" class="col-3 col-form-label">Due Date</label>
                                     <div class="col-9">
                                         <input type="date" class="form-control" id="expected_pay_date"
-                                            name="expected_pay_date" value="{{ old('description', \Carbon\Carbon::parse($transaction->expected_pay_date)->format('Y-m-d')) }}">
+                                            name="expected_pay_date" value="{{ old('expected_pay_date', \Carbon\Carbon::parse($transaction->expected_pay_date)->format('Y-m-d')) }}">
                                     </div>
                                 </div>
 
@@ -301,10 +312,12 @@
                                     <label for="store" class="col-3 col-form-label">Store</label>
                                     <div class="col-9">
                                         <select name="store" class="form-control">
+                                            @foreach($stores as $store)
                                             @if ($store->storeId === $transaction->store_ref_id)
                                             <option class="text-uppercase form-control" value="{{ $store->storeId }}">
                                                 {{ $store->storeName }}</option>
                                             @endif
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -313,11 +326,13 @@
                                     <label for="customer" class="col-3 col-form-label">Customer</label>
                                     <div class="col-9">
                                         <select name="customer" class="form-control">
+                                            @foreach($stores as $store)
                                             @foreach ($store->customers as $customer)
                                             @if ($customer->_id === $transaction->customer_ref_id)
                                             <option class="text-uppercase form-control" value="{{ $customer->_id }}">
                                                 {{ $customer->name }}</option>
                                             @endif
+                                            @endforeach
                                             @endforeach
                                         </select>
                                     </div>
@@ -358,13 +373,48 @@
 </div>
 
 
+
+        {{-- Modal for Resend reminder --}}
+            <div class="modal fade" id="ResendReminderModal" tabindex="-1" role="dialog"
+                aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <form action="{{ route('reminder', $transaction->store_ref_id.'-'.$transaction->customer_ref_id.'-'.$transaction->_id) }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="transaction_id" value="{{old('transaction_id', $transaction->_id)}}">
+
+                                {{-- <input type="hidden" name="message" value="{{old('transaction_id', $transaction->_id)}}"> --}}
+
+                                <div class="form-group">
+                                    <label>Message</label>
+
+                                    <textarea name="message" id="R_debtMessage" class="form-control @error('message') is-invalid @enderror" placeholder="Message" maxlength="140"></textarea>
+                                    {{-- <input type="text" id="R_debtMessage" class="" name="message" value="{{ old('message') }}"> --}}
+                                        @error('message')
+                                        <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                </div>
+
+                                <button type="submit" class="btn btn-primary btn-block">Resend Reminder</button>
+                            </form>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div>
+
+
+
+
 {{-- Modal for send reminder --}}
             <div class="modal fade" id="sendReminderModal" tabindex="-1" role="dialog"
                          aria-labelledby="mySmallModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
                         <div class="modal-body">
-                            <form action="{{ route('reminder') }}" method="POST">
+                            <form action="{{ route('reminder', $transaction->store_ref_id.'-'.$transaction->customer_ref_id.'-'.$transaction->_id) }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="transaction_id" value="{{old('transaction_id', $transaction->_id)}}">
 
@@ -419,6 +469,7 @@
 @endsection
 
 @section('javascript')
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-html5-1.6.2/datatables.min.js"></script>
 <script>
     $(function() {
         const api = "{{ Cookie::get('api_token') }}";
@@ -469,5 +520,15 @@
 
     });
 
+    // copy resend debt message
+
+    function previousMessage(message) {
+        $('#R_debtMessage').val(message);
+    }
+
+    // pagination for debts
+    $(() => {
+        $('#transactionTable').DataTable({});
+    });
 </script>
 @endsection

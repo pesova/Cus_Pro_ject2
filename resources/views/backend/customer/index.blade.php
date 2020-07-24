@@ -2,10 +2,8 @@
 @section("custom_css")
 <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
-<link rel="stylesheet" href="backend/assets/css/all_users.css">
-<link rel="stylesheet" href="/backend/assets/css/complaintsLog.css">
-<link rel="stylesheet" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
-<link rel="stylesheet" href="/backend/assets/css/datatablestyle.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 @stop
 @section('content')
 <div class="content">
@@ -77,7 +75,6 @@
                             </tr>
 
                         <tbody>
-                            {{-- {{ dd($response) }} --}}
                             @foreach($response as $i => $customer) <tr>
                                 <td>{{$i + 1}}</td>
                                 <td>{{ ucfirst($customer->name) }}</td>
@@ -301,7 +298,7 @@
 
 @section("javascript")
 
-<script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+{{-- <script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script> --}}
 <script src="/backend/assets/build/js/intlTelInput.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
@@ -310,7 +307,7 @@
     const export_filename = 'Mycustomers';
     $(document).ready(function () {
         $('#customerTable').DataTable({
-            dom: 'Bftrip',
+            dom: 'frtipB',
             buttons:[
                 {
                     extend: 'excel',
