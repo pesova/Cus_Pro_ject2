@@ -38,7 +38,8 @@
                                 </div>
                             </div>
                             <div class="mt-4">
-                                <a href="{{route('setting')}}" class="btn btn-primary waves-effect waves-light btn-sm">View Profile
+                                <a href="{{route('setting')}}" class="btn btn-primary waves-effect waves-light btn-sm">View
+                                    Profile
                                     <i class="uil-arrow-right ml-1"></i>
                                 </a>
                             </div>
@@ -61,7 +62,8 @@
                             previous month</p>
 
                         <div class="mt-4">
-                            <a href="{{route('transaction.index')}}" class="btn btn-primary waves-effect waves-light btn-sm">
+                            <a href="{{route('transaction.index')}}"
+                               class="btn btn-primary waves-effect waves-light btn-sm">
                                 View More <i class="uil-arrow-right ml-1"></i>
                             </a>
                         </div>
@@ -132,7 +134,7 @@
 
         <div class="card">
             <div class="card-body">
-                <h6 class="card-title mb-4 float-sm-left">Transaction Overview</h6>
+                <h6 class="card-title mb-4 float-sm-left">Transaction Overview {{date('Y')}}</h6>
                 <div class="clearfix"></div>
                 <div id="transactionchart"></div>
             </div>
@@ -252,8 +254,8 @@
             // start of transaction charts
             var options = {
                 series: [{
-                    name: 'Likes',
-                    data: [4, 3, 10, 9, 29, 19, 22, 9, 12, 7, 19, 5, 13, 9, 17, 2, 7, 5]
+                    name: 'Transaction',
+                    data: {{json_encode($data->chart)}},
                 }],
                 chart: {
                     height: 350,
@@ -264,10 +266,9 @@
                     curve: 'smooth'
                 },
                 xaxis: {
-                    type: 'datetime',
-                    categories: ['1/11/2000', '2/11/2000', '3/11/2000', '4/11/2000', '5/11/2000', '6/11/2000', '7/11/2000', '8/11/2000',
-                        '9/11/2000', '10/11/2000', '11/11/2000', '12/11/2000', '1/11/2001', '2/11/2001', '3/11/2001', '4/11/2001', '5/11/2001'
-                        , '6/11/2001'],
+                    type: 'text',
+                    categories: ['JAN', 'FEB', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUG',
+                        'SEPT', 'OCT', 'NOV', 'DEC'],
                 },
                 title: {
                     text: '',
@@ -299,10 +300,10 @@
                     }
                 },
                 yaxis: {
-                    min: -10,
-                    max: 40,
+                    //min: -10,
+                   // max: 40,
                     title: {
-                        text: 'Cash Flow',
+                        text: 'Transaction',
                     },
                 }
             };
