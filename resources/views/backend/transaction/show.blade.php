@@ -391,10 +391,15 @@
 
                                     <label>Message</label>
 
-                                    <input type="text" name="message" value="{{old('message', $Debts->message)}}">
+                                    <input type="text" class="@error('message') is-invalid @enderror" name="message" value="{{ old('message', $Debts->message) }}">
+                                        @error('message')
+                                        <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
                                 </div>
 
-                                <button type="submit" class="btn btn-primary btn-block">Create Reminder</button>
+                                <button type="submit" class="btn btn-primary btn-block">Resend Reminder</button>
                             </form>
                         </div>
                     </div><!-- /.modal-content -->
