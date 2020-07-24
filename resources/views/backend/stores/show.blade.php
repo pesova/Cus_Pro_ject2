@@ -1,6 +1,7 @@
 @extends('layout.base')
 @section("custom_css")
 <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="{{ asset('/backend/assets/css/transac.css') }}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
 <link rel="stylesheet" href="{{asset('backend/assets/css/store_list.css')}}">
 <link href="/backend/assets/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
@@ -311,6 +312,7 @@ $total_interestReceivables = 0;
 
                                 <table id="basic-datatables" class="table dt-responsive nowrap">
                                     @php
+                                        
                                         $view = 2;
                                         
                                         $c =[];
@@ -320,6 +322,7 @@ $total_interestReceivables = 0;
                                     {
                                         $date = date("m-d-Y", strtotime(date($transaction->createdAt)));
                                         $value = $transaction->amount;
+                                    
                                             
                                         $key = $i;
 
@@ -365,14 +368,27 @@ $total_interestReceivables = 0;
                                             <th>{{$transactions->name}}<span class="co-name"></span>
                                                 <br> <span class="font-light">{{$transactions->phone_number}}</span>
                                             </th>
-                                            <td>{{$transaction->amount}}</td>
                                             <td>{{$transaction->type}}</td>
+                                            <td>{{$transaction->amount}}</td>
                                             <td>
-                                                @if ($transaction->status == 0)
-                                                Unpaid
-                                                @else
-                                                Paid
-                                                @endif
+                                                <label class="switch">
+                                                    @if(Cookie::get('user_role') != 'store_assistant') disabled
+                                                        <input class="togBtn" type="checkbox" id="togBtn"
+                                                        {{ $transaction->status == true ? 'checked' : '' }}
+                                                        data-id="{{ $transaction->_id }}"
+                                                        data-store="{{ $transaction->store_ref_id }}"
+                                                        data-customer="{{ $transaction->customer_ref_id}}">
+                                                    @else
+                                                        <input type="checkbox" id="togBtn" {{ $transaction->status == true ? 'checked' : '' }} disabled>
+                                                    @endif
+
+                                                    <div class="slider round">
+                                                        <span class="on">Paid</span><span class="off">Pending</span>
+                                                    </div>
+                                                </label>
+                                                    <div id="statusSpiner" class="spinner-border spinner-border-sm text-primary d-none" role="status">
+                                                        <span class="sr-only">Loading...</span>
+                                                </div>
                                             </td>
                                             <td> <a href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id.'-'.$transaction->customer_ref_id) }}" class="btn btn-primary waves-effect waves-light"> View Transaction</a>
                                             </td>
@@ -464,6 +480,44 @@ $total_interestReceivables = 0;
     }
 }
   </script>
+<script>
+    jQuery(function ($) {
+        const token = "{{Cookie::get('api_token')}}"
+        const host = "{{ env('API_URL', 'https://dev.api.customerpay.me') }}";
+
+        $('.togBtn').change(function () {
+            $(this).attr("disabled", true);
+            $('#statusSpiner').removeClass('d-none');
+
+            const id = $(this).data('id');
+            const store = $(this).data('store');
+            let _status = $(this).is(':checked') ? 1 : 0;
+            let _customer_id = $(this).data('customer');
+
+           $.ajax({
+            url: `${host}/transaction/update/${id}`,
+             headers: {'x-access-token': token},
+             data: {
+                 store_id:store,
+                 status:_status,
+                 customer_id:_customer_id,
+                 },
+             type: 'PATCH',
+            }).done(response => {
+                if (response.success != true) {
+                    $(this).prop("checked", !this.checked);
+                }
+                $(this).removeAttr("disabled")
+                $('#statusSpiner').addClass('d-none');
+            }).fail( e => {
+                $(this).removeAttr("disabled")
+                $(this).prop("checked", !this.checked);
+                $('#statusSpiner').addClass('d-none');
+            });
+        });
+    });
+
+</script>
 <script>
     $(document).ready(function() {
         // start of transaction charts
