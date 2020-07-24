@@ -243,7 +243,7 @@ class AssistantController extends Controller
                 $data = $data->data;
 
                 $data->_id = $data->user->_id;
-                $data->name = $data->user->first_name;
+                $data->name = isset($data->user->first_name) ? $data->user->first_name : $data->user->name;
                 $data->phone_number = $data->user->phone_number;
                 $data->email = $data->user->email;
 
