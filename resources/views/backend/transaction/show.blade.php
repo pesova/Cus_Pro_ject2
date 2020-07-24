@@ -8,6 +8,15 @@
     <div class="container-fluid">
         <div class="row-justify-content-center">
 
+            @if(Session::has('message'))
+                <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
+                <script>
+                setTimeout(() => {
+                    document.querySelector('.alert').style.display = 'none'
+                }, 3000);
+                </script>
+            @endif
+
             <div class="row">
                 <div class="col">
                     <div class="card">
@@ -209,15 +218,15 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($transaction->debts as $Debts)
+                                @foreach ($transaction->debts as $index => $Debts)
                                 <tr>
-                                    <td>1</td>
+                                    <td>{{ $index + 1 }}</td>
                                     <td>
                                         {{ $Debts->message }}
                                     </td>
                                     <td><span class="badge badge-success">{{ $Debts->status }}</span></td>
                                     <td>{{ \Carbon\Carbon::parse($Debts->createdAt)->diffForhumans() }}</td>
-                                    <td><a href="#" class="btn btn-primary btn-sm mt-2">
+                                    <td><a href="" data-toggle="modal" data-target="#ResendReminderModal" class="btn btn-primary btn-sm mt-2">
                                             Resend
                                         </a></td>
                                 </tr>
@@ -361,6 +370,38 @@
         </div>
     </div>
 </div>
+
+
+
+        {{-- Modal for Resend reminder --}}
+            <div class="modal fade" id="ResendReminderModal" tabindex="-1" role="dialog"
+                aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <form action="{{ route('reminder', $transaction->store_ref_id.'-'.$transaction->customer_ref_id.'-'.$transaction->_id) }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="transaction_id" value="{{old('transaction_id', $transaction->_id)}}">
+
+                                <input type="hidden" name="message" value="{{old('transaction_id', $transaction->_id)}}">
+
+                                <div class="form-group">
+                                            {{-- <textarea class="form-control"
+                                                        id="reminderMessage" placeholder="Message"></textarea> --}}
+
+                                    <label>Message</label>
+
+                                    <input type="text" name="message" value="{{old('message', $Debts->message)}}">
+                                </div>
+
+                                <button type="submit" class="btn btn-primary btn-block">Create Reminder</button>
+                            </form>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div>
+
+
 
 
 {{-- Modal for send reminder --}}
