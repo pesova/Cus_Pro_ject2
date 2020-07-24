@@ -1,6 +1,7 @@
 @extends('layout.base')
 @section("custom_css")
 <link rel="stylesheet" href="{{ asset('/backend/assets/css/transac.css') }}">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
 @stop
 @section('content')
 
@@ -226,7 +227,7 @@
                                     </td>
                                     <td><span class="badge badge-success">{{ $Debts->status }}</span></td>
                                     <td>{{ \Carbon\Carbon::parse($Debts->createdAt)->diffForhumans() }}</td>
-                                    <td><a href="" data-toggle="modal" data-target="#ResendReminderModal" class="btn btn-primary btn-sm mt-2">
+                                    <td><a href="" data-toggle="modal" onclick="return previousMessage('{{ $Debts->message }}')" data-target="#ResendReminderModal" class="btn btn-primary btn-sm mt-2">
                                             Resend
                                         </a></td>
                                 </tr>
@@ -383,15 +384,13 @@
                                 @csrf
                                 <input type="hidden" name="transaction_id" value="{{old('transaction_id', $transaction->_id)}}">
 
-                                <input type="hidden" name="message" value="{{old('transaction_id', $transaction->_id)}}">
+                                {{-- <input type="hidden" name="message" value="{{old('transaction_id', $transaction->_id)}}"> --}}
 
                                 <div class="form-group">
-                                            {{-- <textarea class="form-control"
-                                                        id="reminderMessage" placeholder="Message"></textarea> --}}
-
                                     <label>Message</label>
 
-                                    <input type="text" class="@error('message') is-invalid @enderror" name="message" value="{{ old('message', $Debts->message) }}">
+                                    <textarea name="message" id="R_debtMessage" class="form-control @error('message') is-invalid @enderror" placeholder="Message" maxlength="140"></textarea>
+                                    {{-- <input type="text" id="R_debtMessage" class="" name="message" value="{{ old('message') }}"> --}}
                                         @error('message')
                                         <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -470,6 +469,7 @@
 @endsection
 
 @section('javascript')
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-html5-1.6.2/datatables.min.js"></script>
 <script>
     $(function() {
         const api = "{{ Cookie::get('api_token') }}";
@@ -520,5 +520,15 @@
 
     });
 
+    // copy resend debt message
+
+    function previousMessage(message) {
+        $('#R_debtMessage').val(message);
+    }
+
+    // pagination for debts
+    $(() => {
+        $('#transactionTable').DataTable({});
+    });
 </script>
 @endsection
