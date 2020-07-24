@@ -319,7 +319,7 @@ class AssistantController extends Controller
             }
 
         } catch (\Exception $e) {
-              dd($e);
+              // dd($e);
             // dd($e->getCode());
             if ($e->getCode() == 401) {
                 return redirect()->route('logout')->withErrors("Please Login Again");

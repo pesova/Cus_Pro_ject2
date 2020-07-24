@@ -31,7 +31,8 @@
                             </div>
                             @if(\Cookie::get('user_role') != 'store_assistant')
                                 <div class="mt-4">
-                                    <a href="#" class="btn btn-primary waves-effect waves-light btn-sm"  data-toggle="modal"
+                                    <a href="#" class="btn btn-primary waves-effect waves-light btn-sm"
+                                       data-toggle="modal"
                                        data-target="#DeleteModal">Delete
                                         Assistant
                                     </a>
@@ -165,7 +166,7 @@
         <div class="card">
             <div class="card-body">
                 <h6 class="card-title mb-4">Total Transactions</h6>
-                <div id="revenue-chart" class="apex-charts"></div>
+                <div id="transactionchart"></div>
             </div>
         </div>
 
@@ -232,4 +233,73 @@
     </div>
 </div>
 
+@section("javascript")
+    {{-- <script src="/backend/assets/js/pages/dashboard.js"></script> --}}
+    <script>
+        $(document).ready(function () {
+            // start of transaction charts
+            var options = {
+                series: [{
+                    name: 'Transaction',
+                    data: {{json_encode($data->chart)}},
+                }],
+                chart: {
+                    height: 350,
+                    type: 'line',
+                },
+                stroke: {
+                    width: 7,
+                    curve: 'smooth'
+                },
+                xaxis: {
+                    type: 'text',
+                    categories: ['JAN', 'FEB', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUG',
+                        'SEPT', 'OCT', 'NOV', 'DEC'],
+                },
+                title: {
+                    text: '',
+                    align: 'left',
+                    style: {
+                        fontSize: "16px",
+                        color: '#666'
+                    }
+                },
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                        shade: 'dark',
+                        gradientToColors: ['#FDD835'],
+                        shadeIntensity: 1,
+                        type: 'horizontal',
+                        opacityFrom: 1,
+                        opacityTo: 1,
+                        stops: [0, 100, 100, 100]
+                    },
+                },
+                markers: {
+                    size: 4,
+                    colors: ["#FFA41B"],
+                    strokeColors: "#fff",
+                    strokeWidth: 2,
+                    hover: {
+                        size: 7,
+                    }
+                },
+                yaxis: {
+                    //min: -10,
+                    // max: 40,
+                    title: {
+                        text: 'Transaction',
+                    },
+                }
+            };
+
+            var chart = new ApexCharts(document.querySelector("#transactionchart"), options);
+            chart.render();
+
+
+        });
+
+    </script>
+@endsection
 
