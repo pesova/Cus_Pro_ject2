@@ -20,7 +20,7 @@
                                 <div>
                                     <a href="" data-toggle="modal" data-target="#sendReminderModal" class="btn btn-warning mr-3"> Send Debt Reminder </i>
                                     </a>
-                                    @if(Cookie::get('user_role') != 'store_assistant')
+                                    @if(Cookie::get('user_role') == 'store_admin')
                                     <a href="#" class="btn btn-primary mr-3" data-toggle="modal"
                                         data-target="#editTransactionModal"> Edit &nbsp;<i data-feather="edit-3"></i>
                                     </a>
@@ -294,7 +294,7 @@
                                     <label for="description" class="col-3 col-form-label">Due Date</label>
                                     <div class="col-9">
                                         <input type="date" class="form-control" id="expected_pay_date"
-                                            name="expected_pay_date" value="{{ old('description', \Carbon\Carbon::parse($transaction->expected_pay_date)->format('Y-m-d')) }}">
+                                            name="expected_pay_date" value="{{ old('expected_pay_date', \Carbon\Carbon::parse($transaction->expected_pay_date)->format('Y-m-d')) }}">
                                     </div>
                                 </div>
 
@@ -302,10 +302,12 @@
                                     <label for="store" class="col-3 col-form-label">Store</label>
                                     <div class="col-9">
                                         <select name="store" class="form-control">
+                                            @foreach($stores as $store)
                                             @if ($store->storeId === $transaction->store_ref_id)
                                             <option class="text-uppercase form-control" value="{{ $store->storeId }}">
                                                 {{ $store->storeName }}</option>
                                             @endif
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -314,11 +316,13 @@
                                     <label for="customer" class="col-3 col-form-label">Customer</label>
                                     <div class="col-9">
                                         <select name="customer" class="form-control">
+                                            @foreach($stores as $store)
                                             @foreach ($store->customers as $customer)
                                             @if ($customer->_id === $transaction->customer_ref_id)
                                             <option class="text-uppercase form-control" value="{{ $customer->_id }}">
                                                 {{ $customer->name }}</option>
                                             @endif
+                                            @endforeach
                                             @endforeach
                                         </select>
                                     </div>
