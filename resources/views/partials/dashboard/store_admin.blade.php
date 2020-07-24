@@ -373,7 +373,7 @@
                 ]
             });
             tour.addStep("step5", {
-                text: "You can also send broadcast messages",
+                text: "Send broadcast messages here",
                 attachTo: {element: ".fifth", on: "left"},
                 buttons: [
                     {
