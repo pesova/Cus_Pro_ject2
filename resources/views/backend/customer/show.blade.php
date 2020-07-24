@@ -65,7 +65,7 @@
                                             <p class="text-muted mb-0">Transactions</p>
                                         </div>
                                         <div class="col-6">
-                                            <h5 class="font-size-15">NGN {{ number_format($result->total_revenue,2) }}</h5>
+                                            <h5 class="font-size-15">$ {{ number_format($result->total_revenue,2) }}</h5>
                                             <p class="text-muted mb-0">Revenue</p>
                                         </div>
                                     </div>
@@ -112,7 +112,7 @@
                                 <div class="media">
                                     <div class="media-body">
                                         <p class="text-muted font-weight-medium">Revenue</p>
-                                        <h4 class="mb-0">NGN {{ number_format($result->total_revenue,2) }}</h4>
+                                        <h4 class="mb-0">$ {{ number_format($result->total_revenue,2) }}</h4>
                                     </div>
 
                                     <div class="mini-stat-icon avatar-sm align-self-center rounded-circle bg-primary">
@@ -130,7 +130,7 @@
                                 <div class="media">
                                     <div class="media-body">
                                         <p class="text-muted font-weight-medium">Debt</p>
-                                        <h4 class="mb-0">NGN {{ number_format($result->total_debt,2) }}</h4>
+                                        <h4 class="mb-0">$ {{ number_format($result->total_debt,2) }}</h4>
                                     </div>
 
                                     <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
@@ -148,7 +148,7 @@
                                 <div class="media">
                                     <div class="media-body">
                                         <p class="text-muted font-weight-medium">Receivables</p>
-                                        <h4 class="mb-0">NGN {{ number_format($result->total_receivables, 2) }}</h4>
+                                        <h4 class="mb-0">$ {{ number_format($result->total_receivables, 2) }}</h4>
                                     </div>
 
                                     <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
@@ -225,16 +225,10 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <div class="btn-group mt-2 mr-1">
-                                                    <button type="button" class="btn btn-info dropdown-toggle"
-                                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        Actions<i class="icon"><span data-feather="chevron-down"></span></i>
-                                                    </button>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="">Send debt reminder</a>
-                                                        <a class="dropdown-item" href="">View Transaction</a>
-                                                    </div>
-                                                </div>
+                                            <a class="btn btn-info btn-small py-1 px-2"
+                                                href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id.'-'.$transaction->customer_ref_id) }}">
+                                                View More
+                                            </a>
                                             </td>
                                         </tr>
                                         @endforeach
