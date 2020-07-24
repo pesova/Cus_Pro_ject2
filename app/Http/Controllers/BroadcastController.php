@@ -82,7 +82,6 @@ class BroadcastController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
         try {
             $client = new Client();                        
             $response = $client->post($this->host . '/message/send', [
