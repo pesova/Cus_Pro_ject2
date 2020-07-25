@@ -88,6 +88,10 @@ class DashboardController extends Controller
                     $stores = json_decode($store_response->getBody())->data->stores;
                     $assistants = json_decode($assistant_response->getBody())->data->assistants;
                     
+                    $totalSpeakers = $debtors(function ($item){
+                        $amount = $item['amount'];
+                        dd($amount);
+                    });
                     // foreach ($debtors as $debtor){
                         // $a = array($debtors()->amount);
                         // dd($a);
