@@ -28,9 +28,7 @@ $transactions = $response['transactions'];
     </div>
 </div>
 
-@if(session('data'))
-<p class="alert alert-success">{{ session('data') }}</p>
-@endif
+@include('partials.alert.message')
 
 <div class="row">
     <div class="col-12">

@@ -7,7 +7,7 @@
 @section('content')
 <div class="account-pages my-2">
     <div class="container-fluid">
-        @include('partials.alertMessage')
+        @include('partials.alert.message')
         <div class="row-justify-content-center">
             <div class="card">
                 <div class="card-body p-2">

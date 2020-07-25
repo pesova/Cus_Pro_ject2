@@ -54,6 +54,7 @@ $total_interestRevenue += $each_interestRevenue;
 @section('content')
 
 <!-- Start Content-->
+@include('partials.alert.message')
 
 <div class="row page-title">
     <div class="col-md-12">
@@ -64,7 +65,8 @@ $total_interestRevenue += $each_interestRevenue;
                     class="far mr-2 fa-edit"></i>Edit
                 Store</a>
 
-                <a href="{{ route('card1', $storeData->_id) }}" class="btn btn-success mr-2"><i class="far mr-2 fa-card"></i>Download Business Card</a>
+            <a href="{{ route('card1', $storeData->_id) }}" class="btn btn-success mr-2"><i
+                    class="far mr-2 fa-card"></i>Download Business Card</a>
 
 
 
@@ -109,10 +111,6 @@ $total_interestRevenue += $each_interestRevenue;
     </div>
 </div>
 
-@if(session('data'))
-<p class="alert alert-success">{{ session('data') }}</p>
-@endif
-
 <div class="row mb-4">
     <div class="col-xl-4">
         <div class="card bg-soft-primary">
@@ -140,45 +138,48 @@ $total_interestRevenue += $each_interestRevenue;
         <div class="row">
             <div class="col-sm-4">
                 <div class="card"><a href="{{ route('store_revenue', $storeData->_id) }}">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center mb-3">
-                            <div class="avatar-xs mr-3">
-                                <span class="avatar-title rounded-circle bg-soft-primary text-primary font-size-10">
-                                    <i class="uil-atm-card"></i>
-                                </span>
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="avatar-xs mr-3">
+                                    <span class="avatar-title rounded-circle bg-soft-primary text-primary font-size-10">
+                                        <i class="uil-atm-card"></i>
+                                    </span>
+                                </div>
+                                <h5 class="font-size-14 mb-0 text-info">Revenue</h5>
                             </div>
-                            <h5 class="font-size-14 mb-0 text-info">Revenue</h5>
-                        </div>
-                        <div class="text-muted mt-4">
-                            <h4 class="text-info"> {{ $total_Revenue }} <i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
-                            <div class="d-flex">
-                                <span class="badge badge-soft-success font-size-12"> {{ $total_interestRevenue }}%
-                                </span> <span class="ml-2 text-truncate text-info">From previous Month</span>
+                            <div class="text-muted mt-4">
+                                <h4 class="text-info"> {{ $total_Revenue }} <i
+                                        class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
+                                <div class="d-flex">
+                                    <span class="badge badge-soft-success font-size-12"> {{ $total_interestRevenue }}%
+                                    </span> <span class="ml-2 text-truncate text-info">From previous Month</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
                 </div></a>
             </div>
 
             <div class="col-sm-4">
                 <div class="card"><a href="{{ route('store_receivable', $storeData->_id) }}">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center mb-3">
-                            <div class="avatar-xs mr-3">
-                                <span class="avatar-title rounded-circle bg-soft-primary text-primary font-size-10">
-                                    <i class="uil-atm-card"></i>
-                                </span>
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="avatar-xs mr-3">
+                                    <span class="avatar-title rounded-circle bg-soft-primary text-primary font-size-10">
+                                        <i class="uil-atm-card"></i>
+                                    </span>
+                                </div>
+                                <h5 class="font-size-14 mb-0 text-info">Receivables</h5>
                             </div>
-                            <h5 class="font-size-14 mb-0 text-info">Receivables</h5>
-                        </div>
-                        <div class="text-muted mt-4">
-                            <h4 class="text-info">{{ $total_Receivables }} <i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
-                            <div class="d-flex">
-                                <span class="badge badge-soft-success font-size-12"> {{ $total_interestReceivables }}% </span> <span
-                                    class="ml-2 text-truncate text-info">From previous period</span>
+                            <div class="text-muted mt-4">
+                                <h4 class="text-info">{{ $total_Receivables }} <i
+                                        class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
+                                <div class="d-flex">
+                                    <span class="badge badge-soft-success font-size-12">
+                                        {{ $total_interestReceivables }}% </span> <span
+                                        class="ml-2 text-truncate text-info">From previous period</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
                 </div></a>
             </div>
 
@@ -191,17 +192,17 @@ $total_interestRevenue += $each_interestRevenue;
                                         <i class="uil-atm-card"></i>
                                     </span>
                                 </div>
-                              <h5 class="font-size-14 mb-0 text-info"><a
+                                <h5 class="font-size-14 mb-0 text-info"><a
                                         href="{{ route('store_debt', $storeData->_id) }}">Debt</a>
-                                    </h5>
+                                </h5>
 
                             </div>
                             <div class="text-muted mt-4">
                                 {{-- showing all depts --}}
 
-                                    <h4 class="text-info">
+                                <h4 class="text-info">
 
-                                        {{ $totalDept }}<i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
+                                    {{ $totalDept }}<i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
 
                                 <div class="d-flex">
                                     <span class="badge badge-soft-warning font-size-12">{{ $total_interest }}%</span>
@@ -363,12 +364,12 @@ $total_interestRevenue += $each_interestRevenue;
                                                     <input type="checkbox" id="togBtn"
                                                         {{ $transaction->status == true ? 'checked' : '' }} disabled>
                                                     @endif
-            
                                                     <div class="slider round">
                                                         <span class="on">Paid</span><span class="off">Pending</span>
                                                     </div>
                                                 </label>
-                                                <div id="statusSpiner" class="spinner-border spinner-border-sm text-primary d-none"
+                                                <div id="statusSpiner"
+                                                    class="spinner-border spinner-border-sm text-primary d-none"
                                                     role="status">
                                                     <span class="sr-only">Loading...</span>
                                                 </div>
@@ -396,9 +397,6 @@ $total_interestRevenue += $each_interestRevenue;
 
     </div>
 </div>
-</div> <!-- end col -->
-</div> <!-- end row -->
-
 
 @endsection
 
@@ -441,7 +439,7 @@ $total_interestRevenue += $each_interestRevenue;
         const token = "{{Cookie::get('api_token')}}"
         const host = "{{ env('API_URL', 'https://dev.api.customerpay.me') }}";
 
-        $('#togBtn').change(function () {
+        $('.togBtn').change(function () {
             $(this).attr("disabled", true);
             $('#statusSpiner').removeClass('d-none');
 

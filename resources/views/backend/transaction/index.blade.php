@@ -19,7 +19,7 @@
             @include('partials.modal.addTransaction')
             @endif
         </div>
-        {{-- Alerts --}}
+
         @include('partials.alert.message')
 
         <div class="card mt-0">
@@ -96,7 +96,7 @@
                                 <td> {{ \Carbon\Carbon::parse($transaction->createdAt)->diffForhumans() }}</td>
                                 <td>
                                     <label class="switch">
-                                        @if(Cookie::get('user_role') != 'store_assistant') disabled
+                                        @if(Cookie::get('user_role') != 'store_assistant')
                                         <input class="togBtn" type="checkbox" id="togBtn"
                                             {{ $transaction->status == true ? 'checked' : '' }}
                                             data-id="{{ $transaction->_id }}"
@@ -208,43 +208,45 @@
             }
         });
 
-        $('#togBtn').change(function () {
-        $(this).attr("disabled", true);
-        $('#statusSpiner').removeClass('d-none');
+        $('.togBtn').change(function () {
+            $(this).attr("disabled", true);
 
-        var id = $(this).data('id');
-        var store = $(this).data('store');
-        let _status = $(this).is(':checked') ? 1 : 0;
-        let _customer_id = $(this).data('customer');
+            var id = $(this).data('id');
+            var spiner = $(this).parent("td").find("#statusSpiner");
+            var store = $(this).data('store');
+            let _status = $(this).is(':checked') ? 1 : 0;
+            let _customer_id = $(this).data('customer');
 
-        $.ajax({
-            url: `${host}/transaction/update/${id}`,
-            headers: {
-                'x-access-token': token
-            },
-            data: {
-                store_id: store,
-                status: _status,
-                customer_id: _customer_id,
-            },
-            type: 'PATCH',
-        }).done(response => {
-            if (response.success != true) {
+            $('#statusSpiner').removeClass('d-none');
+
+            $.ajax({
+                url: `${host}/transaction/update/${id}`,
+                headers: {
+                    'x-access-token': token
+                },
+                data: {
+                    store_id: store,
+                    status: _status,
+                    customer_id: _customer_id,
+                },
+                type: 'PATCH',
+            }).done(response => {
+                if (response.success != true) {
+                    $(this).prop("checked", !this.checked);
+                    alert("Oops! something went wrong.");
+                }
+                alert("Operation Successful.");
+                $(this).removeAttr("disabled")
+                $('#statusSpiner').addClass('d-none');
+            }).fail(e => {
+                $(this).removeAttr("disabled")
                 $(this).prop("checked", !this.checked);
-                $('#error').show();
+                $('#statusSpiner').addClass('d-none');
                 alert("Oops! something went wrong.");
-            }
-            alert("Operation Successful.");
-            $(this).removeAttr("disabled")
-            $('#statusSpiner').addClass('d-none');
-        }).fail(e => {
-            $(this).removeAttr("disabled")
-            $(this).prop("checked", !this.checked);
-            $('#statusSpiner').addClass('d-none');
-            alert("Oops! something went wrong.");
+            });
         });
-    });
 
     });
+
 </script>
 @stop
