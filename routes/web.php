@@ -196,6 +196,10 @@ Route::prefix('/admin')->group(function () {
         Route::get('markpaid/{id}', 'DebtorController@markPaid')->name('markpaid');
 
         Route::get('store_debt/{id}', 'StoreController@debt')->name('store_debt');
+        
+        Route::get('store_receivable/{id}', 'StoreController@receivable')->name('store_receivable');
+        
+        Route::get('store_revenue/{id}', 'StoreController@revenue')->name('store_revenue');
     });
     // ------------ GENERAL ROUTES ENDS HERE ------------------------ //
 

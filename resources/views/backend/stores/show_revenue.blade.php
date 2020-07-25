@@ -39,7 +39,7 @@ $transactions = $response['transactions'];
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
-                            <h4 class="card-title">{{ucfirst($storeData->store_name) }} Debit Overview</h4>
+                            <h4 class="card-title">{{ucfirst($storeData->store_name) }} Revenue Overview</h4>
                                     
                                     <table id="datatable-buttons" class="table dt-responsive">
                                         <thead>
@@ -49,14 +49,13 @@ $transactions = $response['transactions'];
                                             <th data-priority="1">Amount</th>
                                             <th data-priority="3">Transaction Type</th>
                                             <th data-priority="3">Created</th>
-                                            <th data-priority="3"> </th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         @foreach ($response['storeData']->customers as $customers)
                                         
                                         @foreach ($customers->transactions as $index => $transaction)  
-                                        @if ($transaction->type == "debt" || $transaction->type == "Debt")
+                                        @if ($transaction->type == "paid" || $transaction->type == "Paid")
                                         <tr>
                                             <td>{{$number++ }}</td>
                                             <th>{{$customers->name}}<span class="co-name"></span>
@@ -65,8 +64,6 @@ $transactions = $response['transactions'];
                                             <td>{{$transaction->amount}}</td>
                                             <td>{{$transaction->type}}</td>
                                             <td>{{ \Carbon\Carbon::parse($transaction->createdAt)->diffForhumans() }}</td>
-                                            <td><a href="" data-toggle="modal" data-target="#bs-example-modal-sm2" class="btn btn-warning mr-3"><i
-                                                class="far mr-2 fa-edit"></i>Send Reminder</a></td>
                                         </tr> 
                                         @endif
                                         @endforeach
