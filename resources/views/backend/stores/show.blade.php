@@ -64,6 +64,9 @@ $total_interestRevenue += $each_interestRevenue;
                     class="far mr-2 fa-edit"></i>Edit
                 Store</a>
 
+                <a href="{{ route('card1', $storeData->_id) }}" class="btn btn-success mr-2"><i class="far mr-2 fa-card"></i>Download Business Card</a>
+
+
 
             <a data-toggle="modal" data-target="#storeDelete" href="" class="btn btn-danger">
                 Delete &nbsp;<i data-feather="delete"></i>

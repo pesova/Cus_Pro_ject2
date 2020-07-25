@@ -223,13 +223,13 @@ class StoreController extends Controller
                 'storeData' => $StoreData,
                 "transactions" => $store_transactions
             ];
-
+                // return print_r($StoreData);
+                // die();
             if ($statusCode == 200  && $transaction_statusCode == 200) {
-
+              
                 return view('backend.stores.show')->with('response', $StoreData)->with('number', 1);
             }
         } catch (RequestException $e) {
-
             Log::info('Catch error: LoginController - ' . $e->getMessage());
 
             // check for 5xx server error
@@ -248,6 +248,7 @@ class StoreController extends Controller
             return redirect()->route('store.index', ['response' => []]);
         } catch (\Exception $e) {
             //log error;
+            return $e;
             Log::error('Catch error: StoreController - ' . $e->getMessage());
             return view('errors.500');
         }
