@@ -236,22 +236,6 @@ $total_interestRevenue += $each_interestRevenue;
         <div class="card">
             <div class="card-body">
                 <h6 class="card-title mb-4 float-sm-left">Transaction Chart</h6>
-                <div class="btn-group float-right">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
-                        <i class='uil uil-file-alt mr-1'></i>Export
-                        <i class="icon"><span data-feather="chevron-down"></span></i></button>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <a href="#" class="dropdown-item notify-item">
-                            <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
-                            <span>Excel</span>
-                        </a>
-                        <a href="#" class="dropdown-item notify-item">
-                            <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
-                            <span>PDF</span>
-                        </a>
-                    </div>
-                </div>
                 <div class="clearfix"></div>
                 <div id="transactionchart"></div>
             </div>
@@ -515,19 +499,19 @@ $total_interestRevenue += $each_interestRevenue;
 </script>
 <script>
     $(document).ready(function () {
-        var product = < ? php echo json_encode($c); ? >
+        var product = <?php echo json_encode($c); ?>
 
         // start of transaction charts
 
         var options = {
 
             series: [{
-                name: 'Amount',
-                data: [ < ? php foreach($c as $key) {
+                name: 'Transaction',
+                data: [ <?php foreach($c as $key) {
                     $aaa = (string) $key['value'].
                     ",";
                     echo $aaa;
-                } ? > ]
+                } ?> ]
             }],
             chart: {
                 height: 350,
@@ -540,12 +524,12 @@ $total_interestRevenue += $each_interestRevenue;
             xaxis: {
                 type: 'datetime',
 
-                categories: [ < ? php foreach($c as $key) {
+                categories: [ <?php foreach($c as $key) {
                     $aaa = "'".$key['date'].
                     "'".
                     ",";
                     echo $aaa;
-                } ? > ],
+                } ?> ],
             },
 
             title: {
@@ -557,26 +541,26 @@ $total_interestRevenue += $each_interestRevenue;
                 }
             },
             fill: {
-                type: 'gradient',
-                gradient: {
-                    shade: 'dark',
-                    gradientToColors: ['#FDD835'],
-                    shadeIntensity: 1,
-                    type: 'horizontal',
-                    opacityFrom: 1,
-                    opacityTo: 1,
-                    stops: [0, 100, 100, 100]
+                    type: 'gradient',
+                    gradient: {
+                        shade: 'dark',
+                        gradientToColors: ['#FDD835'],
+                        shadeIntensity: 1,
+                        type: 'horizontal',
+                        opacityFrom: 1,
+                        opacityTo: 1,
+                        stops: [0, 100, 100, 100]
+                    },
                 },
-            },
-            markers: {
-                size: 4,
-                colors: ["#FFA41B"],
-                strokeColors: "#fff",
-                strokeWidth: 2,
-                hover: {
-                    size: 7,
-                }
-            },
+                markers: {
+                    size: 4,
+                    colors: ["#FFA41B"],
+                    strokeColors: "#fff",
+                    strokeWidth: 2,
+                    hover: {
+                        size: 7,
+                    }
+                },
             yaxis: {
 
                 title: {
@@ -586,7 +570,7 @@ $total_interestRevenue += $each_interestRevenue;
         };
 
         var chart = new ApexCharts(document.querySelector("#transactionchart"), options);
-        chart.render();
+            chart.render();
 
 
     });
