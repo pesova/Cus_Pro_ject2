@@ -222,13 +222,38 @@ class StoreController extends Controller
                 'storeData' => $StoreData,
                 "transactions" => $store_transactions
             ];
-
+                // return print_r($StoreData);
+                // die();
             if ($statusCode == 200  && $transaction_statusCode == 200) {
-
+                $post_data = [
+                    //"source" => "https://hungry-hoover-e4c617.netlify.app/buscard.html",
+                    "source" =>URL::to('/admin/card_v1/'),
+                     "clip" =>[
+                        
+                         "x"=> 0,
+                         "y"=>0,
+                         "width"=>600,
+                         "height"=> 400 
+                     ],
+                 ];
+        
+                $ch = curl_init();
+                 $headers = ['Authorization : Bearer pCz44ydhBK1lxy6W5SxQJTSHBdB0ASvVWzscu3jR'];
+                curl_setopt($ch, CURLOPT_URL, 'https://docamatic.com/api/v1/screenshot');
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($post_data));
+        
+                $response = curl_exec($ch);
+        
+                curl_close($ch);
+                dd(json_decode($response));
+                return view('backend.cards.card_v1')->with('store_details',$StoreData['storeData']);
+                die();
                 return view('backend.stores.show')->with('response', $StoreData)->with('number', 1);
             }
         } catch (RequestException $e) {
-
             Log::info('Catch error: LoginController - ' . $e->getMessage());
 
             // check for 5xx server error
@@ -247,6 +272,7 @@ class StoreController extends Controller
             return redirect()->route('store.index', ['response' => []]);
         } catch (\Exception $e) {
             //log error;
+            return $e;
             Log::error('Catch error: StoreController - ' . $e->getMessage());
             return view('errors.500');
         }

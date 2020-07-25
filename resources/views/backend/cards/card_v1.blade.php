@@ -29,20 +29,20 @@
         <img class="img2" src="{{asset('backend/assets/images/Rectangle_31.png')}}" alt="">
  
         <div class="div2">
-            <h1 class="hh1">Emie Farms</h1>
-            <p class="hh2">Tagline</p>
+            <h1 class="hh1">{{$store_details->store_name}}</h1>
+        <p class="hh2">{{$store_details->tagline}}</p>
             <img src="{{asset('backend/assets/images/vector_3.png')}}" alt="" class="img10">
-            <p class="hh3">Name</p> <br>
-            <p class="hh4">Position</p>
+            <p class="hh3">{{Cookie::get('first_name') ." ". Cookie::get('last_name') }}</p> <br>
+        <p class="hh4">{{Cookie::get('user_role')}}</p>
             <img src="{{asset('backend/assets/images/vector_4.png')}}" alt="" class="img11">
-            <p class="hh5">Phone Number</p><br>
+            <p class="hh5">{{$store_details->phone_number}}</p><br>
             <div class="div3">
                 <img src="{{asset('backend/assets/images/vector_5.png')}}" alt="" class="img12"> 
-                <p class="hh6">emailplaceholder@.com</p>
+                <p class="hh6">{{$store_details->email}}</p>
             </div>
             <div class="div4">
-                <img src="{{asset('backend/assets/images/vector_6.png')}}" alt="" class="img13"> 
-                <p class="hh7">No 10, placeholder address placeholder street, Abuja, Nigeria.</p>
+                <img src="{{asset('backend/assets/images/vecto_6.png')}}" alt="" class="img13"> 
+                <p class="hh7">{{$store_details->shop_address}}</p>
             </div>
 
         </div>
