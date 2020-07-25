@@ -29,7 +29,7 @@
         <script>
           setTimeout(() => {
             document.querySelector('.alert').style.display = 'none'
-          }, 3000);
+          }, 300);
         </script>
         @endif
 
