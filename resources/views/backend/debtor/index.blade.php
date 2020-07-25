@@ -12,7 +12,7 @@
             <div class="h6"><i data-feather="file-text" class="icon-dual"></i> Debtors Center</div>
         </div>
         @include('partials.alertMessage')
-
+        @if(Cookie::get('user_role') != 'super_admin')
         <div class="card">
             <div class="card-body">
                 <p class="sub-header">
@@ -24,14 +24,12 @@
                         <div class="form-group col-lg-6 mt-4">
                             <label class="form-control-label">Store Name</label>
                             <div class="input-group input-group-merge">
-
                                 <select name="store_id" class="form-control">
                                     <option value="" selected disabled>None selected</option>
 
-                                    @foreach ($stores as $index => $store )
-                                    <option value="{{ $store->_id }}">{{ $store->store_name }}</option>
+                                    @foreach ($stores as $adminStore )
+                                            <option value="{{ $adminStore->_id }}">{{ $adminStore->store_name }}</option>
                                     @endforeach
-
                                 </select>
                                 <button type="search" class="mx-2 btn btn-primary">Search</button>
                                 <a href="{{ route('debtor.index') }}" class="btn btn-primary">All Debtors</a>
@@ -42,7 +40,7 @@
                 </div>
             </div>
         </div>
-
+        @endif
         <div class="card mt-0">
             <div class="card-header">
                 <div class="btn-group">
@@ -51,14 +49,14 @@
                         <i class='uil uil-file-alt mr-1'></i>Export
                         <i class="icon"><span data-feather="chevron-down"></span></i></button>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a href="#" class="dropdown-item notify-item">
+                        <button id="ExportReporttoExcel" class="dropdown-item notify-item">
                             <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
                             <span>Excel</span>
-                        </a>
-                        <a href="#" class="dropdown-item notify-item">
+                        </button>
+                        <button id="ExportReporttoPdf" class="dropdown-item notify-item">
                             <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
                             <span>PDF</span>
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -131,8 +129,8 @@
 <script>
     $(document).ready(function() {
         var export_filename = 'Mycustomerdebts';
-        $('#debtor-datatable').DataTable( {
-            dom: 'Bftrip',
+        $('#debtorsTable').DataTable( {
+            dom: 'frtipB',
             buttons:[
                 {
                     extend: 'excel',

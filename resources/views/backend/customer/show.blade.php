@@ -21,16 +21,15 @@
                 <a href="{{ route('customer.index') }}" class="btn btn-primary float-right">
                     Go Back
                 </a>
-                <a href="{{ route('customer.edit', $response->storeId.'-'.$response->customer->_id ) }}"
-                    class="mr-3 btn btn-success float-right">
-                    Edit Customer
-                </a>
-
-
+                @if(Cookie::get('user_role') == 'store_admin')
+                    <a href="{{ route('customer.edit', $customer->storeId.'-'.$customer->customer->_id ) }}"
+                        class="mr-3 btn btn-success float-right">
+                        Edit Customer
+                    </a>
+                @endif
             </div>
         </div>
         {{-- end of page title --}}
-
         <div class="row">
             <div class="col-xl-4">
                 <div class="card overflow-hidden">
@@ -38,8 +37,16 @@
                         <div class="row">
                             <div class="col-7">
                                 <div class="text-primary p-3">
-                                    <h5 class="text-primary">Store Name</h5>
-                                    <p>Store address</p>
+                                    @if(Cookie::get('user_role') != 'store_assistant')
+                                    {{-- Checks are for super admin because vvariable naming is different from admin --}}
+                                    <h5 class="text-primary">
+                                        <a href="{{ route('store.show', isset($customer->storeId) ? $customer->storeId : $customer->customer->store_ref_id) }}">
+                                            {{ isset($customer->storeName) ? $customer->storeName : $customer->customer->store_name }}
+                                        </a></h5>
+                                    @else
+                                    <h5 class="text-primary">{{ $customer->storeName }}</h5>
+                                    @endif
+                                    <p>Store Name</p>
                                 </div>
                             </div>
                             <div class="col-5 align-self-end">
@@ -49,16 +56,16 @@
                     </div>
                     <div class="card-body pt-0">
                         <div class="row">
-                            <div class="col-sm-8">
+                            <div class="col-sm-12">
                                 <div class="pt-4">
 
                                     <div class="row">
                                         <div class="col-6">
-                                            <h5 class="font-size-15">109</h5>
+                                            <h5 class="font-size-15">{{ $result->transactions }}</h5>
                                             <p class="text-muted mb-0">Transactions</p>
                                         </div>
                                         <div class="col-6">
-                                            <h5 class="font-size-15">$1245</h5>
+                                            <h5 class="font-size-15">$ {{ number_format($result->total_revenue,2) }}</h5>
                                             <p class="text-muted mb-0">Revenue</p>
                                         </div>
                                     </div>
@@ -82,11 +89,11 @@
                                 <tbody>
                                     <tr>
                                         <th scope="row">Full Name :</th>
-                                        <td>{{ucfirst($response->customer->name)}}</td>
+                                        <td>{{ucfirst($customer->customer->name)}}</td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Mobile :</th>
-                                        <td>Customer Phone</td>
+                                        <th scope="row">Mobile :</a></th>
+                                        <td> <a href="tel:+{{ $customer->customer->phone_number }}">{{ $customer->customer->phone_number }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -105,7 +112,7 @@
                                 <div class="media">
                                     <div class="media-body">
                                         <p class="text-muted font-weight-medium">Revenue</p>
-                                        <h4 class="mb-0">125</h4>
+                                        <h4 class="mb-0">$ {{ number_format($result->total_revenue,2) }}</h4>
                                     </div>
 
                                     <div class="mini-stat-icon avatar-sm align-self-center rounded-circle bg-primary">
@@ -123,7 +130,7 @@
                                 <div class="media">
                                     <div class="media-body">
                                         <p class="text-muted font-weight-medium">Debt</p>
-                                        <h4 class="mb-0">12</h4>
+                                        <h4 class="mb-0">$ {{ number_format($result->total_debt,2) }}</h4>
                                     </div>
 
                                     <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
@@ -141,7 +148,7 @@
                                 <div class="media">
                                     <div class="media-body">
                                         <p class="text-muted font-weight-medium">Receivables</p>
-                                        <h4 class="mb-0">$36,524</h4>
+                                        <h4 class="mb-0">$ {{ number_format($result->total_receivables, 2) }}</h4>
                                     </div>
 
                                     <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
@@ -156,8 +163,8 @@
                 </div>
 
                 <div class="card">
-                    <div class="card-body">
-                        <h6 class="card-title mb-4 float-left">Total Transactions</h6>
+                    <div class="card-body pb-5">
+                        <h6 class="card-title mb-4 float-left">Transactions</h6>
                         <div class="btn-group float-right">
                             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
@@ -175,14 +182,13 @@
                             </div>
                         </div>
                         <div class="clear"></div>
-                        <div id="revenue-chart" class="apex-charts"></div>
+                        <div id="customer-chart" class="apex-charts mt-5" style="min-height: 365px;"></div>
                     </div>
                 </div>
 
             </div>
         </div>
         <!-- end row -->
-
 
         <div class="row">
             <div class="col-lg-12">
@@ -200,37 +206,33 @@
                                         <th scope="col"> </th>
                                     </tr>
                                 </thead>
-
-                                {{-- @if(count($transactions) == 0) --}}
-                                <tr>
-                                    <td colspan="4" class="text-center"> No Recent Transactions</td>
-                                </tr>
-                                {{-- @else --}}
-                                {{-- @foreach($transactions as $transaction) --}}
-
-                                <tr>
-                                    <th scope="row">transaction id</th>
-                                    <td>debt</td>
-                                    <td>N1000</td>
-                                    <td>paid</td>
-                                    <td>
-                                        <div class="btn-group mt-2 mr-1">
-                                            <button type="button" class="btn btn-info dropdown-toggle"
-                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Actions<i class="icon"><span data-feather="chevron-down"></span></i>
-                                            </button>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="">Send debt reminder</a>
-                                                <a class="dropdown-item" href="">View Transaction</a>
-                                            </div>
-                                        </div>
-
-                                    </td>
-                                </tr>
-                                {{-- @endforeach
-                                @endif --}}
-
-
+                            <tbody>
+                                    @if(count($customer->customer->transactions) < 1)
+                                    <tr>
+                                        <td colspan="4" class="text-center"> No Recent Transactions</td>
+                                    </tr>
+                                    @else
+                                        @foreach($customer->customer->transactions as $transaction)
+                                        <tr>
+                                        <th scope="row">{{ $transaction->_id }}</th>
+                                            <td>{{ $transaction->type }}</td>
+                                            <td>{{ number_format($transaction->amount,2) }}</td>
+                                            <td>
+                                                @if($transaction->status == false)
+                                                <span class="badge badge-danger">Unpaid</span>
+                                                @else
+                                                <span class="badge badge-success">Paid</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                            <a class="btn btn-info btn-small py-1 px-2"
+                                                href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id.'-'.$transaction->customer_ref_id) }}">
+                                                View More
+                                            </a>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
@@ -238,11 +240,45 @@
                 </div>
             </div>
         </div>
-
-
-
     </div>
 </div>
 
+@endsection
+@section('javascript')
+<script>
+    var chartData = @json($chartData) ;
+    var options = {
+          series: [{
+          name: 'amount',
+          data: chartData,
+        },],
+          chart: {
+          height: 350,
+          type: 'area'
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          curve: 'smooth'
+        },
+        xaxis: {
+          type: 'datetime',
+        },
+        toolbar: {
+        show: true,
+        tools: {
+          download: true,
+          selection: true,
+          zoom: true,
+          zoomin: true,
+          zoomout: true,
+          pan: true,
+        },
+        },
+        };
 
+    var chart = new ApexCharts(document.querySelector("#customer-chart"), options);
+    chart.render();
+</script>
 @endsection

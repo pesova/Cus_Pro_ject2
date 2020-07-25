@@ -16,6 +16,7 @@
             <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#addTransactionModal">
                 New &nbsp;<i class="fa fa-plus my-float"></i>
             </a>
+            @include('backend.transaction.modal.addTransaction')
             @endif
         </div>
         @include('partials.alertMessage')
@@ -127,107 +128,6 @@
     </div>
 </div>
 
-<div id="addTransactionModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addTransactionModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content modal-lg">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addTransactionModalLabel">Add New Transaction</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            {{-- {{dd($stores)}} --}}
-
-            <div class="modal-body">
-                <form class="form-horizontal" id="addTransaction" method="POST"
-                    action="{{ route('transaction.store') }}">
-                    @csrf
-                    <div class="form-group row mb-3">
-                        <label for="store" class="col-3 col-form-label">Store</label>
-                        <div class="col-9">
-                            <select class="form-control" name="store" id="store" required>
-                                <option value="" selected disabled>None selected</option>
-                                @isset($stores)
-                                @if(Cookie::get('user_role') != 'super_admin')
-                                    @foreach ($stores as $store)
-                                    <option value="{{ $store->_id }}">{{ $store->store_name }}</option>
-                                    @endforeach
-                                @else
-                                    @foreach ($stores as $userStores)
-                                        @foreach($userStores as $store)
-                                        <option value="{{ $store->_id }}">{{ $store->store_name }}</option>
-                                        @endforeach
-                                    @endforeach
-                                @endif
-                                @endisset
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group row mb-3">
-                        <label for="amount" class="col-3 col-form-label">Amount</label>
-                        <div class="col-9">
-                            <input type="number" class="form-control" id="amount" name="amount" placeholder="0000"
-                                required min="0">
-                        </div>
-                    </div>
-                    <div class="form-group row mb-3">
-                        <label for="interest" class="col-3 col-form-label">Interest</label>
-                        <div class="col-9">
-                            <input type="number" class="form-control" id="interest" name="interest" placeholder="0%">
-                        </div>
-                    </div>
-
-                    <div class="form-group row mb-3">
-                        <label for="description" class="col-3 col-form-label">Description</label>
-                        <div class="col-9">
-                            <input type="text" class="form-control" id="description" name="description"
-                                placeholder="Description">
-                        </div>
-                    </div>
-
-                    <div class="form-group row mb-3">
-                        <label for="pay_date" class="col-3 col-form-label">Expected Pay Date</label>
-                        <div class="col-9">
-                            <input type="date" class="form-control" id="expected_pay_date" name="expected_pay_date"
-                                min="2019-02-06">
-                        </div>
-                    </div>
-
-                    <div class="form-group row mb-3">
-                        <label for="customer" class="col-3 col-form-label">Customer</label>
-                        <div class="col-9">
-                            <select class="form-control" name="customer" id="customer" required>
-
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group row mb-3">
-                        <label for="transaction_type" class="col-3 col-form-label">Transaction Type</label>
-                        <div class="col-9">
-                            <select id="type" name="type" class="form-control">
-                                <option value="debt">Debt</option>
-                                <option value="paid">Paid</option>
-                                <option value="receivables">Receivables</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group mb-0 justify-content-end row">
-                        <div class="col-9">
-                            <button type="submit" class="btn btn-primary btn-block ">Create Transaction</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-            </div>
-        </div>
-    </div>
-</div>
-
 @endsection
 
 @section("javascript")
@@ -239,12 +139,13 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-html5-1.6.2/datatables.min.js"></script>
+<script src="{{ asset('/backend/assets/js/textCounter.js')}}"></script>
 
 <script>
     $(document).ready(function () {
         var export_filename = 'MycustomerTransactions';
         $('#transactionTable').DataTable({
-            dom: 'Bftrip',
+            dom: 'frtipB',
             buttons:[
                 {
                     extend: 'excel',

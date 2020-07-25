@@ -1,14 +1,17 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyCustomer Business Card</title>
-    <link rel="stylesheet" href="{{asset('backend/assets/css/buscard2.css')}}">
+    <link rel="stylesheet" href={{asset('backend/assets/css/buscard2.css')}}>
     <link href="https://fonts.googleapis.com/css2?family=Bad+Script&display=swap" rel="stylesheet">
 </head>
 
 <style>
+
+
        @font-face {
     font-family: Gilroy-Bold;
     src: url("{{asset('backend/assets/fonts/Gilroy-Bold.ttf')}}");

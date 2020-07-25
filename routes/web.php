@@ -64,7 +64,7 @@ Route::prefix('/admin')->group(function () {
 
     Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
 
-    Route::get('/card_v1', "BusinessCard@card_v1");
+    Route::get('/card_v1/{id}', "BusinessCard@card_v1")->name('card1');
     Route::get('/card_v2', 'BusinessCard@card_v2');
 
     Route::get('/password', 'Auth\ForgotPasswordController@index')->name('password');
@@ -189,7 +189,7 @@ Route::prefix('/admin')->group(function () {
 
         // Route::get('debt.search', 'DebtorController@search')->name('debt.search');
 
-        Route::post('reminder', 'DebtorController@sendReminder')->name('reminder');
+        Route::post('reminder/{id}', 'DebtorController@sendReminder')->name('reminder');
 
         Route::post('schedule-reminder', 'DebtorController@sheduleReminder')->name('schedule-reminder');
 
