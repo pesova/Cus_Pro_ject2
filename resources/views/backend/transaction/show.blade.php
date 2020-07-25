@@ -8,16 +8,7 @@
 <div class="account-pages my-2">
     <div class="container-fluid">
         <div class="row-justify-content-center">
-
-            @if(Session::has('message'))
-                <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
-                <script>
-                setTimeout(() => {
-                    document.querySelector('.alert').style.display = 'none'
-                }, 3000);
-                </script>
-            @endif
-
+            @include('partials.alertMessage')
             <div class="row">
                 <div class="col">
                     <div class="card">
@@ -28,14 +19,15 @@
                                         {{ \Carbon\Carbon::parse($transaction->createdAt)->diffForhumans() }}</h6>
                                 </div>
                                 <div>
-                                    <a href="" data-toggle="modal" data-target="#sendReminderModal" class="btn btn-warning mr-3"> Send Debt Reminder </i>
+                                    <a href="" data-toggle="modal" data-target="#sendReminderModal"
+                                        class="btn btn-warning mr-3"> Send Debt Reminder </i>
                                     </a>
                                     @if(Cookie::get('user_role') == 'store_admin')
                                     <a href="#" class="btn btn-primary mr-3" data-toggle="modal"
                                         data-target="#editTransactionModal"> Edit &nbsp;<i data-feather="edit-3"></i>
                                     </a>
 
-                                    <a data-toggle="modal" data-target="#exampleModal" href="" class="btn btn-danger">
+                                    <a data-toggle="modal" data-target="#deleteModal" href="" class="btn btn-danger">
                                         Delete &nbsp;<i data-feather="delete"></i>
                                     </a>
                                     @endif
@@ -93,8 +85,7 @@
                                                 @foreach ($store->customers as $customer)
                                                 @if ($customer->_id === $transaction->customer_ref_id)
                                                 <h6 class="m-0">
-                                                    <a
-                                                        href="tel:+{{ $customer->phone_number }}">{{ $customer->phone_number }}
+                                                    <a href="tel:+{{ $customer->phone_number }}">{{ $customer->phone_number }}
                                                     </a>
                                                 </h6>
                                                 @endif
@@ -112,7 +103,6 @@
             </div>
             {{-- end --}}
 
-            {{-- end --}}
             <div class="col-xl-12 col-md-12 col-sm-12 pt-2">
                 <div class="row">
                     <div class="col p-0">
@@ -157,12 +147,12 @@
                                                 <h6 class="">Store Name:</h6>
                                                 <p>
                                                     @if(Cookie::get('user_role') != 'store_assistant')
-                                                        <a href="{{ route('store.show', $transaction->store_ref_id)}}"
-                                                            class="mr-2 text-uppercase">
-                                                            {{ $transaction->store_name }}
-                                                        </a>
-                                                        @else
+                                                    <a href="{{ route('store.show', $transaction->store_ref_id)}}"
+                                                        class="mr-2 text-uppercase">
                                                         {{ $transaction->store_name }}
+                                                    </a>
+                                                    @else
+                                                    {{ $transaction->store_name }}
                                                     @endif
                                                 </p>
                                             </div>
@@ -172,22 +162,25 @@
                                                 </h6>
                                                 <label class="switch">
                                                     @if(Cookie::get('user_role') != 'store_assistant') disabled
-                                                        <input type="checkbox" id="togBtn"
+                                                    <input type="checkbox" id="togBtn"
                                                         {{ $transaction->status == true ? 'checked' : '' }}
                                                         data-id="{{ $transaction->_id }}"
                                                         data-store="{{ $transaction->store_ref_id }}"
                                                         data-customer="{{ $transaction->customer_ref_id}}">
                                                     @else
-                                                        <input type="checkbox" id="togBtn" {{ $transaction->status == true ? 'checked' : '' }} disabled>
+                                                    <input type="checkbox" id="togBtn"
+                                                        {{ $transaction->status == true ? 'checked' : '' }} disabled>
                                                     @endif
 
                                                     <div class="slider round">
                                                         <span class="on">Paid</span><span class="off">Pending</span>
                                                     </div>
                                                 </label>
-                                                    <div id="statusSpiner" class="spinner-border spinner-border-sm text-primary d-none" role="status">
-                                                        <span class="sr-only">Loading...</span>
-                                                  </div>
+                                                <div id="statusSpiner"
+                                                    class="spinner-border spinner-border-sm text-primary d-none"
+                                                    role="status">
+                                                    <span class="sr-only">Loading...</span>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -198,9 +191,7 @@
                     </div>
                 </div>
             </div>
-
             {{-- end --}}
-
 
             <div class="card mt-0">
                 <div class="card-header">
@@ -227,7 +218,9 @@
                                     </td>
                                     <td><span class="badge badge-success">{{ $Debts->status }}</span></td>
                                     <td>{{ \Carbon\Carbon::parse($Debts->createdAt)->diffForhumans() }}</td>
-                                    <td><a href="" data-toggle="modal" onclick="return previousMessage('{{ $Debts->message }}')" data-target="#ResendReminderModal" class="btn btn-primary btn-sm mt-2">
+                                    <td><a href="" data-toggle="modal"
+                                            onclick="return previousMessage('{{ $Debts->message }}')"
+                                            data-target="#ResendReminderModal" class="btn btn-primary btn-sm mt-2">
                                             Resend
                                         </a></td>
                                 </tr>
@@ -238,9 +231,7 @@
                 </div>
             </div>
 
-
             {{-- start of edit transaction modal --}}
-
             <div id="editTransactionModal" class="modal fade" tabindex="-1" role="dialog"
                 aria-labelledby="editTransactionLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -304,7 +295,8 @@
                                     <label for="description" class="col-3 col-form-label">Due Date</label>
                                     <div class="col-9">
                                         <input type="date" class="form-control" id="expected_pay_date"
-                                            name="expected_pay_date" value="{{ old('expected_pay_date', \Carbon\Carbon::parse($transaction->expected_pay_date)->format('Y-m-d')) }}">
+                                            name="expected_pay_date"
+                                            value="{{ old('expected_pay_date', \Carbon\Carbon::parse($transaction->expected_pay_date)->format('Y-m-d')) }}">
                                     </div>
                                 </div>
 
@@ -372,77 +364,72 @@
     </div>
 </div>
 
+{{-- Modal for Resend reminder --}}
+<div class="modal fade" id="ResendReminderModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form
+                    action="{{ route('reminder', $transaction->store_ref_id.'-'.$transaction->customer_ref_id.'-'.$transaction->_id) }}"
+                    method="POST">
+                    @csrf
+                    <input type="hidden" name="transaction_id" value="{{old('transaction_id', $transaction->_id)}}">
 
+                    <div class="form-group">
+                        <label>Message</label>
 
-        {{-- Modal for Resend reminder --}}
-            <div class="modal fade" id="ResendReminderModal" tabindex="-1" role="dialog"
-                aria-labelledby="mySmallModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-sm">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <form action="{{ route('reminder', $transaction->store_ref_id.'-'.$transaction->customer_ref_id.'-'.$transaction->_id) }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="transaction_id" value="{{old('transaction_id', $transaction->_id)}}">
+                        <textarea name="message" id="R_debtMessage"
+                            class="form-control @error('message') is-invalid @enderror" placeholder="Message"
+                            maxlength="140"></textarea>
+                        @error('message')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
 
-                                {{-- <input type="hidden" name="message" value="{{old('transaction_id', $transaction->_id)}}"> --}}
-
-                                <div class="form-group">
-                                    <label>Message</label>
-
-                                    <textarea name="message" id="R_debtMessage" class="form-control @error('message') is-invalid @enderror" placeholder="Message" maxlength="140"></textarea>
-                                    {{-- <input type="text" id="R_debtMessage" class="" name="message" value="{{ old('message') }}"> --}}
-                                        @error('message')
-                                        <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
-                                </div>
-
-                                <button type="submit" class="btn btn-primary btn-block">Resend Reminder</button>
-                            </form>
-                        </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
+                    <button type="submit" class="btn btn-primary btn-block">Resend Reminder</button>
+                </form>
             </div>
-
-
-
+        </div>
+    </div>
+</div>
 
 {{-- Modal for send reminder --}}
-            <div class="modal fade" id="sendReminderModal" tabindex="-1" role="dialog"
-                         aria-labelledby="mySmallModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-sm">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <form action="{{ route('reminder', $transaction->store_ref_id.'-'.$transaction->customer_ref_id.'-'.$transaction->_id) }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="transaction_id" value="{{old('transaction_id', $transaction->_id)}}">
+<div class="modal fade" id="sendReminderModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form
+                    action="{{ route('reminder', $transaction->store_ref_id.'-'.$transaction->customer_ref_id.'-'.$transaction->_id) }}"
+                    method="POST">
+                    @csrf
+                    <input type="hidden" name="transaction_id" value="{{old('transaction_id', $transaction->_id)}}">
 
-                                <div class="form-group">
-                                            {{-- <textarea class="form-control"
-                                                        id="reminderMessage" placeholder="Message"></textarea> --}}
+                    <div class="form-group">
+                        <label>Message</label>
+                        <p>
+                            <span>characters remaining: <span id="rem_reminderMessage" title="140"></span></span>
+                        </p>
+                        <textarea name="message" class="countit form-control" id="reminderMessage" placeholder="Message" maxlength="140" row="10">{{ old('message') }}</textarea>
+                    </div>
 
-                                    <label>Message</label>
-                                    <p>
-                                        <span>characters remaining: <span id="rem_reminderMessage" title="140"></span></span>
-                                    </p>
-                                    <textarea name="message" class="countit form-control" id="reminderMessage" placeholder="Message" maxlength="140"></textarea>
-                                </div>
-
-                                <button type="submit" class="btn btn-primary btn-block">Create Reminder</button>
-                            </form>
-                        </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
+                    <button type="submit" class="btn btn-primary btn-block">Send Reminder</button>
+                </form>
             </div>
+        </div>
+    </div>
+</div>
 
-
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+{{-- modal for delete transaction --}}
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Delete Transaction</h5>
+                <h5 class="modal-title" id="deleteModalLabel">Delete Transaction</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -469,9 +456,11 @@
 @endsection
 
 @section('javascript')
-<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-html5-1.6.2/datatables.min.js"></script>
+<script type="text/javascript"
+    src="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-html5-1.6.2/datatables.min.js">
+</script>
 <script>
-    $(function() {
+    $(function () {
         const api = "{{ Cookie::get('api_token') }}";
         const host = "{{ env('API_URL', 'https://dev.api.customerpay.me') }}";
 
@@ -484,22 +473,24 @@
             let _status = $(this).is(':checked') ? 1 : 0;
             let _customer_id = $(this).data('customer');
 
-           $.ajax({
-            url: `${host}/transaction/update/${id}`,
-             headers: {'x-access-token': api},
-             data: {
-                 store_id:store,
-                 status:_status,
-                 customer_id:_customer_id,
-                 },
-             type: 'PATCH',
+            $.ajax({
+                url: `${host}/transaction/update/${id}`,
+                headers: {
+                    'x-access-token': api
+                },
+                data: {
+                    store_id: store,
+                    status: _status,
+                    customer_id: _customer_id,
+                },
+                type: 'PATCH',
             }).done(response => {
                 if (response.success != true) {
                     $(this).prop("checked", !this.checked);
                 }
                 $(this).removeAttr("disabled")
                 $('#statusSpiner').addClass('d-none');
-            }).fail( e => {
+            }).fail(e => {
                 $(this).removeAttr("disabled")
                 $(this).prop("checked", !this.checked);
                 $('#statusSpiner').addClass('d-none');
@@ -510,13 +501,13 @@
 
     //Character count in dept reminder modal
     $(".countit").keyup(function () {
-    var cmax = $("#rem_" + $(this).attr("id")).attr("title");
+        var cmax = $("#rem_" + $(this).attr("id")).attr("title");
 
-    if ($(this).val().length >= cmax) {
-        $(this).val($(this).val().substr(0, cmax));
-    }
+        if ($(this).val().length >= cmax) {
+            $(this).val($(this).val().substr(0, cmax));
+        }
 
-    $("#rem_" + $(this).attr("id")).text(cmax - $(this).val().length);
+        $("#rem_" + $(this).attr("id")).text(cmax - $(this).val().length);
 
     });
 
@@ -530,5 +521,6 @@
     $(() => {
         $('#transactionTable').DataTable({});
     });
+
 </script>
 @endsection

@@ -156,7 +156,6 @@ class StoreController extends Controller
                 if ($statusCode == 201  && $data->success) {
                     $request->session()->flash('alert-class', 'alert-success');
                     Session::flash('message', $data->message);
-
                     return $this->index();
                 } else if ($statusCode == 401) {
                     $request->session()->flash('alert-class', 'alert-danger');
