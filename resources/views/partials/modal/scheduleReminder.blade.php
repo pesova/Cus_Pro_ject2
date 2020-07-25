@@ -10,10 +10,12 @@ aria-labelledby="scheduleReminderModalLabel" aria-hidden="true">
         </div>
         <div class="modal-body">
             <form
-                action="{{ route('reminder', $debtor->store_ref_id.'-'.$debtor->customer_ref_id.'-'.$debtor->_id) }}"
+                action="{{ route('reminder.schedule') }}"
                 method="POST">
                 @csrf
                 <input type="hidden" name="transaction_id" value="{{old('transaction_id', $debtor->_id)}}">
+                <input type="hidden" name="store_id" value="{{old('store_id', $debtor->store_ref_id)}}">
+                <input type="hidden" name="customer_id" value="{{old('customer_id', $debtor->customer_ref_id)}}">
 
                 <div class="row">
                     <div class="form-group col-md-6">
@@ -34,7 +36,7 @@ aria-labelledby="scheduleReminderModalLabel" aria-hidden="true">
                     <p class="charNum m-0 p-0"></p>
                 </div>
 
-                <button type="submit" class="btn btn-primary btn-block">Send Reminder</button>
+                <button type="submit" class="btn btn-primary btn-block" disabled>Send Reminder</button>
             </form>
         </div>
     </div>
