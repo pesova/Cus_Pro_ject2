@@ -21,8 +21,7 @@
     <link href="{{asset('backend/assets/css/icons.min.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('backend/assets/css/app.min.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('backend/assets/css/custom.css')}}" rel="stylesheet" type="text/css">
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/shepherd/2.0.0-beta.1/css/shepherd-theme-arrows.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shepherd/2.0.0-beta.1/css/shepherd-theme-arrows.css" />
     <link href="{{asset('backend/assets/css/tourguide.css')}}" rel="stylesheet" type="text/css">
     <style>
         .dissapear {
@@ -80,7 +79,6 @@
 
     <!-- App js -->
     <script src="/backend/assets/js/app.min.js"></script>
-
     @yield('javascript')
 </body>
 

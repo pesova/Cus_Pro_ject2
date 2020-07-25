@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Exception;
+use App\Rules\DoNotPutCountryCode;
+use App\Rules\NoZero;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
@@ -125,9 +127,9 @@ class StoreController extends Controller
         if ($request->isMethod('post')) {
             $request->validate([
                 'store_name' => 'required|min:2|max:25',
+                'phone_number' => ["required", new NoZero, new DoNotPutCountryCode],
                 'shop_address' =>  'required|min:5|max:100',
-                'tagline' =>  'required|min:4|max:50',
-                'phone_number' =>   'required|digits_between:6,16',
+                'tagline' =>  'required|min:4|max:50'
             ]);
 
             try {
@@ -140,7 +142,7 @@ class StoreController extends Controller
                         'shop_address' => $request->input('shop_address'),
                         'email' => $request->input('email'),
                         'tagline' => $request->input('tagline'),
-                        'phone_number' => $request->input('phone_number'),
+                        'phone_number' => $request->input('phone_number')
                     ],
 
                 ];
@@ -337,46 +339,54 @@ class StoreController extends Controller
     public function update(Request $request, $id)
     {
         $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store/update/' . $id;
+        $request->validate([
+            'store_name' => 'required|min:3',
+            'shop_address' =>  'required',
+            'email' => "required|email",
+            'tagline' =>  'required',
+            'phone_number' => ["required", new NoZero, new DoNotPutCountryCode]
+        ]);
 
         try {
+
             $client = new Client();
-
-
-            $request->validate([
-                'store_name' => 'required|min:2|max:25',
-                'shop_address' =>  'required|min:5|max:100',
-                'tagline' =>  'required|min:4|max:50',
-                'phone_number' =>   'required|digits_between:6,16',
-            ]);
-
-            $payload = [
-                'headers' => ['x-access-token' => Cookie::get('api_token')],
+            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+            $data = [
+                $headers,
                 'form_params' => [
+                    'token' => Cookie::get('api_token'),
                     'store_name' => $request->input('store_name'),
                     'shop_address' => $request->input('shop_address'),
-                    'email' => $request->input('email'),
-                    'tagline' => $request->input('tagline'),
                     'phone_number' => $request->input('phone_number'),
-                    'current_user' => Cookie::get('user_id'),
+                    'email' => $request->input('email'),
+                    'tagline' => $request->input('tagline')
                 ],
-
             ];
 
+            $response = $client->request("PUT", $url, $data);
+            $status = $response->getStatusCode();
 
-            $req = $client->request('PUT', $url, $payload);
-
-            $statusCode = $req->getStatusCode();
-
-
-            if ($statusCode == 201) {
-
-                return redirect()->route('store.index', ['response' => []]);
+            if ($status == 200 || $status == 201) {
+                $body = $response->getBody()->getContents();
+                // $res = json_encode($body);
+                $request->session()->flash('alert-class', 'alert-success');
+                Session::flash('message', "Update Successful");
+                return redirect()->route('store.index');
+            } else {
+                $request->session()->flash('alert-class', 'alert-danger');
+                Session::flash('message', "Update Failed");
+                return back();
             }
-            if ($statusCode == 500) {
-                return view('errors.500');
-            }
+
         } catch (\Exception $e) {
-            return redirect()->route('store.edit', $id);
+
+            if ($e->getCode() == 401) {
+                return redirect()->route('logout')->withErrors("Please Login Again");
+            }
+            $request->session()->flash('alert-class', 'alert-danger');
+            $request->session()->flash('message', 'An Error Occured. Please Try Again Later');
+
+            return redirect()->back();
         }
     }
 

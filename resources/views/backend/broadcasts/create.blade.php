@@ -67,11 +67,16 @@
                                         @endforeach
                                     </select>
                                 </div>
-
+                                
                                 <div class="form-group">
                                     <label>Message</label>
-                                    <textarea rows="5" class="form-control col-12" name="message"></textarea>
+                                    <textarea rows="5" class="form-control col-12" name="message" maxlength="100">
+                                    @if(isset($template))
+                                    {{$template}}  
+                                    @endif                                                                                   
+                                    </textarea>
                                 </div>
+                             {{--    --}}
                                 <button class="btn btn-primary" type="submit">Send &nbsp;<i class="fa fa-paper-plane my-float"></i>
                                 </button>
                             </form>

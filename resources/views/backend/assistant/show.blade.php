@@ -21,7 +21,7 @@
                     <a href="{{ route('assistants.index') }}" class="btn btn-primary float-right">
                         Go Back
                     </a>
-                    <a href="{{route('assistants.edit', $assistant->_id) }}" class="mr-3 btn btn-success float-right">
+                    <a href="{{route('assistants.edit', $data->_id) }}" class="mr-3 btn btn-success float-right">
                         Edit Assistant
                     </a>
                 </div>
