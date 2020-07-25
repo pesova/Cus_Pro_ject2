@@ -22,6 +22,6 @@
 
 <script>
     setTimeout(() => {
-        document.querySelector('.alert').style.display = 'none'
+        $('.alert').alert('close'); 
     }, 3000);
 </script>
