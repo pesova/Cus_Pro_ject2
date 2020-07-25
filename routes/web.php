@@ -64,7 +64,7 @@ Route::prefix('/admin')->group(function () {
 
     Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
 
-    Route::get('/card_v1', "BusinessCard@card_v1");
+    Route::get('/card_v1/{id}', "BusinessCard@card_v1")->name('card1');
     Route::get('/card_v2', 'BusinessCard@card_v2');
 
     Route::get('/password', 'Auth\ForgotPasswordController@index')->name('password');
@@ -196,6 +196,10 @@ Route::prefix('/admin')->group(function () {
         Route::get('markpaid/{id}', 'DebtorController@markPaid')->name('markpaid');
 
         Route::get('store_debt/{id}', 'StoreController@debt')->name('store_debt');
+        
+        Route::get('store_receivable/{id}', 'StoreController@receivable')->name('store_receivable');
+        
+        Route::get('store_revenue/{id}', 'StoreController@revenue')->name('store_revenue');
     });
     // ------------ GENERAL ROUTES ENDS HERE ------------------------ //
 

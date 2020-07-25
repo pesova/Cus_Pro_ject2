@@ -64,6 +64,9 @@ $total_interestRevenue += $each_interestRevenue;
                     class="far mr-2 fa-edit"></i>Edit
                 Store</a>
 
+                <a href="{{ route('card1', $storeData->_id) }}" class="btn btn-success mr-2"><i class="far mr-2 fa-card"></i>Download Business Card</a>
+
+
 
             <a data-toggle="modal" data-target="#storeDelete" href="" class="btn btn-danger">
                 Delete &nbsp;<i data-feather="delete"></i>
@@ -136,7 +139,7 @@ $total_interestRevenue += $each_interestRevenue;
 
         <div class="row">
             <div class="col-sm-4">
-                <div class="card">
+                <div class="card"><a href="{{ route('store_revenue', $storeData->_id) }}">
                     <div class="card-body">
                         <div class="d-flex align-items-center mb-3">
                             <div class="avatar-xs mr-3">
@@ -144,21 +147,21 @@ $total_interestRevenue += $each_interestRevenue;
                                     <i class="uil-atm-card"></i>
                                 </span>
                             </div>
-                            <h5 class="font-size-14 mb-0">Revenue</h5>
+                            <h5 class="font-size-14 mb-0 text-info">Revenue</h5>
                         </div>
                         <div class="text-muted mt-4">
-                            <h4> {{ $total_Revenue }} <i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
+                            <h4 class="text-info"> {{ $total_Revenue }} <i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
                             <div class="d-flex">
                                 <span class="badge badge-soft-success font-size-12"> {{ $total_interestRevenue }}%
-                                </span> <span class="ml-2 text-truncate">From previous Month</span>
+                                </span> <span class="ml-2 text-truncate text-info">From previous Month</span>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div></a>
             </div>
 
             <div class="col-sm-4">
-                <div class="card">
+                <div class="card"><a href="{{ route('store_receivable', $storeData->_id) }}">
                     <div class="card-body">
                         <div class="d-flex align-items-center mb-3">
                             <div class="avatar-xs mr-3">
@@ -166,17 +169,17 @@ $total_interestRevenue += $each_interestRevenue;
                                     <i class="uil-atm-card"></i>
                                 </span>
                             </div>
-                            <h5 class="font-size-14 mb-0">Receivables</h5>
+                            <h5 class="font-size-14 mb-0 text-info">Receivables</h5>
                         </div>
                         <div class="text-muted mt-4">
-                            <h4>{{ $total_Receivables }} <i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
+                            <h4 class="text-info">{{ $total_Receivables }} <i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
                             <div class="d-flex">
-                                <span class="badge badge-soft-success font-size-12"> {{ $total_interestReceivables }}%
-                                </span> <span class="ml-2 text-truncate">From previous period</span>
+                                <span class="badge badge-soft-success font-size-12"> {{ $total_interestReceivables }}% </span> <span
+                                    class="ml-2 text-truncate text-info">From previous period</span>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div></a>
             </div>
 
             <div class="col-sm-4">
@@ -188,15 +191,17 @@ $total_interestRevenue += $each_interestRevenue;
                                         <i class="uil-atm-card"></i>
                                     </span>
                                 </div>
-                                <h5 class="font-size-14 mb-0"><a
+                              <h5 class="font-size-14 mb-0 text-info"><a
                                         href="{{ route('store_debt', $storeData->_id) }}">Debt</a>
-                                </h5>
+                                    </h5>
+
                             </div>
                             <div class="text-muted mt-4">
                                 {{-- showing all depts --}}
 
-                                <h4 class="text-info">
-                                    {{ $totalDept }}<i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
+                                    <h4 class="text-info">
+
+                                        {{ $totalDept }}<i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
 
                                 <div class="d-flex">
                                     <span class="badge badge-soft-warning font-size-12">{{ $total_interest }}%</span>
