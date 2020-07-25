@@ -302,8 +302,9 @@ class DebtorController extends Controller
             'time' =>  'required',
         ]);
 
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt/schedule';
+        dd($request);
 
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt/schedule';
 
         try {
             $client =  new Client();
