@@ -209,7 +209,7 @@ $total_interestReceivables = 0;
             </div>
 
             <div class="col-sm-4">
-                <div class="card">
+                <div class="card"><a href="{{ route('store_debt', $storeData->_id) }}">
                     <div class="card-body">
                         <div class="d-flex align-items-center mb-3">
                             <div class="avatar-xs mr-3">
@@ -217,22 +217,22 @@ $total_interestReceivables = 0;
                                     <i class="uil-atm-card"></i>
                                 </span>
                             </div>
-                            <h5 class="font-size-14 mb-0"><a href="{{ route('store_debt', $storeData->_id) }}">Debt</a></h5>
+                            <h5 class="font-size-14 mb-0 text-info">Debt</h5>
                         </div>
                         <div class="text-muted mt-4">
                             {{-- showing all depts --}}
 
-                            <h4> 
+                            <h4 class="text-info"> 
                                 {{ $totalDept }}<i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
 
                                 
 
                             <div class="d-flex">
                                 <span class="badge badge-soft-warning font-size-12">{{ $total_interest }}%</span> <span
-                                    class="ml-2 text-truncate">From previous Month</span>
+                                    class="ml-2 text-truncate text-info">From previous Month</span>
                             </div>
                         </div>
-                    </div>
+                    </div></a>
                 </div>
             </div>
         </div>
