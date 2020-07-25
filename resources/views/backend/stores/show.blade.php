@@ -16,7 +16,6 @@ $storeData = $response['storeData'];
 $transactions = $response['transactions'];
 @endphp
 
-
 @php
 $totalDept = 0;
 $total_interest = 0;
@@ -40,19 +39,11 @@ $total_interest += $each_interest;
 }
 
 //get for all revenues
-if ($transaction->type == "Paid") {
+if ($transaction->type == "paid") {
 $eachRevenue = $transaction->amount;
 $total_Revenue += $eachRevenue;
 $each_interestRevenue = $transaction->interest;
 $total_interestRevenue += $each_interestRevenue;
-}
-
-//get for all receivables
-if ($transaction->type == "receivables") {
-$eachReceivables = $transaction->amount;
-$total_Receivables += $eachReceivables;
-$each_interestReceivables = $transaction->interest;
-$total_interestReceivables += $each_interestReceivables;
 }
 
 @endphp
@@ -109,7 +100,6 @@ $total_interestReceivables += $each_interestReceivables;
                     </div>
                 </div>
             </div>
-
         </nav>
 
         <h4 class="mt-2">My Store</h4>
@@ -193,31 +183,40 @@ $total_interestReceivables += $each_interestReceivables;
             </div>
 
             <div class="col-sm-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center mb-3">
-                            <div class="avatar-xs mr-3">
-                                <span class="avatar-title rounded-circle bg-soft-primary text-primary font-size-10">
-                                    <i class="uil-atm-card"></i>
-                                </span>
+                <div class="card"><a href="{{ route('store_debt', $storeData->_id) }}">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="avatar-xs mr-3">
+                                    <span class="avatar-title rounded-circle bg-soft-primary text-primary font-size-10">
+                                        <i class="uil-atm-card"></i>
+                                    </span>
+                                </div>
+                                <<<<<<< HEAD <h5 class="font-size-14 mb-0"><a
+                                        href="{{ route('store_debt', $storeData->_id) }}">Debt</a>
+                                    </h5>
+                                    =======
+                                    <h5 class="font-size-14 mb-0 text-info">Debt</h5>
+                                    >>>>>>> 23538d2a5a911180b381b01622e874f5deedd837
                             </div>
-                            <h5 class="font-size-14 mb-0"><a href="{{ route('store_debt', $storeData->_id) }}">Debt</a>
-                            </h5>
-                        </div>
-                        <div class="text-muted mt-4">
-                            {{-- showing all depts --}}
+                            <div class="text-muted mt-4">
+                                {{-- showing all depts --}}
 
-                            <h4>
-                                {{ $totalDept }}<i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
+                                <<<<<<< HEAD <h4>
+                                    =======
+                                    <h4 class="text-info">
+                                        >>>>>>> 23538d2a5a911180b381b01622e874f5deedd837
+                                        {{ $totalDept }}<i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
 
 
 
-                            <div class="d-flex">
-                                <span class="badge badge-soft-warning font-size-12">{{ $total_interest }}%</span> <span
-                                    class="ml-2 text-truncate">From previous Month</span>
+                                    <div class="d-flex">
+                                        <span
+                                            class="badge badge-soft-warning font-size-12">{{ $total_interest }}%</span>
+                                        <span class="ml-2 text-truncate text-info">From previous Month</span>
+                                    </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
         </div>
