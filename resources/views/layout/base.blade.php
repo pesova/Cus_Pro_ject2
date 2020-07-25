@@ -60,9 +60,9 @@
 
     </div>
 
-    <!-- JS
-============================================ -->
+    <!-- JS============================================ -->
 
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <!-- Vendor js -->
     <script src="/backend/assets/js/vendor.min.js"></script>
 
@@ -79,6 +79,7 @@
 
     <!-- App js -->
     <script src="/backend/assets/js/app.min.js"></script>
+    <script src="/backend/assets/js/alert.js"></script>
     @yield('javascript')
 </body>
 

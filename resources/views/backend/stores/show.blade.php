@@ -134,9 +134,6 @@ $total_interestRevenue += $each_interestRevenue;
     </div>
     <div class="col-xl-8">
 
-
-
-
         <div class="row">
             <div class="col-sm-4">
                 <div class="card">
@@ -191,29 +188,20 @@ $total_interestRevenue += $each_interestRevenue;
                                         <i class="uil-atm-card"></i>
                                     </span>
                                 </div>
-                                <<<<<<< HEAD <h5 class="font-size-14 mb-0"><a
+                                <h5 class="font-size-14 mb-0"><a
                                         href="{{ route('store_debt', $storeData->_id) }}">Debt</a>
-                                    </h5>
-                                    =======
-                                    <h5 class="font-size-14 mb-0 text-info">Debt</h5>
-                                    >>>>>>> 23538d2a5a911180b381b01622e874f5deedd837
+                                </h5>
                             </div>
                             <div class="text-muted mt-4">
                                 {{-- showing all depts --}}
 
-                                <<<<<<< HEAD <h4>
-                                    =======
-                                    <h4 class="text-info">
-                                        >>>>>>> 23538d2a5a911180b381b01622e874f5deedd837
-                                        {{ $totalDept }}<i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
+                                <h4 class="text-info">
+                                    {{ $totalDept }}<i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
 
-
-
-                                    <div class="d-flex">
-                                        <span
-                                            class="badge badge-soft-warning font-size-12">{{ $total_interest }}%</span>
-                                        <span class="ml-2 text-truncate text-info">From previous Month</span>
-                                    </div>
+                                <div class="d-flex">
+                                    <span class="badge badge-soft-warning font-size-12">{{ $total_interest }}%</span>
+                                    <span class="ml-2 text-truncate text-info">From previous Month</span>
+                                </div>
                             </div>
                         </div>
                     </a>
@@ -370,13 +358,12 @@ $total_interestRevenue += $each_interestRevenue;
                                                     <input type="checkbox" id="togBtn"
                                                         {{ $transaction->status == true ? 'checked' : '' }} disabled>
                                                     @endif
-
+            
                                                     <div class="slider round">
                                                         <span class="on">Paid</span><span class="off">Pending</span>
                                                     </div>
                                                 </label>
-                                                <div id="statusSpiner"
-                                                    class="spinner-border spinner-border-sm text-primary d-none"
+                                                <div id="statusSpiner" class="spinner-border spinner-border-sm text-primary d-none"
                                                     role="status">
                                                     <span class="sr-only">Loading...</span>
                                                 </div>
@@ -411,7 +398,6 @@ $total_interestRevenue += $each_interestRevenue;
 @endsection
 
 @section("javascript")
-<script src="/backend/assets/build/js/intlTelInput.js"></script>
 <script src="/backend/assets/libs/datatables/jquery.dataTables.min.js"></script>
 <script src="/backend/assets/libs/datatables/dataTables.bootstrap4.min.js"></script>
 <script src="/backend/assets/libs/datatables/dataTables.responsive.min.js"></script>
@@ -428,12 +414,14 @@ $total_interestRevenue += $each_interestRevenue;
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.0.10/jspdf.plugin.autotable.min.js"></script>
 <script src="/backend/assets/libs/datatables/tableHTMLExport.js"></script>
-<script type=text/javascript> var product=<?php echo json_encode( $c ) ?>; </script> <script>
-    $('#basic-datatables').dataTable( {
-  "lengthMenu": [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"] ]
-} );
-</script>
+
 <script>
+    $('#basic-datatables').dataTable({
+        "lengthMenu": [
+            [10, 25, 50, 100, -1],
+            [10, 25, 50, 100, "All"]
+        ]
+    });
     $('#pdf').on('click', function () {
         $("#basic-datatables").tableHTMLExport({
             type: 'pdf',
@@ -442,6 +430,53 @@ $total_interestRevenue += $each_interestRevenue;
     })
 
 </script>
+
+<script>
+    jQuery(function ($) {
+        const token = "{{Cookie::get('api_token')}}"
+        const host = "{{ env('API_URL', 'https://dev.api.customerpay.me') }}";
+
+        $('#togBtn').change(function () {
+            $(this).attr("disabled", true);
+            $('#statusSpiner').removeClass('d-none');
+
+            var id = $(this).data('id');
+            var store = $(this).data('store');
+            let _status = $(this).is(':checked') ? 1 : 0;
+            let _customer_id = $(this).data('customer');
+
+            $.ajax({
+                url: `${host}/transaction/update/${id}`,
+                headers: {
+                    'x-access-token': token
+                },
+                data: {
+                    store_id: store,
+                    status: _status,
+                    customer_id: _customer_id,
+                },
+                type: 'PATCH',
+            }).done(response => {
+                if (response.success != true) {
+                    $(this).prop("checked", !this.checked);
+                    $('#error').show();
+                    alert("Oops! something went wrong.");
+                }
+                alert("Operation Successful.");
+                $(this).removeAttr("disabled")
+                $('#statusSpiner').addClass('d-none');
+            }).fail(e => {
+                $(this).removeAttr("disabled")
+                $(this).prop("checked", !this.checked);
+                $('#statusSpiner').addClass('d-none');
+                alert("Oops! something went wrong.");
+            });
+        });
+
+    });
+
+</script>
+
 <script>
     function exportTableToExcel(tableID, filename = '') {
         var downloadLink;
@@ -476,48 +511,11 @@ $total_interestRevenue += $each_interestRevenue;
 
 </script>
 <script>
-    jQuery(function ($) {
-        const token = "{{Cookie::get('api_token')}}"
-        const host = "{{ env('API_URL', 'https://dev.api.customerpay.me') }}";
-
-        $('.togBtn').change(function () {
-            $(this).attr("disabled", true);
-            $('#statusSpiner').removeClass('d-none');
-
-            const id = $(this).data('id');
-            const store = $(this).data('store');
-            let _status = $(this).is(':checked') ? 1 : 0;
-            let _customer_id = $(this).data('customer');
-
-            $.ajax({
-                url: `${host}/transaction/update/${id}`,
-                headers: {
-                    'x-access-token': token
-                },
-                data: {
-                    store_id: store,
-                    status: _status,
-                    customer_id: _customer_id,
-                },
-                type: 'PATCH',
-            }).done(response => {
-                if (response.success != true) {
-                    $(this).prop("checked", !this.checked);
-                }
-                $(this).removeAttr("disabled")
-                $('#statusSpiner').addClass('d-none');
-            }).fail(e => {
-                $(this).removeAttr("disabled")
-                $(this).prop("checked", !this.checked);
-                $('#statusSpiner').addClass('d-none');
-            });
-        });
-    });
-
-</script>
-<script>
     $(document).ready(function () {
+        var product = < ? php echo json_encode($c); ? >
+
         // start of transaction charts
+
         var options = {
 
             series: [{
@@ -588,11 +586,6 @@ $total_interestRevenue += $each_interestRevenue;
         chart.render();
 
 
-    });
-
-    var input = document.querySelector("#phone");
-    window.intlTelInput(input, {
-        // any initialisation options go here
     });
 
 </script>

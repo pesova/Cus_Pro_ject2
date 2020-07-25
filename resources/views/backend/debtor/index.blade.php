@@ -99,7 +99,7 @@
                                 <td>
                                     <a class="btn btn-info btn-small py-1 px-2"
                                         href="{{ route('debtor.show', $debtor->_id) }}">
-                                        View More
+                                        More
                                     </a>
                                 </td>
                             </tr>
