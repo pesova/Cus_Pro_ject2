@@ -194,20 +194,16 @@ $total_interestRevenue += $each_interestRevenue;
                                         <i class="uil-atm-card"></i>
                                     </span>
                                 </div>
-                                <<<<<<< HEAD <h5 class="font-size-14 mb-0"><a
+                              <h5 class="font-size-14 mb-0"><a
                                         href="{{ route('store_debt', $storeData->_id) }}">Debt</a>
                                     </h5>
-                                    =======
-                                    <h5 class="font-size-14 mb-0 text-info">Debt</h5>
-                                    >>>>>>> 23538d2a5a911180b381b01622e874f5deedd837
+
                             </div>
                             <div class="text-muted mt-4">
                                 {{-- showing all depts --}}
 
-                                <<<<<<< HEAD <h4>
-                                    =======
                                     <h4 class="text-info">
-                                        >>>>>>> 23538d2a5a911180b381b01622e874f5deedd837
+
                                         {{ $totalDept }}<i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
 
 
