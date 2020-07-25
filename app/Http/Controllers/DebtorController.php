@@ -302,9 +302,12 @@ class DebtorController extends Controller
             'time' =>  'required',
         ]);
 
+        $storeID = $request->store_id;
+        $customerId = $request->customer_id;
+        $stotransactionIDreID = $request->transaction_id;
         dd($request);
 
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt/schedule';
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt/schedule' .'/'. $storeID . $customerId . $transactionID;
 
         try {
             $client =  new Client();
@@ -313,7 +316,6 @@ class DebtorController extends Controller
                 'form_params' => [
                     'scheduleDate' => $request->scheduleDate,
                     'time' => $request->time,
-                    'transaction_id' => $request->transaction_id,
                     'message' => $request->message,
                 ],
             ];

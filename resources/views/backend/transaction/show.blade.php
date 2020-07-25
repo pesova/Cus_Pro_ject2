@@ -22,9 +22,6 @@
                                     <a href="" data-toggle="modal" data-target="#sendReminderModal" class="btn btn-warning mr-3"> 
                                         Send Debt Reminder &nbsp;<i data-feather="send"></i>
                                     </a>
-                                    <a href="#" class="btn btn-primary mr-3" data-toggle="modal" data-target="#scheduleReminderModal">
-                                        Schedule Reminder &nbsp;<i data-feather="message-circle"></i>
-                                    </a>
                                     @if(Cookie::get('user_role') == 'store_admin')
                                     <a href="#" class="btn btn-primary mr-3" data-toggle="modal" data-target="#editTransactionModal">
                                         Edit &nbsp;<i data-feather="edit-3"></i>
@@ -230,7 +227,7 @@
                                     </td>
                                 </tr>
                                 {{-- Modal for resend reminder --}}
-                                @include('backend.transaction.modal.resendReminder')
+                                @include('partials.modal.resendReminder')
                                 @endforeach
                             </tbody>
                         </table>
@@ -246,6 +243,7 @@
 
             {{-- modal for delete transaction --}}
             @include('partials.modal.deleteTransaction')
+
         </div>
     </div>
 </div>
