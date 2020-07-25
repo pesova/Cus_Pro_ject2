@@ -49,7 +49,7 @@ $total_interestReceivables = 0;
     }
 
 //get for all revenues
-    if ($transaction->type == "Paid") {
+    if ($transaction->type == "paid") {
         $eachRevenue = $transaction->amount;
         $total_Revenue += $eachRevenue;
         $each_interestRevenue = $transaction->interest;
