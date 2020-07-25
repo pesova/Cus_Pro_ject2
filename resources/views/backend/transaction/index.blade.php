@@ -16,10 +16,12 @@
             <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#addTransactionModal">
                 New &nbsp;<i class="fa fa-plus my-float"></i>
             </a>
-            @include('backend.transaction.modal.addTransaction')
+            @include('partials.modal.addTransaction')
             @endif
         </div>
-        @include('partials.alertMessage')
+
+        @include('partials.alert.message')
+
         <div class="card mt-0">
             <div class="card-header">
                 <div class="btn-group">
@@ -61,14 +63,14 @@
                                 <td>{{ $index + 1 }}</td>
                                 <td>
                                     @if(Cookie::get('user_role') != 'store_assistant')
-                                        {{-- check for supper admin, response does not return store name --}}
+                                    {{-- check for supper admin, response does not return store name --}}
                                     @isset($transaction->store_name)
-                                        <a class="" href="{{ route('store.show', $transaction->store_ref_id) }}">
-                                            {{ $transaction->store_name }}
-                                        </a>
+                                    <a class="" href="{{ route('store.show', $transaction->store_ref_id) }}">
+                                        {{ $transaction->store_name }}
+                                    </a>
                                     @endif
                                     @else
-                                        {{ $transaction->store_name }}
+                                    {{ $transaction->store_name }}
                                     @endif
 
                                 </td>
@@ -77,40 +79,42 @@
                                 <td>{{ $transaction->type }}</td>
 
                                 <td>
-                                @isset($transaction->expected_pay_date)
+                                    @isset($transaction->expected_pay_date)
                                     @if ( \Carbon\Carbon::parse($transaction->expected_pay_date)->isPast())
-                                        <span
-                                            class="badge badge-soft-danger">{{ \Carbon\Carbon::parse($transaction->expected_pay_date)->diffForhumans() }}</span>
+                                    <span
+                                        class="badge badge-soft-danger">{{ \Carbon\Carbon::parse($transaction->expected_pay_date)->diffForhumans() }}</span>
                                     @else
-                                        @if (\Carbon\Carbon::parse($transaction->expected_pay_date)->isToday())
-                                            <span
-                                                class="badge badge-soft-warning">{{ \Carbon\Carbon::parse($transaction->expected_pay_date)->diffForhumans() }}</span>
-                                        @endif
-                                        <span
-                                            class="badge badge-soft-success">{{ \Carbon\Carbon::parse($transaction->expected_pay_date)->diffForhumans() }}</span>
+                                    @if (\Carbon\Carbon::parse($transaction->expected_pay_date)->isToday())
+                                    <span
+                                        class="badge badge-soft-warning">{{ \Carbon\Carbon::parse($transaction->expected_pay_date)->diffForhumans() }}</span>
                                     @endif
-                                @endif
+                                    <span
+                                        class="badge badge-soft-success">{{ \Carbon\Carbon::parse($transaction->expected_pay_date)->diffForhumans() }}</span>
+                                    @endif
+                                    @endif
                                 </td>
                                 <td> {{ \Carbon\Carbon::parse($transaction->createdAt)->diffForhumans() }}</td>
                                 <td>
                                     <label class="switch">
-                                        @if(Cookie::get('user_role') != 'store_assistant') disabled
-                                            <input class="togBtn" type="checkbox" id="togBtn"
+                                        @if(Cookie::get('user_role') != 'store_assistant')
+                                        <input class="togBtn" type="checkbox" id="togBtn"
                                             {{ $transaction->status == true ? 'checked' : '' }}
                                             data-id="{{ $transaction->_id }}"
                                             data-store="{{ $transaction->store_ref_id }}"
                                             data-customer="{{ $transaction->customer_ref_id}}">
                                         @else
-                                            <input type="checkbox" id="togBtn" {{ $transaction->status == true ? 'checked' : '' }} disabled>
+                                        <input type="checkbox" id="togBtn"
+                                            {{ $transaction->status == true ? 'checked' : '' }} disabled>
                                         @endif
 
                                         <div class="slider round">
                                             <span class="on">Paid</span><span class="off">Pending</span>
                                         </div>
                                     </label>
-                                        <div id="statusSpiner" class="spinner-border spinner-border-sm text-primary d-none" role="status">
-                                            <span class="sr-only">Loading...</span>
-                                      </div>
+                                    <div id="statusSpiner" class="spinner-border spinner-border-sm text-primary d-none"
+                                        role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
                                 </td>
                                 <td>
                                     <a class="btn btn-info btn-small py-1 px-2"
@@ -138,34 +142,36 @@
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-html5-1.6.2/datatables.min.js"></script>
+<script type="text/javascript"
+    src="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-html5-1.6.2/datatables.min.js">
+</script>
 <script src="{{ asset('/backend/assets/js/textCounter.js')}}"></script>
+<script src="{{ asset('/backend/assets/js/toggleStatus.js')}}"></script>
 
 <script>
     $(document).ready(function () {
         var export_filename = 'MycustomerTransactions';
         $('#transactionTable').DataTable({
             dom: 'frtipB',
-            buttons:[
-                {
-                    extend: 'excel',
-                    className: 'd-none',
-                    title: export_filename,
-                }, {
-                    extend: 'pdf',
-                    className: 'd-none',
-                    title: export_filename,
-                    extension: '.pdf'
-                }
-            ]
-        } );
-        $("#ExportReporttoExcel").on("click", function() {
-            $( '.buttons-excel' ).trigger('click');
+            buttons: [{
+                extend: 'excel',
+                className: 'd-none',
+                title: export_filename,
+            }, {
+                extend: 'pdf',
+                className: 'd-none',
+                title: export_filename,
+                extension: '.pdf'
+            }]
         });
-        $("#ExportReporttoPdf").on("click", function() {
-            $( '.buttons-pdf' ).trigger('click');
+        $("#ExportReporttoExcel").on("click", function () {
+            $('.buttons-excel').trigger('click');
+        });
+        $("#ExportReporttoPdf").on("click", function () {
+            $('.buttons-pdf').trigger('click');
         });
     });
+
 </script>
 
 <script>
@@ -191,7 +197,8 @@
                         var new_data = data.data.store.customers;
                         var i;
                         new_data.forEach(customer => {
-                            $('select[name="customer"]').append('<option value="' + customer._id + '">' +
+                            $('select[name="customer"]').append('<option value="' +
+                                customer._id + '">' +
                                 customer.name + '</option>');
                         });
                     }
@@ -203,34 +210,42 @@
 
         $('.togBtn').change(function () {
             $(this).attr("disabled", true);
-            $('#statusSpiner').removeClass('d-none');
 
-            const id = $(this).data('id');
-            const store = $(this).data('store');
+            var id = $(this).data('id');
+            var spiner = $(this).parent("td").find("#statusSpiner");
+            var store = $(this).data('store');
             let _status = $(this).is(':checked') ? 1 : 0;
             let _customer_id = $(this).data('customer');
 
-           $.ajax({
-            url: `${host}/transaction/update/${id}`,
-             headers: {'x-access-token': token},
-             data: {
-                 store_id:store,
-                 status:_status,
-                 customer_id:_customer_id,
-                 },
-             type: 'PATCH',
+            $('#statusSpiner').removeClass('d-none');
+
+            $.ajax({
+                url: `${host}/transaction/update/${id}`,
+                headers: {
+                    'x-access-token': token
+                },
+                data: {
+                    store_id: store,
+                    status: _status,
+                    customer_id: _customer_id,
+                },
+                type: 'PATCH',
             }).done(response => {
                 if (response.success != true) {
                     $(this).prop("checked", !this.checked);
+                    alert("Oops! something went wrong.");
                 }
+                alert("Operation Successful.");
                 $(this).removeAttr("disabled")
                 $('#statusSpiner').addClass('d-none');
-            }).fail( e => {
+            }).fail(e => {
                 $(this).removeAttr("disabled")
                 $(this).prop("checked", !this.checked);
                 $('#statusSpiner').addClass('d-none');
+                alert("Oops! something went wrong.");
             });
         });
+
     });
 
 </script>

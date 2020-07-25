@@ -20,8 +20,3 @@
 </div>
 @endif
 
-<script>
-    setTimeout(() => {
-        $('.alert').alert('close'); 
-    }, 3000);
-</script>

@@ -30,7 +30,7 @@
             </div>
         </div>
 
-        @include('partials.alertMessage')
+        @include('partials.alert.message')
 
         <div class="row page-title">
 
