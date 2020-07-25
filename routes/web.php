@@ -64,7 +64,7 @@ Route::prefix('/admin')->group(function () {
 
     Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
 
-    Route::get('/card_v1',"BusinessCard@card_v1");
+    Route::get('/card_v1', "BusinessCard@card_v1");
     Route::get('/card_v2', 'BusinessCard@card_v2');
 
     Route::get('/password', 'Auth\ForgotPasswordController@index')->name('password');
@@ -118,7 +118,7 @@ Route::prefix('/admin')->group(function () {
             Route::resource('store', 'StoreController');
 
             // complaint crud
-            Route::resource('complaint', 'ComplaintController')->only(['index', 'show', 'store','create']);
+            Route::resource('complaint', 'ComplaintController')->only(['index', 'show', 'store', 'create']);
 
             // customer crud
             Route::resource('customer', 'CustomerController');
@@ -132,10 +132,10 @@ Route::prefix('/admin')->group(function () {
         if ($user_role == 'store_assistant') {
             //Route::group(['middleware' => 'backend.store.assistant'], function () {
 
-            Route::resource('complaint', 'ComplaintController')->only(['index', 'create', 'store']);
+            Route::resource('complaint', 'ComplaintController')->only(['index', 'create', 'store', 'show']);
 
             // customer crud
-            Route::resource('customer', 'CustomerController')->only(['index', 'show', 'store','edit','destroy','update']); //todo: remove edit, update, destroy and store
+            Route::resource('customer', 'CustomerController')->only(['index', 'show']);
 
             // });
         }
@@ -189,7 +189,7 @@ Route::prefix('/admin')->group(function () {
 
         // Route::get('debt.search', 'DebtorController@search')->name('debt.search');
 
-        Route::post('reminder', 'DebtorController@sendReminder')->name('reminder');
+        Route::post('reminder/{id}', 'DebtorController@sendReminder')->name('reminder');
 
         Route::post('schedule-reminder', 'DebtorController@sheduleReminder')->name('schedule-reminder');
 

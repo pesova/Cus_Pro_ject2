@@ -50,45 +50,17 @@
                         </p>
                         <div class="container-fluid">
                             <div class="row">
-
-                                <div class="form-group col-lg-4 mt-4">
+                            <div class="form-group col-lg-12 mt-4">
                                     <div class="row">
-                                        <label class="form-control-label">Email</label>
+                                        <label class="form-control-label">Search Assistants</label>
                                         <div class="input-group input-group-merge">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">
-                                                    <i class="icon-dual" data-feather="lock"></i>
+                                                    <i class="icon-dual" data-feather="search"></i>
                                                 </span>
                                             </div>
-                                            <input type="text" class="form-control" id="assistant-email"
-                                                placeholder="search email">
+                                            <input type="text" class="form-control" id="assistant-name">
                                         </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group col-lg-4 mt-4">
-                                    <label class="form-control-label">Name</label>
-                                    <div class="input-group input-group-merge">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="icon-dual" data-feather="lock"></i>
-                                            </span>
-                                        </div>
-                                        <input type="text" class="form-control" id="assistant-name"
-                                            placeholder="search name">
-                                    </div>
-
-                                </div>
-
-                                <div class="form-group col-lg-4 mt-4">
-                                    <label class="form-control-label">Phone Number</label>
-                                    <div class="input-group input-group-merge">
-                                        <div class="input-group-prepend">
-
-                                        </div>
-                                        <input type="tel" id="assistant-phone" class="form-control"
-                                            placeholder="search phone number">
-
                                     </div>
                                 </div>
                             </div>
@@ -104,16 +76,24 @@
 
         <div class="row">
             @foreach ($assistants as $assistant)
-            <div class="col-xl-3 col-sm-6">
-                <div class="card text-center">
-                    <div class="card-body">
+            <div  class="col-xl-3 col-sm-6">
+                <div id="idd" class="card text-center">
+                    <div  class="card-body">
                         <div class="avatar-sm mx-auto mb-4">
                             <span class="avatar-title rounded-circle bg-soft-primary text-primary font-size-16">
-                                SA
+                             @php
+                             $names = explode(" ", strtoupper($assistant->name));
+                                $ch = "";
+                                foreach ($names as $name) {
+                                $ch .= $name[0];
+                                
+                                }
+                                echo $ch;
+                             @endphp
                             </span>
                         </div>
                         <h5 class="font-size-15"><a href="#" class="text-dark">{{$assistant->name }}</a></h5>
-                        <p class="text-muted">{{$assistant->phone_number}} | {{$assistant->email}}</p>
+                        <p class="text-muted">{{$assistant->phone_number}} | {{$assistant->email ?? ''}}</p>
 
                         <div>
                             @if ($assistant->user_role == "store_admin")
@@ -237,7 +217,7 @@
                             <br>
                             <div class="col-10 col-sm-7">
                                 <input type="tel" id="phone" name="" class="form-control"
-                                    value="{{old('phone_number')}}" required>
+                                    value="" required>
                                 <input type="hidden" name="phone_number" id="phone_number" class="form-control">
 
                             </div>
@@ -370,6 +350,58 @@
             });
         });
 
+
+</script>
+<script>
+
+  //for search bar
+  let userText = document.querySelector('#assistant-name')
+  let rows = document.querySelectorAll('#idd')
+
+  //add input event listener
+  userText.addEventListener('keyup', showFilterResults)
+
+  function showFilterResults(e) {
+    const users = rows;
+    const filterText = e.target.value.toLowerCase();
+
+    users.forEach(function (item) {
+      if (item.textContent.toLowerCase().indexOf(filterText) !== -1) {
+        item.parentElement.style.display = 'table-row'
+
+      } else {
+        item.parentElement.style.display = 'none'
+
+      };
+    });
+  };
+</script>
+<script>
+    var nombrePage = $("#idd").length;
+
+    showPage = function (pagination) {
+    if (pagination < 2 || pagination >= nombrePage) return;
+
+    $("#idd").hide().eq(pagination).show();
+    $("#pagin li").removeClass("active").eq(pagination).addClass("active");
+    };
+
+    // Go to Left
+    // $(".prev").click(function () {
+    // showPage($("#pagin ul .active").index() - 1);
+    // });
+
+    // // Go to Right
+    // $(".next").click(function () {
+    // showPage($("#pagin .active").index() + 1);
+    // });
+
+    // $("#pagin ul a").click(function (e) {
+    // e.preventDefault();
+    // showPage($(this).parent().index());
+    // });
+
+    showPage(0);
 
 </script>
 {{-- @if (\Illuminate\Support\Facades\Cookie::get('is_first_time_user') == true) --}}

@@ -50,35 +50,37 @@
                             Go Back
                         </a>
 
+                        @if(Session::has('message'))
+                            <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">
+                                {{ Session::get('message') }}</p>
+                        @endif
+
                         <div class="row col-12">
                             <form action="{{ route('broadcast.store') }}" method="POST" class="col-12">
                                 @csrf
 
                                 <div class="form-group">
                                     <label>Choose customers to receive broadcast</label>
-                                    <select class="form-control col-12 jstags" multiple>
-                                        <option name="0909123949941">Ade 1 - 0909123949941</option>
-                                        <option name="0909123949942">Ade 2 - 0909123949942</option>
-                                        <option name="0909123949943">Ade 3 - 0909123949943</option>
-                                        <option name="0909123949944">Ade 4 - 0909123949944</option>
-                                        <option name="0909123949945">Ade 5 - 0909123949945</option>
-                                        <option name="0909123949946">Ade 6 - 0909123949946</option>
-                                        <option name="0909123949947">Ade 7 - 0909123949947</option>
-                                        <option name="0909123949948">Ade 8 - 0909123949948</option>
-                                        <option name="0909123949949">Ade 9 - 0909123949949</option>
+                                    <select class="form-control col-12 jstags" multiple name="numbers[]">
+                                        @foreach ($customers as $key => $value)
+                                            <option value="{{$value}}">{{$key}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
-
+                                
                                 <div class="form-group">
                                     <label>Message</label>
-                                    <textarea rows="15" class="form-control col-12" ></textarea>
+                                    <textarea rows="5" class="form-control col-12" name="message" maxlength="100">
+                                    @if(isset($template))
+                                    {{$template}}  
+                                    @endif                                                                                   
+                                    </textarea>
                                 </div>
+                             {{--    --}}
+                                <button class="btn btn-primary" type="submit">Send &nbsp;<i class="fa fa-paper-plane my-float"></i>
+                                </button>
                             </form>
                         </div>
-
-                        <a href="{{ route('broadcast.create') }}" class="btn btn-primary">
-                            Send &nbsp;<i class="fa fa-paper-plane my-float"></i>
-                        </a>
                     </div>
                 </div>
             </div>
