@@ -408,7 +408,7 @@ class AssistantController extends Controller
             if ($delete->getStatusCode() == 200 || $delete->getStatusCode() == 201) {
                 $request->session()->flash('alert-class', 'alert-success');
                 Session::flash('message', "Store assistant successfully deleted");
-                return back();
+                return redirect()->route('assistants.index');
             } else if ($delete->getStatusCode() == 401) {
                 $request->session()->flash('alert-class', 'alert-danger');
                 Session::flash('message', "You are not authorized to perform this action, please check your details properly");
