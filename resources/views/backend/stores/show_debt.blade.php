@@ -93,7 +93,7 @@ $transactions = $response['transactions'];
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-body">
-                <form action="{{ route('reminder') }}" method="POST">
+                <form action="{{-- route('reminder', $customers->_id) --}}" method="POST">
                     @csrf
                     <input type="hidden" name="transaction_id" value="{{$customers->_id}}">
                     

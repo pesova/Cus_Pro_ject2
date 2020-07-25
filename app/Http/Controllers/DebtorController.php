@@ -171,6 +171,7 @@ class DebtorController extends Controller
             if ($storeStatusCode == 200 && $debtorStatusCode == 200) {
                 $stores = json_decode($storeResponse->getBody())->data->stores;
                 $debtor = json_decode($debtorResponse->getBody())->data->debt;
+                // dd($debtor);
                 return view('backend.debtor.show', compact('debtor', 'stores'));
             } else if ($storeStatusCode == 401 && $debtorStatusCode == 401) {
                 return redirect()->route('login')->with('message', "Please Login Again");
@@ -182,7 +183,7 @@ class DebtorController extends Controller
             if ($e->hasResponse()) {
                 $response = $e->getResponse()->getBody();
                 $result = json_decode($response);
-                $session = Session::flash('message', $result->message);
+                Session::flash('message', $result->message);
                 return redirect()->route('debtor.index');
             }
             //5xx server error
@@ -227,15 +228,12 @@ class DebtorController extends Controller
     {
     }
 
-    public function sendReminder(Request $request, $id) {
+    public function sendReminder(Request $request, $id)
+    {
         // /debt/send
-
-
         $store_ref_id = explode('-', $id)[0];
         $customer_ref_id = explode('-', $id)[1];
         $ts_ref_id = explode('-', $id)[2];
-
-
         $_id = $request->transaction_id;
         $message = $request->message;
 
@@ -304,8 +302,9 @@ class DebtorController extends Controller
             'time' =>  'required',
         ]);
 
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt/schedule';
+        dd($request);
 
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt/schedule';
 
         try {
             $client =  new Client();
@@ -379,10 +378,9 @@ class DebtorController extends Controller
             if ($statusCode == 200  && $data->success) {
                 $request->session()->flash('alert-class', 'alert-success');
                 Session::flash('message', $data->message);
-
                 return back();
             } else {
-                $request->session()->flash('alert-class', 'alert-waring');
+                $request->session()->flash('alert-class', 'alert-warning');
                 Session::flash('message', $data->message);
                 return redirect()->back();
             }
