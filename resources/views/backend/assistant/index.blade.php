@@ -63,7 +63,65 @@
             </div>
         </div>
 
+<div class="row">
+<div class="col-12">
+                            <div class="card">
 
+                                <div class="card-body">
+
+                                    <a href="{{ route('complaint.create') }}" class="btn btn-primary float-right">
+                                        Add Complaint &nbsp;<i class="fa fa-plus my-float"></i>
+                                    </a>
+                                    <h4 class="header-title mt-0 mb-1">Complaints Submitted</h4>
+                                    <p class="sub-header">
+                                        This is the list of all complaints submitted:
+                                    </p>
+                                    <table id="basic-datatable" class="table dt-responsive">
+                                        <thead>
+                                            <tr>
+                                                <th>S/N</th>
+                                                <th>NAME</th>
+                                                <th>INFO</th>
+                                                <th>STATUS</th>
+                                                <th>ACTION</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- @foreach($responses->data as $index => $response) -->
+                                            @foreach ($assistants as $assistant)
+                                            <tr>
+                                                <td>{{ $index + 1 }}</td>
+                                                <td>{{$assistant->name }}</td>
+                                                <td><p class="text-muted">{{$assistant->phone_number}} | {{$assistant->email ?? ''}}</p></td>
+                                                <td>
+                                                    @if ( $response->status == 'New' )
+                                                    <div class="badge badge-pill badge-secondary">New</div>
+                                                    @elseif ( $response->status == 'Pending' )
+                                                    <div class="badge badge-pill badge-primary">Pending</div>
+                                                    @elseif ( $response->status == 'Resolved' )
+                                                    <div class="badge badge-pill badge-success">Resolved</div>
+                                                    @elseif ( $response->status == 'Closed' )
+                                                    <div class="badge badge-pill badge-dark">Closed</div>
+                                                    @endif
+                                                </td>
+                                                <td>{{ \Carbon\Carbon::parse($response->date)->diffForHumans() }}</td>
+                                                <td>
+                                                    <form action="{{ route('complaint.destroy', $response->_id) }}"
+                                                        method="POST">
+                                                        <input type="hidden" name="_method" value="DELETE">
+                                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                        <button class="btn btn-danger">Delete</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+</div>
         <div class="row">
             @foreach ($assistants as $assistant)
             <div class="col-xl-3 col-sm-6">
@@ -242,34 +300,6 @@
             };
         });
     };
-
-</script>
-<script>
-    var nombrePage = $("#idd").length;
-
-    showPage = function (pagination) {
-        if (pagination < 2 || pagination >= nombrePage) return;
-
-        $("#idd").hide().eq(pagination).show();
-        $("#pagin li").removeClass("active").eq(pagination).addClass("active");
-    };
-
-    // Go to Left
-    // $(".prev").click(function () {
-    // showPage($("#pagin ul .active").index() - 1);
-    // });
-
-    // // Go to Right
-    // $(".next").click(function () {
-    // showPage($("#pagin .active").index() + 1);
-    // });
-
-    // $("#pagin ul a").click(function (e) {
-    // e.preventDefault();
-    // showPage($(this).parent().index());
-    // });
-
-    showPage(0);
 
 </script>
 {{-- @if (\Illuminate\Support\Facades\Cookie::get('is_first_time_user') == true) --}}
