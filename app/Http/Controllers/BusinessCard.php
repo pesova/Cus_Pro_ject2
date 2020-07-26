@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use PDF;
 
+use SnappyImage;
+
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
@@ -36,20 +38,20 @@ class BusinessCard extends Controller
 
             
             $StoreData = json_decode($body)->data->store;
-            // $StoreData = [
-            //     'storeData' => $StoreData,
-            // ];
-                // return print_r($StoreData);
-                // die();
+           
             if ($statusCode == 200) {
               
-                $pdf = PDF::loadView('backend.cards.card_v1',[
+                // $pdf = PDF::loadView('backend.cards.card_v1',[
+                //     "store_details" =>$StoreData
+                // ] );
+                // return $pdf->download('business_card.pdf');
+
+                $pdf = SnappyImage::loadView('backend.cards.card_v1',[
                     "store_details" =>$StoreData
                 ] );
-                return $pdf->download('business_card.pdf');
-                die();
-                // return $StoreData;
-                return view('backend.cards.card_v1')->with('store_details', $StoreData);
+                $path = public_path("cards/".uniqid()."img.jpg");
+                $pdf->save($path);
+                return $pdf->inline('business_card.jpg');
             }
         }catch (RequestException $e) {
             Log::info('Catch error: LoginController - ' . $e->getMessage());
