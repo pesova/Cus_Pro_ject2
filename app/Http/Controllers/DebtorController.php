@@ -230,7 +230,6 @@ class DebtorController extends Controller
 
     public function sendReminder(Request $request, $id)
     {
-        // /debt/send
         $store_ref_id = explode('-', $id)[0];
         $customer_ref_id = explode('-', $id)[1];
         $ts_ref_id = explode('-', $id)[2];
@@ -297,16 +296,18 @@ class DebtorController extends Controller
     {
 
         $request->validate([
+            'time' =>  'required|date_format:H:i',
+            'store_id' => 'required',
+            'customer_id' => 'required',
+            'scheduleDate' => 'required|date_format:Y-m-d',
             'transaction_id' => 'required',
-            'scheduleDate' => 'required',
-            'time' =>  'required',
         ]);
 
         $storeID = $request->store_id;
         $customerId = $request->customer_id;
         $transactionID = $request->transaction_id;
 
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt/schedule' .'/'. $storeID . $customerId . $transactionID;
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt/schedule' .'/'. $storeID .'/'. $customerId .'/'. $transactionID;
 
         try {
             $client =  new Client();
@@ -318,7 +319,9 @@ class DebtorController extends Controller
                     'message' => $request->message,
                 ],
             ];
+
             $response = $client->request("POST", $url, $payload);
+            dd($response);
 
             $statusCode = $response->getStatusCode();
             $body = $response->getBody();
@@ -327,10 +330,10 @@ class DebtorController extends Controller
             if ($statusCode == 200  && $data->success) {
                 $request->session()->flash('alert-class', 'alert-success');
                 Session::flash('message', $data->Message);
-
                 return back();
             } else {
                 $request->session()->flash('alert-class', 'alert-success');
+                Session::flash('message', $data->Message);
                 return redirect()->back();
             }
         } catch (RequestException $e) {
