@@ -130,8 +130,8 @@ $total_interestRevenue += $each_interestRevenue;
     <div class="col-xl-8">
 
         <div class="row">
-            <div class="col-sm-4">
-                <div class="card"><a href="{{ route('store_revenue', $storeData->_id) }}">
+            <div class="col-sm-4"><a href="{{ route('store_revenue', $storeData->_id) }}">
+                <div class="card">
                         <div class="card-body">
                         <div class="media">
                                     <div class="media-body">
@@ -154,8 +154,8 @@ $total_interestRevenue += $each_interestRevenue;
                 </div></a>
             </div>
 
-            <div class="col-sm-4">
-                <div class="card"><a href="{{ route('store_receivable', $storeData->_id) }}">
+            <div class="col-sm-4"><a href="{{ route('store_receivable', $storeData->_id) }}">
+                <div class="card">
                         <div class="card-body">
                         <div class="media">
                                     <div class="media-body">
@@ -200,8 +200,8 @@ $total_interestRevenue += $each_interestRevenue;
                                     <span class="ml-2 text-truncate text-primary">From previous Month</span>
                                 </div>
                         </div>
-                    </a>
-                </div>
+                    </div> 
+                </div></a>
             </div>
         </div>
         <!-- end row -->

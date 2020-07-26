@@ -20,13 +20,13 @@ aria-labelledby="scheduleReminderModalLabel" aria-hidden="true">
                 <div class="row">
                     <div class="form-group col-md-6">
                         <label for="schedule_date">Date</label>
-                        <input type="date" name="schedule_date" class="form-control"
-                            value="{{ old('schedule_date') }}" placeholder="" required minlength="3" maxlength="16">
+                        <input type="date" name="scheduleDate" id="schedule_date" class="form-control"
+                            value="{{ old('scheduleDate') }}" placeholder="" required minlength="3" maxlength="16">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="schedule_time">Time</label>
-                        <input type="time" name="schedule_time" class="form-control"
-                            value="{{ old('schedule_time') }}" placeholder="" required minlength="3" maxlength="16">
+                        <input type="time" name="time" id="schedule_time" class="form-control"
+                            value="{{ old('time') }}" placeholder="" required minlength="3" maxlength="16">
                     </div>
                 </div>
                 <div class="form-group">
