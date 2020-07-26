@@ -10,21 +10,18 @@
 </head>
 
 <style>
-
-
-       /* @font-face {
+@font-face {
     font-family: Gilroy-Bold;
-    src: url("{{public_path('backend/assets/fonts/Gilroy-Bold.ttf')}}");
-    
+    src: url("{{public_path()}}/backend/assets/fonts/Gilroy-Bold.ttf");
 }
 @font-face {
     font-family: Gilroy;
-    src: url("{{public_path('backend/assets/fonts/Gilroy-Regular.ttf')}}");
+    src: url("{{public_path()}}/backend/assets/fonts/Gilroy-Regular.ttf");
 }
 @font-face {
     font-family: Gilroy-Medium;
-    src: url("{{public_path('backend/assets/fonts/Gilroy-Medium.ttf')}}");
-} */
+    src: url("{{public_path()}}/backend/assets/fonts/Gilroy-Medium.ttf");
+}
 </style>
 
 <body>
