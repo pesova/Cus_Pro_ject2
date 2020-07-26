@@ -20,7 +20,7 @@
         @include('partials.alert.message')
 
         <div class="row h-100 justify-content-center align-items-center">
-            <div class="col-lg-12">
+            <div class="col-lg-10 col-sm-12">
                 <div class="card">
                     <div class="card-body">
                         {{-- <h4 class="mb-3 header-title mt-0">Complaint Form</h4> --}}
@@ -30,8 +30,8 @@
                             @method('PUT')
 
                             <div class="form-group row mb-3">
-                                <label for="name" class="col-2 col-sm-3 col-form-label my-label">Name:</label> <br> <br>
-                                <div class="col-10 col-sm-7">
+                                <label for="name" class="col-md-2 col-sm-12 col-form-label my-label">Name:</label> <br> <br>
+                                <div class="col-md-10 col-sm-12">
                                     <input name="name" type="text" class="form-control" id="name"
                                            placeholder="Enter name here" value="{{  old('name', $response->name) }}">
                                 </div>
@@ -51,17 +51,17 @@
                             </div>
                             <br>   --}}
                             <div class="form-group row mb-3">
-                                <label for="address" class="col-2 col-sm-3 col-form-label my-label">Email:</label> <br>
-                                <div class="col-10 col-sm-7">
+                                <label for="address" class="col-md-2 col-sm-12 col-form-label my-label">Email:</label> <br>
+                                <div class="col-md-10 col-sm-12">
                                     <input name="email" type="email" class="form-control" id="fullname"
                                            placeholder="Enter Address" value="{{ old('email', $response->email) }}">
                                 </div>
                             </div>
                             <br>
                             <div class="form-group row mb-3">
-                                <label for="number" class="col-2 col-sm-3 col-form-label my-label">Phone Number:</label>
+                                <label for="number" class="col-md-2 col-sm-12 col-form-label my-label">Phone Number:</label>
                                 <br>
-                                <div class="col-10 col-sm-7">
+                                <div class="col-md-10 col-sm-12">
                                     <input type="tel" id="phone" name=""
                                            class="form-control"
                                            value="{{ old('phone_number',$response->phone_number) }}" required>
@@ -71,8 +71,8 @@
                                 </div>
                             </div>
                             <div class="form-group row mb-3">
-                                <label for="number" class="col-2 col-sm-3 col-form-label my-label">Store:</label> <br>
-                                <div class="col-10 col-sm-7">
+                                <label for="number" class="col-md-2 col-sm-12 col-form-label my-label">Store:</label> <br>
+                                <div class="col-md-10 col-sm-12">
                                     <select name="store_id" id="store_id" class="form-control">
                                         <option value=""> Select Store</option>
                                         @foreach($stores as $store)
