@@ -4,19 +4,19 @@
         <div class="modal-content">
             <div class="modal-body">
                 @isset($transaction)
-                <form
-                    action="{{ route('reminder', ['id' => $transaction->store_ref_id->_id.'-'.$transaction->customer_ref_id->_id.'-'.$transaction->_id]) }}"
-                    method="POST">
+                <form action="{{ route('reminder') }}" method="POST">
                     @csrf
                     <input type="hidden" name="transaction_id" value="{{old('transaction_id', $transaction->_id)}}">
+                    <input type="hidden" name="customer_id" value="{{old('customer_id', $transaction->customer_ref_id)}}">
+                    <input type="hidden" name="store_id" value="{{old('store_id', $transaction->store_ref_id)}}">
                     @else
                     <form
-                        action="{{ route('reminder', ['id' => $debtor->store_ref_id->_id.'-'.$debtor->customer_ref_id->_id.'-'.$debtor->_id]) }}"
+                        action="{{ route('reminder') }}"
                         method="POST">
                         @csrf
                         <input type="hidden" name="transaction_id" value="{{old('transaction_id', $debtor->_id)}}">
-
-
+                        <input type="hidden" name="customer_id" value="{{old('customer_id', $debtor->customer_ref_id)}}">
+                        <input type="hidden" name="store_id" value="{{old('store_id', $debtor->store_ref_id)}}">
                         @endisset
 
                         <div class="form-group">

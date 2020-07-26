@@ -228,24 +228,29 @@ class DebtorController extends Controller
     {
     }
 
-    public function sendReminder(Request $request, $id)
+    public function sendReminder(Request $request)
     {
-        $store_ref_id = explode('-', $id)[0];
-        $customer_ref_id = explode('-', $id)[1];
-        $ts_ref_id = explode('-', $id)[2];
-        $_id = $request->transaction_id;
-        $message = $request->message;
 
+        $request->validate([
+            'store_id' => 'required',
+            'customer_id' => 'required',
+            'transaction_id' => 'required',
+            'message' => 'required|min:10|max:140',
+        ]);
 
-        $url = env('API_URL', 'https://dev.api.customerpay.me') .'/debt'. '/send'.'/'.$store_ref_id.'/'.$customer_ref_id.'/'.$ts_ref_id;
+        $storeID = $request->store_id;
+        $customerID = $request->customer_id;
+        $transactionID = $request->transaction_id;
+
+        $url = env('API_URL', 'https://dev.api.customerpay.me') .'/debt'. '/send'.'/'.$storeID.'/'.$customerID.'/'.$transactionID;
 
         try {
             $client =  new Client();
             $payload = [
                 'headers' => ['x-access-token' => Cookie::get('api_token')],
                 'form_params' => [
-                    'transaction_id' => $_id,
-                    'message' => $message,
+                    'transaction_id' => $transactionID,
+                    'message' => $request->message,
                 ],
             ];
 
@@ -255,16 +260,15 @@ class DebtorController extends Controller
             $body = $response->getBody();
             $data = json_decode($body);
 
-            if ($statusCode == 200 && $data->success) {
-                // return \
-                $request->session()->flash('alert-class', 'alert-success');
-                $message = isset($data->Message) ? $data->Message : $data->message;
-                Session::flash('message', );
+            // dd($data);
 
+            if ($statusCode == 200 && $data->success) {
+                $request->session()->flash('alert-class', 'alert-success');
+                Session::flash('message', $data->message);
                 return redirect()->back();
             } else {
                 $request->session()->flash('alert-class', 'alert-waring');
-                // Session::flash('message', $data->message);
+                Session::flash('message', $data->message);
                 return redirect()->back();
             }
         } catch (RequestException $e) {
