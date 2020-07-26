@@ -204,7 +204,7 @@
                 </div>
 
                 <div class="debts-table">
-                    <table class="table table-hover table-nowrap mb-0">
+                    <table class="table table-hover table-nowrap mb-0 table-responsive">
                         <thead>
                         <tr>
                             <th scope="col">Store Name</th>
