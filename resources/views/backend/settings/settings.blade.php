@@ -46,10 +46,9 @@
 
     <div class="account-pages my-5">
         <div class="container-fluid">
+        @include('partials.alert.message')
+
             <div class="row-justify-content-center">
-                @if(Session::has('message'))
-                    <p class="alert {{ Session::get('alert-class', 'alert-danger') }} inline">{{ Session::get('message') }}</p>
-                @endif
                 <div class="h2"><i data-feather="file-text" class="icon-dual"></i> Settings Page</div>
                 <div class="row">
                     <div class="col-md-4">

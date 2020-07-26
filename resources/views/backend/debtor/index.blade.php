@@ -11,7 +11,7 @@
         <div class="mb-0 d-flex justify-content-between align-items-center page-title">
             <div class="h6"><i data-feather="file-text" class="icon-dual"></i> Debtors Center</div>
         </div>
-        @include('partials.alertMessage')
+        @include('partials.alert.message')
         @if(Cookie::get('user_role') != 'super_admin')
         <div class="card">
             <div class="card-body">
@@ -99,7 +99,7 @@
                                 <td>
                                     <a class="btn btn-info btn-small py-1 px-2"
                                         href="{{ route('debtor.show', $debtor->_id) }}">
-                                        View More
+                                        More
                                     </a>
                                 </td>
                             </tr>
