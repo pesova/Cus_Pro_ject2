@@ -83,27 +83,6 @@ $transactions = $response['transactions'];
     </div> <!-- end col -->
 </div> <!-- end row -->
 
-<div class="modal fade" id="bs-example-modal-sm2" tabindex="-1" role="dialog"
-                         aria-labelledby="mySmallModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-body">
-                <form action="{{-- route('reminder', $customers->_id) --}}" method="POST">
-                    @csrf
-                    <input type="hidden" name="transaction_id" value="{{$customers->_id}}">
-                    
-                    <div class="form-group">
-                        <label>Message</label>
-                        <textarea name="message" class="form-control" id="exampleInput2" placeholder="Message"></textarea>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary btn-block">Create Reminder</button>
-                </form>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div>
-
 @endsection
 
 @section("javascript")
