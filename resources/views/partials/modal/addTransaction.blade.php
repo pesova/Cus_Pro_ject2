@@ -78,9 +78,9 @@
                         <label for="transaction_type" class="col-3 col-form-label">Transaction Type</label>
                         <div class="col-9">
                             <select id="type" name="type" class="form-control">
-                                <option value="{{ old('type') == 'debt' ? 'selected' : ' ' }}">Debt</option>
-                                <option value="{{ old('type') == 'paid' ? 'selected' : ' ' }}">Paid</option>
-                                <option value="{{ old('type') == 'receivables' ? 'selected' : ' ' }}">Receivables</option>
+                                <option value="debt" {{ old('type') == 'debt' ? 'selected' : ' ' }}>Debt</option>
+                                <option value="paid" {{ old('type') == 'paid' ? 'selected' : ' ' }}>Paid</option>
+                                <option value="receivables" {{ old('type') == 'receivables' ? 'selected' : ' ' }}>Receivables</option>
                             </select>
                         </div>
                     </div>

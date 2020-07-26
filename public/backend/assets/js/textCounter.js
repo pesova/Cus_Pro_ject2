@@ -1,7 +1,7 @@
 
 var counter = $('.charNum');
 counter.hide();
-    $('.counter').focus(function () {
+    $('.counter').keyup(function () {
         counter.show();
         var max = 140;
         var len = $(this).val().length;
@@ -16,4 +16,4 @@ counter.hide();
     $('.counter').blur(function () {
         counter.hide();
     });
-    
+
