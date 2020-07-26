@@ -64,8 +64,8 @@ Route::prefix('/admin')->group(function () {
 
     Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
 
-    Route::get('/card_v1/{id}', "BusinessCard@card_v1")->name('card1');
-    Route::get('/card_v2', 'BusinessCard@card_v2');
+   
+  
 
     Route::get('/password', 'Auth\ForgotPasswordController@index')->name('password');
     Route::post('/password', 'Auth\ForgotPasswordController@authenticate')->name('password.reset');
@@ -189,7 +189,7 @@ Route::prefix('/admin')->group(function () {
 
         // Route::get('debt.search', 'DebtorController@search')->name('debt.search');
 
-        Route::post('reminder/send/{id}', 'DebtorController@sendReminder')->name('reminder');
+        Route::post('reminder/send', 'DebtorController@sendReminder')->name('reminder');
 
         Route::post('reminder/schedule', 'DebtorController@sheduleReminder')->name('reminder.schedule');
 
@@ -200,6 +200,11 @@ Route::prefix('/admin')->group(function () {
         Route::get('store_receivable/{id}', 'StoreController@receivable')->name('store_receivable');
 
         Route::get('store_revenue/{id}', 'StoreController@revenue')->name('store_revenue');
+
+
+        Route::post('/preview/{id}', "BusinessCard@preview_card")->name('preview');
+        Route::post('/download/{id}', "BusinessCard@download_card")->name('download');
+
     });
     // ------------ GENERAL ROUTES ENDS HERE ------------------------ //
 

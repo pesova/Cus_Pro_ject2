@@ -19,14 +19,17 @@
                                         {{ \Carbon\Carbon::parse($transaction->createdAt)->diffForhumans() }}</h6>
                                 </div>
                                 <div class="col-md-8 row text-center">
-                                    <a href="" data-toggle="modal" data-target="#sendReminderModal" class="col-md-3 offset-1 mt-1 btn btn-sm btn-warning">
+                                    <a href="" data-toggle="modal" data-target="#sendReminderModal"
+                                        class="col-md-3 offset-1 mt-1 btn btn-sm btn-warning">
                                         Send Debt Reminder <i data-feather="send"></i>
                                     </a>
                                     @if(Cookie::get('user_role') == 'store_admin')
-                                    <a href="#" class="col-md-3 offset-1 mt-1 btn btn-sm btn-primary" data-toggle="modal" data-target="#editTransactionModal">
+                                    <a href="#" class="col-md-3 offset-1 mt-1 btn btn-sm btn-primary"
+                                        data-toggle="modal" data-target="#editTransactionModal">
                                         Edit <i data-feather="edit-3"></i>
                                     </a>
-                                    <a data-toggle="modal" data-target="#deleteModal" href="" class="col-md-3 offset-1 mt-1 btn btn-sm btn-danger">
+                                    <a data-toggle="modal" data-target="#deleteModal" href=""
+                                        class="col-md-3 offset-1 mt-1 btn btn-sm btn-danger">
                                         Delete <i data-feather="delete"></i>
                                     </a>
                                     @endif
@@ -59,17 +62,11 @@
                                     <div class="media">
                                         <i data-feather="users" class="align-self-center icon-dual icon-sm mr-2"></i>
                                         <div class="media-body">
-                                            @foreach ($stores as $store)
-                                            @foreach ($store->customers as $customer)
-                                            @if ($customer->_id === $transaction->customer_ref_id)
                                             <h6 class="m-0">
                                                 <a
-                                                    href="{{ route('customer.show', $transaction->store_ref_id.'-'.$transaction->customer_ref_id)}}">{{ $customer->name }}
+                                                    href="{{ route('customer.show', $transaction->store_ref_id.'-'.$transaction->customer_ref_id)}}">{{ $transaction->customer_ref->name }}
                                                 </a>
                                             </h6>
-                                            @endif
-                                            @endforeach
-                                            @endforeach
                                             <span class="text-muted">Customer Name</span>
                                         </div>
                                     </div>
@@ -80,16 +77,10 @@
                                         <i data-feather="clock" class="align-self-center icon-dual icon-lg mr-2"></i>
                                         <div class="media-body">
                                             <h6 class="mt-0 mb-0">
-                                                @foreach ($stores as $store)
-                                                @foreach ($store->customers as $customer)
-                                                @if ($customer->_id === $transaction->customer_ref_id)
                                                 <h6 class="m-0">
-                                                    <a href="tel:+{{ $customer->phone_number }}">{{ $customer->phone_number }}
+                                                    <a href="tel:+{{ $transaction->customer_ref->phone_number }}">{{ $transaction->customer_ref->phone_number }}
                                                     </a>
                                                 </h6>
-                                                @endif
-                                                @endforeach
-                                                @endforeach
                                             </h6>
                                             <span class="text-muted">Customer Phone Number</span>
                                         </div>
@@ -148,10 +139,10 @@
                                                     @if(Cookie::get('user_role') != 'store_assistant')
                                                     <a href="{{ route('store.show', $transaction->store_ref_id)}}"
                                                         class="mr-2 text-uppercase">
-                                                        {{ $transaction->store_name }}
+                                                        {{ $transaction->store_ref->store_name }}
                                                     </a>
                                                     @else
-                                                    {{ $transaction->store_name }}
+                                                    {{ $transaction->store_ref->store_name }}
                                                     @endif
                                                 </p>
                                             </div>
@@ -198,10 +189,10 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive table-data">
-                        <table id="transactionTable" class="table table-striped table-bordered" style="width:100%">
+                        <table id="debtReminders" class="table table-striped table-bordered" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>Reference id</th>
+                                    <th>Ref ID</th>
                                     <th>Message</th>
                                     <th>Status</th>
                                     <th>Date Sent</th>
@@ -220,14 +211,12 @@
                                     <td>
                                         <a href="" data-toggle="modal"
                                             onclick="return previousMessage('{{ $debt->message }}')"
-                                            data-target="#ResendReminderModal-{{ $debt->_id }}"
-                                            class="btn btn-primary btn-sm mt-2">
+                                            data-target="#ResendReminderModal" class="btn btn-primary btn-sm mt-2">
                                             Resend
                                         </a>
                                     </td>
                                 </tr>
                                 {{-- Modal for resend reminder --}}
-                                @include('partials.modal.resendReminder')
                                 @endforeach
                             </tbody>
                         </table>
@@ -240,6 +229,9 @@
 
             {{-- Modal for send reminder --}}
             @include('partials.modal.sendReminder')
+
+            {{-- Modal for resend reminder --}}
+            @include('partials.modal.resendReminder')
 
             {{-- modal for delete transaction --}}
             @include('partials.modal.deleteTransaction')
@@ -265,47 +257,47 @@
         const host = "{{ env('API_URL', 'https://dev.api.customerpay.me') }}";
 
         $('#togBtn').change(function () {
-        $(this).attr("disabled", true);
-        $('#statusSpiner').removeClass('d-none');
+            $(this).attr("disabled", true);
+            $('#statusSpiner').removeClass('d-none');
 
-        var id = $(this).data('id');
-        var store = $(this).data('store');
-        let _status = $(this).is(':checked') ? 1 : 0;
-        let _customer_id = $(this).data('customer');
+            var id = $(this).data('id');
+            var store = $(this).data('store');
+            let _status = $(this).is(':checked') ? 1 : 0;
+            let _customer_id = $(this).data('customer');
 
-        $.ajax({
-            url: `${host}/transaction/update/${id}`,
-            headers: {
-                'x-access-token': token
-            },
-            data: {
-                store_id: store,
-                status: _status,
-                customer_id: _customer_id,
-            },
-            type: 'PATCH',
-        }).done(response => {
-            if (response.success != true) {
+            $.ajax({
+                url: `${host}/transaction/update/${id}`,
+                headers: {
+                    'x-access-token': token
+                },
+                data: {
+                    store_id: store,
+                    status: _status,
+                    customer_id: _customer_id,
+                },
+                type: 'PATCH',
+            }).done(response => {
+                if (response.success != true) {
+                    $(this).prop("checked", !this.checked);
+                    $('#error').show();
+                    alert("Oops! something went wrong.");
+                }
+                alert("Operation Successful.");
+                $(this).removeAttr("disabled")
+                $('#statusSpiner').addClass('d-none');
+            }).fail(e => {
+                $(this).removeAttr("disabled")
                 $(this).prop("checked", !this.checked);
-                $('#error').show();
+                $('#statusSpiner').addClass('d-none');
                 alert("Oops! something went wrong.");
-            }
-            alert("Operation Successful.");
-            $(this).removeAttr("disabled")
-            $('#statusSpiner').addClass('d-none');
-        }).fail(e => {
-            $(this).removeAttr("disabled")
-            $(this).prop("checked", !this.checked);
-            $('#statusSpiner').addClass('d-none');
-            alert("Oops! something went wrong.");
+            });
         });
-    });
 
     });
+
 </script>
 
 <script>
-
     // copy resend debt message
 
     function previousMessage(message) {
@@ -314,7 +306,9 @@
 
     // pagination for debts
     $(() => {
-        $('#transactionTable').DataTable({});
+        $('#debtReminders').DataTable({
+         
+        });
     });
 
 </script>
