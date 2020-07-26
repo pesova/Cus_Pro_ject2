@@ -1,10 +1,10 @@
-<div class="modal fade" id="ResendReminderModal-{{ $debt->_id }}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+<div class="modal fade" id="ResendReminderModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-body">
                 <form
-                    action="{{ route('reminder', $transaction->store_ref_id.'-'.$transaction->customer_ref_id.'-'.$transaction->_id) }}"
+                    action="{{ route('reminder', $transaction->store_ref_id->_id.'-'.$transaction->customer_ref_id->_id.'-'.$transaction->_id) }}"
                     method="POST">
                     @csrf
                     <input type="hidden" name="transaction_id" value="{{old('transaction_id', $transaction->_id)}}">

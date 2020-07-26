@@ -36,7 +36,7 @@ aria-labelledby="scheduleReminderModalLabel" aria-hidden="true">
                     <p class="charNum m-0 p-0"></p>
                 </div>
 
-                <button type="submit" class="btn btn-primary btn-block" disabled>Send Reminder</button>
+                <button type="submit" class="btn btn-primary btn-block">Send Reminder</button>
             </form>
         </div>
     </div>
