@@ -11,7 +11,7 @@
         <div class="row page-title">
             <div class="col-md-12">
                 <nav aria-label="breadcrumb" class="float-right mt-1">
-                <a href="/admin/assistants" class="btn btn-primary">Go Back</a>
+                    <a href="/admin/assistants" class="btn btn-primary">Go Back</a>
                 </nav>
                 <h4 class="mb-1 mt-0"><i data-feather="users" style="font-size: 5px; margin-right: 7px"></i>Edit
                     store assistant</h4>
@@ -31,7 +31,8 @@
                             @method('PUT')
 
                             <div class="form-group row mb-3">
-                                <label for="name" class="col-md-2 col-sm-12 col-form-label my-label">Name:</label> <br> <br>
+                                <label for="name" class="col-md-2 col-sm-12 col-form-label my-label">Name:</label> <br>
+                                <br>
                                 <div class="col-md-10 col-sm-12">
                                     <input name="name" type="text" class="form-control" id="name"
                                            placeholder="Enter name here" value="{{  old('name', $response->name) }}">
@@ -52,7 +53,8 @@
                             </div>
                             <br>   --}}
                             <div class="form-group row mb-3">
-                                <label for="address" class="col-md-2 col-sm-12 col-form-label my-label">Email:</label> <br>
+                                <label for="address" class="col-md-2 col-sm-12 col-form-label my-label">Email:</label>
+                                <br>
                                 <div class="col-md-10 col-sm-12">
                                     <input name="email" type="email" class="form-control" id="fullname"
                                            placeholder="Enter Address" value="{{ old('email', $response->email) }}">
@@ -60,7 +62,8 @@
                             </div>
                             <br>
                             <div class="form-group row mb-3">
-                                <label for="number" class="col-md-2 col-sm-12 col-form-label my-label">Phone Number:</label>
+                                <label for="number" class="col-md-2 col-sm-12 col-form-label my-label">Phone
+                                    Number:</label>
                                 <br>
                                 <div class="col-md-10 col-sm-12">
                                     <input type="tel" id="phone" name=""
@@ -72,12 +75,17 @@
                                 </div>
                             </div>
                             <div class="form-group row mb-3">
-                                <label for="number" class="col-md-2 col-sm-12 col-form-label my-label">Store:</label> <br>
+                                <label for="number" class="col-md-2 col-sm-12 col-form-label my-label">Store:</label>
+                                <br>
                                 <div class="col-md-10 col-sm-12">
                                     <select name="store_id" id="store_id" class="form-control">
                                         <option value=""> Select Store</option>
                                         @foreach($stores as $store)
-                                            <option value="{{$store->_id}}" {{$store->_id ==$response->store_id? "selected":""}}>{{$store->store_name}}</option>
+                                            @if(is_array($store))
+                                                <option value="{{$store[0]->_id}}" {{$store[0]->_id == $response->store_id? "selected":""}}>{{$store[0]->store_name}}</option>
+                                            @else
+                                                <option value="{{$store->_id}}" {{$store->_id ==$response->store_id? "selected":""}}>{{$store->store_name}}</option>
+                                            @endif
                                         @endforeach
                                     </select>
                                 </div>
