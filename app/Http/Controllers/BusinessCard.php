@@ -41,17 +41,17 @@ class BusinessCard extends Controller
            
             if ($statusCode == 200) {
               
-                // $pdf = PDF::loadView('backend.cards.card_v1',[
-                //     "store_details" =>$StoreData
-                // ] );
-                // return $pdf->download('business_card.pdf');
-
-                $pdf = SnappyImage::loadView('backend.cards.card_v1',[
+                $pdf = PDF::loadView('backend.cards.card_v1',[
                     "store_details" =>$StoreData
                 ] );
-                $path = public_path("cards/".uniqid()."img.jpg");
-                $pdf->save($path);
-                return $pdf->inline('business_card.jpg');
+                return $pdf->download('business_card.pdf');
+
+                // $pdf = SnappyImage::loadView('backend.cards.card_v1',[
+                //     "store_details" =>$StoreData
+                // ] );
+                // $path = public_path("cards/".uniqid()."img.jpg");
+                // $pdf->save($path);
+                // return $pdf->inline('business_card.jpg');
             }
         }catch (RequestException $e) {
             Log::info('Catch error: LoginController - ' . $e->getMessage());
