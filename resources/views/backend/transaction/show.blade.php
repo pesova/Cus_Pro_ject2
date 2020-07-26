@@ -13,21 +13,21 @@
                 <div class="col">
                     <div class="card">
                         <div class="card-body p-0">
-                            <div class="d-flex justify-content-between px-4 py-2 border-bottom align-items-center">
-                                <div>
+                            <div class="row px-4 py-2 border-bottom align-items-center">
+                                <div class="col-md-4">
                                     <h6 class="card-title">Transaction Overview - Created
                                         {{ \Carbon\Carbon::parse($transaction->createdAt)->diffForhumans() }}</h6>
                                 </div>
-                                <div>
-                                    <a href="" data-toggle="modal" data-target="#sendReminderModal" class="btn btn-warning mr-3"> 
-                                        Send Debt Reminder &nbsp;<i data-feather="send"></i>
+                                <div class="col-md-8 row text-center">
+                                    <a href="" data-toggle="modal" data-target="#sendReminderModal" class="col-md-3 offset-1 mt-1 btn btn-sm btn-warning">
+                                        Send Debt Reminder <i data-feather="send"></i>
                                     </a>
                                     @if(Cookie::get('user_role') == 'store_admin')
-                                    <a href="#" class="btn btn-primary mr-3" data-toggle="modal" data-target="#editTransactionModal">
-                                        Edit &nbsp;<i data-feather="edit-3"></i>
+                                    <a href="#" class="col-md-3 offset-1 mt-1 btn btn-sm btn-primary" data-toggle="modal" data-target="#editTransactionModal">
+                                        Edit <i data-feather="edit-3"></i>
                                     </a>
-                                    <a data-toggle="modal" data-target="#deleteModal" href="" class="btn btn-danger">
-                                        Delete &nbsp;<i data-feather="delete"></i>
+                                    <a data-toggle="modal" data-target="#deleteModal" href="" class="col-md-3 offset-1 mt-1 btn btn-sm btn-danger">
+                                        Delete <i data-feather="delete"></i>
                                     </a>
                                     @endif
                                 </div>
@@ -116,8 +116,8 @@
                                     </div>
 
                                     <div class="col-lg-6">
-                                        <div class="d-flex justify-content-between">
-                                            <div class="list-group">
+                                        <div class="row justify-content-between">
+                                            <div class="list-group col-md-4">
                                                 <h6 class="">Financial Details</h6>
 
                                                 <div class="table-responsive">
@@ -142,7 +142,7 @@
                                                 </div>
 
                                             </div>
-                                            <div class="">
+                                            <div class="col-md-4">
                                                 <h6 class="">Store Name:</h6>
                                                 <p>
                                                     @if(Cookie::get('user_role') != 'store_assistant')
@@ -156,7 +156,7 @@
                                                 </p>
                                             </div>
 
-                                            <div class="">
+                                            <div class="col-md-4">
                                                 <h6 class="">Transaction Status:
                                                 </h6>
                                                 <label class="switch">
@@ -220,7 +220,7 @@
                                     <td>
                                         <a href="" data-toggle="modal"
                                             onclick="return previousMessage('{{ $debt->message }}')"
-                                            data-target="#ResendReminderModal-{{ $debt->id }}"
+                                            data-target="#ResendReminderModal-{{ $debt->_id }}"
                                             class="btn btn-primary btn-sm mt-2">
                                             Resend
                                         </a>
