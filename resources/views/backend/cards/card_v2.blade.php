@@ -24,17 +24,14 @@
 @font-face {
     font-family: Gilroy-Medium;
     src: url("{{public_path('backend/assets/fonts/Gilroy-Medium.ttf')}}");
-}
-.container{
-        background-image: url("{{public_path('backend/assets/images/bg-left.png')}}"), url("{{public_path('backend/assets/images/bg-right.png')}}");
-    } */
+} */
 </style>
 
 <body>
     <div class="container">
         <div class="text">
-            <img src="{{public_path('backend/assets/imgages/bg-left.png')}}" alt="" class="img-left">
-             <img src="{{public_path('backend/assets/imgages/bg-right.png')}}" alt="" class="img-right">
+            <img src="{{public_path('backend/assets/images/bg-left.png')}}" alt="" class="img-left">
+             <img src="{{public_path('backend/assets/images/bg-right.png')}}" alt="" class="img-right">
             <h4 class="hh1">{{$store_details->store_name}}</h4>
             <h4 class="hh2">{{$store_details->tagline}}</h4>
 

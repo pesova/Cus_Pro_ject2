@@ -21,7 +21,9 @@ class BusinessCard extends Controller
 {
     //
     public function download_card(Request $request, $id){
-        return $id;
+        // return print_r($request->input());
+        $format = $request->input('format');
+        $version = $request->input('version');
         $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store/' . $id;
         try {
             $client = new Client;
@@ -41,18 +43,18 @@ class BusinessCard extends Controller
             $StoreData = json_decode($body)->data->store;
            
             if ($statusCode == 200) {
-              
-                $pdf = PDF::loadView('backend.cards.card_v1',[
+                if($format =="pdf"){
+                     $pdf = PDF::loadView('backend.cards.card_'.$version,[
                     "store_details" =>$StoreData
-                ] );
-                return $pdf->download('business_card.pdf');
-
-                // $pdf = SnappyImage::loadView('backend.cards.card_v1',[
-                //     "store_details" =>$StoreData
-                // ] );
-                // $path = public_path("cards/".uniqid()."img.jpg");
-                // $pdf->save($path);
-                // return $pdf->inline('business_card.jpg');
+                     ] );
+                    return $pdf->download('business_card.pdf');
+                }
+                if($format =="image"){
+                    $image = SnappyImage::loadView('backend.cards.card_'.$version,[
+                        "store_details" =>$StoreData
+                    ] );
+                    return $image->download('business_card.jpg');
+                }
             }
         }catch (RequestException $e) {
             Log::info('Catch error: LoginController - ' . $e->getMessage());
@@ -73,7 +75,6 @@ class BusinessCard extends Controller
             return redirect()->route('store.index', ['response' => []]);
         } catch (\Exception $e) {
             //log error;
-            return $e;
             Log::error('Catch error: StoreController - ' . $e->getMessage());
             return view('errors.500');
         }
@@ -115,6 +116,7 @@ class BusinessCard extends Controller
                 // $path = public_path("cards/".uniqid()."img.jpg");
                 // $pdf->save($path);
                 return $pdf->inline('business_card.jpg');
+               
             }
         }catch (RequestException $e) {
             Log::info('Catch error: LoginController - ' . $e->getMessage());
@@ -135,7 +137,6 @@ class BusinessCard extends Controller
             return redirect()->route('store.index', ['response' => []]);
         } catch (\Exception $e) {
             //log error;
-            return $e;
             Log::error('Catch error: StoreController - ' . $e->getMessage());
             return view('errors.500');
         }

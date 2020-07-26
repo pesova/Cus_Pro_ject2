@@ -60,14 +60,7 @@ $total_interestRevenue += $each_interestRevenue;
     <div class="col-md-12">
     @if(Cookie::get('user_role') == 'store_admin')
         <nav aria-label="breadcrumb" class="float-right mt-1">
-<<<<<<< HEAD
 
-
-            <a data-toggle="modal" data-target="#storeDelete" href="" class="btn btn-danger">
-                Delete &nbsp;<i data-feather="delete"></i>
-            </a>
-=======
->>>>>>> 9ae9434feae20d91dcef77bdf75fd731cb6a56f4
 
         <a data-toggle="modal" data-target="#storeDelete" href="" class="btn btn-danger float-right">
                     Delete
@@ -220,26 +213,7 @@ $total_interestRevenue += $each_interestRevenue;
 <div class="row mb-4">
     <div class="col-lg-4">
         <div class="card">
-            <div class="container" style="margin-top: 10px;">
-            <div class="btn-group float-right">
-                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                        <i class='uil uil-file-alt mr-1'></i>Export
-                                        <i class="icon"><span data-feather="chevron-down"></span></i></button>
-                                    <div class=" dropdown-menu dropdown-menu-right">
-                                        <button id="downloadLink"
-                                            onclick="exportTableToExcel('basic-datatables', '{{ ucfirst($storeData->store_name) }} Transaction Overview')"
-                                            class=" dropdown-item notify-item">
-                                            <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
-                                            <span>EXCEL</span>
-                                        </button>
-                                        <button id="pdf" class="dropdown-item notify-item">
-                                            <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
-                                            <span>PDF</span>
-                                        </button>
-                                    </div>
-                                </div>
-            </div>
+            
             <div class="card-body pl-3 pr-3 padup">                
                 <div class="text-center">
                     <h6>Choose Business Card</h6>
@@ -265,7 +239,7 @@ $total_interestRevenue += $each_interestRevenue;
                         <img class="d-block w-100" src="{{asset('backend/assets/images/card_v1.png')}}" alt="First slide">
                       </div>
                       <div class="carousel-item">
-                        <img class="d-block w-100" src="{{asset('backend/assets/images/card_v1.png')}}" alt="Second slide">
+                        <img class="d-block w-100" src="{{asset('backend/assets/images/card_v2.png')}}" alt="Second slide">
                         
                       </div>
                       <div class="carousel-item">
@@ -288,16 +262,12 @@ $total_interestRevenue += $each_interestRevenue;
                     @csrf
                         <input type="hidden" name="version" class="version">
                     </form>
-                    <form action="{{route('download', $storeData->_id)}}" method="post" id="download-form">
-                        @csrf
-                            <input type="hidden" name="version" class="version">
-                            <input type="hidden" name="type">
-                        </form>
-                    <button 
-                    id="download"
-                     class="btn btn-success mr-2">
-                     <i class="far mr-2 fa-card">
-                    </i>Download</button>
+                    <button
+                    data-toggle="modal" 
+                    data-target="#downloadModal"
+                            class="btn btn-success mr-2">
+                            <i class="far mr-2 fa-card">
+                        </i>Download</button>
                     <button
                     
                     id="preview"
@@ -460,6 +430,48 @@ $total_interestRevenue += $each_interestRevenue;
     </div>
 </div>
 
+<div class="modal fade " tabindex="-1" role="dialog" id="downloadModal">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Choose Format</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form action="{{route('download', $storeData->_id)}}" method="post" id="download-form">
+                @csrf
+                    <input type="hidden" name="version" class="version">
+                    <input type="hidden" name="type">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="format" id="exampleRadios1" value="image" checked>
+                        <label class="form-check-label" for="exampleRadios1">
+                          Image Format
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="format" id="exampleRadios2" value="pdf">
+                        <label class="form-check-label" for="exampleRadios2">
+                            PDF Format
+                        </label>
+                      </div>
+            </form>
+       
+        </div>
+        <div class="modal-footer">
+            <button 
+            id="download"
+             class="btn btn-success mr-2">
+             <i class="far mr-2 fa-card">
+            </i>Download</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 @endsection
 
 @section("javascript")
@@ -554,6 +566,7 @@ $total_interestRevenue += $each_interestRevenue;
         let version = activeSlide.data('version');
         $(".version").val(version);
         $("#download-form").submit();
+        $("#downloadModal").modal('hide');
         // console.log();
     })
 
