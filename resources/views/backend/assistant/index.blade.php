@@ -3,6 +3,13 @@
 <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
 <link rel="stylesheet" href="/backend/assets/build/css/all_users.css">
+<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="css/icons.min.css" rel="stylesheet" type="text/css" />
+<link href="css/app.min.css" rel="stylesheet" type="text/css" />
+<link href="/backend/assets/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<link href="/backend/assets/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<link href="/backend/assets/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<link href="/backend/assets/css/select.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 @stop
 @section('content')
 <div class="content">
@@ -63,19 +70,11 @@
             </div>
         </div>
 
-<div class="row">
+        <div class="row">
 <div class="col-12">
                             <div class="card">
 
                                 <div class="card-body">
-
-                                    <a href="{{ route('complaint.create') }}" class="btn btn-primary float-right">
-                                        Add Complaint &nbsp;<i class="fa fa-plus my-float"></i>
-                                    </a>
-                                    <h4 class="header-title mt-0 mb-1">Complaints Submitted</h4>
-                                    <p class="sub-header">
-                                        This is the list of all complaints submitted:
-                                    </p>
                                     <table id="basic-datatable" class="table dt-responsive">
                                         <thead>
                                             <tr>
@@ -87,31 +86,39 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <!-- @foreach($responses->data as $index => $response) -->
-                                            @foreach ($assistants as $assistant)
+                                            
+                                            @foreach ($assistants as $a => $assistant)
                                             <tr>
-                                                <td>{{ $index + 1 }}</td>
+                                                <td>{{ $a + 1 }}</td>
                                                 <td>{{$assistant->name }}</td>
-                                                <td><p class="text-muted">{{$assistant->phone_number}} | {{$assistant->email ?? ''}}</p></td>
+                                                <td><p class="text-muted">{{$assistant->phone_number}} | {{$assistant->email}}</p></td>
                                                 <td>
-                                                    @if ( $response->status == 'New' )
-                                                    <div class="badge badge-pill badge-secondary">New</div>
-                                                    @elseif ( $response->status == 'Pending' )
-                                                    <div class="badge badge-pill badge-primary">Pending</div>
-                                                    @elseif ( $response->status == 'Resolved' )
-                                                    <div class="badge badge-pill badge-success">Resolved</div>
-                                                    @elseif ( $response->status == 'Closed' )
-                                                    <div class="badge badge-pill badge-dark">Closed</div>
-                                                    @endif
+                                                @if ($assistant->user_role == "store_admin")
+                                                @endif
+                                                @if($assistant->is_active)
+                                                <span class="badge badge-success">Activated</span>
+
+                                                @else
+                                                <span class="badge badge-secondary">Not activated</span>
+
+                                                @endif
                                                 </td>
-                                                <td>{{ \Carbon\Carbon::parse($response->date)->diffForHumans() }}</td>
                                                 <td>
-                                                    <form action="{{ route('complaint.destroy', $response->_id) }}"
-                                                        method="POST">
-                                                        <input type="hidden" name="_method" value="DELETE">
-                                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                        <button class="btn btn-danger">Delete</button>
-                                                    </form>
+                                                    <div class="btn-group mt-2 mr-1">
+                                                    <button type="button" class="btn btn-info dropdown-toggle"
+                                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Actions<i class="icon"><span data-feather="chevron-down"></span></i>
+                                                    </button>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <a class="dropdown-item" href="{{ route('assistants.show', $assistant->_id) }}">View Assistant</a>
+                                                        <a class="dropdown-item"
+                                                            href="{{route('assistants.edit', $assistant->_id) }}">Edit
+                                                            Assistant</a>
+                                                        <a class="dropdown-item" href="#" data-toggle="modal"
+                                    data-target="#deleteModal-{{$assistant->_id}}">Delete Assistant</a>
+
+                                                    </div>
+                                                </div>
                                                 </td>
                                             </tr>
                                             @endforeach
@@ -191,7 +198,22 @@
 
 
 @section("javascript")
+<script src="/backend/assets/libs/datatables/jquery.dataTables.min.js"></script>
+<script src="/backend/assets/libs/datatables/dataTables.bootstrap4.min.js"></script>
+<script src="/backend/assets/libs/datatables/dataTables.responsive.min.js"></script>
+<script src="/backend/assets/libs/datatables/responsive.bootstrap4.min.js"></script>
 
+<script src="/backend/assets/libs/datatables/dataTables.buttons.min.js"></script>
+<script src="/backend/assets/libs/datatables/buttons.bootstrap4.min.js"></script>
+<script src="/backend/assets/libs/datatables/buttons.html5.min.js"></script>
+<script src="/backend/assets/libs/datatables/buttons.flash.min.js"></script>
+<script src="/backend/assets/libs/datatables/buttons.print.min.js"></script>
+
+<script src="/backend/assets/libs/datatables/dataTables.keyTable.min.js"></script>
+<script src="/backend/assets/libs/datatables/dataTables.select.min.js"></script>
+
+<!-- Datatables init -->
+<script src="/backend/assets/js/pages/datatables.init.js"></script>
 <script src="/backend/assets/build/js/intlTelInput.js"></script>
 <script>
     var input = document.querySelector("#phone");
