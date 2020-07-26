@@ -15,7 +15,7 @@
             <div class="col-md-12">
                 <div class="customer-heading-container">
 
-                    <button class="add-customer-button btn btn-primary" onclick="showModal()">
+                    <button class="add-customer-button btn btn-primary"  data-toggle="modal" data-target="#AssistantModal">
 
                         Add New Assistant <i class="fa fa-plus add-new-icon"></i>
 
@@ -177,7 +177,7 @@
 
 
     </div>
-    <div id="AssistantModal" class="modal fade" tabindex="-4" role="dialog" aria-labelledby="myModalLabel"
+    <div id="AssistantModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -189,7 +189,7 @@
                 </div>
                 <div class="modal-body">
                     <form action=" {{ route('assistants.store') }}" method="POST"
-                        class="mt-4 mb-3 form-horizontal my-form" id="submitForm">
+                        class="form-horizontal" id="submitForm">
                         @csrf
 
                         <div class="form-group row mb-3">
@@ -212,14 +212,14 @@
                         </div>
                         <br>
                         <div class="form-group row mb-3">
-                            <label for="number" class="col-2 col-sm-3 col-form-label my-label">Phone
-                                Number:</label>
-                            <br>
+                            <label for="inputphone" class="col-3 col-form-label">Phone Number</label>
                             <div class="col-10 col-sm-7">
-                                <input type="tel" id="phone" name="" class="form-control"
-                                    value="" required>
+                                <input type="tel" class="form-control" id="phone" placeholder="Phone Number"
+                                    aria-describedby="helpPhone" name="" required pattern=".{6,16}"
+                                    title="Phone number must be between 6 to 16 characters">
                                 <input type="hidden" name="phone_number" id="phone_number" class="form-control">
-
+                                <small id="helpPhone" class="form-text text-muted">Enter your number without the starting 0,
+                                    eg 813012345</small>
                             </div>
                         </div>
                         <div class="form-group row mb-3">
@@ -252,6 +252,7 @@
                             </div>
                         </div>
                     </form>
+                   
                 </div>
             </div>
         </div>
@@ -266,7 +267,7 @@
 <script>
     var input = document.querySelector("#phone");
         var test = window.intlTelInput(input, {
-            separateDialCode: true,
+            // separateDialCode: true,
             // any initialisation options go here
         });
         //  $("#phone").css('paddingLeft', '96%'); // fix issue with too long number field when modal is opened
@@ -289,10 +290,10 @@
             $("#submitForm").off('submit').submit();
         });
 
-        function showModal() {
-            $('#phone').css('paddingLeft', "unset");
-            $("#AssistantModal").modal('show');
-        }
+        // function showModal() {
+        //     $('#phone').css('paddingLeft', "unset");
+        //     $("#AssistantModal").modal('show');
+        // }
 
         let assistantName = $('#assistant-name');
         let assistantEmail = $('#assistant-email');
