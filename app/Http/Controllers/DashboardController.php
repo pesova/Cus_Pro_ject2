@@ -72,9 +72,10 @@ class DashboardController extends Controller
                     $thisMonth = $data->amountForCurrentMonth;
                     $lastMonth = $data->amountForPreviousMonth;
                     $diff = $thisMonth - $lastMonth;
+                    // (Current period's revenue - prior period's revenue) ÷ by prior period's revenue x 100
                     $profit = ($thisMonth > $lastMonth) ? true : false;
-                    $percentage = sprintf("%.2f", ($diff / 100));
-                   
+                    $percentage = ($lastMonth == 0) ? '-' : sprintf("%.2f", ($diff / $lastMonth) * 100);
+
                     return view('backend.dashboard.index')->withData($data)->withProfit(['profit' => $profit, 'percentage' => $percentage]);
                 }
             } catch (RequestException $e) {
