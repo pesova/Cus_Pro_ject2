@@ -222,14 +222,23 @@ $total_interestRevenue += $each_interestRevenue;
                 </div>
                 <div id="carouselExampleIndicators" class="carousel slide " data-ride="carousel">
                     <ol class="carousel-indicators">
-                      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                      <li 
+                      data-target="#carouselExampleIndicators" 
+                      data-slide-to="0" 
+                      data-version="v1"
+                      class="active slides"></li>
+                      <li data-target="#carouselExampleIndicators" 
+                      data-slide-to="1" 
+                      data-version="v2"
+                      class="slides"></li>
+                      <li data-target="#carouselExampleIndicators" 
+                      data-slide-to="2" 
+                      data-version="v1"
+                      class="slides"></li>
                     </ol>
                     <div class="carousel-inner">
                       <div class="carousel-item active">
                         <img class="d-block w-100" src="{{asset('backend/assets/images/card_v1.png')}}" alt="First slide">
-                        
                       </div>
                       <div class="carousel-item">
                         <img class="d-block w-100" src="{{asset('backend/assets/images/card_v1.png')}}" alt="Second slide">
@@ -251,10 +260,19 @@ $total_interestRevenue += $each_interestRevenue;
                 </div>
 
                 <div class="text-center padup">
+                <form action="{{route('preview', $storeData->_id)}}" method="post" id="preview-form">
+                    @csrf
+                        <input type="hidden" name="version" id="version">
+                    </form>
                     <a href="{{ route('card1', $storeData->_id) }}" class="btn btn-success mr-2"><i
                         class="far mr-2 fa-card"></i>Download</a>
-                        <a href="{{ route('card1', $storeData->_id) }}" class="btn btn-primary mr-2"><i
-                            class="far mr-2 fa-card"></i>Preview</a>
+                    <a 
+                    {{-- href="{{ route('card1', $storeData->_id) }}"  --}}
+                    href="#"
+                    id="preview"
+                    class="btn btn-primary mr-2">
+                    <i class="far mr-2 fa-card"></i>
+                    Preview</a>
                 </div>
 
             </div>
@@ -490,6 +508,15 @@ $total_interestRevenue += $each_interestRevenue;
         });
 
     });
+
+
+    $('#preview').click(function(){
+        let activeSlide = $(".slides.active");
+        let version = activeSlide.data('version');
+        $("#version").val(version);
+        $("#preview-form").submit();
+        // console.log();
+    })
 
 </script>
 

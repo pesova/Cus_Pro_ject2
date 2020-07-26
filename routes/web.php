@@ -200,6 +200,9 @@ Route::prefix('/admin')->group(function () {
         Route::get('store_receivable/{id}', 'StoreController@receivable')->name('store_receivable');
 
         Route::get('store_revenue/{id}', 'StoreController@revenue')->name('store_revenue');
+
+
+        Route::post('/preview/{id}', "BusinessCard@preview_card")->name('preview');
     });
     // ------------ GENERAL ROUTES ENDS HERE ------------------------ //
 
