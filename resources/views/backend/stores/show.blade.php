@@ -46,6 +46,14 @@ $each_interestRevenue = $transaction->interest;
 $total_interestRevenue += $each_interestRevenue;
 }
 
+//get for all Receivables
+if ($transaction->type == "receivables") {
+$eachReceivables = $transaction->amount;
+$total_Receivables += $eachReceivables;
+$each_interestReceivables = $transaction->interest;
+$total_interestReceivables += $each_interestReceivables;
+}
+
 @endphp
 @endforeach
 @endforeach
