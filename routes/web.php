@@ -189,7 +189,7 @@ Route::prefix('/admin')->group(function () {
 
         // Route::get('debt.search', 'DebtorController@search')->name('debt.search');
 
-        Route::post('reminder/send/{id}', 'DebtorController@sendReminder')->name('reminder');
+        Route::post('reminder/send', 'DebtorController@sendReminder')->name('reminder');
 
         Route::post('reminder/schedule', 'DebtorController@sheduleReminder')->name('reminder.schedule');
 
