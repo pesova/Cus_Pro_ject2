@@ -6,32 +6,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 @stop
 @section('content')
-<div class="content">
-    <div class="container-fluid">
-        @if(Session::has('message'))
-        <br>
-        <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
-        <script>
-            setTimeout(() => {
-                document.querySelector('.alert').style.display = 'none'
-            }, 3000);
-
-        </script>
-        @elseif ( $errors->any() )
-        <br class='alert'>
-        @foreach ( $errors->all() as $error )
-        <p class="alert alert-danger">{{$error}}</p>
-        @endforeach
-        @endif
-    </div>
-</div>
-
-
-
 <div class="container-fluid">
     <div class="content">
-
         <div class="container-fluid">
+            @include('partials.alert.message')
 
             <div class="row page-title">
                 <div class="col-md-12">

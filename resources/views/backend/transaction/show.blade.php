@@ -8,27 +8,26 @@
 <div class="account-pages my-2">
     <div class="container-fluid">
         <div class="row-justify-content-center">
-            @include('partials.alertMessage')
+            @include('partials.alert.message')
             <div class="row">
                 <div class="col">
                     <div class="card">
                         <div class="card-body p-0">
-                            <div class="d-flex justify-content-between px-4 py-2 border-bottom align-items-center">
-                                <div>
+                            <div class="row px-4 py-2 border-bottom align-items-center">
+                                <div class="col-md-4">
                                     <h6 class="card-title">Transaction Overview - Created
                                         {{ \Carbon\Carbon::parse($transaction->createdAt)->diffForhumans() }}</h6>
                                 </div>
-                                <div>
-                                    <a href="" data-toggle="modal" data-target="#sendReminderModal"
-                                        class="btn btn-warning mr-3"> Send Debt Reminder </i>
+                                <div class="col-md-8 row text-center">
+                                    <a href="" data-toggle="modal" data-target="#sendReminderModal" class="col-md-3 offset-1 mt-1 btn btn-sm btn-warning">
+                                        Send Debt Reminder <i data-feather="send"></i>
                                     </a>
                                     @if(Cookie::get('user_role') == 'store_admin')
-                                    <a href="#" class="btn btn-primary mr-3" data-toggle="modal"
-                                        data-target="#editTransactionModal"> Edit &nbsp;<i data-feather="edit-3"></i>
+                                    <a href="#" class="col-md-3 offset-1 mt-1 btn btn-sm btn-primary" data-toggle="modal" data-target="#editTransactionModal">
+                                        Edit <i data-feather="edit-3"></i>
                                     </a>
-
-                                    <a data-toggle="modal" data-target="#deleteModal" href="" class="btn btn-danger">
-                                        Delete &nbsp;<i data-feather="delete"></i>
+                                    <a data-toggle="modal" data-target="#deleteModal" href="" class="col-md-3 offset-1 mt-1 btn btn-sm btn-danger">
+                                        Delete <i data-feather="delete"></i>
                                     </a>
                                     @endif
                                 </div>
@@ -117,8 +116,8 @@
                                     </div>
 
                                     <div class="col-lg-6">
-                                        <div class="d-flex justify-content-between">
-                                            <div class="list-group">
+                                        <div class="row justify-content-between">
+                                            <div class="list-group col-md-4">
                                                 <h6 class="">Financial Details</h6>
 
                                                 <div class="table-responsive">
@@ -143,7 +142,7 @@
                                                 </div>
 
                                             </div>
-                                            <div class="">
+                                            <div class="col-md-4">
                                                 <h6 class="">Store Name:</h6>
                                                 <p>
                                                     @if(Cookie::get('user_role') != 'store_assistant')
@@ -157,7 +156,7 @@
                                                 </p>
                                             </div>
 
-                                            <div class="">
+                                            <div class="col-md-4">
                                                 <h6 class="">Transaction Status:
                                                 </h6>
                                                 <label class="switch">
@@ -221,14 +220,14 @@
                                     <td>
                                         <a href="" data-toggle="modal"
                                             onclick="return previousMessage('{{ $debt->message }}')"
-                                            data-target="#ResendReminderModal-{{ $debt->id }}"
+                                            data-target="#ResendReminderModal-{{ $debt->_id }}"
                                             class="btn btn-primary btn-sm mt-2">
                                             Resend
                                         </a>
                                     </td>
                                 </tr>
                                 {{-- Modal for resend reminder --}}
-                                @include('backend.transaction.modal.resendReminder')
+                                @include('partials.modal.resendReminder')
                                 @endforeach
                             </tbody>
                         </table>
@@ -237,13 +236,14 @@
             </div>
 
             {{-- start of edit transaction modal --}}
-            @include('backend.transaction.modal.editTransaction')
+            @include('partials.modal.editTransaction')
 
             {{-- Modal for send reminder --}}
-            @include('backend.transaction.modal.sendReminder')
+            @include('partials.modal.sendReminder')
 
             {{-- modal for delete transaction --}}
-            @include('backend.transaction.modal.deleteTransaction')
+            @include('partials.modal.deleteTransaction')
+
         </div>
     </div>
 </div>
@@ -260,43 +260,51 @@
 <script src="{{ asset('/backend/assets/js/textCounter.js')}}"></script>
 
 <script>
-    $(function () {
-        const api = "{{ Cookie::get('api_token') }}";
+    jQuery(function ($) {
+        const token = "{{Cookie::get('api_token')}}"
         const host = "{{ env('API_URL', 'https://dev.api.customerpay.me') }}";
 
         $('#togBtn').change(function () {
-            $(this).attr("disabled", true);
-            $('#statusSpiner').removeClass('d-none');
+        $(this).attr("disabled", true);
+        $('#statusSpiner').removeClass('d-none');
 
-            const id = $(this).data('id');
-            const store = $(this).data('store');
-            let _status = $(this).is(':checked') ? 1 : 0;
-            let _customer_id = $(this).data('customer');
+        var id = $(this).data('id');
+        var store = $(this).data('store');
+        let _status = $(this).is(':checked') ? 1 : 0;
+        let _customer_id = $(this).data('customer');
 
-            $.ajax({
-                url: `${host}/transaction/update/${id}`,
-                headers: {
-                    'x-access-token': api
-                },
-                data: {
-                    store_id: store,
-                    status: _status,
-                    customer_id: _customer_id,
-                },
-                type: 'PATCH',
-            }).done(response => {
-                if (response.success != true) {
-                    $(this).prop("checked", !this.checked);
-                }
-                $(this).removeAttr("disabled")
-                $('#statusSpiner').addClass('d-none');
-            }).fail(e => {
-                $(this).removeAttr("disabled")
+        $.ajax({
+            url: `${host}/transaction/update/${id}`,
+            headers: {
+                'x-access-token': token
+            },
+            data: {
+                store_id: store,
+                status: _status,
+                customer_id: _customer_id,
+            },
+            type: 'PATCH',
+        }).done(response => {
+            if (response.success != true) {
                 $(this).prop("checked", !this.checked);
-                $('#statusSpiner').addClass('d-none');
-            });
+                $('#error').show();
+                alert("Oops! something went wrong.");
+            }
+            alert("Operation Successful.");
+            $(this).removeAttr("disabled")
+            $('#statusSpiner').addClass('d-none');
+        }).fail(e => {
+            $(this).removeAttr("disabled")
+            $(this).prop("checked", !this.checked);
+            $('#statusSpiner').addClass('d-none');
+            alert("Oops! something went wrong.");
         });
     });
+
+    });
+</script>
+
+<script>
 
     // copy resend debt message
 

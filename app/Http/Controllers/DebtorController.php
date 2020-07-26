@@ -302,9 +302,11 @@ class DebtorController extends Controller
             'time' =>  'required',
         ]);
 
-        dd($request);
+        $storeID = $request->store_id;
+        $customerId = $request->customer_id;
+        $transactionID = $request->transaction_id;
 
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt/schedule';
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt/schedule' .'/'. $storeID . $customerId . $transactionID;
 
         try {
             $client =  new Client();
@@ -313,7 +315,6 @@ class DebtorController extends Controller
                 'form_params' => [
                     'scheduleDate' => $request->scheduleDate,
                     'time' => $request->time,
-                    'transaction_id' => $request->transaction_id,
                     'message' => $request->message,
                 ],
             ];
@@ -343,7 +344,8 @@ class DebtorController extends Controller
             if ($e->hasResponse()) {
                 $response = $e->getResponse()->getBody();
                 $result = json_decode($response);
-                Session::flash('message', $result->Message);
+                $message = isset($result->Message) ? $result->Message : $result->message;
+                Session::flash('message', $message);
                 $debtors = [];
                 $stores = [];
                 return view('backend.debtor.index',  compact('debtors', 'stores'));

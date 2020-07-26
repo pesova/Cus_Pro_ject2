@@ -107,7 +107,6 @@ class CustomerController extends Controller
             return view('backend.customer.show')->with('errors.500');
         } catch (Exception $e) {
             // token expired
-            dd($e->getMessage());
             if ($e->getCode() == 401) {
                 Session::flash('message', 'session expired');
                 return redirect()->route('logout');
@@ -480,7 +479,7 @@ class CustomerController extends Controller
 
         foreach ($transactions as $trensaction) {
             if ($trensaction->type == 'debt') {
-                $result->total_debt += $trensaction->amount + ($trensaction->amount * $trensaction->interest);
+                $result->total_debt += $trensaction->amount + (($trensaction->amount * $trensaction->interest)/100);
             } elseif ($trensaction->type == 'paid') {
                 $result->total_revenue += $trensaction->amount;
             } else {

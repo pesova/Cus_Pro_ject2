@@ -34,51 +34,55 @@ $transactions = $response['transactions'];
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <h4 class="card-title">{{ucfirst($storeData->store_name) }} Debit Overview</h4>
-                                
-                            <table id="datatable-buttons" class="table dt-responsive">
-                                <thead>
-                                <tr>
-                                    <th>S/N</th>
-                                    <th>Customer Name </th>
-                                    <th data-priority="1">Amount</th>
-                                    <th data-priority="3">Transaction Type</th>
-                                    <th data-priority="3">Created</th>
-                                    <th data-priority="3"> </th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach ($response['storeData']->customers as $customers)
-                                
-                                @foreach ($customers->transactions as $index => $transaction)  
-                                @if ($transaction->type == "debt" || $transaction->type == "Debt")
-                                <tr>
-                                    <td>{{$number++ }}</td>
-                                    <th>{{$customers->name}}<span class="co-name"></span>
-                                        <br> <span class="font-light">{{$customers->phone_number}}</span>
-                                    </th>
-                                    <td>{{$transaction->amount}}</td>
-                                    <td>{{$transaction->type}}</td>
-                                    <td>{{ \Carbon\Carbon::parse($transaction->createdAt)->diffForhumans() }}</td>
-                                    <td><a href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id.'-'.$transaction->customer_ref_id) }}"
-                                            class="btn btn-warning mr-3"><i
-                                        class="far mr-2 fa-edit"></i>Send Reminder</a></td>
-                                </tr> 
-                                @endif
-                                @endforeach
-                                @endforeach
-                                </tbody>
-                            </table>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                            <h4 class="card-title">{{ucfirst($storeData->store_name) }} Receivable Overview</h4>
+                                    
+                                    <table id="datatable-buttons" class="table dt-responsive">
+                                        <thead>
+                                        <tr>
+                                            <th>S/N</th>
+                                            <th>Customer Name </th>
+                                            <th data-priority="1">Amount</th>
+                                            <th data-priority="3">Transaction Type</th>
+                                            <th data-priority="3">Created</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach ($response['storeData']->customers as $customers)
+                                        
+                                        @foreach ($customers->transactions as $index => $transaction)  
+                                        @if ($transaction->type == "receivables" || $transaction->type == "Receivables")
+                                        <tr>
+                                            <td>{{$number++ }}</td>
+                                            <th>{{$customers->name}}<span class="co-name"></span>
+                                                <br> <span class="font-light">{{$customers->phone_number}}</span>
+                                            </th>
+                                            <td>{{$transaction->amount}}</td>
+                                            <td>{{$transaction->type}}</td>
+                                            <td>{{ \Carbon\Carbon::parse($transaction->createdAt)->diffForhumans() }}</td>
+                                        </tr> 
+                                        @endif
+                                        @endforeach
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
+                
     </div>
 </div>
+
+
+            </div>
+        </div>
+    </div> <!-- end col -->
+</div> <!-- end row -->
+
 @endsection
 
 @section("javascript")

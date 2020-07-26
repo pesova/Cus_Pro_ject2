@@ -128,7 +128,7 @@
                         <div class="card mini-stats-wid">
                             <div class="card-body">
                                 <div class="media">
-                                    <div class="media-body">
+                                    <div class="media-body" data-toggle="tooltip" data-placement="bottom" title="Total amount includes interest">
                                         <p class="text-muted font-weight-medium">Debt</p>
                                         <h4 class="mb-0">$ {{ number_format($result->total_debt,2) }}</h4>
                                     </div>

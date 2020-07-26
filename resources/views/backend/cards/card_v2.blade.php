@@ -15,6 +15,7 @@
        @font-face {
     font-family: Gilroy-Bold;
     src: url("{{asset('backend/assets/fonts/Gilroy-Bold.ttf')}}");
+    
 }
 @font-face {
     font-family: Gilroy;

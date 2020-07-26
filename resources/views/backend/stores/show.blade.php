@@ -54,6 +54,7 @@ $total_interestRevenue += $each_interestRevenue;
 @section('content')
 
 <!-- Start Content-->
+@include('partials.alert.message')
 
 <div class="row page-title">
     <div class="col-md-12">
@@ -64,7 +65,8 @@ $total_interestRevenue += $each_interestRevenue;
                     class="far mr-2 fa-edit"></i>Edit
                 Store</a>
 
-                <a href="{{ route('card1', $storeData->_id) }}" class="btn btn-success mr-2"><i class="far mr-2 fa-card"></i>Download Business Card</a>
+            <a href="{{ route('card1', $storeData->_id) }}" class="btn btn-success mr-2"><i
+                    class="far mr-2 fa-card"></i>Download Business Card</a>
 
 
 
@@ -109,10 +111,6 @@ $total_interestRevenue += $each_interestRevenue;
     </div>
 </div>
 
-@if(session('data'))
-<p class="alert alert-success">{{ session('data') }}</p>
-@endif
-
 <div class="row mb-4">
     <div class="col-xl-4">
         <div class="card bg-soft-primary">
@@ -137,56 +135,9 @@ $total_interestRevenue += $each_interestRevenue;
     </div>
     <div class="col-xl-8">
 
-
-
-
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-4"><a href="{{ route('store_revenue', $storeData->_id) }}">
                 <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center mb-3">
-                            <div class="avatar-xs mr-3">
-                                <span class="avatar-title rounded-circle bg-soft-primary text-primary font-size-10">
-                                    <i class="uil-atm-card"></i>
-                                </span>
-                            </div>
-                            <h5 class="font-size-14 mb-0">Revenue</h5>
-                        </div>
-                        <div class="text-muted mt-4">
-                            <h4> {{ $total_Revenue }} <i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
-                            <div class="d-flex">
-                                <span class="badge badge-soft-success font-size-12"> {{ $total_interestRevenue }}%
-                                </span> <span class="ml-2 text-truncate">From previous Month</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center mb-3">
-                            <div class="avatar-xs mr-3">
-                                <span class="avatar-title rounded-circle bg-soft-primary text-primary font-size-10">
-                                    <i class="uil-atm-card"></i>
-                                </span>
-                            </div>
-                            <h5 class="font-size-14 mb-0">Receivables</h5>
-                        </div>
-                        <div class="text-muted mt-4">
-                            <h4>{{ $total_Receivables }} <i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
-                            <div class="d-flex">
-                                <span class="badge badge-soft-success font-size-12"> {{ $total_interestReceivables }}%
-                                </span> <span class="ml-2 text-truncate">From previous period</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-4">
-                <div class="card"><a href="{{ route('store_debt', $storeData->_id) }}">
                         <div class="card-body">
                             <div class="d-flex align-items-center mb-3">
                                 <div class="avatar-xs mr-3">
@@ -194,29 +145,67 @@ $total_interestRevenue += $each_interestRevenue;
                                         <i class="uil-atm-card"></i>
                                     </span>
                                 </div>
-                              <h5 class="font-size-14 mb-0"><a
-                                        href="{{ route('store_debt', $storeData->_id) }}">Debt</a>
-                                    </h5>
-
+                                <h5 class="font-size-14 mb-0 text-info">Revenue</h5>
                             </div>
                             <div class="text-muted mt-4">
-                                {{-- showing all depts --}}
-
-                                    <h4 class="text-info">
-
-                                        {{ $totalDept }}<i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
-
-
-
-                                    <div class="d-flex">
-                                        <span
-                                            class="badge badge-soft-warning font-size-12">{{ $total_interest }}%</span>
-                                        <span class="ml-2 text-truncate text-info">From previous Month</span>
-                                    </div>
+                                <h4 class="text-info"> {{ $total_Revenue }} <i
+                                        class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
+                                <div class="d-flex">
+                                    <span class="badge badge-soft-success font-size-12"> {{ $total_interestRevenue }}%
+                                    </span> <span class="ml-2 text-truncate text-info">From previous Month</span>
+                                </div>
                             </div>
                         </div>
-                    </a>
-                </div>
+                </div></a>
+            </div>
+
+            <div class="col-sm-4"><a href="{{ route('store_receivable', $storeData->_id) }}">
+                <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="avatar-xs mr-3">
+                                    <span class="avatar-title rounded-circle bg-soft-primary text-primary font-size-10">
+                                        <i class="uil-atm-card"></i>
+                                    </span>
+                                </div>
+                                <h5 class="font-size-14 mb-0 text-info">Receivables</h5>
+                            </div>
+                            <div class="text-muted mt-4">
+                                <h4 class="text-info">{{ $total_Receivables }} <i
+                                        class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
+                                <div class="d-flex">
+                                    <span class="badge badge-soft-success font-size-12">
+                                        {{ $total_interestReceivables }}% </span> <span
+                                        class="ml-2 text-truncate text-info">From previous period</span>
+                                </div>
+                            </div>
+                        </div>
+                </div></a>
+            </div>
+
+            <div class="col-sm-4"><a href="{{ route('store_debt', $storeData->_id) }}">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="avatar-xs mr-3">
+                                <span class="avatar-title rounded-circle bg-soft-primary text-primary font-size-10">
+                                    <i class="uil-atm-card"></i>
+                                </span>
+                            </div>
+                            <h5 class="font-size-14 mb-0 text-info">Debt
+                            </h5>
+                        </div>
+                        <div class="text-muted mt-4">
+                            <h4 class="text-info">
+                                {{ $totalDept }}<i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
+
+                            <div class="d-flex">
+                                <span class="badge badge-soft-warning font-size-12">{{ $total_interest }}%</span>
+                                <span class="ml-2 text-truncate text-info">From previous Month</span>
+                            </div>
+                        </div>
+                    </div> 
+                </div></a>
             </div>
         </div>
         <!-- end row -->
@@ -241,22 +230,6 @@ $total_interestRevenue += $each_interestRevenue;
         <div class="card">
             <div class="card-body">
                 <h6 class="card-title mb-4 float-sm-left">Transaction Chart</h6>
-                <div class="btn-group float-right">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
-                        <i class='uil uil-file-alt mr-1'></i>Export
-                        <i class="icon"><span data-feather="chevron-down"></span></i></button>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <a href="#" class="dropdown-item notify-item">
-                            <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
-                            <span>Excel</span>
-                        </a>
-                        <a href="#" class="dropdown-item notify-item">
-                            <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
-                            <span>PDF</span>
-                        </a>
-                    </div>
-                </div>
                 <div class="clearfix"></div>
                 <div id="transactionchart"></div>
             </div>
@@ -369,7 +342,6 @@ $total_interestRevenue += $each_interestRevenue;
                                                     <input type="checkbox" id="togBtn"
                                                         {{ $transaction->status == true ? 'checked' : '' }} disabled>
                                                     @endif
-
                                                     <div class="slider round">
                                                         <span class="on">Paid</span><span class="off">Pending</span>
                                                     </div>
@@ -403,14 +375,10 @@ $total_interestRevenue += $each_interestRevenue;
 
     </div>
 </div>
-</div> <!-- end col -->
-</div> <!-- end row -->
-
 
 @endsection
 
 @section("javascript")
-<script src="/backend/assets/build/js/intlTelInput.js"></script>
 <script src="/backend/assets/libs/datatables/jquery.dataTables.min.js"></script>
 <script src="/backend/assets/libs/datatables/dataTables.bootstrap4.min.js"></script>
 <script src="/backend/assets/libs/datatables/dataTables.responsive.min.js"></script>
@@ -427,12 +395,14 @@ $total_interestRevenue += $each_interestRevenue;
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.0.10/jspdf.plugin.autotable.min.js"></script>
 <script src="/backend/assets/libs/datatables/tableHTMLExport.js"></script>
-<script type=text/javascript> var product=<?php echo json_encode( $c ) ?>; </script> <script>
-    $('#basic-datatables').dataTable( {
-  "lengthMenu": [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"] ]
-} );
-</script>
+
 <script>
+    $('#basic-datatables').dataTable({
+        "lengthMenu": [
+            [10, 25, 50, 100, -1],
+            [10, 25, 50, 100, "All"]
+        ]
+    });
     $('#pdf').on('click', function () {
         $("#basic-datatables").tableHTMLExport({
             type: 'pdf',
@@ -441,6 +411,53 @@ $total_interestRevenue += $each_interestRevenue;
     })
 
 </script>
+
+<script>
+    jQuery(function ($) {
+        const token = "{{Cookie::get('api_token')}}"
+        const host = "{{ env('API_URL', 'https://dev.api.customerpay.me') }}";
+
+        $('.togBtn').change(function () {
+            $(this).attr("disabled", true);
+            $('#statusSpiner').removeClass('d-none');
+
+            var id = $(this).data('id');
+            var store = $(this).data('store');
+            let _status = $(this).is(':checked') ? 1 : 0;
+            let _customer_id = $(this).data('customer');
+
+            $.ajax({
+                url: `${host}/transaction/update/${id}`,
+                headers: {
+                    'x-access-token': token
+                },
+                data: {
+                    store_id: store,
+                    status: _status,
+                    customer_id: _customer_id,
+                },
+                type: 'PATCH',
+            }).done(response => {
+                if (response.success != true) {
+                    $(this).prop("checked", !this.checked);
+                    $('#error').show();
+                    alert("Oops! something went wrong.");
+                }
+                alert("Operation Successful.");
+                $(this).removeAttr("disabled")
+                $('#statusSpiner').addClass('d-none');
+            }).fail(e => {
+                $(this).removeAttr("disabled")
+                $(this).prop("checked", !this.checked);
+                $('#statusSpiner').addClass('d-none');
+                alert("Oops! something went wrong.");
+            });
+        });
+
+    });
+
+</script>
+
 <script>
     function exportTableToExcel(tableID, filename = '') {
         var downloadLink;
@@ -475,57 +492,20 @@ $total_interestRevenue += $each_interestRevenue;
 
 </script>
 <script>
-    jQuery(function ($) {
-        const token = "{{Cookie::get('api_token')}}"
-        const host = "{{ env('API_URL', 'https://dev.api.customerpay.me') }}";
-
-        $('.togBtn').change(function () {
-            $(this).attr("disabled", true);
-            $('#statusSpiner').removeClass('d-none');
-
-            const id = $(this).data('id');
-            const store = $(this).data('store');
-            let _status = $(this).is(':checked') ? 1 : 0;
-            let _customer_id = $(this).data('customer');
-
-            $.ajax({
-                url: `${host}/transaction/update/${id}`,
-                headers: {
-                    'x-access-token': token
-                },
-                data: {
-                    store_id: store,
-                    status: _status,
-                    customer_id: _customer_id,
-                },
-                type: 'PATCH',
-            }).done(response => {
-                if (response.success != true) {
-                    $(this).prop("checked", !this.checked);
-                }
-                $(this).removeAttr("disabled")
-                $('#statusSpiner').addClass('d-none');
-            }).fail(e => {
-                $(this).removeAttr("disabled")
-                $(this).prop("checked", !this.checked);
-                $('#statusSpiner').addClass('d-none');
-            });
-        });
-    });
-
-</script>
-<script>
     $(document).ready(function () {
+        var product = <?php echo json_encode($c); ?>
+
         // start of transaction charts
+
         var options = {
 
             series: [{
-                name: 'Amount',
-                data: [ < ? php foreach($c as $key) {
+                name: 'Transaction',
+                data: [ <?php foreach($c as $key) {
                     $aaa = (string) $key['value'].
                     ",";
                     echo $aaa;
-                } ? > ]
+                } ?> ]
             }],
             chart: {
                 height: 350,
@@ -538,12 +518,12 @@ $total_interestRevenue += $each_interestRevenue;
             xaxis: {
                 type: 'datetime',
 
-                categories: [ < ? php foreach($c as $key) {
+                categories: [ <?php foreach($c as $key) {
                     $aaa = "'".$key['date'].
                     "'".
                     ",";
                     echo $aaa;
-                } ? > ],
+                } ?> ],
             },
 
             title: {
@@ -555,26 +535,26 @@ $total_interestRevenue += $each_interestRevenue;
                 }
             },
             fill: {
-                type: 'gradient',
-                gradient: {
-                    shade: 'dark',
-                    gradientToColors: ['#FDD835'],
-                    shadeIntensity: 1,
-                    type: 'horizontal',
-                    opacityFrom: 1,
-                    opacityTo: 1,
-                    stops: [0, 100, 100, 100]
+                    type: 'gradient',
+                    gradient: {
+                        shade: 'dark',
+                        gradientToColors: ['#FDD835'],
+                        shadeIntensity: 1,
+                        type: 'horizontal',
+                        opacityFrom: 1,
+                        opacityTo: 1,
+                        stops: [0, 100, 100, 100]
+                    },
                 },
-            },
-            markers: {
-                size: 4,
-                colors: ["#FFA41B"],
-                strokeColors: "#fff",
-                strokeWidth: 2,
-                hover: {
-                    size: 7,
-                }
-            },
+                markers: {
+                    size: 4,
+                    colors: ["#FFA41B"],
+                    strokeColors: "#fff",
+                    strokeWidth: 2,
+                    hover: {
+                        size: 7,
+                    }
+                },
             yaxis: {
 
                 title: {
@@ -584,14 +564,9 @@ $total_interestRevenue += $each_interestRevenue;
         };
 
         var chart = new ApexCharts(document.querySelector("#transactionchart"), options);
-        chart.render();
+            chart.render();
 
 
-    });
-
-    var input = document.querySelector("#phone");
-    window.intlTelInput(input, {
-        // any initialisation options go here
     });
 
 </script>
