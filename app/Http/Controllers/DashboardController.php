@@ -74,6 +74,7 @@ class DashboardController extends Controller
                     $diff = $thisMonth - $lastMonth;
                     $profit = ($thisMonth > $lastMonth) ? true : false;
                     $percentage = sprintf("%.2f", ($diff / 100));
+                   
                     return view('backend.dashboard.index')->withData($data)->withProfit(['profit' => $profit, 'percentage' => $percentage]);
                 }
             } catch (RequestException $e) {
