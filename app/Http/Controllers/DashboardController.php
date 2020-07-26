@@ -105,8 +105,8 @@ class DashboardController extends Controller
                 if ($response->getStatusCode() == 200) {
                     $data = json_decode($response->getBody());
                     $data = $data->data;
+                    $data->name = isset($data->user->first_name) ? $data->user->first_name : $data->user->name;
 
-                    $data->name = $data->user->first_name;
                     $data->phone_number = $data->user->phone_number;
                     $data->email = $data->user->email;
 
@@ -120,7 +120,6 @@ class DashboardController extends Controller
 
 
             } catch (\Exception $e) {
-                // dd($e->getCode());
                 if ($e->getCode() == 401) {
                     return redirect()->route('logout');
                 }
