@@ -65,8 +65,7 @@ $total_interestRevenue += $each_interestRevenue;
                     class="far mr-2 fa-edit"></i>Edit
                 Store</a>
 
-            <a href="{{ route('card1', $storeData->_id) }}" class="btn btn-success mr-2"><i
-                    class="far mr-2 fa-card"></i>Download Business Card</a>
+          
 
 
 
@@ -219,7 +218,43 @@ $total_interestRevenue += $each_interestRevenue;
         <div class="card">
             <div class="card-body pl-3 pr-3 padup">
                 <div class="text-center">
-                    Business card should be here
+                    <h6>Choose Business Card</h6>
+                </div>
+                <div id="carouselExampleIndicators" class="carousel slide " data-ride="carousel">
+                    <ol class="carousel-indicators">
+                      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                    </ol>
+                    <div class="carousel-inner">
+                      <div class="carousel-item active">
+                        <img class="d-block w-100" src="{{asset('backend/assets/images/card_v1.png')}}" alt="First slide">
+                        
+                      </div>
+                      <div class="carousel-item">
+                        <img class="d-block w-100" src="{{asset('backend/assets/images/card_v1.png')}}" alt="Second slide">
+                        
+                      </div>
+                      <div class="carousel-item">
+                        <img class="d-block w-100" src="{{asset('backend/assets/images/card_v1.png')}}" alt="Third slide">
+                        
+                      </div>
+                    </div>
+                    <a class="carousel-control-prev primary" href="#carouselExampleIndicators"  role="button" data-slide="prev">
+                      <span class="text-dark" aria-hidden="true"> <i class="fa fa-chevron-left"></i> </span>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                      <span class=" text-dark" aria-hidden="true"> <i class="fa fa-chevron-right"></i></span>
+                      <span class="sr-only">Next</span>
+                    </a>
+                </div>
+
+                <div class="text-center padup">
+                    <a href="{{ route('card1', $storeData->_id) }}" class="btn btn-success mr-2"><i
+                        class="far mr-2 fa-card"></i>Download</a>
+                        <a href="{{ route('card1', $storeData->_id) }}" class="btn btn-primary mr-2"><i
+                            class="far mr-2 fa-card"></i>Preview</a>
                 </div>
 
             </div>
