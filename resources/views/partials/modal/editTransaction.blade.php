@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" id="editTransaction" method="POST" action="{{ route('transaction.update', $transaction->_id.'-'.$transaction->store_ref_id->_id.'-'.$transaction->customer_ref_id->_id) }}">
+                <form class="form-horizontal" id="editTransaction" method="POST" action="{{ route('transaction.update', $transaction->_id.'-'.$transaction->store_ref_id.'-'.$transaction->customer_ref_id) }}">
                     @csrf
                     @method('PUT')
 
@@ -59,7 +59,7 @@
                         <div class="col-9">
                             <select name="store" class="form-control">
                                 @foreach($stores as $store)
-                                @if ($store->storeId === $transaction->store_ref_id->_id)
+                                @if ($store->storeId === $transaction->store_ref_id)
                                 <option class="text-uppercase form-control" value="{{ $store->storeId }}">
                                     {{ $store->storeName }}</option>
                                 @endif
@@ -74,7 +74,7 @@
                             <select name="customer" class="form-control">
                                 @foreach($stores as $store)
                                 @foreach ($store->customers as $customer)
-                                @if ($customer->_id === $transaction->customer_ref_id->_id)
+                                @if ($customer->_id === $transaction->customer_ref_id)
                                 <option class="text-uppercase form-control" value="{{ $customer->_id }}">
                                     {{ $customer->name }}</option>
                                 @endif

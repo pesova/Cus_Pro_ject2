@@ -203,7 +203,7 @@ class TransactionController extends Controller
             if ($customerStatusCode == 200 && $transacStatusCode == 200) {
                 $stores = json_decode($customerResponse->getBody())->data->customer;
                 $transaction = json_decode($transactionResponse->getBody())->data->transaction;
-                // dd($transaction);
+                // dd($stores);
                 return view('backend.transaction.show', compact("stores", "api_token", "transaction"));
             } else if ($customerStatusCode == 401 && $transacStatusCode == 401) {
                 return redirect()->route('login')->with('message', "Please Login Again");

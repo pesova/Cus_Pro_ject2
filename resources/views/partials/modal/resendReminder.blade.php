@@ -4,7 +4,7 @@
         <div class="modal-content">
             <div class="modal-body">
                 <form
-                    action="{{ route('reminder', $transaction->store_ref_id->_id.'-'.$transaction->customer_ref_id->_id.'-'.$transaction->_id) }}"
+                    action="{{ route('reminder', $transaction->store_ref_id.'-'.$transaction->customer_ref_id.'-'.$transaction->_id) }}"
                     method="POST">
                     @csrf
                     <input type="hidden" name="transaction_id" value="{{old('transaction_id', $transaction->_id)}}">
