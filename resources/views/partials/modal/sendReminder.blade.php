@@ -5,13 +5,13 @@
             <div class="modal-body">
                 @isset($transaction)
                 <form
-                    action="{{ route('reminder', ['id' => $transaction->store_ref_id.'-'.$transaction->customer_ref_id.'-'.$transaction->_id]) }}"
+                    action="{{ route('reminder', ['id' => $transaction->store_ref_id->_id.'-'.$transaction->customer_ref_id->_id.'-'.$transaction->_id]) }}"
                     method="POST">
                     @csrf
                     <input type="hidden" name="transaction_id" value="{{old('transaction_id', $transaction->_id)}}">
                     @else
                     <form
-                        action="{{ route('reminder', ['id' => $debtor->store_ref_id.'-'.$debtor->customer_ref_id.'-'.$debtor->_id]) }}"
+                        action="{{ route('reminder', ['id' => $debtor->store_ref_id->_id.'-'.$debtor->customer_ref_id->_id.'-'.$debtor->_id]) }}"
                         method="POST">
                         @csrf
                         <input type="hidden" name="transaction_id" value="{{old('transaction_id', $debtor->_id)}}">

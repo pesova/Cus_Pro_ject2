@@ -46,8 +46,7 @@
                                 <div class="col-xl-3 col-sm-6">
                                     <!-- stat 2 -->
                                     <div class="media">
-                                        <i data-feather="check-square"
-                                            class="align-self-center icon-dual icon-sm mr-2"></i>
+                                        <i data-feather="check-square" class="align-self-center icon-dual icon-sm mr-2"></i>
                                         <div class="media-body">
                                             <h6 class="mt-0 mb-0 text-capitalize">{{ $transaction->type }}</h6>
                                             <span class="text-muted">Transaction Type</span>
@@ -59,17 +58,10 @@
                                     <div class="media">
                                         <i data-feather="users" class="align-self-center icon-dual icon-sm mr-2"></i>
                                         <div class="media-body">
-                                            @foreach ($stores as $store)
-                                            @foreach ($store->customers as $customer)
-                                            @if ($customer->_id === $transaction->customer_ref_id)
                                             <h6 class="m-0">
-                                                <a
-                                                    href="{{ route('customer.show', $transaction->store_ref_id.'-'.$transaction->customer_ref_id)}}">{{ $customer->name }}
+                                                <a href="{{ route('customer.show', $transaction->store_ref_id->_id.'-'.$transaction->customer_ref_id->_id)}}">{{ $transaction->customer_ref_id->name }}
                                                 </a>
                                             </h6>
-                                            @endif
-                                            @endforeach
-                                            @endforeach
                                             <span class="text-muted">Customer Name</span>
                                         </div>
                                     </div>
@@ -80,16 +72,10 @@
                                         <i data-feather="clock" class="align-self-center icon-dual icon-lg mr-2"></i>
                                         <div class="media-body">
                                             <h6 class="mt-0 mb-0">
-                                                @foreach ($stores as $store)
-                                                @foreach ($store->customers as $customer)
-                                                @if ($customer->_id === $transaction->customer_ref_id)
                                                 <h6 class="m-0">
-                                                    <a href="tel:+{{ $customer->phone_number }}">{{ $customer->phone_number }}
+                                                    <a href="tel:+{{ $transaction->customer_ref_id->phone_number }}">{{ $transaction->customer_ref_id->phone_number }}
                                                     </a>
                                                 </h6>
-                                                @endif
-                                                @endforeach
-                                                @endforeach
                                             </h6>
                                             <span class="text-muted">Customer Phone Number</span>
                                         </div>
@@ -111,8 +97,7 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <h6 class="mt-0 ">Description</h6>
-                                        <textarea name="" readonly id="" cols="auto" rows="3" sty
-                                            class="form-control w-100 flex-1">{{ $transaction->description }}</textarea>
+                                        <textarea name="" readonly id="" cols="auto" rows="3" sty class="form-control w-100 flex-1">{{ $transaction->description }}</textarea>
                                     </div>
 
                                     <div class="col-lg-6">
@@ -146,12 +131,11 @@
                                                 <h6 class="">Store Name:</h6>
                                                 <p>
                                                     @if(Cookie::get('user_role') != 'store_assistant')
-                                                    <a href="{{ route('store.show', $transaction->store_ref_id)}}"
-                                                        class="mr-2 text-uppercase">
-                                                        {{ $transaction->store_name }}
+                                                    <a href="{{ route('store.show', $transaction->store_ref_id->_id)}}" class="mr-2 text-uppercase">
+                                                        {{ $transaction->store_ref_id->store_name }}
                                                     </a>
                                                     @else
-                                                    {{ $transaction->store_name }}
+                                                    {{ $transaction->store_ref_id->store_name }}
                                                     @endif
                                                 </p>
                                             </div>
@@ -161,23 +145,16 @@
                                                 </h6>
                                                 <label class="switch">
                                                     @if(Cookie::get('user_role') != 'store_assistant') disabled
-                                                    <input type="checkbox" id="togBtn"
-                                                        {{ $transaction->status == true ? 'checked' : '' }}
-                                                        data-id="{{ $transaction->_id }}"
-                                                        data-store="{{ $transaction->store_ref_id }}"
-                                                        data-customer="{{ $transaction->customer_ref_id}}">
+                                                    <input type="checkbox" id="togBtn" {{ $transaction->status == true ? 'checked' : '' }} data-id="{{ $transaction->_id }}" data-store="{{ $transaction->store_ref_id->_id }}" data-customer="{{ $transaction->customer_ref_id->_id}}">
                                                     @else
-                                                    <input type="checkbox" id="togBtn"
-                                                        {{ $transaction->status == true ? 'checked' : '' }} disabled>
+                                                    <input type="checkbox" id="togBtn" {{ $transaction->status == true ? 'checked' : '' }} disabled>
                                                     @endif
 
                                                     <div class="slider round">
                                                         <span class="on">Paid</span><span class="off">Pending</span>
                                                     </div>
                                                 </label>
-                                                <div id="statusSpiner"
-                                                    class="spinner-border spinner-border-sm text-primary d-none"
-                                                    role="status">
+                                                <div id="statusSpiner" class="spinner-border spinner-border-sm text-primary d-none" role="status">
                                                     <span class="sr-only">Loading...</span>
                                                 </div>
                                             </div>
@@ -218,16 +195,12 @@
                                     <td><span class="badge badge-success">{{ $debt->status }}</span></td>
                                     <td>{{ \Carbon\Carbon::parse($debt->createdAt)->diffForhumans() }}</td>
                                     <td>
-                                        <a href="" data-toggle="modal"
-                                            onclick="return previousMessage('{{ $debt->message }}')"
-                                            data-target="#ResendReminderModal-{{ $debt->_id }}"
-                                            class="btn btn-primary btn-sm mt-2">
+                                        <a href="" data-toggle="modal" onclick="return previousMessage('{{ $debt->message }}')" data-target="#ResendReminderModal" class="btn btn-primary btn-sm mt-2">
                                             Resend
                                         </a>
                                     </td>
                                 </tr>
                                 {{-- Modal for resend reminder --}}
-                                @include('partials.modal.resendReminder')
                                 @endforeach
                             </tbody>
                         </table>
@@ -241,6 +214,9 @@
             {{-- Modal for send reminder --}}
             @include('partials.modal.sendReminder')
 
+            {{-- Modal for resend reminder --}}
+            @include('partials.modal.resendReminder')
+
             {{-- modal for delete transaction --}}
             @include('partials.modal.deleteTransaction')
 
@@ -253,59 +229,58 @@
 @endsection
 
 @section('javascript')
-<script type="text/javascript"
-    src="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-html5-1.6.2/datatables.min.js">
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-html5-1.6.2/datatables.min.js">
 </script>
 
 <script src="{{ asset('/backend/assets/js/textCounter.js')}}"></script>
 
 <script>
-    jQuery(function ($) {
+    jQuery(function($) {
         const token = "{{Cookie::get('api_token')}}"
         const host = "{{ env('API_URL', 'https://dev.api.customerpay.me') }}";
 
-        $('#togBtn').change(function () {
-        $(this).attr("disabled", true);
-        $('#statusSpiner').removeClass('d-none');
+        $('#togBtn').change(function() {
+            $(this).attr("disabled", true);
+            $('#statusSpiner').removeClass('d-none');
 
-        var id = $(this).data('id');
-        var store = $(this).data('store');
-        let _status = $(this).is(':checked') ? 1 : 0;
-        let _customer_id = $(this).data('customer');
+            var id = $(this).data('id');
+            var store = $(this).data('store');
+            let _status = $(this).is(':checked') ? 1 : 0;
+            let _customer_id = $(this).data('customer');
 
-        $.ajax({
-            url: `${host}/transaction/update/${id}`,
-            headers: {
-                'x-access-token': token
-            },
-            data: {
-                store_id: store,
-                status: _status,
-                customer_id: _customer_id,
-            },
-            type: 'PATCH',
-        }).done(response => {
-            if (response.success != true) {
+            $.ajax({
+                url: `${host}/transaction/update/${id}`
+                , headers: {
+                    'x-access-token': token
+                }
+                , data: {
+                    store_id: store
+                    , status: _status
+                    , customer_id: _customer_id
+                , }
+                , type: 'PATCH'
+            , }).done(response => {
+                if (response.success != true) {
+                    $(this).prop("checked", !this.checked);
+                    $('#error').show();
+                    alert("Oops! something went wrong.");
+                }
+                alert("Operation Successful.");
+                $(this).removeAttr("disabled")
+                $('#statusSpiner').addClass('d-none');
+            }).fail(e => {
+                $(this).removeAttr("disabled")
                 $(this).prop("checked", !this.checked);
-                $('#error').show();
+                $('#statusSpiner').addClass('d-none');
                 alert("Oops! something went wrong.");
-            }
-            alert("Operation Successful.");
-            $(this).removeAttr("disabled")
-            $('#statusSpiner').addClass('d-none');
-        }).fail(e => {
-            $(this).removeAttr("disabled")
-            $(this).prop("checked", !this.checked);
-            $('#statusSpiner').addClass('d-none');
-            alert("Oops! something went wrong.");
+            });
         });
-    });
 
     });
+
 </script>
 
 <script>
-
     // copy resend debt message
 
     function previousMessage(message) {

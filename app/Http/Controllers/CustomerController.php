@@ -220,11 +220,7 @@ class CustomerController extends Controller
         $store_id = explode('-', $id)[0];
         $customer_id = explode('-', $id)[1];
 
-        if (Cookie::get('user_role') == 'super_admin') {
-            $url = $this->host . "/customer/admin/" . $store_id . "/" . $customer_id;
-        } else {
-            $url = $this->host . "/customer/" . $store_id . "/" . $customer_id;
-        }
+        $url = $this->host . "/customer/" . $store_id . "/" . $customer_id;
 
         try {
             $client = new Client;
@@ -479,7 +475,7 @@ class CustomerController extends Controller
 
         foreach ($transactions as $trensaction) {
             if ($trensaction->type == 'debt') {
-                $result->total_debt += $trensaction->amount + (($trensaction->amount * $trensaction->interest)/100);
+                $result->total_debt += $trensaction->amount + (($trensaction->amount * $trensaction->interest) / 100);
             } elseif ($trensaction->type == 'paid') {
                 $result->total_revenue += $trensaction->amount;
             } else {
@@ -509,5 +505,4 @@ class CustomerController extends Controller
         }
         return $result;
     }
-
 }
