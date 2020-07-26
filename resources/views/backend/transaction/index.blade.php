@@ -61,17 +61,17 @@
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>
-                                    @if(Cookie::get('user_role') != 'store_assistant')
-                                    {{-- check for supper admin, response does not return store name --}}
-                                    @isset($transaction->store_name)
+                                    @if(Cookie::get('user_role') == 'super_admin')
+                                    <a class="" href="{{ route('store.show', $transaction->store_ref_id->_id) }}">
+                                        {{ $transaction->store_ref_id->store_name }}
+                                    </a>
+                                    @elseif(Cookie::get('user_role') == 'store_admin')
                                     <a class="" href="{{ route('store.show', $transaction->store_ref_id) }}">
                                         {{ $transaction->store_name }}
                                     </a>
-                                    @endif
                                     @else
                                     {{ $transaction->store_name }}
                                     @endif
-
                                 </td>
                                 <td>{{ $transaction->amount }}</td>
                                 <td>{{ $transaction->interest }} %</td>

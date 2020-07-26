@@ -58,16 +58,10 @@
                                     <div class="media">
                                         <i data-feather="users" class="align-self-center icon-dual icon-sm mr-2"></i>
                                         <div class="media-body">
-                                            @foreach ($stores as $store)
-                                            @foreach ($store->customers as $customer)
-                                            @if ($customer->_id === $transaction->customer_ref_id)
                                             <h6 class="m-0">
-                                                <a href="{{ route('customer.show', $transaction->store_ref_id.'-'.$transaction->customer_ref_id)}}">{{ $customer->name }}
+                                                <a href="{{ route('customer.show', $transaction->store_ref_id->_id.'-'.$transaction->customer_ref_id->_id)}}">{{ $transaction->customer_ref_id->name }}
                                                 </a>
                                             </h6>
-                                            @endif
-                                            @endforeach
-                                            @endforeach
                                             <span class="text-muted">Customer Name</span>
                                         </div>
                                     </div>
@@ -78,16 +72,10 @@
                                         <i data-feather="clock" class="align-self-center icon-dual icon-lg mr-2"></i>
                                         <div class="media-body">
                                             <h6 class="mt-0 mb-0">
-                                                @foreach ($stores as $store)
-                                                @foreach ($store->customers as $customer)
-                                                @if ($customer->_id === $transaction->customer_ref_id)
                                                 <h6 class="m-0">
-                                                    <a href="tel:+{{ $customer->phone_number }}">{{ $customer->phone_number }}
+                                                    <a href="tel:+{{ $transaction->customer_ref_id->phone_number }}">{{ $transaction->customer_ref_id->phone_number }}
                                                     </a>
                                                 </h6>
-                                                @endif
-                                                @endforeach
-                                                @endforeach
                                             </h6>
                                             <span class="text-muted">Customer Phone Number</span>
                                         </div>
@@ -198,7 +186,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            {{ dd($transaction) }}
                                 @foreach ($transaction->debts as $index => $debt)
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
@@ -208,13 +195,12 @@
                                     <td><span class="badge badge-success">{{ $debt->status }}</span></td>
                                     <td>{{ \Carbon\Carbon::parse($debt->createdAt)->diffForhumans() }}</td>
                                     <td>
-                                        <a href="" data-toggle="modal" onclick="return previousMessage('{{ $debt->message }}')" data-target="#ResendReminderModal-{{ $debt->_id }}" class="btn btn-primary btn-sm mt-2">
+                                        <a href="" data-toggle="modal" onclick="return previousMessage('{{ $debt->message }}')" data-target="#ResendReminderModal" class="btn btn-primary btn-sm mt-2">
                                             Resend
                                         </a>
                                     </td>
                                 </tr>
                                 {{-- Modal for resend reminder --}}
-                                @include('partials.modal.resendReminder')
                                 @endforeach
                             </tbody>
                         </table>
@@ -227,6 +213,9 @@
 
             {{-- Modal for send reminder --}}
             @include('partials.modal.sendReminder')
+
+            {{-- Modal for resend reminder --}}
+            @include('partials.modal.resendReminder')
 
             {{-- modal for delete transaction --}}
             @include('partials.modal.deleteTransaction')

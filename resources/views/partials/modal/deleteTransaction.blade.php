@@ -9,7 +9,7 @@
                 </button>
             </div>
             <form class="form-horizontal" method="POST"
-                action="{{route('transaction.destroy', $transaction->_id.'-'.$transaction->store_ref_id.'-'.$transaction->customer_ref_id)}}">
+                action="{{route('transaction.destroy', $transaction->_id.'-'.$transaction->store_ref_id->_id.'-'.$transaction->customer_ref_id->_id)}}">
                 <div class="modal-body">
                     @csrf
                     @method('DELETE')
