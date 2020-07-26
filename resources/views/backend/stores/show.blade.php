@@ -236,14 +236,14 @@ $total_interestRevenue += $each_interestRevenue;
                     </ol>
                     <div class="carousel-inner">
                       <div class="carousel-item active">
-                        <img class="d-block w-100" src="{{asset('backend/assets/images/card_vv1.png')}}" alt="First slide">
+                        <img class="d-block w-100" src="{{asset('backend/assets/images/card_vv1.PNG')}}" alt="First slide">
                       </div>
                       <div class="carousel-item">
-                        <img class="d-block w-100" src="{{asset('backend/assets/images/card_v2.png')}}" alt="Second slide">
+                        <img class="d-block w-100" src="{{asset('backend/assets/images/card_v2.PNG')}}" alt="Second slide">
                         
                       </div>
                       <div class="carousel-item">
-                        <img class="d-block w-100" src="{{asset('backend/assets/images/card_vv1.png')}}" alt="Third slide">
+                        <img class="d-block w-100" src="{{asset('backend/assets/images/card_vv1.PNG')}}" alt="Third slide">
                         
                       </div>
                     </div>
