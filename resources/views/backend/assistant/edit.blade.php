@@ -11,6 +11,7 @@
         <div class="row page-title">
             <div class="col-md-12">
                 <nav aria-label="breadcrumb" class="float-right mt-1">
+                <a href="/admin/assistants" class="btn btn-primary">Go Back</a>
                 </nav>
                 <h4 class="mb-1 mt-0"><i data-feather="users" style="font-size: 5px; margin-right: 7px"></i>Edit
                     store assistant</h4>
