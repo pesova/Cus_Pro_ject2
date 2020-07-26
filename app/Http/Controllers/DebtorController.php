@@ -258,7 +258,8 @@ class DebtorController extends Controller
             if ($statusCode == 200 && $data->success) {
                 // return \
                 $request->session()->flash('alert-class', 'alert-success');
-                Session::flash('message', $data->Message);
+                $message = isset($data->Message) ? $data->Message : $data->message;
+                Session::flash('message', );
 
                 return redirect()->back();
             } else {
@@ -278,11 +279,8 @@ class DebtorController extends Controller
                 $response = $e->getResponse()->getBody();
                 $result = json_decode($response);
                 Session::flash('message', isset($result->message) ? $result->message : $result->Message);
-                $debtors = [];
-                $stores = [];
-                return view('backend.transaction.index',  compact('debtors', 'stores'));
+                return redirect()->back();
             }
-
             //5xx server error
             return view('errors.500');
         } catch (\Exception $e) {
