@@ -480,7 +480,7 @@ class CustomerController extends Controller
 
         foreach ($transactions as $trensaction) {
             if ($trensaction->type == 'debt') {
-                $result->total_debt += $trensaction->amount + ($trensaction->amount * $trensaction->interest);
+                $result->total_debt += $trensaction->amount + (($trensaction->amount * $trensaction->interest)/100);
             } elseif ($trensaction->type == 'paid') {
                 $result->total_revenue += $trensaction->amount;
             } else {
