@@ -212,7 +212,7 @@
                         </div>
                         <br>
                         <div class="form-group row mb-3">
-                            <label for="inputphone" class="col-3 col-form-label">Phone Number</label>
+                            <label for="inputphone" class="col-2 col-sm-3 col-form-label my-label">Phone Number</label>
                             <div class="col-10 col-sm-7">
                                 <input type="tel" class="form-control" id="phone" placeholder="Phone Number"
                                     aria-describedby="helpPhone" name="" required pattern=".{6,16}"
