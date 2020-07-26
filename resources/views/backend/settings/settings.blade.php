@@ -131,7 +131,7 @@
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <label>Email</label>
-                                                            <input class="form-control" type="text" name="email" placeholder="{{ isset($user_details['email']) ? $user_details['email'] : "Email" }}">
+                                                            <input class="form-control" type="email" name="email" placeholder="{{ isset($user_details['email']) ? $user_details['email'] : "Email" }}">
                                                         </div>
                                                     </div>
                                                     <div class="clearfix"></div><br>
