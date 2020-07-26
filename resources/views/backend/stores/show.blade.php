@@ -58,21 +58,17 @@ $total_interestRevenue += $each_interestRevenue;
 
 <div class="row page-title">
     <div class="col-md-12">
+    @if(Cookie::get('user_role') == 'store_admin')
         <nav aria-label="breadcrumb" class="float-right mt-1">
-            <a href="javascript: void(0);" class="btn btn-warning waves-effect waves-light"> Edit Business Card</a>
 
-            <a href="{{ route('store.edit', $storeData->_id) }}" class="btn btn-success mr-2"><i
-                    class="far mr-2 fa-edit"></i>Edit
-                Store</a>
-
-          
-
-
-
-            <a data-toggle="modal" data-target="#storeDelete" href="" class="btn btn-danger">
-                Delete &nbsp;<i data-feather="delete"></i>
-            </a>
-
+        <a data-toggle="modal" data-target="#storeDelete" href="" class="btn btn-danger float-right">
+                    Delete
+                </a>
+                    <a href="{{ route('store.edit', $storeData->_id) }}"
+                        class="mr-3 btn btn-primary float-right">
+                        Edit Store
+                    </a>
+    @endif
             {{-- Modal for delete Store --}}
             <div class="modal fade" id="storeDelete" tabindex="-1" role="dialog" aria-labelledby="storeDeleteLabel"
                 aria-hidden="true">
@@ -138,22 +134,23 @@ $total_interestRevenue += $each_interestRevenue;
             <div class="col-sm-4"><a href="{{ route('store_revenue', $storeData->_id) }}">
                 <div class="card">
                         <div class="card-body">
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="avatar-xs mr-3">
-                                    <span class="avatar-title rounded-circle bg-soft-primary text-primary font-size-10">
-                                        <i class="uil-atm-card"></i>
-                                    </span>
+                        <div class="media">
+                                    <div class="media-body">
+                                        <p class="text-muted font-weight-medium">Revenue</p>
+                                        <h4 class="mb-0">$ {{ $total_Revenue }}</h4>
+                                    </div>
+
+                                    <div class="mini-stat-icon avatar-sm align-self-center rounded-circle bg-primary">
+                                        <span class="avatar-title">
+                                            <i class="uil-atm-card font-size-14"></i>
+                                        </span>
+                                    </div>
+                                    </div>
+                                    <br>
+                                    <div class="d-flex">
+                                    <span class="badge badge-soft-primary font-size-12"> {{ $total_interestRevenue }}%
+                                    </span> <span class="ml-2 text-truncate text-primary">From previous Month</span>
                                 </div>
-                                <h5 class="font-size-14 mb-0 text-info">Revenue</h5>
-                            </div>
-                            <div class="text-muted mt-4">
-                                <h4 class="text-info"> {{ $total_Revenue }} <i
-                                        class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
-                                <div class="d-flex">
-                                    <span class="badge badge-soft-success font-size-12"> {{ $total_interestRevenue }}%
-                                    </span> <span class="ml-2 text-truncate text-info">From previous Month</span>
-                                </div>
-                            </div>
                         </div>
                 </div></a>
             </div>
@@ -161,47 +158,48 @@ $total_interestRevenue += $each_interestRevenue;
             <div class="col-sm-4"><a href="{{ route('store_receivable', $storeData->_id) }}">
                 <div class="card">
                         <div class="card-body">
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="avatar-xs mr-3">
-                                    <span class="avatar-title rounded-circle bg-soft-primary text-primary font-size-10">
-                                        <i class="uil-atm-card"></i>
-                                    </span>
+                        <div class="media">
+                                    <div class="media-body">
+                                        <p class="text-muted font-weight-medium">Receivables</p>
+                                        <h4 class="mb-0">$ {{ $total_Receivables }}</h4>
+                                    </div>
+
+                                    <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
+                                        <span class="avatar-title">
+                                            <i class="uil-atm-card font-size-14"></i>
+                                        </span>
+                                    </div>
                                 </div>
-                                <h5 class="font-size-14 mb-0 text-info">Receivables</h5>
-                            </div>
-                            <div class="text-muted mt-4">
-                                <h4 class="text-info">{{ $total_Receivables }} <i
-                                        class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
+                                <br>
                                 <div class="d-flex">
-                                    <span class="badge badge-soft-success font-size-12">
+                                    <span class="badge badge-soft-primary font-size-12">
                                         {{ $total_interestReceivables }}% </span> <span
-                                        class="ml-2 text-truncate text-info">From previous period</span>
+                                        class="ml-2 text-truncate text-primary">From previous period</span>
                                 </div>
-                            </div>
                         </div>
                 </div></a>
             </div>
 
-            <div class="col-sm-4"><a href="{{ route('store_debt', $storeData->_id) }}">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center mb-3">
-                            <div class="avatar-xs mr-3">
-                                <span class="avatar-title rounded-circle bg-soft-primary text-primary font-size-10">
-                                    <i class="uil-atm-card"></i>
-                                </span>
-                            </div>
-                            <h5 class="font-size-14 mb-0 text-info">Debt
-                            </h5>
-                        </div>
-                        <div class="text-muted mt-4">
-                            <h4 class="text-info">
-                                {{ $totalDept }}<i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
+            <div class="col-sm-4">
+                <div class="card"><a href="{{ route('store_debt', $storeData->_id) }}">
+                        <div class="card-body">
+                        <div class="media">
+                                    <div class="media-body">
+                                        <p class="text-muted font-weight-medium">Debt</p>
+                                        <h4 class="mb-0">$ {{ $totalDept }}</h4>
+                                    </div>
 
+                                    <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
+                                        <span class="avatar-title">
+                                            <i class="uil-atm-card font-size-14"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            <br>
                             <div class="d-flex">
-                                <span class="badge badge-soft-warning font-size-12">{{ $total_interest }}%</span>
-                                <span class="ml-2 text-truncate text-info">From previous Month</span>
-                            </div>
+                                    <span class="badge badge-soft-primary font-size-12">{{ $total_interest }}%</span>
+                                    <span class="ml-2 text-truncate text-primary">From previous Month</span>
+                                </div>
                         </div>
                     </div> 
                 </div></a>
@@ -211,12 +209,30 @@ $total_interestRevenue += $each_interestRevenue;
     </div>
 </div>
 
-{{-- end --}}
-
 <div class="row mb-4">
     <div class="col-lg-4">
         <div class="card">
-            <div class="card-body pl-3 pr-3 padup">
+            <div class="container" style="margin-top: 10px;">
+            <div class="btn-group float-right">
+                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        <i class='uil uil-file-alt mr-1'></i>Export
+                                        <i class="icon"><span data-feather="chevron-down"></span></i></button>
+                                    <div class=" dropdown-menu dropdown-menu-right">
+                                        <button id="downloadLink"
+                                            onclick="exportTableToExcel('basic-datatables', '{{ ucfirst($storeData->store_name) }} Transaction Overview')"
+                                            class=" dropdown-item notify-item">
+                                            <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
+                                            <span>EXCEL</span>
+                                        </button>
+                                        <button id="pdf" class="dropdown-item notify-item">
+                                            <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
+                                            <span>PDF</span>
+                                        </button>
+                                    </div>
+                                </div>
+            </div>
+            <div class="card-body pl-3 pr-3 padup">                
                 <div class="text-center">
                     <h6>Choose Business Card</h6>
                 </div>
