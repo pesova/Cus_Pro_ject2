@@ -178,7 +178,7 @@
                         <table id="transactionTable" class="table table-striped table-bordered" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>Reference id</th>
+                                    <th>Ref ID</th>
                                     <th>Message</th>
                                     <th>Status</th>
                                     <th>Date Sent</th>
