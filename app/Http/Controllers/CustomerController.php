@@ -107,7 +107,6 @@ class CustomerController extends Controller
             return view('backend.customer.show')->with('errors.500');
         } catch (Exception $e) {
             // token expired
-            dd($e->getMessage());
             if ($e->getCode() == 401) {
                 Session::flash('message', 'session expired');
                 return redirect()->route('logout');
