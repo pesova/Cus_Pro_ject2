@@ -129,7 +129,7 @@
                             </div>
                         </div>
 </div>
-        <div class="row">
+        <!-- <div class="row">
             @foreach ($assistants as $assistant)
             <div class="col-xl-3 col-sm-6">
                 <div id="idd" class="card text-center">
@@ -189,7 +189,7 @@
                 </div>
             </div>
             @endforeach
-        </div>
+        </div> -->
     </div>
     @include('partials.modal.assistant.addAssistant')
 
