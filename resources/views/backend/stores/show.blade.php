@@ -218,7 +218,7 @@ $total_interestRevenue += $each_interestRevenue;
                 <div class="text-center">
                     <h6>Choose Business Card</h6>
                 </div>
-                <div id="carouselExampleIndicators" class="carousel slide " data-ride="carousel">
+                <div id="carouselExampleIndicators" class="carousel slide " data-ride="carousel" data-pause="hover">
                     <ol class="carousel-indicators">
                       <li 
                       data-target="#carouselExampleIndicators" 
