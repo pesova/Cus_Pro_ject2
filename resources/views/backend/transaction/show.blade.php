@@ -19,14 +19,14 @@
                                         {{ \Carbon\Carbon::parse($transaction->createdAt)->diffForhumans() }}</h6>
                                 </div>
                                 <div class="col-md-8 row text-center">
-                                    <a href="" data-toggle="modal" data-target="#sendReminderModal" class="col-md-3 offset-1 btn btn-sm btn-warning">
+                                    <a href="" data-toggle="modal" data-target="#sendReminderModal" class="col-md-3 offset-1 mt-1 btn btn-sm btn-warning">
                                         Send Debt Reminder <i data-feather="send"></i>
                                     </a>
                                     @if(Cookie::get('user_role') == 'store_admin')
-                                    <a href="#" class="col-md-3 offset-1 btn btn-sm btn-primary" data-toggle="modal" data-target="#editTransactionModal">
+                                    <a href="#" class="col-md-3 offset-1 mt-1 btn btn-sm btn-primary" data-toggle="modal" data-target="#editTransactionModal">
                                         Edit <i data-feather="edit-3"></i>
                                     </a>
-                                    <a data-toggle="modal" data-target="#deleteModal" href="" class="col-md-3 offset-1 btn btn-sm btn-danger">
+                                    <a data-toggle="modal" data-target="#deleteModal" href="" class="col-md-3 offset-1 mt-1 btn btn-sm btn-danger">
                                         Delete <i data-feather="delete"></i>
                                     </a>
                                     @endif
