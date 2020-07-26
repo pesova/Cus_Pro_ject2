@@ -136,7 +136,7 @@ $total_interestRevenue += $each_interestRevenue;
                         <div class="media">
                                     <div class="media-body">
                                         <p class="text-muted font-weight-medium">Revenue</p>
-                                        <h4 class="mb-0">₦ {{ $total_Revenue }}</h4>
+                                        <h4 class="mb-0">$ {{ $total_Revenue }}</h4>
                                     </div>
 
                                     <div class="mini-stat-icon avatar-sm align-self-center rounded-circle bg-primary">
