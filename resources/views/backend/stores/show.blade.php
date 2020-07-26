@@ -59,14 +59,6 @@ $total_interestRevenue += $each_interestRevenue;
 <div class="row page-title">
     <div class="col-md-12">
         <nav aria-label="breadcrumb" class="float-right mt-1">
-            <a href="javascript: void(0);" class="btn btn-warning waves-effect waves-light"> Edit Business Card</a>
-
-            <a href="{{ route('store.edit', $storeData->_id) }}" class="btn btn-success mr-2"><i
-                    class="far mr-2 fa-edit"></i>Edit
-                Store</a>
-
-          
-
 
 
             <a data-toggle="modal" data-target="#storeDelete" href="" class="btn btn-danger">
@@ -262,17 +254,24 @@ $total_interestRevenue += $each_interestRevenue;
                 <div class="text-center padup">
                 <form action="{{route('preview', $storeData->_id)}}" method="post" id="preview-form">
                     @csrf
-                        <input type="hidden" name="version" id="version">
+                        <input type="hidden" name="version" class="version">
                     </form>
-                    <a href="{{ route('card1', $storeData->_id) }}" class="btn btn-success mr-2"><i
-                        class="far mr-2 fa-card"></i>Download</a>
-                    <a 
-                    {{-- href="{{ route('card1', $storeData->_id) }}"  --}}
-                    href="#"
+                    <form action="{{route('download', $storeData->_id)}}" method="post" id="download-form">
+                        @csrf
+                            <input type="hidden" name="version" class="version">
+                            <input type="hidden" name="type">
+                        </form>
+                    <button 
+                    id="download"
+                     class="btn btn-success mr-2">
+                     <i class="far mr-2 fa-card">
+                    </i>Download</button>
+                    <button
+                    
                     id="preview"
                     class="btn btn-primary mr-2">
                     <i class="far mr-2 fa-card"></i>
-                    Preview</a>
+                    Preview</button>
                 </div>
 
             </div>
@@ -513,8 +512,16 @@ $total_interestRevenue += $each_interestRevenue;
     $('#preview').click(function(){
         let activeSlide = $(".slides.active");
         let version = activeSlide.data('version');
-        $("#version").val(version);
+        $(".version").val(version);
         $("#preview-form").submit();
+        // console.log();
+    })
+
+    $('#download').click(function(){
+        let activeSlide = $(".slides.active");
+        let version = activeSlide.data('version');
+        $(".version").val(version);
+        $("#download-form").submit();
         // console.log();
     })
 

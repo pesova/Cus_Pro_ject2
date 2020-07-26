@@ -20,7 +20,8 @@ use Illuminate\Support\Facades\Cookie;
 class BusinessCard extends Controller
 {
     //
-    public function card_v1(Request $request, $id){
+    public function download_card(Request $request, $id){
+        return $id;
         $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store/' . $id;
         try {
             $client = new Client;

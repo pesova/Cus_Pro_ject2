@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyCustomer Business Card</title>
     <link rel="stylesheet" href={{public_path('backend/assets/css/buscard2.css')}}>
-    <link href="https://fonts.googleapis.com/css2?family=Bad+Script&display=swap" rel="stylesheet">
+    {{-- <link href="https://fonts.googleapis.com/css2?family=Bad+Script&display=swap" rel="stylesheet"> --}}
 </head>
 
 <style>
 
 
-       @font-face {
+       /* @font-face {
     font-family: Gilroy-Bold;
     src: url("{{public_path('backend/assets/fonts/Gilroy-Bold.ttf')}}");
     
@@ -27,12 +27,14 @@
 }
 .container{
         background-image: url("{{public_path('backend/assets/images/bg-left.png')}}"), url("{{public_path('backend/assets/images/bg-right.png')}}");
-    }
+    } */
 </style>
 
 <body>
     <div class="container">
         <div class="text">
+            <img src="{{public_path('backend/assets/imgages/bg-left.png')}}" alt="" class="img-left">
+             <img src="{{public_path('backend/assets/imgages/bg-right.png')}}" alt="" class="img-right">
             <h4 class="hh1">{{$store_details->store_name}}</h4>
             <h4 class="hh2">{{$store_details->tagline}}</h4>
 

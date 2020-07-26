@@ -64,8 +64,8 @@ Route::prefix('/admin')->group(function () {
 
     Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
 
-    Route::get('/card_v1/{id}', "BusinessCard@card_v1")->name('card1');
-    Route::get('/card_v2', 'BusinessCard@card_v2');
+   
+  
 
     Route::get('/password', 'Auth\ForgotPasswordController@index')->name('password');
     Route::post('/password', 'Auth\ForgotPasswordController@authenticate')->name('password.reset');
@@ -203,6 +203,8 @@ Route::prefix('/admin')->group(function () {
 
 
         Route::post('/preview/{id}', "BusinessCard@preview_card")->name('preview');
+        Route::post('/download/{id}', "BusinessCard@download_card")->name('download');
+
     });
     // ------------ GENERAL ROUTES ENDS HERE ------------------------ //
 
