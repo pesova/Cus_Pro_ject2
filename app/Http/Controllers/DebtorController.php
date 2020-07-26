@@ -260,8 +260,6 @@ class DebtorController extends Controller
             $body = $response->getBody();
             $data = json_decode($body);
 
-            // dd($data);
-
             if ($statusCode == 200 && $data->success) {
                 $request->session()->flash('alert-class', 'alert-success');
                 Session::flash('message', $data->message);

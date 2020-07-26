@@ -177,10 +177,12 @@ class TransactionController extends Controller
             return redirect()->route('dashboard');
         }
 
-        $transaction_id = explode('-', $id)[0];
-        $store_id = explode('-', $id)[1];
-        $customer_id = explode('-', $id)[2];
-        $getTransUrl = $this->host . '/transaction' . '/' . $transaction_id . '/' . $store_id . '/' . $customer_id;
+        $transactionID = explode('-', $id)[0];
+        $storeID = explode('-', $id)[1];
+        $customerID = explode('-', $id)[2];
+
+        $getTransUrl = $this->host . '/transaction' . '/' . $transactionID . '/' . $storeID . '/' . $customerID;
+                
         $storeUrl = $this->host . '/store';
         $customerUrl = $this->host . '/customer';
 
@@ -201,7 +203,7 @@ class TransactionController extends Controller
             if ($customerStatusCode == 200 && $transacStatusCode == 200) {
                 $stores = json_decode($customerResponse->getBody())->data->customer;
                 $transaction = json_decode($transactionResponse->getBody())->data->transaction;
-
+                // dd($transaction);
                 return view('backend.transaction.show', compact("stores", "api_token", "transaction"));
             } else if ($customerStatusCode == 401 && $transacStatusCode == 401) {
                 return redirect()->route('login')->with('message', "Please Login Again");

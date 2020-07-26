@@ -7,8 +7,8 @@
                 <form action="{{ route('reminder') }}" method="POST">
                     @csrf
                     <input type="hidden" name="transaction_id" value="{{old('transaction_id', $transaction->_id)}}">
-                    <input type="hidden" name="customer_id" value="{{old('customer_id', $transaction->customer_ref_id)}}">
-                    <input type="hidden" name="store_id" value="{{old('store_id', $transaction->store_ref_id)}}">
+                    <input type="hidden" name="customer_id" value="{{old('customer_id', $transaction->customer_ref_id->_id)}}">
+                    <input type="hidden" name="store_id" value="{{old('store_id', $transaction->store_ref_id->_id)}}">
                     @else
                     <form
                         action="{{ route('reminder') }}"
