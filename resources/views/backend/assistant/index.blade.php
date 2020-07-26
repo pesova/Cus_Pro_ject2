@@ -203,29 +203,30 @@
                                 </div>
                             </div>
                             <br>
-
-                            <div class="form-group row mb-3">
+                            
+                             <div class="form-group row mb-3">
                                 <label for="address" class="col-2 col-sm-3 col-form-label my-label">Email:</label>
                                 <br>
                                 <div class="col-10 col-sm-7">
                                     <input name="email" type="email" class="form-control" id="email"
                                            placeholder="Enter Address" value="{{old('email')}}">
                                 </div>
+
                             </div>
                             <br>
-                            <div class="form-group row mb-3">
-                                <label for="inputphone" class="col-3 col-form-label">Phone Number</label>
-                                <div class="col-10 col-sm-7">
-                                    <input type="tel" class="form-control" id="phone" placeholder="Phone Number"
-                                           aria-describedby="helpPhone" name="" required pattern=".{6,16}"
-                                           title="Phone number must be between 6 to 16 characters">
-                                    <input type="hidden" name="phone_number" id="phone_number" class="form-control">
-                                    <small id="helpPhone" class="form-text text-muted">Enter your number without the
-                                        starting 0,
-                                        eg 813012345
-                                    </small>
-                                </div>
-                            </div>
+
+                        <div class="form-group row mb-3">
+                            <label for="inputphone" class="col-2 col-sm-3 col-form-label my-label">Phone Number</label>
+                            <div class="col-10 col-sm-7">
+                                <input type="tel" class="form-control" id="phone" placeholder="Phone Number"
+                                    aria-describedby="helpPhone" name="" required pattern=".{6,16}"
+                                    title="Phone number must be between 6 to 16 characters">
+                                <input type="hidden" name="phone_number" id="phone_number" class="form-control">
+                                <small id="helpPhone" class="form-text text-muted">Enter your number without the starting 0,
+                                    eg 813012345</small>
+
+                           
+                          
                             <div class="form-group row mb-3">
                                 <label for="number" class="col-2 col-sm-3 col-form-label my-label">Store:</label>
                                 <br>
