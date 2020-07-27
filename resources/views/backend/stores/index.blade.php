@@ -4,7 +4,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
 <link rel="stylesheet" href="{{asset('backend/assets/css/store_list.css')}}">
 @stop
-
 @if(\Illuminate\Support\Facades\Cookie::get('user_role') == 'store_admin')
 
 @section('content')
