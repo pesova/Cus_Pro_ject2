@@ -89,7 +89,7 @@
                                                         href="{{ route('store.edit', $store->_id) }}">Edit
                                                         store</a>
                                                     <a class="dropdown-item" href="" data-toggle="modal"
-                                                        data-target="#storeDelete">Deleted store</a>
+                                                        data-target="#storeDelete">Delete store</a>
 
                                                 </div>
                                             </div>

@@ -16,6 +16,7 @@
                 <h4 class="mb-1 mt-0"><i data-feather="users" style="font-size: 5px; margin-right: 7px"></i>Edit
                     store assistant</h4>
             </div>
+            
         </div>
 
         @include('partials.alert.message')
