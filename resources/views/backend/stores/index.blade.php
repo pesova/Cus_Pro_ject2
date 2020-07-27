@@ -327,7 +327,6 @@
     window.intlTelInput(input, {});
 
 </script>
-
 <script>
     //for search bar
     let userText = document.querySelector('#customer-name')
