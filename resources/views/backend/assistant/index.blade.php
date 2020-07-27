@@ -3,13 +3,6 @@
 <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
 <link rel="stylesheet" href="/backend/assets/build/css/all_users.css">
-<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-<link href="css/icons.min.css" rel="stylesheet" type="text/css" />
-<link href="css/app.min.css" rel="stylesheet" type="text/css" />
-<link href="/backend/assets/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-<link href="/backend/assets/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-<link href="/backend/assets/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-<link href="/backend/assets/css/select.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 @stop
 @section('content')
 <div class="content">
@@ -70,66 +63,8 @@
             </div>
         </div>
 
+
         <div class="row">
-<div class="col-12">
-                            <div class="card">
-
-                                <div class="card-body">
-                                    <table id="basic-datatable" class="table dt-responsive">
-                                        <thead>
-                                            <tr>
-                                                <th>S/N</th>
-                                                <th>NAME</th>
-                                                <th>INFO</th>
-                                                <th>STATUS</th>
-                                                <th>ACTION</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            
-                                            @foreach ($assistants as $a => $assistant)
-                                            <tr>
-                                                <td>{{ $a + 1 }}</td>
-                                                <td>{{$assistant->name }}</td>
-                                                <td><p class="text-muted">{{$assistant->phone_number}} | {{$assistant->email}}</p></td>
-                                                <td>
-                                                @if ($assistant->user_role == "store_admin")
-                                                @endif
-                                                @if($assistant->is_active)
-                                                <span class="badge badge-success">Activated</span>
-
-                                                @else
-                                                <span class="badge badge-secondary">Not activated</span>
-
-                                                @endif
-                                                </td>
-                                                <td>
-                                                    <div class="btn-group mt-2 mr-1">
-                                                    <button type="button" class="btn btn-info dropdown-toggle"
-                                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        Actions<i class="icon"><span data-feather="chevron-down"></span></i>
-                                                    </button>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="{{ route('assistants.show', $assistant->_id) }}">View Assistant</a>
-                                                        <a class="dropdown-item"
-                                                            href="{{route('assistants.edit', $assistant->_id) }}">Edit
-                                                            Assistant</a>
-                                                        <a class="dropdown-item" href="#" data-toggle="modal"
-                                    data-target="#deleteModal-{{$assistant->_id}}">Delete Assistant</a>
-
-                                                    </div>
-                                                </div>
-                                                </td>
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                            </div>
-                        </div>
-</div>
-        <!-- <div class="row">
             @foreach ($assistants as $assistant)
             <div class="col-xl-3 col-sm-6">
                 <div id="idd" class="card text-center">
@@ -189,7 +124,7 @@
                 </div>
             </div>
             @endforeach
-        </div> -->
+        </div>
     </div>
     @include('partials.modal.assistant.addAssistant')
 
@@ -198,22 +133,7 @@
 
 
 @section("javascript")
-<script src="/backend/assets/libs/datatables/jquery.dataTables.min.js"></script>
-<script src="/backend/assets/libs/datatables/dataTables.bootstrap4.min.js"></script>
-<script src="/backend/assets/libs/datatables/dataTables.responsive.min.js"></script>
-<script src="/backend/assets/libs/datatables/responsive.bootstrap4.min.js"></script>
 
-<script src="/backend/assets/libs/datatables/dataTables.buttons.min.js"></script>
-<script src="/backend/assets/libs/datatables/buttons.bootstrap4.min.js"></script>
-<script src="/backend/assets/libs/datatables/buttons.html5.min.js"></script>
-<script src="/backend/assets/libs/datatables/buttons.flash.min.js"></script>
-<script src="/backend/assets/libs/datatables/buttons.print.min.js"></script>
-
-<script src="/backend/assets/libs/datatables/dataTables.keyTable.min.js"></script>
-<script src="/backend/assets/libs/datatables/dataTables.select.min.js"></script>
-
-<!-- Datatables init -->
-<script src="/backend/assets/js/pages/datatables.init.js"></script>
 <script src="/backend/assets/build/js/intlTelInput.js"></script>
 <script>
     var input = document.querySelector("#phone");
@@ -322,6 +242,34 @@
             };
         });
     };
+
+</script>
+<script>
+    var nombrePage = $("#idd").length;
+
+    showPage = function (pagination) {
+        if (pagination < 2 || pagination >= nombrePage) return;
+
+        $("#idd").hide().eq(pagination).show();
+        $("#pagin li").removeClass("active").eq(pagination).addClass("active");
+    };
+
+    // Go to Left
+    // $(".prev").click(function () {
+    // showPage($("#pagin ul .active").index() - 1);
+    // });
+
+    // // Go to Right
+    // $(".next").click(function () {
+    // showPage($("#pagin .active").index() + 1);
+    // });
+
+    // $("#pagin ul a").click(function (e) {
+    // e.preventDefault();
+    // showPage($(this).parent().index());
+    // });
+
+    showPage(0);
 
 </script>
 {{-- @if (\Illuminate\Support\Facades\Cookie::get('is_first_time_user') == true) --}}
