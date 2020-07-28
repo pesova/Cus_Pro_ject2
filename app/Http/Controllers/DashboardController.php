@@ -41,11 +41,13 @@ class DashboardController extends Controller
 
                 if ($status_code_all_info == 200) {
                     $allInfo_response_body = json_decode($allInfoResponse->getBody());
-                    return view('backend.dashboard.index')->with('response', [$allInfo_response_body]);
+                    $allInfo_response_body = $allInfo_response_body->data;
+                    // dd($allInfo_response_body);
+                    return view('backend.dashboard.index')->with('data', $allInfo_response_body);
                 }
             } catch (RequestException $e) {
 
-                return view('backend.dashboard.index')->with('response', null);
+                return view('backend.dashboard.index')->with('data', null);
             } catch (\Exception $e) {
                 return view('errors.500');
             }
@@ -105,8 +107,8 @@ class DashboardController extends Controller
                 if ($response->getStatusCode() == 200) {
                     $data = json_decode($response->getBody());
                     $data = $data->data;
+                    $data->name = isset($data->user->first_name) ? $data->user->first_name : $data->user->name;
 
-                    $data->name = $data->user->first_name;
                     $data->phone_number = $data->user->phone_number;
                     $data->email = $data->user->email;
 
@@ -120,7 +122,6 @@ class DashboardController extends Controller
 
 
             } catch (\Exception $e) {
-                // dd($e->getCode());
                 if ($e->getCode() == 401) {
                     return redirect()->route('logout');
                 }

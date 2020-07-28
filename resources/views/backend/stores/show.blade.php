@@ -46,6 +46,14 @@ $each_interestRevenue = $transaction->interest;
 $total_interestRevenue += $each_interestRevenue;
 }
 
+//get for all Receivables
+if ($transaction->type == "receivables") {
+$eachReceivables = $transaction->amount;
+$total_Receivables += $eachReceivables;
+$each_interestReceivables = $transaction->interest;
+$total_interestReceivables += $each_interestReceivables;
+}
+
 @endphp
 @endforeach
 @endforeach
@@ -58,22 +66,18 @@ $total_interestRevenue += $each_interestRevenue;
 
 <div class="row page-title">
     <div class="col-md-12">
+    @if(Cookie::get('user_role') == 'store_admin')
         <nav aria-label="breadcrumb" class="float-right mt-1">
-            <a href="javascript: void(0);" class="btn btn-warning waves-effect waves-light"> Edit Business Card</a>
-
-            <a href="{{ route('store.edit', $storeData->_id) }}" class="btn btn-success mr-2"><i
-                    class="far mr-2 fa-edit"></i>Edit
-                Store</a>
-
-            <a href="{{ route('card1', $storeData->_id) }}" class="btn btn-success mr-2"><i
-                    class="far mr-2 fa-card"></i>Download Business Card</a>
 
 
-
-            <a data-toggle="modal" data-target="#storeDelete" href="" class="btn btn-danger">
-                Delete &nbsp;<i data-feather="delete"></i>
-            </a>
-
+        <a data-toggle="modal" data-target="#storeDelete" href="" class="btn btn-danger float-right">
+                    Delete
+                </a>
+                    <a href="{{ route('store.edit', $storeData->_id) }}"
+                        class="mr-3 btn btn-primary float-right">
+                        Edit Store
+                    </a>
+    @endif
             {{-- Modal for delete Store --}}
             <div class="modal fade" id="storeDelete" tabindex="-1" role="dialog" aria-labelledby="storeDeleteLabel"
                 aria-hidden="true">
@@ -139,22 +143,23 @@ $total_interestRevenue += $each_interestRevenue;
             <div class="col-sm-4"><a href="{{ route('store_revenue', $storeData->_id) }}">
                 <div class="card">
                         <div class="card-body">
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="avatar-xs mr-3">
-                                    <span class="avatar-title rounded-circle bg-soft-primary text-primary font-size-10">
-                                        <i class="uil-atm-card"></i>
-                                    </span>
+                        <div class="media">
+                                    <div class="media-body">
+                                        <p class="text-muted font-weight-medium">Revenue</p>
+                                        <h4 class="mb-0">$ {{ $total_Revenue }}</h4>
+                                    </div>
+
+                                    <div class="mini-stat-icon avatar-sm align-self-center rounded-circle bg-primary">
+                                        <span class="avatar-title">
+                                            <i class="uil-atm-card font-size-14"></i>
+                                        </span>
+                                    </div>
+                                    </div>
+                                    <br>
+                                    <div class="d-flex">
+                                    <span class="badge badge-soft-primary font-size-12"> {{ $total_interestRevenue }}%
+                                    </span> <span class="ml-2 text-truncate text-primary">From previous Month</span>
                                 </div>
-                                <h5 class="font-size-14 mb-0 text-info">Revenue</h5>
-                            </div>
-                            <div class="text-muted mt-4">
-                                <h4 class="text-info"> {{ $total_Revenue }} <i
-                                        class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
-                                <div class="d-flex">
-                                    <span class="badge badge-soft-success font-size-12"> {{ $total_interestRevenue }}%
-                                    </span> <span class="ml-2 text-truncate text-info">From previous Month</span>
-                                </div>
-                            </div>
                         </div>
                 </div></a>
             </div>
@@ -162,47 +167,48 @@ $total_interestRevenue += $each_interestRevenue;
             <div class="col-sm-4"><a href="{{ route('store_receivable', $storeData->_id) }}">
                 <div class="card">
                         <div class="card-body">
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="avatar-xs mr-3">
-                                    <span class="avatar-title rounded-circle bg-soft-primary text-primary font-size-10">
-                                        <i class="uil-atm-card"></i>
-                                    </span>
+                        <div class="media">
+                                    <div class="media-body">
+                                        <p class="text-muted font-weight-medium">Receivables</p>
+                                        <h4 class="mb-0">$ {{ $total_Receivables }}</h4>
+                                    </div>
+
+                                    <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
+                                        <span class="avatar-title">
+                                            <i class="uil-atm-card font-size-14"></i>
+                                        </span>
+                                    </div>
                                 </div>
-                                <h5 class="font-size-14 mb-0 text-info">Receivables</h5>
-                            </div>
-                            <div class="text-muted mt-4">
-                                <h4 class="text-info">{{ $total_Receivables }} <i
-                                        class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
+                                <br>
                                 <div class="d-flex">
-                                    <span class="badge badge-soft-success font-size-12">
+                                    <span class="badge badge-soft-primary font-size-12">
                                         {{ $total_interestReceivables }}% </span> <span
-                                        class="ml-2 text-truncate text-info">From previous period</span>
+                                        class="ml-2 text-truncate text-primary">From previous period</span>
                                 </div>
-                            </div>
                         </div>
                 </div></a>
             </div>
 
-            <div class="col-sm-4"><a href="{{ route('store_debt', $storeData->_id) }}">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center mb-3">
-                            <div class="avatar-xs mr-3">
-                                <span class="avatar-title rounded-circle bg-soft-primary text-primary font-size-10">
-                                    <i class="uil-atm-card"></i>
-                                </span>
-                            </div>
-                            <h5 class="font-size-14 mb-0 text-info">Debt
-                            </h5>
-                        </div>
-                        <div class="text-muted mt-4">
-                            <h4 class="text-info">
-                                {{ $totalDept }}<i class="mdi mdi-chevron-up ml-1 text-success"></i></h4>
+            <div class="col-sm-4">
+                <div class="card"><a href="{{ route('store_debt', $storeData->_id) }}">
+                        <div class="card-body">
+                        <div class="media">
+                                    <div class="media-body">
+                                        <p class="text-muted font-weight-medium">Debt</p>
+                                        <h4 class="mb-0">$ {{ $totalDept }}</h4>
+                                    </div>
 
+                                    <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
+                                        <span class="avatar-title">
+                                            <i class="uil-atm-card font-size-14"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            <br>
                             <div class="d-flex">
-                                <span class="badge badge-soft-warning font-size-12">{{ $total_interest }}%</span>
-                                <span class="ml-2 text-truncate text-info">From previous Month</span>
-                            </div>
+                                    <span class="badge badge-soft-primary font-size-12">{{ $total_interest }}%</span>
+                                    <span class="ml-2 text-truncate text-primary">From previous Month</span>
+                                </div>
                         </div>
                     </div> 
                 </div></a>
@@ -212,14 +218,70 @@ $total_interestRevenue += $each_interestRevenue;
     </div>
 </div>
 
-{{-- end --}}
-
 <div class="row mb-4">
     <div class="col-lg-4">
         <div class="card">
-            <div class="card-body pl-3 pr-3 padup">
+            
+            <div class="card-body pl-3 pr-3 padup">                
                 <div class="text-center">
-                    Business card should be here
+                    <h6>Choose Business Card</h6>
+                </div>
+                <div id="carouselExampleIndicators" class="carousel slide " data-ride="carousel" data-pause="hover">
+                    <ol class="carousel-indicators">
+                      <li 
+                      data-target="#carouselExampleIndicators" 
+                      data-slide-to="0" 
+                      data-version="v1"
+                      class="active slides"></li>
+                      <li data-target="#carouselExampleIndicators" 
+                      data-slide-to="1" 
+                      data-version="v2"
+                      class="slides"></li>
+                      <li data-target="#carouselExampleIndicators" 
+                      data-slide-to="2" 
+                      data-version="v1"
+                      class="slides"></li>
+                    </ol>
+                    <div class="carousel-inner">
+                      <div class="carousel-item active">
+                        <img class="d-block w-100" src="{{asset('backend/assets/images/card_vv1.PNG')}}" alt="First slide">
+                      </div>
+                      <div class="carousel-item">
+                        <img class="d-block w-100" src="{{asset('backend/assets/images/card_v2.PNG')}}" alt="Second slide">
+                        
+                      </div>
+                      <div class="carousel-item">
+                        <img class="d-block w-100" src="{{asset('backend/assets/images/card_vv1.PNG')}}" alt="Third slide">
+                        
+                      </div>
+                    </div>
+                    <a class="carousel-control-prev primary" href="#carouselExampleIndicators"  role="button" data-slide="prev">
+                      <span class="text-dark" aria-hidden="true"> <i class="fa fa-chevron-left"></i> </span>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                      <span class=" text-dark" aria-hidden="true"> <i class="fa fa-chevron-right"></i></span>
+                      <span class="sr-only">Next</span>
+                    </a>
+                </div>
+
+                <div class="text-center padup">
+                <form action="{{route('preview', $storeData->_id)}}" method="post" id="preview-form">
+                    @csrf
+                        <input type="hidden" name="version" class="version">
+                    </form>
+                    <button
+                    data-toggle="modal" 
+                    data-target="#downloadModal"
+                            class="btn btn-success mr-2">
+                            <i class="far mr-2 fa-card">
+                        </i>Download</button>
+                    <button
+                    
+                    id="preview"
+                    class="btn btn-primary mr-2">
+                    <i class="far mr-2 fa-card"></i>
+                    Preview</button>
                 </div>
 
             </div>
@@ -376,6 +438,48 @@ $total_interestRevenue += $each_interestRevenue;
     </div>
 </div>
 
+<div class="modal fade " tabindex="-1" role="dialog" id="downloadModal">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Choose Format</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form action="{{route('download', $storeData->_id)}}" method="post" id="download-form">
+                @csrf
+                    <input type="hidden" name="version" class="version">
+                    <input type="hidden" name="type">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="format" id="exampleRadios1" value="image" checked>
+                        <label class="form-check-label" for="exampleRadios1">
+                          Image Format
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="format" id="exampleRadios2" value="pdf">
+                        <label class="form-check-label" for="exampleRadios2">
+                            PDF Format
+                        </label>
+                      </div>
+            </form>
+       
+        </div>
+        <div class="modal-footer">
+            <button 
+            id="download"
+             class="btn btn-success mr-2">
+             <i class="far mr-2 fa-card">
+            </i>Download</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 @endsection
 
 @section("javascript")
@@ -455,6 +559,24 @@ $total_interestRevenue += $each_interestRevenue;
         });
 
     });
+
+
+    $('#preview').click(function(){
+        let activeSlide = $(".slides.active");
+        let version = activeSlide.data('version');
+        $(".version").val(version);
+        $("#preview-form").submit();
+        // console.log();
+    })
+
+    $('#download').click(function(){
+        let activeSlide = $(".slides.active");
+        let version = activeSlide.data('version');
+        $(".version").val(version);
+        $("#download-form").submit();
+        $("#downloadModal").modal('hide');
+        // console.log();
+    })
 
 </script>
 
