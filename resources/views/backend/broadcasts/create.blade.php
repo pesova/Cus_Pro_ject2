@@ -65,7 +65,7 @@
                                             <option value="We are now open!">We are now open!</option>
                                             <option value="New stocks just arrived!">New stocks just arrived!</option>
                                             <option value="Happy new Month">Happy new Month</option>
-                                            <option value="Thank you for shopping with">Thank you for shopping with</option>
+                                            <option value="Thank you for shopping with">Thank you for shopping with US!</option>
                                             <option value="other">Custom Message</option>
                                         </select>
                             </div>
