@@ -41,34 +41,40 @@
                     <div class="row col-12">
                         <form action="{{ route('broadcast.store') }}" method="POST" class="col-12">
                             @csrf
-                            <div class="form-group row">
-                                    <label for="store" class="col-lg-2 col-form-label">Store</label>
-                                    <div class="col-md-10">
-                                        <select class="form-control" name="store" id="store" required>
+                            <div class="form-group">
+                                    <label>Store</label>
+                                        <select class="form-control col-12" name="store" id="store" required>
                                             <option value="" selected disabled>None selected</option>
                                             <option value="">nnn</option>                                    
                                             <option value="">dokj</option>
                                         </select>
-                                    </div>
                             </div>
                             <div class="form-group">
-                                <label>Customer(s)</label>
+                                <label >Customer(s)</label>
                                 <select class="form-control jstags" multiple name="numbers[]">
                                     @foreach ($customers as $key => $value)
                                     <option value="{{$value}}">{{$key}}</option>
                                     @endforeach
                                 </select>
                             </div>
-
                             <div class="form-group">
-                                <label>Message</label>
-                                <textarea rows="5" class="form-control col-12" name="message" maxlength="100">
-                                    @if(isset($template))
-                                    {{$template}}  
-                                    @endif                                                                                   
-                                    </textarea>
+                                    <label>Message</label>
+                                        <select class="form-control col-12" name="store" id="msgselect" required>
+                                            <option value="" selected disabled>None selected</option>
+                                            <option value="Happy new year!">Happy new year!</option>
+                                            <option value="We are now open!">We are now open!</option>
+                                            <option value="New stocks just arrived!">New stocks just arrived!</option>
+                                            <option value="Happy new Month">Happy new Month</option>
+                                            <option value="Thank you for shopping with">Thank you for shopping with</option>
+                                            <option value="other">Custom Message</option>
+                                        </select>
                             </div>
-                            {{--    --}}
+                            <div class="form-group" id="txtarea">
+                                <label for="exampleFormControlTextarea1">Your Custom Message</label>
+                                <textarea class="form-control" rows="3"></textarea>
+                            </div>
+                            </div>
+                            
                             <button class="btn btn-primary" type="submit">Send &nbsp;<i
                                     class="fa fa-paper-plane my-float"></i>
                             </button>
@@ -82,12 +88,27 @@
 @endsection
 
 @section("javascript")
+<script src="https://code.jquery.com/jquery-1.8.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+ <!-- App js -->
+    <script src="/backend/assets/js/app.min.js"></script>
+    <script src="/backend/assets/js/alert.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 <script>
     $(".jstags").select2({
         theme: "classic",
         tags: true,
     });
-
+    
+</script>
+<script>
+    $("#txtarea").hide();
+    $( "#msgselect" ).change(function() {
+    var val = $("#msgselect").val();
+        if(val=="other"){
+            $("#txtarea").show();
+        } else {
+                    $("#txtarea").hide();
+        }
+    });
 </script>
 @stop
