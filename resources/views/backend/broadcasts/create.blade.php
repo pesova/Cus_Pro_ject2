@@ -41,10 +41,19 @@
                     <div class="row col-12">
                         <form action="{{ route('broadcast.store') }}" method="POST" class="col-12">
                             @csrf
-
+                            <div class="form-group row">
+                                    <label for="store" class="col-lg-2 col-form-label">Store</label>
+                                    <div class="col-md-10">
+                                        <select class="form-control" name="store" id="store" required>
+                                            <option value="" selected disabled>None selected</option>
+                                            <option value="">nnn</option>                                    
+                                            <option value="">dokj</option>
+                                        </select>
+                                    </div>
+                            </div>
                             <div class="form-group">
-                                <label>Choose customers to receive broadcast</label>
-                                <select class="form-control col-12 jstags" multiple name="numbers[]">
+                                <label>Customer(s)</label>
+                                <select class="form-control jstags" multiple name="numbers[]">
                                     @foreach ($customers as $key => $value)
                                     <option value="{{$value}}">{{$key}}</option>
                                     @endforeach
