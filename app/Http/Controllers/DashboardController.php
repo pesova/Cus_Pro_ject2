@@ -41,11 +41,13 @@ class DashboardController extends Controller
 
                 if ($status_code_all_info == 200) {
                     $allInfo_response_body = json_decode($allInfoResponse->getBody());
-                    return view('backend.dashboard.index')->with('response', [$allInfo_response_body]);
+                    $allInfo_response_body = $allInfo_response_body->data;
+                    // dd($allInfo_response_body);
+                    return view('backend.dashboard.index')->with('data', $allInfo_response_body);
                 }
             } catch (RequestException $e) {
 
-                return view('backend.dashboard.index')->with('response', null);
+                return view('backend.dashboard.index')->with('data', null);
             } catch (\Exception $e) {
                 return view('errors.500');
             }

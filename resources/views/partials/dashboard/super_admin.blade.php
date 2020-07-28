@@ -1,122 +1,271 @@
-<!-- content -->
 <div class="row">
-    <div class="col-md-6 col-xl-3">
-        <div class="card">
-            <div class="card-body p-0">
-                <div class="media p-3">
-                    <div class="media-body">
-                        <span class="text-muted text-uppercase font-size-12 font-weight-bold">Store Admin</span>
-                        <h2 class="mb-0 store-admins">
-                            @if ($response != null)
-                                {{ $response[0]->data->storeAdminCount }}
-                            @else
-                                0
-                            @endif
-                        </h2>
+    <div class="col-xl-4">
+        <div class="card overflow-hidden">
+            <div class="bg-soft-primary">
+                <div class="row">
+                    <div class="col-7">
+                        <div class="text-primary p-3">
+                            <h5 class="text-primary">Welcome Back !</h5>
+                        </div>
+                    </div>
+                    <div class="col-5 align-self-end">
+                        <img src="/backend/assets/images/profile-img.png" alt="" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+            <div class="card-body pt-0">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="avatar-md profile-user-wid mb-4">
+                            <img src="/backend/assets/images/users/avatar-1.jpg" alt=""
+                                 class="img-thumbnail rounded-circle">
+                        </div>
+                        <h5 class="font-size-15 text-truncate">{{ Cookie::get('first_name') }}</h5>
+                        <p class="text-muted mb-0 text-truncate">Store Admin</p>
+                    </div>
+
+                    <div class="col-sm-8">
+                        <div class="pt-4">
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <h5 class="font-size-15">{{ $data->usersCount }}</h5>
+                                    <p class="text-muted mb-0">User(s)</p>
+                                </div>
+                                <div class="col-6">
+                                    <h5 class="font-size-15">{{ $data->storesCount }}</h5>
+                                    <p class="text-muted mb-0">Store(s)</p>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <a href="{{route('setting')}}" class="btn btn-primary waves-effect waves-light btn-sm">View
+                                    Profile
+                                    <i class="uil-arrow-right ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        {{-- end --}}
+        {{--<div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-4">Monthly Earnings</h5>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p class="text-muted">This month</p>
+                        <h3>$5</h3>
+                        <p class="text-muted"><span class="text-success mr-2"> 4
+                                % <i class="mdi mdi-arrow-down"></i>
+                                </span> From
+                            previous month</p>
+
+                        <div class="mt-4">
+                            <a href="{{route('transaction.index')}}"
+                               class="btn btn-primary waves-effect waves-light btn-sm">
+                                View More <i class="uil-arrow-right ml-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>--}}
     </div>
 
-    <div class="col-md-6 col-xl-3">
-        <div class="card">
-            <div class="card-body p-0">
-                <div class="media p-3">
-                    <div class="media-body">
-                        <span class="text-muted text-uppercase font-size-12 font-weight-bold">Stores</span>
-                        <h2 class="mb-0 my-stores">
-                            @if ($response != null)
-                                {{ $response[0]->data->storesCount }}
-                            @else
-                                0
-                            @endif
-                        </h2>
+    <div class="col-xl-8">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mini-stats-wid">
+                    <div class="card-body">
+                        <div class="media">
+                            <div class="media-body">
+                                <p class="text-muted font-weight-medium">Store Admin</p>
+                                <h4 class="mb-0">{{$data->storeAdminCount}}</h4>
+                            </div>
+
+                            <div class="mini-stat-icon avatar-sm rounded-circle bg-primary align-self-center">
+                                    <span class="avatar-title">
+                                        <i class="uil-atm-card font-size-14"></i>
+                                    </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mini-stats-wid">
+                    <div class="card-body">
+                        <div class="media">
+                            <div class="media-body">
+                                <p class="text-muted font-weight-medium">Assistants</p>
+                                <h4 class="mb-0">{{$data->assistantsCount}}</h4>
+                            </div>
+
+                            <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
+                                    <span class="avatar-title rounded-circle bg-primary">
+                                        <i class="uil-atm-card font-size-14"></i>
+                                    </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mini-stats-wid">
+                    <div class="card-body">
+                        <div class="media">
+                            <div class="media-body">
+                                <p class="text-muted font-weight-medium">Customers</p>
+                                <h4 class="mb-0">{{$data->customerCount}}</h4>
+                            </div>
+
+                            <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
+                                    <span class="avatar-title rounded-circle bg-primary">
+                                        <i class="uil-atm-card font-size-14"></i>
+                                    </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mini-stats-wid">
+                    <div class="card-body">
+                        <div class="media">
+                            <div class="media-body">
+                                <p class="text-muted font-weight-medium">Debts</p>
+                                <h4 class="mb-0">${{$data->totalDebt}}</h4>
+                            </div>
+
+                            <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
+                                    <span class="avatar-title rounded-circle bg-primary">
+                                        <i class="uil-atm-card font-size-14"></i>
+                                    </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mini-stats-wid">
+                    <div class="card-body">
+                        <div class="media">
+                            <div class="media-body">
+                                <p class="text-muted font-weight-medium">Transactions</p>
+                                <h4 class="mb-0">{{$data->transactionCount}}</h4>
+                            </div>
+
+                            <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
+                                    <span class="avatar-title rounded-circle bg-primary">
+                                        <i class="uil-atm-card font-size-14"></i>
+                                    </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mini-stats-wid">
+                    <div class="card-body">
+                        <div class="media">
+                            <div class="media-body">
+                                <p class="text-muted font-weight-medium">Complaints</p>
+                                <h4 class="mb-0">10</h4>
+                            </div>
+
+                            <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
+                                    <span class="avatar-title rounded-circle bg-primary">
+                                        <i class="uil-atm-card font-size-14"></i>
+                                    </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+        <!-- end row -->
 
-    <div class="col-md-6 col-xl-3">
-        <div class="card">
-            <div class="card-body p-0">
-                <div class="media p-3">
-                    <div class="media-body">
-                        <span class="text-muted text-uppercase font-size-12 font-weight-bold">Assistants</span>
-                        <h2 class="mb-0 my-assistants">
-                            @if ($response != null)
-                                {{ $response[0]->data->assistantsCount }}
-                            @else
-                                0
-                            @endif
-                        </h2>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
+</div>
 
-    <div class="col-md-6 col-xl-3">
+<div class="row">
+    <div class="col-12">
         <div class="card">
-            <div class="card-body p-0">
-                <div class="media p-3">
-                    <div class="media-body">
-                        <span class="text-muted text-uppercase font-size-12 font-weight-bold">Customers</span>
-                        <h2 class="mb-0 my-customers">
-                            @if ($response != null)
-                                {{ $response[0]->data->customerCount }}
-                            @else
-                                0
-                            @endif
-                        </h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-6 col-xl-3">
-        <div class="card">
-            <div class="card-body p-0">
-                <div class="media p-3">
-                    <div class="media-body">
-                        <span class="text-muted text-uppercase font-size-12 font-weight-bold">Users</span>
-                        <h2 class="mb-0 my-users">
-                            @if ($response != null)
-                                {{ $response[0]->data->usersCount }}
-                            @else
-                                0
-                            @endif
-                        </h2>
-                    </div>
-                </div>
+            <div class="card-body">
+                <h6 class="card-title mb-4 float-sm-left">Net Income {{date('Y')}}</h6>
+                <div class="clearfix"></div>
+                <div id="revenueChart"></div>
             </div>
         </div>
     </div>
 </div>
 
+<div class="row">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title mb-4 float-sm-left">Transaction Overview {{date('Y')}}</h6>
+                <div class="clearfix"></div>
+                <div id="transactionchart"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title mb-4 float-sm-left">Users Registered {{date('Y')}}</h6>
+                <div class="clearfix"></div>
+                <div id="usersChart"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <!-- products -->
 <div class="row">
     <div class="col-xl-7">
         <div class="card">
-            <div class="card-body">
-                <h5 class="card-title mt-0 mb-0 header-title">Recent Transactions</h5>
+            <div class="card-body pt-2">
+                <h5 class="mb-4 header-title">Recent Transactions</h5>
+                <div style="display:flex; justify-content:center; text-align:center; width:100%"
+                     class='mt-2 mb-3 trans-error'>
 
-                <div class="table-responsive mt-4">
+                </div>
+
+                <div class="table-responsive mt-4 trans-table">
+
                     <table class="table table-hover table-nowrap mb-0">
                         <thead>
                         <tr>
-                            <th scope="col">#</th>
+                            <th scope="col">Store Name</th>
+
                             <th scope="col">Type</th>
-                            <th scope="col">Name</th>
                             <th scope="col">Amount</th>
                             <th scope="col"></th>
                         </tr>
                         </thead>
 
-                        <tbody class="my-transactions">
-
+                        <tbody class="my-transactionsb">
+                        @if(isset($data->recentTransactions))
+                            {{--                        @if(count($data->recentTransactions) > 0)--}}
+                            @foreach($data->recentTransactions as $recentTransaction)
+                                <tr>
+                                    <td>{{$recentTransaction->storeName}}</td>
+                                    <td>{{$recentTransaction->transaction->type}}</td>
+                                    <td>{{$recentTransaction->transaction->amount}}</td>
+                                    <td>
+                                        <a class="btn btn-primary btn-sm"
+                                           href="{{ route('transaction.show', $recentTransaction->transaction->_id.'-'.$recentTransaction->transaction->store_ref_id.'-'.$recentTransaction->transaction->customer_ref_id) }}">View</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr>
+                                <td colspan="4" class="text-center">No Recent Transaction</td>
+                            </tr>
+                        @endif
                         </tbody>
                     </table>
                 </div>
@@ -132,57 +281,49 @@
         <div class="card">
             <div class="card-body pt-2">
                 <h5 class="mb-4 header-title">Latest Debts</h5>
+                <div style="display:flex; justify-content:center; text-align:center; width:100%"
+                     class='mt-2 mb-3 debts-error'>
+                </div>
 
-                {{-- @if ($response != null)
-                        @if (count($response[2]->data->debts) > 0)
-                            @if (count($response[2]->data->debts) > 7)
-                                @for ($i = 0; $i < 7; $i++) --}}
-                {{-- <div class="media mt-1 border-top pt-3">
-                                        <div class="media-body">
-                                            <h6 class="mt-1 mb-0 font-size-15">{{ $response[2]->data->debts[$i]->pay_date }}
-                </h6>
-                <h6 class="text-muted font-weight-normal mt-1 mb-3">{{ $response[2]->data->debts[$i]->pay_date }}
-                </h6>
-            </div>
-            <div class="dropdown align-self-center float-right">
-                <a href="#" class="dropdown-toggle arrow-none text-muted" data-toggle="dropdown"
-                    aria-expanded="false">
-                    <i class="uil uil-ellipsis-v"></i>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <a href="javascript:void(0);" class="dropdown-item"><i
-                            class="uil uil-edit-alt mr-2"></i>View</a>
+                <div class="debts-table">
+                    <table class="table table-hover table-nowrap mb-0 table-responsive">
+                        <thead>
+                        <tr>
+                            <th scope="col">Store Name</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
+
+                        <tbody class="my-transactionsb">
+                        @if(isset($data->recentDebts))
+                            {{--                        @if(count($data->recentDebts) > 0)--}}
+                            @foreach($data->recentDebts as $recentDebt)
+                                <tr>
+                                    <td>{{$recentDebt->storeName}}</td>
+                                    <td>
+                                        @if($recentDebt->debt->status)
+                                            <span class="badge badge-success">Paid</span>
+                                        @else
+                                            <span class="badge badge-danger">Unpaid</span>
+                                        @endif
+                                    </td>
+                                    <td>{{$recentDebt->debt->amount}}</td>
+                                    <td>
+                                        <a class="btn btn-primary btn-sm"
+                                           href="{{ route('debtor.show', $recentDebt->debt->_id) }}">View</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr>
+                                <td colspan="4" class="text-center">No Recent Debts</td>
+                            </tr>
+                        @endif
+                        </tbody>
+                    </table>
                 </div>
-            </div>
-        </div> --}}
-                {{-- @endfor
-                                    @else
-                                        {{ $i = 0 }}
-                @foreach ($response[2]->data->debts as $transaction) --}}
-                {{-- <div class="media mt-1 border-top pt-3">
-                                                <div class="media-body">
-                                                    <h6 class="mt-1 mb-0 font-size-15">Some Title</h6>
-                                                    <h6 class="text-muted font-weight-normal mt-1 mb-3">{{ $response[2]->data->debts[$i]->pay_date }}
-                </h6>
-            </div>
-            <div class="dropdown align-self-center float-right">
-                <a href="#" class="dropdown-toggle arrow-none text-muted" data-toggle="dropdown" aria-expanded="false">
-                    <i class="uil uil-ellipsis-v"></i>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <a href="javascript:void(0);" class="dropdown-item"><i class="uil uil-edit-alt mr-2"></i>View</a>
-                </div>
-            </div>
-        </div> --}}
-                {{-- {{ $i++ }}
-                @endforeach
-                @endif
-                @else
-                <h5>No recent debtors</h5>
-                @endif
-                @else
-                <h5>Error while fetching data. <a href="">Refresh Page</a></td>
-                    @endif --}}
             </div>
         </div>
     </div>
@@ -191,97 +332,237 @@
 
 @section("javascript")
     {{-- <script src="/backend/assets/js/pages/dashboard.js"></script> --}}
-
-
     <script>
-        document.addEventListener('DOMContentLoaded', getDashboard);
+        $(document).ready(function () {
+            // start of transaction charts
+            var options = {
+                series: [{
+                    name: 'Transaction',
+                    data: [1, 3, 5, 10, 5, 666, 8999, 6, 7, 3, 5, 0],
+                }],
+                chart: {
+                    height: 350,
+                    type: 'line',
+                },
+                stroke: {
+                    width: 7,
+                    curve: 'smooth'
+                },
+                xaxis: {
+                    type: 'text',
+                    categories: ['JAN', 'FEB', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUG',
+                        'SEPT', 'OCT', 'NOV', 'DEC'],
+                },
+                title: {
+                    text: '',
+                    align: 'left',
+                    style: {
+                        fontSize: "16px",
+                        color: '#666'
+                    }
+                },
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                        shade: 'dark',
+                        gradientToColors: ['#FDD835'],
+                        shadeIntensity: 1,
+                        type: 'horizontal',
+                        opacityFrom: 1,
+                        opacityTo: 1,
+                        stops: [0, 100, 100, 100]
+                    },
+                },
+                markers: {
+                    size: 4,
+                    colors: ["#FFA41B"],
+                    strokeColors: "#fff",
+                    strokeWidth: 2,
+                    hover: {
+                        size: 7,
+                    }
+                },
+                yaxis: {
+                    //min: -10,
+                    // max: 40,
+                    title: {
+                        text: 'Transaction',
+                    },
+                }
+            };
 
-        async function getDashboard() {
+            var transactionChart = new ApexCharts(document.querySelector("#transactionchart"), options);
+            transactionChart.render();
 
-            let apiToken = "{{\Illuminate\Support\Facades\Cookie::get('api_token')}}";
+            var usersOptions = {
+                series: [{
+                    name: "Desktops",
+                    data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+                }],
+                chart: {
+                    height: 350,
+                    type: 'line',
+                    zoom: {
+                        enabled: false
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    curve: 'straight'
+                },
+                title: {
+                    text: 'Product Trends by Month',
+                    align: 'left'
+                },
+                grid: {
+                    row: {
+                        colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                        opacity: 0.5
+                    },
+                },
+                xaxis: {
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+                }
+            };
 
-            const res = await fetch(`https://dev.api.customerpay.me/dashboard/all?token=${apiToken}`);
-            const dash = await res.json();
+            var usersChart = new ApexCharts(document.querySelector("#usersChart"), usersOptions);
 
-            // let storeAdmin = document.querySelector('.store-admins');
-            // let myStores = document.querySelector('.my-stores');
-            // let myAssistants = document.querySelector('.my-assistants');
-            // let myUsers = document.querySelector('.my-users');
-            // let myCustomers = document.querySelector('.my-customers');
+            usersChart.render();
+            var revenueOptions = {
+                series: [{
+                    name: "Desktops",
+                    data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+                }],
+                chart: {
+                    height: 350,
+                    type: 'line',
+                    zoom: {
+                        enabled: false
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    curve: 'straight'
+                },
+                title: {
+                    text: 'Product Trends by Month',
+                    align: 'left'
+                },
+                grid: {
+                    row: {
+                        colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                        opacity: 0.5
+                    },
+                },
+                xaxis: {
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+                }
+            };
 
-            // storeAdmin.innerText = dash.data.storeAdminCount;
-            // myStores.innerText = dash.data.storeCount;
-            // myAssistants.innerText = dash.data.assistantsCount;
-            // myUsers.innerText = dash.data.usersCount;
-            // myCustomers.innerText = dash.data.customerCount;
-
-            if (true) {
-                document.querySelector('.table-responsive').innerHTML =
-                    `
-                <div style="display:flex; justify-content:center; border-top: 1px solid #eee; padding-top: 25px">
-                <h5 style="text-align:center; margin-top: 5px">Opps, no transactions yet</h5>
-                </div>
-            `
-            } else {
-                dash.transactions.forEach(item => {
-                    myTransactions.innerHTML +=
-                        `
-                <tr>
-                    <td>Input</td>
-                    <td>Input</td>
-                    <td>Input</td>
-                    <td>
-                        <a href=""><span class="badge badge-soft-warning py-1">View</span></a>
-                    </td>
-                </tr>
-                `
-                });
-            }
-            console.log(dash)
-        }
-
+            var revenueChart = new ApexCharts(document.querySelector("#revenueChart"), revenueOptions);
+            revenueChart.render();
+        });
 
     </script>
 
-    {{-- @if (\Illuminate\Support\Facades\Cookie::get('is_first_time_user') == true) --}}
-    <!--    <script>
-            var dashboard_intro_shown = localStorage.getItem('dashboard_intro_shown');
+    {{-- @if ( Cookie::get('is_first_time_user') == true) --}}
+    <script>
+        var dashboard_intro_shown = localStorage.getItem('dashboard_intro_shown');
 
-            if (!dashboard_intro_shown) {
+        if (!dashboard_intro_shown) {
 
-                const tour = new Shepherd.Tour({
-                    defaults: {
-                        classes: "shepherd-theme-arrows"
+            const tour = new Shepherd.Tour({
+                defaults: {
+                    classes: "shepherd-theme-arrows"
+                }
+            });
+
+            tour.addStep("step", {
+                text: "Welcome to mycustomer web app.",
+                buttons: [
+                    {
+                        text: "Next",
+                        action: tour.next
                     }
-                });
+                ]
+            });
 
-                tour.addStep("step", {
-                    text: "Welcome to mycustomer web app.",
-                    buttons: [
-                        {
-                            text: "Next",
-                            action: tour.next
-                        }
-                    ]
-                });
+            tour.addStep("step2", {
+                text: "first, create a store",
+                attachTo: {element: ".second", on: "left"},
+                buttons: [
+                    {
+                        text: "Next",
+                        action: tour.next
+                    }
+                ],
 
-                tour.addStep("step2", {
-                    text: "First thing you do is create a store",
-                    attachTo: { element: ".second", on: "right" },
-                    buttons: [
-                        {
-                            text: "Next",
-                            action: tour.next
-                        }
-                    ],
-                    beforeShowPromise: function() {
-                        document.body.className += ' sidebar-enable';
-                        document.getElementById('sidebar-menu').style.height = 'auto';
-                    },
-                });
-                tour.start();
-                localStorage.setItem('dashboard_intro_shown', 1);
-            }
-        </script> -->
-    {{-- @else --}}
+                beforeShowPromise: function () {
+                    document.body.className += ' sidebar-enable';
+                    document.getElementById('sidebar-menu').style.height = 'auto';
+                },
+            });
+            tour.addStep("step3", {
+                text: "Then create a customer",
+                attachTo: {element: ".third", on: "left"},
+                buttons: [
+                    {
+                        text: "Next",
+                        action: tour.next
+                    }
+                ]
+            });
+            tour.addStep("step4", {
+                text: "create your transaction",
+                attachTo: {element: ".fourth", on: "left"},
+                buttons: [
+                    {
+                        text: "Next",
+                        action: tour.next
+                    }
+                ]
+            });
+            tour.addStep("step5", {
+                text: "Send broadcast messages here",
+                attachTo: {element: ".fifth", on: "left"},
+                buttons: [
+                    {
+                        text: "Next",
+                        action: tour.next
+                    }
+                ]
+            });
+            tour.addStep("step6", {
+                text: "make your complaints here",
+                attachTo: {element: ".sixth", on: "left"},
+                buttons: [
+                    {
+                        text: "Next",
+                        action: tour.next
+                    }
+                ]
+            });
+
+            // tour.addStep("step7", {
+            //     text: "manage your stores",
+            //     attachTo: {element: ".seventh", on: "right"},
+            //     buttons: [
+            //         {
+            //             text: "Next",
+            //             action: tour.next
+            //         }
+            //     ]
+            // });
+
+            tour.start();
+            localStorage.setItem('dashboard_intro_shown', 1);
+        }
+    </script>
+    {{-- @endif --}}
+
 @endsection
+
