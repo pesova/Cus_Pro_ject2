@@ -147,7 +147,7 @@
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <label>Account Name</label>
-                                                            <input class="form-control" type="text" name="account_name" placeholder="{{ isset($user_details['account_name']) ? $user_details['account_name] : "Account Name" }}">
+                                                            <input class="form-control" type="text" name="account_name" placeholder="{{ isset($user_details['account_name']) ? $user_details['account_name'] : "Account Name" }}">
                                                         </div>
                                                     </div>
                                                     <div class="clearfix"></div><br>
