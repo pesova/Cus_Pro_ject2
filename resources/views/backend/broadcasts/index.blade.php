@@ -32,11 +32,6 @@
             <div class="card">
                 <div class="card-body">
                     <h3 class="card-title mb-4 float-sm-left">Compose Message</h3>
-
-                    <a href="{{ route('broadcast.index') }}" class="btn btn-primary float-right">
-                        Go Back
-                    </a>
-
                     @include('partials.alert.message')
 
                     <div class="row col-12">
@@ -53,7 +48,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Customer(s)</label>
-                                <select class="form-control" name="customer" id="customer" required>
+                                <select class="form-control col-12 jstags" multiple  name="customer[]">
 
                                 </select>
                             </div>
@@ -71,7 +66,7 @@
                             </div>
                             <div class="form-group" id="txtarea">
                                 <label for="exampleFormControlTextarea1">Your Custom Message</label>
-                                <textarea class="form-control" rows="3"></textarea>
+                                <textarea class="form-control" name="message" rows="3"></textarea>
                             </div>
                     </div>
 
@@ -84,9 +79,60 @@
     </div>
 </div>
 </div>
+
+
+<div class="card mt-0">
+    <div class="card-header">
+        <div class="">History: Broadcast Messages</div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive table-data">
+            <table id="debtReminders" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Ref ID</th>
+                        <th>Message</th>
+                        <th>Status</th>
+                        <th>Date Sent</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{-- @foreach ($transaction->debts as $index => $debt) --}}
+                    <tr>
+                        <td>
+                            {{-- {{ $index + 1 }} --}}
+                        </td>
+                        <td>
+                            {{-- {{ $debt->message }} --}}
+                        </td>
+                        <td><span class="badge badge-success">
+                            {{-- {{ $debt->status }} --}}
+                        </span></td>
+                        <td>
+                            {{-- {{ \Carbon\Carbon::parse($debt->createdAt)->diffForhumans() }} --}}
+                        </td>
+                        <td>
+                            <a href="" data-toggle="modal"
+                               
+                                data-target="#ResendReminderModal" class="btn btn-primary btn-sm mt-2">
+                                Resend
+                            </a>
+                        </td>
+                    </tr>
+                    {{-- Modal for resend reminder --}}
+                    {{-- @endforeach --}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section("javascript")
+<script type="text/javascript"
+    src="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-html5-1.6.2/datatables.min.js">
+</script>
 <script src="https://code.jquery.com/jquery-1.8.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 <!-- App js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
@@ -100,7 +146,7 @@
             var host = "{{ env('API_URL', 'https://dev.api.customerpay.me') }}";
 
             if (storeID) {
-                $('select[name="customer"]').empty();
+                $('select[name="customer[]"]').empty();
                 jQuery.ajax({
                     url: host + "/store/" + encodeURI(storeID)
                     , type: "GET"
@@ -113,7 +159,7 @@
                         var new_data = data.data.store.customers;
                         var i;
                         new_data.forEach(customer => {
-                            $('select[name="customer"]').append('<option value="' +
+                            $('select[name="customer[]"]').append('<option multiple value="' +
                                 customer._id + '">' +
                                 customer.name + '</option>');
                         });
@@ -136,6 +182,13 @@
         } else {
             $("#txtarea").hide();
         }
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<script>
+    $(".jstags").select2({
+        theme: "classic",
+        tags: true,
     });
 </script>
 @stop
