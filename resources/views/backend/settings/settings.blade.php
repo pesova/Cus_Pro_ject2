@@ -74,6 +74,7 @@
                                         <p class="my-0">
                                             {{ isset($user_details['email']) ? $user_details['email'] : "plese update your email"}}
                                         </p>
+                                        @if ( \Cookie::get('user_role') == "store_admin")
                                         <p class="my-1">
                                             {{ isset($user_details['account_name']) ? $user_details['account_name'] : "plese update your your account name"}}
                                         </p>
@@ -83,12 +84,13 @@
                                         <p class="my-3">
                                             {{ isset($user_details['bank']) ? $user_details['bank'] : "plese update your bank"}}
                                         </p>
+                                        @endif
                                         @php if (isset($user_details['is_active'])): @endphp
                                         <p class="my-0 text-success">
                                             Active
                                         </p>
                                         @php else: @endphp
-                                        <p class="my-0 text-dange">
+                                        <p class="my-0 text-danger">
                                             Inactive
                                         </p>
                                         @php endif; @endphp
@@ -143,6 +145,7 @@
                                                             <input class="form-control" type="email" name="email" placeholder="{{ isset($user_details['email']) ? $user_details['email'] : "Email" }}">
                                                         </div>
                                                     </div>
+                                                    @if ( \Cookie::get('user_role') == "store_admin")
                                                     <div class="clearfix"></div><br>
                                                     <div class="row">
                                                         <div class="col-md-12">
@@ -164,6 +167,7 @@
                                                             <input class="form-control" type="text" name="bank" placeholder="{{ isset($user_details['bank']) ? $user_details['bank'] : "Bank" }}">
                                                         </div>
                                                     </div>
+                                                    @endif
                                                     <div class="clearfix"></div><br>
                                                     <div class="row">
                                                         <div class="col-md-12">
