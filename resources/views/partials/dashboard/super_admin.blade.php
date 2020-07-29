@@ -171,7 +171,7 @@
                         <div class="media">
                             <div class="media-body">
                                 <p class="text-muted font-weight-medium">Complaints</p>
-                                <h4 class="mb-0">10</h4>
+                                <h4 class="mb-0">{{$data->complaintCount}}</h4>
                             </div>
 
                             <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
