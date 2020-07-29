@@ -94,8 +94,14 @@ class BroadcastController extends Controller
     public function store(Request $request)
     {
         // dd($request);
-        return $request->input('customer');
-        return $request->input('messagea');
+        // return $request->input('customer');
+        if ($request->input('message') == 'other') {
+            return $request->input('txtmessage');
+        }
+        else{
+            return $request->input('message');
+        }
+        
 
     }
 

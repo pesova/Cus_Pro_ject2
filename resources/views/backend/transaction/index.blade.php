@@ -24,11 +24,11 @@
 
         <div class="card mt-0">
             <div class="card-header">
-                <div class="btn-group">
+                <div class="btn-group dropdown">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class='uil uil-file-alt mr-1'></i>Export
                         <i class="icon"><span data-feather="chevron-down"></span></i></button>
-                    <div class="dropdown-menu dropdown-menu-right">
+                    <div class="dropdown-menu">
                         <button id="ExportReporttoExcel" class="dropdown-item notify-item">
                             <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
                             <span>Excel</span>
