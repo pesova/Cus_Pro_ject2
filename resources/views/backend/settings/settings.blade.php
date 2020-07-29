@@ -74,6 +74,15 @@
                                         <p class="my-0">
                                             {{ isset($user_details['email']) ? $user_details['email'] : "plese update your email"}}
                                         </p>
+                                        <p class="my-1">
+                                            {{ isset($user_details['account_name']) ? $user_details['account_name'] : "plese update your your account name"}}
+                                        </p>
+                                        <p class="my-2">
+                                            {{ isset($user_details['account_number']) ? $user_details['account_number'] : "plese update your your account number"}}
+                                        </p>
+                                        <p class="my-3">
+                                            {{ isset($user_details['bank']) ? $user_details['bank'] : "plese update your bank"}}
+                                        </p>
                                         @php if (isset($user_details['is_active'])): @endphp
                                         <p class="my-0 text-success">
                                             Active
@@ -132,6 +141,27 @@
                                                         <div class="col-md-12">
                                                             <label>Email</label>
                                                             <input class="form-control" type="email" name="email" placeholder="{{ isset($user_details['email']) ? $user_details['email'] : "Email" }}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div><br>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label>Account Name</label>
+                                                            <input class="form-control" type="text" name="account_name" placeholder="{{ isset($user_details['account_name']) ? $user_details['account_name'] : "Account Name" }}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div><br>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label>Account Number</label>
+                                                            <input class="form-control" type="text" name="account_number" placeholder="{{ isset($user_details['account_number']) ? $user_details['account_number'] : "Account Number" }}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div><br>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label>Bank Name</label>
+                                                            <input class="form-control" type="text" name="bank" placeholder="{{ isset($user_details['bank']) ? $user_details['bank'] : "Bank" }}">
                                                         </div>
                                                     </div>
                                                     <div class="clearfix"></div><br>
@@ -223,6 +253,7 @@
                                                 <p>{{ isset($user_details['email']) ? $user_details['email'] : "Email" }}</p>
                                             </div>
                                         </div>
+                                        
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <label><b>Status</b></label>

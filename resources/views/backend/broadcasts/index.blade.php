@@ -35,8 +35,8 @@
                     @include('partials.alert.message')
 
                     <div class="row col-12">
-                        <form action="{{ route('broadcast.store') }}" method="POST" class="col-12">
-                            @csrf
+                        <form action="{{ route('broadcast.store') }}" method="post" class="col-12">
+                        @csrf_field
                             <div class="form-group">
                                 <label>Store</label>
                                 <select class="form-control col-12" name="store" id="store" required>
@@ -48,7 +48,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Customer(s)</label>
-                                <select class="form-control col-12 jstags" multiple  name="customer[]">
+                                <select class="form-control col-12 jstags" multiple required name="customer[]">
 
                                 </select>
                             </div>
@@ -160,7 +160,7 @@
                         var i;
                         new_data.forEach(customer => {
                             $('select[name="customer[]"]').append('<option multiple value="' +
-                                customer._id + '">' +
+                                customer.phone_number + '">' +
                                 customer.name + '</option>');
                         });
                     }
