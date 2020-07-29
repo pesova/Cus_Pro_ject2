@@ -53,12 +53,8 @@
                             </div>
                             <div class="form-group">
                                 <label>Customer(s)</label>
-                                <select class="form-control jstags" multiple name="numbers[]">
-                                    @foreach ($response as $index => $store )
-                                    @foreach ($store->customers as $customer)
-                                    <option value="{{$customer->_id}}">{{$customer->name}}</option>
-                                    @endforeach
-                                    @endforeach
+                                <select class="form-control" name="customer" id="customer" required>
+
                                 </select>
                             </div>
                             <div class="form-group">
@@ -95,10 +91,41 @@
 <!-- App js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 <script>
-    $(".jstags").select2({
-        theme: "classic",
-        tags: true,
+    jQuery(function($) {
+        const token = "{{Cookie::get('api_token')}}"
+        const host = "{{ env('API_URL', 'https://dev.api.customerpay.me') }}";
+
+        $('select[name="store"]').on('change', function() {
+            var storeID = $(this).val();
+            var host = "{{ env('API_URL', 'https://dev.api.customerpay.me') }}";
+
+            if (storeID) {
+                $('select[name="customer"]').empty();
+                jQuery.ajax({
+                    url: host + "/store/" + encodeURI(storeID)
+                    , type: "GET"
+                    , dataType: "json"
+                    , contentType: 'json'
+                    , headers: {
+                        'x-access-token': token
+                    }
+                    , success: function(data) {
+                        var new_data = data.data.store.customers;
+                        var i;
+                        new_data.forEach(customer => {
+                            $('select[name="customer"]').append('<option value="' +
+                                customer._id + '">' +
+                                customer.name + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('select[name="store"]').empty();
+            }
+        });
+
     });
+
 </script>
 <script>
     $("#txtarea").hide();
