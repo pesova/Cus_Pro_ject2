@@ -75,7 +75,7 @@
                                         <td class="store-name">{{ $store->store_name }}</td>
                                         <td>{{ $store->shop_address }}</td>
                                         <td>
-                                            <div class="btn-group mt-2 mr-1">
+                                            <div class="btn-group dropup">
                                                 <button type="button" class="btn btn-info dropdown-toggle"
                                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     Actions<i class="icon"><span data-feather="chevron-down"></span></i>
