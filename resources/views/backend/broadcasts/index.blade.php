@@ -32,11 +32,6 @@
             <div class="card">
                 <div class="card-body">
                     <h3 class="card-title mb-4 float-sm-left">Compose Message</h3>
-
-                    <a href="{{ route('broadcast.index') }}" class="btn btn-primary float-right">
-                        Go Back
-                    </a>
-
                     @include('partials.alert.message')
 
                     <div class="row col-12">
@@ -53,7 +48,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Customer(s)</label>
-                                <select class="form-control" name="customer" id="customer" required>
+                                <select class="form-control col-12 jstags" multiple  name="customer[]">
 
                                 </select>
                             </div>
@@ -71,7 +66,7 @@
                             </div>
                             <div class="form-group" id="txtarea">
                                 <label for="exampleFormControlTextarea1">Your Custom Message</label>
-                                <textarea class="form-control" rows="3"></textarea>
+                                <textarea class="form-control" name="message" rows="3"></textarea>
                             </div>
                     </div>
 
@@ -151,7 +146,7 @@
             var host = "{{ env('API_URL', 'https://dev.api.customerpay.me') }}";
 
             if (storeID) {
-                $('select[name="customer"]').empty();
+                $('select[name="customer[]"]').empty();
                 jQuery.ajax({
                     url: host + "/store/" + encodeURI(storeID)
                     , type: "GET"
@@ -164,7 +159,7 @@
                         var new_data = data.data.store.customers;
                         var i;
                         new_data.forEach(customer => {
-                            $('select[name="customer"]').append('<option value="' +
+                            $('select[name="customer[]"]').append('<option multiple value="' +
                                 customer._id + '">' +
                                 customer.name + '</option>');
                         });
@@ -187,6 +182,13 @@
         } else {
             $("#txtarea").hide();
         }
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<script>
+    $(".jstags").select2({
+        theme: "classic",
+        tags: true,
     });
 </script>
 @stop
