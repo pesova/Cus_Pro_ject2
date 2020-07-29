@@ -394,16 +394,16 @@
                 ]
             });
 
-            // tour.addStep("step7", {
-            //     text: "manage your stores",
-            //     attachTo: {element: ".seventh", on: "right"},
-            //     buttons: [
-            //         {
-            //             text: "Next",
-            //             action: tour.next
-            //         }
-            //     ]
-            // });
+            tour.addStep("step7", {
+                text: "add your bank details here",
+                attachTo: {element: ".seventh", on: "right"},
+                buttons: [
+                    {
+                        text: "Next",
+                        action: tour.next
+                    }
+                ]
+            });
 
             tour.start();
             localStorage.setItem('dashboard_intro_shown', 1);
