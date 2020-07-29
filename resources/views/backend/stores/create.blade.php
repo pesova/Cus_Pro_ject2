@@ -43,8 +43,8 @@
                                             <small id="helpPhone" class="form-text text-muted">Enter your number without the starting 0, eg 813012345</small>
                                           </div>
                                         <div class="form-group col-md-6" >
-                                            <label for="inputEmailAddress"> Email Address (Optional)</label>
-                                            <input type="email" name="email" class="form-control" value="{{ old('email') }}">
+                                            <label for="inputEmailAddress"> Email Address*</label>
+                                            <input type="email" name="email" class="form-control" required value="{{ old('email') }}">
                                         </div>
                                         </div>
                                         <div class="form-group">
