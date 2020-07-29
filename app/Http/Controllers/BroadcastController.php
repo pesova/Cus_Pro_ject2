@@ -30,17 +30,28 @@ class BroadcastController extends Controller
      */
     public function index()
     {
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store';
 
-            $templates = [
-                "Happy new year!",
-                "We are now open!",
-                "New stocks just arrived!",
-                "Happy new Month",
-                "Shop with ...., we Deliver!",
-                "Thank you for shopping with ...",
-                "We now sell Bobo!"
-            ];           
-            return view('backend.broadcasts.index')->with(['template' => $templates]);
+            try {
+
+                $client = new Client;
+                $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+
+                $response = $client->request("GET", $url, $payload);
+                $statusCode = $response->getStatusCode();
+                $body = $response->getBody();
+                $Stores = json_decode($body);
+
+                if ($statusCode == 200) {
+                    // return $Stores->data->stores;
+                    return view('backend.broadcasts.index')->with('response', $Stores->data->stores);
+                }
+        } catch (RequestException $e) {
+            Log::error('Catch error: Create Broadcast'. $e->getMessage());
+            $response->session()->flash('message', 'Failed to fetch customer, please try again');
+            return view('backend.broadcasts.index');
+        }
+
     }
 
     /**
@@ -62,12 +73,12 @@ class BroadcastController extends Controller
                // dd($template);
                 $res = json_decode($response->getBody());
                 $customers = get_object_vars($res->data);
-                return view('backend.broadcasts.create')->with(['customers' => $customers, "template" => $template]);
+                return view('backend.broadcasts.index')->with(['customers' => $customers, "template" => $template]);
             }
         } catch (RequestException $e) {
             Log::error('Catch error: Create Broadcast'. $e->getMessage());
             $request->session()->flash('message', 'Failed to fetch customer, please try again');
-            return view('backend.broadcasts.create');
+            return view('backend.broadcasts.index');
         }
 
     

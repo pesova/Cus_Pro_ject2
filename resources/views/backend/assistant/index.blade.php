@@ -14,7 +14,6 @@
         <div class="row page-title">
             <div class="col-md-12">
                 <div class="customer-heading-container">
-
                     <button class="add-customer-button btn btn-primary" data-toggle="modal"
                         data-target="#addAssistantModal">
                         Add New Assistant <i class="fa fa-plus add-new-icon"></i>
@@ -22,17 +21,12 @@
                 </div>
             </div>
         </div>
-
         @include('partials.alert.message')
-
         <div class="row page-title">
-
             <div class="col-md-12">
                 <h4 class="mb-1 mt-0">Assistants</h4>
             </div>
-
         </div>
-
         <div class="row">
             <div class="col-12">
                 <div class="card">
