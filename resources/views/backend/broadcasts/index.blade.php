@@ -61,7 +61,7 @@
                                     <option value="New stocks just arrived!">New stocks just arrived!</option>
                                     <option value="Happy new Month">Happy new Month</option>
                                     <option value="Thank you for shopping with">Thank you for shopping with US!</option>
-                                    <option>Custom Message</option>
+                                    <option value="other">Custom Message</option>
                                 </select>
                             </div>
                             <div class="form-group" id="txtarea">
