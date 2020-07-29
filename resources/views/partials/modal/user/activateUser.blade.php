@@ -1,0 +1,33 @@
+<div id="activateModal-{{$user->_id}}" class="modal fade bd-example-modal-sm" tabindex="-2" role="dialog"
+     aria-labelledby="deleteModal-{{$user->_id}}" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="activateModal-{{$user->_id}}">
+                    Activate User </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Do you want to activate {{$user->local->first_name}} {{$user->local->last_name}}?
+            </div>
+            <div class="modal-footer">
+                {{--TODO: find out why $user->local->phone_number returns an error--}}
+                {{-- Activation works just fix the phone_number issue and uncomment codes below--}}
+                {{--                <form action="{{ route('users.activate', $user->local->phone_number) }}"--}}
+                <form action="#"
+                      method="POST" id="form">
+                    @method('POST')
+                    @csrf
+                    <button type="submit" class="btn btn-primary btn-success">
+                        Activate
+                    </button>
+                </form>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No,
+                    I changed my mind
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
