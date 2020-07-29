@@ -57,8 +57,8 @@
                         <p class="sub-header">
                             List of all stores
                         </p>
-                        <div class="table-responsive">
-                            <table class="table mb-0" id="basic-datatable">
+                        <div class="">
+                            <table class="table" id="basic-datatable">
                                 <thead>
                                     <tr>
                                         <th scope="col">ID</th>
@@ -75,7 +75,7 @@
                                         <td class="store-name">{{ $store->store_name }}</td>
                                         <td>{{ $store->shop_address }}</td>
                                         <td>
-                                            <div class="btn-group mt-2 mr-1">
+                                            <div class="btn-group dropup">
                                                 <button type="button" class="btn btn-info dropdown-toggle"
                                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     Actions<i class="icon"><span data-feather="chevron-down"></span></i>
@@ -88,7 +88,7 @@
                                                         href="{{ route('store.edit', $store->_id) }}">Edit
                                                         store</a>
                                                     <a class="dropdown-item" href="" data-toggle="modal"
-                                                        data-target="#storeDelete">Deleted store</a>
+                                                        data-target="#storeDelete">Delete store</a>
 
                                                 </div>
                                             </div>

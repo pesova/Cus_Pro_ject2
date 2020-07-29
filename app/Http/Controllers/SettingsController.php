@@ -27,6 +27,9 @@ class SettingsController extends Controller
         Cookie::get('email') !== null ?  $user_details['email'] = Cookie::get('email') : "";
         Cookie::get('first_name') !== null ?  $user_details['first_name'] = Cookie::get('first_name') : "";
         Cookie::get('last_name') !== null ?  $user_details['last_name'] = Cookie::get('last_name') : "";
+        Cookie::get('account_name') !== null ?  $user_details['account_name'] = Cookie::get('account_name') : "";
+        Cookie::get('account_number') !== null ?  $user_details['account_number'] = Cookie::get('account_number') : "";
+        Cookie::get('bank') !== null ?  $user_details['bank'] = Cookie::get('bank') : "";
         Cookie::get('phone_number') !== null ?  $user_details['phone_number'] = Cookie::get('phone_number') : "";
         Cookie::get('is_active') !== null ?  $user_details['is_active'] = Cookie::get('is_active') : "";
         return view('backend.settings.settings')->with("user_details", $user_details);
@@ -55,7 +58,10 @@ class SettingsController extends Controller
                     $data = [
                         "first_name" => $request->input('first_name'),
                         "last_name" => $request->input('last_name'),
-                        "email" => $request->input('email')
+                        "email" => $request->input('email'),
+                        "account_number" => $request->input('account_number'),
+                        "account_name" => $request->input('account_name'),
+                        "bank" => $request->input('bank')
                     ];
                     // make an api call to update the user_details
                     $this->headers = ['headers' => ['x-access-token' => Cookie::get('api_token')], 'form_params' => $data];
@@ -83,17 +89,28 @@ class SettingsController extends Controller
                     if ($control == 'profile_update') {
                         $user_detail_res = json_decode($response->getBody(), true);
                         $filtered_user_detail = $user_detail_res['data']['store_admin']['local'];
+                        $bank_details = $user_detail_res['data']['store_admin']['bank_details'];
+                        $bank_details['account_name'] = isset($bank_details['account_name'])? $bank_details['account_name']:"";
+                        $bank_details['account_number'] = isset($bank_details['account_number'])? $bank_details['account_number']:"";
+                        $bank_details['bank'] = isset($bank_details['bank'])? $bank_details['bank']:"";
                         $user_details = [
                             "email" => $filtered_user_detail['email'],
                             "phone_number" => $filtered_user_detail['phone_number'],
                             "first_name" => $filtered_user_detail['first_name'],
                             "last_name" => $filtered_user_detail['last_name'],
+                            "account_name" => $bank_details['account_name'],
+                            "account_number" => $bank_details['account_number'],
+                            "bank" => $bank_details['bank'],
+
                             "is_active" => Cookie::get('is_active')
                         ];
                         Cookie::queue('phone_number', $filtered_user_detail['phone_number']);
                         Cookie::queue('first_name', $filtered_user_detail['first_name']);
                         Cookie::queue('email', $filtered_user_detail['email']);
                         Cookie::queue('last_name', $filtered_user_detail['last_name']);
+                        Cookie::queue('account_name', $bank_details['account_name']);
+                        Cookie::queue('account_number', $bank_details['account_number']);
+                        Cookie::queue('bank', $bank_details['bank']);
                         $request->session()->flash('message', "Profile details updated successfully");
                         return redirect()->route('setting')->with("user_details", $user_details);
                     }

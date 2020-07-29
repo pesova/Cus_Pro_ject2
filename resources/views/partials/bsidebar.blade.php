@@ -33,7 +33,7 @@
                 <li>
                     <a href="{{ route('setting') }}">
                         <i class="uil  uil-cog"></i>
-                        <span> Settings </span>
+                        <span class ='seventh'> Settings </span>
                     </a>
                 </li>
 

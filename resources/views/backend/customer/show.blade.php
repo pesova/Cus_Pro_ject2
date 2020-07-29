@@ -17,7 +17,7 @@
             {{-- start of page title --}}
             <div class="row page-title">
                 <div class="col-md-12">
-                    <h6 class="mb-1 mt-0 float-left">Customer Profile</h6>
+                    <h6 class="mb-1 mt-0 float-left">Customer Profile</h6><br>
                     <a href="{{ route('customer.index') }}" class="btn btn-primary float-right">
                         Go Back
                     </a>

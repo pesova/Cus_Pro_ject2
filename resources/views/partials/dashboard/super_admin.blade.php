@@ -171,7 +171,7 @@
                         <div class="media">
                             <div class="media-body">
                                 <p class="text-muted font-weight-medium">Complaints</p>
-                                <h4 class="mb-0">10</h4>
+                                <h4 class="mb-0">{{$data->complaintCount}}</h4>
                             </div>
 
                             <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
@@ -248,16 +248,15 @@
                         </thead>
 
                         <tbody class="my-transactionsb">
-                        @if(isset($data->recentTransactions))
-                            {{--                        @if(count($data->recentTransactions) > 0)--}}
-                            @foreach($data->recentTransactions as $recentTransaction)
+                        @if(isset($data->recentTransaction))
+                            @foreach($data->recentTransaction as $rt)
                                 <tr>
-                                    <td>{{$recentTransaction->storeName}}</td>
-                                    <td>{{$recentTransaction->transaction->type}}</td>
-                                    <td>{{$recentTransaction->transaction->amount}}</td>
+                                    <td>{{$rt->store_name}}</td>
+                                    <td>{{$rt->type}}</td>
+                                    <td>{{$rt->amount}}</td>
                                     <td>
                                         <a class="btn btn-primary btn-sm"
-                                           href="{{ route('transaction.show', $recentTransaction->transaction->_id.'-'.$recentTransaction->transaction->store_ref_id.'-'.$recentTransaction->transaction->customer_ref_id) }}">View</a>
+                                           href="{{ route('transaction.show', $rt->_id.'-'.$rt->store_ref_id.'-'.$rt->customer_ref_id) }}">View</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -297,22 +296,21 @@
                         </thead>
 
                         <tbody class="my-transactionsb">
-                        @if(isset($data->recentDebts))
-                            {{--                        @if(count($data->recentDebts) > 0)--}}
-                            @foreach($data->recentDebts as $recentDebt)
+                        @if(isset($data->latestDebt))
+                            @foreach($data->latestDebt as $ld)
                                 <tr>
-                                    <td>{{$recentDebt->storeName}}</td>
+                                    <td>{{$ld->store_name}}</td>
                                     <td>
-                                        @if($recentDebt->debt->status)
+                                        @if($ld->status)
                                             <span class="badge badge-success">Paid</span>
                                         @else
                                             <span class="badge badge-danger">Unpaid</span>
                                         @endif
                                     </td>
-                                    <td>{{$recentDebt->debt->amount}}</td>
+                                    <td>{{$ld->amount}}</td>
                                     <td>
                                         <a class="btn btn-primary btn-sm"
-                                           href="{{ route('debtor.show', $recentDebt->debt->_id) }}">View</a>
+                                           href="{{ route('debtor.show', $ld->_id) }}">View</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -334,11 +332,16 @@
     {{-- <script src="/backend/assets/js/pages/dashboard.js"></script> --}}
     <script>
         $(document).ready(function () {
+            let income_per_month = <?php echo json_encode($data->incomePerMonth); ?>;
+            let users_per_month = <?php echo json_encode($data->usersPerMonth); ?>;
+            let transactions_per_month = <?php echo json_encode($data->transactionsPerMonth); ?>;
+            let calendar_months_abbreviated = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
             // start of transaction charts
             var options = {
                 series: [{
                     name: 'Transaction',
-                    data: [1, 3, 5, 10, 5, 666, 8999, 6, 7, 3, 5, 0],
+                    data: transactions_per_month,
                 }],
                 chart: {
                     height: 350,
@@ -350,8 +353,7 @@
                 },
                 xaxis: {
                     type: 'text',
-                    categories: ['JAN', 'FEB', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUG',
-                        'SEPT', 'OCT', 'NOV', 'DEC'],
+                    categories: calendar_months_abbreviated,
                 },
                 title: {
                     text: '',
@@ -396,8 +398,8 @@
 
             var usersOptions = {
                 series: [{
-                    name: "Desktops",
-                    data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+                    name: "Users",
+                    data: users_per_month
                 }],
                 chart: {
                     height: 350,
@@ -407,13 +409,13 @@
                     }
                 },
                 dataLabels: {
-                    enabled: false
+                    enabled: true
                 },
                 stroke: {
                     curve: 'straight'
                 },
                 title: {
-                    text: 'Product Trends by Month',
+                    text: '',
                     align: 'left'
                 },
                 grid: {
@@ -423,7 +425,7 @@
                     },
                 },
                 xaxis: {
-                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+                    categories: calendar_months_abbreviated,
                 }
             };
 
@@ -432,8 +434,8 @@
             usersChart.render();
             var revenueOptions = {
                 series: [{
-                    name: "Desktops",
-                    data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+                    name: "Revenue",
+                    data: income_per_month
                 }],
                 chart: {
                     height: 350,
@@ -449,7 +451,7 @@
                     curve: 'straight'
                 },
                 title: {
-                    text: 'Product Trends by Month',
+                    text: '',
                     align: 'left'
                 },
                 grid: {
@@ -459,7 +461,7 @@
                     },
                 },
                 xaxis: {
-                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+                    categories: calendar_months_abbreviated,
                 }
             };
 
