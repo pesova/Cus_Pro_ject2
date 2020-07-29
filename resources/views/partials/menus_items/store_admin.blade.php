@@ -39,7 +39,7 @@
 <li>
     <a href="{{ route('customer.index') }}">
         <i class='uil uil-chat-bubble-user'></i>
-        <span class="third"> Customers </span>
+        <span class='third'> Customers </span>
     </a>
 </li>
 
