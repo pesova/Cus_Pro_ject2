@@ -79,9 +79,60 @@
     </div>
 </div>
 </div>
+
+
+<div class="card mt-0">
+    <div class="card-header">
+        <div class="">History: Broadcast Messages</div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive table-data">
+            <table id="debtReminders" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Ref ID</th>
+                        <th>Message</th>
+                        <th>Status</th>
+                        <th>Date Sent</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{-- @foreach ($transaction->debts as $index => $debt) --}}
+                    <tr>
+                        <td>
+                            {{-- {{ $index + 1 }} --}}
+                        </td>
+                        <td>
+                            {{-- {{ $debt->message }} --}}
+                        </td>
+                        <td><span class="badge badge-success">
+                            {{-- {{ $debt->status }} --}}
+                        </span></td>
+                        <td>
+                            {{-- {{ \Carbon\Carbon::parse($debt->createdAt)->diffForhumans() }} --}}
+                        </td>
+                        <td>
+                            <a href="" data-toggle="modal"
+                               
+                                data-target="#ResendReminderModal" class="btn btn-primary btn-sm mt-2">
+                                Resend
+                            </a>
+                        </td>
+                    </tr>
+                    {{-- Modal for resend reminder --}}
+                    {{-- @endforeach --}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section("javascript")
+<script type="text/javascript"
+    src="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-html5-1.6.2/datatables.min.js">
+</script>
 <script src="https://code.jquery.com/jquery-1.8.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 <!-- App js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
