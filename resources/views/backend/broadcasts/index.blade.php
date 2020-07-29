@@ -59,7 +59,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Message</label>
-                                <select class="form-control col-12" name="store" id="msgselect" required>
+                                <select class="form-control col-12" name="message" id="msgselect" required>
                                     <option value="" selected disabled>None selected</option>
                                     <option value="Happy new year!">Happy new year!</option>
                                     <option value="We are now open!">We are now open!</option>
