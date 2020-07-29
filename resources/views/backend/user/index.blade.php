@@ -154,7 +154,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action="" method="POST" class="form-horizontal">
+                        <form action="{{ route('users.store') }}" method="POST" class="form-horizontal" id="submitForm">
                             @csrf
                             <div class="form-group row mb-3">
                                 <label for="inputphone" class="col-md-3 col-form-label">Phone Number</label>
@@ -169,22 +169,22 @@
                             <div class="form-group row mb-3">
                                 <label for="password" class="col-md-3 col-form-label">Password</label>
                                 <div class="col-md-9">
-                                    <input type="password" class="form-control" id="password" placeholder="Password" required>
+                                    <input type="password" name="password" class="form-control" id="password" placeholder="Password" minlength="6" required>
                                 </div>
                             </div>
                             <div class="form-group row mb-3">
-                                <label for="passwordr" class="col-md-3 col-form-label">Re
+                                <label for="passwordr" class="col-md-3 col-form-label">Confirm
                                     Password</label>
                                 <div class="col-md-9">
-                                    <input type="password" class="form-control" id="passwordr" placeholder="Retype Password" required>
+                                    <input type="password" name="password_confirmation" class="form-control" id="passwordr" placeholder="Retype Password" required>
                                     <div class="invalid-feedback">
-                                        Password and re password must be the same
+                                        Password and password confirmation must be the same
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group mb-0 justify-content-end row">
                                 <div class="col-9">
-                                    <button type="submit" onclick="return checkPassword(this)" class="btn btn-primary btn-block ">Create
+                                    <button type="submit" id="submitNewUser" class="btn btn-primary btn-block ">Create
                                         User
                                     </button>
                                 </div>
@@ -239,6 +239,13 @@
         $("#submitForm").submit((e) => {
             e.preventDefault();
             const dialCode = test.getSelectedCountryData().dialCode;
+            const pw = $('#password').val();
+            const pwr = $('#passwordr').val();
+            // If Not same return False.
+            if (pw != pwr) {
+                e.preventDefault();
+                return false;
+            }
             if ($("#phone").val().charAt(0) == 0) {
                 $("#phone").val($("#phone").val().substring(1));
             }
@@ -271,22 +278,5 @@
             }
         })
     });
-
-
-    // Function to check Whether both passwords
-    function checkPassword(e) {
-        let pw = $('#password').val();
-        let pwr = $('#passwordr').val();
-        // If Not same return False.
-        if (pw != pwr) {
-            e.preventDefault();
-            return false;
-        }
-        // If same return True.
-        else {
-            return true;
-        }
-    }
-
 </script>
 @endsection

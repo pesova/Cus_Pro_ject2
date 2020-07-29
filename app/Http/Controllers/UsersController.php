@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Rules\DoNotAddIndianCountryCode;
+use App\Rules\DoNotPutCountryCode;
 use Exception;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
@@ -53,8 +55,8 @@ class UsersController extends Controller
             if ($e->getCode() == 401) {
                 return redirect()->route('logout');
             }
-             // get response to catch 4 errors
-             if ($e->hasResponse()) {
+            // get response to catch 4 errors
+            if ($e->hasResponse()) {
                 $response = $e->getResponse()->getBody();
                 $result = json_decode($response);
                 Session::flash('message', $result->message);
@@ -89,7 +91,61 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/register/user';
+        $request->validate([
+            'phone_number' => ['required', 'min:6', 'max:16', new DoNotAddIndianCountryCode, new DoNotPutCountryCode],
+            'password' => ['required', 'min:6', 'confirmed']
+        ]);
+
+        try {
+            $client =  new Client();
+            $payload = [
+                'headers' => ['x-access-token' => Cookie::get('api_token')],
+                'form_params' => [
+                    'phone_number' => $request->input('phone_number'),
+                    'password' => $request->input('password'),
+                ],
+            ];
+            $response = $client->post($url, $payload);
+
+            $statusCode = $response->getStatusCode();
+            $data = json_decode($response->getBody());
+
+            if ($statusCode == 201  && $data->success) {
+                $request->session()->flash('alert-class', 'alert-success');
+                Session::flash('message', $data->message);
+                return back();
+            } else {
+                $request->session()->flash('alert-class', 'alert-waring');
+                Session::flash('message', $data->message);
+                return back();
+            }
+        } catch (RequestException $e) {
+            Log::info('RequestException error: userController - ' . $e->getMessage());
+
+            // token expired
+            if ($e->getCode() == 401) {
+                Session::flash('message', 'session expired');
+                return redirect()->route('logout');
+            }
+
+            // get response to catch 4 errors
+            if ($e->hasResponse()) {
+                $response = $e->getResponse()->getBody();
+                $result = json_decode($response);
+                $message = isset($result->message) ? $result->message : (isset($result->Message) ? $result->Message : $result->error->error);
+                Session::flash('message', $message);
+            }
+            return back();
+        } catch (Exception $e) {
+            // token expired
+            if ($e->getCode() == 401) {
+                Session::flash('message', 'session expired');
+                return redirect()->route('logout');
+            }
+            Log::error('Catch error: userController - ' . $e->getMessage());
+            return view('errors.500');
+        }
     }
 
     /**
