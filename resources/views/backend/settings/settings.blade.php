@@ -146,6 +146,27 @@
                                                     <div class="clearfix"></div><br>
                                                     <div class="row">
                                                         <div class="col-md-12">
+                                                            <label>Account Name</label>
+                                                            <input class="form-control" type="text" name="account_name" placeholder="{{ isset($user_details['account_name']) ? $user_details['account_name] : "Account Name" }}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div><br>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label>Account number</label>
+                                                            <input class="form-control" type="text" name="account_number" placeholder="{{ isset($user_details['account_number']) ? $user_details['account_number] : "Account Number" }}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div><br>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label>Bank Name</label>
+                                                            <input class="form-control" type="text" name="bank" placeholder="{{ isset($user_details['bank']) ? $user_details['bank'] : "Bank" }}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div><br>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
                                                             <label>Phone Number</label>
                                                            <input class="form-control" type="text" id ="phone" name="phone_number" value="{{ isset($user_details['phone_number']) ? $user_details['phone_number'] : "" }}" readonly>
                                                         </div>
@@ -232,30 +253,7 @@
                                                 <p>{{ isset($user_details['email']) ? $user_details['email'] : "Email" }}</p>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label><b>Account name</b></label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>{{ isset($user_details['account_name']) ? $user_details['account_name'] : "Account Name" }}</p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label><b>Account Number</b></label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>{{ isset($user_details['account_number']) ? $user_details['account_number'] : "Account Number" }}</p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label><b>Bank</b></label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>{{ isset($user_details['bank']) ? $user_details['bank'] : "Bank" }}</p>
-                                            </div>
-                                        </div>
+                                        
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <label><b>Status</b></label>
