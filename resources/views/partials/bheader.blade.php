@@ -60,7 +60,7 @@
                                 <i data-feather="user" class="icon-dual icon-xs mr-2"></i>
                                 <span>My Account</span>
                             </a>
-                            @endif
+                            
 
                             <div class="dropdown-divider"></div>
                             <a href="{{ route('logout') }}" class="dropdown-item notify-item">
