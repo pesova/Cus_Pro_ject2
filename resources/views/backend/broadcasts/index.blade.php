@@ -17,6 +17,7 @@
 @stop
 
 @section('content')
+@include('partials.alert.message')
 <div class="container-fluid">
 
     <div class="row page-title align-items-center">
@@ -36,7 +37,7 @@
 
                     <div class="row col-12">
                         <form action="{{ route('broadcast.store') }}" method="post" class="col-12">
-                        @csrf
+                            @csrf
                             <div class="form-group">
                                 <label>Store</label>
                                 <select class="form-control col-12" name="store" id="store" required>
@@ -107,15 +108,13 @@
                             {{-- {{ $debt->message }} --}}
                         </td>
                         <td><span class="badge badge-success">
-                            {{-- {{ $debt->status }} --}}
-                        </span></td>
+                                {{-- {{ $debt->status }} --}}
+                            </span></td>
                         <td>
                             {{-- {{ \Carbon\Carbon::parse($debt->createdAt)->diffForhumans() }} --}}
                         </td>
                         <td>
-                            <a href="" data-toggle="modal"
-                               
-                                data-target="#ResendReminderModal" class="btn btn-primary btn-sm mt-2">
+                            <a href="" data-toggle="modal" data-target="#ResendReminderModal" class="btn btn-primary btn-sm mt-2">
                                 Resend
                             </a>
                         </td>
@@ -130,8 +129,7 @@
 @endsection
 
 @section("javascript")
-<script type="text/javascript"
-    src="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-html5-1.6.2/datatables.min.js">
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-html5-1.6.2/datatables.min.js">
 </script>
 <script src="https://code.jquery.com/jquery-1.8.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 <!-- App js -->
@@ -148,14 +146,14 @@
             if (storeID) {
                 $('select[name="customer[]"]').empty();
                 jQuery.ajax({
-                    url: host + "/store/" + encodeURI(storeID)
-                    , type: "GET"
-                    , dataType: "json"
-                    , contentType: 'json'
-                    , headers: {
+                    url: host + "/store/" + encodeURI(storeID),
+                    type: "GET",
+                    dataType: "json",
+                    contentType: 'json',
+                    headers: {
                         'x-access-token': token
-                    }
-                    , success: function(data) {
+                    },
+                    success: function(data) {
                         var new_data = data.data.store.customers;
                         var i;
                         new_data.forEach(customer => {
@@ -171,7 +169,6 @@
         });
 
     });
-
 </script>
 <script>
     $("#txtarea").hide();
