@@ -36,7 +36,7 @@
 
                     <div class="row col-12">
                         <form action="{{ route('broadcast.store') }}" method="post" class="col-12">
-                        @csrf_field
+                        @csrf
                             <div class="form-group">
                                 <label>Store</label>
                                 <select class="form-control col-12" name="store" id="store" required>
