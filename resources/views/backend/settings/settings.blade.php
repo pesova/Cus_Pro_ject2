@@ -74,6 +74,15 @@
                                         <p class="my-0">
                                             {{ isset($user_details['email']) ? $user_details['email'] : "plese update your email"}}
                                         </p>
+                                        <p class="my-1">
+                                            {{ isset($user_details['account_name']) ? $user_details['account_name'] : "plese update your your account name"}}
+                                        </p>
+                                        <p class="my-2">
+                                            {{ isset($user_details['account_number']) ? $user_details['account_number'] : "plese update your your account number"}}
+                                        </p>
+                                        <p class="my-3">
+                                            {{ isset($user_details['bank']) ? $user_details['bank'] : "plese update your bank"}}
+                                        </p>
                                         @php if (isset($user_details['is_active'])): @endphp
                                         <p class="my-0 text-success">
                                             Active
@@ -221,6 +230,30 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <p>{{ isset($user_details['email']) ? $user_details['email'] : "Email" }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label><b>Account name</b></label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{ isset($user_details['account_name']) ? $user_details['account_name'] : "Account Name" }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label><b>Account Number</b></label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{ isset($user_details['account_number']) ? $user_details['account_number'] : "Account Number" }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label><b>Bank</b></label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{ isset($user_details['bank']) ? $user_details['bank'] : "Bank" }}</p>
                                             </div>
                                         </div>
                                         <div class="row">
