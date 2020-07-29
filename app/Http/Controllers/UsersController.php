@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 use Illuminate\Support\Facades\Cookie;
@@ -28,26 +30,38 @@ class UsersController extends Controller
             $user_response = $client->request('GET', $url, $headers);
 
             if ($user_response->getStatusCode() == 200) {
-//dd(json_decode($user_response->getBody()));
                 $users_data = json_decode($user_response->getBody());
                 $users_data = $users_data->data;
 
-                 $perPage = 12;
-                 $page = $request->get('page', 1);
-                 if ($page > count($users_data) or $page < 1) {
-                     $page = 1;
-                 }
-                 $offset = ($page * $perPage) - $perPage;
-                 $articles = array_slice($users_data, $offset, $perPage);
-                 $users = new Paginator($articles, count($users_data), $perPage);
-
-                //return view('backend.user.index')->with('response', $datas->withPath('/'.$request->path()));
-                return view('backend.user.index')->with('users', $users->withPath('/'.$request->path()));
+                $perPage = 12;
+                $page = $request->get('page', 1);
+                if ($page > count($users_data) or $page < 1) {
+                    $page = 1;
+                }
+                $offset = ($page * $perPage) - $perPage;
+                $articles = array_slice($users_data, $offset, $perPage);
+                $users = new Paginator($articles, count($users_data), $perPage);
+                return view('backend.user.index')->with('users', $users->withPath('/' . $request->path()));
             }
             if ($user_response->getStatusCode() == 500) {
                 return view('errors.500');
             }
-        } catch (\Exception $e) {
+        } catch (RequestException $e) {
+            //log error;
+            Log::info('Catch error: UserController - ' . $e->getMessage());
+
+            if ($e->getCode() == 401) {
+                return redirect()->route('logout');
+            }
+             // get response to catch 4 errors
+             if ($e->hasResponse()) {
+                $response = $e->getResponse()->getBody();
+                $result = json_decode($response);
+                Session::flash('message', $result->message);
+                return view('backend.user.index')->with('users', []);
+            }
+            return view('errors.500');
+        } catch (Exception $e) {
             //log error;
             if ($e->getCode() == 401) {
                 return redirect()->route('logout');
@@ -55,7 +69,6 @@ class UsersController extends Controller
             Log::error('Catch error: UserController - ' . $e->getMessage());
             return view('errors.500');
         }
-
     }
 
     /**
@@ -121,7 +134,6 @@ class UsersController extends Controller
             } else {
                 return redirect()->route('logout');
             }
-
         } catch (\Exception $e) {
             Log::error('Catch error: StoreController - ' . $e->getMessage());
             return view('errors.500');
@@ -209,7 +221,6 @@ class UsersController extends Controller
                 Session::flash('message', 'User deactivated');
                 return back();
             }
-
         } catch (\Exception $e) {
             if ($e->getCode() == 401) {
                 return redirect()->route('logout');
@@ -240,7 +251,6 @@ class UsersController extends Controller
                 Session::flash('message', 'User activated');
                 return back();
             }
-
         } catch (\Exception $e) {
             dd($e);
             if ($e->getCode() == 401) {
