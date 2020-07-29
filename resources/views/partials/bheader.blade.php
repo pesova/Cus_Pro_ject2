@@ -55,9 +55,7 @@
                             <span data-feather="chevron-down"></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right profile-dropdown">
-                            @if ( \Cookie::get('user_role') == "store_assistant")
-
-                            @else
+                            
                             <a href="{{ route('setting') }}" class="dropdown-item notify-item">
                                 <i data-feather="user" class="icon-dual icon-xs mr-2"></i>
                                 <span>My Account</span>
