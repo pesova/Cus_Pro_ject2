@@ -57,8 +57,8 @@
                         <p class="sub-header">
                             List of all stores
                         </p>
-                        <div class="table-responsive">
-                            <table class="table mb-0" id="basic-datatable">
+                        <div class="">
+                            <table class="table" id="basic-datatable">
                                 <thead>
                                     <tr>
                                         <th scope="col">ID</th>
