@@ -1,236 +1,225 @@
 @extends('layout.base')
 @section("custom_css")
-<link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
-<link rel="stylesheet" href="backend/assets/css/all_users.css">
+    <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
+    <link rel="stylesheet" href="backend/assets/css/all_users.css">
 @stop
 @section('content')
-<div class="content">
+    <div class="content">
 
-    <div class="container-fluid">
-        <div class="row page-title">
-            <a href="#" class="float" data-toggle="modal" data-target="#myModal">
-                <i class="fa fa-plus my-float"></i>
-            </a>
-            <div class="col-md-12">
-                <h4 class="mb-1 mt-0">All Users</h4>
+        <div class="container-fluid">
+            <div class="row page-title">
+                <a href="#" class="float" data-toggle="modal" data-target="#myModal">
+                    <i class="fa fa-plus my-float"></i>
+                </a>
+                <div class="col-md-12">
+                    <h4 class="mb-1 mt-0">All Users</h4>
+                </div>
             </div>
-        </div>
 
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        {{-- <h4 class="header-title mt-0 mb-1">Basic Data Table</h4> --}}
-                        <p class="sub-header">
-                            Find Users
-                        </p>
-                        <div class="container-fluid">
-                            <div class="row">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            {{-- <h4 class="header-title mt-0 mb-1">Basic Data Table</h4> --}}
+                            @include('partials.alert.message')
+                            <p class="sub-header">
+                                Find Users
+                            </p>
+                            <div class="container-fluid">
 
-                                <div class="form-group col-lg-4 mt-4">
-                                    <div class="row">
-                                        <label class="form-control-label">Reference Number</label>
-                                        <div class="input-group input-group-merge">
-                                            <div class="input-group-prepend">
+                                <div class="row">
+                                    <div class="form-group col-lg-12 mt-4">
+                                        <div class="row">
+                                            <label class="form-control-label">Search Users</label>
+                                            <div class="input-group input-group-merge">
+                                                <div class="input-group-prepend">
                                                 <span class="input-group-text">
-                                                    <i class="icon-dual" data-feather="lock"></i>
+                                                    <i class="icon-dual" data-feather="search"></i>
                                                 </span>
+                                                </div>
+                                                <input type="text" class="form-control" id="user-name">
                                             </div>
-                                            <input type="text" class="form-control" id="password">
                                         </div>
                                     </div>
+
                                 </div>
 
-                                <div class="form-group col-lg-4 mt-4">
-                                    <label class="form-control-label">Business Name</label>
-                                    <div class="input-group input-group-merge">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="icon-dual" data-feather="lock"></i>
-                                            </span>
-                                        </div>
-                                        <input type="text" class="form-control" id="password">
-                                    </div>
-                                </div>
 
-                                <div class="form-group col-lg-4 mt-4">
-                                    <label class="form-control-label">Phone Number</label>
-                                    <div class="input-group input-group-merge">
-                                        <div class="input-group-prepend">
-
-                                        </div>
-                                        <input type="tel" id="phone" class="form-control">
-
-
-                                    </div>
-                                </div>
-
-                                <button type="button" class="btn btn-primary">Search</button>
                             </div>
 
+                        </div> <!-- end card body-->
+                    </div> <!-- end card -->
+                </div><!-- end col-->
+            </div>
 
-                        </div>
+            <div class="row">
+                @foreach ($users as $user)
+                    <div class="col-xl-3 col-sm-6">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <div class="avatar-sm mx-auto mb-4">
+                            <span class="avatar-title rounded-circle bg-soft-primary text-primary font-size-16">
+                                 @php
+                                     $names = explode(" ", strtoupper($user->local->first_name));
+                                     $ch = "";
+                                     foreach ($names as $name) {
+                                     $ch .= $name[0];
 
-                    </div> <!-- end card body-->
-                </div> <!-- end card -->
-            </div><!-- end col-->
-        </div>
+                                     }
+                                     echo $ch;
+                                 @endphp
+                            </span>
+                                </div>
+                                <h5 class="font-size-15 text-dark search-name">{{$user->local->first_name }}
+                                </h5>
+                                <p class="text-muted">{{$user->local->phone_number?? ''}}
+                                    | {{$user->local->email ?? ''}}</p>
 
+                                <div>
+                                    @if ($user->local->user_role == "store_admin")
+                                        <span class="badge badge-primary">owner</span>
+                                    @elseif ($user->local->user_role == "store_assistant")
+                                        <span class="badge badge-secondray">assistant</span>
+                                    @else
+                                        <span class="badge badge-info">No role</span>
+                                    @endif
+                                    @if($user->local->is_active)
+                                        <span class="badge badge-success">Activated</span>
 
-
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        {{-- <h4 class="header-title mt-0 mb-1">Basic Data Table</h4> --}}
-                        <p class="sub-header">
-                            List of all registered users
-                        </p>
-                        <div class="table-responsive">
-                            <table class="table mb-0" id="basic-datatable">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">ID</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Location</th>
-                                        <th scope="col">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @isset($response)
-                                    @if(count($response) > 0)
-                                    @for ($i = 0; $i < count($response); $i++) <tr>
-                                        <th>{{$i + 1 }}</th>
-                                        <td>{{$response[$i]['first_name']}}<br> <span>{{$response[$i]['_id']}}</span>
-
-                                            @if ($response[$i]['user_role'] == "store_admin")
-                                            <span class="badge badge-primary">owner</span>
-                                            @elseif ($response[$i]['user_role'] == "store_assistant")
-                                            <span class="badge badge-secondray">assistant</span>
-                                            @else
-                                            <span class="badge badge-info">No role</span>
-                                            @endif
-                                            @if($response[$i]['is_active'])
-                                            <span class="badge badge-success">Activated</span>
-                                        </td>
-                                        @else
+                                    @else
                                         <span class="badge badge-secondary">Not activated</span>
-                                        </td>
-                                        @endif
-                                        <td>
-                                            @if(isset($response[$i]->store_address))
-                                            {{$response[$i]->store_address}} <br>
-                                            @else
-                                            Store Location Address would be here <br>
-                                            @endif
-                                            <span class="badge badge-primary">Store Reference Code:
-                                                @if(isset($response[$i]->store_ref_code))
-                                                {{$response[$i]->store_ref_code}} <br>
-                                                @else
-                                                ST145M455 <br>
-                                                @endif
 
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <div class="btn-group mt-2 mr-1">
-                                                <button type="button" class="btn btn-info dropdown-toggle"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    Actions<i class="icon"><span data-feather="chevron-down"></span></i>
-                                                </button>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item"
-                                                        href="#">View
-                                                        Profile</a>
-                                                    <a class="dropdown-item" href="#">Active</a>
-                                                    <a class="dropdown-item" href="#">Deactivate</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        </tr>
-                                        @endfor
-                                        @endif
-                                        @endisset
-                                        {{-- <tr>
-                                                    <th scope="row">1</th>
-                                                    <td>John Doe <br> <span>SO123aM123</span> <span class="badge badge-primary">Store Owner</span> <span class="badge badge-secondary">assistant</span> <span class="badge badge-success">Activated</span> </td>
-                                                    <td>Store Location Address would be here <br> <span class="badge badge-primary">Store Reference Code: ST145M455</span> </td>
-                                                    <td><div class="btn-group mt-2 mr-1">
-                                            <button type="button" class="btn btn-info dropdown-toggle"
-                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Actions<i class="icon"><span data-feather="chevron-down"></span></i>
-                                            </button>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="/admin/view_user">View Profile</a>
-                                                <a class="dropdown-item" href="#">Active</a>
-                                                <a class="dropdown-item" href="#">Deactivate</a>
-                                            </div>
-                                        </div></td>
-                                                </tr>
-                                </tbody>
-                            </table>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="card-footer bg-transparent border-top">
+                                <div class="contact-links d-flex font-size-20">
+                                    <div class="flex-fill">
+                                        <a href="{{route('users.show',$user->_id)}}" data-toggle="tooltip"
+                                           data-placement="top" title="" data-original-title="View User"><i
+                                                    data-feather="eye"></i></a>
+                                    </div>
+
+                                    {{--<div class="flex-fill">
+                                        <a href="#" data-toggle="tooltip"
+                                           data-placement="top" title="" data-original-title="Edit"><i
+                                                    data-feather="edit"></i></a>
+                                    </div>--}}
+
+                                    @if($user->local->is_active)
+                                        <div class="flex-fill">
+                                            <a class="" href="#" data-toggle="modal"
+                                               data-target="#deactivateModal-{{$user->_id}}"><i
+                                                        data-feather="user-x"></i></a>
+
+                                            @include('partials.modal.user.deactivateUser')
+
+                                        </div>
+
+                                    @else
+
+                                        <div class="flex-fill">
+                                            <a class="" href="#" data-toggle="modal"
+                                               data-target="#activateModal-{{$user->_id}}"><i
+                                                        data-feather="user-check"></i></a>
+
+                                            @include('partials.modal.user.activateUser')
+
+                                        </div>
+
+                                    @endif
+
+                                </div>
+                            </div>
                         </div>
-                    </div> <!-- end card body-->
-                </div> <!-- end card -->
-            </div><!-- end col-->
+
+                    </div>
+                @endforeach
+
+            </div>
+            <div class="row">
+                <div class="col-12 align-items-center">
+                    {{$users->links()}}
+                </div>
+            </div>
+
+            <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="myModalLabel">Create New User</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form-horizontal">
+                                <div class="form-group row mb-3">
+                                    <label for="inputphone" class="col-3 col-form-label">Phone
+                                        Number</label>
+                                    <div class="col-9">
+                                        <input type="number" class="form-control" id="inputphone"
+                                               placeholder="Phone Number">
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-3">
+                                    <label for="inputPassword3"
+                                           class="col-3 col-form-label">Password</label>
+                                    <div class="col-9">
+                                        <input type="password" class="form-control" id="inputPassword3"
+                                               placeholder="Password">
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-3">
+                                    <label for="inputPassword5" class="col-3 col-form-label">Re
+                                        Password</label>
+                                    <div class="col-9">
+                                        <input type="password" class="form-control" id="inputPassword5"
+                                               placeholder="Retype Password">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-0 justify-content-end row">
+                                    <div class="col-9">
+                                        <button type="submit" class="btn btn-primary btn-block ">Create
+                                            User
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                        </div>
+
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
         </div>
-        {{-- {{$response->links()}} --}}
     </div>
-</div>
-<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="myModalLabel">Create New User</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal">
-                    <div class="form-group row mb-3">
-                        <label for="inputphone" class="col-3 col-form-label">Phone Number</label>
-                        <div class="col-9">
-                            <input type="number" class="form-control" id="inputphone" placeholder="Phone Number">
-                        </div>
-                    </div>
-                    <div class="form-group row mb-3">
-                        <label for="inputPassword3" class="col-3 col-form-label">Password</label>
-                        <div class="col-9">
-                            <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
-                        </div>
-                    </div>
-                    <div class="form-group row mb-3">
-                        <label for="inputPassword5" class="col-3 col-form-label">Re Password</label>
-                        <div class="col-9">
-                            <input type="password" class="form-control" id="inputPassword5"
-                                placeholder="Retype Password">
-                        </div>
-                    </div>
-                    <div class="form-group mb-0 justify-content-end row">
-                        <div class="col-9">
-                            <button type="submit" class="btn btn-primary btn-block ">Create User</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-            </div>
-
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
 @endsection
 
 
 @section("javascript")
-<script src="/backend/assets/build/js/intlTelInput.js"></script>
-<script>
-    var input = document.querySelector("#phone");
-    window.intlTelInput(input, {
-        // any initialisation options go here
-    });
+    <script>
+        let userName = $('#user-name');
 
-</script>
-@stop
+        //add input event listener
+        userName.on('keyup', (e) => {
+            const users = $('.search-name');
+            const filterText = e.target.value.toLowerCase();
+
+            users.each(function (i, item) {
+                console.log($(this).html());
+                if ($(this).html().toLowerCase().indexOf(filterText) !== -1) {
+                    $(this).parent().parent().parent().css('display', 'block');
+
+                } else {
+                    $(this).parent().parent().parent().css('display', 'none');
+                }
+
+            });
+        });
+
+    </script>
+@endsection

@@ -64,8 +64,6 @@ Route::prefix('/admin')->group(function () {
 
     Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
 
-   
-  
 
     Route::get('/password', 'Auth\ForgotPasswordController@index')->name('password');
     Route::post('/password', 'Auth\ForgotPasswordController@authenticate')->name('password.reset');
@@ -91,6 +89,8 @@ Route::prefix('/admin')->group(function () {
             // Route::group(['middleware' => 'backend.super.admin'], function () {
             // user crud
             Route::resource('users', 'UsersController');
+            Route::post('/users/deactivate/{phone}', 'UsersController@deactivate')->name('users.deactivate');
+            Route::post('/users/activate/{phone}', 'UsersController@activate')->name('users.activate');
 
             // assistant crud
             Route::resource('assistants', 'AssistantController');
