@@ -93,34 +93,10 @@ class BroadcastController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $client = new Client();                        
-            $response = $client->post($this->host . '/message/send', [
-                'json' => [
-                    'message' => $request->input('message'),
-                    'numbers' => $request->input('numbers')
-                ],
-                'headers' => [
-                    'x-access-token' => Cookie::get('api_token')
-                    ]
-                ]);
+        // dd($request);
+        return $request->input('customer');
+        return $request->input('messagea');
 
-            if ($response->getStatusCode() == 200) {
-                $request->session()->flash('alert-class', 'alert-success');
-                $request->session()->flash('message', 'Broadcast message sent !');
-                return back();
-            }
-
-            
-        } catch (RequestException $e) {
-            Log::error('Catch error: Create Broadcast' . $e->getMessage());
-            $request->session()->flash('message', 'Ooops, failed to send broadcast, please try again');
-            if($e->getStatusCode() == 401){
-               
-                return redirect()->route("logout");
-            }
-            return back();
-        }
     }
 
     /**
