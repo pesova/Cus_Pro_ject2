@@ -109,16 +109,7 @@ class SettingsController extends Controller
                         'current_password' => 'required|min:6',
                         'new_password' => 'required|min:6|confirmed',
                     ]);
-                    $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store-admin/update/password';
-                    $client = new Client();
-                    $data = [
-                        "old_password" => $request->input('current_password'),
-                        "new_password" => $request->input('new_password'),
-                        "confirm_password" => $request->input('new_password_confirmation')
-                    ];
-                    // make an api call to update the user_details
-                    $this->headers = ['headers' => ['x-access-token' => Cookie::get('api_token')], 'form_params' => $data];
-                    $response = $client->request('POST', $url, $this->headers);
+                    return $this->change_password($request);
                 } elseif ($control == 'finance_update') {
                     return $this->update_bank($request);
                 } else {
@@ -129,16 +120,12 @@ class SettingsController extends Controller
                     if ($control != 'password_change') {
                         $user_detail_res = json_decode($response->getBody(), true);
                         $filtered_user_detail = $user_detail_res['data']['store_admin']['local'];
-
                         Cookie::queue('phone_number', $filtered_user_detail['phone_number']);
                         Cookie::queue('first_name', $filtered_user_detail['first_name']);
                         Cookie::queue('email', $filtered_user_detail['email']);
                         Cookie::queue('last_name', $filtered_user_detail['last_name']);
-
                         $request->session()->flash('message', "Profile details updated successfully");
                         return back();
-                    } else {
-                        $request->session()->flash('message', "Password updated successfully");
                     }
                     return back();
                 }
@@ -150,28 +137,57 @@ class SettingsController extends Controller
             if ($e->hasResponse()) {
                 $response = json_decode($e->getResponse()->getBody());
                 $request->session()->flash('alert-class', 'alert-danger');
-                if ($response->message == 'Error updating password') {
-                    $request->session()->flash('message', 'current password is incorrect');
-                } else {
-                    $request->session()->flash('message', $response->message);
-                }
+                $request->session()->flash('message', $response->message);
             }
-
-            if ($control == 'password_change') {
-                return redirect(route('setting') . '#change-password');
-            }
-            if ($control == 'profile_update') {
-                return redirect()->route('setting');
-            }
+            return redirect()->route('setting');
         } catch (Exception $e) {
             Log::error($e->getMessage());
             return view('errors.500');
         }
     }
 
-    public function change_password()
+    public function change_password(Request $request)
     {
-        return view('backend.change_password.index');
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store-admin/update/password';
+
+        try {
+            $client = new Client();
+            $data = [
+                "old_password" => $request->input('current_password'),
+                "new_password" => $request->input('new_password'),
+                "confirm_password" => $request->input('new_password_confirmation')
+            ];
+
+            $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')], 'form_params' => $data];
+            $response = $client->request('POST', $url, $payload);
+            if ($response->getStatusCode() == 200) {
+                $request->session()->flash('alert-class', "alert-success");
+                $request->session()->flash('message', "password Updated successfully");
+            }
+            return redirect()->route('setting');
+        } catch (RequestException $e) {
+            if ($e->getCode() == 401) {
+                Session::flash('message', 'session expired');
+                return redirect()->route('logout');
+            }
+            if ($e->hasResponse()) {
+                $response = json_decode($e->getResponse()->getBody());
+                $request->session()->flash('alert-class', 'alert-danger');
+                $request->session()->flash('message', 'previous password  is incorrect');
+            }
+            return redirect()->route('setting');
+        } catch (Exception $e) {
+            if ($e->getCode() == 401) {
+                Session::flash('message', 'session expired');
+                return redirect()->route('logout');
+            }
+            if ($e->getCode() == 401) {
+                Session::flash('message', 'session expired');
+                return redirect()->route('logout');
+            }
+            Log::error('Catch error: settingsController - ' . $e->getMessage());
+            return view('errors.500');
+        }
     }
 
     public function displaypicture(Request $request)
@@ -192,16 +208,16 @@ class SettingsController extends Controller
                 "currencyPreference" => $request->input('currency'),
             ];
 
-            $this->headers = ['headers' => ['x-access-token' => Cookie::get('api_token')], 'form_params' => $data];
-            $response = $client->request('PUT', $url, $this->headers);
+            $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')], 'form_params' => $data];
+            $response = $client->request('PUT', $url, $payload);
             if ($response->getStatusCode() == 200) {
                 $result = json_decode($response->getBody())->data->user;
                 $bank_details = $result->bank_details;
                 Cookie::queue('account_name', $bank_details->account_name);
                 Cookie::queue('account_number', $bank_details->account_number);
-                Cookie::queue('bank', $bank_details->bank);
-                Cookie::queue('currency', $result->currencyPreference);
-                $request->session()->flash('alert', "success");
+                Cookie::queue('account_bank', $bank_details->bank);
+                Cookie::queue('currencyPreference', $result->currencyPreference);
+                $request->session()->flash('alert-class', "alert-success");
                 $request->session()->flash('message', "Finacial information updated successfully");
             }
             return redirect()->route('setting');
@@ -215,7 +231,7 @@ class SettingsController extends Controller
                 $request->session()->flash('alert-class', 'alert-danger');
                 $request->session()->flash('message', $response->message);
             }
-            return redirect()->route('setting', ['#change-password']);
+            return redirect()->route('setting');
         } catch (Exception $e) {
             if ($e->getCode() == 401) {
                 Session::flash('message', 'session expired');
@@ -239,12 +255,20 @@ class SettingsController extends Controller
             $statusCode = $response->getStatusCode();
 
             if ($statusCode == 200) {
-                $data = json_decode($response->getBody())->data;
-                return response()->json([
-                    'status'  => 'success',
-                    'message' => 'verified successfully',
-                    'data'    => $data,
-                ], 200);
+                $result = json_decode($response->getBody());
+                if ($result->status == 'success') {
+                    return response()->json([
+                        'status'  => 'success',
+                        'message' => 'verified successfully',
+                        'data'    => $result->data,
+                    ], 200);
+                } else {
+                    return response()->json([
+                        'status'  => false,
+                        'message' => $result->message,
+                        'data'    => $result->data,
+                    ], 201);
+                }
             }
             return response()->json(['status' => false, 'message' => 'invalid account details'], 400);
         } catch (RequestException $e) {
