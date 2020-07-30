@@ -74,13 +74,20 @@ Route::prefix('/admin')->group(function () {
     Route::get('/activate', 'ActivateController@index')->name('activate.index');
     Route::post('/activate', 'ActivateController@activate')->name('activate.save');
 
+    //theme
+    Route::get('/theme/{theme}', 'ThemeController@changeTheme')->name('theme.change');
+
     // ------------ AUTH ROUTES ENDS HERE ------------------------ //
 
     // ------------ ADMIN ROUTES ------------------------ //
     Route::group(['middleware' => 'backend.auth'], function () {
 
         $user_role = Cookie::get('user_role'); // using this for now till middleware issue is fixed
-        $user_role = $user_role ? Crypt::decrypt($user_role, false) : '';
+        try {
+            $user_role = $user_role ? Crypt::decrypt($user_role, false) : '';
+        } catch (Exception $e) {
+            Cookie::forget('api_token'); // app key must have changed, so we can't decrypt the cookie
+        }
         // dd($user_role);
 
         // ------------ SUPER ADMIN PROTECTED ROUTES ------------------------ //

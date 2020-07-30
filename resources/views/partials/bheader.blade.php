@@ -2,7 +2,7 @@
 <div class="navbar navbar-expand flex-column flex-md-row navbar-custom">
     <div class="container-fluid">
         <!-- LOGO -->
-        <a href="{{route('home') }}" class="navbar-brand mr-0 mr-md-2 logo">
+        <a href="{{route('home') }}" class="navbar-brand mr-0 mr-md-2 logo" style="background:white;">
             <span class="logo-lg">
                 <img src="{{('/frontend/assets/images/fulllogo.png')}}" alt="" height="48" />
             </span>
@@ -60,7 +60,19 @@
                                 <i data-feather="user" class="icon-dual icon-xs mr-2"></i>
                                 <span>My Account</span>
                             </a>
-                            
+
+                            <div class="dropdown-divider"></div>
+                            @if(\Cookie::get('theme') == 'dark')
+                                <a href="{{route('theme.change','light')}}" class="dropdown-item notify-item">
+                                    <i data-feather="sun" class="icon-dual icon-xs mr-2"></i>
+                                    <span>Switch to light mode</span>
+                                </a>
+                            @else
+                                <a href="{{route('theme.change','dark')}}" class="dropdown-item notify-item">
+                                    <i data-feather="moon" class="icon-dual icon-xs mr-2"></i>
+                                    <span>Switch to dark mode</span>
+                                </a>
+                            @endif
 
                             <div class="dropdown-divider"></div>
                             <a href="{{ route('logout') }}" class="dropdown-item notify-item">
