@@ -119,9 +119,11 @@
                             <li class="nav-item">
                                 <a class="nav-link hash-candidate change-password" href="#change-password">Change Password</a>
                             </li>
+                            @if(Cookie::get('user_role') == 'store_admin')
                             <li class="nav-item">
                                 <a class="nav-link hash-candidate finance" href="#finance">Finance</a>
                             </li>
+                            @endif
                         </ul>
                         <div class="content pt-3">
                             <div id="edit-profile" class="screen hash-candidate active">
@@ -204,17 +206,17 @@
                                     </div>
                                 </form>
                             </div>
+                            @if(Cookie::get('user_role') == 'store_admin')
                             <div id="finance" class="hash-candidate screen">
                                 <form method="POST" action="{{ route('setting') }}">
                                     @csrf
                                     <div class="col-md-8 offset-md-2">
-                                        @if ( \Cookie::get('user_role') == "store_admin")
                                         <div class="form-group">
                                             <label for="currency_select">Currenct</label>
                                             <select class="form-control" id="currency_select" name="currency" required>
-                                                <option>NGN</option>
-                                                <option>USD</option>
-                                                <option>INR</option>
+                                                <option value='NGN' >NGN</option>
+                                                <option value='USD' >USD</option>
+                                                <option value='INR' >INR</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
@@ -233,10 +235,12 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Account Name</label>
+                                            <span id="statusSpiner" class="spinner-border spinner-border-sm text-primary d-none" role="status">
+                                                <span class="sr-only">Loading...</span>
+                                            </span>
                                             <input class="form-control" type="text" id="account_name" name="account_name" value="{{ $user_details['account_name'] ?? '' }}" placeholder="Account Name" aria-describedby="ac_nameHelp" readonly required>
                                             <small id="ac_nameHelp" class="form-text text-muted">will be auto filled when you enter Account nummber and bank</small>
                                         </div>
-                                        @endif
                                         <input type="hidden" value="finance_update" name="control">
                                         <div class=" text-center">
                                             <button class="btn btn-primary" id='financeButton' type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i> Save</button>
@@ -244,6 +248,7 @@
                                     </div>
                                 </form>
                             </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -526,21 +531,28 @@
     })
 
 </script>
-
+@if(Cookie::get('user_role') == 'store_admin')
 <script>
     $(function() {
+        var currentRequest = null;
         const url = "{{ route('verify.bank') }}";
-        $('#financeButton').attr('disabled',true);
+        $('#financeButton').attr('disabled', true);
 
         $('#account_number').keyup(function() {
             $('#statusSpiner').removeClass('d-none');
+            $('#financeButton').attr("disabled", true);
 
             const number = $(this).val();
             const bank = $('#bank_select').val();
             if (number.length != 10) {
+                $('#statusSpiner').addClass('d-none');
+                $(this).addClass('is-invalid');
+                $('#financeButton').attr("disabled", true);
                 return false;
             }
-            $.ajax({
+            $(this).removeClass('is-invalid');
+            $(this).removeClass('is-valid');
+            currentRequest = $.ajax({
                 url: url
                 , data: {
                     "_token": "{{ csrf_token() }}"
@@ -548,20 +560,49 @@
                     , account_bank: bank
                 , }
                 , type: 'POST'
-            , }).done(response => {
-                if(response.status == 'success') {
-                $('#account_name').val(response.data.account_name);
-                $('#financeButton').removeAttr("disabled")
-                $('#statusSpiner').addClass('d-none');
+                , beforeSend: function() {
+                    if (currentRequest != null) {
+                        $('#this').removeClass('is-valid');
+                        $('#account_name').removeClass('is-valid');
+                        $('#account_number').removeClass('is-valid');
+                        $('#financeButton').attr("disabled", true);
+                        currentRequest.abort();
+                    }
                 }
+            , }).done(response => {
+                if (response.status == 'success') {
+                    console.log(response.data)
+                    $('#account_name').val(response.data.account_name);
+                    $('#account_name').addClass('is-valid');
+                    $('#account_number').addClass('is-valid');
+                    $('#account_number').removeClass('is-invalid');
+                    $('#financeButton').removeAttr("disabled")
+                    $('#statusSpiner').addClass('d-none');
+                    return true;
+                }
+                $('#account_number').removeClass('is-valid');
+                $('#account_name').removeClass('is-valid');
+                $('#financeButton').attr("disabled", true);
+                $(this).addClass('is-invalid');
             }).fail(e => {
-                $('#financeButton').removeAttr("disabled")
+                $(this).addClass('is-invalid');
+                $(this).removeClass('is-valid');
                 $('#statusSpiner').addClass('d-none');
-                alert("Oops! something went wrong.");
+                $('#account_name').removeClass('is-valid');
+                $('#account_name').val('');
+                $('#financeButton').attr("disabled", true);
+
             });
+        });
+
+        $('#bank_select').change(function() {
+            $('#financeButton').attr("disabled", true);
+            $('#account_name').val('');
         });
 
     });
 
 </script>
+@endif
+
 @stop

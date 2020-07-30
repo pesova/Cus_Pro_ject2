@@ -124,7 +124,8 @@ class SettingsController extends Controller
                     $data = [
                         "account_number" => $request->input('account_number'),
                         "account_name" => $request->input('account_name'),
-                        "bank" => $request->input('bank')
+                        "bank" => $request->input('bank'),
+                        "currency" => $request->input('currency'),
                     ];
                     // make an api call to update the user_details
                     $this->headers = ['headers' => ['x-access-token' => Cookie::get('api_token')], 'form_params' => $data];
@@ -228,7 +229,6 @@ class SettingsController extends Controller
             }
             return response()->json(['status'=>false,'message' => 'invalid account details'],400);
         } catch (RequestException $e) {
-            dd($e->getMessage());
             Log::info('Catch error: settingsController - ' . $e->getMessage());
             // token expired
             return response()->json(['status'=>false,'message' => 'invalid account details'],400);
