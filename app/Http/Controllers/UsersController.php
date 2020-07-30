@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Rules\DoNotAddIndianCountryCode;
+use App\Rules\DoNotPutCountryCode;
+use Exception;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 use Illuminate\Support\Facades\Cookie;
@@ -28,26 +32,38 @@ class UsersController extends Controller
             $user_response = $client->request('GET', $url, $headers);
 
             if ($user_response->getStatusCode() == 200) {
-//dd(json_decode($user_response->getBody()));
                 $users_data = json_decode($user_response->getBody());
                 $users_data = $users_data->data;
 
-                 $perPage = 12;
-                 $page = $request->get('page', 1);
-                 if ($page > count($users_data) or $page < 1) {
-                     $page = 1;
-                 }
-                 $offset = ($page * $perPage) - $perPage;
-                 $articles = array_slice($users_data, $offset, $perPage);
-                 $users = new Paginator($articles, count($users_data), $perPage);
-
-                //return view('backend.user.index')->with('response', $datas->withPath('/'.$request->path()));
-                return view('backend.user.index')->with('users', $users->withPath('/'.$request->path()));
+                $perPage = 12;
+                $page = $request->get('page', 1);
+                if ($page > count($users_data) or $page < 1) {
+                    $page = 1;
+                }
+                $offset = ($page * $perPage) - $perPage;
+                $articles = array_slice($users_data, $offset, $perPage);
+                $users = new Paginator($articles, count($users_data), $perPage);
+                return view('backend.user.index')->with('users', $users->withPath('/' . $request->path()));
             }
             if ($user_response->getStatusCode() == 500) {
                 return view('errors.500');
             }
-        } catch (\Exception $e) {
+        } catch (RequestException $e) {
+            //log error;
+            Log::info('Catch error: UserController - ' . $e->getMessage());
+
+            if ($e->getCode() == 401) {
+                return redirect()->route('logout');
+            }
+            // get response to catch 4 errors
+            if ($e->hasResponse()) {
+                $response = $e->getResponse()->getBody();
+                $result = json_decode($response);
+                Session::flash('message', $result->message);
+                return view('backend.user.index')->with('users', []);
+            }
+            return view('errors.500');
+        } catch (Exception $e) {
             //log error;
             if ($e->getCode() == 401) {
                 return redirect()->route('logout');
@@ -55,7 +71,6 @@ class UsersController extends Controller
             Log::error('Catch error: UserController - ' . $e->getMessage());
             return view('errors.500');
         }
-
     }
 
     /**
@@ -76,7 +91,61 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/register/user';
+        $request->validate([
+            'phone_number' => ['required', 'min:6', 'max:16', new DoNotAddIndianCountryCode, new DoNotPutCountryCode],
+            'password' => ['required', 'min:6', 'confirmed']
+        ]);
+
+        try {
+            $client =  new Client();
+            $payload = [
+                'headers' => ['x-access-token' => Cookie::get('api_token')],
+                'form_params' => [
+                    'phone_number' => $request->input('phone_number'),
+                    'password' => $request->input('password'),
+                ],
+            ];
+            $response = $client->post($url, $payload);
+
+            $statusCode = $response->getStatusCode();
+            $data = json_decode($response->getBody());
+
+            if ($statusCode == 201  && $data->success) {
+                $request->session()->flash('alert-class', 'alert-success');
+                Session::flash('message', $data->message);
+                return back();
+            } else {
+                $request->session()->flash('alert-class', 'alert-waring');
+                Session::flash('message', $data->message);
+                return back();
+            }
+        } catch (RequestException $e) {
+            Log::info('RequestException error: userController - ' . $e->getMessage());
+
+            // token expired
+            if ($e->getCode() == 401) {
+                Session::flash('message', 'session expired');
+                return redirect()->route('logout');
+            }
+
+            // get response to catch 4 errors
+            if ($e->hasResponse()) {
+                $response = $e->getResponse()->getBody();
+                $result = json_decode($response);
+                $message = isset($result->message) ? $result->message : (isset($result->Message) ? $result->Message : $result->error->error);
+                Session::flash('message', $message);
+            }
+            return back();
+        } catch (Exception $e) {
+            // token expired
+            if ($e->getCode() == 401) {
+                Session::flash('message', 'session expired');
+                return redirect()->route('logout');
+            }
+            Log::error('Catch error: userController - ' . $e->getMessage());
+            return view('errors.500');
+        }
     }
 
     /**
@@ -121,7 +190,6 @@ class UsersController extends Controller
             } else {
                 return redirect()->route('logout');
             }
-
         } catch (\Exception $e) {
             Log::error('Catch error: StoreController - ' . $e->getMessage());
             return view('errors.500');
@@ -209,7 +277,6 @@ class UsersController extends Controller
                 Session::flash('message', 'User deactivated');
                 return back();
             }
-
         } catch (\Exception $e) {
             if ($e->getCode() == 401) {
                 return redirect()->route('logout');
@@ -240,7 +307,6 @@ class UsersController extends Controller
                 Session::flash('message', 'User activated');
                 return back();
             }
-
         } catch (\Exception $e) {
             dd($e);
             if ($e->getCode() == 401) {
