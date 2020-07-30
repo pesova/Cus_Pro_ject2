@@ -29,7 +29,7 @@ class BroadcastController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store';
 
@@ -49,7 +49,7 @@ class BroadcastController extends Controller
             }
         } catch (RequestException $e) {
             Log::error('Catch error: Create Broadcast' . $e->getMessage());
-            $response->session()->flash('message', 'Failed to fetch customer, please try again');
+            $request->session()->flash('message', 'Failed to fetch customer, please try again');
             return view('backend.broadcasts.index');
         }
     }

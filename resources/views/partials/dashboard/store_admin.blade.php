@@ -37,12 +37,15 @@
                                     <p class="text-muted mb-0">Store(s)</p>
                                 </div>
                             </div>
-                            <div class="mt-4">
-                                <a href="{{route('setting')}}" class="btn btn-primary waves-effect waves-light btn-sm">View
-                                    Profile
-                                    <i class="uil-arrow-right ml-1"></i>
-                                </a>
-                            </div>
+                            @if(\Cookie::get('user_role') == 'store_admin')
+                                <div class="mt-4">
+                                    <a href="{{route('setting')}}"
+                                       class="btn btn-primary waves-effect waves-light btn-sm">View
+                                        Profile
+                                        <i class="uil-arrow-right ml-1"></i>
+                                    </a>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -60,13 +63,14 @@
                                 % <i class="mdi mdi-arrow-down"></i>
                                 </span> From
                             previous month</p>
-
-                        <div class="mt-4">
-                            <a href="{{route('transaction.index')}}"
-                               class="btn btn-primary waves-effect waves-light btn-sm">
-                                View More <i class="uil-arrow-right ml-1"></i>
-                            </a>
-                        </div>
+                        @if(\Cookie::get('user_role') == 'store_admin')
+                            <div class="mt-4">
+                                <a href="{{route('transaction.index')}}"
+                                   class="btn btn-primary waves-effect waves-light btn-sm">
+                                    View More <i class="uil-arrow-right ml-1"></i>
+                                </a>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -301,7 +305,7 @@
                 },
                 yaxis: {
                     //min: -10,
-                   // max: 40,
+                    // max: 40,
                     title: {
                         text: 'Transaction',
                     },
