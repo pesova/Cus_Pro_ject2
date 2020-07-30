@@ -176,6 +176,8 @@ Route::prefix('/admin')->group(function () {
         // settings create and update
         Route::get('/setting', 'SettingsController@index')->name('setting');
 
+        Route::post('/settings', 'SettingsController@displaypicture')->name('displaypicture');
+
         Route::post('/setting', 'SettingsController@update');
 
         Route::get('/setting/password', 'SettingsController@change_password')->name('change_password');

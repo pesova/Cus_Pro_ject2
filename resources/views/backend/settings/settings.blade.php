@@ -4,6 +4,47 @@
 <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
 
 <style>
+    /*
+*
+* ==========================================
+* CUSTOM UTIL CLASSES
+* ==========================================
+*
+*/
+#upload {
+    opacity: 0;
+}
+
+#upload-label {
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+}
+
+.image-area {
+    border: 2px dashed rgba(0, 0, 0, 0.7);
+    padding: 1rem;
+    position: relative;
+}
+
+.image-area::before {
+    content: 'Uploaded image result';
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.8rem;
+    z-index: 1;
+}
+
+.image-area img {
+    z-index: 2;
+    position: relative;
+}
     .line-head {
         border-bottom: solid 1px #dddddd;
         margin-top: 0 !important;
@@ -124,6 +165,9 @@
                                 <a class="nav-link hash-candidate finance" href="#finance">Finance</a>
                             </li>
                             @endif
+                            <li class="nav-item">
+                                <a class="nav-link hash-candidate displaypicture" href="#displaypicture">Display Picture</a>
+                            </li>
                         </ul>
                         <div class="content pt-3">
                             <div id="edit-profile" class="screen hash-candidate active">
@@ -249,6 +293,31 @@
                                 </form>
                             </div>
                             @endif
+                            <div id="displaypicture" class="hash-candidate screen">
+                                <form method="POST" action="{{ route('displaypicture') }}">
+                                    @csrf
+                                    <div class="row py-4">
+                                    <div class="col-lg-6 mx-auto">
+
+                                        <!-- Upload image input-->
+                                        <div class="input-group mb-3 px-2 py-2 rounded-pill bg-white shadow-sm">
+                                            <input id="upload" type="file" onchange="readURL(this);" name="picture" class="form-control border-0">
+                                            <label id="upload-label" for="upload" class="font-weight-light text-muted">Choose Picture</label>
+                                            <div class="input-group-append">
+                                                <label for="upload" class="btn btn-light m-0 rounded-pill px-4"> <i class="fa fa-cloud-upload mr-2 text-muted"></i><small class="text-uppercase font-weight-bold text-muted">Choose file</small></label>
+                                            </div>
+                                        </div>
+                                        <div class="image-area mt-4"><img id="imageResult" src="#" alt="" class="img-fluid rounded shadow-sm mx-auto d-block"></div>
+
+                                    </div>
+                                    </div>
+                                        <div class=" text-center">
+                                            <button class="btn btn-primary" id='financeButton' type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i> Save</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -483,6 +552,9 @@
             $(".change-password").addClass("active");
         } else if (locationHash === "#finance") {
             $(".finance").addClass("active");
+        }
+            else if (locationHash === "#displaypicture") {
+            $(".displaypicture").addClass("active");
         } else {
             $(".edit-profile").addClass("active");
         }
@@ -601,6 +673,43 @@
         });
 
     });
+
+</script>
+<script>
+
+/*  ==========================================
+    SHOW UPLOADED IMAGE
+* ========================================== */
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#imageResult')
+                .attr('src', e.target.result);
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+$(function () {
+    $('#upload').on('change', function () {
+        readURL(input);
+    });
+});
+
+/*  ==========================================
+    SHOW UPLOADED IMAGE NAME
+* ========================================== */
+var input = document.getElementById( 'upload' );
+var infoArea = document.getElementById( 'upload-label' );
+
+input.addEventListener( 'change', showFileName );
+function showFileName( event ) {
+  var input = event.srcElement;
+  var fileName = input.files[0].name;
+  infoArea.textContent = fileName;
+}
 
 </script>
 @endif
