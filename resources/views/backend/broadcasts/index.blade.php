@@ -2,6 +2,9 @@
 
 @section("custom_css")
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css" />
+
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
 <style>
@@ -16,6 +19,11 @@
 </style>
 @stop
 
+@php
+    $response = $data['stores'];
+    $broadcasts = $data['broadcasts'];
+@endphp
+
 @section('content')
 @include('partials.alert.message')
 <div class="container-fluid">
@@ -25,9 +33,7 @@
             <h4 class="mb-1 mt-0">Compose</h4>
         </div>
     </div>
-    <!-- @php
-        var_dump($response);
-    @endphp -->
+
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -88,39 +94,64 @@
     </div>
     <div class="card-body">
         <div class="table-responsive table-data">
-            <table id="debtReminders" class="table table-striped table-bordered" style="width:100%">
+            <table id="broadcastsTable"  class="table table-striped table-bordered" style="width:100%">
                 <thead>
                     <tr>
                         <th>Ref ID</th>
+                        <th>Number</th>
                         <th>Message</th>
                         <th>Status</th>
-                        <th>Date Sent</th>
+                        <th>Time Sent</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {{-- @foreach ($transaction->debts as $index => $debt) --}}
-                    <tr>
-                        <td>
-                            {{-- {{ $index + 1 }} --}}
-                        </td>
-                        <td>
-                            {{-- {{ $debt->message }} --}}
-                        </td>
-                        <td><span class="badge badge-success">
-                                {{-- {{ $debt->status }} --}}
-                            </span></td>
-                        <td>
-                            {{-- {{ \Carbon\Carbon::parse($debt->createdAt)->diffForhumans() }} --}}
-                        </td>
-                        <td>
-                            <a href="" data-toggle="modal" data-target="#ResendReminderModal" class="btn btn-primary btn-sm mt-2">
-                                Resend
-                            </a>
-                        </td>
-                    </tr>
-                    {{-- Modal for resend reminder --}}
-                    {{-- @endforeach --}}
+                @isset($broadcasts)
+                    @if (count($broadcasts) > 0)
+                        @foreach ($broadcasts as $broadcast)
+                            <tr>
+                                <td>
+                                {{$broadcast->_id}}
+                                </td>
+                                <td>
+                                    @php
+                                        $number_count = 0;
+                                    @endphp
+                                    @foreach ($broadcast->numbers as $numbers)
+                                        @php
+                                            ++$number_count;
+                                        @endphp
+                                        @if (count($broadcast->numbers) !=  $number_count)
+                                             {{$numbers .","}}
+                                        @else
+                                            {{$numbers}}
+                                        @endif
+                                       
+                                    @endforeach
+                                    
+                                    </td>
+                                <td>
+                                    {{$broadcast->message}}
+                                </td>
+                                <td>
+                                    <span class="badge badge-{{$broadcast->status == "sent" ? "success" : "danger"}}">
+                                        {{$broadcast->status == "Sent" ? "Sent" : "Not Sent"}}
+                                    </span></td>
+                                <td>
+                                {{\Carbon\Carbon::parse($broadcast->date)->diffForhumans()}}
+                                </td>
+                                <td>
+                                    <a href="" data-toggle="modal" data-target="#ResendReminderModal" class="btn btn-primary btn-sm mt-2">
+                                        Resend
+                                    </a>
+                                </td>
+                            </tr> 
+                        @endforeach
+                    @else
+                        
+                    @endif
+                @endisset
+                  
                 </tbody>
             </table>
         </div>
@@ -134,6 +165,8 @@
 <script src="https://code.jquery.com/jquery-1.8.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 <!-- App js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
 <script>
     jQuery(function($) {
         const token = "{{Cookie::get('api_token')}}"
@@ -169,6 +202,14 @@
         });
 
     });
+
+    $(document).ready(function() {
+    $('#broadcastsTable').DataTable({
+        dom: 'frtipB'
+    }
+    );
+} );
+
 </script>
 <script>
     $("#txtarea").hide();
