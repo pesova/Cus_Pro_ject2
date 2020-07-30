@@ -11,13 +11,13 @@
     </div>
 
     <div class="text-center py-3">
-        <p>Mollit exercitation consectetur dolor occaecat sit elit fugiat ullamco duis non magna cupidatat.</p>
+        <h5 class="lead">Mollit exercitation consectetur dolor occaecat sit elit fugiat ullamco duis non magna cupidatat.</h5>
     </div>
 
     <div class="p-5 text-center shadow-lg rounded">
         <h5 class="py-3 text-uppercase">Payment Reminder</h5>
         <h5 class="py-3 text-danger">$6,700</h5>
-        <p>Occaecat aliqua anim sint anim sunt anim ut ea nulla dolore.</p>
+        <p class="lead">Occaecat aliqua anim sint anim sunt anim ut ea nulla dolore.</p>
     </div>
     <div class="">
         <a href="{{ route('pay.create') }}" class="my-3 btn btn-lg btn-primary w-100 text-white font-weight-bold">Pay
@@ -28,8 +28,7 @@
 
     <div class="text-center p-3">
         <img src="{{ asset('frontend/assets/images/payment/check-circle.svg')}}" alt="Verified" />
-
-        <p class="text-primary py-2">Verified by myCustomer</p>
+        <p class="text-primary py-2 lead">Verified by myCustomer</p>
         <img src="{{ asset('frontend/assets/images/payment/android-button.svg')}}" alt="Google Play" />
     </div>
 </div>

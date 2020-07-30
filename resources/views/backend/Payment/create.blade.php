@@ -5,7 +5,7 @@
     <h4 class="font-weight-bold text-center">Payment</h4>
 
     <div class="py-3">
-        <div class="d-flex justify-content-between align-items-center">
+        <div class="lead d-flex justify-content-between align-items-center">
             <span>Total</span>
             <span>$6,700</span>
         </div>
