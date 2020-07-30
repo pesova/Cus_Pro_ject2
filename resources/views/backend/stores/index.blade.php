@@ -76,19 +76,15 @@
                                         <td>{{ $store->shop_address }}</td>
                                         <td>
                                             <div class="btn-group dropup">
-                                                <button type="button" class="btn btn-info dropdown-toggle"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     Actions<i class="icon"><span data-feather="chevron-down"></span></i>
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item"
-                                                        href="{{ route('store.show', $store->_id) }}">View
+                                                    <a class="dropdown-item" href="{{ route('store.show', $store->_id) }}">View
                                                         Store</a>
-                                                    <a class="dropdown-item"
-                                                        href="{{ route('store.edit', $store->_id) }}">Edit
+                                                    <a class="dropdown-item" href="{{ route('store.edit', $store->_id) }}">Edit
                                                         store</a>
-                                                    <a class="dropdown-item" href="" data-toggle="modal"
-                                                        data-target="#storeDelete">Delete store</a>
+                                                    <a class="dropdown-item" href="" data-toggle="modal" data-target="#storeDelete">Delete store</a>
 
                                                 </div>
                                             </div>
@@ -97,20 +93,17 @@
                                     @endforeach
 
                                     {{-- Modal for delete Store --}}
-                                    <div class="modal fade" id="storeDelete" tabindex="-1" role="dialog"
-                                        aria-labelledby="storeDeleteLabel" aria-hidden="true">
+                                    <div class="modal fade" id="storeDelete" tabindex="-1" role="dialog" aria-labelledby="storeDeleteLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="storeDeleteLabel">Delete Transaction
                                                     </h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
-                                                <form class="form-horizontal" method="POST"
-                                                    action="{{ route('store.destroy', $store->_id ?? '') }}">
+                                                <form class="form-horizontal" method="POST" action="{{ route('store.destroy', $store->_id ?? '') }}">
                                                     <div class="modal-body">
                                                         @csrf
                                                         @method('DELETE')
@@ -118,11 +111,9 @@
                                                     </div>
                                                     <div class="modal-footer">
                                                         <div class="">
-                                                            <button type="submit" class="btn btn-primary mr-3"
-                                                                data-dismiss="modal"><i data-feather="x"></i>
+                                                            <button type="submit" class="btn btn-primary mr-3" data-dismiss="modal"><i data-feather="x"></i>
                                                                 Close</button>
-                                                            <button type="submit" class="btn btn-danger"><i
-                                                                    data-feather="trash-2"></i> Delete</button>
+                                                            <button type="submit" class="btn btn-danger"><i data-feather="trash-2"></i> Delete</button>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -147,7 +138,6 @@
 <script>
     var input = document.querySelector("#phone");
     window.intlTelInput(input, {});
-
 </script>
 
 <script>
@@ -162,7 +152,7 @@
         const users = rows;
         const filterText = e.target.value.toLowerCase();
 
-        users.forEach(function (item) {
+        users.forEach(function(item) {
             if (item.textContent.toLowerCase().indexOf(filterText) !== -1) {
                 item.parentElement.style.display = 'table-row'
 
@@ -172,7 +162,6 @@
             };
         });
     };
-
 </script>
 @stop
 @endif
@@ -190,7 +179,7 @@
                 </div>
             </div>
         </div>
-       
+
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -250,20 +239,16 @@
                                         <td>{{ $store->shop_address }}</td>
                                         <td>
                                             <div class="btn-group mt-2 mr-1">
-                                                <button type="button" class="btn btn-info dropdown-toggle"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     Actions<i class="icon"><span data-feather="chevron-down"></span></i>
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item"
-                                                        href="{{ route('store.show', $store->_id) }}">View
+                                                    <a class="dropdown-item" href="{{ route('store.show', $store->_id) }}">View
                                                         Store</a>
-                                                    <a class="dropdown-item"
-                                                        href="{{ route('store.edit', $store->_id) }}">Edit
+                                                    <a class="dropdown-item" href="{{ route('store.edit', $store->_id) }}">Edit
                                                         store</a>
-                                                    <a class="dropdown-item" href="" data-toggle="modal"
-                                                        data-target="#storeDelete">Deleted store</a>
-                                                 
+                                                    <a class="dropdown-item" href="" data-toggle="modal" data-target="#storeDelete">Deleted store</a>
+
                                                 </div>
                                             </div>
                                         </td>
@@ -273,20 +258,17 @@
                                     @endforeach
 
                                     {{-- Modal for delete Store --}}
-                                    <div class="modal fade" id="storeDelete" tabindex="-1" role="dialog"
-                                        aria-labelledby="storeDeleteLabel" aria-hidden="true">
+                                    <div class="modal fade" id="storeDelete" tabindex="-1" role="dialog" aria-labelledby="storeDeleteLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="storeDeleteLabel">Delete Transaction
                                                     </h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
-                                                <form class="form-horizontal" method="POST"
-                                                    action="{{ route('store.destroy', $store->_id) }}">
+                                                <form class="form-horizontal" method="POST" action="{{ route('store.destroy', $store->_id) }}">
                                                     <div class="modal-body">
                                                         @csrf
                                                         @method('DELETE')
@@ -294,11 +276,9 @@
                                                     </div>
                                                     <div class="modal-footer">
                                                         <div class="">
-                                                            <button type="submit" class="btn btn-primary mr-3"
-                                                                data-dismiss="modal"><i data-feather="x"></i>
+                                                            <button type="submit" class="btn btn-primary mr-3" data-dismiss="modal"><i data-feather="x"></i>
                                                                 Close</button>
-                                                            <button type="submit" class="btn btn-danger"><i
-                                                                    data-feather="trash-2"></i> Delete</button>
+                                                            <button type="submit" class="btn btn-danger"><i data-feather="trash-2"></i> Delete</button>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -324,7 +304,6 @@
 <script>
     var input = document.querySelector("#phone");
     window.intlTelInput(input, {});
-
 </script>
 <script>
     //for search bar
@@ -338,7 +317,7 @@
         const users = rows;
         const filterText = e.target.value.toLowerCase();
 
-        users.forEach(function (item) {
+        users.forEach(function(item) {
             if (item.textContent.toLowerCase().indexOf(filterText) !== -1) {
                 item.parentElement.style.display = 'table-row'
 
@@ -348,7 +327,6 @@
             };
         });
     };
-
 </script>
 
 @stop
