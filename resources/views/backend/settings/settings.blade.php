@@ -11,40 +11,41 @@
 * ==========================================
 *
 */
-#upload {
-    opacity: 0;
-}
+    #upload {
+        opacity: 0;
+    }
 
-#upload-label {
-    position: absolute;
-    top: 50%;
-    left: 1rem;
-    transform: translateY(-50%);
-}
+    #upload-label {
+        position: absolute;
+        top: 50%;
+        left: 1rem;
+        transform: translateY(-50%);
+    }
 
-.image-area {
-    border: 2px dashed rgba(0, 0, 0, 0.7);
-    padding: 1rem;
-    position: relative;
-}
+    .image-area {
+        border: 2px dashed rgba(0, 0, 0, 0.7);
+        padding: 1rem;
+        position: relative;
+    }
 
-.image-area::before {
-    content: 'Uploaded image result';
-    color: #fff;
-    font-weight: bold;
-    text-transform: uppercase;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 0.8rem;
-    z-index: 1;
-}
+    .image-area::before {
+        content: 'Uploaded image result';
+        color: #fff;
+        font-weight: bold;
+        text-transform: uppercase;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 0.8rem;
+        z-index: 1;
+    }
 
-.image-area img {
-    z-index: 2;
-    position: relative;
-}
+    .image-area img {
+        z-index: 2;
+        position: relative;
+    }
+
     .line-head {
         border-bottom: solid 1px #dddddd;
         margin-top: 0 !important;
@@ -258,9 +259,9 @@
                                         <div class="form-group">
                                             <label for="currency_select">Currenct</label>
                                             <select class="form-control" id="currency_select" name="currency" required>
-                                                <option value='NGN' >NGN</option>
-                                                <option value='USD' >USD</option>
-                                                <option value='INR' >INR</option>
+                                                <option value='NGN' @if(strtolower($user_details['currency']) == 'ngn') {{ 'selected' }} @endif>NGN</option>
+                                                <option value='USD' @if(strtolower($user_details['currency']) == 'usd') {{ 'selected' }} @endif>USD</option>
+                                                <option value='INR' @if(strtolower($user_details['currency']) == 'inr') {{ 'selected' }} @endif>INR</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
@@ -297,32 +298,32 @@
                                 <form method="POST" action="{{ route('displaypicture') }}">
                                     @csrf
                                     <div class="row py-4">
-                                    <div class="col-lg-6 mx-auto">
+                                        <div class="col-lg-6 mx-auto">
 
-                                        <!-- Upload image input-->
-                                        <div class="input-group mb-3 px-2 py-2 rounded-pill bg-white shadow-sm">
-                                            <input id="upload" type="file" onchange="readURL(this);" name="picture" class="form-control border-0">
-                                            <label id="upload-label" for="upload" class="font-weight-light text-muted">Choose Picture</label>
-                                            <div class="input-group-append">
-                                                <label for="upload" class="btn btn-light m-0 rounded-pill px-4"> <i class="fa fa-cloud-upload mr-2 text-muted"></i><small class="text-uppercase font-weight-bold text-muted">Choose file</small></label>
+                                            <!-- Upload image input-->
+                                            <div class="input-group mb-3 px-2 py-2 rounded-pill bg-white shadow-sm">
+                                                <input id="upload" type="file" onchange="readURL(this);" name="picture" class="form-control border-0">
+                                                <label id="upload-label" for="upload" class="font-weight-light text-muted">Choose Picture</label>
+                                                <div class="input-group-append">
+                                                    <label for="upload" class="btn btn-light m-0 rounded-pill px-4"> <i class="fa fa-cloud-upload mr-2 text-muted"></i><small class="text-uppercase font-weight-bold text-muted">Choose file</small></label>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="image-area mt-4"><img id="imageResult" src="#" alt="" class="img-fluid rounded shadow-sm mx-auto d-block"></div>
+                                            <div class="image-area mt-4"><img id="imageResult" src="#" alt="" class="img-fluid rounded shadow-sm mx-auto d-block"></div>
 
-                                    </div>
-                                    </div>
-                                        <div class=" text-center">
-                                            <button class="btn btn-primary" id='financeButton' type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i> Save</button>
                                         </div>
                                     </div>
-                                </form>
+                                    <div class=" text-center">
+                                        <button class="btn btn-primary" id='financeButton' type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i> Save</button>
+                                    </div>
                             </div>
-                            
+                            </form>
                         </div>
+
                     </div>
                 </div>
             </div>
-            <!-- <div class="col-md-8">
+        </div>
+        <!-- <div class="col-md-8">
                         <div class="card p-4">
                             <div class="tab-content">
                                 <div class="tab-pane active" id="user-details">
@@ -506,9 +507,9 @@
                             </div>
                         </div>
                     </div> -->
-        </div>
-
     </div>
+
+</div>
 </div>
 </div>
 
@@ -552,8 +553,7 @@
             $(".change-password").addClass("active");
         } else if (locationHash === "#finance") {
             $(".finance").addClass("active");
-        }
-            else if (locationHash === "#displaypicture") {
+        } else if (locationHash === "#displaypicture") {
             $(".displaypicture").addClass("active");
         } else {
             $(".edit-profile").addClass("active");
@@ -608,8 +608,6 @@
     $(function() {
         var currentRequest = null;
         const url = "{{ route('verify.bank') }}";
-        $('#financeButton').attr('disabled', true);
-
         $('#account_number').keyup(function() {
             $('#statusSpiner').removeClass('d-none');
             $('#financeButton').attr("disabled", true);
@@ -620,6 +618,7 @@
                 $('#statusSpiner').addClass('d-none');
                 $(this).addClass('is-invalid');
                 $('#financeButton').attr("disabled", true);
+                $('#statusSpiner').addClass('d-none');
                 return false;
             }
             $(this).removeClass('is-invalid');
@@ -643,19 +642,22 @@
                 }
             , }).done(response => {
                 if (response.status == 'success') {
-                    console.log(response.data)
                     $('#account_name').val(response.data.account_name);
                     $('#account_name').addClass('is-valid');
                     $('#account_number').addClass('is-valid');
+                    $('#statusSpiner').addClass('d-none');
                     $('#account_number').removeClass('is-invalid');
                     $('#financeButton').removeAttr("disabled")
-                    $('#statusSpiner').addClass('d-none');
+                    $('#account_name').val('');
                     return true;
                 }
                 $('#account_number').removeClass('is-valid');
                 $('#account_name').removeClass('is-valid');
                 $('#financeButton').attr("disabled", true);
                 $(this).addClass('is-invalid');
+                $('#statusSpiner').addClass('d-none');
+                $('#account_name').val('');
+
             }).fail(e => {
                 $(this).addClass('is-invalid');
                 $(this).removeClass('is-valid');
@@ -676,40 +678,40 @@
 
 </script>
 <script>
-
-/*  ==========================================
+    /*  ==========================================
     SHOW UPLOADED IMAGE
 * ========================================== */
-function readURL(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
 
-        reader.onload = function (e) {
-            $('#imageResult')
-                .attr('src', e.target.result);
-        };
-        reader.readAsDataURL(input.files[0]);
+            reader.onload = function(e) {
+                $('#imageResult')
+                    .attr('src', e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
     }
-}
 
-$(function () {
-    $('#upload').on('change', function () {
-        readURL(input);
+    $(function() {
+        $('#upload').on('change', function() {
+            readURL(input);
+        });
     });
-});
 
-/*  ==========================================
-    SHOW UPLOADED IMAGE NAME
-* ========================================== */
-var input = document.getElementById( 'upload' );
-var infoArea = document.getElementById( 'upload-label' );
+    /*  ==========================================
+        SHOW UPLOADED IMAGE NAME
+    * ========================================== */
+    var input = document.getElementById('upload');
+    var infoArea = document.getElementById('upload-label');
 
-input.addEventListener( 'change', showFileName );
-function showFileName( event ) {
-  var input = event.srcElement;
-  var fileName = input.files[0].name;
-  infoArea.textContent = fileName;
-}
+    input.addEventListener('change', showFileName);
+
+    function showFileName(event) {
+        var input = event.srcElement;
+        var fileName = input.files[0].name;
+        infoArea.textContent = fileName;
+    }
 
 </script>
 @endif
