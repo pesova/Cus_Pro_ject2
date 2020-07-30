@@ -202,9 +202,9 @@ class SettingsController extends Controller
         return view('backend.change_password.index');
     }
 
-    public function change_profile_picture()
+    public function displaypicture(Request $request)
     {
-        return view('backend.change_profile_picture.index');
+        return $request['picture'];
     }
 
     public function verify_bank(Request $request)
