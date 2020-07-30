@@ -338,7 +338,10 @@
                         extend: 'pdf',
                         className: 'd-none',
                         title: export_filename,
-                        extension: '.pdf'
+                        extension: '.pdf',
+                        exportOptions: {
+                            columns: [0,1,2,3]
+                        }
                     }
                 ]
             });

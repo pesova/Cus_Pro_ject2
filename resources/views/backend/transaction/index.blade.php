@@ -157,7 +157,10 @@
                 extend: 'pdf'
                 , className: 'd-none'
                 , title: export_filename
-                , extension: '.pdf'
+                , extension: '.pdf',
+                exportOptions: {
+                    columns: [0,1,2,3,4,5,6]
+                }
             }]
         });
         $("#ExportReporttoExcel").on("click", function() {
