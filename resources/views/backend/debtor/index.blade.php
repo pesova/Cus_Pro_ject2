@@ -169,7 +169,7 @@
         });
 
         tour.addStep("step", {
-            text: "Welcome to debtors Page, here you can track your debtors"
+            text: "Welcome to debtors Page, here you can record and track your debtors"
             , buttons: [{
                 text: "Next"
                 , action: tour.next
