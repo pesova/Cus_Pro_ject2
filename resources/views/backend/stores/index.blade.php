@@ -75,12 +75,14 @@
                                         <td class="store-name">{{ $store->store_name }}</td>
                                         <td>{{ $store->shop_address }}</td>
                                         <td>
-                                            <div class="btn-group dropup">
-                                                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <div class="btn-group mt-2 mr-1">
+                                                <button type="button" class="dropdown-toggle btn btn-primary"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     Actions<i class="icon"><span data-feather="chevron-down"></span></i>
                                                 </button>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="{{ route('store.show', $store->_id) }}">View
+                                                <div class="dropdown dropdown-menu dropdown-menu-right">
+                                                    <a class="dropdown-item"
+                                                        href="{{ route('store.show', $store->_id) }}">View
                                                         Store</a>
                                                     <a class="dropdown-item" href="{{ route('store.edit', $store->_id) }}">Edit
                                                         store</a>
