@@ -538,7 +538,7 @@ $total_interestReceivables += $each_interestReceivables;
             <button
             data-toggle="modal" 
             data-target="#downloadModal"
-            id="first_download"
+            id="first_download_button"
                     class="btn btn-success mr-2">
                     <i class="far mr-2 fa-card">
                 </i>Download</button>
@@ -633,7 +633,7 @@ $total_interestReceivables += $each_interestReceivables;
     });
 
 
-    $("#first_download").click(function(){
+    $("#first_download_button").click(function(){
         $("#exampleModal").modal('hide');
     })
 
