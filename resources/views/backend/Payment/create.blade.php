@@ -10,14 +10,15 @@
             <span>$6,700</span>
         </div>
         <div class="row p-2 text-center">
-            <a href="" class="col w-1/2 rounded-left py-3 bg-primary text-white">
+            <a href="" aria-disabled="true" disabled class="col w-1/2 rounded-left py-3 bg-primary text-white">
                 <img src="{{ asset('frontend/assets/images/payment/vector.svg')}}" alt="" class="inline"> Pay with
                 Card</a>
             <a href="" class="col w-1/2 rounded-right py-3 btn-light text-dark">Pay with Transfer</a>
         </div>
     </div>
 
-    <form action="#" class="parsley-examples">
+    <form action="{{ route('pay') }}" class="parsley-examples" method="POST">
+        @csrf
         <div class="form-group mb-2">
             <label for="card_number" class="m-0 px-2">Card Number<span class="text-danger">*</span></label>
             <input type="text" name="card_number" parsley-trigger="change" required placeholder="0000 0000 0000 0000"
