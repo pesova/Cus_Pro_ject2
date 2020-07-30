@@ -47,9 +47,16 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group">
+                             <div class="form-group">
+                                <label>Send To</label>
+                                <select class="form-control col-12" name="send_to" id="send_to" required>
+                                    <option value="1"> All Customers</option>
+                                    <option value="2" selected> Selected Customers</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id='customersGroup'>
                                 <label>Customer(s)</label>
-                                <select class="form-control col-12 jstags" multiple required name="customer[]">
+                                <select class="form-control col-12 jstags" multiple name="customer[]" id="customerNumbers">
 
                                 </select>
                             </div>
@@ -178,6 +185,16 @@
             $("#txtarea").show();
         } else {
             $("#txtarea").hide();
+        }
+    });
+
+    $('#send_to').change(function() {
+        if ($(this).val() == 2) {
+            $('#customersGroup').removeClass('d-none');
+            $('#customerNumbers').attr("required", true);
+        } else {
+            $('#customersGroup').addClass('d-none');
+            $('#customerNumbers').attr("required", false);
         }
     });
 </script>

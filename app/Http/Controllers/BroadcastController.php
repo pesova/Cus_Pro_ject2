@@ -90,25 +90,38 @@ class BroadcastController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
-        // return $request->input('customer');
         if ($request->input('message') == 'other') {
-            $cook = $request->input('txtmessage');
+            $message = $request->input('txtmessage');
         } else {
-            $cook = $request->input('message');
+            $message = $request->input('message');
         }
         $user_id = Cookie::get('user_id');
+
         $url = env('API_URL', 'https://dev.api.customerpay.me') . "/message/send";
 
         try {
             $client = new Client();
+
+            if ($request->input('send_to') == 1) {
+                $store = $client->get(
+                    $this->host . '/store/' . $request->input('store'),
+                    ['headers' => ['x-access-token' => Cookie::get('api_token')]]
+                );
+                $customers =  json_decode($store->getBody())->data->store->customers;
+                $numbers = [];
+                foreach ($customers as $customer) {
+                    $numbers[] = $customer->phone_number;
+                }
+            } else {
+                $numbers = $request->input('customer');
+            }
             $payload = [
                 'headers' => [
                     'x-access-token' => Cookie::get('api_token')
                 ],
                 "json" => [
-                    "numbers" => $request->input('customer'),
-                    "message" => $cook
+                    "numbers" => $numbers,
+                    "message" => $message
                 ]
             ];
 
@@ -135,7 +148,11 @@ class BroadcastController extends Controller
         } catch (RequestException $e) {
 
             //log error;
-            Log::error('Catch error: BroadcastController - ' . $e->getMessage());
+            Log::info('Catch error: BroadcastController - ' . $e->getMessage());
+
+            if ($e->getCode() == 401) {
+                return redirect()->route("logout");
+            }
 
             if ($e->hasResponse()) {
                 // get response to catch 4xx errors
