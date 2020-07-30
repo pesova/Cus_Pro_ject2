@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Cookie;
 
 class BroadcastController extends Controller
@@ -117,12 +118,18 @@ class BroadcastController extends Controller
 
             if ($statusCode == 200) {
 
-                $request->session()->flash('success', $response->message);
+                $request->session()->flash('alert-class', 'alert-success');
+                Session::flash('message', $response->message);
                 return back();
+            }  else if ($statusCode == 401) {
+                return redirect()->route('logout');
+            } else if ($statusCode == 500) {
+                return view('errors.500');
             } else {
 
                 $message = isset($response->Message) ? $response->Message : $response->message;
-                $request->session()->flash('message', $message);
+                $request->session()->flash('alert-class', 'alert-danger');
+                Session::flash('message', $response->message);
                 return back();
             }
         } catch (RequestException $e) {
