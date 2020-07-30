@@ -134,6 +134,7 @@ Route::prefix('/admin')->group(function () {
             // customer crud
             Route::resource('customer', 'CustomerController');
             //  });
+            Route::post('/verify/bank', 'SettingsController@verify_bank')->name('verify.bank');
         }
 
         // ------------ STORE ADMIN PROTECTED ROUTES ENDS HERE------------------------ //

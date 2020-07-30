@@ -3,103 +3,104 @@
 @section("custom_css")
 <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
 
-    <style>
-        .line-head {
-            border-bottom: solid 1px #dddddd;
-            margin-top: 0 !important;
-            margin-bottom: 15px;
-        }
-        .screen:not(.active) {
-            visibility: hidden !important;
-            opacity: 0;
-            width: 0;
-            padding: 0;
-            height: 0;
-            overflow: hidden;
-            transition: opacity .3s ease-in-out;
-        }
-        .screen.active {
-            opacity: 1;
-            transition: opacity .3s ease-in-out;
-        }
-        .profile-form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        /* nav-tabs .nav-link.active,
+<style>
+    .line-head {
+        border-bottom: solid 1px #dddddd;
+        margin-top: 0 !important;
+        margin-bottom: 15px;
+    }
+
+    .screen:not(.active) {
+        visibility: hidden !important;
+        opacity: 0;
+        width: 0;
+        padding: 0;
+        height: 0;
+        overflow: hidden;
+        transition: opacity .3s ease-in-out;
+    }
+
+    .screen.active {
+        opacity: 1;
+        transition: opacity .3s ease-in-out;
+    }
+
+    .profile-form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* nav-tabs .nav-link.active,
         .nav-tabs .nav-item.show .nav-link {
             color: #495057;
             background-color: #FFF;
             border-color: #dee2e6 #dee2e6 #FFF;
         } */
-/*
+    /*
         .nav-tabs li a.active {
             border-left: 5px solid #5369f8 !important;
             border-bottom: none !important;
         } */
-    </style>
+
+</style>
 
 @stop
 
 @section('content')
 
-    <div class="account-pages my-5">
-        <div class="container-fluid">
+<div class="account-pages my-5">
+    <div class="container-fluid">
         @include('partials.alert.message')
 
-            <div class="row-justify-content-center">
-                <div class="h2"><i data-feather="file-text" class="icon-dual"></i> Settings Page</div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="card p-3">
-                            <h4 class="line-head h5 pb-2">Personal Data</h4>
-                            <div class="profile-content">
-                                <div class="row">
-                                    <div class="col-3">
-                                        <object
-                                            data="{{Cookie::get('image')? Cookie::get('image'):'/backend/assets/images/users/avatar-1.jpg'}}"
-                                            type="image/jpg"
-                                            class="avatar-sm rounded-circle mr-2"
-                                        >
-                                            <img src="/backend/assets/images/users/default.png" class="avatar-sm rounded-circle mr-2" alt="Shreyu"/>
-                                        </object>
-                                    </div>
-                                    <div class="col-9 pt-1" style="margin-left: -25px;padding-left: 0;">
-                                        <p class="mb-1">
-                                            <b>
-                                                {{ isset($user_details['first_name'])  &&  isset($user_details['last_name']) ? $user_details['first_name'] ." ". $user_details['last_name']: "please update your name" }}
-                                            </b>
-                                        </p>
-                                        <p class="my-0">
-                                            {{ isset($user_details['email']) ? $user_details['email'] : "plese update your email"}}
-                                        </p>
-                                        @if ( \Cookie::get('user_role') == "store_admin")
-                                        <p class="my-1">
-                                            {{ isset($user_details['account_name']) ? $user_details['account_name'] : "plese update your your account name"}}
-                                        </p>
-                                        <p class="my-2">
-                                            {{ isset($user_details['account_number']) ? $user_details['account_number'] : "plese update your your account number"}}
-                                        </p>
-                                        <p class="my-3">
-                                            {{ isset($user_details['bank']) ? $user_details['bank'] : "plese update your bank"}}
-                                        </p>
-                                        @endif
-                                        @php if (isset($user_details['is_active'])): @endphp
-                                        <p class="my-0 text-success">
-                                            Active
-                                        </p>
-                                        @php else: @endphp
-                                        <p class="my-0 text-danger">
-                                            Inactive
-                                        </p>
-                                        @php endif; @endphp
-                                    </div>
+        <div class="row-justify-content-center">
+            <div class="h2"><i data-feather="file-text" class="icon-dual"></i> Settings Page</div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card p-3">
+                        <h4 class="line-head h5 pb-2">Personal Data</h4>
+                        <div class="profile-content">
+                            <div class="row">
+                                <div class="col-3">
+                                    <object data="{{Cookie::get('image')? Cookie::get('image'):'/backend/assets/images/users/avatar-1.jpg'}}" type="image/jpg" class="avatar-sm rounded-circle mr-2">
+                                        <img src="/backend/assets/images/users/default.png" class="avatar-sm rounded-circle mr-2" alt="Shreyu" />
+                                    </object>
+                                </div>
+                                <div class="col-9 pt-1" style="margin-left: -25px;padding-left: 0;">
+                                    <p class="mb-1">
+                                        <b>
+                                            {{ isset($user_details['first_name'])  &&  isset($user_details['last_name']) ? $user_details['first_name'] ." ". $user_details['last_name']: "please update your name" }}
+                                        </b>
+                                    </p>
+                                    <p class="my-0">
+                                        {{ isset($user_details['email']) ? $user_details['email'] : "plese update your email"}}
+                                    </p>
+                                    @if ( \Cookie::get('user_role') == "store_admin")
+                                    <p class="my-1">
+                                        {{ isset($user_details['account_name']) ? $user_details['account_name'] : "plese update your your account name"}}
+                                    </p>
+                                    <p class="my-2">
+                                        {{ isset($user_details['account_number']) ? $user_details['account_number'] : "plese update your your account number"}}
+                                    </p>
+                                    <p class="my-3">
+                                        {{ isset($user_details['bank']) ? $user_details['bank'] : "plese update your bank"}}
+                                    </p>
+                                    @endif
+                                    @php if (isset($user_details['is_active'])): @endphp
+                                    <p class="my-0 text-success">
+                                        Active
+                                    </p>
+                                    @php else: @endphp
+                                    <p class="my-0 text-danger">
+                                        Inactive
+                                    </p>
+                                    @php endif; @endphp
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="col-md-4">
+                </div>
+                <!-- <div class="col-md-4">
                         <div class="card">
                             <ul class="nav flex-column nav-tabs user-tabs">
                                 <li class="nav-item"><a class="nav-link active" href="#user-details" data-toggle="tab">Personal Data</a></li>
@@ -109,133 +110,150 @@
                             </ul>
                         </div>
                     </div> -->
-                    <div class="col-md-8">
-                        <div class="card p-3">
-                                <ul class="nav nav-tabs">
-                                    <li class="nav-item">
-                                        <a class="nav-link hash-candidate active edit-profile" href="#edit-profile">Edit Profile</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link hash-candidate change-password" href="#change-password">Change Password</a>
-                                    </li>
-                                </ul>
-                                <div class="content pt-3">
-                                    <div id="edit-profile" class="screen hash-candidate active">
-                                        <form method="POST"  action="{{ route('setting') }}" class="profile-form">
-                                            @csrf
-                                            <div class="row mb-12" style="width: 100%;">
-                                                <div class="col-md-8 offset-2">
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <label>First Name</label>
-                                                            <input class="form-control" type="text" name="first_name" placeholder="{{ isset($user_details['first_name']) ? $user_details['first_name'] : "First Name" }}">
-                                                        </div>
-                                                    </div>
-                                                    <div class="clearfix"></div><br>
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <label>Last Name</label>
-                                                            <input class="form-control" type="text" name="last_name" placeholder="{{ isset($user_details['last_name']) ? $user_details['last_name'] : "Last Name" }}">
-                                                        </div>
-                                                    </div>
-                                                    <div class="clearfix"></div><br>
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <label>Email</label>
-                                                            <input class="form-control" type="email" name="email" placeholder="{{ isset($user_details['email']) ? $user_details['email'] : "Email" }}">
-                                                        </div>
-                                                    </div>
-                                                    @if ( \Cookie::get('user_role') == "store_admin")
-                                                    <div class="clearfix"></div><br>
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <label>Account Name</label>
-                                                            <input class="form-control" type="text" name="account_name" placeholder="{{ isset($user_details['account_name']) ? $user_details['account_name'] : "Account Name" }}">
-                                                        </div>
-                                                    </div>
-                                                    <div class="clearfix"></div><br>
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <label>Account number</label>
-                                                            <input class="form-control" type="text" name="account_number" placeholder="{{ isset($user_details['account_number']) ? $user_details['account_number'] : "Account Number" }}">
-                                                        </div>
-                                                    </div>
-                                                    <div class="clearfix"></div><br>
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <label>Bank Name</label>
-                                                            <input class="form-control" type="text" name="bank" placeholder="{{ isset($user_details['bank']) ? $user_details['bank'] : "Bank" }}">
-                                                        </div>
-                                                    </div>
-                                                    @endif
-                                                    <div class="clearfix"></div><br>
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <label>Phone Number</label>
-                                                           <input class="form-control" type="text" id ="phone" name="phone_number" value="{{ isset($user_details['phone_number']) ? $user_details['phone_number'] : "" }}" readonly>
-                                                        </div>
-                                                    </div>
-                                                    <div class="clearfix"></div><br>
-                                                    <input type="text" value="profile_update" name="control" hidden>
-                                                </div>
-
-                                                {{-- <div class="col-md-3">
-                                                    <img id="preview" class="img img-responsive img-thumbnail" src="{{('backend/assets/images/users/avatar-7.jpg')}}" />
-
-                                                    <div class="form-group">
-                                                        <label for="exampleInputFile">File input</label>
-                                                        <input class="form-control-file" id="profile_image" type="file" aria-describedby="fileHelp" name="image">
-                                                    </div>
-                                                </div> --}}
-                                            </div>
-                                            <br>
-                                            <div class="row mb-12">
+                <div class="col-md-8">
+                    <div class="card p-3">
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link hash-candidate active edit-profile" href="#edit-profile">Edit Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link hash-candidate change-password" href="#change-password">Change Password</a>
+                            </li>
+                            @if(Cookie::get('user_role') == 'store_admin')
+                            <li class="nav-item">
+                                <a class="nav-link hash-candidate finance" href="#finance">Finance</a>
+                            </li>
+                            @endif
+                        </ul>
+                        <div class="content pt-3">
+                            <div id="edit-profile" class="screen hash-candidate active">
+                                <form method="POST" action="{{ route('setting') }}" class="profile-form">
+                                    @csrf
+                                    <div class="row mb-12" style="width: 100%;">
+                                        <div class="col-md-8 offset-2">
+                                            <div class="row">
                                                 <div class="col-md-12">
-                                                    <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i> Save</button>
+                                                    <label>First Name</label>
+                                                    <input class="form-control" type="text" name="first_name" value="{{ $user_details['first_name'] ?? '' }}" placeholder="John">
                                                 </div>
                                             </div>
-                                        </form>
+                                            <div class="clearfix"></div><br>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <label>Last Name</label>
+                                                    <input class="form-control" type="text" name="last_name" value="{{ $user_details['last_name'] ?? '' }}" placeholder="Doe">
+                                                </div>
+                                            </div>
+                                            <div class="clearfix"></div><br>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <label>Email</label>
+                                                    <input class="form-control" type="email" name="email" value="{{ $user_details['email'] ?? '' }}" placeholder="email">
+                                                </div>
+                                            </div>
+                                            <div class="clearfix"></div><br>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <label>Phone Number</label>
+                                                    <input class="form-control" type="text" id="phone" name="phone_number" value="{{ $user_details['phone_number'] ?? "" }}" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="clearfix"></div><br>
+                                            <input type="text" value="profile_update" name="control" hidden>
+                                        </div>
                                     </div>
-                                    <div id="change-password" class="hash-candidate screen">
-                                        <form action="{{ route('setting') }}" method="POST" onSubmit="return checkPassword(this)">
-                                            {{ csrf_field() }}
-                                            <div class="col-8 offset-2">
+                                    <br>
+                                    <div class="row mb-12">
+                                        <div class="col-md-12">
+                                            <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i> Save</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div id="change-password" class="hash-candidate screen">
+                                <form action="{{ route('setting') }}" method="POST" onSubmit="return checkPassword(this)">
+                                    {{ csrf_field() }}
+                                    <div class="col-8 offset-2">
 
-                                            <label class=" control-label">Current Password</label>
-                                            <div class="form-group">
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend"><span class="input-group-text"><i class=" fa fa-lock"></i></span></div>
-                                                    <input class="form-control" name="current_password" type="password" required>
-                                                </div>
+                                        <label class=" control-label">Current Password</label>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend"><span class="input-group-text"><i class=" fa fa-lock"></i></span></div>
+                                                <input class="form-control" name="current_password" type="password" required>
                                             </div>
-                                            <label class="control-label">New Password</label>
-                                            <div class="form-group">
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend"><span class="input-group-text"><i class=" fa fa-lock"></i></span></div>
-                                                    <input id="password" class="form-control" name="new_password" type="password" required minlength="6">
-                                                </div>
+                                        </div>
+                                        <label class="control-label">New Password</label>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend"><span class="input-group-text"><i class=" fa fa-lock"></i></span></div>
+                                                <input id="password" class="form-control" name="new_password" type="password" required minlength="6">
                                             </div>
-                                            <label class="control-label">Confirm New Password</label>
-                                            <div class="form-group">
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend"><span class="input-group-text"><i class=" fa fa-lock"></i></span></div>
-                                                    <input id="passwordr" class="form-control" name="new_password_confirmation" type="password" required minlength="6">
-                                                </div>
-                                                <div class="invalid-feedback">
-                                                    New Password and confirm new password must be the same
-                                                </div>
+                                        </div>
+                                        <label class="control-label">Confirm New Password</label>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend"><span class="input-group-text"><i class=" fa fa-lock"></i></span></div>
+                                                <input id="passwordr" class="form-control" name="new_password_confirmation" type="password" required minlength="6">
                                             </div>
-                                            <input type="hidden" name="control" value="password_change">
+                                            <div class="invalid-feedback">
+                                                New Password and confirm new password must be the same
                                             </div>
-                                            <div class="d-flex justify-content-center">
-                                            <button class="btn btn-primary" type="submit">Update Password</button>
-                                            </div>
-                                        </form>
+                                        </div>
+                                        <input type="hidden" name="control" value="password_change">
                                     </div>
-                                </div>
+                                    <div class="d-flex justify-content-center">
+                                        <button class="btn btn-primary" type="submit">Update Password</button>
+                                    </div>
+                                </form>
+                            </div>
+                            @if(Cookie::get('user_role') == 'store_admin')
+                            <div id="finance" class="hash-candidate screen">
+                                <form method="POST" action="{{ route('setting') }}">
+                                    @csrf
+                                    <div class="col-md-8 offset-md-2">
+                                        <div class="form-group">
+                                            <label for="currency_select">Currenct</label>
+                                            <select class="form-control" id="currency_select" name="currency" required>
+                                                <option value='NGN' >NGN</option>
+                                                <option value='USD' >USD</option>
+                                                <option value='INR' >INR</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="currency_select">Bank Name</label>
+                                            <select class="form-control" id="bank_select" name="bank" required>
+                                                @foreach($bank_list as $bank)
+                                                <option value='{{ $bank->code }}' {{ $bank->code == $user_details['account_bank'] ? 'selected' : ''}}>
+                                                    {{ $bank->name }}
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Account number</label>
+                                            <input class="form-control" type="number" id="account_number" name="account_number" value="{{ $user_details['account_number'] ?? '' }}" value="" placeholder="0123456789" min="1" max="9999999999" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Account Name</label>
+                                            <span id="statusSpiner" class="spinner-border spinner-border-sm text-primary d-none" role="status">
+                                                <span class="sr-only">Loading...</span>
+                                            </span>
+                                            <input class="form-control" type="text" id="account_name" name="account_name" value="{{ $user_details['account_name'] ?? '' }}" placeholder="Account Name" aria-describedby="ac_nameHelp" readonly required>
+                                            <small id="ac_nameHelp" class="form-text text-muted">will be auto filled when you enter Account nummber and bank</small>
+                                        </div>
+                                        <input type="hidden" value="finance_update" name="control">
+                                        <div class=" text-center">
+                                            <button class="btn btn-primary" id='financeButton' type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i> Save</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            @endif
                         </div>
                     </div>
-                    <!-- <div class="col-md-8">
+                </div>
+            </div>
+            <!-- <div class="col-md-8">
                         <div class="card p-4">
                             <div class="tab-content">
                                 <div class="tab-pane active" id="user-details">
@@ -419,58 +437,61 @@
                             </div>
                         </div>
                     </div> -->
-                </div>
-
-            </div>
         </div>
+
     </div>
+</div>
+</div>
 
 @endsection
 
 @section("javascript")
 
-     <script src="/backend/assets/build/js/intlTelInput.js"></script>
-     <script>
-         var input = document.querySelector("#phone");
-                var test = window.intlTelInput(input, {
-                    separateDialCode: true,
-                    //initialCountry: "de",
-                    // any initialisation options go here
-                });
+<script src="/backend/assets/build/js/intlTelInput.js"></script>
+<script>
+    var input = document.querySelector("#phone");
+    var test = window.intlTelInput(input, {
+        separateDialCode: true,
+        //initialCountry: "de",
+        // any initialisation options go here
+    });
 
-                test.setNumber("+" + ($("#phone").val()));
+    test.setNumber("+" + ($("#phone").val()));
 
-                $("#phone").keyup(() => {
-                    if ($("#phone").val().charAt(0) == 0) {
-                        $("#phone").val($("#phone").val().substring(1));
-                    }
-                });
-                $("#submitForm").submit((e) => {
-                    e.preventDefault();
-                    const dialCode = test.getSelectedCountryData().dialCode;
-                    if ($("#phone").val().charAt(0) == 0) {
-                        $("#phone").val($("#phone").val().substring(1));
-                    }
-                    $("#phone_number").val(dialCode + $("#phone").val());
-                    $("#submitForm").off('submit').submit();
-                });
-     </script>
-<script>    
+    $("#phone").keyup(() => {
+        if ($("#phone").val().charAt(0) == 0) {
+            $("#phone").val($("#phone").val().substring(1));
+        }
+    });
+    $("#submitForm").submit((e) => {
+        e.preventDefault();
+        const dialCode = test.getSelectedCountryData().dialCode;
+        if ($("#phone").val().charAt(0) == 0) {
+            $("#phone").val($("#phone").val().substring(1));
+        }
+        $("#phone_number").val(dialCode + $("#phone").val());
+        $("#submitForm").off('submit').submit();
+    });
+
+</script>
+<script>
     var navigation = () => {
-  var locationHash = window.location.hash || "#edit-profile";
-  $(".hash-candidate").removeClass("active");
-  $(locationHash).addClass("active");
-  if (locationHash === "#change-password") {
-    $(".change-password").addClass("active");
-  } else {
-    $(".edit-profile").addClass("active");
-  }
-};
-window.onhashchange = navigation;
-navigation();
+        var locationHash = window.location.hash || "#edit-profile";
+        $(".hash-candidate").removeClass("active");
+        $(locationHash).addClass("active");
+        if (locationHash === "#change-password") {
+            $(".change-password").addClass("active");
+        } else if (locationHash === "#finance") {
+            $(".finance").addClass("active");
+        } else {
+            $(".edit-profile").addClass("active");
+        }
+    };
+    window.onhashchange = navigation;
+    navigation();
 
-// Function to check Whether both passwords
-function checkPassword(form) {
+    // Function to check Whether both passwords
+    function checkPassword(form) {
         password1 = form.new_password.value;
         password2 = form.new_password_confirmation.value;
         // If Not same return False.
@@ -510,5 +531,78 @@ function checkPassword(form) {
     })
 
 </script>
+@if(Cookie::get('user_role') == 'store_admin')
+<script>
+    $(function() {
+        var currentRequest = null;
+        const url = "{{ route('verify.bank') }}";
+        $('#financeButton').attr('disabled', true);
+
+        $('#account_number').keyup(function() {
+            $('#statusSpiner').removeClass('d-none');
+            $('#financeButton').attr("disabled", true);
+
+            const number = $(this).val();
+            const bank = $('#bank_select').val();
+            if (number.length != 10) {
+                $('#statusSpiner').addClass('d-none');
+                $(this).addClass('is-invalid');
+                $('#financeButton').attr("disabled", true);
+                return false;
+            }
+            $(this).removeClass('is-invalid');
+            $(this).removeClass('is-valid');
+            currentRequest = $.ajax({
+                url: url
+                , data: {
+                    "_token": "{{ csrf_token() }}"
+                    , account_number: number
+                    , account_bank: bank
+                , }
+                , type: 'POST'
+                , beforeSend: function() {
+                    if (currentRequest != null) {
+                        $('#this').removeClass('is-valid');
+                        $('#account_name').removeClass('is-valid');
+                        $('#account_number').removeClass('is-valid');
+                        $('#financeButton').attr("disabled", true);
+                        currentRequest.abort();
+                    }
+                }
+            , }).done(response => {
+                if (response.status == 'success') {
+                    console.log(response.data)
+                    $('#account_name').val(response.data.account_name);
+                    $('#account_name').addClass('is-valid');
+                    $('#account_number').addClass('is-valid');
+                    $('#account_number').removeClass('is-invalid');
+                    $('#financeButton').removeAttr("disabled")
+                    $('#statusSpiner').addClass('d-none');
+                    return true;
+                }
+                $('#account_number').removeClass('is-valid');
+                $('#account_name').removeClass('is-valid');
+                $('#financeButton').attr("disabled", true);
+                $(this).addClass('is-invalid');
+            }).fail(e => {
+                $(this).addClass('is-invalid');
+                $(this).removeClass('is-valid');
+                $('#statusSpiner').addClass('d-none');
+                $('#account_name').removeClass('is-valid');
+                $('#account_name').val('');
+                $('#financeButton').attr("disabled", true);
+
+            });
+        });
+
+        $('#bank_select').change(function() {
+            $('#financeButton').attr("disabled", true);
+            $('#account_name').val('');
+        });
+
+    });
+
+</script>
+@endif
 
 @stop
