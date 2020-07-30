@@ -227,41 +227,7 @@ $total_interestReceivables += $each_interestReceivables;
                 <div class="text-center">
                     <h6>Choose Business Card</h6>
                 </div>
-                {{-- <div id="carouselExampleIndicators" class="carousel slide " data-ride="carousel" data-pause="hover">
-                    <ol class="carousel-indicators">
-                        <li data-target="#carouselExampleIndicators" data-slide-to="0" data-version="v1"
-                            class="active slides"></li>
-                        <li data-target="#carouselExampleIndicators" data-slide-to="1" data-version="v2" class="slides">
-                        </li>
-                        <li data-target="#carouselExampleIndicators" data-slide-to="2" data-version="v1" class="slides">
-                        </li>
-                    </ol>
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img class="d-block w-100" src="{{asset('backend/assets/images/card_vv1.PNG')}}"
-                                alt="First slide">
-                        </div>
-                        <div class="carousel-item">
-                            <img class="d-block w-100" src="{{asset('backend/assets/images/card_v2.PNG')}}"
-                                alt="Second slide">
-
-                        </div>
-                        <div class="carousel-item">
-                            <img class="d-block w-100" src="{{asset('backend/assets/images/card_vv1.PNG')}}"
-                                alt="Third slide">
-
-                        </div>
-                    </div>
-                    <a class="carousel-control-prev primary" href="#carouselExampleIndicators" role="button"
-                        data-slide="prev">
-                        <span class="text-dark" aria-hidden="true"> <i class="fa fa-chevron-left"></i> </span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                        <span class=" text-dark" aria-hidden="true"> <i class="fa fa-chevron-right"></i></span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </div> --}}
+              
 
                 <div class="row" id="gallery" data-toggle="modal" data-target="#exampleModal">
                     <div class="col-6 col-md-4 col-lg-12">
@@ -272,25 +238,6 @@ $total_interestReceivables += $each_interestReceivables;
                     </div>
                    
                 </div>
-
-
-
-                {{-- <div class="text-center padup">
-                <form action="{{route('preview', $storeData->_id)}}" method="post" id="preview-form">
-                    @csrf
-                        <input type="hidden" name="version" class="version">
-                    </form>
-                    <button data-toggle="modal" data-target="#downloadModal" class="btn btn-success mr-2">
-                        <i class="far mr-2 fa-card">
-                        </i>Download</button>
-                    <button
-                    
-                    id="preview"
-                    class="btn btn-primary mr-2">
-                    <i class="far mr-2 fa-card"></i>
-                    Preview</button>
-                </div> --}}
-
 
             </div>
         </div>

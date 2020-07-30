@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Log;
@@ -231,8 +232,39 @@ class BroadcastController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         //
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/message/deleteSingle/' . $id;
+        $client = new Client();
+        $payload = [
+            'headers' => [
+                'x-access-token' => Cookie::get('api_token')
+            ],
+            'form_params' => [
+                'current_user' => Cookie::get('user_id'),
+            ]
+        ];
+        try {
+            $delete = $client->delete($url, $payload);
+
+            if ($delete->getStatusCode() == 200 || $delete->getStatusCode() == 201) {
+                $request->session()->flash('alert-class', 'alert-success');
+                Session::flash('message', "broadcast successfully deleted");
+                return redirect()->route('broadcast.index');
+            } else if ($delete->getStatusCode() == 401) {
+                $request->session()->flash('alert-class', 'alert-danger');
+                Session::flash('message', "Your Session Has Expired, Please Login Again");
+                return redirect()->route('broadcast.index');
+            } else if ($delete->getStatusCode() == 500) {
+                $request->session()->flash('alert-class', 'alert-danger');
+                Session::flash('message', "A server error encountered, please try again later");
+                return redirect()->route('broadcast.index');
+            }
+        } catch (ClientException $e) {
+            $request->session()->flash('alert-class', 'alert-danger');
+            Session::flash('message', "A technical error occured, we are working to fix this.");
+            return redirect()->route('broadcast.index');
+        }
     }
 }
