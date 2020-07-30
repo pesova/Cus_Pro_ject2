@@ -28,30 +28,29 @@ class BroadcastController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store';
 
-            try {
+        try {
 
-                $client = new Client;
-                $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+            $client = new Client;
+            $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
 
-                $response = $client->request("GET", $url, $payload);
-                $statusCode = $response->getStatusCode();
-                $body = $response->getBody();
-                $Stores = json_decode($body);
+            $response = $client->request("GET", $url, $payload);
+            $statusCode = $response->getStatusCode();
+            $body = $response->getBody();
+            $Stores = json_decode($body);
 
-                if ($statusCode == 200) {
-                    // return $Stores->data->stores;
-                    return view('backend.broadcasts.index')->with('response', $Stores->data->stores);
-                }
+            if ($statusCode == 200) {
+                // return $Stores->data->stores;
+                return view('backend.broadcasts.index')->with('response', $Stores->data->stores);
+            }
         } catch (RequestException $e) {
-            Log::error('Catch error: Create Broadcast'. $e->getMessage());
-            $response->session()->flash('message', 'Failed to fetch customer, please try again');
+            Log::error('Catch error: Create Broadcast' . $e->getMessage());
+            $request->session()->flash('message', 'Failed to fetch customer, please try again');
             return view('backend.broadcasts.index');
         }
-
     }
 
     /**
@@ -66,23 +65,20 @@ class BroadcastController extends Controller
             $response = $client->get($this->host . '/message/numbers', ['headers' => ['x-access-token' => Cookie::get('api_token')]]);
             $template = $request->input("temp");
 
-           
-            
+
+
             if ($response->getStatusCode() == 200) {
 
-               // dd($template);
+                // dd($template);
                 $res = json_decode($response->getBody());
                 $customers = get_object_vars($res->data);
                 return view('backend.broadcasts.index')->with(['customers' => $customers, "template" => $template]);
             }
         } catch (RequestException $e) {
-            Log::error('Catch error: Create Broadcast'. $e->getMessage());
+            Log::error('Catch error: Create Broadcast' . $e->getMessage());
             $request->session()->flash('message', 'Failed to fetch customer, please try again');
             return view('backend.broadcasts.index');
         }
-
-    
-
     }
 
     /**
@@ -94,11 +90,56 @@ class BroadcastController extends Controller
     public function store(Request $request)
     {
         // dd($request);
-        return $request->input('customer');
-        return $request->input('messagea');
+        // return $request->input('customer');
+        if ($request->input('message') == 'other') {
+            $cook = $request->input('txtmessage');
+        } else {
+            $cook = $request->input('message');
+        }
+        $user_id = Cookie::get('user_id');
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . "/message/send";
 
+        try {
+            $client = new Client();
+            $payload = [
+                'headers' => [
+                    'x-access-token' => Cookie::get('api_token')
+                ],
+                "json" => [
+                    "numbers" => $request->input('customer'),
+                    "message" => $cook
+                ]
+            ];
+
+            $req = $client->request('POST', $url, $payload);
+            $statusCode = $req->getStatusCode();
+            $response = json_decode($req->getBody()->getContents());
+
+            if ($statusCode == 200) {
+
+                $request->session()->flash('success', $response->message);
+                return back();
+            } else {
+
+                $message = isset($response->Message) ? $response->Message : $response->message;
+                $request->session()->flash('message', $message);
+                return back();
+            }
+        } catch (RequestException $e) {
+
+            //log error;
+            Log::error('Catch error: BroadcastController - ' . $e->getMessage());
+
+            if ($e->hasResponse()) {
+                // get response to catch 4xx errors
+                $response = json_decode($e->getResponse()->getBody());
+                $request->session()->flash('error', "Make sure all fields are filled .\n Make sure the description is more than 10 characters");
+                return back();
+            }
+            // check for 500 server error
+            return view('errors.500');
+        }
     }
-
     /**
      * Display the specified resource.
      *
@@ -121,7 +162,7 @@ class BroadcastController extends Controller
         //
     }
 
-   /**
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -129,7 +170,6 @@ class BroadcastController extends Controller
      */
     public function template(Request $request)
     {
-      
     }
 
     /**
@@ -141,7 +181,6 @@ class BroadcastController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
     }
 
     /**

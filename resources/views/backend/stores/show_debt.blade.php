@@ -44,6 +44,7 @@ $transactions = $response['transactions'];
                                 <tr>
                                     <th>S/N</th>
                                     <th>Customer Name </th>
+                                    <th>Phone Number </th>
                                     <th data-priority="1">Amount</th>
                                     <th data-priority="3">Transaction Type</th>
                                     <th data-priority="3">Created</th>
@@ -58,8 +59,8 @@ $transactions = $response['transactions'];
                                 <tr>
                                     <td>{{$number++ }}</td>
                                     <th>{{$customers->name}}<span class="co-name"></span>
-                                        <br> <span class="font-light">{{$customers->phone_number}}</span>
                                     </th>
+                                    <td class="font-light">{{$customers->phone_number}}</td>
                                     <td>{{$transaction->amount}}</td>
                                     <td>{{$transaction->type}}</td>
                                     <td>{{ \Carbon\Carbon::parse($transaction->createdAt)->diffForhumans() }}</td>
