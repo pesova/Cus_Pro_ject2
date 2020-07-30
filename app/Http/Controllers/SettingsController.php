@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Cookie;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Session;
-
+use Intervention\Image\ImageManagerStatic as Image;
 class SettingsController extends Controller
 {
     // Defining headers
@@ -204,7 +204,48 @@ class SettingsController extends Controller
 
     public function displaypicture(Request $request)
     {
-        return $request['picture'];
+        $request->validate([
+            'picture' => 'required',
+        ]);
+        $allowedfileExtension=['jpg','png','jpeg'];
+        
+        $image = $request['picture'];
+        $extension = $image->getClientOriginalExtension();
+        $check=in_array($extension,$allowedfileExtension);
+        if ($check){
+            $filename    = $image->getClientOriginalName();
+            $image_resize = Image::make($image->getRealPath());     
+            $image_resize->resize(200, 200);
+            $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store_admin/update';
+            $client = new Client();
+            $this->client->request('PUT', $url, [
+                'headers' => ['x-access-token' => Cookie::get('api_token')],
+            ],
+                'multipart' => [
+                    [
+                    'name' => 'image',
+                    'contents' => $image_resize->save(('image'))
+                    ]
+                ]
+                ]);
+            $statusCode = $this->getStatusCode();
+
+            if ($statusCode == 200) {
+                $data = json_decode($this->getBody())->data;
+                return response()->json([
+                    'status'  => 'success',
+                    'message' => 'verified successfully',
+                    'data'    => $data,
+                ],200);
+            }
+            
+              
+        }else{
+        // return $extension;
+        return response()->json(['status'=>false,'message' => 'invalid account details'],400);
+        }
+                  
+        // return redirect()->back();
     }
 
     public function verify_bank(Request $request)

@@ -294,7 +294,7 @@
                             </div>
                             @endif
                             <div id="displaypicture" class="hash-candidate screen">
-                                <form method="POST" action="{{ route('displaypicture') }}">
+                                <form method="POST" action="{{ route('displaypicture') }}" enctype="multipart/form-data">
                                     @csrf
                                     <div class="row py-4">
                                     <div class="col-lg-6 mx-auto">
