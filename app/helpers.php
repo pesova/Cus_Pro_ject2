@@ -3,14 +3,18 @@
 use Illuminate\Support\Facades\Cookie;
 
 if (!function_exists('app_format_currency')) {
-
-    function app_format_currency($amount, $currency = 'NGN')
+    /**
+     * Format currency with logged in user currency
+     * @param float $amount amount
+     * @param string $currency currency
+     * @return string formatted currency
+     */
+    function app_format_currency($amount, $currency = null)
     {
-        /**
-         * Save User info to the cookie
-         * @param string $name name of cookie
-         * @return mixed
-         */
+        if ($currency == null) {
+            $currency = (get_user_data('currency') == '') ? get_user_data('currency') : 'NGN';
+        }
+
         $_amount = number_format($amount, 2);
         $formatted = $currency . ' ' . $_amount;
         return $formatted;
@@ -19,7 +23,7 @@ if (!function_exists('app_format_currency')) {
 
 if (!function_exists('get_user_data')) {
     /**
-     * Save User info to the cookie
+     * get User info from the cookie
      * @param string $name name of cookie
      * @return mixed
      */
