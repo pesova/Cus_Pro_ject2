@@ -63,7 +63,18 @@
                                 <span>My Account</span>
                             </a>
                             @endif
-
+                            <div class="dropdown-divider"></div>
+                            @if(\Cookie::get('theme') == 'dark')
+                                <a href="{{route('theme.change','light')}}" class="dropdown-item notify-item">
+                                    <i data-feather="sun" class="icon-dual icon-xs mr-2"></i>
+                                    <span>Switch to light mode</span>
+                                </a>
+                            @else
+                                <a href="{{route('theme.change','dark')}}" class="dropdown-item notify-item">
+                                    <i data-feather="moon" class="icon-dual icon-xs mr-2"></i>
+                                    <span>Switch to dark mode</span>
+                                </a>
+                            @endif
                             <div class="dropdown-divider"></div>
                             <a href="{{ route('logout') }}" class="dropdown-item notify-item">
                                 <i data-feather="log-out" class="icon-dual icon-xs mr-2"></i>
