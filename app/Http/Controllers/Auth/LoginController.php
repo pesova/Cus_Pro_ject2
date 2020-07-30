@@ -175,7 +175,7 @@ class LoginController extends Controller
                     Cookie::queue('expires', strtotime('+ 1 day'));
 
                     Cookie::queue('is_first_time_user', false);
-                    dd($response->data->user);
+                    
                     // Financial info 
                     $userRole = $response->data->user->local->user_role;
                     if ($userRole == 'store_admin') {
@@ -193,6 +193,7 @@ class LoginController extends Controller
                     } elseif ($userRole == 'store_assistant') {
                         Cookie::queue('currency',  $response->data->user->currencyPreference);
                     }
+                    
                     //show success message
                     $request->session()->flash('alert-class', 'alert-success');
                     $request->session()->flash('message', $response->message);
