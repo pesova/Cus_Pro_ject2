@@ -220,12 +220,16 @@
                                         <div class="form-group">
                                             <label for="currency_select">Bank Name</label>
                                             <select class="form-control" id="bank_select" name="account_bank" required>
-                                                <option>ABC Bank</option>
+                                                @foreach($bank_list as $bank)
+                                                <option value='{{ $bank->code }}' {{ $bank->code == $user_details['account_bank'] ? 'selected' : ''}}>
+                                                    {{ $bank->name }}
+                                                </option>
+                                                @endforeach
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label>Account number</label>
-                                            <input class="form-control" type="text" id="account_number" name="account_number" value="{{ $user_details['account_number'] ?? '' }}" value="" placeholder="0123456789" required>
+                                            <input class="form-control" type="number" id="account_number" name="account_number" value="{{ $user_details['account_number'] ?? '' }}" value="" placeholder="0123456789" min="1" max="9999999999" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Account Name</label>
@@ -235,7 +239,7 @@
                                         @endif
                                         <input type="hidden" value="finance_update" name="control">
                                         <div class=" text-center">
-                                            <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i> Save</button>
+                                            <button class="btn btn-primary" id='financeButton' type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i> Save</button>
                                         </div>
                                     </div>
                                 </form>
@@ -523,4 +527,42 @@
 
 </script>
 
+<script>
+    $(function() {
+        const url = "{{ route('verify.bank') }}";
+        $('#financeButton').attr('disabled',true);
+
+        $('#account_number').keyup(function() {
+            $('#statusSpiner').removeClass('d-none');
+
+            const number = $(this).val();
+            const bank = $('#bank_select').val();
+            if (number.length != 10) {
+                return false;
+            }
+            $.ajax({
+                url: url
+                , data: {
+                    "_token": "{{ csrf_token() }}"
+                    , account_number: number
+                    , account_bank: bank
+                , }
+                , type: 'POST'
+            , }).done(response => {
+                if (response.success != true) {
+                    alert("Oops! something went wrong.");
+                }
+
+                $('#financeButton').removeAttr("disabled")
+                $('#statusSpiner').addClass('d-none');
+            }).fail(e => {
+                $('#financeButton').removeAttr("disabled")
+                $('#statusSpiner').addClass('d-none');
+                alert("Oops! something went wrong.");
+            });
+        });
+
+    });
+
+</script>
 @stop

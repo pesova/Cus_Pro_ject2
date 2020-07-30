@@ -38,7 +38,7 @@ class SettingsController extends Controller
         $user_details['phone_number'] = Cookie::get('phone_number');
         $user_details['is_active'] = Cookie::get('is_active');
 
-        $url= env('API_URL', 'https://dev.api.customerpay.me') . '/banks/list';
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/banks/list';
         try {
             $client = new Client();
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
@@ -47,6 +47,11 @@ class SettingsController extends Controller
 
             if ($statusCode == 200) {
                 $bank_list = json_decode($bank_list->getBody())->data;
+                usort($bank_list, function ($a, $b) {
+                    return strcasecmp($a->name, $b->name);
+                });
+            } else {
+                $bank_list = [];
             }
         } catch (RequestException $e) {
             Log::info('Catch error: settingsController - ' . $e->getMessage());
@@ -62,6 +67,7 @@ class SettingsController extends Controller
                 Session::flash('message', 'could not retrieve bank list');
                 return back();
             }
+            $bank_list = [];
         } catch (Exception $e) {
             // token expired
             if ($e->getCode() == 401) {
@@ -72,7 +78,7 @@ class SettingsController extends Controller
             return view('errors.500');
         }
 
-        return view('backend.settings.settings')->with("user_details", $user_details);
+        return view('backend.settings.settings', compact('user_details', 'bank_list'));
     }
 
     // Controller action to update user details.
@@ -92,9 +98,6 @@ class SettingsController extends Controller
                         "first_name" => $request->input('first_name'),
                         "last_name" => $request->input('last_name'),
                         "email" => $request->input('email'),
-                        "account_number" => $request->input('account_number'),
-                        "account_name" => $request->input('account_name'),
-                        "bank" => $request->input('bank')
                     ];
                     // make an api call to update the user_details
                     $this->headers = ['headers' => ['x-access-token' => Cookie::get('api_token')], 'form_params' => $data];
@@ -114,12 +117,24 @@ class SettingsController extends Controller
                     // make an api call to update the user_details
                     $this->headers = ['headers' => ['x-access-token' => Cookie::get('api_token')], 'form_params' => $data];
                     $response = $client->request('POST', $url, $this->headers);
+                } elseif ($control == 'finance_update') {
+                    $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store-admin/update';
+                    $client = new Client();
+                    $data = [
+                        "account_number" => $request->input('account_number'),
+                        "account_name" => $request->input('account_name'),
+                        "bank" => $request->input('bank')
+                    ];
+                    // make an api call to update the user_details
+                    $this->headers = ['headers' => ['x-access-token' => Cookie::get('api_token')], 'form_params' => $data];
+                    $response = $client->request('PUT', $url, $this->headers);
+                
                 } else {
                     return view('errors.404');
                 }
                 if ($response->getStatusCode() == 200) {
                     $request->session()->flash('alert-class', 'alert-success');
-                    if ($control == 'profile_update') {
+                    if ($control != 'password_change') {
                         $user_detail_res = json_decode($response->getBody(), true);
                         $filtered_user_detail = $user_detail_res['data']['store_admin']['local'];
                         $bank_details = $user_detail_res['data']['store_admin']['bank_details'];
@@ -145,12 +160,13 @@ class SettingsController extends Controller
                         Cookie::queue('account_number', $bank_details['account_number']);
                         Cookie::queue('bank', $bank_details['bank']);
                         $request->session()->flash('message', "Profile details updated successfully");
-                        return redirect()->route('setting')->with("user_details", $user_details);
+                        return back();
                     }
                     if ($control == 'password_change') {
                         $request->session()->flash('message', "Password updated successfully");
-                        return redirect(route('setting') . '#change-password');
                     }
+                    return back();
+
                 }
             } else {
                 return redirect()->route('setting');
@@ -187,5 +203,10 @@ class SettingsController extends Controller
     public function change_profile_picture()
     {
         return view('backend.change_profile_picture.index');
+    }
+
+    public function verify_bank(Request $request)
+    {
+        dd($request->all());
     }
 }
