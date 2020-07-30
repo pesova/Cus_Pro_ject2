@@ -137,7 +137,7 @@
                                     {{$broadcast->message}}
                                 </td>
                                 <td>
-                                    <span class="badge badge-{{$broadcast->status == "sent" ? "success" : "danger"}}">
+                                    <span class="badge badge-{{$broadcast->status == "Sent" ? "success" : "danger"}}">
                                         {{$broadcast->status == "Sent" ? "Sent" : "Not Sent"}}
                                     </span></td>
                                 <td>
@@ -208,7 +208,8 @@
 
     $(document).ready(function() {
     $('#broadcastsTable').DataTable({
-        dom: 'frtipB'
+        dom: 'frtipB',
+        "ordering": false,
     }
     );
 } );
