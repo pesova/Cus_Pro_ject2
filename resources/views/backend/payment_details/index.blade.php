@@ -1,4 +1,4 @@
-@extends('backend.payment.layout.app')
+@extends('backend.payment_details.layout.app')
 
 @section('content')
 <div class="">

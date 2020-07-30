@@ -25,7 +25,7 @@
         <header class="py-4 text-center">
             <img src="{{ asset('frontend/assets/images/payment/logo.svg')}}" alt="" />
         </header>
-
+        @include('partials.alert.message')
         <main>
             @yield('content')
         </main>

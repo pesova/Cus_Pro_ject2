@@ -30,20 +30,24 @@ class PaymentController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'card_number' => 'required',
-            'card_expiry_month' => 'required',
-            'card_expiry_year' => 'required',
-            'card_cvv_number' => 'required',
+            'card_expiry_month' => 'required|string|max:2',
+            'card_expiry_year' => 'required|string|min:3|max:4',
+            'card_cvv_number' => 'required|string|min:3|max:3',
         ]);
-
+        
         $input = $request->all();
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator);
         }
         if($validator->passes()) {
             try {
-                dd('here');
+                $request->session()->flash('alert-class', 'alert-info');
+                $request->session()->flash('message', 'Work in progress');
+                return redirect()->back();
             } catch (\Throwable $th) {
-                dd('there');
+                $request->session()->flash('alert-class', 'alert-dange');
+                $request->session()->flash('message', 'something went wrong');
+                return redirect()->back();
             }
         }
     }
