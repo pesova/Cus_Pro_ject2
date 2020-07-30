@@ -248,4 +248,43 @@
     });
 
 </script>
+{{-- @if ( Cookie::get('is_first_time_user') == true) --}}
+    <script>
+        var transaction_intro_shown = localStorage.getItem('transaction_intro_shown');
+
+        if (!transaction_intro_shown) {
+
+            const tour = new Shepherd.Tour({
+                defaults: {
+                    classes: "shepherd-theme-arrows"
+                }
+            });
+
+            tour.addStep("step", {
+                text: "Welcome to Transaction Page, here you can record and track your transactions",
+                buttons: [{
+                    text: "Next",
+                    action: tour.next
+                }]
+            });
+
+            // tour.addStep("step2", {
+            //     text: "First thing you do is create a store",
+            //     attachTo: { element: ".second", on: "right" },
+            //     buttons: [
+            //         {
+            //             text: "Next",
+            //             action: tour.next
+            //         }
+            //     ],
+            //     beforeShowPromise: function() {
+            //         document.body.className += ' sidebar-enable';
+            //         document.getElementById('sidebar-menu').style.height = 'auto';
+            //     },
+            // });
+            tour.start();
+            localStorage.setItem('transaction_intro_shown', 1);
+        }
+    </script>
+    {{-- @endif --}}
 @stop
