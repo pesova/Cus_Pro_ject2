@@ -178,7 +178,7 @@ class StoreController extends Controller
                 if ($statusCode == 201  && $data->success) {
                     $request->session()->flash('alert-class', 'alert-success');
                     Session::flash('message', $data->message);
-                    return $this->index();
+                    return redirect()->route('store.index');
                 } else if ($statusCode == 401) {
                     $request->session()->flash('alert-class', 'alert-danger');
                     Session::flash('message', "Your Session Has Expired, Please Login Again");
