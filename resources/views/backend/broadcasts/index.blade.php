@@ -121,14 +121,10 @@
                                 {{$broadcast->_id}}
                                 </td>
                                 <td>
-                                    @php
-                                        $number_count = 0;
-                                    @endphp
-                                    @foreach ($broadcast->numbers as $numbers)
-                                        @php
-                                            ++$number_count;
-                                        @endphp
-                                        @if (count($broadcast->numbers) !=  $number_count)
+                                 
+                                    @foreach ($broadcast->numbers as $index=>$numbers)
+                                        
+                                        @if (count($broadcast->numbers) !=  $index + 1)
                                              {{$numbers .","}}
                                         @else
                                             {{$numbers}}
