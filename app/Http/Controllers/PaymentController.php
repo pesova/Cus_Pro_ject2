@@ -2,17 +2,46 @@
 
 namespace App\Http\Controllers;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
+    protected $host;
+
+    public function __construct()
+    {
+        $this->host = env('API_URL', 'https://dev.api.customerpay.me');
+    }
+
     /** 
      * show payment page
      */
-    public function index()
+    public function index($id)
     {
-        return view('backend.payment_details.index');
+        $transactionID = $id;
+        $transactionURL = $this->host . '/transaction' . '/' . $transactionID;
+
+        $client = new Client;
+        try {
+            //code...
+            $transactionResponse = $client->request("GET", $transactionURL);
+            $transacStatusCode = $transactionResponse->getStatusCode();
+            
+            if ($transacStatusCode == 200) {
+                $transaction = json_decode($transactionResponse->getBody())->data->transaction;
+                return view('backend.payment_details.index', compact("transaction"));
+            } else {
+                return ('Invalid Transaction Ref Code');
+            }
+            
+        } catch (RequestException $e) {
+            //throw $th;
+            return ('Invalid Transaction Ref Code');
+        }
     }
 
     /** 

@@ -3,12 +3,9 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use Illuminate\Http\Request;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Cookie;
 
 class DashboardController extends Controller
@@ -52,10 +49,8 @@ class DashboardController extends Controller
                 return view('errors.500');
             }
 
-
         } elseif (Cookie::get('user_role') === 'store_admin') {
             $url = env('API_URL', 'https://dev.api.customerpay.me') . '/dashboard/';
-
 
             try {
                 $client = new Client;
@@ -64,9 +59,7 @@ class DashboardController extends Controller
                         'x-access-token' => Cookie::get('api_token')
                     ]
                 ];
-
                 $response = $client->request('GET', $url, $payload);
-
 
                 if ($response->getStatusCode() == 200) {
                     $data = json_decode($response->getBody());
@@ -114,12 +107,10 @@ class DashboardController extends Controller
 
                     return view('backend.dashboard.index')->withData($data);
 
-
                 } else {
                     return view('errors.500');
                     // return back()->withErrors("An Error Occured. Please try again later");
                 }
-
 
             } catch (\Exception $e) {
                 if ($e->getCode() == 401) {

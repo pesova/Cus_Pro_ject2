@@ -41,29 +41,29 @@
         </div>
     </div>
 
-      <!-- stats + charts -->
-      <div class="row">
+    <!-- stats + charts -->
+    <div class="row">
         <div class="col-xl-5">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title mt-0 mb-0 header-title">Transaction Overview</h5>
                     <div id="sales-by-category-chart" class="apex-charts mb-0 mt-4" dir="ltr"></div>
-                </div> 
+                </div>
             </div>
-        </div> 
-  
+        </div>
+
         <div class="col-xl-7">
             <div class="card">
                 <div class="card-body pb-0">
-  
+
                     <h5 class="card-title mb-0 header-title">Revenue Overview</h5>
-  
+
                     <div id="revenue-chart" class="apex-charts mt-3" dir="ltr"></div>
                 </div>
             </div>
         </div>
-      </div>
-      <!-- row -->
+    </div>
+    <!-- row -->
 
     <!-- content -->
     <div class="row">

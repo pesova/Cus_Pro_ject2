@@ -49,7 +49,7 @@ Route::get('/admin', function () {
     return redirect()->route('dashboard');
 });
 
-Route::get('/pay', "PaymentController@index")->name('pay');
+Route::get('/pay/{id}', "PaymentController@index")->name('pay');
 Route::get('/pay/create', "PaymentController@create")->name('pay.create');
 Route::post('/pay', "PaymentController@store")->name('pay.proceed');
 
