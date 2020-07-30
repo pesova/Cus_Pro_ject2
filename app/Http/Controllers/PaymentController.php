@@ -12,7 +12,7 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        return view('backend.payment.index');
+        return view('backend.payment_details.index');
     }
 
     /** 
@@ -20,7 +20,7 @@ class PaymentController extends Controller
      */
     public function create()
     {
-        return view('backend.payment.create');
+        return view('backend.payment_details.create');
     }
 
     /**
