@@ -39,6 +39,14 @@ class DashboardController extends Controller
                 if ($status_code_all_info == 200) {
                     $allInfo_response_body = json_decode($allInfoResponse->getBody());
                     $allInfo_response_body = $allInfo_response_body->data;
+
+                    if ($allInfo_response_body->totalDebt > 1000000) {
+                        $allInfo_response_body->totalDebt = sprintf("%0.2fM", $allInfo_response_body->totalDebt / 1000000);
+                    }
+                    if ($allInfo_response_body->totalDebt > 1000) {
+                        $allInfo_response_body->totalDebt = sprintf("%0.2fK", $allInfo_response_body->totalDebt / 1000);
+                    }
+
                     // dd($allInfo_response_body);
                     return view('backend.dashboard.index')->with('data', $allInfo_response_body);
                 }

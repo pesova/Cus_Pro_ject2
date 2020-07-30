@@ -227,7 +227,7 @@ $total_interestReceivables += $each_interestReceivables;
                 <div class="text-center">
                     <h6>Choose Business Card</h6>
                 </div>
-                <div id="carouselExampleIndicators" class="carousel slide " data-ride="carousel" data-pause="hover">
+                {{-- <div id="carouselExampleIndicators" class="carousel slide " data-ride="carousel" data-pause="hover">
                     <ol class="carousel-indicators">
                         <li data-target="#carouselExampleIndicators" data-slide-to="0" data-version="v1"
                             class="active slides"></li>
@@ -261,20 +261,36 @@ $total_interestReceivables += $each_interestReceivables;
                         <span class=" text-dark" aria-hidden="true"> <i class="fa fa-chevron-right"></i></span>
                         <span class="sr-only">Next</span>
                     </a>
+                </div> --}}
+
+                <div class="row" id="gallery" data-toggle="modal" data-target="#exampleModal">
+                    <div class="col-6 col-md-4 col-lg-12">
+                      <img class="w-100" src="{{asset('backend/assets/images/card_v2.PNG')}}" data-target=”#carouselExamples” data-slide-to="0">
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-12">
+                      <img class="w-100" src="{{asset('backend/assets/images/card_vv1.PNG')}}" data-target=”#carouselExamples” data-slide-to="1">
+                    </div>
+                   
                 </div>
 
-                <div class="text-center padup">
-                    <form action="{{route('preview', $storeData->_id)}}" method="post" id="preview-form">
-                        @csrf
+
+
+                {{-- <div class="text-center padup">
+                <form action="{{route('preview', $storeData->_id)}}" method="post" id="preview-form">
+                    @csrf
                         <input type="hidden" name="version" class="version">
                     </form>
                     <button data-toggle="modal" data-target="#downloadModal" class="btn btn-success mr-2">
                         <i class="far mr-2 fa-card">
                         </i>Download</button>
-                    <button id="preview" class="btn btn-primary mr-2">
-                        <i class="far mr-2 fa-card"></i>
-                        Preview</button>
-                </div>
+                    <button
+                    
+                    id="preview"
+                    class="btn btn-primary mr-2">
+                    <i class="far mr-2 fa-card"></i>
+                    Preview</button>
+                </div> --}}
+
 
             </div>
         </div>
@@ -472,6 +488,64 @@ $total_interestReceivables += $each_interestReceivables;
 </div>
 
 
+  <div class="modal fade" id="exampleModal" tabindex="-1 role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Available Cards</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Carousel markup goes in the modal body -->
+          
+          <div id="carouselExamples" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active"  data-version="v2">
+                <img class="d-block w-100" src="{{asset('backend/assets/images/card_v2.PNG')}}">
+              </div>
+              <div class="carousel-item"  data-version="v1">
+                <img class="d-block w-100" src="{{asset('backend/assets/images/card_vv1.PNG')}}">
+              </div>
+              </div>
+            </div>
+            <a class="carousel-control-prev" href="#carouselExamples" role="button" data-slide="prev">
+              <span  aria-hidden="true" class="text-dark"><i class="fa fa-chevron-left"></i></span>
+              <span class="sr-only" class="text-dark">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExamples" role="button" data-slide="next">
+              <span  aria-hidden="true" class="text-dark"><i class="fa fa-chevron-right"></i></span>
+              <span class="sr-only" class="text-dark">Next</span>
+            </a>
+          </div>
+        </div>
+        {{-- <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div> --}}
+        
+    </div>
+    <div class="text-center padup">
+        <form action="{{route('preview', $storeData->_id)}}" method="post" id="preview-form">
+            @csrf
+                <input type="hidden" name="version" class="version">
+            </form>
+            <button
+            data-toggle="modal" 
+            data-target="#downloadModal"
+            id="first_download_button"
+                    class="btn btn-success mr-2">
+                    <i class="far mr-2 fa-card">
+                </i>Download</button>
+            <button
+            
+            id="preview"
+            class="btn btn-primary mr-2">
+            <i class="far mr-2 fa-card"></i>
+            Preview</button>
+  </div>
+  </div>
+
 @endsection
 
 @section("javascript")
@@ -553,17 +627,28 @@ $total_interestReceivables += $each_interestReceivables;
     });
 
 
-    $('#preview').click(function () {
-        let activeSlide = $(".slides.active");
+    $("#first_download_button").click(function(){
+        $("#exampleModal").modal('hide');
+    })
+
+
+    $('#preview').click(function(){
+        let activeSlide = $(".carousel-item.active");
+
         let version = activeSlide.data('version');
+        
         $(".version").val(version);
         $("#preview-form").submit();
         // console.log();
     })
 
-    $('#download').click(function () {
-        let activeSlide = $(".slides.active");
+
+    $('#download').click(function(){
+        
+        let activeSlide = $(".carousel-item.active");
+
         let version = activeSlide.data('version');
+      
         $(".version").val(version);
         $("#download-form").submit();
         $("#downloadModal").modal('hide');
@@ -607,7 +692,7 @@ $total_interestReceivables += $each_interestReceivables;
 </script>
 <script>
     $(document).ready(function () {
-        var product = < ? php echo json_encode($c); ? >
+        var product = <?php echo json_encode($c); ?>
 
         // start of transaction charts
 
@@ -615,11 +700,11 @@ $total_interestReceivables += $each_interestReceivables;
 
             series: [{
                 name: 'Transaction',
-                data: [ < ? php foreach($c as $key) {
+                data: [ <?php foreach($c as $key) {
                     $aaa = (string) $key['value'].
                     ",";
                     echo $aaa;
-                } ? > ]
+                } ?> ]
             }],
             chart: {
                 height: 350,
@@ -632,12 +717,12 @@ $total_interestReceivables += $each_interestReceivables;
             xaxis: {
                 type: 'datetime',
 
-                categories: [ < ? php foreach($c as $key) {
+                categories: [ <?php foreach($c as $key) {
                     $aaa = "'".$key['date'].
                     "'".
                     ",";
                     echo $aaa;
-                } ? > ],
+                } ?> ],
             },
 
             title: {

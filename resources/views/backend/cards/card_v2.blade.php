@@ -33,11 +33,14 @@
             <h4 class="hh2">{{$store_details->tagline}}</h4>
 
 
-            <h1 class="hh3">{{Cookie::get('first_name') ." ". Cookie::get('last_name') }}</h1>
-            <h5 class="hh4">{{Cookie::get('user_role')}}</h5>
+            {{-- <h1 class="hh3">{{Cookie::get('first_name') ." ". Cookie::get('last_name') }}</h1>
+            <h5 class="hh4">{{Cookie::get('user_role')}}</h5> --}}
 
             <h4 class="hh5">{{$store_details->phone_number}}</h4>
-            <h4 class="hh6">{{$store_details->email}}</h4>
+            @isset($store_details->email)
+               <h4 class="hh6">{{$store_details->email}}</h4>  
+            @endisset
+           
 
             <h4 class="hh7">{{$store_details->shop_address}}</h4>
         </div>
