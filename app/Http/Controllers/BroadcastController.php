@@ -33,19 +33,37 @@ class BroadcastController extends Controller
     {
         $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store';
 
+        $all_messages_url = env('API_URL', 'https://dev.api.customerpay.me') . '/message/get';
+
         try {
 
             $client = new Client;
             $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
 
             $response = $client->request("GET", $url, $payload);
+            $all_messages_response = $client->request("GET", $all_messages_url, $payload);
+
             $statusCode = $response->getStatusCode();
+            $all_messages_statusCode = $all_messages_response->getStatusCode();
+
             $body = $response->getBody();
+            $all_messages_body = $all_messages_response->getBody();
+
+            
+
             $Stores = json_decode($body);
+            $broadcasts_body = json_decode($all_messages_body);
+
+            $broadcasts = $broadcasts_body->data->broadcasts;
+            // return $broadcasts;
+            $data = [
+                'stores' => $Stores->data->stores,
+                'broadcasts' => $broadcasts
+            ];
 
             if ($statusCode == 200) {
                 // return $Stores->data->stores;
-                return view('backend.broadcasts.index')->with('response', $Stores->data->stores);
+                return view('backend.broadcasts.index')->with('data', $data);
             }
         } catch (RequestException $e) {
             Log::error('Catch error: Create Broadcast' . $e->getMessage());
