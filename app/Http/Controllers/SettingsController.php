@@ -216,7 +216,7 @@ class SettingsController extends Controller
                 Cookie::queue('account_name', $bank_details->account_name);
                 Cookie::queue('account_number', $bank_details->account_number);
                 Cookie::queue('account_bank', $bank_details->bank);
-                Cookie::queue('currencyPreference', $result->currencyPreference);
+                Cookie::queue('currency', $result->currencyPreference);
                 $request->session()->flash('alert-class', "alert-success");
                 $request->session()->flash('message', "Finacial information updated successfully");
             }
