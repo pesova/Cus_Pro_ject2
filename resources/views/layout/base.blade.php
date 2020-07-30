@@ -23,6 +23,9 @@
     <link href="{{asset('backend/assets/css/custom.css')}}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shepherd/2.0.0-beta.1/css/shepherd-theme-arrows.css" />
     <link href="{{asset('backend/assets/css/tourguide.css')}}" rel="stylesheet" type="text/css">
+    @if(\Cookie::get('theme') == 'dark')
+        <link href="{{asset('backend/assets/css/dark-css.css')}}" rel="stylesheet" type="text/css">
+    @endif
     <style>
         .dissapear {
             display: none !important;

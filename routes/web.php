@@ -74,6 +74,9 @@ Route::prefix('/admin')->group(function () {
     Route::get('/activate', 'ActivateController@index')->name('activate.index');
     Route::post('/activate', 'ActivateController@activate')->name('activate.save');
 
+    //theme
+    Route::get('/theme/{theme}','ThemeController@changeTheme')->name('theme.change');
+
     // ------------ AUTH ROUTES ENDS HERE ------------------------ //
 
     // ------------ ADMIN ROUTES ------------------------ //
