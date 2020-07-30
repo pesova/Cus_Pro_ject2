@@ -13,6 +13,7 @@ use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 
 class StoreController extends Controller
 {
@@ -21,7 +22,7 @@ class StoreController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
 
         if (Cookie::get('user_role') == 'super_admin') {
@@ -40,7 +41,18 @@ class StoreController extends Controller
                 if ($statusCode == 200) {
                     // return $Stores->data->stores;
                     // dump($Stores->data->stores);
-                    return view('backend.stores.index')->with('response', $Stores->data->stores);
+
+                    $stores_data = $Stores->data->stores;
+                    $perPage = 12;
+                    $page = $request->get('page', 1);
+                    if ($page > count($stores_data) or $page < 1) {
+                        $page = 1;
+                    }
+                    $offset = ($page * $perPage) - $perPage;
+                    $articles = array_slice($stores_data, $offset, $perPage);
+                    $stores = new Paginator($articles, count($stores_data), $perPage);
+
+                    return view('backend.stores.index')->with('response', $stores->withPath('/' . $request->path()));
                 } else if ($statusCode == 401) {
                     return redirect()->route('logout');
                 } else if ($statusCode == 500) {
@@ -79,7 +91,17 @@ class StoreController extends Controller
 
                 if ($statusCode == 200) {
                     // return $Stores->data->stores;
-                    return view('backend.stores.index')->with('response', $Stores->data->stores);
+                    $stores_data = $Stores->data->stores;
+                    $perPage = 12;
+                    $page = $request->get('page', 1);
+                    if ($page > count($stores_data) or $page < 1) {
+                        $page = 1;
+                    }
+                    $offset = ($page * $perPage) - $perPage;
+                    $articles = array_slice($stores_data, $offset, $perPage);
+                    $stores = new Paginator($articles, count($stores_data), $perPage);
+
+                    return view('backend.stores.index')->with('response', $stores->withPath('/' . $request->path()));
                 } else if ($statusCode == 401) {
                     return redirect()->route('logout');
                 } else if ($statusCode == 500) {
