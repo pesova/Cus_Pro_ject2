@@ -10,6 +10,7 @@ use function GuzzleHttp\json_encode;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cookie;
 use GuzzleHttp\Exception\RequestException;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Session;
 
 class SettingsController extends Controller
@@ -207,6 +208,34 @@ class SettingsController extends Controller
 
     public function verify_bank(Request $request)
     {
-        dd($request->all());
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/account/verify';
+        try {
+            $client = new Client();
+            $headers = [
+                'headers' => ['x-access-token' => Cookie::get('api_token')],
+                'form_params' => $request->all(),
+            ];
+            $response = $client->request('POST', $url, $headers);
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode == 200) {
+                $data = json_decode($response->getBody())->data;
+                return response()->json([
+                    'status'  => 'success',
+                    'message' => 'verified successfully',
+                    'data'    => $data,
+                ],200);
+            }
+            return response()->json(['status'=>false,'message' => 'invalid account details'],400);
+        } catch (RequestException $e) {
+            dd($e->getMessage());
+            Log::info('Catch error: settingsController - ' . $e->getMessage());
+            // token expired
+            return response()->json(['status'=>false,'message' => 'invalid account details'],400);
+        } catch (Exception $e) {
+            Log::error('Catch error: seetingsController - ' . $e->getMessage());
+            return response()->json(['status'=>false,'message' => 'internal error'],400);
+        }
+
     }
 }

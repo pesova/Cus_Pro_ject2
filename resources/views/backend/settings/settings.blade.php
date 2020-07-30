@@ -207,7 +207,7 @@
                             <div id="finance" class="hash-candidate screen">
                                 <form method="POST" action="{{ route('setting') }}">
                                     @csrf
-                                    <div class="col-md-8 offset-2">
+                                    <div class="col-md-8 offset-md-2">
                                         @if ( \Cookie::get('user_role') == "store_admin")
                                         <div class="form-group">
                                             <label for="currency_select">Currenct</label>
@@ -219,7 +219,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="currency_select">Bank Name</label>
-                                            <select class="form-control" id="bank_select" name="account_bank" required>
+                                            <select class="form-control" id="bank_select" name="bank" required>
                                                 @foreach($bank_list as $bank)
                                                 <option value='{{ $bank->code }}' {{ $bank->code == $user_details['account_bank'] ? 'selected' : ''}}>
                                                     {{ $bank->name }}
@@ -549,12 +549,11 @@
                 , }
                 , type: 'POST'
             , }).done(response => {
-                if (response.success != true) {
-                    alert("Oops! something went wrong.");
-                }
-
+                if(response.status == 'success') {
+                $('#account_name').val(response.data.account_name);
                 $('#financeButton').removeAttr("disabled")
                 $('#statusSpiner').addClass('d-none');
+                }
             }).fail(e => {
                 $('#financeButton').removeAttr("disabled")
                 $('#statusSpiner').addClass('d-none');
