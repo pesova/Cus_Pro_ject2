@@ -692,7 +692,7 @@ $total_interestReceivables += $each_interestReceivables;
 </script>
 <script>
     $(document).ready(function () {
-        var product = < ? php echo json_encode($c); ? >
+        var product = <?php echo json_encode($c); ?>
 
         // start of transaction charts
 
@@ -700,11 +700,11 @@ $total_interestReceivables += $each_interestReceivables;
 
             series: [{
                 name: 'Transaction',
-                data: [ < ? php foreach($c as $key) {
+                data: [ <?php foreach($c as $key) {
                     $aaa = (string) $key['value'].
                     ",";
                     echo $aaa;
-                } ? > ]
+                } ?> ]
             }],
             chart: {
                 height: 350,
@@ -717,12 +717,12 @@ $total_interestReceivables += $each_interestReceivables;
             xaxis: {
                 type: 'datetime',
 
-                categories: [ < ? php foreach($c as $key) {
+                categories: [ <?php foreach($c as $key) {
                     $aaa = "'".$key['date'].
                     "'".
                     ",";
                     echo $aaa;
-                } ? > ],
+                } ?> ],
             },
 
             title: {
