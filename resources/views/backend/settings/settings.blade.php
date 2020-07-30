@@ -125,7 +125,7 @@
                                         {{ isset($user_details['account_number']) ? $user_details['account_number'] : "plese update your your account number"}}
                                     </p>
                                     <p class="my-3">
-                                        {{ isset($user_details['bank']) ? $user_details['bank'] : "plese update your bank"}}
+                                        {{ isset($user_details['account_bank']) ? $user_details['account_bank'] : "plese update your bank"}}
                                     </p>
                                     @endif
                                     @php if (isset($user_details['is_active'])): @endphp
