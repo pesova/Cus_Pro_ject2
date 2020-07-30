@@ -21,9 +21,9 @@
                     <a href="{{ route('users.index') }}" class="btn btn-primary float-right">
                         Go Back
                     </a>
-                    <a href="{{route('users.edit', $data->_id) }}" class="mr-3 btn btn-success float-right">
-                        Edit User
-                    </a>
+                    {{--<a href="{{route('users.edit', $data->_id) }}" class="mr-3 btn btn-success float-right">--}}
+                        {{--Edit User--}}
+                    {{--</a>--}}
                 </div>
             </div>
             @include('partials.dashboard.store_admin')

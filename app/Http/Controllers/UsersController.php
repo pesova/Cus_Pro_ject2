@@ -98,7 +98,7 @@ class UsersController extends Controller
         ]);
 
         try {
-            $client =  new Client();
+            $client = new Client();
             $payload = [
                 'headers' => ['x-access-token' => Cookie::get('api_token')],
                 'form_params' => [
@@ -111,7 +111,7 @@ class UsersController extends Controller
             $statusCode = $response->getStatusCode();
             $data = json_decode($response->getBody());
 
-            if ($statusCode == 201  && $data->success) {
+            if ($statusCode == 201 && $data->success) {
                 $request->session()->flash('alert-class', 'alert-success');
                 Session::flash('message', $data->message);
                 return back();
@@ -156,7 +156,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/dashboard/';
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store_admin/' . $id;
 
 
         try {
@@ -173,6 +173,9 @@ class UsersController extends Controller
             if ($response->getStatusCode() == 200) {
                 $data = json_decode($response->getBody());
                 $data = $data->data;
+                $data->_id = $data->user->_id;
+
+                //dd($data);
                 $thisMonth = $data->amountForCurrentMonth;
                 $lastMonth = $data->amountForPreviousMonth;
                 $diff = $thisMonth - $lastMonth;
@@ -180,7 +183,7 @@ class UsersController extends Controller
                 $profit = ($thisMonth > $lastMonth) ? true : false;
                 $percentage = ($lastMonth == 0) ? '-' : sprintf("%.2f", ($diff / $lastMonth) * 100);
 
-                return view('backend.dashboard.index')->withData($data)->withProfit(['profit' => $profit, 'percentage' => $percentage]);
+                return view('backend.user.show')->withData($data)->withProfit(['profit' => $profit, 'percentage' => $percentage]);
             }
         } catch (RequestException $e) {
             Log::info('Catch error: DashboardController - ' . $e->getMessage());
