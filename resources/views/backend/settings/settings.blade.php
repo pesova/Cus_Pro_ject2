@@ -259,9 +259,9 @@
                                         <div class="form-group">
                                             <label for="currency_select">Currenct</label>
                                             <select class="form-control" id="currency_select" name="currency" required>
-                                                <option value='NGN'>NGN</option>
-                                                <option value='USD'>USD</option>
-                                                <option value='INR'>INR</option>
+                                                <option value='NGN' @if(strtolower($user_details['currency']) == 'ngn') {{ 'selected' }} @endif>NGN</option>
+                                                <option value='USD' @if(strtolower($user_details['currency']) == 'usd') {{ 'selected' }} @endif>USD</option>
+                                                <option value='INR' @if(strtolower($user_details['currency']) == 'inr') {{ 'selected' }} @endif>INR</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
