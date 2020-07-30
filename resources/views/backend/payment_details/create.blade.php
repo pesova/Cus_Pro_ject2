@@ -1,4 +1,4 @@
-@extends('backend.payment.layout.app')
+@extends('backend.payment_details.layout.app')
 
 @section('content')
 <div>
@@ -21,12 +21,12 @@
         @csrf
         <div class="form-group mb-2">
             <label for="card_number" class="m-0 px-2">Card Number<span class="text-danger">*</span></label>
-            <input type="text" name="card_number" parsley-trigger="change" required placeholder="0000 0000 0000 0000"
+            <input type="number" name="card_number" parsley-trigger="change" required placeholder="0000 0000 0000 0000"
                 class="form-control form-control-lg" id="card_number">
         </div>
         <div class="form-group mb-2">
             <label for="card_holder_name" class="m-0 px-2">Card Holder's Name<span class="text-danger">*</span></label>
-            <input type="email" name="card_holder_name" parsley-trigger="change" required placeholder=""
+            <input type="text" name="card_holder_name" parsley-trigger="change" required placeholder=""
                 class="form-control form-control-lg" id="card_holder_name">
         </div>
         <div class="row">
@@ -34,11 +34,11 @@
                 <label for="card_expiry_month" class="m-0 px-2">Expiry Date<span class="text-danger">*</span></label>
                 <div class="d-flex">
                     <div class="form-group">
-                        <input id="card_expiry_month" type="number" max="2" name="card_expiry_month" placeholder="MM"
+                        <input id="card_expiry_month" type="number" data-parsley-maxlength="2" name="card_expiry_month" placeholder="MM"
                             required class="form-control form-control-lg">
                     </div>
                     <div class="form-group">
-                        <input id="card_expiry_year" type="number" max="4" name="card_expiry_year" placeholder="YYYY"
+                        <input id="card_expiry_year" type="number" data-parsley-minlength="4" data-parsley-maxlength="4" name="card_expiry_year" placeholder="YYYY"
                             required class="form-control form-control-lg">
                     </div>
                 </div>
@@ -46,16 +46,16 @@
             <div class="col-4">
                 <div class="">
                     <div class="form-group">
-                        <label for="card_cvv" class="m-0 px-2">CVV <span class="text-danger">*</span></label>
-                        <input name="card_cvv" id="card_cvv" type="password" required placeholder="cvv"
-                            class="form-control form-control-lg" id="card_cvv">
+                        <label for="card_cvv_number" class="m-0 px-2">CVV <span class="text-danger">*</span></label>
+                        <input name="card_cvv_number" id="card_cvv_number" data-parsley-minlength="3" data-parsley-maxlength="3" type="password" required placeholder="cvv"
+                            class="form-control form-control-lg" id="card_cvv_number">
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="form-group mt-5 mb-0">
-            <button class="btn btn-primary btn-lg w-100" type="submit" disabled>
+            <button class="btn btn-primary btn-lg w-100" type="submit">
                 Pay $6,700
             </button>
         </div>
