@@ -36,6 +36,7 @@ class SettingsController extends Controller
         $user_details['account_name'] = Cookie::get('account_name');
         $user_details['account_number'] = Cookie::get('account_number');
         $user_details['account_bank'] = Cookie::get('account_bank');
+        $user_details['currency'] = Cookie::get('currencyPreference');
         $user_details['phone_number'] = Cookie::get('phone_number');
         $user_details['is_active'] = Cookie::get('is_active');
 
@@ -119,18 +120,7 @@ class SettingsController extends Controller
                     $this->headers = ['headers' => ['x-access-token' => Cookie::get('api_token')], 'form_params' => $data];
                     $response = $client->request('POST', $url, $this->headers);
                 } elseif ($control == 'finance_update') {
-                    $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store-admin/update';
-                    $client = new Client();
-                    $data = [
-                        "account_number" => $request->input('account_number'),
-                        "account_name" => $request->input('account_name'),
-                        "bank" => $request->input('bank'),
-                        "currency" => $request->input('currency'),
-                    ];
-                    // make an api call to update the user_details
-                    $this->headers = ['headers' => ['x-access-token' => Cookie::get('api_token')], 'form_params' => $data];
-                    $response = $client->request('PUT', $url, $this->headers);
-                
+                    return $this->update_bank($request);
                 } else {
                     return view('errors.404');
                 }
@@ -139,36 +129,18 @@ class SettingsController extends Controller
                     if ($control != 'password_change') {
                         $user_detail_res = json_decode($response->getBody(), true);
                         $filtered_user_detail = $user_detail_res['data']['store_admin']['local'];
-                        $bank_details = $user_detail_res['data']['store_admin']['bank_details'];
-                        $bank_details['account_name'] = isset($bank_details['account_name']) ? $bank_details['account_name'] : "";
-                        $bank_details['account_number'] = isset($bank_details['account_number']) ? $bank_details['account_number'] : "";
-                        $bank_details['bank'] = isset($bank_details['bank']) ? $bank_details['bank'] : "";
-                        $user_details = [
-                            "email" => $filtered_user_detail['email'],
-                            "phone_number" => $filtered_user_detail['phone_number'],
-                            "first_name" => $filtered_user_detail['first_name'],
-                            "last_name" => $filtered_user_detail['last_name'],
-                            "account_name" => $bank_details['account_name'],
-                            "account_number" => $bank_details['account_number'],
-                            "bank" => $bank_details['bank'],
 
-                            "is_active" => Cookie::get('is_active')
-                        ];
                         Cookie::queue('phone_number', $filtered_user_detail['phone_number']);
                         Cookie::queue('first_name', $filtered_user_detail['first_name']);
                         Cookie::queue('email', $filtered_user_detail['email']);
                         Cookie::queue('last_name', $filtered_user_detail['last_name']);
-                        Cookie::queue('account_name', $bank_details['account_name']);
-                        Cookie::queue('account_number', $bank_details['account_number']);
-                        Cookie::queue('bank', $bank_details['bank']);
+
                         $request->session()->flash('message', "Profile details updated successfully");
                         return back();
-                    }
-                    if ($control == 'password_change') {
+                    } else {
                         $request->session()->flash('message', "Password updated successfully");
                     }
                     return back();
-
                 }
             } else {
                 return redirect()->route('setting');
@@ -207,6 +179,53 @@ class SettingsController extends Controller
         return $request['picture'];
     }
 
+    public function update_bank(Request $request)
+    {
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/bank-details';
+        try {
+            $client = new Client();
+
+            $data = [
+                "account_number" => $request->input('account_number'),
+                "account_name" => $request->input('account_name'),
+                "bank" => $request->input('bank'),
+                "currencyPreference" => $request->input('currency'),
+            ];
+
+            $this->headers = ['headers' => ['x-access-token' => Cookie::get('api_token')], 'form_params' => $data];
+            $response = $client->request('PUT', $url, $this->headers);
+            if ($response->getStatusCode() == 200) {
+                $result = json_decode($response->getBody())->data->user;
+                $bank_details = $result->bank_details;
+                Cookie::queue('account_name', $bank_details->account_name);
+                Cookie::queue('account_number', $bank_details->account_number);
+                Cookie::queue('bank', $bank_details->bank);
+                Cookie::queue('currency', $result->currencyPreference);
+                $request->session()->flash('alert', "success");
+                $request->session()->flash('message', "Finacial information updated successfully");
+            }
+            return redirect()->route('setting');
+        } catch (RequestException $e) {
+            if ($e->getCode() == 401) {
+                Session::flash('message', 'session expired');
+                return redirect()->route('logout');
+            }
+            if ($e->hasResponse()) {
+                $response = json_decode($e->getResponse()->getBody());
+                $request->session()->flash('alert-class', 'alert-danger');
+                $request->session()->flash('message', $response->message);
+            }
+            return redirect()->route('setting', ['#change-password']);
+        } catch (Exception $e) {
+            if ($e->getCode() == 401) {
+                Session::flash('message', 'session expired');
+                return redirect()->route('logout');
+            }
+            Log::error('Catch error: settingsController - ' . $e->getMessage());
+            return view('errors.500');
+        }
+    }
+
     public function verify_bank(Request $request)
     {
         $url = env('API_URL', 'https://dev.api.customerpay.me') . '/account/verify';
@@ -225,17 +244,16 @@ class SettingsController extends Controller
                     'status'  => 'success',
                     'message' => 'verified successfully',
                     'data'    => $data,
-                ],200);
+                ], 200);
             }
-            return response()->json(['status'=>false,'message' => 'invalid account details'],400);
+            return response()->json(['status' => false, 'message' => 'invalid account details'], 400);
         } catch (RequestException $e) {
             Log::info('Catch error: settingsController - ' . $e->getMessage());
             // token expired
-            return response()->json(['status'=>false,'message' => 'invalid account details'],400);
+            return response()->json(['status' => false, 'message' => 'invalid account details'], 400);
         } catch (Exception $e) {
             Log::error('Catch error: seetingsController - ' . $e->getMessage());
-            return response()->json(['status'=>false,'message' => 'internal error'],400);
+            return response()->json(['status' => false, 'message' => 'internal error'], 400);
         }
-
     }
 }
