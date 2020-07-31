@@ -48,6 +48,18 @@ class LoginController extends Controller
     {
         $this->host = env('API_URL', 'https://dev.api.customerpay.me');
     }
+    //currency 
+    private function currencyPicker($currency) {
+        $res = "N";
+        if (strtolower($currency) == "usd") {
+            return "$";
+        }
+        if(strtolower($currency) == 'inr') {
+            return "INR";
+        }
+        return $res;
+    }
+    
 
     public function index()
     {
