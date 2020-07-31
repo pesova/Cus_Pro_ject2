@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Cookie;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Session;
-
+use Intervention\Image\ImageManagerStatic as Image;
 class SettingsController extends Controller
 {
     // Defining headers
@@ -192,10 +192,28 @@ class SettingsController extends Controller
 
     public function displaypicture(Request $request)
     {
-        return $request['picture'];
+        $request->validate([
+            'picture' => 'required',
+        ]);
+        $allowedfileExtension=['jpg','png','jpeg'];
+        
+        $image = $request['picture'];
+        $extension = $image->getClientOriginalExtension();
+        $check=in_array($extension,$allowedfileExtension);
+        if ($check){
+            $filename    = $image->getClientOriginalName();
+            $image_resize = Image::make($image->getRealPath());     
+            $image_resize->resize(200, 200);
+            $upload_image = (string) Image::make($image->getRealPath())->encode('data-url');
+            var_dump($upload_image);
+            // var_dump($image_resize);
+                  
+        // return redirect()->back();
+    }else{
+        return 'Invalid File Type';
     }
-
-    public function update_bank(Request $request)
+        }
+            public function update_bank(Request $request)
     {
         $url = env('API_URL', 'https://dev.api.customerpay.me') . '/bank-details';
         try {

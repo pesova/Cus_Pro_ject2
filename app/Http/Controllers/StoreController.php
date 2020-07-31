@@ -241,6 +241,7 @@ class StoreController extends Controller
 
             $store_transactions = json_decode($transactions_body)->data->transactions;
             $StoreData = json_decode($body)->data->store;
+            $store = json_decode($body)->data->transactionChart;
             $StoreData = [
                 'storeData' => $StoreData,
                 "transactions" => $store_transactions
@@ -249,7 +250,7 @@ class StoreController extends Controller
                 // die();
             if ($statusCode == 200  && $transaction_statusCode == 200) {
               
-                return view('backend.stores.show')->with('response', $StoreData)->with('number', 1);
+                return view('backend.stores.show')->with('response', $StoreData)->with('chart', $store)->with('number', 1);
             }
         } catch (RequestException $e) {
             Log::info('Catch error: LoginController - ' . $e->getMessage());

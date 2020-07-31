@@ -35,7 +35,7 @@
             <li>
                 <div class="media user-profile mt-2 mb-2">
                     <object
-                        data="{{Cookie::get('image')? Cookie::get('image'):'/backend/assets/images/users/avatar-1.jpg'}}"
+                        data="https://res.cloudinary.com/dl8587hyx/image/upload/v1594302398/user-default_zcpir8.png"
                         type="image/jpg" class="avatar-sm rounded-circle mr-2">
                         <img src="/backend/assets/images/users/default.png" class="avatar-sm rounded-circle mr-2"
                             alt="Shreyu" />
