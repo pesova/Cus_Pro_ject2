@@ -169,7 +169,9 @@ class LoginController extends Controller
                     'password' => $request->input('password')
                 ]
             ]);
-
+            Cookie::queue('currencyPreference', $response->data->user->currencyPreference);
+            Cookie::queue('currencyIcon', $this->currencyPicker($response->data->user->currencyPreference));
+            
             if ($response->getStatusCode() == 200) {
 
                 $response = json_decode($response->getBody());
@@ -189,7 +191,7 @@ class LoginController extends Controller
                     Cookie::queue('user_id', $response->data->user->_id);
                     
                     
-                    Cookie::queue('currencyPreference', $response->data->user->currencyPreference)
+                    
 
                     // Cookie::queue('image', $response->data->user->image);
                     Cookie::queue('expires', strtotime('+ 1 day'));
