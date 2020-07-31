@@ -94,6 +94,7 @@ Route::prefix('/admin')->group(function () {
         $user_role = Cookie::get('user_role'); // using this for now till middleware issue is fixed
         try {
             $user_role = $user_role ? Crypt::decrypt($user_role, false) : '';
+            $user_role = explode("|",$user_role)[1]; // route not found quick fix, don't know why extra values were added to the cookie
         } catch (Exception $e) {
             Cookie::forget('api_token'); // app key must have changed, so we can't decrypt the cookie
         }
