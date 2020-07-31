@@ -1,6 +1,6 @@
 <div class="modal fade" id="sendReminderModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
                 @isset($transaction)
@@ -21,8 +21,7 @@
 
                         <div class="form-group">
                             <label>Message</label>
-                            <textarea name="message" class="counter form-control" id="reminderMessage"
-                                placeholder="Message" maxlength="140">{{ old('message') }}</textarea>
+                        <textarea name="message" class="counter form-control" rows="4" id="reminderMessage" placeholder="Message" maxlength="140">Kindly pay up your debt of NGN {{ $transaction->total_amount }} which is due on {{ \Carbon\Carbon::parse($transaction->expected_pay_date)->format('D') }} {{ \Carbon\Carbon::parse($transaction->expected_pay_date)->format('d/m/Y') }}. PAYMENT LINK - {{ env('APP_URL').'/pay'.'/'.$transaction->_id }}</textarea>
                             <p class="charNum m-0 p-0"></p>
                         </div>
 

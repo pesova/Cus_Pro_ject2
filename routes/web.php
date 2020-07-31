@@ -49,9 +49,14 @@ Route::get('/admin', function () {
     return redirect()->route('dashboard');
 });
 
-Route::get('/pay/{id}', "PaymentController@index")->name('pay');
-Route::get('/pay/create', "PaymentController@create")->name('pay.create');
-Route::post('/pay', "PaymentController@store")->name('pay.proceed');
+Route::get('/pay/{tx_ref}', "PaymentController@index")->name('pay');
+Route::get('/payment/callback', 'PaymentController@callback')->name('callback');
+Route::get('/pay/success', "PaymentController@successResp")->name('pay.success');
+Route::get('/pay/failed', "PaymentController@failedResp")->name('pay.failed');
+
+
+// Route::post('/payment/callback/', "PaymentController@callback");
+// Route::post('/pay', "PaymentController@store")->name('pay.proceed');
 
 // backend codes
 Route::prefix('/admin')->group(function () {

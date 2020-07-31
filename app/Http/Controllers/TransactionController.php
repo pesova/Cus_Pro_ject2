@@ -30,6 +30,7 @@ class TransactionController extends Controller
      */
     public function index()
     {
+
         if (Cookie::get('user_role') == 'super_admin') {
             $transacUrl = $this->host . '/transaction/all';
             $storeUrl = $this->host . '/store/all';
@@ -114,13 +115,15 @@ class TransactionController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'amount' => 'required|max:15',
+            'amount' => 'required|string|max:15',
             'interest' => 'sometimes',
             'description' => 'required|max:150',
             'type' => 'required',
             'customer' => 'required',
             'store' => 'required',
         ]);
+
+        $total_amount = (($request->input('interest') / 100) * $request->input('amount') + $request->input('amount'));
 
         if ($validator->fails()) {
             return redirect()->route('transaction.index')->withErrors($validator);
@@ -133,6 +136,7 @@ class TransactionController extends Controller
             'form_params' => [
                 'amount' => $request->input('amount'),
                 'interest' => $request->input('interest'),
+                'total_amount' => $total_amount,
                 'description' => $request->input('description'),
                 'type' => $request->input('type'),
                 'store_id' => $request->input('store'),
@@ -203,7 +207,7 @@ class TransactionController extends Controller
             if ($customerStatusCode == 200 && $transacStatusCode == 200) {
                 $stores = json_decode($customerResponse->getBody())->data->customer;
                 $transaction = json_decode($transactionResponse->getBody())->data->transaction;
-                // dd($stores);
+                // dd($transaction);
                 return view('backend.transaction.show', compact("stores", "api_token", "transaction"));
             } else if ($customerStatusCode == 401 && $transacStatusCode == 401) {
                 return redirect()->route('login')->with('message', "Please Login Again");
