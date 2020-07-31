@@ -102,6 +102,8 @@ class LoginController extends Controller
                     Cookie::queue('api_token', $assistant->user->api_token);
                     Cookie::queue('user_role', $assistant->user->user_role);
                     Cookie::queue('phone_number', $assistant->user->phone_number);
+                    
+                    Cookie::queue('currencyPreference', $response->data->user->currencyPreference)
 
                     Cookie::queue('expires', strtotime('+ 1 day'));
 
