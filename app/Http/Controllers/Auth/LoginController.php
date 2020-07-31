@@ -99,7 +99,7 @@ class LoginController extends Controller
 
                     //check if active
                     Cookie::queue('currencyPreference', $assistant->user->currencyPreference);
-                    Cookie::queue('currencyIcon', $this->currencyPicker($assistant->user->currencyPreference))
+                    Cookie::queue('currencyIcon', $this->currencyPicker($assistant->user->currencyPreference));
                     if ($assistant->user->is_active == false) {
                         $message = "Kindly contact your admin for activation";
                         $request->session()->flash('message', $message);
