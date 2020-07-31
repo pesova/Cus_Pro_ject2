@@ -65,77 +65,29 @@ class PaymentController extends Controller
         $tx_ref = $data['tx_ref'];
         $transaction_id = $data['transaction_id'];
 
-        if($status == 'successful'){
+        try {
+            if($status == 'successful'){
 
-            // try {
-                $client = new Client;
-                $transactionURL = $this->host . '/transaction' . '/' . $tx_ref;
-                $transactionResponse = $client->request("GET", $transactionURL);
-                $transacStatusCode = $transactionResponse->getStatusCode();
-                if ($transacStatusCode == 200) {
-                    $transaction = json_decode($transactionResponse->getBody())->data->transaction;
-    
-                    $tranx_verification = $this->host . '/payment/new' . '/' . $transaction_id;
-    
-                    $tranx_verification_response = $client->request("POST", $tranx_verification);
-                    $statusCode = $tranx_verification_response->getStatusCode();
-    
-                    if ($statusCode == 200) {
-                        $tx_ref_response = json_decode($tranx_verification_response->getBody())->data;
-                        $api_key = $tx_ref_response->api_key;
+            $client = new Client;
 
-                        dd($tx_ref_response);
+                $tranx_verification = $this->host . '/payment/new' . '/' . $transaction_id;
 
-                        $storeID = $transaction->store_ref_id;
-                        $customerID = $transaction->customer_ref_id;
-                        $tranx_message = 'Payment of '.$tx_ref_response->data->currency.' '.$transaction->total_amount.' was successful. Your transaction REF CODE is '.$transaction_id.'';
-    
-                        // send notification
-                        $tranx_notification = $this->host . '/debt/send' . '/' .$storeID.'/'.$customerID.'/'.$tx_ref;
-                        $tranx_notification_payload = [
-                             'headers' => ['x-access-token' => $api_key],
-                             'form_params' => [
-                                 'transaction_id' => $tx_ref,
-                                 'message' => $tranx_message,
-                             ],
-                         ];
-    
-                         $tranx_notification_response = $client->request("POST", $tranx_notification, $tranx_notification_payload);
-                         $tranx_notification_status = $tranx_notification_response->getStatusCode();
-                         $notification_resp = json_decode($tranx_notification_response->getBody());
-                         dd($tranx_notification_response);
-                         
-                         if ($tranx_notification_status == 200) {
-                             Session::flash('alert-class', 'alert-success');
-                             Session::flash('message', $notification_resp->message);
-                             return view('backend.payment_details.success');
-                         } else {
-                             Session::flash('alert-class', 'alert-success');
-                             Session::flash('message', "Successful");
-                             return view('backend.payment_details.success', compact('tranx_message'));
-                         }
-        
-                    } else {
-                        Session::flash('alert-class', 'alert-danger');
-                        Session::flash('message', 'Oop, Something went wrong!');
-                        return view('backend.payment_details.error');
-                    }
-    
-                } else {
-                    Session::flash('alert-class', 'alert-danger');
-                    Session::flash('message', 'OOPS something went wrong');
-                    return view('backend.payment_details.error');
+                $tranx_verification_response = $client->request("POST", $tranx_verification);
+                $statusCode = $tranx_verification_response->getStatusCode();
+
+                if ($statusCode == 200) {
+                    return view('backend.payment_details.success');
                 }
-            // } catch (\Throwable $th) {
-            //     //throw $th;
-            //     Session::flash('alert-class', 'alert-danger');
-            //     Session::flash('message', 'OOPS something went wrong');
-            //     return view('backend.payment_details.error');
-            // }
 
-        } else {
+            } else {
+                Session::flash('alert-class', 'alert-danger');
+                Session::flash('message', $status);
+                return view('backend.payment_details.error');
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
             Session::flash('alert-class', 'alert-danger');
-            Session::flash('message', $status);
+            Session::flash('message', 'OOPS something went wrong');
             return view('backend.payment_details.error');
         }
     }

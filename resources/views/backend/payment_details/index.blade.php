@@ -29,6 +29,7 @@
             <input type="hidden" name="tx_ref" value="{{ $transaction->_id }}" />
             <input type="hidden" name="amount" value="{{ (($transaction->interest / 100) * $transaction->amount) + $transaction->amount }}" />
             <input type="hidden" name="currency" class="text-uppercase" value="{{ $transaction->store_admin_ref->currencyPreference}}" />
+            <input type="hidden" name="store_name" class="text-uppercase" value="{{ $transaction->store_ref->store_name}}" />
             <input type="hidden" name="meta[token]" value="54" />
             <input type="hidden" name="redirect_url" value="{{ env('APP_URL').'/payment/callback' }}" />
             <input type="hidden" name="title" value="{{ $transaction->type }}" />
