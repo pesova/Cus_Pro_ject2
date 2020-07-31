@@ -103,7 +103,7 @@ class LoginController extends Controller
                     Cookie::queue('user_role', $assistant->user->user_role);
                     Cookie::queue('phone_number', $assistant->user->phone_number);
                     
-                    Cookie::queue('currencyPreference', $response->data->user->currencyPreference)
+                    Cookie::queue('currencyPreference', $assistant->user->currencyPreference)
 
                     Cookie::queue('expires', strtotime('+ 1 day'));
 
@@ -173,6 +173,10 @@ class LoginController extends Controller
                     Cookie::queue('is_active', $data->is_active);
                     Cookie::queue('phone_number', $data->phone_number);
                     Cookie::queue('user_id', $response->data->user->_id);
+                    
+                    
+                    Cookie::queue('currencyPreference', $response->data->user->currencyPreference)
+
                     // Cookie::queue('image', $response->data->user->image);
                     Cookie::queue('expires', strtotime('+ 1 day'));
 
