@@ -58,7 +58,7 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <p class="text-muted">This month</p>
-                        <h3>${{$data->amountForCurrentMonth}}</h3>
+                        <h3>{{ format_money($data->amountForCurrentMonth) }}</h3>
                         <p class="text-muted"><span class="text-{{$profit['profit']? 'success':'danger'}} mr-2"> {{$profit['percentage']}}
                                 % <i class="mdi mdi-arrow-down"></i>
                                 </span> From
