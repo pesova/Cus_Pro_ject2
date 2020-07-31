@@ -205,8 +205,30 @@ class SettingsController extends Controller
             $image_resize = Image::make($image->getRealPath());     
             $image_resize->resize(200, 200);
             $upload_image = (string) Image::make($image->getRealPath())->encode('data-url');
-            var_dump($upload_image);
-            // var_dump($image_resize);
+            // var_dump($image);
+            // var_dump($upload_image);
+            $url = env('API_URL', 'https://dev.api.customerpay.me') . '/update-image';
+            $client = new Client();
+            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+            
+            $payload = [
+                'headers' => [
+                    'x-access-token' => Cookie::get('api_token')
+                ],
+                'multipart' => [
+                    [
+                        'name'     => 'image',
+                        'contents' => $image,
+                    ]
+                ],
+            ];
+            $response = $client->request("PUT", $url, $payload);
+            $status = $response->getStatusCode();
+            if ($status == 200 || $status == 201) {
+                return "Sent";
+            }else{
+                return "ERROR";
+            }
                   
         // return redirect()->back();
     }else{
