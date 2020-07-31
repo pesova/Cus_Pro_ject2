@@ -4,11 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-<<<<<<< HEAD
-    "content-hash": "cd11104b2692a3f5f593578c2da2306a",
-=======
-    "content-hash": "4c310fa8754d7b1a82acc4c0362acbd0",
->>>>>>> b399148... Add helpers and function to format money with currency
+    "content-hash": "0ebc31d1c2c2ddb823715f348227bbe2",
     "packages": [
         {
             "name": "barryvdh/laravel-snappy",
@@ -1305,11 +1301,7 @@
                     "type": "other"
                 }
             ],
-<<<<<<< HEAD
             "time": "2020-07-26T07:20:36+00:00"
-=======
-            "time": "2020-05-18T15:13:39+00:00"
->>>>>>> b399148... Add helpers and function to format money with currency
         },
         {
             "name": "mashape/unirest-php",
