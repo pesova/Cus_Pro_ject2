@@ -144,9 +144,33 @@
                                 {{\Carbon\Carbon::parse($broadcast->date)->diffForhumans()}}
                                 </td>
                                 <td>
-                                    <a href="" data-toggle="modal" data-target="#ResendReminderModal" class="btn btn-primary btn-sm mt-2">
+                                    <div class="btn-group mt-2 mr-1">
+                                        <button type="button" class="btn btn-primary dropdown-toggle"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Actions<i class="icon"><span data-feather="chevron-down"></span></i>
+                                        </button>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                    <a href="#" 
+                                    data-broadcast_id="{{$broadcast->_id}}"
+                                    class="dropdown-item" data-toggle="modal" 
+                                    data-target="#ResendReminderModal">
                                         Resend
                                     </a>
+                                    <a href="#" 
+                                    onclick=" openModal(this)"
+                                    class="dropdown-item" data-toggle="modal" 
+                                    data-broadcast_id="{{$broadcast->_id}}"
+                                    data-toggle="modal"
+                                    data-target="#deleteModal">
+                                        Delete
+                                    </a>
+                                     </div>
+                                     <form class="form-horizontal" method="POST"
+                                    action="{{ route('broadcast.destroy', $broadcast->_id) }}" id="delete-{{$broadcast->_id}}">
+                                   
+                                       @csrf
+                                       @method('DELETE')
+                                    </form>
                                 </td>
                             </tr> 
                         @endforeach
@@ -160,16 +184,53 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1"
+    role="dialog"
+    aria-labelledby="storeDeleteLabel" aria-hidden="true">
+   <div class="modal-dialog" role="document">
+       <div class="modal-content">
+           <div class="modal-header">
+               <h5 class="modal-title" id="storeDeleteLabel">Delete Broadcast
+               </h5>
+               <button type="button" class="close" data-dismiss="modal"
+                       aria-label="Close">
+                   <span aria-hidden="true">&times;</span>
+               </button>
+           </div>
+               <div class="modal-body">
+                   <h6>Are you sure you want to
+                       delete <span></span></h6>
+               </div>
+               <div class="modal-footer">
+                   <div class="">
+                       <button type="submit" class="btn btn-primary mr-3"
+                               data-dismiss="modal"><i
+                                   data-feather="x"></i>
+                           Close
+                       </button>
+                       <button 
+                       onclick="deleteBroadcast()"
+                        class="btn btn-danger"><i
+                                   data-feather="trash-2"></i> Delete
+                       </button>
+                   </div>
+               </div>
+       </div>
+   </div>
+</div>
 @endsection
 
 @section("javascript")
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-html5-1.6.2/datatables.min.js">
 </script>
-<script src="https://code.jquery.com/jquery-1.8.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
 <!-- App js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+
 <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+
 <script>
     jQuery(function($) {
         const token = "{{Cookie::get('api_token')}}"
@@ -235,6 +296,17 @@
             $('#customerNumbers').attr("required", false);
         }
     });
+
+
+    let broadcast_id;
+    function openModal(element){
+        broadcast_id = element.dataset.broadcast_id;
+        // $('#deleteModal').modal('show');
+    }
+
+    function deleteBroadcast(){
+        $(`#delete-${broadcast_id}`).submit();
+    }
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 <script>

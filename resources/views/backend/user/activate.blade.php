@@ -10,12 +10,11 @@
 
 {{-- error messages --}}
 <div class="container-fluid">
-    @include('partials.alert.message')
-
     <div class="row ">
         <div class="col-lg-4 bg-white">
             <div class=" m-h-100">
                 <div class="account-pages pt-5">
+                @include('partials.alert.message')
                     <div class="container-fluid">
                         <div class="card">
                             <div class="card-body p-0">

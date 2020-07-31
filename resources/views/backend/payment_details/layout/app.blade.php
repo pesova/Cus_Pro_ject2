@@ -25,7 +25,6 @@
         <header class="py-4 text-center">
             <img src="{{ asset('frontend/assets/images/payment/logo.svg')}}" alt="" />
         </header>
-        @include('partials.alert.message')
         <main>
             @yield('content')
         </main>
@@ -34,6 +33,7 @@
     <script src="{{ asset('backend/assets/libs/parsleyjs/parsley.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/pages/form-validation.init.js') }}"></script>
     <script src="{{ asset('backend/assets/js/app.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/alert.js') }}"></script>
 </body>
 
 </html>

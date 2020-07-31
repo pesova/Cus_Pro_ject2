@@ -2,9 +2,13 @@
 <div class="navbar navbar-expand flex-column flex-md-row navbar-custom">
     <div class="container-fluid">
         <!-- LOGO -->
-        <a href="{{route('home') }}" class="navbar-brand mr-0 mr-md-2 logo" style="background:white;">
+        <a href="{{route('home') }}" class="navbar-brand mr-0 mr-md-2 logo">
             <span class="logo-lg">
-                <img src="{{('/frontend/assets/images/fulllogo.png')}}" alt="" height="48" />
+                 @if(\Cookie::get('theme') == 'dark')
+                    <img src="{{('/frontend/assets/images/fulllogodark.png')}}" alt="" height="48" />
+                @else
+                    <img src="{{('/frontend/assets/images/fulllogo.png')}}" alt="" height="48" />
+                @endif
             </span>
             <span class="logo-sm">
                 <img src="/frontend/assets/images/smLogo.svg" alt="" height="24">

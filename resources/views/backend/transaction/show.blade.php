@@ -125,7 +125,7 @@
                                                             <tr class="font-weight-bolder">
                                                                 <th scope="row">Total Amount</th>
                                                                 <td colspan="2">
-                                                                    {{ (($transaction->interest / 100) * $transaction->amount) + $transaction->amount }}
+                                                                    {{ $transaction->total_amount }}
                                                                 </td>
                                                             </tr>
                                                         </tbody>

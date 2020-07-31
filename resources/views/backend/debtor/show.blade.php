@@ -16,23 +16,19 @@
                             <h5 class="card-title">Debtor Overview - Created
                                 {{ \Carbon\Carbon::parse($debtor->createdAt)->diffForhumans() }}</h5>
                         </div>
-                        <div class="col-md-8">
-                            <div class="row text-center container-fluid">
-                                <a href="{{ route('markpaid', $debtor->_id) }}" class="col-md-2 offset-1 mt-1 btn btn-sm btn-success">
-                                    Mark as paid <i class="feather-16" data-feather="check"></i>
-                                </a>
-                                <a href="" data-toggle="modal" data-target="#sendReminderModal" class="col-md-2 offset-1 mt-1 btn btn-sm btn-warning">
-                                    Send Reminder 
-                                    {{-- <i class="feather-16" data-feather="send"></i> --}}
-                                </a>
-                                {{-- <a href="#" class="col-md-2 offset-1 mt-1 btn btn-sm btn-warning" data-toggle="modal" data-target="#scheduleReminderModal"> --}}
-                                    {{-- Schedule Reminder  --}}
-                                    {{-- <i class="feather-16" data-feather="message-circle"></i> --}}
-                                {{-- </a> --}}
-                                <a href="/admin/debtor" class="col-md-2 offset-1 mt-1 btn btn-sm btn-primary go-back">
-                                    Go Back <i class="feather-16" data-feather="arrow-left"></i>
-                                </a>
-                            </div>
+                        <div class="col-md-8 row text-center">
+                            <a href="{{ route('markpaid', $debtor->_id) }}"
+                                class="col-md-3 offset-1 mt-1 btn btn-sm btn-success">
+                                Mark as paid <i class="feather-16" data-feather="check"></i>
+                            </a>
+                            <a href="" data-toggle="modal" data-target="#sendReminderModal"
+                                class="col-md-3 offset-1 mt-1 btn btn-sm btn-warning">
+                                Send Reminder
+                                <i class="feather-16" data-feather="send"></i>
+                            </a>
+                            <a href="/admin/debtor" class="col-md-3 offset-1 mt-1 btn btn-sm btn-primary go-back">
+                                Go Back <i class="feather-16" data-feather="arrow-left"></i>
+                            </a>
                         </div>
                     </div>
                     <div class="row p-3">
