@@ -91,17 +91,18 @@ Route::prefix('/admin')->group(function () {
     // ------------ ADMIN ROUTES ------------------------ //
     Route::group(['middleware' => 'backend.auth'], function () {
 
-        /*$user_role = Cookie::get('user_role'); // using this for now till middleware issue is fixed
+        $user_role = Cookie::get('user_role'); // using this for now till middleware issue is fixed
         try {
             $user_role = $user_role ? Crypt::decrypt($user_role, false) : '';
-            $user_role = explode("|",$user_role)[1]; // route not found quick fix, don't know why extra values were added to the cookie
+            $user_role = strlen($user_role) > 15 ? explode("|", $user_role)[1] : $user_role; // route not found quick fix, don't know why extra values were added to the cookie
+            // dd($user_role);
         } catch (Exception $e) {
             Cookie::forget('api_token'); // app key must have changed, so we can't decrypt the cookie
-        }*/
+        }
         // dd($user_role);
 
         // ------------ SUPER ADMIN PROTECTED ROUTES ------------------------ //
-        //if ($user_role == 'super_admin') {
+        if ($user_role == 'super_admin') {
 
             // Route::group(['middleware' => 'backend.super.admin'], function () {
             // user crud
@@ -121,12 +122,12 @@ Route::prefix('/admin')->group(function () {
             // customer crud
             Route::resource('customer', 'CustomerController');
             // });
-        //}
+        }
         // ------------ SUPER ADMIN PROTECTED ROUTES ENDS HERE------------------------ //
 
 
         // ------------ STORE ADMIN PROTECTED ROUTES ------------------------
-        /*if ($user_role == 'store_admin') {
+        if ($user_role == 'store_admin') {
             //  Route::group(['middleware' => 'backend.store.admin'], function () {
             // assistant crud
             Route::resource('assistants', 'AssistantController');
@@ -139,15 +140,15 @@ Route::prefix('/admin')->group(function () {
 
             // customer crud
             Route::resource('customer', 'CustomerController');
-            //  });*/
+
             Route::post('/verify/bank', 'SettingsController@verify_bank')->name('verify.bank');
-       //}
+        }
 
         // ------------ STORE ADMIN PROTECTED ROUTES ENDS HERE------------------------ //
 
 
         // ------------ STORE ASSISTANT PROTECTED ROUTES ------------------------ //
-       /*if ($user_role == 'store_assistant') {
+        if ($user_role == 'store_assistant') {
             //Route::group(['middleware' => 'backend.store.assistant'], function () {
 
             Route::resource('complaint', 'ComplaintController')->only(['index', 'create', 'store', 'show']);
@@ -156,7 +157,7 @@ Route::prefix('/admin')->group(function () {
             Route::resource('customer', 'CustomerController')->only(['index', 'show']);
 
             // });
-        }*/
+        }
         // ------------ STORE ADMIN PROTECTED ROUTES ENDS HERE------------------------ //
 
 
