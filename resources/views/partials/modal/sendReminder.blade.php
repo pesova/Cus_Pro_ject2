@@ -9,6 +9,11 @@
                     <input type="hidden" name="transaction_id" value="{{old('transaction_id', $transaction->_id)}}">
                     <input type="hidden" name="customer_id" value="{{old('customer_id', $transaction->customer_ref_id)}}">
                     <input type="hidden" name="store_id" value="{{old('store_id', $transaction->store_ref_id)}}">
+                    <div class="form-group">
+                        <label>Message</label>
+                    <textarea name="message" class="counter form-control" rows="4" id="reminderMessage" placeholder="Message" maxlength="140">Kindly pay up your debt of NGN {{ $transaction->total_amount }} which is due on {{ \Carbon\Carbon::parse($transaction->expected_pay_date)->format('D') }} {{ \Carbon\Carbon::parse($transaction->expected_pay_date)->format('d/m/Y') }}. PAYMENT LINK - {{ env('APP_URL').'/pay'.'/'.$transaction->_id }}</textarea>
+                        <p class="charNum m-0 p-0"></p>
+                    </div>
                     @else
                     <form
                         action="{{ route('reminder') }}"
@@ -21,7 +26,7 @@
 
                         <div class="form-group">
                             <label>Message</label>
-                        <textarea name="message" class="counter form-control" rows="4" id="reminderMessage" placeholder="Message" maxlength="140">Kindly pay up your debt of NGN {{ $transaction->total_amount }} which is due on {{ \Carbon\Carbon::parse($transaction->expected_pay_date)->format('D') }} {{ \Carbon\Carbon::parse($transaction->expected_pay_date)->format('d/m/Y') }}. PAYMENT LINK - {{ env('APP_URL').'/pay'.'/'.$transaction->_id }}</textarea>
+                        <textarea name="message" class="counter form-control" rows="4" id="reminderMessage" placeholder="Message" maxlength="140">Kindly pay up your debt of NGN {{ $debtor->total_amount }} which is due on {{ \Carbon\Carbon::parse($debtor->expected_pay_date)->format('D') }} {{ \Carbon\Carbon::parse($debtor->expected_pay_date)->format('d/m/Y') }}. PAYMENT LINK - {{ env('APP_URL').'/pay'.'/'.$debtor->_id }}</textarea>
                             <p class="charNum m-0 p-0"></p>
                         </div>
 
