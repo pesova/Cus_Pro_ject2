@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.4",
         "barryvdh/laravel-snappy": "^0.4.7",
+        "browner12/helpers": "^3.1",
         "fideloper/proxy": "^4.0",
         "guzzlehttp/guzzle": "^7.0",
         "kingflamez/laravelrave": "^2.0",
