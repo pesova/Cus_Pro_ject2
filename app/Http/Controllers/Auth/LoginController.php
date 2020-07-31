@@ -48,18 +48,6 @@ class LoginController extends Controller
     {
         $this->host = env('API_URL', 'https://dev.api.customerpay.me');
     }
-    //currency 
-    private function currencyPicker($currency) {
-        $res = "N";
-        if (strtolower($currency) == "usd") {
-            return "$";
-        }
-        if(strtolower($currency) == 'inr') {
-            return "INR";
-        }
-        return $res;
-    }
-    
 
     public function index()
     {
@@ -98,8 +86,6 @@ class LoginController extends Controller
                     $assistant = $response->data;
 
                     //check if active
-                    Cookie::queue('currency', $assistant->user->currency);
-                    Cookie::queue('currencyIcon', $this->currencyPicker($assistant->user->currency));
                     if ($assistant->user->is_active == false) {
                         $message = "Kindly contact your admin for activation";
                         $request->session()->flash('message', $message);
@@ -116,8 +102,6 @@ class LoginController extends Controller
                     Cookie::queue('api_token', $assistant->user->api_token);
                     Cookie::queue('user_role', $assistant->user->user_role);
                     Cookie::queue('phone_number', $assistant->user->phone_number);
-                    
-                    
 
                     Cookie::queue('expires', strtotime('+ 1 day'));
 
@@ -169,9 +153,7 @@ class LoginController extends Controller
                     'password' => $request->input('password')
                 ]
             ]);
-            Cookie::queue('currency', $response->data->user->currency);
-            Cookie::queue('currencyIcon', $this->currencyPicker($response->data->user->currency));
-           
+
             if ($response->getStatusCode() == 200) {
 
                 $response = json_decode($response->getBody());
@@ -189,10 +171,6 @@ class LoginController extends Controller
                     Cookie::queue('is_active', $data->is_active);
                     Cookie::queue('phone_number', $data->phone_number);
                     Cookie::queue('user_id', $response->data->user->_id);
-                    
-                    
-                    
-
                     // Cookie::queue('image', $response->data->user->image);
                     Cookie::queue('expires', strtotime('+ 1 day'));
 
