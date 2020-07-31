@@ -98,8 +98,8 @@ class LoginController extends Controller
                     $assistant = $response->data;
 
                     //check if active
-                    Cookie::queue('currencyPreference', $assistant->user->currencyPreference);
-                    Cookie::queue('currencyIcon', $this->currencyPicker($assistant->user->currencyPreference));
+                    Cookie::queue('currency', $assistant->user->currency);
+                    Cookie::queue('currencyIcon', $this->currencyPicker($assistant->user->currency));
                     if ($assistant->user->is_active == false) {
                         $message = "Kindly contact your admin for activation";
                         $request->session()->flash('message', $message);
@@ -169,9 +169,9 @@ class LoginController extends Controller
                     'password' => $request->input('password')
                 ]
             ]);
-            Cookie::queue('currencyPreference', $response->data->user->currencyPreference);
-            Cookie::queue('currencyIcon', $this->currencyPicker($response->data->user->currencyPreference));
-            
+            Cookie::queue('currency', $response->data->user->currency);
+            Cookie::queue('currencyIcon', $this->currencyPicker($response->data->user->currency));
+           
             if ($response->getStatusCode() == 200) {
 
                 $response = json_decode($response->getBody());
