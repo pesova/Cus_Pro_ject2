@@ -204,39 +204,16 @@ class SettingsController extends Controller
             $filename    = $image->getClientOriginalName();
             $image_resize = Image::make($image->getRealPath());     
             $image_resize->resize(200, 200);
-            $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store_admin/update';
-            $client = new Client();
-            $this->client->request('PUT', $url, [
-                'headers' => ['x-access-token' => Cookie::get('api_token')],
-            ],
-                'multipart' => [
-                    [
-                    'name' => 'image',
-                    'contents' => $image_resize->save(('image'))
-                    ]
-                ]
-                ]);
-            $statusCode = $this->getStatusCode();
-
-            if ($statusCode == 200) {
-                $data = json_decode($this->getBody())->data;
-                return response()->json([
-                    'status'  => 'success',
-                    'message' => 'verified successfully',
-                    'data'    => $data,
-                ],200);
-            }
-            
-              
-        }else{
-        // return $extension;
-        return response()->json(['status'=>false,'message' => 'invalid account details'],400);
-        }
+            $upload_image = (string) Image::make($image->getRealPath())->encode('data-url');
+            var_dump($upload_image);
+            // var_dump($image_resize);
                   
         // return redirect()->back();
+    }else{
+        return 'Invalid File Type';
     }
-
-    public function update_bank(Request $request)
+        }
+            public function update_bank(Request $request)
     {
         $url = env('API_URL', 'https://dev.api.customerpay.me') . '/bank-details';
         try {

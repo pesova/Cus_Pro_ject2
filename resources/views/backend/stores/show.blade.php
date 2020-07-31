@@ -63,8 +63,10 @@ $total_interestReceivables += $each_interestReceivables;
 
 <!-- Start Content-->
 @include('partials.alert.message')
-
 <div class="row page-title">
+
+    
+
     <div class="col-md-12">
         @if(Cookie::get('user_role') == 'store_admin')
         <nav aria-label="breadcrumb" class="float-right mt-1">
@@ -297,9 +299,9 @@ $total_interestReceivables += $each_interestReceivables;
     </div>
 
     <div class="col-lg-8">
-        <div class="card">
+    <div class="card">
             <div class="card-body">
-                <h6 class="card-title mb-4 float-sm-left">Transaction Chart</h6>
+                <h6 class="card-title mb-4 float-sm-left">Transaction Overview {{date('Y')}}</h6>
                 <div class="clearfix"></div>
                 <div id="transactionchart"></div>
             </div>
@@ -338,47 +340,21 @@ $total_interestReceivables += $each_interestReceivables;
                                 </div>
                                 <h4 class="card-title">{{ ucfirst($storeData->store_name) }} Transaction Overview</h4>
                                 <br>
-
+                                
+                                    @foreach ($response['storeData']->customers as $transactions)
+                                    @foreach ($transactions->transactions as $i => $transaction)
+                                    @php
+                                    $date = date("m-d-Y", strtotime(date($transaction->createdAt)));
+                                    var_dump($date);
+                                    
+                                    
+                                    @endphp
+                                    @endforeach
+                                    @endforeach
+                                    
 
                                 <table id="basic-datatables" class="table dt-responsive nowrap">
-                                    @php
-
-                                    $view = 2;
-
-                                    $c =[];
-                                    foreach ($response['storeData']->customers as $transactions)
-                                    {
-                                    foreach ($transactions->transactions as $i => $transaction)
-                                    {
-                                    $date = date("m-d-Y", strtotime(date($transaction->createdAt)));
-                                    $value = $transaction->amount;
-
-
-                                    $key = $i;
-
-                                    if ($view > 0)
-                                    {
-                                    $key = array_search($date, array_column($c, 'date'));
-                                    if ($key !== false)
-                                    {
-                                    $value = $c[$key]['value'] + $value;
-                                    }
-                                    else
-                                    {
-                                    $key = count($c); // Create a new index here instead of $i
-                                    }
-                                    }
-                                    else
-                                    {
-                                    $key = $i;
-                                    }
-
-                                    $c[$key]['name'] = 'Combined';
-                                    $c[$key]['date'] = $date;
-                                    $c[$key]['value'] = $value;
-                                    }
-                                    }
-                                    @endphp
+                                    
                                     <thead>
                                         <tr>
                                             <th>S/N</th>
@@ -692,81 +668,71 @@ $total_interestReceivables += $each_interestReceivables;
 </script>
 <script>
     $(document).ready(function () {
-        var product = <?php echo json_encode($c); ?>
 
-        // start of transaction charts
+// start of transaction charts
 
-        var options = {
+var options = {
 
-            series: [{
-                name: 'Transaction',
-                data: [ <?php foreach($c as $key) {
-                    $aaa = (string) $key['value'].
-                    ",";
-                    echo $aaa;
-                } ?> ]
-            }],
-            chart: {
-                height: 350,
-                type: 'line',
-            },
-            stroke: {
-                width: 7,
-                curve: 'smooth'
-            },
-            xaxis: {
-                type: 'datetime',
+    series: [{
+        name: 'Transaction',
+        data: {{json_encode($chart)}},
+    }],
+    chart: {
+        height: 350,
+        type: 'line',
+    },
+    stroke: {
+        width: 7,
+        curve: 'smooth'
+    },xaxis: {
+            type: 'text',
+            categories: ['JAN', 'FEB', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUG',
+                'SEPT', 'OCT', 'NOV', 'DEC'],
+        },
+    
 
-                categories: [ <?php foreach($c as $key) {
-                    $aaa = "'".$key['date'].
-                    "'".
-                    ",";
-                    echo $aaa;
-                } ?> ],
+    title: {
+        text: '',
+        align: 'left',
+        style: {
+            fontSize: "16px",
+            color: '#666'
+        }
+    },
+    fill: {
+            type: 'gradient',
+            gradient: {
+                shade: 'dark',
+                gradientToColors: ['#FDD835'],
+                shadeIntensity: 1,
+                type: 'horizontal',
+                opacityFrom: 1,
+                opacityTo: 1,
+                stops: [0, 100, 100, 100]
             },
-
-            title: {
-                text: '',
-                align: 'left',
-                style: {
-                    fontSize: "16px",
-                    color: '#666'
-                }
-            },
-            fill: {
-                type: 'gradient',
-                gradient: {
-                    shade: 'dark',
-                    gradientToColors: ['#FDD835'],
-                    shadeIntensity: 1,
-                    type: 'horizontal',
-                    opacityFrom: 1,
-                    opacityTo: 1,
-                    stops: [0, 100, 100, 100]
-                },
-            },
-            markers: {
-                size: 4,
-                colors: ["#FFA41B"],
-                strokeColors: "#fff",
-                strokeWidth: 2,
-                hover: {
-                    size: 7,
-                }
-            },
-            yaxis: {
-
-                title: {
-                    text: "{{ ucfirst($storeData->store_name) }}'s Amount",
-                },
+        },
+        markers: {
+            size: 4,
+            colors: ["#FFA41B"],
+            strokeColors: "#fff",
+            strokeWidth: 2,
+            hover: {
+                size: 7,
             }
-        };
+        },
+    yaxis: {
 
-        var chart = new ApexCharts(document.querySelector("#transactionchart"), options);
-        chart.render();
+        title: {
+            text: "{{ ucfirst($storeData->store_name) }}'s Amount",
+        },
+    }
+};
+
+var chart = new ApexCharts(document.querySelector("#transactionchart"), options);
+chart.render();
 
 
-    });
+});
 
 </script>
 @stop
