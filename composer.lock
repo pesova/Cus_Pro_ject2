@@ -4,7 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "content-hash": "cd11104b2692a3f5f593578c2da2306a",
+=======
+    "content-hash": "4c310fa8754d7b1a82acc4c0362acbd0",
+>>>>>>> b399148... Add helpers and function to format money with currency
     "packages": [
         {
             "name": "barryvdh/laravel-snappy",
@@ -66,6 +70,69 @@
                 "wkhtmltopdf"
             ],
             "time": "2020-02-25T20:52:15+00:00"
+        },
+        {
+            "name": "browner12/helpers",
+            "version": "v3.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/browner12/helpers.git",
+                "reference": "b34b7f8f2d3d24703764bf4d5ce7dbff763f08d8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/browner12/helpers/zipball/b34b7f8f2d3d24703764bf4d5ce7dbff763f08d8",
+                "reference": "b34b7f8f2d3d24703764bf4d5ce7dbff763f08d8",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "^6.0|^7.0",
+                "illuminate/contracts": "^6.0|^7.0",
+                "illuminate/support": "^6.0|^7.0",
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.0",
+                "scrutinizer/ocular": "~1.1",
+                "squizlabs/php_codesniffer": "~2.3"
+            },
+            "suggest": {
+                "moneyphp/money": "Money value object."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "browner12\\helpers\\HelperServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "browner12\\helpers\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andrew Brown",
+                    "email": "browner12@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "generic helpers",
+            "homepage": "https://github.com/browner12/helpers",
+            "keywords": [
+                "browner12",
+                "helpers"
+            ],
+            "time": "2020-03-03T16:33:22+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -175,6 +242,20 @@
                 "uppercase",
                 "words"
             ],
+            "funding": [
+                {
+                    "url": "https://www.doctrine-project.org/sponsorship.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.patreon.com/phpdoctrine",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Finflector",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-05-29T15:13:26+00:00"
         },
         {
@@ -236,6 +317,20 @@
                 "lexer",
                 "parser",
                 "php"
+            ],
+            "funding": [
+                {
+                    "url": "https://www.doctrine-project.org/sponsorship.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.patreon.com/phpdoctrine",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Flexer",
+                    "type": "tidelift"
+                }
             ],
             "time": "2020-05-25T17:44:05+00:00"
         },
@@ -1210,7 +1305,11 @@
                     "type": "other"
                 }
             ],
+<<<<<<< HEAD
             "time": "2020-07-26T07:20:36+00:00"
+=======
+            "time": "2020-05-18T15:13:39+00:00"
+>>>>>>> b399148... Add helpers and function to format money with currency
         },
         {
             "name": "mashape/unirest-php",
@@ -4336,6 +4435,20 @@
                 "constructor",
                 "instantiate"
             ],
+            "funding": [
+                {
+                    "url": "https://www.doctrine-project.org/sponsorship.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.patreon.com/phpdoctrine",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Finstantiator",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-05-29T17:27:14+00:00"
         },
         {
@@ -4942,6 +5055,12 @@
                 "duplicate",
                 "object",
                 "object graph"
+            ],
+            "funding": [
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/myclabs/deep-copy",
+                    "type": "tidelift"
+                }
             ],
             "time": "2020-06-29T13:22:24+00:00"
         },
@@ -5653,6 +5772,16 @@
                 "testing",
                 "xunit"
             ],
+            "funding": [
+                {
+                    "url": "https://phpunit.de/donate.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/sebastianbergmann",
+                    "type": "github"
+                }
+            ],
             "time": "2020-06-22T07:06:58+00:00"
         },
         {
@@ -5721,6 +5850,12 @@
                 "highlight.js",
                 "highlight.php",
                 "syntax"
+            ],
+            "funding": [
+                {
+                    "url": "https://github.com/allejo",
+                    "type": "github"
+                }
             ],
             "time": "2020-03-02T05:59:21+00:00"
         },
