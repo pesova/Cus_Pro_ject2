@@ -150,13 +150,22 @@
                                             Actions<i class="icon"><span data-feather="chevron-down"></span></i>
                                         </button>
                                     <div class="dropdown-menu dropdown-menu-right">
+
+
+                                        <form class="form-horizontal" method="POST"
+                                        action="{{ route('resend_broadcast', $broadcast->_id) }}" id="resend-{{$broadcast->_id}}">
+                                           @csrf
+                                        </form>
                                     <a href="#" 
                                     data-broadcast_id="{{$broadcast->_id}}"
+                                    onclick="resendBroadcast(this)"
                                     class="dropdown-item" data-toggle="modal" 
                                     data-target="#ResendReminderModal">
                                         Resend
                                     </a>
+
                                     <a href="#" 
+                                    
                                     onclick=" openModal(this)"
                                     class="dropdown-item" data-toggle="modal" 
                                     data-broadcast_id="{{$broadcast->_id}}"
@@ -302,6 +311,11 @@
     function openModal(element){
         broadcast_id = element.dataset.broadcast_id;
         // $('#deleteModal').modal('show');
+    }
+
+    function resendBroadcast(element){
+        broadcast_id = element.dataset.broadcast_id;
+        $(`#resend-${broadcast_id}`).submit();
     }
 
     function deleteBroadcast(){
