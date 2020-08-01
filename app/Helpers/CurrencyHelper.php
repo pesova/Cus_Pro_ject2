@@ -13,11 +13,12 @@ if (!function_exists('format_money')) {
      */
     function format_money($amount, $currency = null)
     {
-        $formatted = $amount;
+        $formatted = number_format($amount);
         $user_role = Cookie::get('user_role');
         if ($user_role == 'store_admin' || $user_role == 'store_assistant') {
             if (is_numeric($amount)) {
                 if ($currency == null) {
+                    // currency is set already otherwise use NGN the default
                     $currency = (Cookie::get('currency') != '') ? Cookie::get('currency') : 'NGN';
                 }
                 $format_amount = number_format($amount, 2);
@@ -39,6 +40,7 @@ if (!function_exists('get_currency_symbol')) {
      */
     function get_currency_symbol($currency)
     {
+        $currency = strtolower($currency);
         $_currency = $currency;
 
         switch ($currency) {
@@ -55,7 +57,7 @@ if (!function_exists('get_currency_symbol')) {
                 break;
 
             default:
-                $_currency = $currency;
+                $_currency = strtoupper($currency);
                 break;
         }
         return $_currency;
