@@ -3344,3 +3344,8 @@ body.authentication-bg {
 .authentication-bg {
     height: 100%;
 }
+.img-small {
+    height: 128px;
+    width: auto;
+    object-fit: contain;
+}

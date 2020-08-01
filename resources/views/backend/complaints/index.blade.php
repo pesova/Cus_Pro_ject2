@@ -16,6 +16,65 @@
         <div class="container-fluid">
             @include('partials.alert.message')
 
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <div class="card mini-stats-wid">
+                        <div class="card-body">
+                            <div class="media">
+                                <div class="media-body">
+                                    <p class="text-muted font-weight-medium">Complaints</p>
+                                    <h4 class="mb-0"> 1000</h4>
+                                </div>
+
+                                <div class="mini-stat-icon avatar-sm align-self-center rounded-circle bg-primary">
+                                    <span class="avatar-title">
+                                        <i class="uil-notes font-size-14"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mini-stats-wid">
+                        <div class="card-body">
+                            <div class="media">
+                                <div class="media-body" data-toggle="tooltip" data-placement="bottom"
+                                    title="Total amount includes interest">
+                                    <p class="text-muted font-weight-medium">Pending</p>
+                                    <h4 class="mb-0"> 2000</h4>
+                                </div>
+
+                                <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
+                                    <span class="avatar-title">
+                                        <i class="uil-notes font-size-14"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mini-stats-wid">
+                        <div class="card-body">
+                            <div class="media">
+                                <div class="media-body">
+                                    <p class="text-muted font-weight-medium">Solved</p>
+                                    <h4 class="mb-0"> 1000</h4>
+                                </div>
+
+                                <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
+                                    <span class="avatar-title">
+                                        <i class="uil-notes font-size-14"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end row -->
+
             <div class="card" style="margin-top: 10px;">
                 <div id="wrapper">
                     <div class="row">
