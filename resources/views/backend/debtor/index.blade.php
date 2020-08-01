@@ -80,17 +80,7 @@
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>
-                                    @if(Cookie::get('user_role') == 'super_admin')
-                                    <a class=""
-                                        href="{{ route('transaction.show', $debtor->_id.'-'.$debtor->store_ref_id->_id.'-'.$debtor->customer_ref_id->_id) }}">
-                                        {{ $debtor->_id }}
-                                    </a>
-                                    @else
-                                    <a class=""
-                                        href="{{ route('transaction.show', $debtor->_id.'-'.$debtor->store_ref_id.'-'.$debtor->customer_ref_id) }}">
-                                        {{ $debtor->_id }}
-                                    </a>
-                                    @endif
+                                    {{ $debtor->_id }}
                                 </td>
                                 </td>
                                 <td>

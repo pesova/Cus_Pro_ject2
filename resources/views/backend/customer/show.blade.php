@@ -260,7 +260,7 @@
                                             <tr>
                                                 <th scope="row">{{ $transaction->_id }}</th>
                                                 <td>{{ $transaction->type }}</td>
-                                                <td>{{ format_money($transaction->amount) }}</td>
+                                                <td>{{ format_money($transaction->total_amount) }}</td>
                                                 <td>
                                                     @if($transaction->status == false)
                                                         <span class="badge badge-danger">Unpaid</span>
