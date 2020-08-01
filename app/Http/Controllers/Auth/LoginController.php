@@ -77,6 +77,7 @@ class LoginController extends Controller
                     'password' => $request->input('password'),
                 ]
             ]);
+            dd('here');
 
             if ($response->getStatusCode() == 200) {
                 $response = json_decode($response->getBody());
@@ -118,6 +119,7 @@ class LoginController extends Controller
             return redirect()->route('login.assistant');
         } catch (RequestException $e) {
             //log error;
+
             Log::error('Catch error: LoginController - ' . $e->getMessage());
             if ($e->hasResponse()) {
                 if ($e->getResponse()->getStatusCode() >= 400) {
@@ -160,7 +162,7 @@ class LoginController extends Controller
 
                     $data = $response->data->user->local;
 
-                    $image_path =  $response->data->user->image->path;
+                    $image_path =  $data->image->path;
                     $image = explode('/', $image_path);
                     $c = (count($image) - 1);
 
