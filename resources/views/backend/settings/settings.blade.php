@@ -490,7 +490,10 @@
                     $('#statusSpiner').addClass('d-none');
                     $('#account_number').removeClass('is-invalid');
                     $('#financeButton').removeAttr("disabled")
+<<<<<<< HEAD
                     // $('#account_name').val('');
+=======
+>>>>>>> fa332e7... fix currency settings
                     return true;
                 }
                 $('#account_number').removeClass('is-valid');
