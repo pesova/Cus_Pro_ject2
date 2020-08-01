@@ -271,7 +271,6 @@ class StoreController extends Controller
             return redirect()->route('store.index', ['response' => []]);
         } catch (\Exception $e) {
             //log error;
-            return $e;
             Log::error('Catch error: StoreController - ' . $e->getMessage());
             return view('errors.500');
         }
