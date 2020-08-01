@@ -182,22 +182,15 @@ Route::prefix('/admin')->group(function () {
 
         // settings create and update
         Route::get('/setting', 'SettingsController@index')->name('setting');
-
-        Route::post('/settings', 'SettingsController@displaypicture')->name('displaypicture');
-
         Route::post('/setting', 'SettingsController@update');
-
         Route::get('/setting/password', 'SettingsController@change_password')->name('change_password');
-
-        Route::get('/setting/picture', 'SettingsController@change_profile_picture')->name('change_profile_picture');
+        Route::post('/settings/upload_image', 'SettingsController@upload_image')->name('upload_image');
 
         // transaction crud
         Route::resource('transaction', 'TransactionController');
 
-
         // broadcast crud
         Route::resource('broadcast', 'BroadcastController');
-
 
         // location
         Route::resource('location', 'LocationController');

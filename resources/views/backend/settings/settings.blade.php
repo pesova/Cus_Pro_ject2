@@ -73,18 +73,6 @@
         align-items: center;
     }
 
-    /* nav-tabs .nav-link.active,
-        .nav-tabs .nav-item.show .nav-link {
-            color: #495057;
-            background-color: #FFF;
-            border-color: #dee2e6 #dee2e6 #FFF;
-        } */
-    /*
-        .nav-tabs li a.active {
-            border-left: 5px solid #5369f8 !important;
-            border-bottom: none !important;
-        } */
-
 </style>
 
 @stop
@@ -104,8 +92,15 @@
                         <div class="profile-content">
                             <div class="row">
                                 <div class="col-3">
-                                    <object data="{{Cookie::get('image')? Cookie::get('image'):'/backend/assets/images/users/avatar-1.jpg'}}" type="image/jpg" class="avatar-sm rounded-circle mr-2">
-                                        <img src="/backend/assets/images/users/default.png" class="avatar-sm rounded-circle mr-2" alt="Shreyu" />
+                                    @php
+                                    $profile_picture = Cookie::get('profile_picture');
+                                    $profile_picture = rtrim($profile_picture);
+                                    $profile_picture_path = str_replace(" ","/", $profile_picture);
+                                    @endphp
+                                    <object data="https://res.cloudinary.com/{{ $profile_picture_path }}"
+                                        type="image/jpg" class="avatar-sm rounded-circle mr-2">
+                                        <img src="/backend/assets/images/users/default.png"
+                                            class="avatar-sm rounded-circle mr-2" alt="Profile Picture" />
                                     </object>
                                 </div>
                                 <div class="col-9 pt-1" style="margin-left: -25px;padding-left: 0;">
@@ -142,24 +137,17 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="col-md-4">
-                        <div class="card">
-                            <ul class="nav flex-column nav-tabs user-tabs">
-                                <li class="nav-item"><a class="nav-link active" href="#user-details" data-toggle="tab">Personal Data</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#user-profile" data-toggle="tab">Edit Data</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{{route('change_password')}}">Change Password</a></li>
-                                {{-- <li class="nav-item"><a class="nav-link" href="{{route('change_profile_picture')}}">Change Profile Picture</a></li> --}}
-                            </ul>
-                        </div>
-                    </div> -->
+
                 <div class="col-md-8">
                     <div class="card p-3">
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
-                                <a class="nav-link hash-candidate active edit-profile" href="#edit-profile">Edit Profile</a>
+                                <a class="nav-link hash-candidate active edit-profile" href="#edit-profile">Edit
+                                    Profile</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link hash-candidate change-password" href="#change-password">Change Password</a>
+                                <a class="nav-link hash-candidate change-password" href="#change-password">Change
+                                    Password</a>
                             </li>
                             @if(Cookie::get('user_role') == 'store_admin')
                             <li class="nav-item">
@@ -167,7 +155,8 @@
                             </li>
                             @endif
                             <li class="nav-item">
-                                <a class="nav-link hash-candidate displaypicture" href="#displaypicture">Display Picture</a>
+                                <a class="nav-link hash-candidate displaypicture" href="#displaypicture">Display
+                                    Picture</a>
                             </li>
                         </ul>
                         <div class="content pt-3">
@@ -179,28 +168,35 @@
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <label>First Name</label>
-                                                    <input class="form-control" type="text" name="first_name" value="{{ $user_details['first_name'] ?? '' }}" placeholder="John">
+                                                    <input class="form-control" type="text" name="first_name"
+                                                        value="{{ $user_details['first_name'] ?? '' }}"
+                                                        placeholder="John">
                                                 </div>
                                             </div>
                                             <div class="clearfix"></div><br>
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <label>Last Name</label>
-                                                    <input class="form-control" type="text" name="last_name" value="{{ $user_details['last_name'] ?? '' }}" placeholder="Doe">
+                                                    <input class="form-control" type="text" name="last_name"
+                                                        value="{{ $user_details['last_name'] ?? '' }}"
+                                                        placeholder="Doe">
                                                 </div>
                                             </div>
                                             <div class="clearfix"></div><br>
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <label>Email</label>
-                                                    <input class="form-control" type="email" name="email" value="{{ $user_details['email'] ?? '' }}" placeholder="email">
+                                                    <input class="form-control" type="email" name="email"
+                                                        value="{{ $user_details['email'] ?? '' }}" placeholder="email">
                                                 </div>
                                             </div>
                                             <div class="clearfix"></div><br>
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <label>Phone Number</label>
-                                                    <input class="form-control" type="text" id="phone" name="phone_number" value="{{ $user_details['phone_number'] ?? "" }}" readonly>
+                                                    <input class="form-control" type="text" id="phone"
+                                                        name="phone_number"
+                                                        value="{{ $user_details['phone_number'] ?? "" }}" readonly>
                                                 </div>
                                             </div>
                                             <div class="clearfix"></div><br>
@@ -210,35 +206,44 @@
                                     <br>
                                     <div class="row mb-12">
                                         <div class="col-md-12">
-                                            <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i> Save</button>
+                                            <button class="btn btn-primary" type="submit"><i
+                                                    class="fa fa-fw fa-lg fa-check-circle"></i> Save</button>
                                         </div>
                                     </div>
                                 </form>
                             </div>
                             <div id="change-password" class="hash-candidate screen">
-                                <form action="{{ route('setting') }}" method="POST" onSubmit="return checkPassword(this)">
+                                <form action="{{ route('setting') }}" method="POST"
+                                    onSubmit="return checkPassword(this)">
                                     {{ csrf_field() }}
                                     <div class="col-8 offset-2">
 
                                         <label class=" control-label">Current Password</label>
                                         <div class="form-group">
                                             <div class="input-group">
-                                                <div class="input-group-prepend"><span class="input-group-text"><i class=" fa fa-lock"></i></span></div>
-                                                <input class="form-control" name="current_password" type="password" required>
+                                                <div class="input-group-prepend"><span class="input-group-text"><i
+                                                            class=" fa fa-lock"></i></span></div>
+                                                <input class="form-control" name="current_password" type="password"
+                                                    required>
                                             </div>
                                         </div>
                                         <label class="control-label">New Password</label>
                                         <div class="form-group">
                                             <div class="input-group">
-                                                <div class="input-group-prepend"><span class="input-group-text"><i class=" fa fa-lock"></i></span></div>
-                                                <input id="password" class="form-control" name="new_password" type="password" required minlength="6">
+                                                <div class="input-group-prepend"><span class="input-group-text"><i
+                                                            class=" fa fa-lock"></i></span></div>
+                                                <input id="password" class="form-control" name="new_password"
+                                                    type="password" required minlength="6">
                                             </div>
                                         </div>
                                         <label class="control-label">Confirm New Password</label>
                                         <div class="form-group">
                                             <div class="input-group">
-                                                <div class="input-group-prepend"><span class="input-group-text"><i class=" fa fa-lock"></i></span></div>
-                                                <input id="passwordr" class="form-control" name="new_password_confirmation" type="password" required minlength="6">
+                                                <div class="input-group-prepend"><span class="input-group-text"><i
+                                                            class=" fa fa-lock"></i></span></div>
+                                                <input id="passwordr" class="form-control"
+                                                    name="new_password_confirmation" type="password" required
+                                                    minlength="6">
                                             </div>
                                             <div class="invalid-feedback">
                                                 New Password and confirm new password must be the same
@@ -259,16 +264,20 @@
                                         <div class="form-group">
                                             <label for="currency_select">Currenct</label>
                                             <select class="form-control" id="currency_select" name="currency" required>
-                                                <option value='NGN' @if(strtolower($user_details['currency']) == 'ngn') {{ 'selected' }} @endif>NGN</option>
-                                                <option value='USD' @if(strtolower($user_details['currency']) == 'usd') {{ 'selected' }} @endif>USD</option>
-                                                <option value='INR' @if(strtolower($user_details['currency']) == 'inr') {{ 'selected' }} @endif>INR</option>
+                                                <option value='NGN' @if(strtolower($user_details['currency'])=='ngn' )
+                                                    {{ 'selected' }} @endif>NGN</option>
+                                                <option value='USD' @if(strtolower($user_details['currency'])=='usd' )
+                                                    {{ 'selected' }} @endif>USD</option>
+                                                <option value='INR' @if(strtolower($user_details['currency'])=='inr' )
+                                                    {{ 'selected' }} @endif>INR</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label for="currency_select">Bank Name</label>
                                             <select class="form-control" id="bank_select" name="bank" required>
                                                 @foreach($bank_list as $bank)
-                                                <option value='{{ $bank->code }}' {{ $bank->code == $user_details['account_bank'] ? 'selected' : ''}}>
+                                                <option value='{{ $bank->code }}'
+                                                    {{ $bank->code == $user_details['account_bank'] ? 'selected' : ''}}>
                                                     {{ $bank->name }}
                                                 </option>
                                                 @endforeach
@@ -276,240 +285,73 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Account number</label>
-                                            <input class="form-control" type="number" id="account_number" name="account_number" value="{{ $user_details['account_number'] ?? '' }}" value="" placeholder="0123456789" min="1" max="9999999999" required>
+                                            <input class="form-control" type="number" id="account_number"
+                                                name="account_number"
+                                                value="{{ $user_details['account_number'] ?? '' }}" value=""
+                                                placeholder="0123456789" min="1" max="9999999999" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Account Name</label>
-                                            <span id="statusSpiner" class="spinner-border spinner-border-sm text-primary d-none" role="status">
+                                            <span id="statusSpiner"
+                                                class="spinner-border spinner-border-sm text-primary d-none"
+                                                role="status">
                                                 <span class="sr-only">Loading...</span>
                                             </span>
-                                            <input class="form-control" type="text" id="account_name" name="account_name" value="{{ $user_details['account_name'] ?? '' }}" placeholder="Account Name" aria-describedby="ac_nameHelp" readonly required>
-                                            <small id="ac_nameHelp" class="form-text text-muted">will be auto filled when you enter Account nummber and bank</small>
+                                            <input class="form-control" type="text" id="account_name"
+                                                name="account_name" value="{{ $user_details['account_name'] ?? '' }}"
+                                                placeholder="Account Name" aria-describedby="ac_nameHelp" readonly
+                                                required>
+                                            <small id="ac_nameHelp" class="form-text text-muted">will be auto filled
+                                                when you enter Account nummber and bank</small>
                                         </div>
                                         <input type="hidden" value="finance_update" name="control">
                                         <div class=" text-center">
-                                            <button class="btn btn-primary" id='financeButton' type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i> Save</button>
+                                            <button class="btn btn-primary" id='financeButton' type="submit"><i
+                                                    class="fa fa-fw fa-lg fa-check-circle"></i> Save</button>
                                         </div>
                                     </div>
                                 </form>
                             </div>
                             @endif
                             <div id="displaypicture" class="hash-candidate screen">
-                                <form method="POST" action="{{ route('displaypicture') }}" enctype="multipart/form-data">
+                                <form method="POST" action="{{ route('upload_image') }}" enctype="multipart/form-data">
                                     @csrf
                                     <div class="row py-4">
                                         <div class="col-lg-6 mx-auto">
 
                                             <!-- Upload image input-->
                                             <div class="input-group mb-3 px-2 py-2 rounded-pill bg-white shadow-sm">
-                                                <input id="upload" type="file" onchange="readURL(this);" name="picture" class="form-control border-0">
-                                                <label id="upload-label" for="upload" class="font-weight-light text-muted">Choose Picture</label>
+                                                <input id="upload" type="file" onchange="readURL(this);"
+                                                    name="profile_picture" class="form-control border-0">
+                                                <label id="upload-label" for="upload"
+                                                    class="font-weight-light text-muted">Choose Picture</label>
                                                 <div class="input-group-append">
-                                                    <label for="upload" class="btn btn-light m-0 rounded-pill px-4"> <i class="fa fa-cloud-upload mr-2 text-muted"></i><small class="text-uppercase font-weight-bold text-muted">Choose file</small></label>
+                                                    <label for="upload" class="btn btn-light m-0 rounded-pill px-4">
+                                                        <i class="fa fa-cloud-upload mr-2 text-muted"></i>
+                                                        <small class="text-uppercase font-weight-bold text-muted">Choose
+                                                            file</small>
+                                                    </label>
                                                 </div>
                                             </div>
-                                            <div class="image-area mt-4"><img id="imageResult" src="#" alt="" class="img-fluid rounded shadow-sm mx-auto d-block"></div>
+                                            <div class="image-area mt-4"><img id="imageResult" src="#" alt=""
+                                                    class="img-fluid rounded shadow-sm mx-auto d-block"></div>
 
                                         </div>
                                     </div>
                                     <div class=" text-center">
-                                        <button class="btn btn-primary" id='financeButton' type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i> Save</button>
+                                        <button class="btn btn-primary" id='financeButton' type="submit"><i
+                                                class="fa fa-fw fa-lg fa-check-circle"></i> Save</button>
                                     </div>
+                                </form>
                             </div>
-                            </form>
-                        </div>
 
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- <div class="col-md-8">
-                        <div class="card p-4">
-                            <div class="tab-content">
-                                <div class="tab-pane active" id="user-details">
-                                    <div class="tile user-settings">
-                                        <h4 class="line-head">Personal Data</h4>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label><b>Fullname</b></label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>{{ isset($user_details['first_name'])  &&  isset($user_details['last_name']) ? $user_details['first_name'] ." ". $user_details['last_name']: "full name" }}</p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label><b>Email</b></label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>{{ isset($user_details['email']) ? $user_details['email'] : "Email" }}</p>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label><b>Status</b></label>
-                                            </div>
-                                            <div class="col-md-6">
-                                               @isset($user_details['is_active'])
-                                                    @if (  $user_details['is_active'] )
-                                                    Activated
-                                                @else
-                                                    Not Activated
-                                                @endif
-                                               @endisset
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                {{-- Removed by Eni4sure because Node is no longer giving CreatedAt and UpdatedAt --}}
-                                    {{-- @php
-                                        function time_relative_to_time($ts) {
-                                            if(!ctype_digit($ts))
-                                                $ts = strtotime($ts);
-
-                                            $diff = time() - $ts;
-                                            if($diff == 0)
-                                                return 'now';
-                                            elseif($diff > 0)
-                                            {
-                                                $day_diff = floor($diff / 86400);
-                                                if($day_diff == 0)
-                                                {
-                                                    if($diff < 60) return 'just now';
-                                                    if($diff < 120) return '1 minute ago';
-                                                    if($diff < 3600) return floor($diff / 60) . ' minutes ago';
-                                                    if($diff < 7200) return '1 hour ago';
-                                                    if($diff < 86400) return floor($diff / 3600) . ' hours ago';
-                                                }
-                                                if($day_diff == 1) return 'Yesterday';
-                                                if($day_diff < 7) return $day_diff . ' days ago';
-                                                if($day_diff < 31) return ceil($day_diff / 7) . ' weeks ago';
-                                                if($day_diff < 60) return 'last month';
-                                                return date('F Y', $ts);
-                                            }
-                                            else
-                                            {
-                                                $diff = abs($diff);
-                                                $day_diff = floor($diff / 86400);
-                                                if($day_diff == 0)
-                                                {
-                                                    if($diff < 120) return 'in a minute';
-                                                    if($diff < 3600) return 'in ' . floor($diff / 60) . ' minutes';
-                                                    if($diff < 7200) return 'in an hour';
-                                                    if($diff < 86400) return 'in ' . floor($diff / 3600) . ' hours';
-                                                }
-                                                if($day_diff == 1) return 'Tomorrow';
-                                                if($day_diff < 4) return date('l', $ts);
-                                                if($day_diff < 7 + (7 - date('w'))) return 'next week';
-                                                if(ceil($day_diff / 7) < 4) return 'in ' . ceil($day_diff / 7) . ' weeks';
-                                                if(date('n', $ts) == date('n') + 1) return 'next month';
-                                                return date('F Y', $ts);
-                                            }
-                                        }
-                                    @endphp
-                                    <div class="tab-pane" id="user-timeline">
-                                        <div class="tile user-settings">
-                                            <h4 class="line-head">Timeline</h4>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <label><b>Created</b></label>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <p>{{ time_relative_to_time($user_details['local']['createdAt']) }}</p>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <label><b>Last Updated</b></label>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <p>{{ time_relative_to_time($user_details['local']['updatedAt']) }}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> --}}
-                                {{-- Removed by Eni4sure because Node is no longer giving CreatedAt and UpdatedAt --}}
-
-                                <div class="tab-pane fade" id="user-profile">
-                                    <div class="tile user-settings">
-                                        <h4 class="line-head">Edit Data</h4>
-                                        <form method="POST"  action="{{ route('setting') }}">
-                                            @csrf
-                                            <div class="row mb-12">
-                                                <div class="col-md-9">
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <label>First Name</label>
-                                                            <input class="form-control" type="text" name="first_name" value="{{ isset($user_details['first_name']) ? $user_details['first_name'] : "" }}">
-                                                        </div>
-                                                    </div>
-                                                    <div class="clearfix"></div><br>
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <label>Last Name</label>
-                                                            <input class="form-control" type="text" name="last_name" value="{{ isset($user_details['last_name']) ? $user_details['last_name'] : "" }}">
-                                                        </div>
-                                                    </div>
-                                                    <div class="clearfix"></div><br>
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <label>Email</label>
-                                                            <input class="form-control" type="text" name="email" value="{{ isset($user_details['email']) ? $user_details['email'] : "" }}">
-                                                        </div>
-                                                    </div>
-                                                    <div class="clearfix"></div><br>
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <label>Phone Number</label>
-                                                            <input class="form-control" type="text" name="phone_number" value="{{ isset($user_details['phone_number']) ? $user_details['phone_number'] : "" }}" readonly>
-                                                        </div>
-                                                    </div>
-                                                    <div class="clearfix"></div><br>
-                                                    <input type="text" value="profile_update" name="control" hidden>
-                                                </div>
-
-                                                {{-- <div class="col-md-3">
-                                                    <img id="preview" class="img img-responsive img-thumbnail" src="{{('backend/assets/images/users/avatar-7.jpg')}}" />
-
-                                                    <div class="form-group">
-                                                        <label for="exampleInputFile">File input</label>
-                                                        <input class="form-control-file" id="profile_image" type="file" aria-describedby="fileHelp" name="image">
-                                                    </div>
-                                                </div> --}}
-                                            </div>
-                                            <br>
-                                            <div class="row mb-12">
-                                                <div class="col-md-12">
-                                                    <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i> Save</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-
-                                {{-- <div class="tab-pane" id="assistant">
-                                    <div class="tile user-settings">
-                                        <h4 class="line-head">Staff Assistant</h4>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <p><b>Staff Assigned to You:</b></p>
-                                            </div>
-                                            <div class="col-md-6">Sean Jones</div>
-                                            <div class="col-md-6">
-                                                <p>seanjones@customerpay.me</p>
-                                                <p>+2345667788912</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> --}}
-                            </div>
-                        </div>
-                    </div> -->
     </div>
-
-</div>
 </div>
 </div>
 
@@ -605,10 +447,10 @@
 </script>
 @if(Cookie::get('user_role') == 'store_admin')
 <script>
-    $(function() {
+    $(function () {
         var currentRequest = null;
         const url = "{{ route('verify.bank') }}";
-        $('#account_number').keyup(function() {
+        $('#account_number').keyup(function () {
             $('#statusSpiner').removeClass('d-none');
             $('#financeButton').attr("disabled", true);
 
@@ -624,14 +466,14 @@
             $(this).removeClass('is-invalid');
             $(this).removeClass('is-valid');
             currentRequest = $.ajax({
-                url: url
-                , data: {
-                    "_token": "{{ csrf_token() }}"
-                    , account_number: number
-                    , account_bank: bank
-                , }
-                , type: 'POST'
-                , beforeSend: function() {
+                url: url,
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    account_number: number,
+                    account_bank: bank,
+                },
+                type: 'POST',
+                beforeSend: function () {
                     if (currentRequest != null) {
                         $('#this').removeClass('is-valid');
                         $('#account_name').removeClass('is-valid');
@@ -639,8 +481,8 @@
                         $('#financeButton').attr("disabled", true);
                         currentRequest.abort();
                     }
-                }
-            , }).done(response => {
+                },
+            }).done(response => {
                 if (response.status == 'success') {
                     $('#account_name').val(response.data.account_name);
                     $('#account_name').addClass('is-valid');
@@ -648,7 +490,7 @@
                     $('#statusSpiner').addClass('d-none');
                     $('#account_number').removeClass('is-invalid');
                     $('#financeButton').removeAttr("disabled")
-                    $('#account_name').val('');
+                    // $('#account_name').val('');
                     return true;
                 }
                 $('#account_number').removeClass('is-valid');
@@ -669,7 +511,7 @@
             });
         });
 
-        $('#bank_select').change(function() {
+        $('#bank_select').change(function () {
             $('#financeButton').attr("disabled", true);
             $('#account_name').val('');
         });
@@ -685,7 +527,7 @@
         if (input.files && input.files[0]) {
             var reader = new FileReader();
 
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 $('#imageResult')
                     .attr('src', e.target.result);
             };
@@ -693,8 +535,8 @@
         }
     }
 
-    $(function() {
-        $('#upload').on('change', function() {
+    $(function () {
+        $('#upload').on('change', function () {
             readURL(input);
         });
     });
