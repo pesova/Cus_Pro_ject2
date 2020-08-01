@@ -217,7 +217,6 @@ class LoginController extends Controller
         } catch (\Exception $e) {
             //log error;
 
-            dd($e);
             Log::error('Catch error: LoginController - ' . $e->getMessage());
             return view('errors.500');
         }
