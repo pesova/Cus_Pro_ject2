@@ -38,55 +38,59 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <h3 class="card-title mb-4 float-sm-left">Compose Message</h3>
+                    <h3 class="card-title mb-4">Compose Message</h3>
                     @include('partials.alert.message')
+                    <div class="d-flex justify-content-center">
+    <div class="row col-lg-7 col-md-12 ">
+                            <form action="{{ route('broadcast.store') }}" method="post" class="col-12">
+                                @csrf
+                                <div class="form-group">
+                                    <label>Store</label>
+                                    <select class="form-control col-12" name="store" id="store" required>
+                                        <option value="" selected disabled>None selected</option>
+                                        @foreach ($response as $index => $store )
+                                        <option value="{{$store->_id}}">{{$store->store_name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Send To</label>
+                                    <select class="form-control col-12" name="send_to" id="send_to" required>
+                                        <option value="1"> All Customers</option>
+                                        <option value="2" selected> Selected Customers</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" id='customersGroup'>
+                                    <label>Customer(s)</label>
+                                    <select class="form-control col-12 jstags" multiple name="customer[]" id="customerNumbers">
 
-                    <div class="row col-12">
-                        <form action="{{ route('broadcast.store') }}" method="post" class="col-12">
-                            @csrf
-                            <div class="form-group">
-                                <label>Store</label>
-                                <select class="form-control col-12" name="store" id="store" required>
-                                    <option value="" selected disabled>None selected</option>
-                                    @foreach ($response as $index => $store )
-                                    <option value="{{$store->_id}}">{{$store->store_name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                             <div class="form-group">
-                                <label>Send To</label>
-                                <select class="form-control col-12" name="send_to" id="send_to" required>
-                                    <option value="1"> All Customers</option>
-                                    <option value="2" selected> Selected Customers</option>
-                                </select>
-                            </div>
-                            <div class="form-group" id='customersGroup'>
-                                <label>Customer(s)</label>
-                                <select class="form-control col-12 jstags" multiple name="customer[]" id="customerNumbers">
-
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Message</label>
-                                <select class="form-control col-12" name="message" id="msgselect" required>
-                                    <option value="" selected disabled>None selected</option>
-                                    <option value="Happy new year!">Happy new year!</option>
-                                    <option value="We are now open!">We are now open!</option>
-                                    <option value="New stocks just arrived!">New stocks just arrived!</option>
-                                    <option value="Happy new Month">Happy new Month</option>
-                                    <option value="Thank you for shopping with">Thank you for shopping with US!</option>
-                                    <option value="other">Custom Message</option>
-                                </select>
-                            </div>
-                            <div class="form-group" id="txtarea">
-                                <label for="exampleFormControlTextarea1">Your Custom Message</label>
-                                <textarea class="form-control" name="txtmessage" rows="4"></textarea>
-                            </div>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Message</label>
+                                    <select class="form-control col-12" name="message" id="msgselect" required>
+                                        <option value="" selected disabled>None selected</option>
+                                        <option value="Happy new year!">Happy new year!</option>
+                                        <option value="We are now open!">We are now open!</option>
+                                        <option value="New stocks just arrived!">New stocks just arrived!</option>
+                                        <option value="Happy new Month">Happy new Month</option>
+                                        <option value="Thank you for shopping with">Thank you for shopping with US!</option>
+                                        <option value="other">Custom Message</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" id="txtarea">
+                                    <label for="exampleFormControlTextarea1">Your Custom Message</label>
+                                    <textarea class="form-control" name="txtmessage" rows="4"></textarea>
+                                </div>
+                                <button class="btn btn-primary" type="submit">Send &nbsp;<i class="fa fa-paper-plane my-float"></i>
+                                </button>
+                            
+                        </form>
+                        </div>
                     </div>
+                    
 
-                    <button class="btn btn-primary" type="submit">Send &nbsp;<i class="fa fa-paper-plane my-float"></i>
-                    </button>
-                    </form>
+                  
                 </div>
             </div>
         </div>
