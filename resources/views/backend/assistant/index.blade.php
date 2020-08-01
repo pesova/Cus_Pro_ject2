@@ -6,10 +6,7 @@
 @stop
 @section('content')
 <div class="content">
-    {{-- <a href="#" class="float" data-toggle="modal"
-                                            data-target="#myModal">
-    <i class="fa fa-plus my-float" ></i>
-    </a> --}}
+    
     <div class="container-fluid">
         <div class="row page-title">
             <div class="col-md-12">
@@ -31,7 +28,6 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        {{-- <h4 class="header-title mt-0 mb-1">Basic Data Table</h4> --}}
                         <p class="sub-header">
                             Find Assistant
                         </p>
@@ -104,7 +100,6 @@
                                     data-placement="top" title="" data-original-title="Edit"><i
                                         data-feather="edit"></i></a>
                             </div>
-
 
                             <div class="flex-fill">
                                 <a class="" href="#" data-toggle="modal"

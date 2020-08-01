@@ -1,4 +1,3 @@
-
 <div id="addStoreModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addStoreModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -16,8 +15,9 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="store name">Store Name*</label>
-                                <input type="text" name="store_name" class="form-control" value="{{ old('store_name') }}"
-                                    placeholder="XYZ Stores" required minlength="3" maxlength="16">
+                                <input type="text" name="store_name" class="form-control"
+                                    value="{{ old('store_name') }}" placeholder="XYZ Stores" required minlength="3"
+                                    maxlength="16">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inputTagline">Tagline*</label>
@@ -28,8 +28,9 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputPhoneNumber">Phone Number*</label>
-                                <input type="tel" style="padding-left: 2px !important;" name="" id="phone" value="{{ old('phone_number') }}" class="form-control"
-                                    placeholder="8127737643" required minlength="6" maxlength="16">
+                                <input type="tel" class="form-control" id="phone" placeholder="8127737643"
+                                    aria-describedby="helpPhone" name="" value="{{ old('phone_number') }}" required pattern=".{6,16}"
+                                    title="Phone number must be between 6 to 16 characters">
                                 <input type="hidden" name="phone_number" id="phone_number" class="form-control">
                                 <small id="helpPhone" class="form-text text-muted">
                                     Enter your number without the starting 0, eg 813012345
@@ -37,13 +38,14 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inputEmailAddress"> Email Address*</label>
-                                <input type="email" name="email" class="form-control" required value="{{ old('email') }}">
+                                <input type="email" name="email" class="form-control" required
+                                    value="{{ old('email') }}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="inputAddress">Address*</label>
-                            <input type="text" name="shop_address" class="form-control" value="{{ old('shop_address') }}"
-                                required minlength="5" maxlength="50">
+                            <input type="text" name="shop_address" class="form-control"
+                                value="{{ old('shop_address') }}" required minlength="5" maxlength="50">
                         </div>
                         <button type="submit" class="btn btn-success text-white" data-toggle="modal"
                             data-target="#exampleModal">
@@ -56,20 +58,20 @@
     </div>
 </div>
 @section("javascript")
-   <script src="/backend/assets/build/js/intlTelInput.js"></script>
+<script src="/backend/assets/build/js/intlTelInput.js"></script>
 <script>
     var input = document.querySelector("#phone");
     var test = window.intlTelInput(input, {
-        separateDialCode: true,
-        // any initialisation options go here
     });
+
+    if ($("#phone").val().trim() != '')
+        test.setNumber("+" + ($("#phone").val()));
 
     $("#phone").keyup(() => {
         if ($("#phone").val().charAt(0) == 0) {
             $("#phone").val($("#phone").val().substring(1));
         }
     });
-
     $("#submitForm").submit((e) => {
         e.preventDefault();
         const dialCode = test.getSelectedCountryData().dialCode;
@@ -79,6 +81,6 @@
         $("#phone_number").val(dialCode + $("#phone").val());
         $("#submitForm").off('submit').submit();
     });
-
 </script>
+
 @stop

@@ -22,8 +22,6 @@
         </div>
         @include('partials.alert.message')
 
-        {{-- Add new Store Modal --}}
-        @include('partials.modal.store.addStore')
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -49,6 +47,9 @@
                 </div>
             </div>
         </div>
+
+        {{-- Add new Store Modal --}}
+        @include('partials.modal.store.addStore')
 
         @if(\Cookie::get('user_role') == 'super_admin')
         <div class="row" style="margin-top:20px;">
@@ -232,6 +233,7 @@
 @endsection
 
 @section("javascript")
+
 
 <script>
     //for search bar
