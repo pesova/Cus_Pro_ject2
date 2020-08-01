@@ -45,26 +45,18 @@ class BroadcastController extends Controller
             $all_messages_response = $client->request("GET", $all_messages_url, $payload);
 
             $statusCode = $response->getStatusCode();
-            $all_messages_statusCode = $all_messages_response->getStatusCode();
+            $stores_body = json_decode($response->getBody());
 
-            $body = $response->getBody();
-            $all_messages_body = $all_messages_response->getBody();
-
-            
-
-            $Stores = json_decode($body);
-            $broadcasts_body = json_decode($all_messages_body);
+            $boradcast_status_code = $all_messages_response->getStatusCode();
+            $broadcasts_body = json_decode($all_messages_response->getBody());
 
             $broadcasts = $broadcasts_body->data->broadcasts;
-            // return $broadcasts;
-            $data = [
-                'stores' => $Stores->data->stores,
-                'broadcasts' => $broadcasts
-            ];
+            $stores = $stores_body->data->stores;
+
+            // dd($stores);
 
             if ($statusCode == 200) {
-                // return $Stores->data->stores;
-                return view('backend.broadcasts.index')->with('data', $data);
+                return view('backend.broadcasts.index', compact('stores', 'broadcasts'));
             }
         } catch (RequestException $e) {
             Log::error('Catch error: Create Broadcast' . $e->getMessage());
