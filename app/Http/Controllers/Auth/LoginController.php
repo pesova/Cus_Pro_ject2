@@ -162,7 +162,7 @@ class LoginController extends Controller
 
                     $data = $response->data->user->local;
 
-                    $image_path =  $data->image->path;
+                    $image_path =  $response->data->user->image->path;
                     $image = explode('/', $image_path);
                     $c = (count($image) - 1);
 
