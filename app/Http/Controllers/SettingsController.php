@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Log;
 // use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cookie;
 use GuzzleHttp\Exception\RequestException;
-use Illuminate\Support\Arr;
 // use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Session;
 class SettingsController extends Controller
