@@ -262,11 +262,11 @@ class DebtorController extends Controller
 
             if ($statusCode == 200 && $data->success) {
                 $request->session()->flash('alert-class', 'alert-success');
-                Session::flash('message', $data->message);
+                Session::flash('message',  isset($data->message) ? $data->message : $data->Message);
                 return redirect()->back();
             } else {
                 $request->session()->flash('alert-class', 'alert-waring');
-                Session::flash('message', $data->message);
+                Session::flash('message', isset($data->message) ? $data->message : $data->Message);
                 return redirect()->back();
             }
         } catch (RequestException $e) {
