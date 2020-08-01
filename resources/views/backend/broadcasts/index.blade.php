@@ -19,11 +19,6 @@
 </style>
 @stop
 
-@php
-    $response = $data['stores'];
-    $broadcasts = $data['broadcasts'];
-@endphp
-
 @section('content')
 @include('partials.alert.message')
 <div class="container-fluid">
@@ -41,15 +36,15 @@
                     <h3 class="card-title mb-4">Compose Message</h3>
                     @include('partials.alert.message')
                     <div class="d-flex justify-content-center">
-    <div class="row col-lg-7 col-md-12 ">
+                        <div class="row col-lg-7 col-md-12 ">
                             <form action="{{ route('broadcast.store') }}" method="post" class="col-12">
                                 @csrf
                                 <div class="form-group">
                                     <label>Store</label>
                                     <select class="form-control col-12" name="store" id="store" required>
                                         <option value="" selected disabled>None selected</option>
-                                        @foreach ($response as $index => $store )
-                                        <option value="{{$store->_id}}">{{$store->store_name}}</option>
+                                        @foreach ($stores as $index => $store)
+                                            <option value="{{$store[0]->_id}}">{{$store[0]->store_name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -88,8 +83,6 @@
                         </form>
                         </div>
                     </div>
-                    
-
                   
                 </div>
             </div>
