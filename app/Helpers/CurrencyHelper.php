@@ -53,7 +53,7 @@ if (!function_exists('get_currency_symbol')) {
                 break;
 
             case 'inr':
-                $_currency = '&#8377; &#x20B9;';
+                $_currency = '&#x20B9;';
                 break;
 
             default:
