@@ -313,7 +313,7 @@ $total_interestReceivables += $each_interestReceivables;
                                             </th>
                                             <td class="font-light">{{$transactions->phone_number}}</td>
                                             <td>{{$transaction->type}}</td>
-                                            <td>{{$transaction->amount}}</td>
+                                            <td>{{format_money($transaction->amount)}}</td>
                                             <td>
                                                 <label class="switch">
                                                     @if(Cookie::get('user_role') != 'store_assistant') disabled
