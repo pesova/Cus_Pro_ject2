@@ -171,7 +171,6 @@ class DebtorController extends Controller
             if ($storeStatusCode == 200 && $debtorStatusCode == 200) {
                 $stores = json_decode($storeResponse->getBody())->data->stores;
                 $debtor = json_decode($debtorResponse->getBody())->data->debt;
-                // dd($debtor);
                 return view('backend.debtor.show', compact('debtor', 'stores'));
             } else if ($storeStatusCode == 401 && $debtorStatusCode == 401) {
                 return redirect()->route('login')->with('message', "Please Login Again");
@@ -257,15 +256,13 @@ class DebtorController extends Controller
             $response = $client->request("POST", $url, $payload);
 
             $statusCode = $response->getStatusCode();
-            $body = $response->getBody();
-            $data = json_decode($body);
-
-            if ($statusCode == 200 && $data->success) {
-                $request->session()->flash('alert-class', 'alert-success');
+            $data = json_decode($response->getBody());
+            if ($statusCode == 200 && $data->success == true) {
+                Session::flash('alert-class', 'alert-success');
                 Session::flash('message', $data->message);
                 return redirect()->back();
             } else {
-                $request->session()->flash('alert-class', 'alert-waring');
+                Session::flash('alert-class', 'alert-warning');
                 Session::flash('message', $data->message);
                 return redirect()->back();
             }
@@ -277,12 +274,12 @@ class DebtorController extends Controller
                     Session::flash('message', 'session expired');
                     return redirect()->route('logout');
                 }
-
-                $response = $e->getResponse()->getBody();
-                $result = json_decode($response);
-                Session::flash('message', isset($result->message) ? $result->message : $result->Message);
-                return redirect()->back();
             }
+
+            $response = $e->getResponse()->getBody();
+            $result = json_decode($response);
+            Session::flash('message', isset($result->message) ? $result->message : $result->Message);
+            return redirect()->back();
             //5xx server error
             return view('errors.500');
         } catch (\Exception $e) {
@@ -321,7 +318,6 @@ class DebtorController extends Controller
             ];
 
             $response = $client->request("POST", $url, $payload);
-            dd($response);
 
             $statusCode = $response->getStatusCode();
             $body = $response->getBody();
