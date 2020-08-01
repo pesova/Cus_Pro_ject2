@@ -13,7 +13,7 @@
                 <div class="card-body p-2">
                     <div class="row">
                         <div class="col-md-4">
-                            <h5 class="card-title">Debtor Overview - Created
+                            <h6 class="card-title">Debtor Overview - Created
                                 {{ \Carbon\Carbon::parse($debtor->createdAt)->diffForhumans() }}</h5>
                         </div>
                         <div class="col-md-8 row text-center">
@@ -106,9 +106,7 @@
                                                 </tr>
                                                 <tr class="font-weight-bolder">
                                                     <th scope="row">Total Amount</th>
-                                                    <td colspan="2">
-                                                        {{ format_money((($debtor->interest / 100) * $debtor->amount) + $debtor->amount) }}
-                                                    </td>
+                                                    <td colspan="2">{{ format_money($debtor->total_amount) }}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
