@@ -49,6 +49,7 @@
                                 <th>Store</th>
                                 <th>Amount</th>
                                 <th>Interest</th>
+                                <th>Total Amount</th>
                                 <th>Type</th>
                                 <th>Due</th>
                                 <th>Created</th>
@@ -75,6 +76,7 @@
                                 </td>
                                 <td>{{ format_money($transaction->amount) }}</td>
                                 <td>{{ $transaction->interest }} %</td>
+                                <td>{{ format_money($transaction->total_amount) }} </td>
                                 <td>{{ $transaction->type }}</td>
 
                                 <td>
@@ -109,12 +111,8 @@
                                     </div>
                                 </td>
                                 <td>
-                                    @if(Cookie::get('user_role') == 'super_admin')
+                                    @if($transaction->customer_ref_id != null)
                                     <a class="btn btn-info btn-small py-1 px-2" href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id->_id.'-'.$transaction->customer_ref_id->_id) }}">
-                                        View More
-                                    </a>
-                                    @else
-                                    <a class="btn btn-info btn-small py-1 px-2" href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id.'-'.$transaction->customer_ref_id) }}">
                                         View More
                                     </a>
                                     @endif

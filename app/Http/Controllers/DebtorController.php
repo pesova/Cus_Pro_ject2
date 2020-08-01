@@ -60,6 +60,7 @@ class DebtorController extends Controller
                 } else {
                     $debtors = [];
                     $transactions = json_decode($debtorResponse->getBody())->data->transactions;
+
                     foreach ($transactions as $transaction) {
 
                         if ($transaction->type == 'debt' || $transaction->type == 'Debt' ) {
