@@ -66,7 +66,7 @@
                                             </div>
                                             <div class="col-6">
                                                 <h5 class="font-size-15">
-                                                    $ {{ number_format($result->total_revenue,2) }}</h5>
+                                                {{ format_money($result->total_revenue) }}</h5>
                                                 <p class="text-muted mb-0">Revenue</p>
                                             </div>
                                         </div>
@@ -155,7 +155,7 @@
                                     <div class="media">
                                         <div class="media-body">
                                             <p class="text-muted font-weight-medium">Revenue</p>
-                                            <h4 class="mb-0">$ {{ number_format($result->total_revenue,2) }}</h4>
+                                            <h4 class="mb-0">{{ format_money($result->total_revenue) }}</h4>
                                         </div>
 
                                         <div class="mini-stat-icon avatar-sm align-self-center rounded-circle bg-primary">
@@ -174,7 +174,7 @@
                                         <div class="media-body" data-toggle="tooltip" data-placement="bottom"
                                              title="Total amount includes interest">
                                             <p class="text-muted font-weight-medium">Debt</p>
-                                            <h4 class="mb-0">$ {{ number_format($result->total_debt,2) }}</h4>
+                                            <h4 class="mb-0">{{ format_money($result->total_debt) }}</h4>
                                         </div>
 
                                         <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
@@ -192,7 +192,7 @@
                                     <div class="media">
                                         <div class="media-body">
                                             <p class="text-muted font-weight-medium">Receivables</p>
-                                            <h4 class="mb-0">$ {{ number_format($result->total_receivables, 2) }}</h4>
+                                            <h4 class="mb-0">{{ format_money($result->total_receivables) }}</h4>
                                         </div>
 
                                         <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
@@ -260,7 +260,7 @@
                                             <tr>
                                                 <th scope="row">{{ $transaction->_id }}</th>
                                                 <td>{{ $transaction->type }}</td>
-                                                <td>{{ number_format($transaction->amount,2) }}</td>
+                                                <td>{{ format_money($transaction->amount) }}</td>
                                                 <td>
                                                     @if($transaction->status == false)
                                                         <span class="badge badge-danger">Unpaid</span>

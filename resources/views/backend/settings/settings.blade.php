@@ -454,17 +454,20 @@
             $('#statusSpiner').removeClass('d-none');
             $('#financeButton').attr("disabled", true);
 
-            const number = $(this).val();
+            var number = $(this).val();
+            number = number.trim();
             const bank = $('#bank_select').val();
             if (number.length != 10) {
                 $('#statusSpiner').addClass('d-none');
                 $(this).addClass('is-invalid');
                 $('#financeButton').attr("disabled", true);
                 $('#statusSpiner').addClass('d-none');
+                $('#account_name').val('');
                 return false;
             }
             $(this).removeClass('is-invalid');
             $(this).removeClass('is-valid');
+            $('#statusSpiner').removeClass('d-none');
             currentRequest = $.ajax({
                 url: url,
                 data: {
@@ -479,6 +482,7 @@
                         $('#account_name').removeClass('is-valid');
                         $('#account_number').removeClass('is-valid');
                         $('#financeButton').attr("disabled", true);
+                        $('#statusSpiner').removeClass('d-none');
                         currentRequest.abort();
                     }
                 },
