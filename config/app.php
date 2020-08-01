@@ -162,7 +162,6 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Barryvdh\Snappy\ServiceProvider::class,
-        Intervention\Image\ImageServiceProvider::class,
         browner12\helpers\HelperServiceProvider::class,
 
         /*

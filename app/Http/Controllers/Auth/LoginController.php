@@ -102,9 +102,7 @@ class LoginController extends Controller
                     Cookie::queue('api_token', $assistant->user->api_token);
                     Cookie::queue('user_role', $assistant->user->user_role);
                     Cookie::queue('phone_number', $assistant->user->phone_number);
-
                     Cookie::queue('expires', strtotime('+ 1 day'));
-
                     Cookie::queue('is_first_time_user', false);
 
                     return view('backend.dashboard.assistant.index', compact('assistant'));
@@ -162,6 +160,14 @@ class LoginController extends Controller
 
                     $data = $response->data->user->local;
 
+                    $image_path =  $response->data->user->image->path;
+                    $image = explode('/', $image_path);
+
+                    $profile_picture = "";
+                    for ($j = 3; $j <= 8; $j++){
+                        $profile_picture .= $image[$j]. ' ';
+                    }
+
                     // store data to cookie
                     Cookie::queue('api_token', $response->data->user->api_token);
                     Cookie::queue('user_role', $response->data->user->local->user_role);
@@ -171,9 +177,8 @@ class LoginController extends Controller
                     Cookie::queue('is_active', $data->is_active);
                     Cookie::queue('phone_number', $data->phone_number);
                     Cookie::queue('user_id', $response->data->user->_id);
-                    // Cookie::queue('image', $response->data->user->image);
+                    Cookie::queue('profile_picture', $profile_picture);
                     Cookie::queue('expires', strtotime('+ 1 day'));
-
                     Cookie::queue('is_first_time_user', false);
 
                     //show success message

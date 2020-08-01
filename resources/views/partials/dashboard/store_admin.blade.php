@@ -9,6 +9,7 @@
                         </div>
                     </div>
                     <div class="col-5 align-self-end">
+
                         <img src="/backend/assets/images/profile-img.png" alt="" class="img-fluid">
                     </div>
                 </div>
@@ -16,9 +17,17 @@
             <div class="card-body pt-0">
                 <div class="row">
                     <div class="col-sm-4">
-                        <div class="avatar-md profile-user-wid mb-4">
-                            <img src="/backend/assets/images/users/avatar-1.jpg" alt=""
-                                 class="img-thumbnail rounded-circle">
+                        <div class="mb-4">
+                            @php
+                            $profile_picture = Cookie::get('profile_picture');
+                            $profile_picture = rtrim($profile_picture);
+                            $profile_picture_path = str_replace(" ","/", $profile_picture);
+                            @endphp
+                            <object data="https://res.cloudinary.com/{{ $profile_picture_path }}" type="image/jpg"
+                                class="img-thumbnail rounded-circle mt-2">
+                                <img src="/backend/assets/images/users/default.png"
+                                    class="img-thumbnail rounded-circle mt-2" alt="Profile Picture" />
+                            </object>
                         </div>
                         <h5 class="font-size-15 text-truncate">{{ Cookie::get('first_name') }}</h5>
                         <p class="text-muted mb-0 text-truncate">Store Admin</p>
@@ -38,13 +47,13 @@
                                 </div>
                             </div>
                             @if(\Cookie::get('user_role') == 'store_admin')
-                                <div class="mt-4">
-                                    <a href="{{route('setting')}}"
-                                       class="btn btn-primary waves-effect waves-light btn-sm">View
-                                        Profile
-                                        <i class="uil-arrow-right ml-1"></i>
-                                    </a>
-                                </div>
+                            <div class="mt-4">
+                                <a href="{{route('setting')}}"
+                                    class="btn btn-primary waves-effect waves-light btn-sm">View
+                                    Profile
+                                    <i class="uil-arrow-right ml-1"></i>
+                                </a>
+                            </div>
                             @endif
                         </div>
                     </div>
@@ -59,24 +68,25 @@
                     <div class="col-sm-6">
                         <p class="text-muted">This month</p>
                         <h3>{{ format_money($data->amountForCurrentMonth) }}</h3>
-                        <p class="text-muted"><span class="text-{{$profit['profit']? 'success':'danger'}} mr-2"> {{$profit['percentage']}}
+                        <p class="text-muted"><span class="text-{{$profit['profit']? 'success':'danger'}} mr-2">
+                                {{$profit['percentage']}}
                                 % <i class="mdi mdi-arrow-down"></i>
-                                </span> From
+                            </span> From
                             previous month</p>
                         @if(\Cookie::get('user_role') == 'store_admin')
-                            <div class="mt-4">
-                                <a href="{{route('transaction.index')}}"
-                                   class="btn btn-primary waves-effect waves-light btn-sm">
-                                    View More <i class="uil-arrow-right ml-1"></i>
-                                </a>
-                            </div>
+                        <div class="mt-4">
+                            <a href="{{route('transaction.index')}}"
+                                class="btn btn-primary waves-effect waves-light btn-sm">
+                                View More <i class="uil-arrow-right ml-1"></i>
+                            </a>
+                        </div>
                         @endif
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <div class="col-xl-8">
         <div class="row">
             <div class="col-md-4">
@@ -89,9 +99,9 @@
                             </div>
 
                             <div class="mini-stat-icon avatar-sm rounded-circle bg-primary align-self-center">
-                                    <span class="avatar-title">
-                                        <i class="uil-atm-card font-size-14"></i>
-                                    </span>
+                                <span class="avatar-title">
+                                    <i class="uil-atm-card font-size-14"></i>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -107,9 +117,9 @@
                             </div>
 
                             <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
-                                    <span class="avatar-title rounded-circle bg-primary">
-                                        <i class="uil-atm-card font-size-14"></i>
-                                    </span>
+                                <span class="avatar-title rounded-circle bg-primary">
+                                    <i class="uil-atm-card font-size-14"></i>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -125,9 +135,9 @@
                             </div>
 
                             <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
-                                    <span class="avatar-title rounded-circle bg-primary">
-                                        <i class="uil-atm-card font-size-14"></i>
-                                    </span>
+                                <span class="avatar-title rounded-circle bg-primary">
+                                    <i class="uil-atm-card font-size-14"></i>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -153,7 +163,7 @@
             <div class="card-body pt-2">
                 <h5 class="mb-4 header-title">Recent Transactions</h5>
                 <div style="display:flex; justify-content:center; text-align:center; width:100%"
-                     class='mt-2 mb-3 trans-error'>
+                    class='mt-2 mb-3 trans-error'>
 
                 </div>
 
@@ -161,33 +171,33 @@
 
                     <table class="table table-hover table-nowrap mb-0">
                         <thead>
-                        <tr>
-                            <th scope="col">Store Name</th>
+                            <tr>
+                                <th scope="col">Store Name</th>
 
-                            <th scope="col">Type</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col"></th>
-                        </tr>
+                                <th scope="col">Type</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col"></th>
+                            </tr>
                         </thead>
 
                         <tbody class="my-transactionsb">
-                        @if(count($data->recentTransactions) > 0)
+                            @if(count($data->recentTransactions) > 0)
                             @foreach($data->recentTransactions as $recentTransaction)
-                                <tr>
-                                    <td>{{$recentTransaction->storeName}}</td>
-                                    <td>{{$recentTransaction->transaction->type}}</td>
-                                    <td>{{$recentTransaction->transaction->amount}}</td>
-                                    <td>
-                                        <a class="btn btn-primary btn-sm"
-                                           href="{{ route('transaction.show', $recentTransaction->transaction->_id.'-'.$recentTransaction->transaction->store_ref_id.'-'.$recentTransaction->transaction->customer_ref_id) }}">View</a>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td>{{$recentTransaction->storeName}}</td>
+                                <td>{{$recentTransaction->transaction->type}}</td>
+                                <td>{{$recentTransaction->transaction->amount}}</td>
+                                <td>
+                                    <a class="btn btn-primary btn-sm"
+                                        href="{{ route('transaction.show', $recentTransaction->transaction->_id.'-'.$recentTransaction->transaction->store_ref_id.'-'.$recentTransaction->transaction->customer_ref_id) }}">View</a>
+                                </td>
+                            </tr>
                             @endforeach
-                        @else
+                            @else
                             <tr>
                                 <td colspan="4" class="text-center">No Recent Transaction</td>
                             </tr>
-                        @endif
+                            @endif
                         </tbody>
                     </table>
                 </div>
@@ -204,44 +214,44 @@
             <div class="card-body pt-2">
                 <h5 class="mb-4 header-title">Latest Debts</h5>
                 <div style="display:flex; justify-content:center; text-align:center; width:100%"
-                     class='mt-2 mb-3 debts-error'>
+                    class='mt-2 mb-3 debts-error'>
                 </div>
 
                 <div class="debts-table">
                     <table class="table table-hover table-nowrap mb-0 table-responsive">
                         <thead>
-                        <tr>
-                            <th scope="col">Store Name</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col"></th>
-                        </tr>
+                            <tr>
+                                <th scope="col">Store Name</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col"></th>
+                            </tr>
                         </thead>
 
                         <tbody class="my-transactionsb">
-                        @if(count($data->recentDebts) > 0)
+                            @if(count($data->recentDebts) > 0)
                             @foreach($data->recentDebts as $recentDebt)
-                                <tr>
-                                    <td>{{$recentDebt->storeName}}</td>
-                                    <td>
-                                        @if($recentDebt->debt->status)
-                                            <span class="badge badge-success">Paid</span>
-                                        @else
-                                            <span class="badge badge-danger">Unpaid</span>
-                                        @endif
-                                    </td>
-                                    <td>{{$recentDebt->debt->amount}}</td>
-                                    <td>
-                                        <a class="btn btn-primary btn-sm"
-                                           href="{{ route('debtor.show', $recentDebt->debt->_id) }}">View</a>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td>{{$recentDebt->storeName}}</td>
+                                <td>
+                                    @if($recentDebt->debt->status)
+                                    <span class="badge badge-success">Paid</span>
+                                    @else
+                                    <span class="badge badge-danger">Unpaid</span>
+                                    @endif
+                                </td>
+                                <td>{{$recentDebt->debt->amount}}</td>
+                                <td>
+                                    <a class="btn btn-primary btn-sm"
+                                        href="{{ route('debtor.show', $recentDebt->debt->_id) }}">View</a>
+                                </td>
+                            </tr>
                             @endforeach
-                        @else
+                            @else
                             <tr>
                                 <td colspan="4" class="text-center">No Recent Debts</td>
                             </tr>
-                        @endif
+                            @endif
                         </tbody>
                     </table>
                 </div>
@@ -252,167 +262,177 @@
 <!-- end row -->
 
 @section("javascript")
-    {{-- <script src="/backend/assets/js/pages/dashboard.js"></script> --}}
-    <script>
-        $(document).ready(function () {
-            // start of transaction charts
-            var options = {
-                series: [{
-                    name: 'Transaction',
-                    data: {{json_encode($data->chart)}},
-                }],
-                chart: {
-                    height: 350,
-                    type: 'line',
-                },
-                stroke: {
-                    width: 7,
-                    curve: 'smooth'
-                },
-                xaxis: {
-                    type: 'text',
-                    categories: ['JAN', 'FEB', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUG',
-                        'SEPT', 'OCT', 'NOV', 'DEC'],
-                },
-                title: {
-                    text: '',
-                    align: 'left',
-                    style: {
-                        fontSize: "16px",
-                        color: '#666'
+{{-- <script src="/backend/assets/js/pages/dashboard.js"></script> --}}
+<script>
+    $(document).ready(function () {
+        // start of transaction charts
+        var options = {
+            series: [{
+                name: 'Transaction',
+                data: {
+                    {
+                        json_encode($data - > chart)
                     }
                 },
-                fill: {
-                    type: 'gradient',
-                    gradient: {
-                        shade: 'dark',
-                        gradientToColors: ['#FDD835'],
-                        shadeIntensity: 1,
-                        type: 'horizontal',
-                        opacityFrom: 1,
-                        opacityTo: 1,
-                        stops: [0, 100, 100, 100]
-                    },
-                },
-                markers: {
-                    size: 4,
-                    colors: ["#FFA41B"],
-                    strokeColors: "#fff",
-                    strokeWidth: 2,
-                    hover: {
-                        size: 7,
-                    }
-                },
-                yaxis: {
-                    //min: -10,
-                    // max: 40,
-                    title: {
-                        text: 'Transaction',
-                    },
+            }],
+            chart: {
+                height: 350,
+                type: 'line',
+            },
+            stroke: {
+                width: 7,
+                curve: 'smooth'
+            },
+            xaxis: {
+                type: 'text',
+                categories: ['JAN', 'FEB', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUG',
+                    'SEPT', 'OCT', 'NOV', 'DEC'
+                ],
+            },
+            title: {
+                text: '',
+                align: 'left',
+                style: {
+                    fontSize: "16px",
+                    color: '#666'
                 }
-            };
+            },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    shade: 'dark',
+                    gradientToColors: ['#FDD835'],
+                    shadeIntensity: 1,
+                    type: 'horizontal',
+                    opacityFrom: 1,
+                    opacityTo: 1,
+                    stops: [0, 100, 100, 100]
+                },
+            },
+            markers: {
+                size: 4,
+                colors: ["#FFA41B"],
+                strokeColors: "#fff",
+                strokeWidth: 2,
+                hover: {
+                    size: 7,
+                }
+            },
+            yaxis: {
+                //min: -10,
+                // max: 40,
+                title: {
+                    text: 'Transaction',
+                },
+            }
+        };
 
-            var chart = new ApexCharts(document.querySelector("#transactionchart"), options);
-            chart.render();
+        var chart = new ApexCharts(document.querySelector("#transactionchart"), options);
+        chart.render();
 
 
+    });
+
+</script>
+
+{{-- @if ( Cookie::get('is_first_time_user') == true) --}}
+<script>
+    var dashboard_intro_shown = localStorage.getItem('dashboard_intro_shown');
+
+    if (!dashboard_intro_shown) {
+
+        const tour = new Shepherd.Tour({
+            defaults: {
+                classes: "shepherd-theme-arrows"
+            }
         });
 
-    </script>
+        tour.addStep("step", {
+            text: "Welcome to mycustomer web app.",
+            buttons: [{
+                text: "Next",
+                action: tour.next
+            }]
+        });
 
-    {{-- @if ( Cookie::get('is_first_time_user') == true) --}}
-    <script>
-        var dashboard_intro_shown = localStorage.getItem('dashboard_intro_shown');
+        tour.addStep("step2", {
+            text: "first, create a store",
+            attachTo: {
+                element: ".second",
+                on: "left"
+            },
+            buttons: [{
+                text: "Next",
+                action: tour.next
+            }],
 
-        if (!dashboard_intro_shown) {
+            beforeShowPromise: function () {
+                document.body.className += ' sidebar-enable';
+                document.getElementById('sidebar-menu').style.height = 'auto';
+            },
+        });
+        tour.addStep("step3", {
+            text: "Then create a customer",
+            attachTo: {
+                element: ".third",
+                on: "left"
+            },
+            buttons: [{
+                text: "Next",
+                action: tour.next
+            }]
+        });
+        tour.addStep("step4", {
+            text: "create your transaction",
+            attachTo: {
+                element: ".fourth",
+                on: "left"
+            },
+            buttons: [{
+                text: "Next",
+                action: tour.next
+            }]
+        });
+        tour.addStep("step5", {
+            text: "Send broadcast messages here",
+            attachTo: {
+                element: ".fifth",
+                on: "left"
+            },
+            buttons: [{
+                text: "Next",
+                action: tour.next
+            }]
+        });
+        tour.addStep("step6", {
+            text: "make your complaints here",
+            attachTo: {
+                element: ".sixth",
+                on: "left"
+            },
+            buttons: [{
+                text: "Next",
+                action: tour.next
+            }]
+        });
 
-            const tour = new Shepherd.Tour({
-                defaults: {
-                    classes: "shepherd-theme-arrows"
-                }
-            });
+        tour.addStep("step7", {
+            text: "add your bank details here",
+            attachTo: {
+                element: ".seventh",
+                on: "right"
+            },
+            buttons: [{
+                text: "Next",
+                action: tour.next
+            }]
+        });
 
-            tour.addStep("step", {
-                text: "Welcome to mycustomer web app.",
-                buttons: [
-                    {
-                        text: "Next",
-                        action: tour.next
-                    }
-                ]
-            });
+        tour.start();
+        localStorage.setItem('dashboard_intro_shown', 1);
+    }
 
-            tour.addStep("step2", {
-                text: "first, create a store",
-                attachTo: {element: ".second", on: "left"},
-                buttons: [
-                    {
-                        text: "Next",
-                        action: tour.next
-                    }
-                ],
-
-                beforeShowPromise: function () {
-                    document.body.className += ' sidebar-enable';
-                    document.getElementById('sidebar-menu').style.height = 'auto';
-                },
-            });
-            tour.addStep("step3", {
-                text: "Then create a customer",
-                attachTo: {element: ".third", on: "left"},
-                buttons: [
-                    {
-                        text: "Next",
-                        action: tour.next
-                    }
-                ]
-            });
-            tour.addStep("step4", {
-                text: "create your transaction",
-                attachTo: {element: ".fourth", on: "left"},
-                buttons: [
-                    {
-                        text: "Next",
-                        action: tour.next
-                    }
-                ]
-            });
-            tour.addStep("step5", {
-                text: "Send broadcast messages here",
-                attachTo: {element: ".fifth", on: "left"},
-                buttons: [
-                    {
-                        text: "Next",
-                        action: tour.next
-                    }
-                ]
-            });
-            tour.addStep("step6", {
-                text: "make your complaints here",
-                attachTo: {element: ".sixth", on: "left"},
-                buttons: [
-                    {
-                        text: "Next",
-                        action: tour.next
-                    }
-                ]
-            });
-
-            tour.addStep("step7", {
-                text: "add your bank details here",
-                attachTo: {element: ".seventh", on: "right"},
-                buttons: [
-                    {
-                        text: "Next",
-                        action: tour.next
-                    }
-                ]
-            });
-
-            tour.start();
-            localStorage.setItem('dashboard_intro_shown', 1);
-        }
-    </script>
-    {{-- @endif --}}
+</script>
+{{-- @endif --}}
 
 @endsection

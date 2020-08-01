@@ -5,23 +5,25 @@ namespace App\Http\Controllers;
 use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Log;
-use function GuzzleHttp\json_encode;
-use Illuminate\Support\Facades\Http;
+// use function GuzzleHttp\json_encode;
+// use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cookie;
 use GuzzleHttp\Exception\RequestException;
-use Illuminate\Support\Facades\Response;
+// use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Session;
-use Intervention\Image\ImageManagerStatic as Image;
 class SettingsController extends Controller
 {
-    // Defining headers
+    protected $host;
+    protected $api_token;
     public $headers;
     public $user_id;
 
     public function __construct()
     {
         $this->user_id = Cookie::get('user_id');
+        $this->host = env('API_URL', 'https://dev.api.customerpay.me');
     }
 
     // Controller action to display settings page.
@@ -39,6 +41,7 @@ class SettingsController extends Controller
         $user_details['currency'] = Cookie::get('currencyPreference');
         $user_details['phone_number'] = Cookie::get('phone_number');
         $user_details['is_active'] = Cookie::get('is_active');
+        $user_details['profile_picture'] = Cookie::get('profile_picture');
 
         $url = env('API_URL', 'https://dev.api.customerpay.me') . '/banks/list';
         try {
@@ -190,52 +193,81 @@ class SettingsController extends Controller
         }
     }
 
-    public function displaypicture(Request $request)
+    public function upload_image(Request $request)
     {
         $request->validate([
-            'picture' => 'required',
+            'profile_picture' => 'required|mimes:jpeg,bmp,jpg,png|max:1000',
         ]);
-        $allowedfileExtension=['jpg','png','jpeg'];
-        
-        $image = $request['picture'];
-        $extension = $image->getClientOriginalExtension();
-        $check=in_array($extension,$allowedfileExtension);
-        if ($check){
-            $filename    = $image->getClientOriginalName();
-            $image_resize = Image::make($image->getRealPath());     
-            $image_resize->resize(200, 200);
-            $upload_image = (string) Image::make($image->getRealPath())->encode('data-url');
-            // var_dump($image);
-            // var_dump($upload_image);
-            $url = env('API_URL', 'https://dev.api.customerpay.me') . '/update-image';
-            $client = new Client();
-            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
-            
-            $payload = [
-                'headers' => [
-                    'x-access-token' => Cookie::get('api_token')
-                ],
-                'multipart' => [
-                    [
-                        'name'     => 'image',
-                        'contents' => $image,
-                    ]
-                ],
-            ];
-            $response = $client->request("PUT", $url, $payload);
-            $status = $response->getStatusCode();
-            if ($status == 200 || $status == 201) {
-                return "Sent";
-            }else{
-                return "ERROR";
-            }
-                  
-        // return redirect()->back();
-    }else{
-        return 'Invalid File Type';
-    }
+
+        if ($request->hasFile('profile_picture') && $request->file('profile_picture')->isValid()){
+            try {
+                // code... 
+                // upload url
+                $upload_url = $this->host . '/update-image';
+
+                // initate Guzzle client
+                $client = new Client();
+
+                // prepare payload for upload
+                $upload_response = $client->request('PUT', $upload_url, [
+                    'headers' => [
+                        'x-access-token' => Cookie::get('api_token'),
+                    ],
+                    'multipart' => [
+                        [
+                            'name' => 'image',
+                            'contents' => fopen($request->file('profile_picture')->path(), 'r'),
+                        ],
+                    ],
+                ]);
+
+                // get response status code
+                $upload_status_code = $upload_response->getStatusCode();
+
+                // on success
+                if($upload_status_code == 200){
+                    $upload_data = json_decode($upload_response->getBody());
+                    
+                    // get image path
+                    $image_path =  $upload_data->data->image;
+                    $image = explode('/', $image_path);
+
+                    // this is so the path can be stored in cookie
+                    $profile_picture = "";
+                    for ($j = 3; $j <= 8; $j++){
+                        $profile_picture .= $image[$j]. ' ';
+                    }
+                    
+                    // update cookie value for profile picture and redirect to setting
+                    Cookie::queue('profile_picture', $profile_picture);
+                    Session::flash('alert-class', 'alert-success');
+                    Session::flash('message', $upload_data->message);
+                    return redirect()->back();
+                }
+
+            } catch (RequestException $e) {
+                if ($e->getCode() == 401) {
+                    Session::flash('message', 'session expired');
+                    return redirect()->route('logout');
+                }
+                if ($e->hasResponse()) {
+                    $response = json_decode($e->getResponse()->getBody());
+                    $request->session()->flash('alert-class', 'alert-danger');
+                    $request->session()->flash('message', $response->message);
+                }
+                return redirect()->route('setting');
+            } catch (Exception $e) {
+                if ($e->getCode() == 401) {
+                    Session::flash('message', 'session expired');
+                    return redirect()->route('logout');
+                }
+                Log::error('Catch error: settingsController - ' . $e->getMessage());
+                return view('errors.500');
+            }           
         }
-            public function update_bank(Request $request)
+
+    }
+    public function update_bank(Request $request)
     {
         $url = env('API_URL', 'https://dev.api.customerpay.me') . '/bank-details';
         try {
