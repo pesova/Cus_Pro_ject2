@@ -25,6 +25,7 @@
 
                         <div class="form-group">
                             <label>Message</label>
+
                         <textarea name="message" class="counter form-control" rows="4" id="reminderMessage" placeholder="Message" maxlength="140">Kindly pay up your debt of {{ format_money($debtor->total_amount) }} which is due on {{ \Carbon\Carbon::parse($debtor->expected_pay_date)->format('D') }} {{ \Carbon\Carbon::parse($debtor->expected_pay_date)->format('d/m/Y') }}. PAYMENT LINK - {{ env('APP_URL').'/pay'.'/'.$debtor->_id }}</textarea>
                             <p class="charNum m-0 p-0"></p>
                         </div>
