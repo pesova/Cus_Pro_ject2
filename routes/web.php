@@ -191,6 +191,7 @@ Route::prefix('/admin')->group(function () {
 
         // broadcast crud
         Route::resource('broadcast', 'BroadcastController');
+        Route::post('resend/{id}', "BroadcastController@resend")->name('resend_broadcast');
 
         // location
         Route::resource('location', 'LocationController');

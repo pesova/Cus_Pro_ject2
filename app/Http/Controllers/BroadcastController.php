@@ -267,4 +267,82 @@ class BroadcastController extends Controller
             return redirect()->route('broadcast.index');
         }
     }
+
+
+    public function resend(Request $request, $id){
+
+
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/message/getSingle/' . $id;
+        $client = new Client();
+        $payload = [
+            'headers' => [
+                'x-access-token' => Cookie::get('api_token')
+            ],
+            'form_params' => [
+                'current_user' => Cookie::get('user_id'),
+            ]
+        ];
+        try{
+            $response = $client->request("GET", $url, $payload);
+
+            $statusCode = $response->getStatusCode();
+            // return $statusCode;
+            if($statusCode == 200){
+                $body = $response->getBody();
+                $response_data = json_decode($body);
+                $broadcast = $response_data->data->broadcast;
+                $numbers = $broadcast->numbers;
+                $message = $broadcast->message;
+                $prepare_numbers = $this->prepareNumberForResend($numbers);
+                $payload = [
+                    'headers' => [
+                        'x-access-token' => Cookie::get('api_token')
+                    ],
+                    "json" => [
+                        "numbers" => $prepare_numbers,
+                        "message" => $message
+                    ]
+                ];
+                $url = env('API_URL', 'https://dev.api.customerpay.me') . "/message/send";
+                $req = $client->request('POST', $url, $payload);
+                $statusCode = $req->getStatusCode();
+                $response = json_decode($req->getBody()->getContents());
+
+                if ($statusCode == 200) {
+
+                    $request->session()->flash('alert-class', 'alert-success');
+                    Session::flash('message', "Message resend successful");
+                    return back();
+                }  else if ($statusCode == 401) {
+                    return redirect()->route('logout');
+                } else if ($statusCode == 500) {
+                    return view('errors.500');
+                } else {
+
+                    $message = isset($response->Message) ? $response->Message : $response->message;
+                    $request->session()->flash('alert-class', 'alert-danger');
+                    Session::flash('message', $response->message);
+                    return back();
+                }
+            }
+           
+            
+        } catch (ClientException $e) {
+            $request->session()->flash('alert-class', 'alert-danger');
+            Session::flash('message', "A technical error occured, we are working to fix this.");
+            return redirect()->route('broadcast.index');
+        }
+
+        
+    }
+
+    public function prepareNumberForResend($numbers){
+        $prepared_numbers = [];
+        foreach($numbers as $number){
+            $str = substr($number, 1);
+            array_push($prepared_numbers,$str);
+        }
+        return $prepared_numbers;
+    }
+
 }

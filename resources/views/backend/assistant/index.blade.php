@@ -72,7 +72,7 @@
                                 @endphp
                             </span>
                         </div>
-                        <h5 class="font-size-15"><a href="#" class="text-dark">{{$assistant->name }}</a></h5>
+                        <h5 class="font-size-15"><a href="{{ route('assistants.show', $assistant->_id) }}" class="text-dark">{{$assistant->name }}</a></h5>
                         <p class="text-muted">{{$assistant->phone_number}} | {{$assistant->email ?? ''}}</p>
 
                         <div>

@@ -61,7 +61,7 @@ $transactions = $response['transactions'];
                                     <th>{{$customers->name}}<span class="co-name"></span>
                                     </th>
                                     <td class="font-light">{{$customers->phone_number}}</td>
-                                    <td>{{$transaction->amount}}</td>
+                                    <td>{{ format_money($transaction->amount) }}</td>
                                     <td>{{$transaction->type}}</td>
                                     <td>{{ \Carbon\Carbon::parse($transaction->createdAt)->diffForhumans() }}</td>
                                     <td><a href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id.'-'.$transaction->customer_ref_id) }}"

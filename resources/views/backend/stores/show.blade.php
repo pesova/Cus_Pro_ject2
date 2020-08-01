@@ -147,7 +147,9 @@ $total_interestReceivables += $each_interestReceivables;
                             <div class="media">
                                 <div class="media-body">
                                     <p class="text-muted font-weight-medium">Revenue</p>
-                                    <h4 class="mb-0">$ {{ $total_Revenue }}</h4>
+                                 <h4 class="mb-0">{{ format_money($total_Revenue) }}
+                        
+                
                                 </div>
 
                                 <div class="mini-stat-icon avatar-sm align-self-center rounded-circle bg-primary">
@@ -172,8 +174,8 @@ $total_interestReceivables += $each_interestReceivables;
                             <div class="media">
                                 <div class="media-body">
                                     <p class="text-muted font-weight-medium">Receivables</p>
-                                    <h4 class="mb-0">$ {{ $total_Receivables }}</h4>
-                                </div>
+                             <h4 class="mb-0">{{ format_money($total_Receivables) }}
+                                                        </div>
 
                                 <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
                                     <span class="avatar-title">
@@ -198,7 +200,8 @@ $total_interestReceivables += $each_interestReceivables;
                             <div class="media">
                                 <div class="media-body">
                                     <p class="text-muted font-weight-medium">Debt</p>
-                                    <h4 class="mb-0">$ {{ $totalDept }}</h4>
+                                    <h4 class="mb-0">{{ format_money($totalDept) }}
+                                
                                 </div>
 
                                 <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
@@ -287,19 +290,6 @@ $total_interestReceivables += $each_interestReceivables;
                                 </div>
                                 <h4 class="card-title">{{ ucfirst($storeData->store_name) }} Transaction Overview</h4>
                                 <br>
-                                
-                                    @foreach ($response['storeData']->customers as $transactions)
-                                    @foreach ($transactions->transactions as $i => $transaction)
-                                    @php
-                                    $date = date("m-d-Y", strtotime(date($transaction->createdAt)));
-                                    var_dump($date);
-                                    
-                                    
-                                    @endphp
-                                    @endforeach
-                                    @endforeach
-                                    
-
                                 <table id="basic-datatables" class="table dt-responsive nowrap">
                                     
                                     <thead>
@@ -323,7 +313,7 @@ $total_interestReceivables += $each_interestReceivables;
                                             </th>
                                             <td class="font-light">{{$transactions->phone_number}}</td>
                                             <td>{{$transaction->type}}</td>
-                                            <td>{{$transaction->amount}}</td>
+                                            <td>{{format_money($transaction->amount)}}</td>
                                             <td>
                                                 <label class="switch">
                                                     @if(Cookie::get('user_role') != 'store_assistant') disabled

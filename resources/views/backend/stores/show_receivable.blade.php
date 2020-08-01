@@ -59,7 +59,7 @@ $transactions = $response['transactions'];
                                             <th>{{$customers->name}}<span class="co-name"></span>
                                                 <br> <span class="font-light">{{$customers->phone_number}}</span>
                                             </th>
-                                            <td>{{$transaction->amount}}</td>
+                                            <td>{{ format_money($transaction->amount) }}</td>
                                             <td>{{$transaction->type}}</td>
                                             <td>{{ \Carbon\Carbon::parse($transaction->createdAt)->diffForhumans() }}</td>
                                         </tr> 

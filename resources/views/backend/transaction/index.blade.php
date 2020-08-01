@@ -73,7 +73,7 @@
                                     {{ $transaction->store_name }}
                                     @endif
                                 </td>
-                                <td>{{ $transaction->amount }}</td>
+                                <td>{{ format_money($transaction->amount) }}</td>
                                 <td>{{ $transaction->interest }} %</td>
                                 <td>{{ $transaction->type }}</td>
 

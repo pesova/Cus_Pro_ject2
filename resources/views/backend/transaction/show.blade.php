@@ -100,15 +100,15 @@
 
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-lg-6">
+                                    <div class="col-md-6">
                                         <h6 class="mt-0 ">Description</h6>
                                         <textarea name="" readonly id="" cols="auto" rows="3" sty
                                             class="form-control w-100 flex-1">{{ $transaction->description }}</textarea>
                                     </div>
 
-                                    <div class="col-lg-6">
+                                    <div class="col-md-6">
                                         <div class="row justify-content-between">
-                                            <div class="list-group col-md-4">
+                                            <div class="list-group col-md-7">
                                                 <h6 class="">Financial Details</h6>
 
                                                 <div class="table-responsive">
@@ -116,7 +116,7 @@
                                                         <tbody>
                                                             <tr>
                                                                 <th scope="row">Amount</th>
-                                                                <td colspan="2">{{ $transaction->amount }}</td>
+                                                                <td colspan="2">{{ format_money($transaction->amount) }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <th scope="row">Interest</th>
@@ -125,7 +125,7 @@
                                                             <tr class="font-weight-bolder">
                                                                 <th scope="row">Total Amount</th>
                                                                 <td colspan="2">
-                                                                    {{ $transaction->total_amount }}
+                                                                    {{ format_money($transaction->total_amount) }}
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -133,7 +133,8 @@
                                                 </div>
 
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-5 row">
+                                            <div class="col-md-12">
                                                 <h6 class="">Store Name:</h6>
                                                 <p>
                                                     @if(Cookie::get('user_role') != 'store_assistant')
@@ -147,7 +148,7 @@
                                                 </p>
                                             </div>
 
-                                            <div class="col-md-4">
+                                            <div class="col-md-12">
                                                 <h6 class="">Transaction Status:
                                                 </h6>
                                                 <label class="switch">
@@ -173,7 +174,7 @@
                                                 </div>
                                             </div>
                                         </div>
-
+                                        </div>
                                     </div>
                                 </div>
                             </div>

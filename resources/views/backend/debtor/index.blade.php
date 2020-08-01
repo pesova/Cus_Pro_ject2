@@ -101,7 +101,7 @@
                                     @endif
                                 </td>
                                 <td>{{ $debtor->description }}</td>
-                                <td>{{ $debtor->amount }}</td>
+                                <td>{{ format_money($debtor->amount) }}</td>
 
                                 <td> {{ \Carbon\Carbon::parse($debtor->createdAt)->diffForhumans() }}</td>
                                 <td>

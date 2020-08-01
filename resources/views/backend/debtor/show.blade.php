@@ -98,7 +98,7 @@
                                             <tbody>
                                                 <tr>
                                                     <th scope="row">Amount</th>
-                                                    <td colspan="2">{{ $debtor->amount }}</td>
+                                                    <td colspan="2">{{ format_money($debtor->amount) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">Interest</th>
@@ -107,7 +107,7 @@
                                                 <tr class="font-weight-bolder">
                                                     <th scope="row">Total Amount</th>
                                                     <td colspan="2">
-                                                        {{ (($debtor->interest / 100) * $debtor->amount) + $debtor->amount }}
+                                                        {{ format_money((($debtor->interest / 100) * $debtor->amount) + $debtor->amount) }}
                                                     </td>
                                                 </tr>
                                             </tbody>

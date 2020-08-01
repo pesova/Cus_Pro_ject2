@@ -100,6 +100,28 @@ class LoginController extends Controller
                     Cookie::queue('expires', strtotime('+ 1 day'));
                     Cookie::queue('is_first_time_user', false);
 
+                    // Financial info 
+                    $userRole = $response->data->user->local->user_role;
+                    if ($userRole == 'store_admin') {
+                        if (isset($response->data->user->bank_details)) {
+                            $bank_details = $response->data->user->bank_details;
+                            $accoun_name = isset($bank_details->account_name) ? $bank_details->account_name : '';
+                            $account_number = isset($bank_details->account_number) ? $bank_details->account_number : '';
+                            $bank =  isset($bank_details->bank) ? $bank_details->bank : '';
+
+                            Cookie::queue('account_name', $accoun_name);
+                            Cookie::queue('account_number', $account_number);
+                            Cookie::queue('account_bank', $bank);
+                        } else {
+                            Cookie::queue('account_name', '');
+                            Cookie::queue('account_number', '');
+                            Cookie::queue('account_bank', '');
+                        }
+                        Cookie::queue('currency',  $response->data->user->currencyPreference);
+                    } elseif ($userRole == 'store_assistant') {
+                        Cookie::queue('currency',  $response->data->user->currencyPreference);
+                    }
+
                     //show success message
                     $request->session()->flash('alert-class', 'alert-success');
                     $request->session()->flash('message', "You are logged in successfully");
