@@ -245,10 +245,7 @@
         var options = {
             series: [{
                 name: 'Transaction',
-                data: {
-                    {
-                        json_encode($data - > chart)
-                    }
+                data: {{json_encode($data->chart)}},
                 },
             }],
             chart: {

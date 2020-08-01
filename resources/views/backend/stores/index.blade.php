@@ -13,7 +13,7 @@
                 <div class="customer-heading-container">
                     <h4 class="mb-1 mt-0">All Stores</h4>
                     <button class="add-customer-button btn btn-primary" data-toggle="modal">
-                        <a href="{{ route('store.create') }}" class="text-white">
+                        <a href="" data-toggle="modal" data-target="#addStoreModal" class="text-white">
                             Add New <i class="fa fa-plus add-new-icon"></i>
                         </a>
                     </button>
@@ -21,6 +21,9 @@
             </div>
         </div>
         @include('partials.alert.message')
+
+        {{-- Add new Store Modal --}}
+        @include('partials.modal.store.addStore')
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -66,7 +69,7 @@
                             </span>
                         </div>
                         <h5 class="font-size-15">
-                            <a href="#" class="text-dark search-name">{{$store[0]->store_name }}</a>
+                            <a href="{{ route('store.show', $store[0]->_id) }}" class="text-dark search-name">{{$store[0]->store_name }}</a>
                         </h5>
                         <p class="text-muted">{{$store[0]->email ?? ''}}</p>
                         <p class="text-muted">{{$store[0]->shop_address ?? ''}}</p>
@@ -151,7 +154,7 @@
                                 @endphp
                             </span>
                         </div>
-                        <h5 class="font-size-15"><a href="#" class="text-dark search-name">{{$store->store_name }}</a>
+                        <h5 class="font-size-15"><a href="{{ route('store.show', $store->_id) }}" class="text-dark search-name">{{$store->store_name }}</a>
                         </h5>
                         <p class="text-muted">{{$store->email ?? ''}}</p>
                         <p class="text-muted">{{$store->shop_address ?? ''}}</p>
