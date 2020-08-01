@@ -346,7 +346,7 @@
             });
 
             tour.addStep("step", {
-                text: "Welcome to Customer Page, here you can record and track your customers",
+                text: "Welcome to Broadcast Page, here you can send messages to your customers",
                 buttons: [{
                     text: "Next",
                     action: tour.next
