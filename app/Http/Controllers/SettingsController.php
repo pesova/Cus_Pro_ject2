@@ -38,7 +38,7 @@ class SettingsController extends Controller
         $user_details['account_name'] = Cookie::get('account_name');
         $user_details['account_number'] = Cookie::get('account_number');
         $user_details['account_bank'] = Cookie::get('account_bank');
-        $user_details['currency'] = Cookie::get('currencyPreference');
+        $user_details['currency'] = Cookie::get('currency');
         $user_details['phone_number'] = Cookie::get('phone_number');
         $user_details['is_active'] = Cookie::get('is_active');
         $user_details['profile_picture'] = Cookie::get('profile_picture');
