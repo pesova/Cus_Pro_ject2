@@ -262,7 +262,7 @@
                                     @csrf
                                     <div class="col-md-8 offset-md-2">
                                         <div class="form-group">
-                                            <label for="currency_select">Currenct</label>
+                                            <label for="currency_select">Currency</label>
                                             <select class="form-control" id="currency_select" name="currency" required>
                                                 <option value='NGN' @if(strtolower($user_details['currency'])=='ngn' )
                                                     {{ 'selected' }} @endif>NGN</option>
