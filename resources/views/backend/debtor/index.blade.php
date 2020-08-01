@@ -80,7 +80,10 @@
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>
-                                    {{ $debtor->_id }}
+                                    <a class=""
+                                        href="{{ route('debtor.show', $debtor->_id) }}">
+                                        {{ $debtor->_id }}
+                                    </a>
                                 </td>
                                 </td>
                                 <td>
