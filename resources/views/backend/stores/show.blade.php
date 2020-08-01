@@ -290,19 +290,6 @@ $total_interestReceivables += $each_interestReceivables;
                                 </div>
                                 <h4 class="card-title">{{ ucfirst($storeData->store_name) }} Transaction Overview</h4>
                                 <br>
-                                
-                                    @foreach ($response['storeData']->customers as $transactions)
-                                    @foreach ($transactions->transactions as $i => $transaction)
-                                    @php
-                                    $date = date("m-d-Y", strtotime(date($transaction->createdAt)));
-                                    var_dump($date);
-                                    
-                                    
-                                    @endphp
-                                    @endforeach
-                                    @endforeach
-                                    
-
                                 <table id="basic-datatables" class="table dt-responsive nowrap">
                                     
                                     <thead>
