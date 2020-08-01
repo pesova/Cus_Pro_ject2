@@ -162,9 +162,10 @@ class LoginController extends Controller
 
                     $image_path =  $response->data->user->image->path;
                     $image = explode('/', $image_path);
+                    $c = (count($image) - 1);
 
                     $profile_picture = "";
-                    for ($j = 3; $j <= 8; $j++){
+                    for ($j = 3; $j <= $c; $j++){
                         $profile_picture .= $image[$j]. ' ';
                     }
 
@@ -215,6 +216,8 @@ class LoginController extends Controller
             return view('errors.500');
         } catch (\Exception $e) {
             //log error;
+
+            dd($e);
             Log::error('Catch error: LoginController - ' . $e->getMessage());
             return view('errors.500');
         }
