@@ -32,16 +32,16 @@ class BroadcastController extends Controller
      */
     public function index(Request $request)
     {
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store';
-
-        $all_messages_url = env('API_URL', 'https://dev.api.customerpay.me') . '/message/get';
+     
+        $storeUrl = $this->host . '/store';
+        $all_messages_url = $this->host . '/message/get';
 
         try {
 
             $client = new Client;
             $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
 
-            $response = $client->request("GET", $url, $payload);
+            $response = $client->request("GET", $storeUrl, $payload);
             $all_messages_response = $client->request("GET", $all_messages_url, $payload);
 
             $statusCode = $response->getStatusCode();
@@ -53,12 +53,11 @@ class BroadcastController extends Controller
             $broadcasts = $broadcasts_body->data->broadcasts;
             $stores = $stores_body->data->stores;
 
-            // dd($stores);
-
             if ($statusCode == 200) {
                 return view('backend.broadcasts.index', compact('stores', 'broadcasts'));
             }
         } catch (RequestException $e) {
+            dd('here');
             Log::error('Catch error: Create Broadcast' . $e->getMessage());
             $request->session()->flash('message', 'Failed to fetch customer, please try again');
             return view('backend.broadcasts.index');
