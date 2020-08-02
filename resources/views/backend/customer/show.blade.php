@@ -10,7 +10,10 @@
 {{-- yield body content --}}
 
 @section('content')
-
+@php
+$currency = isset($customer->customer->currency) ?
+                $customer->customer->currency : null;
+@endphp
     <div class="content">
 
         <div class="container-fluid">
@@ -66,7 +69,7 @@
                                             </div>
                                             <div class="col-6">
                                                 <h5 class="font-size-15">
-                                                {{ format_money($result->total_revenue) }}</h5>
+                                                {{ format_money($result->total_revenue,$currency ) }}</h5>
                                                 <p class="text-muted mb-0">Revenue</p>
                                             </div>
                                         </div>
@@ -155,7 +158,7 @@
                                     <div class="media">
                                         <div class="media-body">
                                             <p class="text-muted font-weight-medium">Revenue</p>
-                                            <h4 class="mb-0">{{ format_money($result->total_revenue) }}</h4>
+                                            <h4 class="mb-0">{{ format_money($result->total_revenue, $currency ) }}</h4>
                                         </div>
 
                                         <div class="mini-stat-icon avatar-sm align-self-center rounded-circle bg-primary">
@@ -174,7 +177,7 @@
                                         <div class="media-body" data-toggle="tooltip" data-placement="bottom"
                                              title="Total amount includes interest">
                                             <p class="text-muted font-weight-medium">Debt</p>
-                                            <h4 class="mb-0">{{ format_money($result->total_debt) }}</h4>
+                                            <h4 class="mb-0">{{ format_money($result->total_debt, $currency ) }}</h4>
                                         </div>
 
                                         <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
@@ -192,7 +195,7 @@
                                     <div class="media">
                                         <div class="media-body">
                                             <p class="text-muted font-weight-medium">Receivables</p>
-                                            <h4 class="mb-0">{{ format_money($result->total_receivables) }}</h4>
+                                            <h4 class="mb-0">{{ format_money($result->total_receivables, $currency ) }}</h4>
                                         </div>
 
                                         <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">

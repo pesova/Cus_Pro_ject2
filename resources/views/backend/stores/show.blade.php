@@ -298,15 +298,20 @@ $total_interestReceivables += $each_interestReceivables;
                                     </thead>
                                     <tbody>
                                         @foreach ($response['storeData']->customers as $transactions)
-
+                                        {{ dd($transactions) }}
                                         @foreach ($transactions->transactions as $index => $transaction)
+                                        @php
+                                        $currency = isset($transaction->store_admin_ref->currencyPreference) ?
+                                                        $transaction->store_admin_ref->currencyPreference : null;
+                                                        dd($transaction);
+                                        @endphp
                                         <tr>
                                             <td>{{ $number++ }}</td>
                                             <th>{{$transactions->name}}<span class="co-name">
                                             </th>
                                             <td class="font-light">{{$transactions->phone_number}}</td>
                                             <td>{{$transaction->type}}</td>
-                                            <td>{{format_money($transaction->amount)}}</td>
+                                            <td>{{format_money($transaction->amount, $currency)}}</td>
                                             <td>
                                                 <label class="switch">
                                                     @if(Cookie::get('user_role') != 'store_assistant') disabled
