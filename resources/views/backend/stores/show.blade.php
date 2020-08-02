@@ -586,11 +586,7 @@ $total_interestReceivables += $each_interestReceivables;
 
             series: [{
                 name: 'Transaction',
-                data: {
-                    {
-                        json_encode($chart)
-                    }
-                },
+                data: {{json_encode($chart)}},
             }],
             chart: {
                 height: 350,
