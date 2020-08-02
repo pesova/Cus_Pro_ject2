@@ -16,7 +16,7 @@
         <div class="container-fluid">
             @include('partials.alert.message')
            
- 
+            @if ( \Cookie::get('user_role') == "super_admin")
             <div class="row mt-4">
                 <div class="col-md-4">
                     <div class="card mini-stats-wid">
@@ -77,7 +77,7 @@
                 </div>
             </div>
             <!-- end row -->
-
+    @endif
             <div class="card" style="margin-top: 10px;">
                 <div id="wrapper">
                     <div class="row">
