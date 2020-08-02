@@ -146,7 +146,7 @@
                     <div class="media">
                         <div class="media-body">
                             <p class="text-muted font-weight-medium">Debts</p>
-                            <h4 class="mb-0">${{$data->totalDebt}}</h4>
+                            <h4 class="mb-0">{{$data->totalDebt}}</h4> 
                         </div>
 
                         <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
@@ -261,10 +261,14 @@
                         <tbody class="my-transactionsb">
                             @if(isset($data->recentTransaction))
                             @foreach($data->recentTransaction as $rt)
+                            @php
+                                $currency = isset($rt->store_admin_ref->currencyPreference) ?
+                                                $rt->store_admin_ref->currencyPreference : null;
+                            @endphp
                             <tr>
                                 <td>{{$rt->store_name}}</td>
                                 <td>{{$rt->type}}</td>
-                                <td>{{$rt->amount}}</td>
+                                <td>{{ format_money($rt->amount, $currency) }}</td>
                                 <td>
                                     <a class="btn btn-primary btn-sm"
                                         href="{{ route('transaction.show', $rt->_id.'-'.$rt->store_ref_id.'-'.$rt->customer_ref_id) }}">View</a>
@@ -308,7 +312,11 @@
 
                         <tbody class="my-transactionsb">
                             @if(isset($data->latestDebt))
-                            @foreach($data->latestDebt as $ld)
+                            @foreach($data->latestDebt as $ld) 
+                            @php
+                                $currency = isset($ld->store_admin_ref->currencyPreference) ?
+                                                $ld->store_admin_ref->currencyPreference : null;
+                            @endphp
                             <tr>
                                 <td>{{$ld->store_name}}</td>
                                 <td>
@@ -318,7 +326,7 @@
                                     <span class="badge badge-danger">Unpaid</span>
                                     @endif
                                 </td>
-                                <td>{{$ld->amount}}</td>
+                                <td>{{ format_money($ld->amount, $currency) }}</td>
                                 <td>
                                     <a class="btn btn-primary btn-sm"
                                         href="{{ route('debtor.show', $ld->_id) }}">View</a>
