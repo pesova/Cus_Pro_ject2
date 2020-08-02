@@ -5,6 +5,10 @@
 @stop
 @section('content')
 
+@php
+$currency = isset($transaction->store_admin_ref->currencyPreference) ?
+            $transaction->store_admin_ref->currencyPreference : null;
+@endphp
 <div class="account-pages my-2">
     <div class="container-fluid">
         <div class="row-justify-content-center">
@@ -116,7 +120,7 @@
                                                         <tbody>
                                                             <tr>
                                                                 <th scope="row">Amount</th>
-                                                                <td colspan="2">{{ format_money($transaction->amount) }}</td>
+                                                                <td colspan="2">{{ format_money($transaction->amount, $currency) }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <th scope="row">Interest</th>

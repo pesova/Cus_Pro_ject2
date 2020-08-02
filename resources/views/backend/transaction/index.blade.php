@@ -59,14 +59,18 @@
                         </thead>
                         <tbody>
                             @foreach ($transactions as $index => $transaction )
+                            @php
+                            $currency = isset($transaction->store_admin_ref->currencyPreference) ?
+                                            $transaction->store_admin_ref->currencyPreference : null;
+                            @endphp
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>
-                                    @if(Cookie::get('user_role') == 'super_admin')
+                                    @if(is_super_admin())
                                     <a class="" href="{{ route('store.show', $transaction->store_ref_id->_id) }}">
                                         {{ $transaction->store_ref_id->store_name }}
                                     </a>
-                                    @elseif(Cookie::get('user_role') == 'store_admin')
+                                    @elseif(is_store_admin())
                                     <a class="" href="{{ route('store.show', $transaction->store_ref_id) }}">
                                         {{ $transaction->store_name }}
                                     </a>
@@ -74,7 +78,7 @@
                                     {{ $transaction->store_name }}
                                     @endif
                                 </td>
-                                <td>{{ format_money($transaction->amount) }}</td>
+                                <td>{{ format_money($transaction->amount, $currency) }}</td>
                                 <td>{{ $transaction->interest }} %</td>
                                 <td>{{ format_money($transaction->total_amount) }} </td>
                                 <td>{{ $transaction->type }}</td>
@@ -112,9 +116,15 @@
                                 </td>
                                 <td>
                                     @if($transaction->customer_ref_id != null)
-                                    <a class="btn btn-info btn-small py-1 px-2" href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id->_id.'-'.$transaction->customer_ref_id->_id) }}">
+                                    @if(is_super_admin())
+                                    <a class="btn btn-info btn-small py-1 px-2" href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id->_id.'-' . $transaction->customer_ref_id->_id) }}">
                                         View More
                                     </a>
+                                    @else
+                                    <a class="btn btn-info btn-small py-1 px-2" href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref->_id.'-'.$transaction->customer_ref->_id) }}">
+                                        View More
+                                    </a>
+                                    @endif
                                     @endif
                                 </td>
                             </tr>
@@ -155,9 +165,9 @@
                 extend: 'pdf'
                 , className: 'd-none'
                 , title: export_filename
-                , extension: '.pdf',
-                exportOptions: {
-                    columns: [0,1,2,3,4,5,6]
+                , extension: '.pdf'
+                , exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6]
                 }
             }]
         });
@@ -247,42 +257,43 @@
 
 </script>
 {{-- @if ( Cookie::get('is_first_time_user') == true) --}}
-    <script>
-        var transaction_intro_shown = localStorage.getItem('transaction_intro_shown');
+<script>
+    var transaction_intro_shown = localStorage.getItem('transaction_intro_shown');
 
-        if (!transaction_intro_shown) {
+    if (!transaction_intro_shown) {
 
-            const tour = new Shepherd.Tour({
-                defaults: {
-                    classes: "shepherd-theme-arrows"
-                }
-            });
+        const tour = new Shepherd.Tour({
+            defaults: {
+                classes: "shepherd-theme-arrows"
+            }
+        });
 
-            tour.addStep("step", {
-                text: "Welcome to Transaction Page, here you can record and track your transactions",
-                buttons: [{
-                    text: "Next",
-                    action: tour.next
-                }]
-            });
+        tour.addStep("step", {
+            text: "Welcome to Transaction Page, here you can record and track your transactions"
+            , buttons: [{
+                text: "Next"
+                , action: tour.next
+            }]
+        });
 
-            // tour.addStep("step2", {
-            //     text: "First thing you do is create a store",
-            //     attachTo: { element: ".second", on: "right" },
-            //     buttons: [
-            //         {
-            //             text: "Next",
-            //             action: tour.next
-            //         }
-            //     ],
-            //     beforeShowPromise: function() {
-            //         document.body.className += ' sidebar-enable';
-            //         document.getElementById('sidebar-menu').style.height = 'auto';
-            //     },
-            // });
-            tour.start();
-            localStorage.setItem('transaction_intro_shown', 1);
-        }
-    </script>
-    {{-- @endif --}}
+        // tour.addStep("step2", {
+        //     text: "First thing you do is create a store",
+        //     attachTo: { element: ".second", on: "right" },
+        //     buttons: [
+        //         {
+        //             text: "Next",
+        //             action: tour.next
+        //         }
+        //     ],
+        //     beforeShowPromise: function() {
+        //         document.body.className += ' sidebar-enable';
+        //         document.getElementById('sidebar-menu').style.height = 'auto';
+        //     },
+        // });
+        tour.start();
+        localStorage.setItem('transaction_intro_shown', 1);
+    }
+
+</script>
+{{-- @endif --}}
 @stop
