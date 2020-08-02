@@ -48,7 +48,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-lg-2 col-form-label">Message</label>
+                                        <label class="col-lg-2 col-form-label">Status</label>
                                         <div class="col-lg-10">
                                             <select data-plugin="customselect" name="status" class="form-control">
                                                 <option name="cc" value="New">New</option>
