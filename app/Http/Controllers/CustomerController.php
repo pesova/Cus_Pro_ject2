@@ -95,16 +95,17 @@ class CustomerController extends Controller
                 return redirect()->route('logout');
             }
 
+            
+            $response = [];
+            $stores = [];
+
             // get response to catch 4 errors
             if ($e->hasResponse()) {
                 $response = $e->getResponse()->getBody();
                 $result = json_decode($response);
-                Session::flash('message', $result->message);
-                $response = [];
-                $stores = [];
-                return view('backend.customer.index',  compact('response', 'stores'));
+                Session::flash('message', isset($result->message) ? $result->message : $result->Message);
             }
-            return view('backend.customer.show')->with('errors.500');
+            return view('backend.customer.index',  compact('response', 'stores'));
         } catch (Exception $e) {
             // token expired
             if ($e->getCode() == 401) {

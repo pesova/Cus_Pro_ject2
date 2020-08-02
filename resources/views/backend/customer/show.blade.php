@@ -233,7 +233,6 @@
                 </div>
             </div>
             <!-- end row -->
-
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
@@ -257,10 +256,14 @@
                                         </tr>
                                     @else
                                         @foreach($customer->customer->transactions as $transaction)
+                                        @php
+                                            $currency = isset($transaction->store_admin_ref->currencyPreference) ?
+                                                            $transaction->store_admin_ref->currencyPreference : null;
+                                        @endphp
                                             <tr>
                                                 <th scope="row">{{ $transaction->_id }}</th>
                                                 <td>{{ $transaction->type }}</td>
-                                                <td>{{ format_money($transaction->total_amount) }}</td>
+                                                <td>{{ format_money($transaction->total_amount, $currency) }}</td>
                                                 <td>
                                                     @if($transaction->status == false)
                                                         <span class="badge badge-danger">Unpaid</span>
