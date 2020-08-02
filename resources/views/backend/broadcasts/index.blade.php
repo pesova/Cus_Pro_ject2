@@ -3,7 +3,6 @@
 @section("custom_css")
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css" />
 
-
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
@@ -20,7 +19,6 @@
 @stop
 
 @section('content')
-@include('partials.alert.message')
 <div class="container-fluid">
 
     <div class="row page-title align-items-center">
@@ -58,7 +56,6 @@
                                 <div class="form-group" id='customersGroup'>
                                     <label>Customer(s)</label>
                                     <select class="form-control col-12 jstags" multiple name="customer[]" id="customerNumbers">
-
                                     </select>
                                 </div>
                                 <div class="form-group">
