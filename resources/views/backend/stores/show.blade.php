@@ -14,6 +14,8 @@
 @php
 $storeData = $response['storeData'];
 $transactions = $response['transactions'];
+$currency = isset($storeData->store_admin_ref->currencyPreference) ?
+                $storeData->store_admin_ref->currencyPreference : null;
 @endphp
 
 @php
@@ -144,7 +146,7 @@ $total_interestReceivables += $each_interestReceivables;
                             <div class="media">
                                 <div class="media-body">
                                     <p class="text-muted font-weight-medium">Revenue</p>
-                                    <h4 class="mb-0">{{ format_money($total_Revenue) }}
+                                    <h4 class="mb-0">{{ format_money($total_Revenue, $currency) }}
 
 
                                 </div>
@@ -171,7 +173,7 @@ $total_interestReceivables += $each_interestReceivables;
                             <div class="media">
                                 <div class="media-body">
                                     <p class="text-muted font-weight-medium">Receivables</p>
-                                    <h4 class="mb-0">{{ format_money($total_Receivables) }}
+                                    <h4 class="mb-0">{{ format_money($total_Receivables, $currency) }}
                                 </div>
 
                                 <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
@@ -196,7 +198,7 @@ $total_interestReceivables += $each_interestReceivables;
                             <div class="media">
                                 <div class="media-body">
                                     <p class="text-muted font-weight-medium">Debt</p>
-                                    <h4 class="mb-0">{{ format_money($totalDept) }}
+                                    <h4 class="mb-0">{{ format_money($totalDept, $currency) }}
 
                                 </div>
 
@@ -298,7 +300,6 @@ $total_interestReceivables += $each_interestReceivables;
                                     </thead>
                                     <tbody>
                                         @foreach ($response['storeData']->customers as $transactions)
-
                                         @foreach ($transactions->transactions as $index => $transaction)
                                         <tr>
                                             <td>{{ $number++ }}</td>
@@ -306,7 +307,7 @@ $total_interestReceivables += $each_interestReceivables;
                                             </th>
                                             <td class="font-light">{{$transactions->phone_number}}</td>
                                             <td>{{$transaction->type}}</td>
-                                            <td>{{format_money($transaction->amount)}}</td>
+                                            <td>{{format_money($transaction->amount, $currency, $currency)}}</td>
                                             <td>
                                                 <label class="switch">
                                                     @if(Cookie::get('user_role') != 'store_assistant') disabled

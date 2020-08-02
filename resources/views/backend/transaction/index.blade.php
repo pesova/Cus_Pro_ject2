@@ -80,7 +80,7 @@
                                 </td>
                                 <td>{{ format_money($transaction->amount, $currency) }}</td>
                                 <td>{{ $transaction->interest }} %</td>
-                                <td>{{ format_money($transaction->total_amount) }} </td>
+                                <td>{{ format_money($transaction->total_amount, $currency) }} </td>
                                 <td>{{ $transaction->type }}</td>
 
                                 <td>

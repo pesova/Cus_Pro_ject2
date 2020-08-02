@@ -77,6 +77,11 @@
                         <tbody>
                             @isset($debtors)
                             @foreach ($debtors as $index => $debtor )
+                            @php
+                            $currency = isset($debtor->store_admin_ref->currencyPreference) ?
+                                            $debtor->store_admin_ref->currencyPreference : null;
+                            @endphp
+
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>
@@ -94,7 +99,7 @@
                                     @endif
                                 </td>
                                 <td>{{ $debtor->description }}</td>
-                                <td>{{ format_money($debtor->total_amount) }}</td>
+                                <td>{{ format_money($debtor->total_amount, $currency) }}</td>
 
                                 <td> {{ \Carbon\Carbon::parse($debtor->createdAt)->diffForhumans() }}</td>
                                 <td>
