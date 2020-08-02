@@ -190,7 +190,7 @@
                             <tr>
                                 <td>{{$recentTransaction->storeName}}</td>
                                 <td>{{$recentTransaction->transaction->type}}</td>
-                                <td>{{$recentTransaction->transaction->amount}}</td>
+                                <td>{{ format_money($recentTransaction->transaction->amount) }}</td>
                                 <td>
                                     <a class="btn btn-primary btn-sm"
                                         href="{{ route('transaction.show', $recentTransaction->transaction->_id.'-'.$recentTransaction->transaction->store_ref_id.'-'.$recentTransaction->transaction->customer_ref_id) }}">View</a>
@@ -244,7 +244,7 @@
                                     <span class="badge badge-danger">Unpaid</span>
                                     @endif
                                 </td>
-                                <td>{{$recentDebt->debt->amount}}</td>
+                                <td>{{ format_money($recentDebt->debt->amount) }}</td>
                                 <td>
                                     <a class="btn btn-primary btn-sm"
                                         href="{{ route('debtor.show', $recentDebt->debt->_id) }}">View</a>

@@ -25,6 +25,9 @@ if (!function_exists('format_money')) {
                 $currency = get_currency_symbol($currency);
                 $formatted = $currency . ' ' . $format_amount;
             }
+        } else {
+            $currency = get_currency_symbol($currency);
+            $formatted = $currency . ' ' . $formatted;
         }
         return html_entity_decode($formatted);
     }
