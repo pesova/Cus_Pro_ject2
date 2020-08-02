@@ -80,17 +80,10 @@
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>
-                                    @if(Cookie::get('user_role') == 'super_admin')
                                     <a class=""
-                                        href="{{ route('transaction.show', $debtor->_id.'-'.$debtor->store_ref_id->_id.'-'.$debtor->customer_ref_id->_id) }}">
+                                        href="{{ route('debtor.show', $debtor->_id) }}">
                                         {{ $debtor->_id }}
                                     </a>
-                                    @else
-                                    <a class=""
-                                        href="{{ route('transaction.show', $debtor->_id.'-'.$debtor->store_ref_id.'-'.$debtor->customer_ref_id) }}">
-                                        {{ $debtor->_id }}
-                                    </a>
-                                    @endif
                                 </td>
                                 </td>
                                 <td>
@@ -101,7 +94,7 @@
                                     @endif
                                 </td>
                                 <td>{{ $debtor->description }}</td>
-                                <td>{{ format_money($debtor->amount) }}</td>
+                                <td>{{ format_money($debtor->total_amount) }}</td>
 
                                 <td> {{ \Carbon\Carbon::parse($debtor->createdAt)->diffForhumans() }}</td>
                                 <td>
