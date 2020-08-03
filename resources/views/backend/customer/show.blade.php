@@ -73,6 +73,7 @@ $currency = isset($customer->customer->currency) ?
                                                 <p class="text-muted mb-0">Revenue</p>
                                             </div>
                                         </div>
+                                        @if(Cookie::get('user_role') == 'store_admin')
                                         <div class="mt-4">
                                             <a href="#" data-toggle="modal"
                                                data-target="#DeleteModal"
@@ -118,6 +119,7 @@ $currency = isset($customer->customer->currency) ?
                                                 </div>
                                             </div>
                                         </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

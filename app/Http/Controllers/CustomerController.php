@@ -123,9 +123,9 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function assistant_show($id)
     {
-        //
+        Return 'Welcome!!';
     }
 
     /**
