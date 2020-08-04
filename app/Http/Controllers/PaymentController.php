@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Validator;
@@ -63,7 +64,12 @@ class PaymentController extends Controller
 
         $status = $data['status'];
         $tx_ref = $data['tx_ref'];
-        $transaction_id = $data['transaction_id'];
+
+        if (isset($data['transaction_id'])){
+            $transaction_id = $data['transaction_id'];
+        } else {
+            $transaction_id = $tx_ref;
+        }
 
         try {
             if($status == 'successful'){
@@ -84,8 +90,19 @@ class PaymentController extends Controller
                 Session::flash('message', $status);
                 return view('backend.payment_details.error');
             }
-        } catch (\Throwable $th) {
-            //throw $th;
+        } catch (RequestException $e) {
+            Session::flash('alert-class', 'alert-danger');
+
+            if ($e->hasResponse()) {
+                $message = json_decode($e->getResponse()->getBody())->message;
+                Session::flash('message', $message);
+                return view('backend.payment_details.error');
+            }
+
+            Session::flash('message', 'OOPS something went wrong');
+            return view('backend.payment_details.error');
+            
+        } catch (Exception $e) {
             Session::flash('alert-class', 'alert-danger');
             Session::flash('message', 'OOPS something went wrong');
             return view('backend.payment_details.error');
