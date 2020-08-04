@@ -1,3 +1,5 @@
+
+
 <div class="row">
     <div class="col-xl-4">
         <div class="card overflow-hidden">
@@ -24,7 +26,7 @@
                             $profile_picture_path = str_replace(" ","/", $profile_picture);
                             @endphp
                             <object data="https://res.cloudinary.com/{{ $profile_picture_path }}" type="image/jpg"
-                                class="img-thumbnail rounded-circle mt-2">
+                                class="img-thumbnail rounded-circle mt-2" data-toggle="modal" data-target="#profilePhoto">
                                 <img src="/backend/assets/images/users/default.png"
                                     class="img-thumbnail rounded-circle mt-2" alt="Profile Picture" />
                             </object>
@@ -265,6 +267,41 @@
 </div>
 <!-- end row -->
 
+{{-- Begin Modals --}}
+
+    <div id="profilePhoto" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="profilePhotoLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="profilePhotoLabel">Change Profile Picture</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body hash-candidate screen">
+                    <form method="POST" action="{{ route('upload_image') }}" enctype="multipart/form-data">
+                        @csrf
+                        <!-- Upload image input-->
+                        <div class="input-group mb-3 px-2 py-2 rounded-pill bg-white shadow-sm">
+                            <label for="upload" class="btn btn-light m-0 rounded-pill px-4">
+                                <small class="text-uppercase font-weight-bold text-muted">Choose file</small>
+                            </label>
+                            <input id="upload" type="file" onchange="readURL(this);"
+                                name="profile_picture" class="form-control border-0">
+                        </div>
+                        <div class="mt-4"><img id="imageResult" src="#" alt=""
+                                class="img-fluid rounded shadow-sm mx-auto d-block">
+                        </div>
+                        <div class=" text-center mt-4">
+                            <button class="btn btn-primary" id='financeButton' type="submit">
+                                <i class="fa fa-fw fa-lg fa-check-circle"></i> Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
 @section("javascript")
 {{-- <script src="/backend/assets/js/pages/dashboard.js"></script> --}}
 <script>
@@ -434,5 +471,43 @@
 
 </script>
 {{-- @endif --}}
+
+<script>
+    /*  ==========================================
+    SHOW UPLOADED IMAGE
+* ========================================== */
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#imageResult')
+                    .attr('src', e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $(function () {
+        $('#upload').on('change', function () {
+            readURL(input);
+        });
+    });
+
+    /*  ==========================================
+        SHOW UPLOADED IMAGE NAME
+    * ========================================== */
+    var input = document.getElementById('upload');
+    var infoArea = document.getElementById('upload-label');
+
+    input.addEventListener('change', showFileName);
+
+    function showFileName(event) {
+        var input = event.srcElement;
+        var fileName = input.files[0].name;
+        infoArea.textContent = fileName;
+    }
+
+</script>
 
 @endsection
