@@ -23,10 +23,12 @@ $currency = isset($transaction->store_admin_ref->currencyPreference) ?
                                         {{ \Carbon\Carbon::parse($transaction->createdAt)->diffForhumans() }}</h6>
                                 </div>
                                 <div class="col-md-8 row text-center">
+                                    @if($transaction->status != true)
                                     <a href="" data-toggle="modal" data-target="#sendReminderModal"
                                         class="col-md-3 offset-1 mt-1 btn btn-sm btn-warning">
                                         Send Debt Reminder <i data-feather="send"></i>
                                     </a>
+                                    @endif
                                     @if(Cookie::get('user_role') == 'store_admin')
                                     <a href="#" class="col-md-3 offset-1 mt-1 btn btn-sm btn-primary"
                                         data-toggle="modal" data-target="#editTransactionModal">
@@ -201,7 +203,9 @@ $currency = isset($transaction->store_admin_ref->currencyPreference) ?
                                     <th>Message</th>
                                     <th>Status</th>
                                     <th>Date Sent</th>
+                                    @if($transaction->status != true)
                                     <th>Actions</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -213,6 +217,7 @@ $currency = isset($transaction->store_admin_ref->currencyPreference) ?
                                     </td>
                                     <td><span class="badge badge-success">{{ $debt->status }}</span></td>
                                     <td>{{ \Carbon\Carbon::parse($debt->createdAt)->diffForhumans() }}</td>
+                                    @if($transaction->status != true)
                                     <td>
                                         <a href="" data-toggle="modal"
                                             onclick="return previousMessage('{{ $debt->message }}')"
@@ -220,6 +225,7 @@ $currency = isset($transaction->store_admin_ref->currencyPreference) ?
                                             Resend
                                         </a>
                                     </td>
+                                    @endif
                                 </tr>
                                 {{-- Modal for resend reminder --}}
                                 @endforeach

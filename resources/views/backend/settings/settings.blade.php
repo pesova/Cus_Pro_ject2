@@ -453,11 +453,20 @@
         $('#account_number').keyup(function () {
             $('#statusSpiner').removeClass('d-none');
             $('#financeButton').attr("disabled", true);
+            $(this).attr("required", true);
 
             var number = $(this).val();
             number = number.trim();
             const bank = $('#bank_select').val();
-            if (number.length != 10) {
+
+            if (number.length == 0) {
+                $('#account_name').val('');
+                $(this).attr("required", false);
+                $('#financeButton').attr("disabled", false);
+                $('#statusSpiner').addClass('d-none');
+                $(this).removeClass('is-invalid');
+                return false;
+            } else if (number.length != 10) {
                 $('#statusSpiner').addClass('d-none');
                 $(this).addClass('is-invalid');
                 $('#financeButton').attr("disabled", true);
@@ -503,6 +512,7 @@
                 $(this).addClass('is-invalid');
                 $('#statusSpiner').addClass('d-none');
                 $('#account_name').val('');
+                $(this).attr("required", true);
 
             }).fail(e => {
                 $(this).addClass('is-invalid');
@@ -511,7 +521,7 @@
                 $('#account_name').removeClass('is-valid');
                 $('#account_name').val('');
                 $('#financeButton').attr("disabled", true);
-
+                $(this).attr("required", true);
             });
         });
 
