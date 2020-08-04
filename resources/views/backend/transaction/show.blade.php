@@ -13,6 +13,9 @@ $currency = isset($transaction->store_admin_ref->currencyPreference) ?
     <div class="container-fluid">
         <div class="row-justify-content-center">
             @include('partials.alert.message')
+            <div id="transaction_js">
+                {{-- These are also found in the alert.message partial. I had to repeat it for the sake of JS see showAlertMessage() below--}}
+            </div>
             <div class="row">
                 <div class="col">
                     <div class="card">
@@ -291,19 +294,38 @@ $currency = isset($transaction->store_admin_ref->currencyPreference) ?
                 if (response.success != true) {
                     $(this).prop("checked", !this.checked);
                     $('#error').show();
-                    alert("Oops! something went wrong.");
+                    //alert("Oops! something went wrong.");
+                    showAlertMessage('danger', 'Oops! something went wrong');
                 }
-                alert("Operation Successful.");
+                //alert("Operation Successful.");
+                showAlertMessage('success', 'Operation successful');
                 $(this).removeAttr("disabled")
                 $('#statusSpiner').addClass('d-none');
             }).fail(e => {
                 $(this).removeAttr("disabled")
                 $(this).prop("checked", !this.checked);
                 $('#statusSpiner').addClass('d-none');
-                alert("Oops! something went wrong.");
+               // alert("Oops! something went wrong.");
+                showAlertMessage('danger', 'Oops! something went wrong');
             });
         });
 
+        function removeAlertMessage() {
+            setTimeout(function () {
+                $(".alert").remove();
+            }, 2000);
+        }
+
+        function showAlertMessage(type, message) {
+            const alertMessage = ' <div id="transaction_js_alert" class="alert alert-' + type + ' show" role="alert">\n' +
+                '                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+                '                        <span aria-hidden="true" class="">&times;</span>\n' +
+                '                    </button>\n' +
+                '                    <strong class="">' + message + '</strong>\n' +
+                '                </div>';
+            $("#transaction_js").html(alertMessage);
+            removeAlertMessage();
+        }
     });
 
 </script>
@@ -318,7 +340,7 @@ $currency = isset($transaction->store_admin_ref->currencyPreference) ?
     // pagination for debts
     $(() => {
         $('#debtReminders').DataTable({
-         
+
         });
     });
 
