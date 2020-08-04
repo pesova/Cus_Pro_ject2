@@ -46,7 +46,7 @@
                 $profile_picture_path = str_replace(" ","/", $profile_picture);
                 @endphp
                 <object data="https://res.cloudinary.com/{{ $profile_picture_path }}" type="image/jpg"
-                    class="img-thumbnail rounded-circle mt-2">
+                    class="img-thumbnail rounded-circle mt-2" data-toggle="modal" data-target="#profilePhoto">
                     <img src="/backend/assets/images/users/default.png" class="img-thumbnail rounded-circle mt-2"
                         alt="Profile Picture" />
                 </object>
@@ -213,7 +213,7 @@
 </div>
 
 <div class="row">
-    <div class="col-6">
+    <div class="col-md-6 col-sm-12">
         <div class="card">
             <div class="card-body">
                 <h6 class="card-title mb-4 float-sm-left">Transaction Overview {{date('Y')}}</h6>
@@ -222,7 +222,7 @@
             </div>
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-md-6 col-sm-12">
         <div class="card">
             <div class="card-body">
                 <h6 class="card-title mb-4 float-sm-left">Users Registered {{date('Y')}}</h6>
@@ -589,6 +589,46 @@
     }
 
 </script>
+
+<script>
+    /*  ==========================================
+    SHOW UPLOADED IMAGE
+* ========================================== */
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#imageResult')
+                    .attr('src', e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $(function () {
+        $('#upload').on('change', function () {
+            readURL(input);
+        });
+    });
+
+    /*  ==========================================
+        SHOW UPLOADED IMAGE NAME
+    * ========================================== */
+    var input = document.getElementById('upload');
+    var infoArea = document.getElementById('upload-label');
+
+    input.addEventListener('change', showFileName);
+
+    function showFileName(event) {
+        var input = event.srcElement;
+        var fileName = input.files[0].name;
+        infoArea.textContent = fileName;
+    }
+
+</script>
+
+ 
 {{-- @endif --}}
 
 @endsection
