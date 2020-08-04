@@ -5,7 +5,7 @@
         <a href="{{route('home') }}" class="navbar-brand mr-0 mr-md-2 logo">
             <span class="logo-lg">
                 @if(\Cookie::get('theme') == 'dark')
-                <img src="{{('/frontend/assets/images/fulllogodark.png')}}" alt="" height="48" />
+                <img src="{{('/frontend/assets/images/fulllogo.png')}}" alt="" height="48" />
                 @else
                 <img src="{{('/frontend/assets/images/fulllogo.png')}}" alt="" height="48" />
                 @endif
