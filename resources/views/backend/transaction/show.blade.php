@@ -13,6 +13,9 @@ $currency = isset($transaction->store_admin_ref->currencyPreference) ?
     <div class="container-fluid">
         <div class="row-justify-content-center">
             @include('partials.alert.message')
+            <div id="transaction_js">
+                {{-- These are also found in the alert.message partial. I had to repeat it for the sake of JS see showAlertMessage() below--}}
+            </div>
             <div class="row">
                 <div class="col">
                     <div class="card">
@@ -23,10 +26,12 @@ $currency = isset($transaction->store_admin_ref->currencyPreference) ?
                                         {{ \Carbon\Carbon::parse($transaction->createdAt)->diffForhumans() }}</h6>
                                 </div>
                                 <div class="col-md-8 row text-center">
+                                    @if($transaction->status != true)
                                     <a href="" data-toggle="modal" data-target="#sendReminderModal"
                                         class="col-md-3 offset-1 mt-1 btn btn-sm btn-warning">
                                         Send Debt Reminder <i data-feather="send"></i>
                                     </a>
+                                    @endif
                                     @if(Cookie::get('user_role') == 'store_admin')
                                     <a href="#" class="col-md-3 offset-1 mt-1 btn btn-sm btn-primary"
                                         data-toggle="modal" data-target="#editTransactionModal">
@@ -201,7 +206,9 @@ $currency = isset($transaction->store_admin_ref->currencyPreference) ?
                                     <th>Message</th>
                                     <th>Status</th>
                                     <th>Date Sent</th>
+                                    @if($transaction->status != true)
                                     <th>Actions</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -213,6 +220,7 @@ $currency = isset($transaction->store_admin_ref->currencyPreference) ?
                                     </td>
                                     <td><span class="badge badge-success">{{ $debt->status }}</span></td>
                                     <td>{{ \Carbon\Carbon::parse($debt->createdAt)->diffForhumans() }}</td>
+                                    @if($transaction->status != true)
                                     <td>
                                         <a href="" data-toggle="modal"
                                             onclick="return previousMessage('{{ $debt->message }}')"
@@ -220,6 +228,7 @@ $currency = isset($transaction->store_admin_ref->currencyPreference) ?
                                             Resend
                                         </a>
                                     </td>
+                                    @endif
                                 </tr>
                                 {{-- Modal for resend reminder --}}
                                 @endforeach
@@ -285,19 +294,38 @@ $currency = isset($transaction->store_admin_ref->currencyPreference) ?
                 if (response.success != true) {
                     $(this).prop("checked", !this.checked);
                     $('#error').show();
-                    alert("Oops! something went wrong.");
+                    //alert("Oops! something went wrong.");
+                    showAlertMessage('danger', 'Oops! something went wrong');
                 }
-                alert("Operation Successful.");
+                //alert("Operation Successful.");
+                showAlertMessage('success', 'Operation successful');
                 $(this).removeAttr("disabled")
                 $('#statusSpiner').addClass('d-none');
             }).fail(e => {
                 $(this).removeAttr("disabled")
                 $(this).prop("checked", !this.checked);
                 $('#statusSpiner').addClass('d-none');
-                alert("Oops! something went wrong.");
+               // alert("Oops! something went wrong.");
+                showAlertMessage('danger', 'Oops! something went wrong');
             });
         });
 
+        function removeAlertMessage() {
+            setTimeout(function () {
+                $(".alert").remove();
+            }, 2000);
+        }
+
+        function showAlertMessage(type, message) {
+            const alertMessage = ' <div id="transaction_js_alert" class="alert alert-' + type + ' show" role="alert">\n' +
+                '                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+                '                        <span aria-hidden="true" class="">&times;</span>\n' +
+                '                    </button>\n' +
+                '                    <strong class="">' + message + '</strong>\n' +
+                '                </div>';
+            $("#transaction_js").html(alertMessage);
+            removeAlertMessage();
+        }
     });
 
 </script>
@@ -312,7 +340,7 @@ $currency = isset($transaction->store_admin_ref->currencyPreference) ?
     // pagination for debts
     $(() => {
         $('#debtReminders').DataTable({
-         
+
         });
     });
 
