@@ -7,7 +7,7 @@ let password = document.querySelector('#password')
 let passAlert = document.querySelector('.pass-feedback')
 
 form.addEventListener('click', (e) => {
-  if (userNumber.value.length < 6) {
+  if (userNumber.value.length < 7) {
     
     e.preventDefault();
 
@@ -21,7 +21,7 @@ form.addEventListener('click', (e) => {
     })
   }
 
-  if (password.value.length < 6) {
+  if (password.value.length < 7) {
     e.preventDefault()
 
     passAlert.style.display = 'block'
@@ -53,7 +53,7 @@ form.addEventListener('click', (e) => {
 });
 
 password.addEventListener('keyup', () => {
-  if (password.value.length < 6) {
+  if (password.value.length < 7) {
     passAlert.style.display = 'block'
 
     password.classList.remove('medium');
@@ -64,10 +64,10 @@ password.addEventListener('keyup', () => {
     passAlert.classList.remove('strength-mid')
     passAlert.classList.remove('strength-maximum')
 
-    passAlert.innerText = 'Password must be at least 6 characters'
+    passAlert.innerText = 'Password must be at least 7 characters'
   } 
 
-  if ((password.value.match(/\d+/g) !== null) && (password.value.length >= 6)) {
+  if ((password.value.match(/\d+/g) !== null) && (password.value.length >= 7)) {
     passAlert.style.display = 'block'
     
     password.classList.remove('invalid');
@@ -81,7 +81,7 @@ password.addEventListener('keyup', () => {
 
   }
 
-  if (password.value.length >= 6 && password.value.length < 10) {
+  if (password.value.length >= 7 && password.value.length < 10) {
     passAlert.style.display = 'block'
 
     password.classList.remove('invalid');
