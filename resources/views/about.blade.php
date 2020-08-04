@@ -24,8 +24,8 @@
                         <a class="welcome-btn play-store-btn mr-2 mb-2" href="#"><img
                                 src="/frontend/assets/img/bg-img/bt-1.png" alt=""></a>
 
-                        <a class="welcome-btn app-store-btn mr-2 mb-2" href="#"><img
-                                src="/frontend/assets/img/bg-img/bt-2.png" alt=""></a>
+                     <!--    <a class="welcome-btn app-store-btn mr-2 mb-2" href="#"><img
+                                src="/frontend/assets/img/bg-img/bt-2.png" alt=""></a> -->
                     </div>
                 </div>
             </section>
