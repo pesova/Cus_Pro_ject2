@@ -123,7 +123,7 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function assistant_show($id)
+    public function create()
     {
         //
     }
