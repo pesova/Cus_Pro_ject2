@@ -47,7 +47,7 @@
                             alt="Profile Picture" />
                     </object>
                     <div class="media-body">
-                        <h6 class="pro-user-name mt-0 mb-0">{{Cookie::get('first_name')}} {{Cookie::get('last_name')}}
+                        <h6 class="pro-user-name mt-0 mb-0">{{Cookie::get('name')}}
                         </h6>
                         <span class="pro-user-desc">
                             @if ( \Cookie::get('user_role') == "store_admin")
