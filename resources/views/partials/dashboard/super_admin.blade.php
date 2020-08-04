@@ -213,7 +213,7 @@
 </div>
 
 <div class="row">
-    <div class="col-6">
+    <div class="col-md-6 col-sm-12">
         <div class="card">
             <div class="card-body">
                 <h6 class="card-title mb-4 float-sm-left">Transaction Overview {{date('Y')}}</h6>
@@ -222,7 +222,7 @@
             </div>
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-md-6 col-sm-12">
         <div class="card">
             <div class="card-body">
                 <h6 class="card-title mb-4 float-sm-left">Users Registered {{date('Y')}}</h6>
