@@ -10,12 +10,11 @@
 
 {{-- error messages --}}
 <div class="container-fluid">
-    @include('partials.alert.message')
-
     <div class="row ">
         <div class="col-lg-4 bg-white">
             <div class=" m-h-100">
                 <div class="account-pages pt-5">
+                @include('partials.alert.message')
                     <div class="container-fluid">
                         <div class="card">
                             <div class="card-body p-0">
@@ -23,7 +22,7 @@
                                     <div class="col-12 p-5">
                                         <div class="mx-auto mb-5">
                                             <a href="{{ route('home') }}">
-                                                <img src="{{ ('/frontend/assets/images/fulllogo.png') }}" alt="" height="auto" /> </a>
+                                                <img src="{{ ('/frontend/assets/images/fulllogo.png') }}" alt class ="img img-fluid" /> </a>
                                         </div>
 
                                         <h6 class="h5 mb-0 mt-4">Verify Code</h6>

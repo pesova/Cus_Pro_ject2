@@ -108,6 +108,13 @@ class RegisterController extends Controller
                         // Set is first timer so intros can show
                         Cookie::queue('is_first_time_user' , true);
 
+                        // set finance details
+                        $userRole = $response->data->user->local->user_role;
+                    if (($userRole == 'store_admin') || ($userRole == 'store_assistant')) {
+                        $currency = isset($response->data->user->currencyPreference) ? $response->data->user->currencyPreference : 'NGN';
+                        Cookie::queue('currency', $currency);
+                    }
+
                         return redirect()->route('activate.index');
                     }
                 }

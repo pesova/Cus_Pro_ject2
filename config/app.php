@@ -162,6 +162,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Barryvdh\Snappy\ServiceProvider::class,
+        browner12\helpers\HelperServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -228,7 +229,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
-
+        'Image' => Intervention\Image\Facades\Image::class
     ],
 
 ];

@@ -14,6 +14,8 @@
 @php
 $storeData = $response['storeData'];
 $transactions = $response['transactions'];
+$currency = isset($storeData->store_admin_ref->currencyPreference) ?
+                $storeData->store_admin_ref->currencyPreference : null;
 @endphp
 
 @php
@@ -63,8 +65,13 @@ $total_interestReceivables += $each_interestReceivables;
 
 <!-- Start Content-->
 @include('partials.alert.message')
-
+<div id="transaction_js">
+    {{-- These are also found in the alert.message partial. I had to repeat it for the sake of JS see showAlertMessage() below--}}
+</div>
 <div class="row page-title">
+
+
+
     <div class="col-md-12">
         @if(Cookie::get('user_role') == 'store_admin')
         <nav aria-label="breadcrumb" class="float-right mt-1">
@@ -78,8 +85,7 @@ $total_interestReceivables += $each_interestReceivables;
             </a>
             @endif
             {{-- Modal for delete Store --}}
-            <div class="modal fade" id="storeDelete" tabindex="-1" role="dialog" aria-labelledby="storeDeleteLabel"
-                aria-hidden="true">
+            <div class="modal fade" id="storeDelete" tabindex="-1" role="dialog" aria-labelledby="storeDeleteLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -88,8 +94,7 @@ $total_interestReceivables += $each_interestReceivables;
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form class="form-horizontal" method="POST"
-                            action="{{ route('store.destroy', $storeData->_id) }}">
+                        <form class="form-horizontal" method="POST" action="{{ route('store.destroy', $storeData->_id) }}">
                             <div class="modal-body">
                                 @csrf
                                 @method('DELETE')
@@ -97,8 +102,7 @@ $total_interestReceivables += $each_interestReceivables;
                             </div>
                             <div class="modal-footer">
                                 <div class="">
-                                    <button type="submit" class="btn btn-primary mr-3" data-dismiss="modal"><i
-                                            data-feather="x"></i>
+                                    <button type="submit" class="btn btn-primary mr-3" data-dismiss="modal"><i data-feather="x"></i>
                                         Close</button>
                                     <button type="submit" class="btn btn-danger"><i data-feather="trash-2"></i>
                                         Delete</button>
@@ -122,7 +126,7 @@ $total_interestReceivables += $each_interestReceivables;
                     <div class="col-7">
                         <div class="text-primary p-3">
                             <h5 class="text-primary">{{ ucfirst($storeData->store_name) }}</h5>
-
+                            
                             <ul class="pl-3 mb-0">
                                 <li class="py-1">Assistants: {{count( $storeData->assistants )}}</li>
                                 <li class="py-1">Customers: {{count( $storeData->customers )}}</li>
@@ -145,7 +149,9 @@ $total_interestReceivables += $each_interestReceivables;
                             <div class="media">
                                 <div class="media-body">
                                     <p class="text-muted font-weight-medium">Revenue</p>
-                                    <h4 class="mb-0">$ {{ $total_Revenue }}</h4>
+                                    <h4 class="mb-0">{{ format_money($total_Revenue, $currency) }}
+
+
                                 </div>
 
                                 <div class="mini-stat-icon avatar-sm align-self-center rounded-circle bg-primary">
@@ -170,7 +176,7 @@ $total_interestReceivables += $each_interestReceivables;
                             <div class="media">
                                 <div class="media-body">
                                     <p class="text-muted font-weight-medium">Receivables</p>
-                                    <h4 class="mb-0">$ {{ $total_Receivables }}</h4>
+                                    <h4 class="mb-0">{{ format_money($total_Receivables, $currency) }}
                                 </div>
 
                                 <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
@@ -182,8 +188,7 @@ $total_interestReceivables += $each_interestReceivables;
                             <br>
                             <div class="d-flex">
                                 <span class="badge badge-soft-primary font-size-12">
-                                    {{ $total_interestReceivables }}% </span> <span
-                                    class="ml-2 text-truncate text-primary">From previous period</span>
+                                    {{ $total_interestReceivables }}% </span> <span class="ml-2 text-truncate text-primary">From previous period</span>
                             </div>
                         </div>
                     </div>
@@ -196,7 +201,8 @@ $total_interestReceivables += $each_interestReceivables;
                             <div class="media">
                                 <div class="media-body">
                                     <p class="text-muted font-weight-medium">Debt</p>
-                                    <h4 class="mb-0">$ {{ $totalDept }}</h4>
+                                    <h4 class="mb-0">{{ format_money($totalDept, $currency) }}
+
                                 </div>
 
                                 <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
@@ -227,16 +233,16 @@ $total_interestReceivables += $each_interestReceivables;
                 <div class="text-center">
                     <h6>Choose Business Card</h6>
                 </div>
-              
+
 
                 <div class="row" id="gallery" data-toggle="modal" data-target="#exampleModal">
                     <div class="col-6 col-md-4 col-lg-12">
-                      <img class="w-100" src="{{asset('backend/assets/images/card_v2.PNG')}}" data-target=”#carouselExamples” data-slide-to="0">
+                        <img class="w-100" src="{{asset('backend/assets/images/card_v2.PNG')}}" data-target=”#carouselExamples” data-slide-to="0">
                     </div>
                     <div class="col-6 col-md-4 col-lg-12">
-                      <img class="w-100" src="{{asset('backend/assets/images/card_vv1.PNG')}}" data-target=”#carouselExamples” data-slide-to="1">
+                        <img class="w-100" src="{{asset('backend/assets/images/card_vv1.PNG')}}" data-target=”#carouselExamples” data-slide-to="1">
                     </div>
-                   
+
                 </div>
 
             </div>
@@ -246,7 +252,7 @@ $total_interestReceivables += $each_interestReceivables;
     <div class="col-lg-8">
         <div class="card">
             <div class="card-body">
-                <h6 class="card-title mb-4 float-sm-left">Transaction Chart</h6>
+                <h6 class="card-title mb-4 float-sm-left">Transaction Overview {{date('Y')}}</h6>
                 <div class="clearfix"></div>
                 <div id="transactionchart"></div>
             </div>
@@ -266,14 +272,11 @@ $total_interestReceivables += $each_interestReceivables;
 
                             <div class="card-body">
                                 <div class="btn-group float-right">
-                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
+                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class='uil uil-file-alt mr-1'></i>Export
                                         <i class="icon"><span data-feather="chevron-down"></span></i></button>
                                     <div class=" dropdown-menu dropdown-menu-right">
-                                        <button id="downloadLink"
-                                            onclick="exportTableToExcel('basic-datatables', '{{ ucfirst($storeData->store_name) }} Transaction Overview')"
-                                            class=" dropdown-item notify-item">
+                                        <button id="downloadLink" onclick="exportTableToExcel('basic-datatables', '{{ ucfirst($storeData->store_name) }} Transaction Overview')" class=" dropdown-item notify-item">
                                             <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
                                             <span>EXCEL</span>
                                         </button>
@@ -285,47 +288,8 @@ $total_interestReceivables += $each_interestReceivables;
                                 </div>
                                 <h4 class="card-title">{{ ucfirst($storeData->store_name) }} Transaction Overview</h4>
                                 <br>
-
-
                                 <table id="basic-datatables" class="table dt-responsive nowrap">
-                                    @php
 
-                                    $view = 2;
-
-                                    $c =[];
-                                    foreach ($response['storeData']->customers as $transactions)
-                                    {
-                                    foreach ($transactions->transactions as $i => $transaction)
-                                    {
-                                    $date = date("m-d-Y", strtotime(date($transaction->createdAt)));
-                                    $value = $transaction->amount;
-
-
-                                    $key = $i;
-
-                                    if ($view > 0)
-                                    {
-                                    $key = array_search($date, array_column($c, 'date'));
-                                    if ($key !== false)
-                                    {
-                                    $value = $c[$key]['value'] + $value;
-                                    }
-                                    else
-                                    {
-                                    $key = count($c); // Create a new index here instead of $i
-                                    }
-                                    }
-                                    else
-                                    {
-                                    $key = $i;
-                                    }
-
-                                    $c[$key]['name'] = 'Combined';
-                                    $c[$key]['date'] = $date;
-                                    $c[$key]['value'] = $value;
-                                    }
-                                    }
-                                    @endphp
                                     <thead>
                                         <tr>
                                             <th>S/N</th>
@@ -339,7 +303,6 @@ $total_interestReceivables += $each_interestReceivables;
                                     </thead>
                                     <tbody>
                                         @foreach ($response['storeData']->customers as $transactions)
-
                                         @foreach ($transactions->transactions as $index => $transaction)
                                         <tr>
                                             <td>{{ $number++ }}</td>
@@ -347,31 +310,23 @@ $total_interestReceivables += $each_interestReceivables;
                                             </th>
                                             <td class="font-light">{{$transactions->phone_number}}</td>
                                             <td>{{$transaction->type}}</td>
-                                            <td>{{$transaction->amount}}</td>
+                                            <td>{{format_money($transaction->amount, $currency, $currency)}}</td>
                                             <td>
                                                 <label class="switch">
                                                     @if(Cookie::get('user_role') != 'store_assistant') disabled
-                                                    <input class="togBtn" type="checkbox" id="togBtn"
-                                                        {{ $transaction->status == true ? 'checked' : '' }}
-                                                        data-id="{{ $transaction->_id }}"
-                                                        data-store="{{ $transaction->store_ref_id }}"
-                                                        data-customer="{{ $transaction->customer_ref_id}}">
+                                                    <input class="togBtn" type="checkbox" id="togBtn" {{ $transaction->status == true ? 'checked' : '' }} data-id="{{ $transaction->_id }}" data-store="{{ $transaction->store_ref_id }}" data-customer="{{ $transaction->customer_ref_id}}">
                                                     @else
-                                                    <input type="checkbox" id="togBtn"
-                                                        {{ $transaction->status == true ? 'checked' : '' }} disabled>
+                                                    <input type="checkbox" id="togBtn" {{ $transaction->status == true ? 'checked' : '' }} disabled>
                                                     @endif
                                                     <div class="slider round">
                                                         <span class="on">Paid</span><span class="off">Pending</span>
                                                     </div>
                                                 </label>
-                                                <div id="statusSpiner"
-                                                    class="spinner-border spinner-border-sm text-primary d-none"
-                                                    role="status">
+                                                <div id="statusSpiner" class="spinner-border spinner-border-sm text-primary d-none" role="status">
                                                     <span class="sr-only">Loading...</span>
                                                 </div>
                                             </td>
-                                            <td> <a href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id.'-'.$transaction->customer_ref_id) }}"
-                                                    class="btn btn-primary waves-effect waves-light"> View
+                                            <td> <a href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id.'-'.$transaction->customer_ref_id) }}" class="btn btn-primary waves-effect waves-light"> View
                                                     Transaction</a>
                                             </td>
                                         </tr>
@@ -409,8 +364,7 @@ $total_interestReceivables += $each_interestReceivables;
                     <input type="hidden" name="version" class="version">
                     <input type="hidden" name="type">
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="format" id="exampleRadios1" value="image"
-                            checked>
+                        <input class="form-check-input" type="radio" name="format" id="exampleRadios1" value="image" checked>
                         <label class="form-check-label" for="exampleRadios1">
                             Image Format
                         </label>
@@ -435,63 +389,56 @@ $total_interestReceivables += $each_interestReceivables;
 </div>
 
 
-  <div class="modal fade" id="exampleModal" tabindex="-1 role="dialog" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1 role=" dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title">Available Cards</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <!-- Carousel markup goes in the modal body -->
-          
-          <div id="carouselExamples" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
-              <div class="carousel-item active"  data-version="v2">
-                <img class="d-block w-100" src="{{asset('backend/assets/images/card_v2.PNG')}}">
-              </div>
-              <div class="carousel-item"  data-version="v1">
-                <img class="d-block w-100" src="{{asset('backend/assets/images/card_vv1.PNG')}}">
-              </div>
-              </div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Available Cards</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            <a class="carousel-control-prev" href="#carouselExamples" role="button" data-slide="prev">
-              <span  aria-hidden="true" class="text-dark"><i class="fa fa-chevron-left"></i></span>
-              <span class="sr-only" class="text-dark">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselExamples" role="button" data-slide="next">
-              <span  aria-hidden="true" class="text-dark"><i class="fa fa-chevron-right"></i></span>
-              <span class="sr-only" class="text-dark">Next</span>
-            </a>
-          </div>
+            <div class="modal-body">
+                <!-- Carousel markup goes in the modal body -->
+
+                <div id="carouselExamples" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active" data-version="v2">
+                            <img class="d-block w-100" src="{{asset('backend/assets/images/card_v2.PNG')}}">
+                        </div>
+                        <div class="carousel-item" data-version="v1">
+                            <img class="d-block w-100" src="{{asset('backend/assets/images/card_vv1.PNG')}}">
+                        </div>
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExamples" role="button" data-slide="prev">
+                    <span aria-hidden="true" class="text-dark"><i class="fa fa-chevron-left"></i></span>
+                    <span class="sr-only" class="text-dark">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExamples" role="button" data-slide="next">
+                    <span aria-hidden="true" class="text-dark"><i class="fa fa-chevron-right"></i></span>
+                    <span class="sr-only" class="text-dark">Next</span>
+                </a>
+            </div>
         </div>
         {{-- <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div> --}}
-        
+
     </div>
     <div class="text-center padup">
         <form action="{{route('preview', $storeData->_id)}}" method="post" id="preview-form">
             @csrf
-                <input type="hidden" name="version" class="version">
-            </form>
-            <button
-            data-toggle="modal" 
-            data-target="#downloadModal"
-            id="first_download_button"
-                    class="btn btn-success mr-2">
-                    <i class="far mr-2 fa-card">
-                </i>Download</button>
-            <button
-            
-            id="preview"
-            class="btn btn-primary mr-2">
+            <input type="hidden" name="version" class="version">
+        </form>
+        <button data-toggle="modal" data-target="#downloadModal" id="first_download_button" class="btn btn-success mr-2">
+            <i class="far mr-2 fa-card">
+            </i>Download</button>
+        <button id="preview" class="btn btn-primary mr-2">
             <i class="far mr-2 fa-card"></i>
             Preview</button>
-  </div>
-  </div>
+    </div>
+</div>
 
 @endsection
 
@@ -520,21 +467,20 @@ $total_interestReceivables += $each_interestReceivables;
             [10, 25, 50, 100, "All"]
         ]
     });
-    $('#pdf').on('click', function () {
+    $('#pdf').on('click', function() {
         $("#basic-datatables").tableHTMLExport({
             type: 'pdf',
             filename: '{{ ucfirst($storeData->store_name) }} Transaction Overview.pdf'
         });
     })
-
 </script>
 
 <script>
-    jQuery(function ($) {
+    jQuery(function($) {
         const token = "{{Cookie::get('api_token')}}"
         const host = "{{ env('API_URL', 'https://dev.api.customerpay.me') }}";
 
-        $('.togBtn').change(function () {
+        $('.togBtn').change(function() {
             $(this).attr("disabled", true);
             $('#statusSpiner').removeClass('d-none');
 
@@ -558,50 +504,68 @@ $total_interestReceivables += $each_interestReceivables;
                 if (response.success != true) {
                     $(this).prop("checked", !this.checked);
                     $('#error').show();
-                    alert("Oops! something went wrong.");
+                    //alert("Oops! something went wrong.");
+                    showAlertMessage('danger', 'Oops! something went wrong');
                 }
-                alert("Operation Successful.");
+                //alert("Operation Successful.");
+                showAlertMessage('success', 'Operation Successful.');
                 $(this).removeAttr("disabled")
                 $('#statusSpiner').addClass('d-none');
             }).fail(e => {
                 $(this).removeAttr("disabled")
                 $(this).prop("checked", !this.checked);
                 $('#statusSpiner').addClass('d-none');
-                alert("Oops! something went wrong.");
+                showAlertMessage('danger', 'Oops! something went wrong');
+               // alert("Oops! something went wrong.");
             });
         });
 
+        function removeAlertMessage() {
+            setTimeout(function () {
+                $(".alert").remove();
+            }, 2000);
+        }
+
+        function showAlertMessage(type, message) {
+            const alertMessage = ' <div id="transaction_js_alert" class="alert alert-' + type + ' show" role="alert">\n' +
+                '                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+                '                        <span aria-hidden="true" class="">&times;</span>\n' +
+                '                    </button>\n' +
+                '                    <strong class="">' + message + '</strong>\n' +
+                '                </div>';
+            $("#transaction_js").html(alertMessage);
+            removeAlertMessage();
+        }
     });
 
 
-    $("#first_download_button").click(function(){
+    $("#first_download_button").click(function() {
         $("#exampleModal").modal('hide');
     })
 
 
-    $('#preview').click(function(){
+    $('#preview').click(function() {
         let activeSlide = $(".carousel-item.active");
 
         let version = activeSlide.data('version');
-        
+
         $(".version").val(version);
         $("#preview-form").submit();
         // console.log();
     })
 
 
-    $('#download').click(function(){
-        
+    $('#download').click(function() {
+
         let activeSlide = $(".carousel-item.active");
 
         let version = activeSlide.data('version');
-      
+
         $(".version").val(version);
         $("#download-form").submit();
         $("#downloadModal").modal('hide');
         // console.log();
     })
-
 </script>
 
 <script>
@@ -635,11 +599,9 @@ $total_interestReceivables += $each_interestReceivables;
             downloadLink.click();
         }
     }
-
 </script>
 <script>
-    $(document).ready(function () {
-        var product = <?php echo json_encode($c); ?>
+    $(document).ready(function() {
 
         // start of transaction charts
 
@@ -647,11 +609,7 @@ $total_interestReceivables += $each_interestReceivables;
 
             series: [{
                 name: 'Transaction',
-                data: [ <?php foreach($c as $key) {
-                    $aaa = (string) $key['value'].
-                    ",";
-                    echo $aaa;
-                } ?> ]
+                data: {{json_encode($chart)}},
             }],
             chart: {
                 height: 350,
@@ -662,15 +620,12 @@ $total_interestReceivables += $each_interestReceivables;
                 curve: 'smooth'
             },
             xaxis: {
-                type: 'datetime',
-
-                categories: [ <?php foreach($c as $key) {
-                    $aaa = "'".$key['date'].
-                    "'".
-                    ",";
-                    echo $aaa;
-                } ?> ],
+                type: 'text',
+                categories: ['JAN', 'FEB', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUG',
+                    'SEPT', 'OCT', 'NOV', 'DEC'
+                ],
             },
+
 
             title: {
                 text: '',
@@ -714,6 +669,5 @@ $total_interestReceivables += $each_interestReceivables;
 
 
     });
-
 </script>
 @stop

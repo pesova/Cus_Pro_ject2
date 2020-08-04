@@ -44,7 +44,8 @@
         <div class="card mt-0">
             <div class="card-header">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
                         <i class='uil uil-file-alt mr-1'></i>Export
                         <i class="icon"><span data-feather="chevron-down"></span></i></button>
                     <div class="dropdown-menu dropdown-menu-right">
@@ -69,26 +70,25 @@
                                 <th>Status</th>
                                 <th>Description</th>
                                 <th>Amount</th>
-                                <th>Created Date</th>
+                                <th>Created</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             @isset($debtors)
                             @foreach ($debtors as $index => $debtor )
+                            @php
+                            $currency = isset($debtor->store_admin_ref->currencyPreference) ?
+                                            $debtor->store_admin_ref->currencyPreference : null;
+                            @endphp
+
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>
-                                    <td>
-                                    @if(Cookie::get('user_role') == 'super_admin')
-                                    <a class="" href="{{ route('transaction.show', $debtor->_id.'-'.$debtor->store_ref_id->_id.'-'.$debtor->customer_ref_id->_id) }}">
+                                    <a class=""
+                                        href="{{ route('debtor.show', $debtor->_id) }}">
                                         {{ $debtor->_id }}
                                     </a>
-                                    @else
-                                    <a class="" href="{{ route('transaction.show', $debtor->_id.'-'.$debtor->store_ref_id.'-'.$debtor->customer_ref_id) }}">
-                                        {{ $debtor->_id }}
-                                    </a>
-                                    @endif
                                 </td>
                                 </td>
                                 <td>
@@ -99,11 +99,12 @@
                                     @endif
                                 </td>
                                 <td>{{ $debtor->description }}</td>
-                                <td>{{ $debtor->amount }}</td>
+                                <td>{{ format_money($debtor->total_amount, $currency) }}</td>
 
                                 <td> {{ \Carbon\Carbon::parse($debtor->createdAt)->diffForhumans() }}</td>
                                 <td>
-                                    <a class="btn btn-info btn-small py-1 px-2" href="{{ route('debtor.show', $debtor->_id) }}">
+                                    <a class="btn btn-info btn-small py-1 px-2"
+                                        href="{{ route('debtor.show', $debtor->_id) }}">
                                         More
                                     </a>
                                 </td>
@@ -124,32 +125,35 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/eonasdan-bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js">
+<script
+    src="https://cdnjs.cloudflare.com/ajax/libs/eonasdan-bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js">
 </script>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-html5-1.6.2/datatables.min.js"></script>
+<script type="text/javascript"
+    src="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-html5-1.6.2/datatables.min.js">
+</script>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         var export_filename = 'Mycustomerdebts';
         $('#debtorsTable').DataTable({
-            dom: 'frtipB'
-            , buttons: [{
-                extend: 'excel'
-                , className: 'd-none'
-                , title: export_filename
-            , }, {
-                extend: 'pdf'
-                , className: 'd-none'
-                , title: export_filename
-                , extension: '.pdf'
+            dom: 'frtipB',
+            buttons: [{
+                extend: 'excel',
+                className: 'd-none',
+                title: export_filename,
+            }, {
+                extend: 'pdf',
+                className: 'd-none',
+                title: export_filename,
+                extension: '.pdf'
             }]
         });
-        $("#ExportReporttoExcel").on("click", function() {
+        $("#ExportReporttoExcel").on("click", function () {
             $('.buttons-excel').trigger('click');
         });
-        $("#ExportReporttoPdf").on("click", function() {
+        $("#ExportReporttoPdf").on("click", function () {
             $('.buttons-pdf').trigger('click');
         });
     });
@@ -169,10 +173,10 @@
         });
 
         tour.addStep("step", {
-            text: "Welcome to debtors Page, here you can record and track your debtors"
-            , buttons: [{
-                text: "Next"
-                , action: tour.next
+            text: "Welcome to debtors Page, here you can record and track your debtors",
+            buttons: [{
+                text: "Next",
+                action: tour.next
             }]
         });
 

@@ -186,7 +186,7 @@ class StoreController extends Controller
                 } else {
                     $request->session()->flash('alert-class', 'alert-waring');
                     Session::flash('message', $data->message);
-                    return redirect()->route('store.create');
+                    return back();
                 }
             } catch (RequestException $e) {
                 $response = $e->getResponse();
@@ -199,7 +199,7 @@ class StoreController extends Controller
 
                 $data = json_decode($response->getBody());
                 Session::flash('message', $data->message);
-                return redirect()->route('store.create');
+                return back();
             } catch (Exception $e) {
                 Log::error((string) $response->getBody());
                 return view('errors.500');
@@ -241,6 +241,7 @@ class StoreController extends Controller
 
             $store_transactions = json_decode($transactions_body)->data->transactions;
             $StoreData = json_decode($body)->data->store;
+            $store = json_decode($body)->data->transactionChart;
             $StoreData = [
                 'storeData' => $StoreData,
                 "transactions" => $store_transactions
@@ -249,7 +250,7 @@ class StoreController extends Controller
                 // die();
             if ($statusCode == 200  && $transaction_statusCode == 200) {
               
-                return view('backend.stores.show')->with('response', $StoreData)->with('number', 1);
+                return view('backend.stores.show')->with('response', $StoreData)->with('chart', $store)->with('number', 1);
             }
         } catch (RequestException $e) {
             Log::info('Catch error: LoginController - ' . $e->getMessage());
@@ -270,7 +271,6 @@ class StoreController extends Controller
             return redirect()->route('store.index', ['response' => []]);
         } catch (\Exception $e) {
             //log error;
-            return $e;
             Log::error('Catch error: StoreController - ' . $e->getMessage());
             return view('errors.500');
         }

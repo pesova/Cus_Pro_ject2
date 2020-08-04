@@ -49,9 +49,14 @@ Route::get('/admin', function () {
     return redirect()->route('dashboard');
 });
 
-Route::get('/pay', "PaymentController@index")->name('pay');
-Route::get('/pay/create', "PaymentController@create")->name('pay.create');
-Route::post('/pay', "PaymentController@store")->name('pay.proceed');
+Route::get('/pay/{tx_ref}', "PaymentController@index")->name('pay');
+Route::get('/payment/callback', 'PaymentController@callback')->name('callback');
+Route::get('/pay/success', "PaymentController@successResp")->name('pay.success');
+Route::get('/pay/failed', "PaymentController@failedResp")->name('pay.failed');
+
+
+// Route::post('/payment/callback/', "PaymentController@callback");
+// Route::post('/pay', "PaymentController@store")->name('pay.proceed');
 
 // backend codes
 Route::prefix('/admin')->group(function () {
@@ -89,6 +94,8 @@ Route::prefix('/admin')->group(function () {
         $user_role = Cookie::get('user_role'); // using this for now till middleware issue is fixed
         try {
             $user_role = $user_role ? Crypt::decrypt($user_role, false) : '';
+            $user_role = strlen($user_role) > 15 ? explode("|", $user_role)[1] : $user_role; // route not found quick fix, don't know why extra values were added to the cookie
+            // dd($user_role);
         } catch (Exception $e) {
             Cookie::forget('api_token'); // app key must have changed, so we can't decrypt the cookie
         }
@@ -133,7 +140,7 @@ Route::prefix('/admin')->group(function () {
 
             // customer crud
             Route::resource('customer', 'CustomerController');
-            //  });
+
             Route::post('/verify/bank', 'SettingsController@verify_bank')->name('verify.bank');
         }
 
@@ -175,22 +182,16 @@ Route::prefix('/admin')->group(function () {
 
         // settings create and update
         Route::get('/setting', 'SettingsController@index')->name('setting');
-
-        Route::post('/settings', 'SettingsController@displaypicture')->name('displaypicture');
-
         Route::post('/setting', 'SettingsController@update');
-
         Route::get('/setting/password', 'SettingsController@change_password')->name('change_password');
-
-        Route::get('/setting/picture', 'SettingsController@change_profile_picture')->name('change_profile_picture');
+        Route::post('/settings/upload_image', 'SettingsController@upload_image')->name('upload_image');
 
         // transaction crud
         Route::resource('transaction', 'TransactionController');
 
-
         // broadcast crud
         Route::resource('broadcast', 'BroadcastController');
-
+        Route::post('resend/{id}', "BroadcastController@resend")->name('resend_broadcast');
 
         // location
         Route::resource('location', 'LocationController');

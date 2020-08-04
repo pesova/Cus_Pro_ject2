@@ -5,6 +5,10 @@
 @endsection
 
 @section('content')
+@php
+    $currency = isset($debtor->store_admin_ref->currencyPreference) ?
+                    $debtor->store_admin_ref->currencyPreference : null;
+@endphp
 <div class="account-pages my-2">
     <div class="container-fluid">
         @include('partials.alert.message')
@@ -13,26 +17,22 @@
                 <div class="card-body p-2">
                     <div class="row">
                         <div class="col-md-4">
-                            <h5 class="card-title">Debtor Overview - Created
+                            <h6 class="card-title">Debtor Overview - Created
                                 {{ \Carbon\Carbon::parse($debtor->createdAt)->diffForhumans() }}</h5>
                         </div>
-                        <div class="col-md-8">
-                            <div class="row text-center container-fluid">
-                                <a href="{{ route('markpaid', $debtor->_id) }}" class="col-md-2 offset-1 mt-1 btn btn-sm btn-success">
-                                    Mark as paid <i class="feather-16" data-feather="check"></i>
-                                </a>
-                                <a href="" data-toggle="modal" data-target="#sendReminderModal" class="col-md-2 offset-1 mt-1 btn btn-sm btn-warning">
-                                    Send Reminder 
-                                    {{-- <i class="feather-16" data-feather="send"></i> --}}
-                                </a>
-                                {{-- <a href="#" class="col-md-2 offset-1 mt-1 btn btn-sm btn-warning" data-toggle="modal" data-target="#scheduleReminderModal"> --}}
-                                    {{-- Schedule Reminder  --}}
-                                    {{-- <i class="feather-16" data-feather="message-circle"></i> --}}
-                                {{-- </a> --}}
-                                <a href="/admin/debtor" class="col-md-2 offset-1 mt-1 btn btn-sm btn-primary go-back">
-                                    Go Back <i class="feather-16" data-feather="arrow-left"></i>
-                                </a>
-                            </div>
+                        <div class="col-md-8 row text-center">
+                            <a href="{{ route('markpaid', $debtor->_id) }}"
+                                class="col-md-3 offset-1 mt-1 btn btn-sm btn-success">
+                                Mark as paid <i class="feather-16" data-feather="check"></i>
+                            </a>
+                            <a href="" data-toggle="modal" data-target="#sendReminderModal"
+                                class="col-md-3 offset-1 mt-1 btn btn-sm btn-warning">
+                                Send Reminder
+                                <i class="feather-16" data-feather="send"></i>
+                            </a>
+                            <a href="/admin/debtor" class="col-md-3 offset-1 mt-1 btn btn-sm btn-primary go-back">
+                                Go Back <i class="feather-16" data-feather="arrow-left"></i>
+                            </a>
                         </div>
                     </div>
                     <div class="row p-3">
@@ -82,7 +82,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="card">
                 <div class="card-body">
                     <div class="row">
@@ -102,7 +101,7 @@
                                             <tbody>
                                                 <tr>
                                                     <th scope="row">Amount</th>
-                                                    <td colspan="2">{{ $debtor->amount }}</td>
+                                                    <td colspan="2">{{ format_money($debtor->amount, $currency) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">Interest</th>
@@ -110,9 +109,7 @@
                                                 </tr>
                                                 <tr class="font-weight-bolder">
                                                     <th scope="row">Total Amount</th>
-                                                    <td colspan="2">
-                                                        {{ (($debtor->interest / 100) * $debtor->amount) + $debtor->amount }}
-                                                    </td>
+                                                    <td colspan="2">{{ format_money($debtor->total_amount, $currency) }}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
