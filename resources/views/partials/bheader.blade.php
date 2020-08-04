@@ -42,7 +42,7 @@
                     $profile_picture_path = str_replace(" ","/", $profile_picture);
                     @endphp
                     <object data="https://res.cloudinary.com/{{ $profile_picture_path }}" type="image/jpg"
-                        class="avatar-sm rounded-circle mr-2">
+                        class="avatar-sm rounded-circle mr-2" data-toggle="modal" data-target="#profilePhoto">
                         <img src="/backend/assets/images/users/default.png" class="avatar-sm rounded-circle mr-2"
                             alt="Profile Picture" />
                     </object>
