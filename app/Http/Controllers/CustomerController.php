@@ -125,7 +125,7 @@ class CustomerController extends Controller
      */
     public function assistant_show($id)
     {
-        Return 'Welcome!!';
+        //
     }
 
     /**
