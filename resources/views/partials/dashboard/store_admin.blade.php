@@ -1,3 +1,5 @@
+
+
 <div class="row">
     <div class="col-xl-4">
         <div class="card overflow-hidden">
@@ -17,14 +19,14 @@
             <div class="card-body pt-0">
                 <div class="row">
                     <div class="col-sm-4">
-                        <div class="mb-4">
+                        <div class="avatar-md profile-user-wid mb-4">
                             @php
                             $profile_picture = Cookie::get('profile_picture');
                             $profile_picture = rtrim($profile_picture);
                             $profile_picture_path = str_replace(" ","/", $profile_picture);
                             @endphp
                             <object data="https://res.cloudinary.com/{{ $profile_picture_path }}" type="image/jpg"
-                                class="img-thumbnail rounded-circle mt-2">
+                                class="img-thumbnail rounded-circle mt-2" data-toggle="modal" data-target="#profilePhoto">
                                 <img src="/backend/assets/images/users/default.png"
                                     class="img-thumbnail rounded-circle mt-2" alt="Profile Picture" />
                             </object>
@@ -434,5 +436,43 @@
 
 </script>
 {{-- @endif --}}
+
+<script>
+    /*  ==========================================
+    SHOW UPLOADED IMAGE
+* ========================================== */
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#imageResult')
+                    .attr('src', e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $(function () {
+        $('#upload').on('change', function () {
+            readURL(input);
+        });
+    });
+
+    /*  ==========================================
+        SHOW UPLOADED IMAGE NAME
+    * ========================================== */
+    var input = document.getElementById('upload');
+    var infoArea = document.getElementById('upload-label');
+
+    input.addEventListener('change', showFileName);
+
+    function showFileName(event) {
+        var input = event.srcElement;
+        var fileName = input.files[0].name;
+        infoArea.textContent = fileName;
+    }
+
+</script>
 
 @endsection
