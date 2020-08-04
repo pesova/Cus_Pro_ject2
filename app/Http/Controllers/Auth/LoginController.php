@@ -95,6 +95,7 @@ class LoginController extends Controller
                     Cookie::queue('last_name', isset($response->data->user->local->last_name) ? $response->data->user->local->last_name : $response->data->user->local->name);
                     Cookie::queue('is_active', $data->is_active);
                     Cookie::queue('phone_number', $data->phone_number);
+                    Cookie::queue('name', isset($response->data->user->local->name) ? $response->data->user->local->name : $response->data->user->local->name);
                     Cookie::queue('user_id', $response->data->user->_id);
                     Cookie::queue('profile_picture', $profile_picture);
                     Cookie::queue('expires', strtotime('+ 1 day'));
