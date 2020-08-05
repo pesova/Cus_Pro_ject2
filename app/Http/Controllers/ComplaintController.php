@@ -359,6 +359,10 @@ class ComplaintController extends Controller
                 return redirect()->route('complaint.index');
             }
         } catch (\Exception $e) {
+            if ($e->getCode() == 401) {
+                return redirect()->route('logout');
+            }
+
             Session::flash('alert-class', 'alert-danger');
             Session::flash('message', "Error while deleting complaint");
             return redirect()->back();
