@@ -431,7 +431,7 @@ class CustomerController extends Controller
                 $request->session()->flash('alert-class', 'alert-success');
                 $request->session()->flash('message', 'Customer deleted successfully');
 
-                return redirect()->back();
+                return redirect()->route('customer.index');
             } else {
                 $request->session()->flash('alert-class', 'alert-danger');
                 $request->session()->flash('message', 'Customer deleting failed');
@@ -453,7 +453,7 @@ class CustomerController extends Controller
                 Session::flash('message', $message);
             }
 
-            return redirect()->back();
+            return redirect()->route('customer.index');
         } catch (Exception $e) {
             // token expired
             if ($e->getCode() == 401) {
