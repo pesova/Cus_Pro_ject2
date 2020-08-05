@@ -186,7 +186,7 @@ class StoreController extends Controller
                 } else {
                     $request->session()->flash('alert-class', 'alert-waring');
                     Session::flash('message', $data->message);
-                    return redirect()->route('store.create');
+                    return back();
                 }
             } catch (RequestException $e) {
                 $response = $e->getResponse();
@@ -199,7 +199,7 @@ class StoreController extends Controller
 
                 $data = json_decode($response->getBody());
                 Session::flash('message', $data->message);
-                return redirect()->route('store.create');
+                return back();
             } catch (Exception $e) {
                 Log::error((string) $response->getBody());
                 return view('errors.500');

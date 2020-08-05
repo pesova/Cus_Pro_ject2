@@ -20,8 +20,7 @@
                                     <div class="col-12 p-5">
                                         <div class="mx-auto mb-5">
                                             <a href="{{ url('/') }}">
-                                                <img src="{{ ('/frontend/assets/images/fulllogo.png') }}" alt=""
-                                                    height="auto" /> </a>
+                                                <img src="{{ ('/frontend/assets/images/fulllogo.png') }}" alt class ="img img-fluid" /> </a>
                                         </div>
 
                                         <h6 class="h5 mb-0 mt-4">Welcome back!</h6>

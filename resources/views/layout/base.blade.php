@@ -54,6 +54,8 @@
 
             </div>
 
+            @include('partials.modal.change_profile_pic_modal')
+
             <!--====================  footer area ====================-->
             @include('partials.bfooter')
             <!--====================  End of footer area  ====================-->
