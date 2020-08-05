@@ -387,7 +387,7 @@ $total_interestReceivables += $each_interestReceivables;
                 <button id="download" class="btn btn-success mr-2">
                     <i class="far mr-2 fa-card">
                     </i>Download</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close-download-options">Close</button>
             </div>
         </div>
     </div>
@@ -426,9 +426,9 @@ $total_interestReceivables += $each_interestReceivables;
                 </a>
             </div>
         </div>
-        {{-- <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div> --}}
+        <div class="modal-footer" style="display: none">
+          <button type="button" class="btn btn-secondary"  data-dismiss="modal" id="close-light-box">Close</button>
+        </div>
 
     </div>
     <div class="text-center padup">
@@ -451,7 +451,6 @@ $total_interestReceivables += $each_interestReceivables;
 <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
 <script src="/backend/assets/build/js/intlTelInput.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-html5-1.6.2/datatables.min.js">
@@ -555,7 +554,7 @@ $total_interestReceivables += $each_interestReceivables;
 
 
     $("#first_download_button").click(function() {
-        $("#exampleModal").modal('hide');
+        $("#close-light-box").click();
     })
 
 
@@ -578,7 +577,7 @@ $total_interestReceivables += $each_interestReceivables;
 
         $(".version").val(version);
         $("#download-form").submit();
-        $("#downloadModal").modal('hide');
+        $("#close-download-options").click();
         // console.log();
     })
 </script>
