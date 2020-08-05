@@ -51,7 +51,7 @@
                 <i class="fas fa-times"></i>
             </div>
             <div class="mobile__nav__menu">
-                <img src="{{ ('/frontend/assets/images/fulllogo.png') }}" alt="" height="auto"
+                <img src="{{ ('/frontend/assets/images/fulllogo3.png') }}" alt="" height="auto"
                     style="max-width: 60%" /></a>
                 <div class="mobile__menu__container">
                     <ul class="mobile__menu__list">
