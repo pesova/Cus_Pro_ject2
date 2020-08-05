@@ -86,7 +86,7 @@
 
 <div class="col-xl-8">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-4"> <a href="{{ route('store.index') }}">
             <div class="card mini-stats-wid">
                 <div class="card-body">
                     <div class="media">
@@ -103,9 +103,10 @@
                     </div>
                 </div>
             </div>
+            </a>           
         </div>
-        <div class="col-md-4">
-            <div class="card mini-stats-wid">
+        <div class="col-md-4"> <a href="{{ route('assistants.index') }}">
+             <div class="card mini-stats-wid">
                 <div class="card-body">
                     <div class="media">
                         <div class="media-body">
@@ -121,8 +122,10 @@
                     </div>
                 </div>
             </div>
+        </a>
+           
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4"> <a href="{{ route('customer.index') }}">
             <div class="card mini-stats-wid">
                 <div class="card-body">
                     <div class="media">
@@ -139,8 +142,9 @@
                     </div>
                 </div>
             </div>
+            </a>            
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4"> <a href="{{ route('debtor.index') }}">
             <div class="card mini-stats-wid">
                 <div class="card-body">
                     <div class="media">
@@ -157,8 +161,9 @@
                     </div>
                 </div>
             </div>
+            </a>            
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4"> <a href="{{ route('transaction.index') }}">
             <div class="card mini-stats-wid">
                 <div class="card-body">
                     <div class="media">
@@ -175,8 +180,9 @@
                     </div>
                 </div>
             </div>
+            </a>            
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4"> <a href="{{ route('complaint.index') }}">
             <div class="card mini-stats-wid">
                 <div class="card-body">
                     <div class="media">
@@ -193,6 +199,7 @@
                     </div>
                 </div>
             </div>
+            </a>            
         </div>
     </div>
     <!-- end row -->
@@ -433,7 +440,7 @@
                 enabled: true
             },
             stroke: {
-                curve: 'straight'
+                curve: 'smooth'
             },
             title: {
                 text: '',
@@ -469,7 +476,7 @@
                 enabled: false
             },
             stroke: {
-                curve: 'straight'
+                curve: 'smooth'
             },
             title: {
                 text: '',

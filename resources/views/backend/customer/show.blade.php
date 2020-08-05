@@ -214,7 +214,7 @@ $currency = isset($customer->customer->currency) ?
                     <div class="card">
                         <div class="card-body pb-5">
                             <h6 class="card-title mb-4 float-left">Transactions</h6>
-                            <div class="btn-group float-right">
+                            {{-- <div class="btn-group float-right">
                                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
                                         aria-haspopup="true" aria-expanded="false">
                                     <i class='uil uil-file-alt mr-1'></i>Export
@@ -229,7 +229,7 @@ $currency = isset($customer->customer->currency) ?
                                         <span>PDF</span>
                                     </a>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="clear"></div>
                             <div id="customer-chart" class="apex-charts mt-5" style="min-height: 365px;"></div>
                         </div>
@@ -319,15 +319,15 @@ $currency = isset($customer->customer->currency) ?
             },
             toolbar: {
                 show: true,
+                offsetX: 0,
+                offsetY: 0,
                 tools: {
                     download: true,
-                    selection: true,
-                    zoom: true,
-                    zoomin: true,
-                    zoomout: true,
-                    pan: true,
-                },
-            },
+                }
+               
+            }
+            
+            
         };
 
         var chart = new ApexCharts(document.querySelector("#customer-chart"), options);
