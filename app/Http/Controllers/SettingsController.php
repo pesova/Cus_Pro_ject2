@@ -219,6 +219,8 @@ class SettingsController extends Controller
                     'new_password' => 'required|min:6|confirmed',
                 ]);
                 return $this->change_password($request);
+            } elseif ($control == 'finance_update') {
+                return $this->update_bank($request);
             } else {
                 return view('errors.404');
             }
@@ -240,6 +242,11 @@ class SettingsController extends Controller
             }
         }  
         }catch(RequestException $e){
+            // check if token expired
+            if ($e->getCode() == 401) {
+                Session::flash('message', 'session expired');
+                return redirect()->route('logout');
+            }
             if ($e->hasResponse()) {
                 $response = json_decode($e->getResponse()->getBody());
                 $request->session()->flash('alert-class', 'alert-danger');
