@@ -49,7 +49,6 @@
                                     <th>ID</th>
                                     <th>Name</th>
                                     <th>Tel</th>
-                                    {{-- <th>Amount Due</th> --}}
                                     <th>Store Name</th>
                                     <th>Actions</th>
                                 </tr>

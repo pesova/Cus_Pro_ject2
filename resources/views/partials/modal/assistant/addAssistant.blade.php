@@ -25,7 +25,7 @@
                         <label for="address" class="col-2 col-sm-3 col-form-label my-label">Email:</label>
                         <br>
                         <div class="col-10 col-sm-7">
-                            <input name="email" type="email" class="form-control" id="email" placeholder="Enter Address"
+                            <input name="email" type="email" class="form-control" id="email" required placeholder="Enter Address"
                                 value="{{old('email')}}">
                         </div>
                     </div>

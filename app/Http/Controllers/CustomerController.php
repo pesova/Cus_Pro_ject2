@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Rules\DoNotAddIndianCountryCode;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Cookie;
@@ -95,16 +96,17 @@ class CustomerController extends Controller
                 return redirect()->route('logout');
             }
 
+            
+            $response = [];
+            $stores = [];
+
             // get response to catch 4 errors
             if ($e->hasResponse()) {
                 $response = $e->getResponse()->getBody();
                 $result = json_decode($response);
-                Session::flash('message', $result->message);
-                $response = [];
-                $stores = [];
-                return view('backend.customer.index',  compact('response', 'stores'));
+                Session::flash('message', isset($result->message) ? $result->message : $result->Message);
             }
-            return view('backend.customer.show')->with('errors.500');
+            return view('backend.customer.index',  compact('response', 'stores'));
         } catch (Exception $e) {
             // token expired
             if ($e->getCode() == 401) {
@@ -142,7 +144,7 @@ class CustomerController extends Controller
         if ($request->isMethod('post')) {
             $request->validate([
                 'store_id' => 'required',
-                'phone_number' =>  ['required', 'min:6', 'max:16',  new NoZero, new DoNotPutCountryCode],
+                'phone_number' => ["required", "numeric", "digits_between:6,16", new DoNotAddIndianCountryCode, new DoNotPutCountryCode],
                 'name' => 'required | min:5 | max:30',
             ]);
 
@@ -338,7 +340,7 @@ class CustomerController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'phone_number' =>  ['required', 'min:6', 'max:16',  new NoZero, new DoNotPutCountryCode],
+            'phone_number' => ["required", "numeric", "digits_between:6,16", new DoNotAddIndianCountryCode, new DoNotPutCountryCode],
             'name' => 'required | min:5 | max:30',
         ]);
 

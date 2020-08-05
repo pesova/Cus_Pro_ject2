@@ -15,7 +15,69 @@
     <div class="content">
         <div class="container-fluid">
             @include('partials.alert.message')
+           
+            @if ( \Cookie::get('user_role') == "super_admin")
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <div class="card mini-stats-wid">
+                        <div class="card-body">
+                            <div class="media">
+                                <div class="media-body">
+                                    <p class="text-muted font-weight-medium">Complaints</p>
+                                    <h4 class="mb-0">{{count($responses->data)}}</h4>
+                                </div>
 
+                                <div class="mini-stat-icon avatar-sm align-self-center rounded-circle bg-primary">
+                                    <span class="avatar-title">
+                                        <i class="uil-notes font-size-14"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mini-stats-wid">
+                        <div class="card-body">
+                            <div class="media">
+                                <div class="media-body" data-toggle="tooltip" data-placement="bottom" title="Total amount includes interest">
+                                    <p class="text-muted font-weight-medium">Pending</p>
+                                    <h4 class="mb-0">
+                                        {{$responses->complaintCounts->pending}}
+                                    </h4>
+                                </div>
+
+                                <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
+                                    <span class="avatar-title">
+                                        <i class="uil-notes font-size-14"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mini-stats-wid">
+                        <div class="card-body">
+                            <div class="media">
+                                <div class="media-body">
+                                    <p class="text-muted font-weight-medium">Solved</p>
+                                    <h4 class="mb-0">{{$responses->complaintCounts->resolved}}</h4>
+                                </div>
+
+                                <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
+                                    <span class="avatar-title">
+                                        <i class="uil-notes font-size-14"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- end row -->
+    @endif
             <div class="card" style="margin-top: 10px;">
                 <div id="wrapper">
                     <div class="row">
@@ -46,7 +108,9 @@
                                         </thead>
                                         <tbody>
                                             @if ( \Cookie::get('user_role') == "super_admin")
+                                            
                                             @foreach($responses->data as $index => $response)
+                                            
                                             <tr>
                                                 <td>{{ $index + 1 }}</td>
                                                 <td><a href="{{ route('complaint.show', $response->_id) }}">{{ $response->_id}}
@@ -65,12 +129,23 @@
                                                 </td>
                                                 <td>{{ \Carbon\Carbon::parse($response->date)->diffForHumans() }}</td>
                                                 <td>
-                                                    <form action="{{ route('complaint.destroy', $response->_id) }}"
-                                                        method="POST">
-                                                        <input type="hidden" name="_method" value="DELETE">
-                                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                        <button class="btn btn-danger">Delete</button>
-                                                    </form>
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            Action
+                                                        </button>
+                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                            <a id="downloadLink" href="{{ route('complaint.edit', $response->_id) }}" class=" dropdown-item notify-item">
+                                                                <span>Update Status</span>
+                                                            </a>
+                                                            <form action="{{ route('complaint.destroy', $response->_id) }}" method="POST">
+                                                                <button id="downloadLink" class="dropdown-item notify-item">
+                                                                    <input type="hidden" name="_method" value="DELETE">
+                                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                                    <span>Delete</span>
+                                                            </form>
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                             </tr>
                                             @endforeach
@@ -145,12 +220,10 @@
 
         tour.addStep("step", {
             text: "Welcome to Complaints Page, here you can make your complaints",
-            buttons: [
-                {
-                    text: "Next",
-                    action: tour.next
-                }
-            ]
+            buttons: [{
+                text: "Next",
+                action: tour.next
+            }]
         });
 
         // tour.addStep("step2", {

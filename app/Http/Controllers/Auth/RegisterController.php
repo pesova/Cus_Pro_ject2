@@ -69,7 +69,7 @@ class RegisterController extends Controller
 
         $data = $request->validate([
             'phone_number' => ['required', 'min:6', 'max:16', new DoNotAddIndianCountryCode, new DoNotPutCountryCode],
-            'password' => ['required', 'min:6']
+            'password' => ['required', 'min:7']
         ]);
 
         try {
@@ -105,8 +105,25 @@ class RegisterController extends Controller
                         Cookie::queue('user_id', $res->data->user->_id);
                         Cookie::queue('expires', strtotime('+ 1 day'));
 
+                        $image_path =  $res->data->user->image->path;
+                        $image = explode('/', $image_path);
+                        $c = (count($image) - 1);
+
+                        $profile_picture = "";
+                        for ($j = 3; $j <= $c; $j++){
+                            $profile_picture .= $image[$j]. ' ';
+                        }
+                        Cookie::queue('profile_picture', $profile_picture);
+
                         // Set is first timer so intros can show
                         Cookie::queue('is_first_time_user' , true);
+
+                        // set finance details
+                        $userRole = $res->data->user->local->user_role;
+                    if (($userRole == 'store_admin') || ($userRole == 'store_assistant')) {
+                        $currency = isset($res->data->user->currencyPreference) ? $res->data->user->currencyPreference : 'NGN';
+                        Cookie::queue('currency', $currency);
+                    }
 
                         return redirect()->route('activate.index');
                     }

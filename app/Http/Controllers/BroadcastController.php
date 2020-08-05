@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Log;
@@ -31,41 +32,32 @@ class BroadcastController extends Controller
      */
     public function index(Request $request)
     {
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store';
-
-        $all_messages_url = env('API_URL', 'https://dev.api.customerpay.me') . '/message/get';
+     
+        $storeUrl = $this->host . '/store';
+        $all_messages_url = $this->host . '/message/get';
 
         try {
 
             $client = new Client;
             $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
 
-            $response = $client->request("GET", $url, $payload);
+            $response = $client->request("GET", $storeUrl, $payload);
             $all_messages_response = $client->request("GET", $all_messages_url, $payload);
 
             $statusCode = $response->getStatusCode();
-            $all_messages_statusCode = $all_messages_response->getStatusCode();
+            $stores_body = json_decode($response->getBody());
 
-            $body = $response->getBody();
-            $all_messages_body = $all_messages_response->getBody();
-
-            
-
-            $Stores = json_decode($body);
-            $broadcasts_body = json_decode($all_messages_body);
+            $boradcast_status_code = $all_messages_response->getStatusCode();
+            $broadcasts_body = json_decode($all_messages_response->getBody());
 
             $broadcasts = $broadcasts_body->data->broadcasts;
-            // return $broadcasts;
-            $data = [
-                'stores' => $Stores->data->stores,
-                'broadcasts' => $broadcasts
-            ];
+            $stores = $stores_body->data->stores;
 
             if ($statusCode == 200) {
-                // return $Stores->data->stores;
-                return view('backend.broadcasts.index')->with('data', $data);
+                return view('backend.broadcasts.index', compact('stores', 'broadcasts'));
             }
         } catch (RequestException $e) {
+            dd('here');
             Log::error('Catch error: Create Broadcast' . $e->getMessage());
             $request->session()->flash('message', 'Failed to fetch customer, please try again');
             return view('backend.broadcasts.index');
@@ -231,8 +223,117 @@ class BroadcastController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         //
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/message/deleteSingle/' . $id;
+        $client = new Client();
+        $payload = [
+            'headers' => [
+                'x-access-token' => Cookie::get('api_token')
+            ],
+            'form_params' => [
+                'current_user' => Cookie::get('user_id'),
+            ]
+        ];
+        try {
+            $delete = $client->delete($url, $payload);
+
+            if ($delete->getStatusCode() == 200 || $delete->getStatusCode() == 201) {
+                $request->session()->flash('alert-class', 'alert-success');
+                Session::flash('message', "broadcast successfully deleted");
+                return redirect()->route('broadcast.index');
+            } else if ($delete->getStatusCode() == 401) {
+                $request->session()->flash('alert-class', 'alert-danger');
+                Session::flash('message', "Your Session Has Expired, Please Login Again");
+                return redirect()->route('broadcast.index');
+            } else if ($delete->getStatusCode() == 500) {
+                $request->session()->flash('alert-class', 'alert-danger');
+                Session::flash('message', "A server error encountered, please try again later");
+                return redirect()->route('broadcast.index');
+            }
+        } catch (ClientException $e) {
+            $request->session()->flash('alert-class', 'alert-danger');
+            Session::flash('message', "A technical error occured, we are working to fix this.");
+            return redirect()->route('broadcast.index');
+        }
     }
+
+
+    public function resend(Request $request, $id){
+
+
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/message/getSingle/' . $id;
+        $client = new Client();
+        $payload = [
+            'headers' => [
+                'x-access-token' => Cookie::get('api_token')
+            ],
+            'form_params' => [
+                'current_user' => Cookie::get('user_id'),
+            ]
+        ];
+        try{
+            $response = $client->request("GET", $url, $payload);
+
+            $statusCode = $response->getStatusCode();
+            // return $statusCode;
+            if($statusCode == 200){
+                $body = $response->getBody();
+                $response_data = json_decode($body);
+                $broadcast = $response_data->data->broadcast;
+                $numbers = $broadcast->numbers;
+                $message = $broadcast->message;
+                $prepare_numbers = $this->prepareNumberForResend($numbers);
+                $payload = [
+                    'headers' => [
+                        'x-access-token' => Cookie::get('api_token')
+                    ],
+                    "json" => [
+                        "numbers" => $prepare_numbers,
+                        "message" => $message
+                    ]
+                ];
+                $url = env('API_URL', 'https://dev.api.customerpay.me') . "/message/send";
+                $req = $client->request('POST', $url, $payload);
+                $statusCode = $req->getStatusCode();
+                $response = json_decode($req->getBody()->getContents());
+
+                if ($statusCode == 200) {
+
+                    $request->session()->flash('alert-class', 'alert-success');
+                    Session::flash('message', "Message resend successful");
+                    return back();
+                }  else if ($statusCode == 401) {
+                    return redirect()->route('logout');
+                } else if ($statusCode == 500) {
+                    return view('errors.500');
+                } else {
+
+                    $message = isset($response->Message) ? $response->Message : $response->message;
+                    $request->session()->flash('alert-class', 'alert-danger');
+                    Session::flash('message', $response->message);
+                    return back();
+                }
+            }
+           
+            
+        } catch (ClientException $e) {
+            $request->session()->flash('alert-class', 'alert-danger');
+            Session::flash('message', "A technical error occured, we are working to fix this.");
+            return redirect()->route('broadcast.index');
+        }
+
+        
+    }
+
+    public function prepareNumberForResend($numbers){
+        $prepared_numbers = [];
+        foreach($numbers as $number){
+            $str = substr($number, 1);
+            array_push($prepared_numbers,$str);
+        }
+        return $prepared_numbers;
+    }
+
 }

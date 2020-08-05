@@ -5,10 +5,17 @@
 @stop
 @section('content')
 
+@php
+$currency = isset($transaction->store_admin_ref->currencyPreference) ?
+            $transaction->store_admin_ref->currencyPreference : null;
+@endphp
 <div class="account-pages my-2">
     <div class="container-fluid">
         <div class="row-justify-content-center">
             @include('partials.alert.message')
+            <div id="transaction_js">
+                {{-- These are also found in the alert.message partial. I had to repeat it for the sake of JS see showAlertMessage() below--}}
+            </div>
             <div class="row">
                 <div class="col">
                     <div class="card">
@@ -19,10 +26,12 @@
                                         {{ \Carbon\Carbon::parse($transaction->createdAt)->diffForhumans() }}</h6>
                                 </div>
                                 <div class="col-md-8 row text-center">
+                                    @if($transaction->status != true)
                                     <a href="" data-toggle="modal" data-target="#sendReminderModal"
                                         class="col-md-3 offset-1 mt-1 btn btn-sm btn-warning">
                                         Send Debt Reminder <i data-feather="send"></i>
                                     </a>
+                                    @endif
                                     @if(Cookie::get('user_role') == 'store_admin')
                                     <a href="#" class="col-md-3 offset-1 mt-1 btn btn-sm btn-primary"
                                         data-toggle="modal" data-target="#editTransactionModal">
@@ -100,15 +109,15 @@
 
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-lg-6">
+                                    <div class="col-md-6">
                                         <h6 class="mt-0 ">Description</h6>
                                         <textarea name="" readonly id="" cols="auto" rows="3" sty
                                             class="form-control w-100 flex-1">{{ $transaction->description }}</textarea>
                                     </div>
 
-                                    <div class="col-lg-6">
+                                    <div class="col-md-6">
                                         <div class="row justify-content-between">
-                                            <div class="list-group col-md-4">
+                                            <div class="list-group col-md-7">
                                                 <h6 class="">Financial Details</h6>
 
                                                 <div class="table-responsive">
@@ -116,7 +125,7 @@
                                                         <tbody>
                                                             <tr>
                                                                 <th scope="row">Amount</th>
-                                                                <td colspan="2">{{ $transaction->amount }}</td>
+                                                                <td colspan="2">{{ format_money($transaction->amount, $currency) }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <th scope="row">Interest</th>
@@ -125,7 +134,7 @@
                                                             <tr class="font-weight-bolder">
                                                                 <th scope="row">Total Amount</th>
                                                                 <td colspan="2">
-                                                                    {{ (($transaction->interest / 100) * $transaction->amount) + $transaction->amount }}
+                                                                    {{ format_money($transaction->total_amount) }}
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -133,7 +142,8 @@
                                                 </div>
 
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-5 row">
+                                            <div class="col-md-12">
                                                 <h6 class="">Store Name:</h6>
                                                 <p>
                                                     @if(Cookie::get('user_role') != 'store_assistant')
@@ -147,7 +157,7 @@
                                                 </p>
                                             </div>
 
-                                            <div class="col-md-4">
+                                            <div class="col-md-12">
                                                 <h6 class="">Transaction Status:
                                                 </h6>
                                                 <label class="switch">
@@ -173,7 +183,7 @@
                                                 </div>
                                             </div>
                                         </div>
-
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -196,7 +206,9 @@
                                     <th>Message</th>
                                     <th>Status</th>
                                     <th>Date Sent</th>
+                                    @if($transaction->status != true)
                                     <th>Actions</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -208,6 +220,7 @@
                                     </td>
                                     <td><span class="badge badge-success">{{ $debt->status }}</span></td>
                                     <td>{{ \Carbon\Carbon::parse($debt->createdAt)->diffForhumans() }}</td>
+                                    @if($transaction->status != true)
                                     <td>
                                         <a href="" data-toggle="modal"
                                             onclick="return previousMessage('{{ $debt->message }}')"
@@ -215,6 +228,7 @@
                                             Resend
                                         </a>
                                     </td>
+                                    @endif
                                 </tr>
                                 {{-- Modal for resend reminder --}}
                                 @endforeach
@@ -280,19 +294,38 @@
                 if (response.success != true) {
                     $(this).prop("checked", !this.checked);
                     $('#error').show();
-                    alert("Oops! something went wrong.");
+                    //alert("Oops! something went wrong.");
+                    showAlertMessage('danger', 'Oops! something went wrong');
                 }
-                alert("Operation Successful.");
+                //alert("Operation Successful.");
+                showAlertMessage('success', 'Operation successful');
                 $(this).removeAttr("disabled")
                 $('#statusSpiner').addClass('d-none');
             }).fail(e => {
                 $(this).removeAttr("disabled")
                 $(this).prop("checked", !this.checked);
                 $('#statusSpiner').addClass('d-none');
-                alert("Oops! something went wrong.");
+               // alert("Oops! something went wrong.");
+                showAlertMessage('danger', 'Oops! something went wrong');
             });
         });
 
+        function removeAlertMessage() {
+            setTimeout(function () {
+                $(".alert").remove();
+            }, 2000);
+        }
+
+        function showAlertMessage(type, message) {
+            const alertMessage = ' <div id="transaction_js_alert" class="alert alert-' + type + ' show" role="alert">\n' +
+                '                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+                '                        <span aria-hidden="true" class="">&times;</span>\n' +
+                '                    </button>\n' +
+                '                    <strong class="">' + message + '</strong>\n' +
+                '                </div>';
+            $("#transaction_js").html(alertMessage);
+            removeAlertMessage();
+        }
     });
 
 </script>
@@ -307,7 +340,7 @@
     // pagination for debts
     $(() => {
         $('#debtReminders').DataTable({
-         
+
         });
     });
 

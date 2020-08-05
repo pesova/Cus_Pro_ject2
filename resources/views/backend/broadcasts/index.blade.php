@@ -3,7 +3,6 @@
 @section("custom_css")
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css" />
 
-
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
@@ -19,17 +18,11 @@
 </style>
 @stop
 
-@php
-    $response = $data['stores'];
-    $broadcasts = $data['broadcasts'];
-@endphp
-
 @section('content')
-@include('partials.alert.message')
 <div class="container-fluid">
 
     <div class="row page-title align-items-center">
-        <div class="col-sm-4 col-xl-6">
+        <div class="col-sm-4 col-xl-6" >
             <h4 class="mb-1 mt-0">Compose</h4>
         </div>
     </div>
@@ -38,55 +31,66 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <h3 class="card-title mb-4 float-sm-left">Compose Message</h3>
+                    <h3 class="card-title mb-4">Compose Message</h3>
                     @include('partials.alert.message')
-
-                    <div class="row col-12">
-                        <form action="{{ route('broadcast.store') }}" method="post" class="col-12">
-                            @csrf
-                            <div class="form-group">
-                                <label>Store</label>
-                                <select class="form-control col-12" name="store" id="store" required>
-                                    <option value="" selected disabled>None selected</option>
-                                    @foreach ($response as $index => $store )
-                                    <option value="{{$store->_id}}">{{$store->store_name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                             <div class="form-group">
-                                <label>Send To</label>
-                                <select class="form-control col-12" name="send_to" id="send_to" required>
-                                    <option value="1"> All Customers</option>
-                                    <option value="2" selected> Selected Customers</option>
-                                </select>
-                            </div>
-                            <div class="form-group" id='customersGroup'>
-                                <label>Customer(s)</label>
-                                <select class="form-control col-12 jstags" multiple name="customer[]" id="customerNumbers">
-
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Message</label>
-                                <select class="form-control col-12" name="message" id="msgselect" required>
-                                    <option value="" selected disabled>None selected</option>
-                                    <option value="Happy new year!">Happy new year!</option>
-                                    <option value="We are now open!">We are now open!</option>
-                                    <option value="New stocks just arrived!">New stocks just arrived!</option>
-                                    <option value="Happy new Month">Happy new Month</option>
-                                    <option value="Thank you for shopping with">Thank you for shopping with US!</option>
-                                    <option value="other">Custom Message</option>
-                                </select>
-                            </div>
-                            <div class="form-group" id="txtarea">
-                                <label for="exampleFormControlTextarea1">Your Custom Message</label>
-                                <textarea class="form-control" name="txtmessage" rows="4"></textarea>
-                            </div>
+                    
+                    
+                    
+                    <div class="d-flex justify-content-center">
+                        <div class="row col-lg-7 col-md-12 ">
+                            <form action="{{ route('broadcast.store') }}" method="post" class="col-12">
+                                @csrf
+                                <div class="form-group">
+                                    <label>Store</label>
+                                    <select class="form-control col-12" name="store" id="store" required>
+                                        <option value="" selected disabled>None selected</option>
+                                        @if ( \Cookie::get('user_role') == "super_admin")
+                                        @foreach ($stores as $index => $store)
+                                            <option value="{{$store[0]->_id}}">{{$store[0]->store_name}}</option>
+                                        @endforeach
+                                        @else
+                                        @foreach ($stores as $index => $store)
+                                            <option value="{{$store->_id}}">{{$store->store_name}}</option>
+                                        @endforeach
+                                        @endif
+                                        
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Send To</label>
+                                    <select class="form-control col-12" name="send_to" id="send_to" required>
+                                        <option value="1"> All Customers</option>
+                                        <option value="2" selected> Selected Customers</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" id='customersGroup'>
+                                    <label>Customer(s)</label>
+                                    <select class="form-control col-12 jstags" multiple name="customer[]" id="customerNumbers">
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Message</label>
+                                    <select class="form-control col-12" name="message" id="msgselect" required>
+                                        <option value="" selected disabled>None selected</option>
+                                        <option value="Happy new year!">Happy new year!</option>
+                                        <option value="We are now open!">We are now open!</option>
+                                        <option value="New stocks just arrived!">New stocks just arrived!</option>
+                                        <option value="Happy new Month">Happy new Month</option>
+                                        <option value="Thank you for shopping with">Thank you for shopping with US!</option>
+                                        <option value="other">Custom Message</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" id="txtarea">
+                                    <label for="exampleFormControlTextarea1">Your Custom Message</label>
+                                    <textarea class="form-control" name="txtmessage" rows="4"></textarea>
+                                </div>
+                                <button class="btn btn-primary" type="submit">Send &nbsp;<i class="fa fa-paper-plane my-float"></i>
+                                </button>
+                            
+                        </form>
+                        </div>
                     </div>
-
-                    <button class="btn btn-primary" type="submit">Send &nbsp;<i class="fa fa-paper-plane my-float"></i>
-                    </button>
-                    </form>
+                  
                 </div>
             </div>
         </div>
@@ -144,9 +148,42 @@
                                 {{\Carbon\Carbon::parse($broadcast->date)->diffForhumans()}}
                                 </td>
                                 <td>
-                                    <a href="" data-toggle="modal" data-target="#ResendReminderModal" class="btn btn-primary btn-sm mt-2">
+                                    <div class="btn-group mt-2 mr-1">
+                                        <button type="button" class="btn btn-primary dropdown-toggle"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Actions<i class="icon"><span data-feather="chevron-down"></span></i>
+                                        </button>
+                                    <div class="dropdown-menu dropdown-menu-right">
+
+
+                                        <form class="form-horizontal" method="POST"
+                                        action="{{ route('resend_broadcast', $broadcast->_id) }}" id="resend-{{$broadcast->_id}}">
+                                           @csrf
+                                        </form>
+                                    <a href="#" 
+                                    data-broadcast_id="{{$broadcast->_id}}"
+                                    onclick="resendBroadcast(this)"
+                                    class="dropdown-item" data-toggle="modal" 
+                                    data-target="#ResendReminderModal">
                                         Resend
                                     </a>
+
+                                    <a href="#" 
+                                    
+                                    onclick=" openModal(this)"
+                                    class="dropdown-item" data-toggle="modal" 
+                                    data-broadcast_id="{{$broadcast->_id}}"
+                                    data-toggle="modal"
+                                    data-target="#deleteModal">
+                                        Delete
+                                    </a>
+                                     </div>
+                                     <form class="form-horizontal" method="POST"
+                                    action="{{ route('broadcast.destroy', $broadcast->_id) }}" id="delete-{{$broadcast->_id}}">
+                                   
+                                       @csrf
+                                       @method('DELETE')
+                                    </form>
                                 </td>
                             </tr> 
                         @endforeach
@@ -160,16 +197,53 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1"
+    role="dialog"
+    aria-labelledby="storeDeleteLabel" aria-hidden="true">
+   <div class="modal-dialog" role="document">
+       <div class="modal-content">
+           <div class="modal-header">
+               <h5 class="modal-title" id="storeDeleteLabel">Delete Broadcast
+               </h5>
+               <button type="button" class="close" data-dismiss="modal"
+                       aria-label="Close">
+                   <span aria-hidden="true">&times;</span>
+               </button>
+           </div>
+               <div class="modal-body">
+                   <h6>Are you sure you want to
+                       delete <span></span></h6>
+               </div>
+               <div class="modal-footer">
+                   <div class="">
+                       <button type="submit" class="btn btn-primary mr-3"
+                               data-dismiss="modal"><i
+                                   data-feather="x"></i>
+                           Close
+                       </button>
+                       <button 
+                       onclick="deleteBroadcast()"
+                        class="btn btn-danger"><i
+                                   data-feather="trash-2"></i> Delete
+                       </button>
+                   </div>
+               </div>
+       </div>
+   </div>
+</div>
 @endsection
 
 @section("javascript")
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-html5-1.6.2/datatables.min.js">
 </script>
-<script src="https://code.jquery.com/jquery-1.8.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
 <!-- App js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+
 <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+
 <script>
     jQuery(function($) {
         const token = "{{Cookie::get('api_token')}}"
@@ -235,6 +309,22 @@
             $('#customerNumbers').attr("required", false);
         }
     });
+
+
+    let broadcast_id;
+    function openModal(element){
+        broadcast_id = element.dataset.broadcast_id;
+        // $('#deleteModal').modal('show');
+    }
+
+    function resendBroadcast(element){
+        broadcast_id = element.dataset.broadcast_id;
+        $(`#resend-${broadcast_id}`).submit();
+    }
+
+    function deleteBroadcast(){
+        $(`#delete-${broadcast_id}`).submit();
+    }
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 <script>
@@ -256,7 +346,7 @@
             });
 
             tour.addStep("step", {
-                text: "Welcome to Customer Page, here you can record and track your customers",
+                text: "Welcome to Broadcast Page, here you can send messages to your customers",
                 buttons: [{
                     text: "Next",
                     action: tour.next

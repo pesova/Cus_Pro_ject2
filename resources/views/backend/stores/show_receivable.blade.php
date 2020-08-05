@@ -13,6 +13,8 @@
 @php
 $storeData = $response['storeData'];
 $transactions = $response['transactions'];
+$currency = isset($storeData->store_admin_ref->currencyPreference) ?
+                $storeData->store_admin_ref->currencyPreference : null;
 @endphp
 
 @section('content')
@@ -59,7 +61,7 @@ $transactions = $response['transactions'];
                                             <th>{{$customers->name}}<span class="co-name"></span>
                                                 <br> <span class="font-light">{{$customers->phone_number}}</span>
                                             </th>
-                                            <td>{{$transaction->amount}}</td>
+                                            <td>{{ format_money($transaction->amount, $currency) }}</td>
                                             <td>{{$transaction->type}}</td>
                                             <td>{{ \Carbon\Carbon::parse($transaction->createdAt)->diffForhumans() }}</td>
                                         </tr> 
