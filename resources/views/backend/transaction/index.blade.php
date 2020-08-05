@@ -28,7 +28,7 @@
 
             <div class="card mt-0">
                 <div class="card-header">
-                    <div class="btn-group dropdown">
+                    <div class="btn-group dropdown float-left">
                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
                             <i class='uil uil-file-alt mr-1'></i>Export
