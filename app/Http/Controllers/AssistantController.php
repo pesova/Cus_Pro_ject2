@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Rules\DoNotAddIndianCountryCode;
 use App\Rules\DoNotPutCountryCode;
 use App\Rules\NoZero;
 use Exception;
@@ -12,7 +13,6 @@ use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Cookie;
-use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 
 class AssistantController extends Controller
 {
@@ -70,7 +70,7 @@ class AssistantController extends Controller
             if ($statusCode == 500) {
                 return view('errors.500');
             }
-        } catch (\RequestException $e) {
+        } catch (RequestException $e) {
             $statusCode = $e->getResponse()->getStatusCode();
             $data = json_decode($e->getResponse()->getBody()->getContents());
             if ($statusCode == 401) { //401 is error code for invalid token
@@ -78,7 +78,7 @@ class AssistantController extends Controller
             }
 
             return view('errors.500');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             if ($e->getCode() == 401) {
                 return redirect()->route('logout')->withErrors("Please Login Again");
             }
@@ -115,7 +115,7 @@ class AssistantController extends Controller
             if ($statusCode == 500) {
                 return view('errors.500');
             }
-        } catch (\RequestException $e) {
+        } catch (RequestException $e) {
             $statusCode = $e->getResponse()->getStatusCode();
             $data = json_decode($e->getResponse()->getBody()->getContents());
             if ($statusCode == 401) { //401 is error code for invalid token
@@ -123,7 +123,7 @@ class AssistantController extends Controller
             }
 
             return view('errors.500');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             if ($e->getCode() == 401) {
                 return redirect()->route('logout')->withErrors("Please Login Again");
             }
@@ -147,7 +147,7 @@ class AssistantController extends Controller
 
         $request->validate([
             'name' => "required|min:3",
-            'phone_number' => ["required", new NoZero, new DoNotPutCountryCode],
+            'phone_number' => ["required", "numeric", "digits_between:6,16", new DoNotAddIndianCountryCode, new DoNotPutCountryCode],
             'store_id' => "required",
             'email' => "required|email",
             'password' => "required"
@@ -333,10 +333,10 @@ class AssistantController extends Controller
     {
 
         $url = env('API_URL', 'https://dev.api.customerpay.me') . '/assistant/update/' . $id;
-// dd($request->all());
+
         $request->validate([
             'name' => "required|min:3",
-            'phone_number' => "required",
+            'phone_number' => ["required", "numeric", "digits_between:6,16", new DoNotAddIndianCountryCode, new DoNotPutCountryCode],
             'email' => "required|email",
             'store_id' => "required"
         ]);

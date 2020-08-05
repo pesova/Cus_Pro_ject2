@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Rules\DoNotAddIndianCountryCode;
 use App\User;
 use Exception;
 use App\Rules\DoNotPutCountryCode;
@@ -149,7 +150,7 @@ class StoreController extends Controller
         if ($request->isMethod('post')) {
             $request->validate([
                 'store_name' => 'required|min:2|max:25',
-                'phone_number' => ["required", new NoZero, new DoNotPutCountryCode],
+                'phone_number' => ["required", "numeric", "digits_between:6,16", new DoNotAddIndianCountryCode, new DoNotPutCountryCode],
                 'shop_address' =>  'required|min:5|max:100',
                 'tagline' =>  'required|min:4|max:50'
             ]);
@@ -340,8 +341,8 @@ class StoreController extends Controller
             'shop_address' =>  'required',
             'email' => "required|email",
             'tagline' =>  'required',
-            'phone_number' => ["required", new NoZero, new DoNotPutCountryCode]
-        ]);
+            'phone_number' => ["required", "numeric", "digits_between:6,16", new DoNotAddIndianCountryCode, new DoNotPutCountryCode],
+            ]);
 
         try {
 
