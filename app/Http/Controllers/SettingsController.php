@@ -91,49 +91,8 @@ class SettingsController extends Controller
     public function update(Request $request)
     {
         if(is_store_assistant()){
-            if ($request->all()) {
-                $control = $request->input('control', '');
-            if ($control == 'profile_update') {
-
-                $url = env('API_URL', 'https://dev.api.customerpay.me') . '/assistant/update';
-                $client = new Client();
-                $data = [
-                    "name" => $request->input('name'),
-                    "email" => $request->input('email'),
-                ];
-                // make an api call to update the user_details
-                $this->headers = ['headers' => ['x-access-token' => Cookie::get('api_token')], 'form_params' => $data];
-                $response = $client->request('PUT', $url, $this->headers);
-            } elseif ($control == 'password_change') {
-                $request->validate([
-                    'current_password' => 'required|min:6',
-                    'new_password' => 'required|min:6|confirmed',
-                ]);
-                return $this->assistant_change_password($request);
-            } elseif ($control == 'finance_update') {
-                return $this->update_bank($request);
-            } else {
-                return view('errors.404');
-            }
-            if ($response->getStatusCode() == 201) {
-                $request->session()->flash('alert-class', 'alert-success');
-                if ($control != 'password_change') {
-                    $user_detail_res = json_decode($response->getBody(), true);
-                    $filtered_user_detail = $user_detail_res['data']['store_assistant'];
-                    Cookie::queue('phone_number', $filtered_user_detail['phone_number']);
-                    Cookie::queue('email', $filtered_user_detail['email']);
-                    Cookie::queue('name', $filtered_user_detail['name']);
-                    $request->session()->flash('message', "Profile details updated successfully");
-                    return back();
-                }
-                return back();
-            }
-            else {
-                return redirect()->route('setting');
-            }
-        }    
+            return $this->update_store_assistant($request);
         } 
-        
         else{
         try {
             // check if all fields are available
@@ -238,49 +197,47 @@ class SettingsController extends Controller
             return view('errors.500');
         }
     }
+    
+    public function update_store_assistant(Request $request){
+        if ($request->all()) {
+            $control = $request->input('control', '');
+        if ($control == 'profile_update') {
 
-    public function assistant_change_password(Request $request)
-    {
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store-admin/update/password';
-
-        try {
+            $url = env('API_URL', 'https://dev.api.customerpay.me') . '/assistant/update';
             $client = new Client();
             $data = [
-                "old_password" => $request->input('current_password'),
-                "new_password" => $request->input('new_password'),
-                "confirm_password" => $request->input('new_password_confirmation')
+                "name" => $request->input('name'),
+                "email" => $request->input('email'),
             ];
-
-            $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')], 'form_params' => $data];
-            $response = $client->request('POST', $url, $payload);
-            if ($response->getStatusCode() == 200) {
-                $request->session()->flash('alert-class', "alert-success");
-                $request->session()->flash('message', "password Updated successfully");
-            }
-            return redirect()->route('setting');
-        } catch (RequestException $e) {
-            if ($e->getCode() == 401) {
-                Session::flash('message', 'session expired');
-                return redirect()->route('logout');
-            }
-            if ($e->hasResponse()) {
-                $response = json_decode($e->getResponse()->getBody());
-                $request->session()->flash('alert-class', 'alert-danger');
-                $request->session()->flash('message', 'previous password  is incorrect');
-            }
-            return redirect()->route('setting');
-        } catch (Exception $e) {
-            if ($e->getCode() == 401) {
-                Session::flash('message', 'session expired');
-                return redirect()->route('logout');
-            }
-            if ($e->getCode() == 401) {
-                Session::flash('message', 'session expired');
-                return redirect()->route('logout');
-            }
-            Log::error('Catch error: settingsController - ' . $e->getMessage());
-            return view('errors.500');
+            // make an api call to update the user_details
+            $this->headers = ['headers' => ['x-access-token' => Cookie::get('api_token')], 'form_params' => $data];
+            $response = $client->request('PUT', $url, $this->headers);
+        } elseif ($control == 'password_change') {
+            $request->validate([
+                'current_password' => 'required|min:6',
+                'new_password' => 'required|min:6|confirmed',
+            ]);
+            return $this->change_password($request);
+        } else {
+            return view('errors.404');
         }
+        if ($response->getStatusCode() == 201) {
+            $request->session()->flash('alert-class', 'alert-success');
+            if ($control != 'password_change') {
+                $user_detail_res = json_decode($response->getBody(), true);
+                $filtered_user_detail = $user_detail_res['data']['store_assistant'];
+                Cookie::queue('phone_number', $filtered_user_detail['phone_number']);
+                Cookie::queue('email', $filtered_user_detail['email']);
+                Cookie::queue('name', $filtered_user_detail['name']);
+                $request->session()->flash('message', "Profile details updated successfully");
+                return back();
+            }
+            return back();
+        }
+        else {
+            return redirect()->route('setting');
+        }
+    }  
     }
 
     public function upload_image(Request $request)
