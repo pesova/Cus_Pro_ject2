@@ -73,7 +73,7 @@
 
                 <div class="row">
 
-                    <div class="col-xl-6">
+                    <div class="col-md-4">
                         <div class="card">
                             <div class="card-body">
                                 <h6 class="mt-0 header-title">Subject</h6>
@@ -86,7 +86,7 @@
                         </div>
                     </div>
 
-                    <div class="col-xl-6">
+                    <div class="col-md-8">
                         <div class="card">
                             <div class="card-body pt-2">
                                 <div class="dropdown mt-2 float-right">
@@ -130,6 +130,7 @@
     </div>
 @endsection
 
+@if(!is_super_admin())
 @section('javascript')
     <script>
         $().ready(function () {
@@ -150,11 +151,10 @@
                         $('#loading_card').remove();
                         $('#no_feedback').remove();
 
-                        if(result.data.feedbacks.length != 0){
+                        var feedback_history_array = result.data.feedbacks;
+                        var messages_gotten = '';
 
-                            var feedback_history_array = result.data.feedbacks;
-
-                            var messages_gotten;
+                        if(feedback_history_array.length != 0){
 
                             for (var i = 0; i < feedback_history_array.length; i++) {
                                 if ( feedback_history_array[i].userRole != "super_admin" ){
@@ -166,7 +166,7 @@
                                             </div> --}}
                                             <div class="conversation-text">
                                                 <div class="ctext-wrap">
-                                                    <i>You</i>
+                                                    <h6>`+ feedback_history_array[i].userName +` (You)</h6>
                                                     <p>
                                                         `+ feedback_history_array[i].messages +`
                                                     </p>
@@ -183,7 +183,7 @@
                                             </div> --}}
                                             <div class="conversation-text">
                                                 <div class="ctext-wrap">
-                                                    <i>Super Admin</i>
+                                                    <h6>Support Team</h6>
                                                     <p>
                                                         `+ feedback_history_array[i].messages +`
                                                     </p>
@@ -249,3 +249,123 @@
         }
     </script>
 @endsection
+@else 
+@section('javascript')
+    <script>
+        $().ready(function () {
+            get_feedback();
+        });
+
+        function get_feedback()
+        {
+            window.setTimeout(function () {
+                $.ajax({
+                    url: "{{ env('API_URL', 'https://dev.api.customerpay.me') }}/complaint/feedbacks/{{ $response->data->complaint->_id }}",
+                    type: "GET",
+                    headers: {
+                        "x-access-token" : "{{ \Cookie::get('api_token') }}",
+                    },
+                    success: function (result) {
+
+                        $('#loading_card').remove();
+                        $('#no_feedback').remove();
+
+                        var feedback_history_array = result.data.feedbacks;
+                        var messages_gotten = '';
+
+                        if(feedback_history_array.length != 0){
+
+                            for (var i = 0; i < feedback_history_array.length; i++) {
+                                if ( feedback_history_array[i].userRole != "super_admin" ){
+                                    messages_gotten += `
+                                        <li class="clearfix">
+                                            {{-- <div class="chat-avatar">
+                                                <img src="/backend/assets/images/users/default.png">
+                                                <i>10:01</i>
+                                            </div> --}}
+                                            <div class="conversation-text">
+                                                <div class="ctext-wrap">
+                                                    <h6>`+ feedback_history_array[i].userName +`</h6>
+                                                    <p>
+                                                        `+ feedback_history_array[i].messages +`
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    `;
+                                } else {
+                                    messages_gotten += `
+                                        <li class="clearfix odd">
+                                            {{-- <div class="chat-avatar">
+                                                <img src="/backend/assets/images/users/default.png">
+                                                <i>10:01</i>
+                                            </div> --}}
+                                            <div class="conversation-text">
+                                                <div class="ctext-wrap">
+                                                    <h6>Support Team</h6>
+                                                    <p>
+                                                        `+ feedback_history_array[i].messages +`
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    `;
+                                }
+                            }
+
+                            $("#chat_message_body").html(messages_gotten);
+
+                        } else {
+
+                            $("#chat_message_body").html(`
+                                <div class="card-body p-5 card" id="no_feedback">
+                                    <h4 class="text-center">No feedbacks yet ...</h4>
+                                </div>
+                            `);
+                        }
+                        // Get Latest Messages
+                        get_feedback();
+                    },
+                    error: function () {
+
+                        // Retry getting latest messages
+                        get_feedback();
+                    }});
+            }, 3000);
+        }
+
+        function add_feedback()
+        {
+            if( $('#chat_msg_send').val().trim() != "" ){
+                var feedback_msg = $('#chat_msg_send').val().trim();
+                $.ajax({
+                    url: "{{ env('API_URL', 'https://dev.api.customerpay.me') }}/complaint/feedback/{{ $response->data->complaint->_id }}",
+                    type: "post",
+                    headers: {
+                        "x-access-token" : "{{ \Cookie::get('api_token') }}",
+                    },
+                    data: {
+                        messages: feedback_msg
+                    },
+                    success: function (result) {
+
+                        $('#loading_card').remove();
+                        $('#no_feedback').remove();
+                        $('#chat_msg_send').val("");
+                        $(".invalid-feedback").hide()
+                    },
+                    error: function () {
+
+                        $(".invalid-feedback").show();
+                        $(".invalid-feedback").html('Error sending message. Check Internet and retry.');
+                    }
+                });
+            } else {
+
+                $(".invalid-feedback").show();
+                $(".invalid-feedback").html('Please enter your messsage');
+            }
+        }
+    </script>
+@endsection
+@endif

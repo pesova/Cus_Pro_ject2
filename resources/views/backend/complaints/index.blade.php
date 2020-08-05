@@ -16,7 +16,7 @@
         <div class="container-fluid">
             @include('partials.alert.message')
            
-            @if ( \Cookie::get('user_role') == "super_admin")
+            @if (is_super_admin())
             <div class="row mt-4">
                 <div class="col-md-4">
                     <div class="card mini-stats-wid">
@@ -101,13 +101,13 @@
                                                 <th>Subject</th>
                                                 <th>Status</th>
                                                 <th style="min-width: 90px;">Date</th>
-                                                @if ( \Cookie::get('user_role') == "super_admin")
+                                                @if (is_super_admin())
                                                 <th>Action</th>
                                                 @endif
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @if ( \Cookie::get('user_role') == "super_admin")
+                                            @if (is_super_admin())
                                             
                                             @foreach($responses->data as $index => $response)
                                             
