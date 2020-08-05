@@ -59,6 +59,7 @@
                                 <th>Due</th>
                                 <th>Created</th>
                                 <th>Status</th>
+                                <th style="display: none">Status</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
@@ -127,23 +128,27 @@
                                              class="spinner-border spinner-border-sm text-primary d-none" role="status">
                                             <span class="sr-only">Loading...</span>
                                         </div>
-                                    </td>
-                                    <td>
-                                        @if($transaction->customer_ref_id != null)
-                                            @if(is_super_admin())
-                                                <a class="btn btn-info btn-small py-1 px-2"
-                                                   href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id->_id.'-' . $transaction->customer_ref_id->_id) }}">
-                                                    View More
-                                                </a>
-                                            @else
-                                                <a class="btn btn-info btn-small py-1 px-2"
-                                                   href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref->_id.'-'.$transaction->customer_ref->_id) }}">
-                                                    View More
-                                                </a>
-                                            @endif
-                                        @endif
-                                    </td>
-                                </tr>
+                                    </label>
+                                    <div id="statusSpiner" class="spinner-border spinner-border-sm text-primary d-none" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </td>
+                                <td style="display: none">{{ $transaction->status == true ? 'paid' : 'pending' }}</td>
+
+                                <td>
+                                    @if($transaction->customer_ref_id != null)
+                                    @if(is_super_admin())
+                                    <a class="btn btn-info btn-small py-1 px-2" href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id->_id.'-' . $transaction->customer_ref_id->_id) }}">
+                                        View More
+                                    </a>
+                                    @else
+                                    <a class="btn btn-info btn-small py-1 px-2" href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref->_id.'-'.$transaction->customer_ref->_id) }}">
+                                        View More
+                                    </a>
+                                    @endif
+                                    @endif
+                                </td>
+                            </tr>
                             @endforeach
                             </tbody>
                         </table>
@@ -169,32 +174,31 @@
     <script src="{{ asset('/backend/assets/js/textCounter.js')}}"></script>
     <script src="{{ asset('/backend/assets/js/toggleStatus.js')}}"></script>
 
-    <script>
-        $(document).ready(function () {
-            var export_filename = 'MycustomerTransactions';
-            $('#transactionTable').DataTable({
-                dom: 'frtipB'
-                , buttons: [{
-                    extend: 'excel'
-                    , className: 'd-none'
-                    , title: export_filename
-                    ,
-                }, {
-                    extend: 'pdf'
-                    , className: 'd-none'
-                    , title: export_filename
-                    , extension: '.pdf'
-                    , exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6]
-                    }
-                }]
-            });
-            $("#ExportReporttoExcel").on("click", function () {
-                $('.buttons-excel').trigger('click');
-            });
-            $("#ExportReporttoPdf").on("click", function () {
-                $('.buttons-pdf').trigger('click');
-            });
+
+<script>
+    $(document).ready(function() {
+        var export_filename = 'MycustomerTransactions';
+        $('#transactionTable').DataTable({
+            dom: 'frtipB'
+            , buttons: [{
+                extend: 'excel'
+                , className: 'd-none'
+                , title: export_filename
+            , }, {
+                extend: 'pdf'
+                , className: 'd-none'
+                , title: export_filename
+                , extension: '.pdf'
+                , exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6,9]
+                }
+            }]
+        });
+        $("#ExportReporttoExcel").on("click", function() {
+            $('.buttons-excel').trigger('click');
+        });
+        $("#ExportReporttoPdf").on("click", function() {
+            $('.buttons-pdf').trigger('click');
         });
 
     </script>

@@ -76,7 +76,7 @@
     <script src="/backend/assets/libs/flatpickr/flatpickr.min.js"></script>
     
     <!-- page js -->
-    <script src="/backend/assets/js/pages/dashboard.init.js"></script>
+    {{-- <script src="/backend/assets/js/pages/dashboard.init.js"></script> --}}
     <script src="/backend/assets/js/pages/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/shepherd/2.0.0-beta.1/js/shepherd.js"></script>
     
