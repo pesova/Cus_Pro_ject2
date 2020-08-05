@@ -109,7 +109,7 @@ class SettingsController extends Controller
                     'current_password' => 'required|min:6',
                     'new_password' => 'required|min:6|confirmed',
                 ]);
-                return $this->change_password($request);
+                return $this->assistant_change_password($request);
             } elseif ($control == 'finance_update') {
                 return $this->update_bank($request);
             } else {
@@ -196,6 +196,50 @@ class SettingsController extends Controller
 }
 
     public function change_password(Request $request)
+    {
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store-admin/update/password';
+
+        try {
+            $client = new Client();
+            $data = [
+                "old_password" => $request->input('current_password'),
+                "new_password" => $request->input('new_password'),
+                "confirm_password" => $request->input('new_password_confirmation')
+            ];
+
+            $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')], 'form_params' => $data];
+            $response = $client->request('POST', $url, $payload);
+            if ($response->getStatusCode() == 200) {
+                $request->session()->flash('alert-class', "alert-success");
+                $request->session()->flash('message', "password Updated successfully");
+            }
+            return redirect()->route('setting');
+        } catch (RequestException $e) {
+            if ($e->getCode() == 401) {
+                Session::flash('message', 'session expired');
+                return redirect()->route('logout');
+            }
+            if ($e->hasResponse()) {
+                $response = json_decode($e->getResponse()->getBody());
+                $request->session()->flash('alert-class', 'alert-danger');
+                $request->session()->flash('message', 'previous password  is incorrect');
+            }
+            return redirect()->route('setting');
+        } catch (Exception $e) {
+            if ($e->getCode() == 401) {
+                Session::flash('message', 'session expired');
+                return redirect()->route('logout');
+            }
+            if ($e->getCode() == 401) {
+                Session::flash('message', 'session expired');
+                return redirect()->route('logout');
+            }
+            Log::error('Catch error: settingsController - ' . $e->getMessage());
+            return view('errors.500');
+        }
+    }
+
+    public function assistant_change_password(Request $request)
     {
         $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store-admin/update/password';
 
