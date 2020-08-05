@@ -4,10 +4,10 @@
 <link rel="stylesheet" href="{{ asset('/backend/assets/css/transac.css') }}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
 <link rel="stylesheet" href="{{asset('backend/assets/css/store_list.css')}}">
-<link href="/backend/assets/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 <link href="/backend/assets/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 <link href="/backend/assets/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 <link href="/backend/assets/css/select.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
 @stop
 
 
@@ -122,7 +122,7 @@ $total_interestReceivables += $each_interestReceivables;
                 <div class="row">
                     <div class="col-7">
                         <div class="text-primary p-3">
-                            <h5 class="text-primary">{{ ucfirst($storeData->store_name) }}</h5>
+                            <h5 class="text-primary" id="store-name">{{ ucfirst($storeData->store_name) }}</h5>
                             
                             <ul class="pl-3 mb-0">
                                 <li class="py-1">Assistants: {{count( $storeData->assistants )}}</li>
@@ -272,12 +272,12 @@ $total_interestReceivables += $each_interestReceivables;
                                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class='uil uil-file-alt mr-1'></i>Export
                                         <i class="icon"><span data-feather="chevron-down"></span></i></button>
-                                    <div class=" dropdown-menu dropdown-menu-right">
-                                        <button id="downloadLink" onclick="exportTableToExcel('basic-datatables', '{{ ucfirst($storeData->store_name) }} Transaction Overview')" class=" dropdown-item notify-item">
+                                    <div class="dropdown-menu">
+                                        <button id="ExportReporttoExcel" class="dropdown-item notify-item">
                                             <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
-                                            <span>EXCEL</span>
+                                            <span>Excel</span>
                                         </button>
-                                        <button id="pdf" class="dropdown-item notify-item">
+                                        <button id="ExportReporttoPdf" class="dropdown-item notify-item">
                                             <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
                                             <span>PDF</span>
                                         </button>
@@ -285,53 +285,58 @@ $total_interestReceivables += $each_interestReceivables;
                                 </div>
                                 <h4 class="card-title">{{ ucfirst($storeData->store_name) }} Transaction Overview</h4>
                                 <br>
-                                <table id="basic-datatables" class="table dt-responsive nowrap">
+                                <div class="table-responsive table-data">
+                                        <table id="transactionTable" class="table table-striped table-bordered" style="width:100%">
 
-                                    <thead>
-                                        <tr>
-                                            <th>S/N</th>
-                                            <th>Customer Name </th>
-                                            <th>Phone Number </th>
-                                            <th>Transaction Type</th>
-                                            <th>Amount</th>
-                                            <th>Status</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($response['storeData']->customers as $transactions)
-                                        @foreach ($transactions->transactions as $index => $transaction)
-                                        <tr>
-                                            <td>{{ $number++ }}</td>
-                                            <th>{{$transactions->name}}<span class="co-name">
-                                            </th>
-                                            <td class="font-light">{{$transactions->phone_number}}</td>
-                                            <td>{{$transaction->type}}</td>
-                                            <td>{{format_money($transaction->amount, $currency, $currency)}}</td>
-                                            <td>
-                                                <label class="switch">
-                                                    @if(Cookie::get('user_role') != 'store_assistant') disabled
-                                                    <input class="togBtn" type="checkbox" id="togBtn" {{ $transaction->status == true ? 'checked' : '' }} data-id="{{ $transaction->_id }}" data-store="{{ $transaction->store_ref_id }}" data-customer="{{ $transaction->customer_ref_id}}">
-                                                    @else
-                                                    <input type="checkbox" id="togBtn" {{ $transaction->status == true ? 'checked' : '' }} disabled>
-                                                    @endif
-                                                    <div class="slider round">
-                                                        <span class="on">Paid</span><span class="off">Pending</span>
+                                        <thead>
+                                            <tr>
+                                                <th>S/N</th>
+                                                <th>Customer Name </th>
+                                                <th>Phone Number </th>
+                                                <th>Transaction Type</th>
+                                                <th>Amount</th>
+                                                <th>Status</th>
+                                                <th style="display: none">Status</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($response['storeData']->customers as $transactions)
+                                            @foreach ($transactions->transactions as $index => $transaction)
+                                            <tr>
+                                                <td>{{ $number++ }}</td>
+                                                <th>{{$transactions->name}}<span class="co-name">
+                                                </th>
+                                                <td class="font-light">{{$transactions->phone_number}}</td>
+                                                <td>{{$transaction->type}}</td>
+                                                <td>{{format_money($transaction->amount, $currency, $currency)}}</td>
+                                                <td>
+                                                    <label class="switch">
+                                                        @if(Cookie::get('user_role') != 'store_assistant') disabled
+                                                        <input class="togBtn" type="checkbox" id="togBtn" {{ $transaction->status == true ? 'checked' : '' }} data-id="{{ $transaction->_id }}" data-store="{{ $transaction->store_ref_id }}" data-customer="{{ $transaction->customer_ref_id}}">
+                                                        @else
+                                                        <input type="checkbox" id="togBtn" {{ $transaction->status == true ? 'checked' : '' }} disabled>
+                                                        @endif
+                                                        <div class="slider round">
+                                                            <span class="on">Paid</span><span class="off">Pending</span>
+                                                        </div>
+                                                    </label>
+                                                    <div id="statusSpiner" class="spinner-border spinner-border-sm text-primary d-none" role="status">
+                                                        <span class="sr-only">Loading...</span>
                                                     </div>
-                                                </label>
-                                                <div id="statusSpiner" class="spinner-border spinner-border-sm text-primary d-none" role="status">
-                                                    <span class="sr-only">Loading...</span>
-                                                </div>
-                                            </td>
-                                            <td> <a href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id.'-'.$transaction->customer_ref_id) }}" class="btn btn-primary waves-effect waves-light"> View
-                                                    Transaction</a>
-                                            </td>
-                                        </tr>
+                                                </td>
+                                                <td style="display: none">{{ $transaction->status == true ? 'paid' : 'pending' }}</td>
+                                                
+                                                <td> <a href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id.'-'.$transaction->customer_ref_id) }}" class="btn btn-primary waves-effect waves-light"> View</a>
+                                                </td>
+                                            </tr>
 
-                                        @endforeach
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                            @endforeach
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
 
                             </div>
 
@@ -440,36 +445,46 @@ $total_interestReceivables += $each_interestReceivables;
 @endsection
 
 @section("javascript")
-<script src="/backend/assets/libs/datatables/jquery.dataTables.min.js"></script>
-<script src="/backend/assets/libs/datatables/dataTables.bootstrap4.min.js"></script>
-<script src="/backend/assets/libs/datatables/dataTables.responsive.min.js"></script>
-<script src="/backend/assets/libs/datatables/responsive.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+<script src="/backend/assets/build/js/intlTelInput.js"></script>
 
-<script src="/backend/assets/libs/datatables/dataTables.buttons.min.js"></script>
-<script src="/backend/assets/libs/datatables/buttons.flash.min.js"></script>
-<script src="/backend/assets/libs/datatables/buttons.html5.min.js"></script>
-<script src="/backend/assets/libs/datatables/buttons.print.min.js"></script>
-<script src="/backend/assets/libs/datatables/buttons.bootstrap4.min.js"></script>
-<script src="/backend/assets/libs/datatables/dataTables.keyTable.min.js"></script>
-<script src="/backend/assets/js/pages/datatables.init.js"></script>
-<script src="/backend/assets/libs/datatables/dataTables.select.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.0.10/jspdf.plugin.autotable.min.js"></script>
-<script src="/backend/assets/libs/datatables/tableHTMLExport.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-html5-1.6.2/datatables.min.js">
+</script>
+<script src="{{ asset('/backend/assets/js/textCounter.js')}}"></script>
+<script src="{{ asset('/backend/assets/js/toggleStatus.js')}}"></script>
 
 <script>
-    $('#basic-datatables').dataTable({
-        "lengthMenu": [
-            [10, 25, 50, 100, -1],
-            [10, 25, 50, 100, "All"]
-        ]
-    });
-    $('#pdf').on('click', function() {
-        $("#basic-datatables").tableHTMLExport({
-            type: 'pdf',
-            filename: '{{ ucfirst($storeData->store_name) }} Transaction Overview.pdf'
+   
+    $(document).ready(function() {
+        let store_name = $("#store-name").text().trim();
+        var export_filename = `${store_name} Transactions`;
+        $('#transactionTable').DataTable({
+            dom: 'frtipB'
+            , buttons: [{
+                extend: 'excel'
+                , className: 'd-none'
+                , title: export_filename
+            , }, {
+                extend: 'pdf'
+                , className: 'd-none'
+                , title: export_filename
+                , extension: '.pdf'
+                , exportOptions: {
+                    columns: [0, 1, 2, 3, 4,6]
+                }
+            }]
         });
-    })
+        $("#ExportReporttoExcel").on("click", function() {
+            $('.buttons-excel').trigger('click');
+        });
+        $("#ExportReporttoPdf").on("click", function() {
+
+            $('.buttons-pdf').trigger('click');
+        });
+    });
 </script>
 
 <script>
@@ -546,38 +561,6 @@ $total_interestReceivables += $each_interestReceivables;
     })
 </script>
 
-<script>
-    function exportTableToExcel(tableID, filename = '') {
-        var downloadLink;
-        var dataType = 'application/vnd.ms-excel';
-        var tableSelect = document.getElementById(tableID);
-        var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
-
-        // Specify file name
-        filename = filename ? filename + '.xls' : 'excel_data.xls';
-
-        // Create download link element
-        downloadLink = document.createElement("a");
-
-        document.body.appendChild(downloadLink);
-
-        if (navigator.msSaveOrOpenBlob) {
-            var blob = new Blob(['\ufeff', tableHTML], {
-                type: dataType
-            });
-            navigator.msSaveOrOpenBlob(blob, filename);
-        } else {
-            // Create a link to the file
-            downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
-
-            // Setting the file name
-            downloadLink.download = filename;
-
-            //triggering the function
-            downloadLink.click();
-        }
-    }
-</script>
 <script>
     $(document).ready(function() {
 

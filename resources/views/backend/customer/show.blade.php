@@ -315,8 +315,6 @@ $currency = isset($customer->customer->currency) ?
             xaxis: {
                 type: 'datetime',
             },
-            colors: ["#727cf5"],
-            tooltip: { theme: "dark", x: { show: !1 } },
             toolbar: {
                 show: true,
                 offsetX: 0,

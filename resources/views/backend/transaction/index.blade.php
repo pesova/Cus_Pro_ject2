@@ -54,6 +54,7 @@
                                 <th>Due</th>
                                 <th>Created</th>
                                 <th>Status</th>
+                                <th style="display: none">Status</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -114,6 +115,8 @@
                                         <span class="sr-only">Loading...</span>
                                     </div>
                                 </td>
+                                <td style="display: none">{{ $transaction->status == true ? 'paid' : 'pending' }}</td>
+
                                 <td>
                                     @if($transaction->customer_ref_id != null)
                                     @if(is_super_admin())
@@ -167,7 +170,7 @@
                 , title: export_filename
                 , extension: '.pdf'
                 , exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6]
+                    columns: [0, 1, 2, 3, 4, 5, 6,9]
                 }
             }]
         });

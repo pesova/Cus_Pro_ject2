@@ -433,7 +433,7 @@
                 enabled: true
             },
             stroke: {
-                curve: 'straight'
+                curve: 'smooth'
             },
             title: {
                 text: '',
@@ -469,7 +469,7 @@
                 enabled: false
             },
             stroke: {
-                curve: 'straight'
+                curve: 'smooth'
             },
             title: {
                 text: '',
