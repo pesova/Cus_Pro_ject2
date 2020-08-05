@@ -354,12 +354,18 @@ class ComplaintController extends Controller
             $statusCode = $request->getStatusCode();
 
             if ($statusCode == 200) {
-
-                return redirect()->route('complaint.index')->with('success', 'Complaint Deleted Successfully');
+                Session::flash('alert-class', 'alert-success');
+                Session::flash('message', "Complaint Deleted Successfully");
+                return redirect()->route('complaint.index');
             }
         } catch (\Exception $e) {
+            if ($e->getCode() == 401) {
+                return redirect()->route('logout');
+            }
 
-            return redirect()->back()->with('error', 'Error while deleting complaint');
+            Session::flash('alert-class', 'alert-danger');
+            Session::flash('message', "Error while deleting complaint");
+            return redirect()->back();
         }
     }
 }
