@@ -46,9 +46,15 @@
                         <img src="/backend/assets/images/users/default.png" class="avatar-sm rounded-circle mr-2"
                             alt="Profile Picture" />
                     </object>
+                    @if(is_store_assistant())
+                    <div class="media-body">
+                        <h6 class="pro-user-name mt-0 mb-0">{{Cookie::get('name')}}
+                        </h6>
+                    @else
                     <div class="media-body">
                         <h6 class="pro-user-name mt-0 mb-0">{{Cookie::get('first_name')}} {{Cookie::get('last_name')}}
                         </h6>
+                    @endif
                         <span class="pro-user-desc">
                             @if ( \Cookie::get('user_role') == "store_admin")
                             STORE ADMIN

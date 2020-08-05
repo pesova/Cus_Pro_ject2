@@ -100,6 +100,11 @@ class LoginController extends Controller
                     Cookie::queue('expires', strtotime('+ 1 day'));
                     Cookie::queue('is_first_time_user', false);
 
+                    //Check for Store Assistant to set Name
+                    $userRole = $response->data->user->local->user_role;
+                    if($userRole == 'store_assistant'){
+                        Cookie::queue('name', isset($response->data->user->local->name) ? $response->data->user->local->name : '');
+                    }                   
                     // Financial info 
                     $userRole = $response->data->user->local->user_role;
                     if ($userRole == 'store_admin') {

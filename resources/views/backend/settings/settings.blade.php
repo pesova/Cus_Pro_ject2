@@ -104,11 +104,19 @@
                                     </object>
                                 </div>
                                 <div class="col-9 pt-1" style="margin-left: -25px;padding-left: 0;">
+                                @if(is_store_assistant())
+                                    <p class="mb-1">
+                                            <b>
+                                                {{ isset($user_details['name']) ? $user_details['name']: "please update your name" }}
+                                            </b>
+                                    </p>
+                                @else
                                     <p class="mb-1">
                                         <b>
                                             {{ isset($user_details['first_name'])  &&  isset($user_details['last_name']) ? $user_details['first_name'] ." ". $user_details['last_name']: "please update your name" }}
                                         </b>
                                     </p>
+                                @endif
                                     <p class="my-0">
                                         {{ isset($user_details['email']) ? $user_details['email'] : "plese update your email"}}
                                     </p>
@@ -165,6 +173,7 @@
                                     @csrf
                                     <div class="row mb-12" style="width: 100%;">
                                         <div class="col-md-8 offset-2">
+                                    @if(is_store_admin())
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <label>First Name</label>
@@ -182,6 +191,17 @@
                                                         placeholder="Doe">
                                                 </div>
                                             </div>
+                                            @endif
+                                            @if(is_store_assistant())
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <label>Your Name</label>
+                                                        <input class="form-control" type="text" name="name"
+                                                            value="{{ $user_details['name'] ?? '' }}"
+                                                            placeholder="Doe">
+                                                    </div>
+                                                </div>
+                                            @endif
                                             <div class="clearfix"></div><br>
                                             <div class="row">
                                                 <div class="col-md-12">
@@ -533,6 +553,7 @@
     });
 
 </script>
+@endif
 <script>
     /*  ==========================================
     SHOW UPLOADED IMAGE
@@ -570,6 +591,4 @@
     }
 
 </script>
-@endif
-
 @stop
