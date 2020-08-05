@@ -31,9 +31,10 @@
             <input type="hidden" name="currency" class="text-uppercase" value="{{ $transaction->store_admin_ref->currencyPreference}}" />
             <input type="hidden" name="store_name" class="text-uppercase" value="{{ $transaction->store_ref->store_name}}" />
             <input type="hidden" name="meta[token]" value="54" />
-            <input type="hidden" name="redirect_url" value="{{ env('APP_URL').'/payment/callback' }}" />
+            <input type="hidden" name="redirect_url" value="{{ url('/payment/callback') }}" />
             <input type="hidden" name="title" value="{{ $transaction->type }}" />
-            <input type="hidden" name="logo" value="{{ env('APP_URL').'/frontend/assets/images/payment/logo.svg' }}" />
+            <input type="hidden" name="country" value="NG" />
+            <input type="hidden" name="logo" value="{{ url('/').'/frontend/assets/images/payment/logo.svg' }}" />
             
             <button type="submit" class="my-3 btn btn-lg btn-primary w-100 text-white font-weight-bold">Pay Now</button>
         </form>
