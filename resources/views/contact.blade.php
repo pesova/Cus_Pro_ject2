@@ -50,7 +50,7 @@
                             <option value="Subject" selected>Subject</option>
                             <option value="General Enquiries">General Enquiries</option>
                             <option value="Suggestion">Suggestion</option>
-                            <option value="Fix Bugs">Fix Bugs</option>
+                            <option value="Report Bugs">Report Bugs</option>
                             <option value="Others">Others</option>
                         </select>
                     </div>
