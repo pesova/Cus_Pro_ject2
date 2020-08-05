@@ -199,45 +199,57 @@ class SettingsController extends Controller
     }
     
     public function update_store_assistant(Request $request){
-        if ($request->all()) {
-            $control = $request->input('control', '');
-        if ($control == 'profile_update') {
-
-            $url = env('API_URL', 'https://dev.api.customerpay.me') . '/assistant/update';
-            $client = new Client();
-            $data = [
-                "name" => $request->input('name'),
-                "email" => $request->input('email'),
-            ];
-            // make an api call to update the user_details
-            $this->headers = ['headers' => ['x-access-token' => Cookie::get('api_token')], 'form_params' => $data];
-            $response = $client->request('PUT', $url, $this->headers);
-        } elseif ($control == 'password_change') {
-            $request->validate([
-                'current_password' => 'required|min:6',
-                'new_password' => 'required|min:6|confirmed',
-            ]);
-            return $this->change_password($request);
-        } else {
-            return view('errors.404');
-        }
-        if ($response->getStatusCode() == 201) {
-            $request->session()->flash('alert-class', 'alert-success');
-            if ($control != 'password_change') {
-                $user_detail_res = json_decode($response->getBody(), true);
-                $filtered_user_detail = $user_detail_res['data']['store_assistant'];
-                Cookie::queue('phone_number', $filtered_user_detail['phone_number']);
-                Cookie::queue('email', $filtered_user_detail['email']);
-                Cookie::queue('name', $filtered_user_detail['name']);
-                $request->session()->flash('message', "Profile details updated successfully");
+        try{
+            if ($request->all()) {
+                $control = $request->input('control', '');
+            if ($control == 'profile_update') {
+    
+                $url = env('API_URL', 'https://dev.api.customerpay.me') . '/assistant/update';
+                $client = new Client();
+                $data = [
+                    "name" => $request->input('name'),
+                    "email" => $request->input('email'),
+                ];
+                // make an api call to update the user_details
+                $this->headers = ['headers' => ['x-access-token' => Cookie::get('api_token')], 'form_params' => $data];
+                $response = $client->request('PUT', $url, $this->headers);
+            } elseif ($control == 'password_change') {
+                $request->validate([
+                    'current_password' => 'required|min:6',
+                    'new_password' => 'required|min:6|confirmed',
+                ]);
+                return $this->change_password($request);
+            } else {
+                return view('errors.404');
+            }
+            if ($response->getStatusCode() == 201) {
+                $request->session()->flash('alert-class', 'alert-success');
+                if ($control != 'password_change') {
+                    $user_detail_res = json_decode($response->getBody(), true);
+                    $filtered_user_detail = $user_detail_res['data']['store_assistant'];
+                    Cookie::queue('phone_number', $filtered_user_detail['phone_number']);
+                    Cookie::queue('email', $filtered_user_detail['email']);
+                    Cookie::queue('name', $filtered_user_detail['name']);
+                    $request->session()->flash('message', "Profile details updated successfully");
+                    return back();
+                }
                 return back();
             }
-            return back();
-        }
-        else {
+            else {
+                return redirect()->route('setting');
+            }
+        }  
+        }catch(RequestException $e){
+            if ($e->hasResponse()) {
+                $response = json_decode($e->getResponse()->getBody());
+                $request->session()->flash('alert-class', 'alert-danger');
+                $request->session()->flash('message', $response->message);
+            }
             return redirect()->route('setting');
+        }catch(\Exception $e){
+            Log::error($e->getMessage());
+            return view('errors.500');
         }
-    }  
     }
 
     public function upload_image(Request $request)
