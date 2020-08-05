@@ -109,7 +109,7 @@ $currency = isset($storeData->store_admin_ref->currencyPreference) ?
 <script>
      $(document).ready(function() {
         let store_name = $("#store-name").text().trim();
-        var export_filename = `${store_name} Revenue`;
+        var export_filename = `${store_name} Receivables`;
         $('#receivableTable').DataTable({
             dom: 'frtipB'
             , buttons: [{

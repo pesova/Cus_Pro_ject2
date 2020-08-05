@@ -36,47 +36,60 @@ $currency = isset($storeData->store_admin_ref->currencyPreference) ?
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <h4 class="card-title">{{ucfirst($storeData->store_name) }} Debit Overview</h4>
-                                
-                            <table id="datatable-buttons" class="table dt-responsive">
+                <h5 class="card-title"><span id="store-name">{{ucfirst($storeData->store_name) }}</span>  Debit Overview</h5>
+                            <div class="btn-group dropdown float-left">
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                    <i class='uil uil-file-alt mr-1'></i>Export
+                                    <i class="icon"><span data-feather="chevron-down"></span></i></button>
+                                <div class="dropdown-menu">
+                                    <button id="ExportReporttoExcel" class="dropdown-item notify-item">
+                                        <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
+                                        <span>Excel</span>
+                                    </button>
+                                    <button id="ExportReporttoPdf" class="dropdown-item notify-item">
+                                        <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
+                                        <span>PDF</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="clear-fix"></div>
+                        <div class="table-responsive table-data">
+                            <table id="debtTable" class="table table-striped table-bordered" style="width:100%">
                                 <thead>
-                                <tr>
-                                    <th>S/N</th>
-                                    <th>Customer Name </th>
-                                    <th>Phone Number </th>
-                                    <th data-priority="1">Amount</th>
-                                    <th data-priority="3">Transaction Type</th>
-                                    <th data-priority="3">Created</th>
-                                    <th data-priority="3"> </th>
-                                </tr>
+                                    <tr>
+                                        <th>S/N</th>
+                                        <th>Customer Name </th>
+                                        <th>Phone Number </th>
+                                        <th data-priority="1">Amount</th>
+                                        <th data-priority="3">Transaction Type</th>
+                                        <th data-priority="3">Created</th>
+                                        <th data-priority="3"> </th>
+                                    </tr>
                                 </thead>
-                                <tbody>
-                                @foreach ($response['storeData']->customers as $customers)
-                                
-                                @foreach ($customers->transactions as $index => $transaction)  
-                                @if ($transaction->type == "debt" || $transaction->type == "Debt")
-                                <tr>
-                                    <td>{{$number++ }}</td>
-                                    <th>{{$customers->name}}<span class="co-name"></span>
-                                    </th>
-                                    <td class="font-light">{{$customers->phone_number}}</td>
-                                    <td>{{ format_money($transaction->amount, $currency) }}</td>
-                                    <td>{{$transaction->type}}</td>
-                                    <td>{{ \Carbon\Carbon::parse($transaction->createdAt)->diffForhumans() }}</td>
-                                    <td><a href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id.'-'.$transaction->customer_ref_id) }}"
-                                            class="btn btn-warning mr-3"><i
-                                        class="far mr-2 fa-edit"></i>Send Reminder</a></td>
-                                </tr> 
-                                @endif
-                                @endforeach
-                                @endforeach
-                                </tbody>
-                            </table>
+                                    <tbody>
+                                    @foreach ($response['storeData']->customers as $customers)
+                                    
+                                    @foreach ($customers->transactions as $index => $transaction)  
+                                    @if ($transaction->type == "debt" || $transaction->type == "Debt")
+                                    <tr>
+                                        <td>{{$number++ }}</td>
+                                        <th>{{$customers->name}}<span class="co-name"></span>
+                                        </th>
+                                        <td class="font-light">{{$customers->phone_number}}</td>
+                                        <td>{{ format_money($transaction->amount, $currency) }}</td>
+                                        <td>{{$transaction->type}}</td>
+                                        <td>{{ \Carbon\Carbon::parse($transaction->createdAt)->diffForhumans() }}</td>
+                                        <td><a href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id.'-'.$transaction->customer_ref_id) }}"
+                                                class="btn btn-warning mr-3"><i
+                                            class="far mr-2 fa-edit"></i>Send Reminder</a></td>
+                                    </tr> 
+                                    @endif
+                                    @endforeach
+                                    @endforeach
+                                    </tbody>
+                                </table>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -85,91 +98,40 @@ $currency = isset($storeData->store_admin_ref->currencyPreference) ?
 @endsection
 
 @section("javascript")
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
 <script src="/backend/assets/build/js/intlTelInput.js"></script>
-<script src="/backend/assets/libs/datatables/jquery.dataTables.min.js"></script>
-<script src="/backend/assets/libs/datatables/dataTables.bootstrap4.min.js"></script>
-<script src="/backend/assets/libs/datatables/dataTables.responsive.min.js"></script>
-<script src="/backend/assets/libs/datatables/responsive.bootstrap4.min.js"></script>
-
-<script src="/backend/assets/libs/datatables/dataTables.buttons.min.js"></script>
-<script src="/backend/assets/libs/datatables/buttons.bootstrap4.min.js"></script>
-<script src="/backend/assets/libs/datatables/buttons.html5.min.js"></script>
-<script src="/backend/assets/libs/datatables/buttons.flash.min.js"></script>
-<script src="/backend/assets/libs/datatables/buttons.print.min.js"></script>
-
-<script src="/backend/assets/libs/datatables/dataTables.keyTable.min.js"></script>
-<script src="/backend/assets/js/pages/datatables.init.js"></script>
-<script src="/backend/assets/libs/datatables/dataTables.select.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-html5-1.6.2/datatables.min.js">
+</script>
 <script>
-    $(document).ready(function () {
-    // start of transaction charts
-    var options = {
-    series: [{
-    name: 'Likes',
-    data: [4, 3, 10, 9, 29, 19, 22, 9, 12, 7, 19, 5, 13, 9, 17, 2, 7, 5]
-    }],
-    chart: {
-    height: 350,
-    type: 'line',
-    },
-    stroke: {
-    width: 7,
-    curve: 'smooth'
-    },
-    xaxis: {
-    type: 'datetime',
-    categories: ['1/11/2000', '2/11/2000', '3/11/2000', '4/11/2000', '5/11/2000', '6/11/2000', '7/11/2000', '8/11/2000',
-    '9/11/2000', '10/11/2000', '11/11/2000', '12/11/2000', '1/11/2001', '2/11/2001', '3/11/2001','4/11/2001' ,'5/11/2001'
-    ,'6/11/2001'],
-    },
-    title: {
-    text: '',
-    align: 'left',
-    style: {
-    fontSize: "16px",
-    color: '#666'
-    }
-    },
-    fill: {
-    type: 'gradient',
-    gradient: {
-    shade: 'dark',
-    gradientToColors: [ '#FDD835'],
-    shadeIntensity: 1,
-    type: 'horizontal',
-    opacityFrom: 1,
-    opacityTo: 1,
-    stops: [0, 100, 100, 100]
-    },
-    },
-    markers: {
-    size: 4,
-    colors: ["#FFA41B"],
-    strokeColors: "#fff",
-    strokeWidth: 2,
-    hover: {
-    size: 7,
-    }
-    },
-    yaxis: {
-    min: -10,
-    max: 40,
-    title: {
-    text: 'Cash Flow',
-    },
-    }
-    };
-    
-    var chart = new ApexCharts(document.querySelector("#transactionchart"), options);
-    chart.render();
-    
-    
+   $(document).ready(function() {
+        let store_name = $("#store-name").text().trim();
+        var export_filename = `${store_name} Debt`;
+        $('#debtTable').DataTable({
+            dom: 'frtipB'
+            , buttons: [{
+                extend: 'excel'
+                , className: 'd-none'
+                , title: export_filename
+            , }, {
+                extend: 'pdf'
+                , className: 'd-none'
+                , title: export_filename
+                , extension: '.pdf'
+                , exportOptions: {
+                    columns: [0, 1, 2, 3, 4]
+                }
+            }]
+        });
+        $("#ExportReporttoExcel").on("click", function() {
+            $('.buttons-excel').trigger('click');
+        });
+        $("#ExportReporttoPdf").on("click", function() {
+
+            $('.buttons-pdf').trigger('click');
+        });
     });
-    
-    var input = document.querySelector("#phone");
-    window.intlTelInput(input, {
-        // any initialisation options go here
-    });
-   
 </script>
 @stop
