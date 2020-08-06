@@ -121,7 +121,9 @@ Route::prefix('/admin')->group(function () {
 
             // customer crud
             Route::resource('customer', 'CustomerController');
-            // });
+
+            //Activity log
+            Route::resource('activities', 'ActivityController');
         }
         // ------------ SUPER ADMIN PROTECTED ROUTES ENDS HERE------------------------ //
 
@@ -142,6 +144,9 @@ Route::prefix('/admin')->group(function () {
             Route::resource('customer', 'CustomerController');
 
             Route::post('/verify/bank', 'SettingsController@verify_bank')->name('verify.bank');
+
+            // //Activity log
+            // Route::resource('activities', 'ActivityController');
         }
 
         // ------------ STORE ADMIN PROTECTED ROUTES ENDS HERE------------------------ //
