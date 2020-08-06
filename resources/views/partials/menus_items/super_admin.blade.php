@@ -6,7 +6,7 @@
 </li>
 <li>
     <a href="{{ route('activities.index') }}">
-        <i data-feather="users"></i>
+        <i data-feather="activity"></i>
         <span> Activity Log </span>
     </a>
 </li>
