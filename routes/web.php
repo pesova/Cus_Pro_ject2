@@ -225,6 +225,9 @@ Route::prefix('/admin')->group(function () {
         Route::post('/preview/{id}', "BusinessCard@preview_card")->name('preview');
         Route::post('/download/{id}', "BusinessCard@download_card")->name('download');
 
+        // Routes for complaints
+        Route::get('/complaint/feedbacks/{id}', 'ComplaintController@get_messages');
+        Route::post('/complaint/feedbacks/{id}', 'ComplaintController@post_message');
     });
     // ------------ GENERAL ROUTES ENDS HERE ------------------------ //
 
