@@ -107,8 +107,6 @@ class StoreController extends Controller
             } catch (RequestException $e) {
 
                 Log::info('Catch error: StoreController - ' . $e->getMessage());
-                dd('he');
-
                 // check for 5xx server error
                 if ($e->getResponse()->getStatusCode() >= 500) {
                     return view('errors.500');
