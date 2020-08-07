@@ -250,7 +250,7 @@ class DebtorController extends Controller
                 'headers' => ['x-access-token' => Cookie::get('api_token')],
                 'form_params' => [
                     'transaction_id' => $transactionID,
-                    'message' => $request->message,
+                    'message' => purify_input($request->message),
                 ],
             ];
 
@@ -314,7 +314,7 @@ class DebtorController extends Controller
                 'form_params' => [
                     'scheduleDate' => $request->scheduleDate,
                     'time' => $request->time,
-                    'message' => $request->message,
+                    'message' => purify_input($request->message),
                 ],
             ];
 

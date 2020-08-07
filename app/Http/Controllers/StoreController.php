@@ -161,10 +161,10 @@ class StoreController extends Controller
                 $payload = [
                     'headers' => ['x-access-token' => Cookie::get('api_token')],
                     'form_params' => [
-                        'store_name' => $request->input('store_name'),
-                        'shop_address' => $request->input('shop_address'),
+                        'store_name' => purify_input($request->input('store_name')),
+                        'shop_address' => purify_input($request->input('shop_address')),
                         'email' => $request->input('email'),
-                        'tagline' => $request->input('tagline'),
+                        'tagline' => purify_input($request->input('tagline')),
                         'phone_number' => $request->input('phone_number')
                     ],
 
@@ -352,11 +352,11 @@ class StoreController extends Controller
                 $headers,
                 'form_params' => [
                     'token' => Cookie::get('api_token'),
-                    'store_name' => $request->input('store_name'),
-                    'shop_address' => $request->input('shop_address'),
+                    'store_name' => purify_input($request->input('store_name')),
+                    'shop_address' => purify_input($request->input('shop_address')),
                     'phone_number' => $request->input('phone_number'),
                     'email' => $request->input('email'),
-                    'tagline' => $request->input('tagline')
+                    'tagline' => purify_input($request->input('tagline'))
                 ],
             ];
 
