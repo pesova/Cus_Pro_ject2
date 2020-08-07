@@ -112,7 +112,7 @@
                                 </td>
                                 <td>
                                     @if($transaction->customer_ref_id != null)
-                                    <a class="btn btn-info btn-small py-1 px-2" href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id->_id.'-'.$transaction->customer_ref_id->_id) }}">
+                                    <a class="btn btn-primary btn-small py-1 px-2" href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref->_id.'-'.$transaction->customer_ref->_id) }}">
                                         View More
                                     </a>
                                     @endif

@@ -15,13 +15,13 @@
                     <div class="col-md-12">
                         <h4 class="card-header mb-1 mt-0 float-left h5">List of Registered Customers</h4>
                         @if(Cookie::get('user_role') != 'store_assistant')
-                            <a href="#" class="btn btn-primary float-right" data-toggle="modal"
+                            <a href="#" class="btn btn-primary float-right btn-sm" data-toggle="modal"
                                data-target="#CustomerModal">
                                 New &nbsp;<i class="fa fa-plus my-float"></i>
                             </a>
                         @endif
                         <div class="btn-group float-right mr-2">
-                            <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown"
+                            <button type="button" class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="false">
                                 <i class='uil uil-file-alt mr-1'></i>Export
                                 <i class="icon"><span data-feather="chevron-down"></span></i></button>
@@ -52,7 +52,6 @@
                                     <th>Store Name</th>
                                     <th>Actions</th>
                                 </tr>
-
                                 <tbody>
                                 @foreach($response as $i => $customer)
                                     <tr>
@@ -60,75 +59,10 @@
                                         <td>{{ ucfirst($customer->name) }}</td>
                                         <td>{{ $customer->phone_number }}</td>
                                         <td>{{ $customer->store_name }}</td>
-
                                         <td>
-                                            <div class="btn-group mt-2 mr-1">
-                                                <button type="button" class="btn btn-primary dropdown-toggle"
-                                                        data-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">
-                                                    Actions<i class="icon"><span data-feather="chevron-down"></span></i>
-                                                </button>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    @if(Cookie::get('user_role') == 'store_admin')
-                                                        <a class="dropdown-item"
-                                                           href="{{ route('customer.edit', $customer->store_id.'-'.$customer->_id) }}">
-                                                            Edit Customer</a>
-                                                    @endif
-                                                    <a class="dropdown-item"
-                                                       href="{{ route('customer.show', $customer->store_id.'-'.$customer->_id) }}">View
-                                                        Profile</a>
-                                                    {{-- <a class="dropdown-item"
-                                                                        href="{{ route('transaction.index') }}">View
-                                                    Transaction</a>
-                                                    <a class="dropdown-item" href="{{ route('debtor.create') }}">Send
-                                                        Reminder</a> --}}
-                                                    @if(Cookie::get('user_role') == 'store_admin')
-                                                        <a class="text-danger dropdown-item" href="#" data-toggle="modal"
-                                                           data-target="#DeleteModal{{$customer->_id}}">Delete</a>
-
-                                                    @endif
-                                                </div>
-                                                @if(Cookie::get('user_role') == 'store_admin')
-                                                    <div id="DeleteModal{{$customer->_id}}"
-                                                         class="modal fade bd-example-modal-sm"
-                                                         tabindex="-2" role="dialog"
-                                                         aria-labelledby="DeleteModal{{$customer->_id}}"
-                                                         aria-hidden="true">
-                                                        <div class="modal-dialog modal-sm">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title"
-                                                                        id="Title{{$customer->_id}}">
-                                                                        Delete Customer </h5>
-                                                                    <button type="button" class="close"
-                                                                            data-dismiss="modal"
-                                                                            aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    Do you want to delete {{$customer->name}}?
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <form action="{{ route('customer.destroy', $customer->_id) }}"
-                                                                          method="POST" id="form">
-                                                                        @method('DELETE')
-                                                                        @csrf
-                                                                        <button type="submit"
-                                                                                class="btn btn-primary btn-danger">
-                                                                            Delete
-                                                                        </button>
-                                                                    </form>
-                                                                    <button type="button" class="btn btn-secondary"
-                                                                            data-dismiss="modal">No,
-                                                                        I changed my mind
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                @endif
-                                            </div>
+                                            <a class="btn btn-primary btn-sm py-1 px-2" href="{{ route('customer.show', $customer->store_id.'-'.$customer->_id) }}">
+                                                View Profile
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach

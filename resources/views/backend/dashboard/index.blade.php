@@ -12,7 +12,7 @@
                 <h4 class="mb-1 mt-0">Dashboard</h4>
             </div>
         </div>
-        @include('partials.alert.message');
+        @include('partials.alert.message')
         @if(\Illuminate\Support\Facades\Cookie::get('user_role') == 'store_admin')
             @include('partials.dashboard.store_admin');
         @endif

@@ -10,13 +10,17 @@
     <div class="container-fluid">
         <div class="row page-title">
             <div class="col-md-12">
-                <div class="customer-heading-container">
-                    <h4 class="mb-1 mt-0">All Stores</h4>
-                    <button class="add-customer-button btn btn-primary" data-toggle="modal">
-                        <a href="" data-toggle="modal" data-target="#addStoreModal" class="text-white">
-                            Add New <i class="fa fa-plus add-new-icon"></i>
-                        </a>
-                    </button>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4 class="">All Stores</h4>
+                    </div>
+                    <div>
+                        <button class=" btn btn-primary btn-sm" data-toggle="modal">
+                            <a href="" data-toggle="modal" data-target="#addStoreModal" class="text-white">
+                                Add New <i class="fa fa-plus add-new-icon"></i>
+                            </a>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -85,8 +89,7 @@
                             </div>
 
                             <div class="flex-fill">
-                                <a href="{{route('store.edit', $store[0]->_id) }}" data-toggle="tooltip"
-                                    data-placement="top" title="" data-original-title="Edit"><i
+                                <a href="#" data-toggle="modal" data-target="#addStoreModal-{{ $store[0]->_id }}" data-original-title="Edit"><i
                                         data-feather="edit"></i></a>
                             </div>
 
@@ -95,7 +98,7 @@
                                 <a class="" href="#" data-toggle="modal"
                                     data-target="#deleteModal-{{$store[0]->_id}}"><i data-feather="trash-2"></i></a>
 
-                                <div class="modal fade" id="deleteModal-{{$store[0]->_id}}" tabindex="-1" role="dialog"
+                                <div class="modal fade" id="deleteModal-{{ $store[0]->_id }}" tabindex="-1" role="dialog"
                                     aria-labelledby="storeDeleteLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
@@ -112,8 +115,7 @@
                                                 <div class="modal-body">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <h6>Are you sure you want to
-                                                        delete {{$store[0]->store_name}}</h6>
+                                                    <h6>Are you sure you want to delete {{$store[0]->store_name}}</h6>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <div class="">
@@ -135,6 +137,9 @@
                     </div>
                 </div>
             </div>
+            {{-- Edit Store Modal --}}
+            @include('partials.modal.store.editStore')
+            
             @endforeach
         </div>
         @else
@@ -157,8 +162,8 @@
                         </div>
                         <h5 class="font-size-15"><a href="{{ route('store.show', $store->_id) }}" class="text-dark search-name">{{$store->store_name }}</a>
                         </h5>
-                        <p class="text-muted">{{$store->email ?? ''}}</p>
-                        <p class="text-muted">{{$store->shop_address ?? ''}}</p>
+                        <p class="text-muted">{{ $store->email ?? ''}}</p>
+                        <p class="text-muted">{{ $store->shop_address ?? ''}}</p>
 
                     </div>
                     <div class="card-footer bg-transparent border-top">
@@ -170,7 +175,7 @@
                             </div>
 
                             <div class="flex-fill">
-                                <a href="{{route('store.edit', $store->_id) }}" data-toggle="tooltip"
+                                <a href="#" data-toggle="modal" data-target="#addStoreModal-{{ $store->_id }}" data-toggle="tooltip"
                                     data-placement="top" title="" data-original-title="Edit"><i
                                         data-feather="edit"></i></a>
                             </div>

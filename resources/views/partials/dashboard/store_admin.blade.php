@@ -9,7 +9,6 @@
                         </div>
                     </div>
                     <div class="col-5 align-self-end">
-
                         <img src="/backend/assets/images/profile-img.png" alt="" class="img-fluid">
                     </div>
                 </div>
@@ -17,45 +16,40 @@
             <div class="card-body pt-0">
                 <div class="row">
                     <div class="col-sm-4">
-                        <div class="mb-4">
-                            @php
+                        @php
                             $profile_picture = Cookie::get('profile_picture');
                             $profile_picture = rtrim($profile_picture);
                             $profile_picture_path = str_replace(" ","/", $profile_picture);
-                            @endphp
-                            <object data="https://res.cloudinary.com/{{ $profile_picture_path }}" type="image/jpg"
-                                class="img-thumbnail rounded-circle mt-2">
-                                <img src="/backend/assets/images/users/default.png"
-                                    class="img-thumbnail rounded-circle mt-2" alt="Profile Picture" />
-                            </object>
-                        </div>
-                        <h5 class="font-size-15 text-truncate">{{ Cookie::get('first_name') }}</h5>
-                        <p class="text-muted mb-0 text-truncate">Store Admin</p>
+                        @endphp
+                        <object data="https://res.cloudinary.com/{{ $profile_picture_path }}" type="image/jpg"
+                            class="img-thumbnail rounded-circle mt-2">
+                            <img src="/backend/assets/images/users/default.png"
+                                class="img-thumbnail rounded-circle mt-2" alt="Profile Picture" />
+                        </object>
                     </div>
-
                     <div class="col-sm-8">
-                        <div class="pt-4">
-
-                            <div class="row">
-                                <div class="col-6">
-                                    <h5 class="font-size-15">{{ $data->customerCount }}</h5>
-                                    <p class="text-muted mb-0">Customer(s)</p>
-                                </div>
-                                <div class="col-6">
-                                    <h5 class="font-size-15">{{ $data->storeCount }}</h5>
-                                    <p class="text-muted mb-0">Store(s)</p>
-                                </div>
+                        <div class="row text-center">
+                            <div class="col-6">
+                                <h5 class="font-size-15">{{ $data->customerCount }}</h5>
+                                <p class="text-muted mb-0">Customer(s)</p>
                             </div>
-                            @if(\Cookie::get('user_role') == 'store_admin')
-                            <div class="mt-4">
-                                <a href="{{route('setting')}}"
-                                    class="btn btn-primary waves-effect waves-light btn-sm">View
-                                    Profile
-                                    <i class="uil-arrow-right ml-1"></i>
-                                </a>
+                            <div class="col-6">
+                                <h5 class="font-size-15">{{ $data->storeCount }}</h5>
+                                <p class="text-muted mb-0">Store(s)</p>
                             </div>
-                            @endif
                         </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-7">
+                        <h5 class="font-size-15">{{ Cookie::get('first_name') }} {{ Cookie::get('last_name') }}</h5>
+                        <p class="text-muted mb-0">Store Admin</p>
+                    </div>
+                    <div class="col-sm-5 mt-4">
+                        <a href="{{route('setting')}}"
+                            class="btn btn-primary btn-sm">View Profile
+                            <i class="uil-arrow-right ml-1"></i>
+                        </a>
                     </div>
                 </div>
             </div>

@@ -24,7 +24,6 @@ class StoreController extends Controller
      */
     public function index(Request $request)
     {
-
         if (Cookie::get('user_role') == 'super_admin') {
             $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store/all';
 
@@ -39,9 +38,6 @@ class StoreController extends Controller
                 $Stores = json_decode($body);
 
                 if ($statusCode == 200) {
-                    // return $Stores->data->stores;
-                    // dump($Stores->data->stores);
-
                     $stores_data = $Stores->data->stores;
                     $perPage = 12;
                     $page = $request->get('page', 1);
@@ -110,6 +106,7 @@ class StoreController extends Controller
             } catch (RequestException $e) {
 
                 Log::info('Catch error: StoreController - ' . $e->getMessage());
+                dd('he');
 
                 // check for 5xx server error
                 if ($e->getResponse()->getStatusCode() >= 500) {
