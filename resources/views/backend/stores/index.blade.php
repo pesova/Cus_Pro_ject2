@@ -55,7 +55,7 @@
         {{-- Add new Store Modal --}}
         @include('partials.modal.store.addStore')
 
-        @if(\Cookie::get('user_role') == 'super_admin')
+        {{-- @if(\Cookie::get('user_role') == 'super_admin')
         <div class="row" style="margin-top:20px;">
             @foreach ($response as $store)
             <div class="col-xl-3 col-sm-6" style="margin-bottom: 20px;">
@@ -89,7 +89,7 @@
                             </div>
 
                             <div class="flex-fill">
-                                <a href="#" data-toggle="modal" data-target="#addStoreModal-{{ $store[0]->_id }}" data-original-title="Edit"><i
+                                <a href="#" data-toggle="modal" data-target="#editStoreModal-{{ $store[0]->_id }}" data-original-title="Edit"><i
                                         data-feather="edit"></i></a>
                             </div>
 
@@ -137,12 +137,10 @@
                     </div>
                 </div>
             </div>
-            {{-- Edit Store Modal --}}
-            @include('partials.modal.store.editStore')
-            
+  
             @endforeach
         </div>
-        @else
+        @else --}}
         <div class="row" style="margin-top:20px;">
             @foreach ($response as $store)
             <div class="col-xl-3 col-sm-6" style="margin-bottom: 20px;">
@@ -184,14 +182,14 @@
                             <div class="flex-fill">
                                 <a class="" href="#" data-toggle="modal" data-target="#deleteModal-{{$store->_id}}"><i
                                         data-feather="trash-2"></i></a>
-
+                                <a href="#" data-toggle="modal" data-target="#editStoreModal-{{ $store->_id }}" data-original-title="Edit"><i
+                                        data-feather="edit"></i></a>
                                 <div class="modal fade" id="deleteModal-{{$store->_id}}" tabindex="-1" role="dialog"
                                     aria-labelledby="storeDeleteLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="storeDeleteLabel">Delete Store
-                                                </h5>
+                                                <h5 class="modal-title" id="storeDeleteLabel">Delete Store</h5>
                                                 <button type="button" class="close" data-dismiss="modal"
                                                     aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
@@ -226,9 +224,13 @@
                     </div>
                 </div>
             </div>
+            {{-- Edit Store Modal --}}
+            @include('partials.modal.store.editStore')
+
             @endforeach
         </div>
-        @endif
+
+        {{-- @endif --}}
         <div class="row">
             {{$response->links()}}
         </div>
