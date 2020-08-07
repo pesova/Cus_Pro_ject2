@@ -137,7 +137,7 @@ class TransactionController extends Controller
                 'amount' => $request->input('amount'),
                 'interest' => $request->input('interest'),
                 'total_amount' => $total_amount,
-                'description' => $request->input('description'),
+                'description' => purify_input($request->input('description')),
                 'type' => $request->input('type'),
                 'store_id' => $request->input('store'),
                 'customer_id' => $request->input('customer'),
@@ -157,6 +157,9 @@ class TransactionController extends Controller
                 $request->session()->flash('message', 'store or customer is not created');
                 return redirect()->route('transaction.index');
             }
+            $request->session()->flash('alert-class', 'alert-danger');
+            $request->session()->flash('message', 'an error occurred. Please try again later');
+            return redirect()->route('transaction.index');
         } catch (RequestException $e) {
             $response = $e->getResponse();
             $statusCode = $response->getStatusCode();
