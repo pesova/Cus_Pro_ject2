@@ -113,7 +113,7 @@
 
                             @if($user->local->is_active)
                             <div class="flex-fill">
-                                <a class="" href="#" data-toggle="modal" data-target="#deactivateModal-{{$user->_id}}"><i data-feather="user-x"></i></a>
+                                <a class="text-danger" href="#"  data-toggle="modal" data-target="#deactivateModal-{{$user->_id}}"><i data-feather="user-x"></i></a>
 
                                 @include('partials.modal.user.deactivateUser',['user',$user])
 

@@ -77,6 +77,11 @@
                         <tbody>
                             @isset($debtors)
                             @foreach ($debtors as $index => $debtor )
+                            @php
+                            $currency = isset($debtor->store_admin_ref->currencyPreference) ?
+                                            $debtor->store_admin_ref->currencyPreference : null;
+                            @endphp
+
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>
@@ -94,7 +99,7 @@
                                     @endif
                                 </td>
                                 <td>{{ $debtor->description }}</td>
-                                <td>{{ format_money($debtor->total_amount) }}</td>
+                                <td>{{ format_money($debtor->total_amount, $currency) }}</td>
 
                                 <td> {{ \Carbon\Carbon::parse($debtor->createdAt)->diffForhumans() }}</td>
                                 <td>
@@ -118,7 +123,7 @@
 
 @section("javascript")
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script> --}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <script
     src="https://cdnjs.cloudflare.com/ajax/libs/eonasdan-bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js">

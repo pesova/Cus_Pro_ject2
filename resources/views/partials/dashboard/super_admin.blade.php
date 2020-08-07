@@ -46,7 +46,7 @@
                 $profile_picture_path = str_replace(" ","/", $profile_picture);
                 @endphp
                 <object data="https://res.cloudinary.com/{{ $profile_picture_path }}" type="image/jpg"
-                    class="img-thumbnail img-small rounded-circle mt-2">
+                    class="img-thumbnail rounded-circle mt-2" data-toggle="modal" data-target="#profilePhoto">
                     <img src="/backend/assets/images/users/default.png" class="img-thumbnail rounded-circle mt-2"
                         alt="Profile Picture" />
                 </object>
@@ -86,7 +86,7 @@
 
 <div class="col-xl-8">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-4"> <a href="{{ route('store.index') }}">
             <div class="card mini-stats-wid">
                 <div class="card-body">
                     <div class="media">
@@ -103,9 +103,10 @@
                     </div>
                 </div>
             </div>
+            </a>           
         </div>
-        <div class="col-md-4">
-            <div class="card mini-stats-wid">
+        <div class="col-md-4"> <a href="{{ route('assistants.index') }}">
+             <div class="card mini-stats-wid">
                 <div class="card-body">
                     <div class="media">
                         <div class="media-body">
@@ -121,8 +122,10 @@
                     </div>
                 </div>
             </div>
+        </a>
+           
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4"> <a href="{{ route('customer.index') }}">
             <div class="card mini-stats-wid">
                 <div class="card-body">
                     <div class="media">
@@ -139,14 +142,15 @@
                     </div>
                 </div>
             </div>
+            </a>            
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4"> <a href="{{ route('debtor.index') }}">
             <div class="card mini-stats-wid">
                 <div class="card-body">
                     <div class="media">
                         <div class="media-body">
                             <p class="text-muted font-weight-medium">Debts</p>
-                            <h4 class="mb-0">${{$data->totalDebt}}</h4>
+                            <h4 class="mb-0">{{$data->totalDebt}}</h4> 
                         </div>
 
                         <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
@@ -157,8 +161,9 @@
                     </div>
                 </div>
             </div>
+            </a>            
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4"> <a href="{{ route('transaction.index') }}">
             <div class="card mini-stats-wid">
                 <div class="card-body">
                     <div class="media">
@@ -175,8 +180,9 @@
                     </div>
                 </div>
             </div>
+            </a>            
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4"> <a href="{{ route('complaint.index') }}">
             <div class="card mini-stats-wid">
                 <div class="card-body">
                     <div class="media">
@@ -193,6 +199,7 @@
                     </div>
                 </div>
             </div>
+            </a>            
         </div>
     </div>
     <!-- end row -->
@@ -213,7 +220,7 @@
 </div>
 
 <div class="row">
-    <div class="col-6">
+    <div class="col-md-6 col-sm-12">
         <div class="card">
             <div class="card-body">
                 <h6 class="card-title mb-4 float-sm-left">Transaction Overview {{date('Y')}}</h6>
@@ -222,7 +229,7 @@
             </div>
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-md-6 col-sm-12">
         <div class="card">
             <div class="card-body">
                 <h6 class="card-title mb-4 float-sm-left">Users Registered {{date('Y')}}</h6>
@@ -261,10 +268,14 @@
                         <tbody class="my-transactionsb">
                             @if(isset($data->recentTransaction))
                             @foreach($data->recentTransaction as $rt)
+                            @php
+                                $currency = isset($rt->store_admin_ref->currencyPreference) ?
+                                                $rt->store_admin_ref->currencyPreference : null;
+                            @endphp
                             <tr>
                                 <td>{{$rt->store_name}}</td>
                                 <td>{{$rt->type}}</td>
-                                <td>{{$rt->amount}}</td>
+                                <td>{{ format_money($rt->amount, $currency) }}</td>
                                 <td>
                                     <a class="btn btn-primary btn-sm"
                                         href="{{ route('transaction.show', $rt->_id.'-'.$rt->store_ref_id.'-'.$rt->customer_ref_id) }}">View</a>
@@ -308,7 +319,11 @@
 
                         <tbody class="my-transactionsb">
                             @if(isset($data->latestDebt))
-                            @foreach($data->latestDebt as $ld)
+                            @foreach($data->latestDebt as $ld) 
+                            @php
+                                $currency = isset($ld->store_admin_ref->currencyPreference) ?
+                                                $ld->store_admin_ref->currencyPreference : null;
+                            @endphp
                             <tr>
                                 <td>{{$ld->store_name}}</td>
                                 <td>
@@ -318,7 +333,7 @@
                                     <span class="badge badge-danger">Unpaid</span>
                                     @endif
                                 </td>
-                                <td>{{$ld->amount}}</td>
+                                <td>{{ format_money($ld->amount, $currency) }}</td>
                                 <td>
                                     <a class="btn btn-primary btn-sm"
                                         href="{{ route('debtor.show', $ld->_id) }}">View</a>
@@ -425,7 +440,7 @@
                 enabled: true
             },
             stroke: {
-                curve: 'straight'
+                curve: 'smooth'
             },
             title: {
                 text: '',
@@ -461,7 +476,7 @@
                 enabled: false
             },
             stroke: {
-                curve: 'straight'
+                curve: 'smooth'
             },
             title: {
                 text: '',
@@ -581,6 +596,46 @@
     }
 
 </script>
+
+<script>
+    /*  ==========================================
+    SHOW UPLOADED IMAGE
+* ========================================== */
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#imageResult')
+                    .attr('src', e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $(function () {
+        $('#upload').on('change', function () {
+            readURL(input);
+        });
+    });
+
+    /*  ==========================================
+        SHOW UPLOADED IMAGE NAME
+    * ========================================== */
+    var input = document.getElementById('upload');
+    var infoArea = document.getElementById('upload-label');
+
+    input.addEventListener('change', showFileName);
+
+    function showFileName(event) {
+        var input = event.srcElement;
+        var fileName = input.files[0].name;
+        infoArea.textContent = fileName;
+    }
+
+</script>
+
+ 
 {{-- @endif --}}
 
 @endsection

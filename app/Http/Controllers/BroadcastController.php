@@ -14,6 +14,7 @@ class BroadcastController extends Controller
 {
     protected $host;
     protected $headers;
+
     /**
      * Create a new controller instance.
      *
@@ -32,7 +33,7 @@ class BroadcastController extends Controller
      */
     public function index(Request $request)
     {
-     
+
         $storeUrl = $this->host . '/store';
         $all_messages_url = $this->host . '/message/get';
 
@@ -66,7 +67,7 @@ class BroadcastController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request)
@@ -75,7 +76,6 @@ class BroadcastController extends Controller
             $client = new Client();
             $response = $client->get($this->host . '/message/numbers', ['headers' => ['x-access-token' => Cookie::get('api_token')]]);
             $template = $request->input("temp");
-
 
 
             if ($response->getStatusCode() == 200) {
@@ -95,7 +95,7 @@ class BroadcastController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -117,7 +117,7 @@ class BroadcastController extends Controller
                     $this->host . '/store/' . $request->input('store'),
                     ['headers' => ['x-access-token' => Cookie::get('api_token')]]
                 );
-                $customers =  json_decode($store->getBody())->data->store->customers;
+                $customers = json_decode($store->getBody())->data->store->customers;
                 $numbers = [];
                 foreach ($customers as $customer) {
                     $numbers[] = $customer->phone_number;
@@ -131,7 +131,7 @@ class BroadcastController extends Controller
                 ],
                 "json" => [
                     "numbers" => $numbers,
-                    "message" => $message
+                    "message" => purify_input($message)
                 ]
             ];
 
@@ -144,7 +144,7 @@ class BroadcastController extends Controller
                 $request->session()->flash('alert-class', 'alert-success');
                 Session::flash('message', $response->message);
                 return back();
-            }  else if ($statusCode == 401) {
+            } else if ($statusCode == 401) {
                 return redirect()->route('logout');
             } else if ($statusCode == 500) {
                 return view('errors.500');
@@ -174,10 +174,11 @@ class BroadcastController extends Controller
             return view('errors.500');
         }
     }
+
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -188,7 +189,7 @@ class BroadcastController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -199,7 +200,7 @@ class BroadcastController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function template(Request $request)
@@ -209,8 +210,8 @@ class BroadcastController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -220,7 +221,7 @@ class BroadcastController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, $id)
@@ -260,7 +261,8 @@ class BroadcastController extends Controller
     }
 
 
-    public function resend(Request $request, $id){
+    public function resend(Request $request, $id)
+    {
 
 
         $url = env('API_URL', 'https://dev.api.customerpay.me') . '/message/getSingle/' . $id;
@@ -273,12 +275,12 @@ class BroadcastController extends Controller
                 'current_user' => Cookie::get('user_id'),
             ]
         ];
-        try{
+        try {
             $response = $client->request("GET", $url, $payload);
 
             $statusCode = $response->getStatusCode();
             // return $statusCode;
-            if($statusCode == 200){
+            if ($statusCode == 200) {
                 $body = $response->getBody();
                 $response_data = json_decode($body);
                 $broadcast = $response_data->data->broadcast;
@@ -304,7 +306,7 @@ class BroadcastController extends Controller
                     $request->session()->flash('alert-class', 'alert-success');
                     Session::flash('message', "Message resend successful");
                     return back();
-                }  else if ($statusCode == 401) {
+                } else if ($statusCode == 401) {
                     return redirect()->route('logout');
                 } else if ($statusCode == 500) {
                     return view('errors.500');
@@ -316,22 +318,23 @@ class BroadcastController extends Controller
                     return back();
                 }
             }
-           
-            
+
+
         } catch (ClientException $e) {
             $request->session()->flash('alert-class', 'alert-danger');
             Session::flash('message', "A technical error occured, we are working to fix this.");
             return redirect()->route('broadcast.index');
         }
 
-        
+
     }
 
-    public function prepareNumberForResend($numbers){
+    public function prepareNumberForResend($numbers)
+    {
         $prepared_numbers = [];
-        foreach($numbers as $number){
+        foreach ($numbers as $number) {
             $str = substr($number, 1);
-            array_push($prepared_numbers,$str);
+            array_push($prepared_numbers, $str);
         }
         return $prepared_numbers;
     }

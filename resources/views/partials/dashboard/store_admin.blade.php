@@ -1,3 +1,5 @@
+
+
 <div class="row">
     <div class="col-xl-4">
         <div class="card overflow-hidden">
@@ -184,7 +186,7 @@
                             <tr>
                                 <td>{{$recentTransaction->storeName}}</td>
                                 <td>{{$recentTransaction->transaction->type}}</td>
-                                <td>{{$recentTransaction->transaction->amount}}</td>
+                                <td>{{ format_money($recentTransaction->transaction->amount) }}</td>
                                 <td>
                                     <a class="btn btn-primary btn-sm"
                                         href="{{ route('transaction.show', $recentTransaction->transaction->_id.'-'.$recentTransaction->transaction->store_ref_id.'-'.$recentTransaction->transaction->customer_ref_id) }}">View</a>
@@ -238,7 +240,7 @@
                                     <span class="badge badge-danger">Unpaid</span>
                                     @endif
                                 </td>
-                                <td>{{$recentDebt->debt->amount}}</td>
+                                <td>{{ format_money($recentDebt->debt->amount) }}</td>
                                 <td>
                                     <a class="btn btn-primary btn-sm"
                                         href="{{ route('debtor.show', $recentDebt->debt->_id) }}">View</a>
@@ -428,5 +430,43 @@
 
 </script>
 {{-- @endif --}}
+
+<script>
+    /*  ==========================================
+    SHOW UPLOADED IMAGE
+* ========================================== */
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#imageResult')
+                    .attr('src', e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $(function () {
+        $('#upload').on('change', function () {
+            readURL(input);
+        });
+    });
+
+    /*  ==========================================
+        SHOW UPLOADED IMAGE NAME
+    * ========================================== */
+    var input = document.getElementById('upload');
+    var infoArea = document.getElementById('upload-label');
+
+    input.addEventListener('change', showFileName);
+
+    function showFileName(event) {
+        var input = event.srcElement;
+        var fileName = input.files[0].name;
+        infoArea.textContent = fileName;
+    }
+
+</script>
 
 @endsection

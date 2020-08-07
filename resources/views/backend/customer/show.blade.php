@@ -10,7 +10,10 @@
 {{-- yield body content --}}
 
 @section('content')
-
+@php
+$currency = isset($customer->customer->currency) ?
+                $customer->customer->currency : null;
+@endphp
     <div class="content">
 
         <div class="container-fluid">
@@ -70,10 +73,11 @@
                                             </div>
                                             <div class="col-6">
                                                 <h5 class="font-size-15">
-                                                {{ format_money($result->total_revenue) }}</h5>
+                                                {{ format_money($result->total_revenue,$currency ) }}</h5>
                                                 <p class="text-muted mb-0">Revenue</p>
                                             </div>
                                         </div>
+                                        @if(is_store_admin())
                                         <div class="mt-4">
                                             <a href="#" data-toggle="modal"
                                                data-target="#DeleteModal"
@@ -118,6 +122,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -158,7 +163,7 @@
                                     <div class="media">
                                         <div class="media-body">
                                             <p class="text-muted font-weight-medium">Revenue</p>
-                                            <h4 class="mb-0">{{ format_money($result->total_revenue) }}</h4>
+                                            <h4 class="mb-0">{{ format_money($result->total_revenue, $currency ) }}</h4>
                                         </div>
 
                                         <div class="mini-stat-icon avatar-sm align-self-center rounded-circle bg-primary">
@@ -177,7 +182,7 @@
                                         <div class="media-body" data-toggle="tooltip" data-placement="bottom"
                                              title="Total amount includes interest">
                                             <p class="text-muted font-weight-medium">Debt</p>
-                                            <h4 class="mb-0">{{ format_money($result->total_debt) }}</h4>
+                                            <h4 class="mb-0">{{ format_money($result->total_debt, $currency ) }}</h4>
                                         </div>
 
                                         <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
@@ -195,7 +200,7 @@
                                     <div class="media">
                                         <div class="media-body">
                                             <p class="text-muted font-weight-medium">Receivables</p>
-                                            <h4 class="mb-0">{{ format_money($result->total_receivables) }}</h4>
+                                            <h4 class="mb-0">{{ format_money($result->total_receivables, $currency ) }}</h4>
                                         </div>
 
                                         <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
@@ -227,7 +232,7 @@
                                         <span>PDF</span>
                                     </a>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="clear"></div>
                             <div id="customer-chart" class="apex-charts mt-5" style="min-height: 365px;"></div>
                         </div>
@@ -236,7 +241,6 @@
                 </div>
             </div>
             <!-- end row -->
-
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
@@ -260,10 +264,14 @@
                                         </tr>
                                     @else
                                         @foreach($customer->customer->transactions as $transaction)
+                                        @php
+                                            $currency = isset($transaction->store_admin_ref->currencyPreference) ?
+                                                            $transaction->store_admin_ref->currencyPreference : null;
+                                        @endphp
                                             <tr>
                                                 <th scope="row">{{ $transaction->_id }}</th>
                                                 <td>{{ $transaction->type }}</td>
-                                                <td>{{ format_money($transaction->total_amount) }}</td>
+                                                <td>{{ format_money($transaction->total_amount, $currency) }}</td>
                                                 <td>
                                                     @if($transaction->status == false)
                                                         <span class="badge badge-danger">Unpaid</span>
@@ -314,15 +322,15 @@
             },
             toolbar: {
                 show: true,
+                offsetX: 0,
+                offsetY: 0,
                 tools: {
                     download: true,
-                    selection: true,
-                    zoom: true,
-                    zoomin: true,
-                    zoomout: true,
-                    pan: true,
-                },
-            },
+                }
+               
+            }
+            
+            
         };
 
         var chart = new ApexCharts(document.querySelector("#customer-chart"), options);

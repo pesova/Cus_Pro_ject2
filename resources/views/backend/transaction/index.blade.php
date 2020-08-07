@@ -21,10 +21,13 @@
         </div>
 
         @include('partials.alert.message')
+        <div id="transaction_js">
+            {{-- These are also found in the alert.message partial. I had to repeat it for the sake of JS see showAlertMessage() below--}}
+        </div>
 
         <div class="card mt-0">
             <div class="card-header">
-                <div class="btn-group dropdown">
+                <div class="btn-group dropdown float-left">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class='uil uil-file-alt mr-1'></i>Export
                         <i class="icon"><span data-feather="chevron-down"></span></i></button>
@@ -54,19 +57,24 @@
                                 <th>Due</th>
                                 <th>Created</th>
                                 <th>Status</th>
+                                <th style="display: none">Status</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($transactions as $index => $transaction )
+                            @php
+                            $currency = isset($transaction->store_admin_ref->currencyPreference) ?
+                            $transaction->store_admin_ref->currencyPreference : null;
+                            @endphp
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>
-                                    @if(Cookie::get('user_role') == 'super_admin')
+                                    @if(is_super_admin())
                                     <a class="" href="{{ route('store.show', $transaction->store_ref_id->_id) }}">
                                         {{ $transaction->store_ref_id->store_name }}
                                     </a>
-                                    @elseif(Cookie::get('user_role') == 'store_admin')
+                                    @elseif(is_store_admin())
                                     <a class="" href="{{ route('store.show', $transaction->store_ref_id) }}">
                                         {{ $transaction->store_name }}
                                     </a>
@@ -74,9 +82,9 @@
                                     {{ $transaction->store_name }}
                                     @endif
                                 </td>
-                                <td>{{ format_money($transaction->amount) }}</td>
+                                <td>{{ format_money($transaction->amount, $currency) }}</td>
                                 <td>{{ $transaction->interest }} %</td>
-                                <td>{{ format_money($transaction->total_amount) }} </td>
+                                <td>{{ format_money($transaction->total_amount, $currency) }} </td>
                                 <td>{{ $transaction->type }}</td>
 
                                 <td>
@@ -94,14 +102,15 @@
                                 <td> {{ \Carbon\Carbon::parse($transaction->createdAt)->diffForhumans() }}</td>
                                 <td>
                                     <label class="switch">
-                                        @if(Cookie::get('user_role') == 'store_admin')
+                                        @if(is_store_admin())
                                         <input class="togBtn" type="checkbox" id="togBtn" {{ $transaction->status == true ? 'checked' : '' }} data-id="{{ $transaction->_id }}" data-store="{{ $transaction->store_ref_id }}" data-customer="{{ $transaction->customer_ref_id}}">
-                                        @elseif(Cookie::get('user_role') != 'super_admin')
+                                        @elseif(is_super_admin())
+                                        @if($transaction->customer_ref_id != null)
                                         <input class="togBtn" type="checkbox" id="togBtn" {{ $transaction->status == true ? 'checked' : '' }} data-id="{{ $transaction->_id }}" data-store="{{ $transaction->store_ref_id->_id }}" data-customer="{{ $transaction->customer_ref_id->_id}}">
+                                        @endif
                                         @else
                                         <input type="checkbox" id="togBtn" {{ $transaction->status == true ? 'checked' : '' }} disabled>
                                         @endif
-
                                         <div class="slider round">
                                             <span class="on">Paid</span><span class="off">Pending</span>
                                         </div>
@@ -109,12 +118,23 @@
                                     <div id="statusSpiner" class="spinner-border spinner-border-sm text-primary d-none" role="status">
                                         <span class="sr-only">Loading...</span>
                                     </div>
+                                    </label>
+                                    <div id="statusSpiner" class="spinner-border spinner-border-sm text-primary d-none" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
                                 </td>
+                                <td style="display: none">{{ $transaction->status == true ? 'paid' : 'pending' }}</td>
+
                                 <td>
                                     @if($transaction->customer_ref_id != null)
                                     <a class="btn btn-primary btn-small py-1 px-2" href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref->_id.'-'.$transaction->customer_ref->_id) }}">
                                         View More
                                     </a>
+                                    @else
+                                    <a class="btn btn-info btn-small py-1 px-2" href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref->_id.'-'.$transaction->customer_ref->_id) }}">
+                                        View More
+                                    </a>
+                                    @endif
                                     @endif
                                 </td>
                             </tr>
@@ -142,22 +162,23 @@
 <script src="{{ asset('/backend/assets/js/textCounter.js')}}"></script>
 <script src="{{ asset('/backend/assets/js/toggleStatus.js')}}"></script>
 
+
 <script>
     $(document).ready(function() {
         var export_filename = 'MycustomerTransactions';
         $('#transactionTable').DataTable({
-            dom: 'frtipB'
-            , buttons: [{
-                extend: 'excel'
-                , className: 'd-none'
-                , title: export_filename
-            , }, {
-                extend: 'pdf'
-                , className: 'd-none'
-                , title: export_filename
-                , extension: '.pdf',
+            dom: 'frtipB',
+            buttons: [{
+                extend: 'excel',
+                className: 'd-none',
+                title: export_filename,
+            }, {
+                extend: 'pdf',
+                className: 'd-none',
+                title: export_filename,
+                extension: '.pdf',
                 exportOptions: {
-                    columns: [0,1,2,3,4,5,6]
+                    columns: [0, 1, 2, 3, 4, 5, 6, 9]
                 }
             }]
         });
@@ -168,7 +189,6 @@
             $('.buttons-pdf').trigger('click');
         });
     });
-
 </script>
 
 <script>
@@ -183,14 +203,14 @@
             if (storeID) {
                 $('select[name="customer"]').empty();
                 jQuery.ajax({
-                    url: host + "/store/" + encodeURI(storeID)
-                    , type: "GET"
-                    , dataType: "json"
-                    , contentType: 'json'
-                    , headers: {
+                    url: host + "/store/" + encodeURI(storeID),
+                    type: "GET",
+                    dataType: "json",
+                    contentType: 'json',
+                    headers: {
                         'x-access-token': token
-                    }
-                    , success: function(data) {
+                    },
+                    success: function(data) {
                         var new_data = data.data.store.customers;
                         var i;
                         new_data.forEach(customer => {
@@ -217,72 +237,90 @@
             $('#statusSpiner').removeClass('d-none');
 
             $.ajax({
-                url: `${host}/transaction/update/${id}`
-                , headers: {
+                url: `${host}/transaction/update/${id}`,
+                headers: {
                     'x-access-token': token
-                }
-                , data: {
-                    store_id: store
-                    , status: _status
-                    , customer_id: _customer_id
-                , }
-                , type: 'PATCH'
-            , }).done(response => {
+                },
+                data: {
+                    store_id: store,
+                    status: _status,
+                    customer_id: _customer_id,
+                },
+                type: 'PATCH',
+            }).done(response => {
                 if (response.success != true) {
                     $(this).prop("checked", !this.checked);
                     alert("Oops! something went wrong.");
                 }
-                alert("Operation Successful.");
+                // alert("Operation Successful.");
+                showAlertMessage('success', 'Operation successful');
                 $(this).removeAttr("disabled")
                 $('#statusSpiner').addClass('d-none');
             }).fail(e => {
                 $(this).removeAttr("disabled")
                 $(this).prop("checked", !this.checked);
                 $('#statusSpiner').addClass('d-none');
-                alert("Oops! something went wrong.");
+                showAlertMessage('danger', 'Oops! something went wrong');
+                // alert("Oops! something went wrong.");
             });
         });
 
-    });
 
+        function removeAlertMessage() {
+            setTimeout(function() {
+                $(".alert").remove();
+            }, 2000);
+        }
+
+        function showAlertMessage(type, message) {
+            const alertMessage = ' <div id="transaction_js_alert" class="alert alert-' + type + ' show" role="alert">\n' +
+                '                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+                '                        <span aria-hidden="true" class="">&times;</span>\n' +
+                '                    </button>\n' +
+                '                    <strong class="">' + message + '</strong>\n' +
+                '                </div>';
+            $("#transaction_js").html(alertMessage);
+            removeAlertMessage();
+        }
+    });
 </script>
 {{-- @if ( Cookie::get('is_first_time_user') == true) --}}
-    <script>
-        var transaction_intro_shown = localStorage.getItem('transaction_intro_shown');
+<script>
+    var transaction_intro_shown = localStorage.getItem('transaction_intro_shown');
 
-        if (!transaction_intro_shown) {
+    if (!transaction_intro_shown) {
 
-            const tour = new Shepherd.Tour({
-                defaults: {
-                    classes: "shepherd-theme-arrows"
-                }
-            });
+        const tour = new Shepherd.Tour({
+            defaults: {
+                classes: "shepherd-theme-arrows"
+            }
+        });
 
-            tour.addStep("step", {
-                text: "Welcome to Transaction Page, here you can record and track your transactions",
-                buttons: [{
-                    text: "Next",
-                    action: tour.next
-                }]
-            });
+        tour.addStep("step", {
+            text: "Welcome to Transaction Page, here you can record and track your transactions",
+            buttons: [{
+                text: "Next",
+                action: tour.next
+            }]
+        });
 
-            // tour.addStep("step2", {
-            //     text: "First thing you do is create a store",
-            //     attachTo: { element: ".second", on: "right" },
-            //     buttons: [
-            //         {
-            //             text: "Next",
-            //             action: tour.next
-            //         }
-            //     ],
-            //     beforeShowPromise: function() {
-            //         document.body.className += ' sidebar-enable';
-            //         document.getElementById('sidebar-menu').style.height = 'auto';
-            //     },
-            // });
-            tour.start();
-            localStorage.setItem('transaction_intro_shown', 1);
-        }
-    </script>
-    {{-- @endif --}}
+        // tour.addStep("step2", {
+        //     text: "First thing you do is create a store",
+        //     attachTo: { element: ".second", on: "right" },
+        //     buttons: [
+        //         {
+        //             text: "Next",
+        //             action: tour.next
+        //         }
+        //     ],
+        //     beforeShowPromise: function() {
+        //         document.body.className += ' sidebar-enable';
+        //         document.getElementById('sidebar-menu').style.height = 'auto';
+        //     },
+        // });
+        tour.start();
+        localStorage.setItem('transaction_intro_shown', 1);
+    }
+</script>
+{{-- @endif --}}
 @stop

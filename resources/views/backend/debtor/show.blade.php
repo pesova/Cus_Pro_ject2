@@ -5,6 +5,10 @@
 @endsection
 
 @section('content')
+@php
+    $currency = isset($debtor->store_admin_ref->currencyPreference) ?
+                    $debtor->store_admin_ref->currencyPreference : null;
+@endphp
 <div class="account-pages my-2">
     <div class="container-fluid">
         @include('partials.alert.message')
@@ -78,7 +82,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="card">
                 <div class="card-body">
                     <div class="row">
@@ -98,7 +101,7 @@
                                             <tbody>
                                                 <tr>
                                                     <th scope="row">Amount</th>
-                                                    <td colspan="2">{{ format_money($debtor->amount) }}</td>
+                                                    <td colspan="2">{{ format_money($debtor->amount, $currency) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">Interest</th>
@@ -106,7 +109,7 @@
                                                 </tr>
                                                 <tr class="font-weight-bolder">
                                                     <th scope="row">Total Amount</th>
-                                                    <td colspan="2">{{ format_money($debtor->total_amount) }}</td>
+                                                    <td colspan="2">{{ format_money($debtor->total_amount, $currency) }}</td>
                                                 </tr>
                                             </tbody>
                                         </table>

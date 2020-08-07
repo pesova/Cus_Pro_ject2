@@ -121,7 +121,9 @@ Route::prefix('/app')->group(function () {
 
             // customer crud
             Route::resource('customer', 'CustomerController');
-            // });
+
+            //Activity log
+            Route::resource('activities', 'ActivityController');
         }
         // ------------ SUPER ADMIN PROTECTED ROUTES ENDS HERE------------------------ //
 
@@ -142,6 +144,9 @@ Route::prefix('/app')->group(function () {
             Route::resource('customer', 'CustomerController');
 
             Route::post('/verify/bank', 'SettingsController@verify_bank')->name('verify.bank');
+
+            // //Activity log
+            // Route::resource('activities', 'ActivityController');
         }
 
         // ------------ STORE ADMIN PROTECTED ROUTES ENDS HERE------------------------ //
@@ -220,6 +225,9 @@ Route::prefix('/app')->group(function () {
         Route::post('/preview/{id}', "BusinessCard@preview_card")->name('preview');
         Route::post('/download/{id}', "BusinessCard@download_card")->name('download');
 
+        // Routes for complaints
+        Route::get('/complaint/feedbacks/{id}', 'ComplaintController@get_messages');
+        Route::post('/complaint/feedbacks/{id}', 'ComplaintController@post_message');
     });
     // ------------ GENERAL ROUTES ENDS HERE ------------------------ //
 

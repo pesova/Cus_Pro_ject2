@@ -33,6 +33,9 @@
                 <div class="card-body">
                     <h3 class="card-title mb-4">Compose Message</h3>
                     @include('partials.alert.message')
+                    
+                    
+                    
                     <div class="d-flex justify-content-center">
                         <div class="row col-lg-7 col-md-12 ">
                             <form action="{{ route('broadcast.store') }}" method="post" class="col-12">
@@ -41,9 +44,16 @@
                                     <label>Store</label>
                                     <select class="form-control col-12" name="store" id="store" required>
                                         <option value="" selected disabled>None selected</option>
+                                        @if ( \Cookie::get('user_role') == "super_admin")
                                         @foreach ($stores as $index => $store)
                                             <option value="{{$store[0]->_id}}">{{$store[0]->store_name}}</option>
                                         @endforeach
+                                        @else
+                                        @foreach ($stores as $index => $store)
+                                            <option value="{{$store->_id}}">{{$store->store_name}}</option>
+                                        @endforeach
+                                        @endif
+                                        
                                     </select>
                                 </div>
                                 <div class="form-group">

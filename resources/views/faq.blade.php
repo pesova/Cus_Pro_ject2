@@ -87,7 +87,7 @@
                 <!-- Question three body-->
                 <div id="questionThree" class="collapse" aria-labelledby="headingThree" data-parent="#faq__accordion">
                     <div class="card-body">
-                        <p class="faq__content">On Google store and IOS store.</p>
+                        <p class="faq__content">On Google store.</p>
                     </div>
                 </div>
             </div>
@@ -171,7 +171,7 @@
                     <button class="faq__btn collapsed" type="button" data-toggle="collapse" data-target="#questionEight"
                         aria-expanded="false" aria-controls="questionEight">
                         <h2 class="faq__title mb-0">
-                            How does the invoice reminder service work?
+                            How does the debt reminder service work?
                         </h2>
                         <i class="fas fa-angle-up"></i>
                     </button>
@@ -180,7 +180,7 @@
                 <div id="questionEight" class="collapse" aria-labelledby="headingEight" data-parent="#faq__accordion">
                     <div class="card-body">
                         <p class="faq__content">
-                            When you initially set up a reminder alert, You will …                         
+                            When you initially set up a reminder alert, The reminder is gotten on the phone …                         
                         </p>
                     </div>
                 </div>
@@ -360,7 +360,7 @@
                 <div id="questionSeventeen" class="collapse" aria-labelledby="headingSeventeen" data-parent="#faq__accordion">
                     <div class="card-body">
                         <p class="faq__content">
-                            Yes, the only thing you need to do is to download and install the app on Play store or IOS            
+                            Yes, the only thing you need to do is to download and install the app on Play store.            
                         </p>
                     </div>
                 </div>
@@ -443,7 +443,7 @@
                 <div id="questionTwenty0ne" class="collapse" aria-labelledby="headingTwenty0ne" data-parent="#faq__accordion">
                     <div class="card-body">
                         <p class="faq__content">
-                            Find out what other users have said about the app by visiting the review section of our app on Google play store. This can help to assure you of the apps reliability
+                            Find out what other users have said about the app by visiting the review section of our app on Google play store. This can help to assure you of the apps reliability.
                         </p>
                     </div>
                 </div>

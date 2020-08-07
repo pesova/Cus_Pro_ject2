@@ -5,7 +5,7 @@
         <a href="{{route('home') }}" class="navbar-brand mr-0 mr-md-2 logo">
             <span class="logo-lg">
                 @if(\Cookie::get('theme') == 'dark')
-                <img src="{{('/frontend/assets/images/fulllogodark.png')}}" alt="" height="48" />
+                <img src="{{('/frontend/assets/images/fulllogo.png')}}" alt="" height="48" />
                 @else
                 <img src="{{('/frontend/assets/images/fulllogo.png')}}" alt="" height="48" />
                 @endif
@@ -46,9 +46,15 @@
                         <img src="/backend/assets/images/users/default.png" class="avatar-sm rounded-circle mr-2"
                             alt="Profile Picture" />
                     </object>
+                    @if(is_store_assistant())
+                    <div class="media-body">
+                        <h6 class="pro-user-name mt-0 mb-0">{{Cookie::get('name')}}
+                        </h6>
+                    @else
                     <div class="media-body">
                         <h6 class="pro-user-name mt-0 mb-0">{{Cookie::get('first_name')}} {{Cookie::get('last_name')}}
                         </h6>
+                    @endif
                         <span class="pro-user-desc">
                             @if ( \Cookie::get('user_role') == "store_admin")
                             STORE ADMIN

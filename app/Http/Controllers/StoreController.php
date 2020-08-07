@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Rules\DoNotAddIndianCountryCode;
 use App\User;
 use Exception;
 use App\Rules\DoNotPutCountryCode;
@@ -146,7 +147,7 @@ class StoreController extends Controller
         if ($request->isMethod('post')) {
             $request->validate([
                 'store_name' => 'required|min:2|max:25',
-                'phone_number' => ["required", new NoZero, new DoNotPutCountryCode],
+                'phone_number' => ["required", "numeric", "digits_between:6,16", new DoNotAddIndianCountryCode, new DoNotPutCountryCode],
                 'shop_address' =>  'required|min:5|max:100',
                 'tagline' =>  'required|min:4|max:50'
             ]);
@@ -157,10 +158,10 @@ class StoreController extends Controller
                 $payload = [
                     'headers' => ['x-access-token' => Cookie::get('api_token')],
                     'form_params' => [
-                        'store_name' => $request->input('store_name'),
-                        'shop_address' => $request->input('shop_address'),
+                        'store_name' => purify_input($request->input('store_name')),
+                        'shop_address' => purify_input($request->input('shop_address')),
                         'email' => $request->input('email'),
-                        'tagline' => $request->input('tagline'),
+                        'tagline' => purify_input($request->input('tagline')),
                         'phone_number' => $request->input('phone_number')
                     ],
 
@@ -183,7 +184,7 @@ class StoreController extends Controller
                 } else {
                     $request->session()->flash('alert-class', 'alert-waring');
                     Session::flash('message', $data->message);
-                    return redirect()->route('store.create');
+                    return back();
                 }
             } catch (RequestException $e) {
                 $response = $e->getResponse();
@@ -196,7 +197,7 @@ class StoreController extends Controller
 
                 $data = json_decode($response->getBody());
                 Session::flash('message', $data->message);
-                return redirect()->route('store.create');
+                return back();
             } catch (Exception $e) {
                 Log::error((string) $response->getBody());
                 return view('errors.500');
@@ -337,8 +338,8 @@ class StoreController extends Controller
             'shop_address' =>  'required',
             'email' => "required|email",
             'tagline' =>  'required',
-            'phone_number' => ["required", new NoZero, new DoNotPutCountryCode]
-        ]);
+            'phone_number' => ["required", "numeric", "digits_between:6,16", new DoNotAddIndianCountryCode, new DoNotPutCountryCode],
+            ]);
 
         try {
 
@@ -348,11 +349,11 @@ class StoreController extends Controller
                 $headers,
                 'form_params' => [
                     'token' => Cookie::get('api_token'),
-                    'store_name' => $request->input('store_name'),
-                    'shop_address' => $request->input('shop_address'),
+                    'store_name' => purify_input($request->input('store_name')),
+                    'shop_address' => purify_input($request->input('shop_address')),
                     'phone_number' => $request->input('phone_number'),
                     'email' => $request->input('email'),
-                    'tagline' => $request->input('tagline')
+                    'tagline' => purify_input($request->input('tagline'))
                 ],
             ];
 

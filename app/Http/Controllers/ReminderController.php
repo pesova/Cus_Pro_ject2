@@ -22,8 +22,8 @@ class ReminderController extends Controller
             ]);
 
             $data = [
-                'subject' => $request->input('subject'),
-                'body' => $request->input('body'),
+                'subject' => purify_input($request->input('subject')),
+                'body' => purify_input($request->input('body')),
                 'sender' => $request->input('sender'),
                 'recipient' => $request->input('recipient'),
                 'cc' => $request->input('cc'),
