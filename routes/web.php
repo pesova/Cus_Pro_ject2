@@ -59,7 +59,7 @@ Route::get('/pay/failed', "PaymentController@failedResp")->name('pay.failed');
 // Route::post('/pay', "PaymentController@store")->name('pay.proceed');
 
 // backend codes
-Route::prefix('/admin')->group(function () {
+Route::prefix('/app')->group(function () {
 
     // ------------ AUTH ROUTES ------------------------ //
     // auth routes

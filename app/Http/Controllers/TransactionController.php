@@ -30,7 +30,6 @@ class TransactionController extends Controller
      */
     public function index()
     {
-
         if (Cookie::get('user_role') == 'super_admin') {
             $transacUrl = $this->host . '/transaction/all';
             $storeUrl = $this->host . '/store/all';
@@ -56,6 +55,7 @@ class TransactionController extends Controller
             if ($storeStatusCode == 200 && $transacStatusCode == 200) {
                 $stores = json_decode($storeResponse->getBody())->data->stores;
                 $transactions = json_decode($transactionResponse->getBody())->data->transactions;
+                // dd($transactions);
                 return view('backend.transaction.index', compact("stores", "api_token", "transactions"));
             } else if ($storeStatusCode == 401 && $transacStatusCode == 401) {
                 return redirect()->route('login')->with('message', "Please Login Again");

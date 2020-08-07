@@ -23,7 +23,7 @@
                      <div class="col-lg-12">
                          <div class="card">
                             <div class="card-body">
-                                        <form id="submitForm" action="{{ route('store.update', $response->_id) }}" method="POST">
+                                    <form id="submitForm" action="{{ route('store.update', $response->_id) }}" method="POST">
                                       @csrf
                                       @method('PUT')
                                         <div class="form-row">

@@ -1,16 +1,16 @@
-.customer-heading-container {
+/* .customer-heading-container {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-}
+} */
 
-.add-customer-button {
+/* .add-customer-button {
   cursor: pointer;
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
+} */
 
 .add-new-icon {
   margin: 6px;

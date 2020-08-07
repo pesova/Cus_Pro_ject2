@@ -18,19 +18,23 @@ $currency = isset($customer->customer->currency) ?
 
         <div class="container-fluid">
             {{-- start of page title --}}
-            <div class="row page-title">
-                <div class="col-md-12">
-                    <h6 class="mb-1 mt-0 float-left">Customer Profile</h6><br>
-                    <a href="{{ route('customer.index') }}" class="btn btn-primary float-right">
-                        Go Back
-                    </a>
-                    @if(Cookie::get('user_role') == 'store_admin')
-                        <a href="{{ route('customer.edit', $customer->storeId.'-'.$customer->customer->_id ) }}"
-                           class="mr-3 btn btn-success float-right">
-                            Edit Customer
+            <div class="page-title">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="mb-1 mt-0 ">Customer Profile</h6>
+                    </div>
+                    <div>
+                     
+                        @if(Cookie::get('user_role') == 'store_admin')
+                            <a href="{{ route('customer.edit', $customer->storeId.'-'.$customer->customer->_id ) }}" class="mr-2 btn btn-success btn-sm">
+                                Edit Customer
+                            </a>
+                        @endif
+                        <a href="{{ URL::previous() }}" class="btn btn-primary btn-sm">
+                            Go Back
                         </a>
-                    @endif
-                </div>
+                    </div>
+                 </div>
             </div>
             {{-- end of page title --}}
             <div class="row">
@@ -77,8 +81,7 @@ $currency = isset($customer->customer->currency) ?
                                         <div class="mt-4">
                                             <a href="#" data-toggle="modal"
                                                data-target="#DeleteModal"
-                                               class="btn btn-primary waves-effect waves-light btn-sm">Delete
-                                                Customer
+                                               class="btn btn-danger btn-sm">Delete Customer
                                             </a>
                                             <div id="DeleteModal"
                                                  class="modal fade bd-example-modal-sm"
@@ -214,8 +217,8 @@ $currency = isset($customer->customer->currency) ?
                     <div class="card">
                         <div class="card-body pb-5">
                             <h6 class="card-title mb-4 float-left">Transactions</h6>
-                            {{-- <div class="btn-group float-right">
-                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                            <div class="btn-group float-right">
+                                <button type="button" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown"
                                         aria-haspopup="true" aria-expanded="false">
                                     <i class='uil uil-file-alt mr-1'></i>Export
                                     <i class="icon"><span data-feather="chevron-down"></span></i></button>
@@ -277,7 +280,7 @@ $currency = isset($customer->customer->currency) ?
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <a class="btn btn-info btn-small py-1 px-2"
+                                                    <a class="btn btn-info btn-sm py-1 px-2"
                                                        href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id.'-'.$transaction->customer_ref_id) }}">
                                                         View More
                                                     </a>

@@ -18,6 +18,13 @@ use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 
 class StoreController extends Controller
 {
+    protected $host;
+
+    public function __construct()
+    {
+        $this->host = env('API_URL', 'https://dev.api.customerpay.me');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -25,105 +32,40 @@ class StoreController extends Controller
      */
     public function index(Request $request)
     {
-
         if (Cookie::get('user_role') == 'super_admin') {
-            $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store/all';
-
-            try {
-
-                $client = new Client;
-                $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
-
-                $response = $client->request("GET", $url, $payload);
-                $statusCode = $response->getStatusCode();
-                $body = $response->getBody();
-                $Stores = json_decode($body);
-
-                if ($statusCode == 200) {
-                    // return $Stores->data->stores;
-                    // dump($Stores->data->stores);
-
-                    $stores_data = $Stores->data->stores;
-                    $perPage = 12;
-                    $page = $request->get('page', 1);
-                    if ($page > count($stores_data) or $page < 1) {
-                        $page = 1;
-                    }
-                    $offset = ($page * $perPage) - $perPage;
-                    $articles = array_slice($stores_data, $offset, $perPage);
-                    $stores = new Paginator($articles, count($stores_data), $perPage);
-
-                    return view('backend.stores.index')->with('response', $stores->withPath('/' . $request->path()));
-                } else if ($statusCode == 401) {
-                    return redirect()->route('logout');
-                } else if ($statusCode == 500) {
-                    return view('errors.500');
-                }
-            } catch (RequestException $e) {
-
-                Log::info('Catch error: StoreController - ' . $e->getMessage());
-
-                // check for 5xx server error
-                if ($e->getResponse()->getStatusCode() >= 500) {
-                    return view('errors.500');
-                } else {
-                    return redirect()->route('logout');
-                }
-            } catch (\Exception $e) {
-
-                //log error;
-                Log::error('Catch error: StoreController - ' . $e->getMessage());
-                return view('errors.500');
-            }
+            $storeUrl = $this->host . '/store/all';
         } else {
+            $storeUrl = $this->host . '/store';
+        }
 
-            // API updated
-            $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store';
+        try {
+            //code...
+            $client = new Client;
+            $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
 
-            try {
+            $response = $client->request("GET", $storeUrl, $payload);
+            $storeStatusCode = $response->getStatusCode();
 
-                $client = new Client;
-                $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+            if ($storeStatusCode == 200) {
+                $stores = json_decode($storeResponse->getBody())->data->stores;
 
-                $response = $client->request("GET", $url, $payload);
-                $statusCode = $response->getStatusCode();
-                $body = $response->getBody();
-                $Stores = json_decode($body);
-
-                if ($statusCode == 200) {
-                    // return $Stores->data->stores;
-                    $stores_data = $Stores->data->stores;
-                    $perPage = 12;
-                    $page = $request->get('page', 1);
-                    if ($page > count($stores_data) or $page < 1) {
-                        $page = 1;
-                    }
-                    $offset = ($page * $perPage) - $perPage;
-                    $articles = array_slice($stores_data, $offset, $perPage);
-                    $stores = new Paginator($articles, count($stores_data), $perPage);
-
-                    return view('backend.stores.index')->with('response', $stores->withPath('/' . $request->path()));
-                } else if ($statusCode == 401) {
-                    return redirect()->route('logout');
-                } else if ($statusCode == 500) {
-                    return view('errors.500');
+                $perPage = 12;
+                $page = $request->get('page', 1);
+                if ($page > count($stores_data) or $page < 1) {
+                    $page = 1;
                 }
-            } catch (RequestException $e) {
+                $offset = ($page * $perPage) - $perPage;
+                $articles = array_slice($stores_data, $offset, $perPage);
+                $stores = new Paginator($articles, count($stores_data), $perPage);
 
-                Log::info('Catch error: StoreController - ' . $e->getMessage());
-
-                // check for 5xx server error
-                if ($e->getResponse()->getStatusCode() >= 500) {
-                    return view('errors.500');
-                } else {
-                    return redirect()->route('logout');
-                }
-            } catch (\Exception $e) {
-
-                //log error;
-                Log::error('Catch error: StoreController - ' . $e->getMessage());
-                return view('errors.500');
+                return view('backend.stores.index')->with('stores', $stores->withPath('/' . $request->path()));
+            } else if ($storeStatusCode == 401 && $transacStatusCode == 401) {
+                return redirect()->route('login')->with('message', "Please Login Again");
             }
+        } catch (\Exception $e) {
+            //log error;
+            Log::error('Catch error: StoreController - ' . $e->getMessage());
+            return view('errors.500');
         }
     }
 

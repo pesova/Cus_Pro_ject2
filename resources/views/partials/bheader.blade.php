@@ -28,7 +28,7 @@
             <li class="d-none d-sm-block">
                 <div class="app-search">
                     <button class="btn btn-primary back-home-button">
-                        <a href="{{route('dashboard')}}" style="color: white">Back to home</a>
+                        <a href="{{ route('home') }}" style="color: white">Back to home</a>
                     </button>
 
                 </div>
