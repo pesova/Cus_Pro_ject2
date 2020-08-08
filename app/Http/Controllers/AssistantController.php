@@ -159,7 +159,7 @@ class AssistantController extends Controller
             $payload = [
                 'headers' => ['x-access-token' => Cookie::get('api_token')],
                 'form_params' => [
-                    'name' => $request->input('name'),
+                    'name' => purify_input($request->input('name')),
                     'phone_number' => $request->input('phone_number'),
                     'email' => $request->input('email'),
                     'password' => $request->input('password'),
@@ -349,7 +349,7 @@ class AssistantController extends Controller
                 $headers,
                 'form_params' => [
                     'token' => Cookie::get('api_token'),
-                    'name' => $request->input('name'),
+                    'name' => purify_input($request->input('name')),
                     'email' => $request->input('email'),
                     'phone_number' => $request->input('phone_number'),
                     'store_id' => $request->input('store_id')

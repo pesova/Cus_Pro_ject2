@@ -24,6 +24,7 @@ class PaymentController extends Controller
      */
     public function index($tx_ref)
     {
+        // dd('here');
         $transactionID = $tx_ref;
         $transactionURL = $this->host . '/transaction' . '/' . $transactionID;
 

@@ -30,7 +30,6 @@ class TransactionController extends Controller
      */
     public function index()
     {
-
         if (Cookie::get('user_role') == 'super_admin') {
             $transacUrl = $this->host . '/transaction/all';
             $storeUrl = $this->host . '/store/all';
@@ -56,6 +55,7 @@ class TransactionController extends Controller
             if ($storeStatusCode == 200 && $transacStatusCode == 200) {
                 $stores = json_decode($storeResponse->getBody())->data->stores;
                 $transactions = json_decode($transactionResponse->getBody())->data->transactions;
+                // dd($transactions);
                 return view('backend.transaction.index', compact("stores", "api_token", "transactions"));
             } else if ($storeStatusCode == 401 && $transacStatusCode == 401) {
                 return redirect()->route('login')->with('message', "Please Login Again");
@@ -137,7 +137,7 @@ class TransactionController extends Controller
                 'amount' => $request->input('amount'),
                 'interest' => $request->input('interest'),
                 'total_amount' => $total_amount,
-                'description' => $request->input('description'),
+                'description' => purify_input($request->input('description')),
                 'type' => $request->input('type'),
                 'store_id' => $request->input('store'),
                 'customer_id' => $request->input('customer'),
@@ -157,6 +157,9 @@ class TransactionController extends Controller
                 $request->session()->flash('message', 'store or customer is not created');
                 return redirect()->route('transaction.index');
             }
+            $request->session()->flash('alert-class', 'alert-danger');
+            $request->session()->flash('message', 'an error occurred. Please try again later');
+            return redirect()->route('transaction.index');
         } catch (RequestException $e) {
             $response = $e->getResponse();
             $statusCode = $response->getStatusCode();

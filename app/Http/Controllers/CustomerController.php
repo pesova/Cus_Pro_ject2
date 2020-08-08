@@ -155,7 +155,7 @@ class CustomerController extends Controller
                     'form_params' => [
                         'store_id' => $request->input('store_id'),
                         'phone_number' => $request->input('phone_number'),
-                        'name' => $request->input('name'),
+                        'name' => purify_input($request->input('name')),
                     ],
                 ];
                 $response = $client->request("POST", $url, $payload);
@@ -356,7 +356,7 @@ class CustomerController extends Controller
                 'headers' => ['x-access-token' => Cookie::get('api_token')],
                 'form_params' => [
                     'phone_number' => $request->input('phone_number'),
-                    'name' => $request->input('name'),
+                    'name' => purify_input($request->input('name')),
                     'store_id' => $store_id,
                 ],
             ];
