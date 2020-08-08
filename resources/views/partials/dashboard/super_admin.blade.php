@@ -358,8 +358,8 @@
 {{-- <script src="/backend/assets/js/pages/dashboard.js"></script> --}}
 <script>
     $(document).ready(function () {
-        let income_per_month = <?php echo json_encode($data->incomePerMonth);?> ;
-        let users_per_month = <?php echo json_encode($data->usersPerMonth);?> ;
+        let income_per_month = <?php echo json_encode($data->incomePerMonth);?>;
+        let users_per_month = <?php echo json_encode($data->usersPerMonth);?>;
         let transactions_per_month = <?php echo json_encode($data->transactionsPerMonth);?> ;
         let calendar_months_abbreviated = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct',
             'Nov', 'Dec'

@@ -6,24 +6,22 @@
 @stop
 @section('content')
 <div class="content">
-    
+    @include('partials.alert.message')
+
     <div class="container-fluid">
-        <div class="row page-title">
-            <div class="col-md-12">
-                <div class="customer-heading-container">
-                    <button class="add-customer-button btn btn-primary" data-toggle="modal"
-                        data-target="#addAssistantModal">
-                        Add New Assistant <i class="fa fa-plus add-new-icon"></i>
-                    </button>
-                </div>
+        <div class="page-title d-flex justify-content-between align-items-center">
+            <div>
+                <h4 class="">Assistants</h4>
+            </div>
+            <div>
+                <button class=" btn btn-primary btn-sm" data-toggle="modal">
+                    <a href="" data-toggle="modal" data-target="#addAssistantModal" class="text-white">
+                        New Assistant <i class="fa fa-plus add-new-icon"></i>
+                    </a>
+                </button>
             </div>
         </div>
-        @include('partials.alert.message')
-        <div class="row page-title">
-            <div class="col-md-12">
-                <h4 class="mb-1 mt-0">Assistants</h4>
-            </div>
-        </div>
+
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -72,7 +70,8 @@
                                 @endphp
                             </span>
                         </div>
-                        <h5 class="font-size-15"><a href="{{ route('assistants.show', $assistant->_id) }}" class="text-dark">{{$assistant->name }}</a></h5>
+                        <h5 class="font-size-15"><a href="{{ route('assistants.show', $assistant->_id) }}"
+                                class="text-dark">{{$assistant->name }}</a></h5>
                         <p class="text-muted">{{$assistant->phone_number}} | {{$assistant->email ?? ''}}</p>
 
                         <div>
@@ -106,7 +105,7 @@
                                     data-target="#deleteModal-{{$assistant->_id}}"><i data-feather="trash-2"></i></a>
 
                                 @include('partials.modal.assistant.deleteAssistant')
-                                
+
                             </div>
                         </div>
                     </div>
@@ -126,8 +125,7 @@
 <script src="/backend/assets/build/js/intlTelInput.js"></script>
 <script>
     var input = document.querySelector("#phone");
-    var test = window.intlTelInput(input, {
-    });
+    var test = window.intlTelInput(input, {});
 
     if ($("#phone").val().trim() != '')
         test.setNumber("+" + ($("#phone").val()));

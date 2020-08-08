@@ -139,14 +139,7 @@
 @section("javascript")
    <script src="/backend/assets/build/js/intlTelInput.js"></script>
    <script>
-   var input = document.querySelector("#phone");
-   window.intlTelInput(input, {
-       // any initialisation options go here
-   });
-
-
    //phone Number format
-
    var input = document.querySelector("#phone");
     var test = window.intlTelInput(input, {
         separateDialCode: true,
