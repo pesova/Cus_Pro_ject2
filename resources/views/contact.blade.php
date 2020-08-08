@@ -2,11 +2,17 @@
 @section("custom_css")
 <link href="/frontend/assets/css/about.css" rel="stylesheet" type="text/css" />
 <link href="/frontend/assets/css/contact-us.css" rel="stylesheet" type="text/css" />
+<style>
+    form .error {
+        color: #ff0000;
+    }
+
+    form textarea {
+        height: unset;
+    }
+</style>
 @stop
-
-
 @section('content')
-
 <section id="main">
     <!-- About: Heading Section -->
     <div class="about_main">
@@ -41,30 +47,48 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-6">
-                <form action="">
-                    <p class="form-head">Let’s Keep in Touch</p>
-                    <input type="text" placeholder="Full Name" name="Full Name" class="name-input" required>
-                    <input type="email" name="Email" id="Email" placeholder="Email" required>
-                    <div class="custom-select">
-                        <select>
-                            <option value="Subject" selected>Subject</option>
-                            <option value="General Enquiries">General Enquiries</option>
-                            <option value="Suggestion">Suggestion</option>
-                            <option value="Report Bugs">Report Bugs</option>
-                            <option value="Others">Others</option>
-                        </select>
+                <div id="formFeedback" class="d-flex justify-content-center">
+                    <div class="alert alert-{{ Session::get('alert-class') }} alert-dismissible fade show">
+                        {{ (Session::get('message')) }}
+
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
                     </div>
-                    <textarea name="Message" id="Message" placeholder="Your Message Here" required></textarea>
-                    <div class="button"><a href=""><img src="frontend/assets/img/icon-img/send.svg" alt="icon"class="send">Send</a></div>
+                </div>
+                <form id="contact_form" action="{{ route('contact.send') }}" method="POST">
+                    @csrf
+                    <p class="form-head">Let’s Keep in Touch</p>
+                    <div class="form-group">
+                        <input type="text" name="name" class="form-control name-input" placeholder="Full Name">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="email" id="email" class="form-control" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <textarea name="message" id="message" class="form-control" placeholder="Your Message Here"
+                            rows="4"></textarea>
+                    </div>
+                    <div class="form-group">
+                        {!! NoCaptcha::renderJs() !!}
+                        {!! NoCaptcha::display() !!}
+                        @if ($errors->has('g-recaptcha-response'))
+                        <span class="help-block">
+                            <small class="form-text text-danger">{{ $errors->first('g-recaptcha-response') }}</small>
+                        </span>
+                        @endif
+                    </div>
+                    <button class="button"><img src="frontend/assets/img/icon-img/send.svg" alt="icon"
+                            class="send">Send</button>
                 </form>
             </div>
             <div class="col-lg-6">
                 <div>
                     <div class="contact-extra">
-                        <p class="subhead">Whatsapp</p>
-                        <p class="subhead-text">09096823115</p>
+                        {{-- <p class="subhead">Whatsapp</p>
+                        <p class="subhead-text">09096823115</p> --}}
                         <p class="subhead">Email Us</p>
-                        <p class="subhead-text" id="st-1"><a href="mailto:Help@mycustomer.com">Help@mycustomer.com</a>
+                        <p class="subhead-text" id="st-1"><a href="mailto:hello@customerpay.me">hello@customerpay.me</a>
                         </p>
                         <p class="subhead">Working Hours: 9 AM - 11 PM</p>
                         <div class="map-area">
@@ -82,21 +106,46 @@
         </div>
     </div>
 </section>
-
 @endsection
 
 
 @section("javascript")
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"
+    integrity="sha512-UdIMMlVx0HEynClOIFSyOrPggomfhBKJE28LKl8yR3ghkgugPnG6iLfRfHwushZl1MOPSY6TsuBDGPK2X4zYKg=="
+    crossorigin="anonymous"></script>
 <script>
-  document.querySelector('form .button').addEventListener('click', (e) => {
-    let name = document.querySelector('.name-input')
-    let email = document.querySelector('#Email')
-    let message = document.querySelector('#Message')
-
-    if (name.value.length < 1 || email.value.length < 1 || message.value.length < 1) {
-      e.preventDefault()
-      alert('Please fill in required fields correctly')
+    $(function() {
+  $('#contact_form').validate({
+    rules: {
+      name: 'required',
+      subject: 'required',
+      email: {
+        required: true,
+        email: true
+      },
+      message: {
+        required: true,
+        minlength: 20
+      }
+    },
+    messages: {
+        name: 'Please enter your full name',
+        subject: {
+            required: 'Please provide a password',
+            minlength: 'Your message should be at least 20 characters long'
+        },
+        email: 'Please enter a valid email address',
+    },
+    submitHandler: function(form) {
+      form.submit();
     }
-  })
+  });
+});
 </script>
+
+@if(Session::has('message'))
+<script>
+    $('#formFeedback').scrollTop(1);
+</script>
+@endif
 @stop
