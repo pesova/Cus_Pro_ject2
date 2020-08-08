@@ -151,7 +151,7 @@
         {
             window.setTimeout(function () {
                 $.ajax({
-                    url: "{{ url('admin/complaint/feedbacks/' . $response->data->complaint->_id) }}",
+                    url: "{{ route('feedbacks.get', ['id' => $response->data->complaint->_id ]) }}",
                     type: "GET",
                     success: function (result) {
 
@@ -223,7 +223,7 @@
             if( $('#chat_msg_send').val().trim() != "" ){
                 var feedback_msg = $('#chat_msg_send').val().trim();
                 $.ajax({
-                    url: "{{ url('admin/complaint/feedbacks/' . $response->data->complaint->_id ) }}",
+                    url: "{{ route('feedbacks.post', ['id' => $response->data->complaint->_id ]) }}",
                     type: "post",
                     data: {
                         "_token": "{{ csrf_token() }}",

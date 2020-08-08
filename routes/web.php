@@ -226,8 +226,8 @@ Route::prefix('/app')->group(function () {
         Route::post('/download/{id}', "BusinessCard@download_card")->name('download');
 
         // Routes for complaints
-        Route::get('/complaint/feedbacks/{id}', 'ComplaintController@get_messages');
-        Route::post('/complaint/feedbacks/{id}', 'ComplaintController@post_message');
+        Route::get('/complaint/feedbacks/{id}', 'ComplaintController@get_messages')->name('feedbacks.get');
+        Route::post('/complaint/feedbacks/{id}', 'ComplaintController@post_message')->name('feedbacks.post');
     });
     // ------------ GENERAL ROUTES ENDS HERE ------------------------ //
 
