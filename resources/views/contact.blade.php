@@ -47,6 +47,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-6">
+                @if(Session::has('message'))
                 <div id="formFeedback" class="d-flex justify-content-center">
                     <div class="alert alert-{{ Session::get('alert-class') }} alert-dismissible fade show">
                         {{ (Session::get('message')) }}
@@ -56,6 +57,7 @@
                           </button>
                     </div>
                 </div>
+                @endif
                 <form id="contact_form" action="{{ route('contact.send') }}" method="POST">
                     @csrf
                     <p class="form-head">Let’s Keep in Touch</p>
@@ -92,14 +94,12 @@
                         </p>
                         <p class="subhead">Working Hours: 9 AM - 11 PM</p>
                         <div class="map-area">
-                            <iframe class="map-iframe"
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.098727562492!2d3.3773159144495124!3d6.509186125136247!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b8cf61c9c63c5%3A0xf54f4044acbfc478!2sThe%20HNG%20Internship!5e0!3m2!1sen!2sng!4v1592601378471!5m2!1sen!2sng"
-                                frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false"
-                                tabindex="0"></iframe>
+                            <iframe class=" map-iframe" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3067.312858599401!2d-75.628452985209!3d39.755083503537165!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c6fe0b62f2ae5b%3A0xe8a497f5a5daa390!2s2711%20Centerville%20Rd%20%23400%2C%20Wilmington%2C%20DE%2019808%2C%20USA!5e0!3m2!1sen!2sng!4v1596921181218!5m2!1sen!2sng" 
+                            rameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
                         </div>
                         <p class="subhead">Find us at,</p>
-                        <p class="subhead-text subhead-address">HNG <br> 3 Birrel Ave, Sabo yaba 100001, <br> Lagos,
-                            Nigeria.</p>
+                        <p class="subhead-text subhead-address">2711 Centreville Road, Suite 400, Wilmington, <br />New castle County,<br />
+                            Delaware, DE 19808</p>
                     </div>
                 </div>
             </div>
