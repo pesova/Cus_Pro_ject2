@@ -107,7 +107,6 @@ class ComplaintController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->all());
         $request->validate([
             'subject' => 'required',
             'message' => 'required|max:500|min:10'
@@ -404,13 +403,13 @@ class ComplaintController extends Controller
             'message' => ['required'],
         ]);
 
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . "/complaint/feedbacks/" . $id;
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . "/complaint/feedback/" . $id;
         $message = purify_input($request->input('message'));
         try {
             $client = new Client();
             $payload = [
                 'headers' => ['x-access-token' => api_token()],
-                "form_params" => ["message" => $message]
+                "form_params" => ["messages" => $message]
             ];
 
             $response = $client->request('POST', $url, $payload);
