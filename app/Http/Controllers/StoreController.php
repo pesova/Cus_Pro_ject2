@@ -117,7 +117,6 @@ class StoreController extends Controller
                         'tagline' => purify_input($request->input('tagline')),
                         'phone_number' => $request->input('phone_number')
                     ],
-
                 ];
 
                 $response = $client->request("POST", $url, $payload);
@@ -192,8 +191,6 @@ class StoreController extends Controller
             $transactions = json_decode($transactions_data)->data->transactions;
             $chart = json_decode($stores_data)->data->transactionChart;
 
-            // dd($store_customer);
-              
             if ($store_status_code == 200  && $transaction_status_code == 200) {
                 return view('backend.stores.show', compact(['transactions', 'store', 'store_customer', 'chart']))
                 ->with('number', 1);
