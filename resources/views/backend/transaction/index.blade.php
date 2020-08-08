@@ -144,10 +144,12 @@
                                         More
                                     </a>
                                     @else
+                                    @if (is_store_admin())
                                     <a class="btn btn-primary btn-sm py-1 px-2"
                                         href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id.'-'.$transaction->customer_ref_id) }}">
                                         More
                                     </a>
+                                    @endif
                                     @endif
                                 </td>
                             </tr>
