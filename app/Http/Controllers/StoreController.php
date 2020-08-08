@@ -32,34 +32,42 @@ class StoreController extends Controller
      */
     public function index(Request $request)
     {
-        if (Cookie::get('user_role') == 'super_admin') {
-            $storeUrl = $this->host . '/store/all';
-        } else {
-            $storeUrl = $this->host . '/store';
-        }
+        $storeUrl = $this->host . '/store';
 
         try {
             //code...
+
+            // initiate new GuzzleHttp Client
             $client = new Client;
+
+            // pass access token
             $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
 
+            // make Http request
             $response = $client->request("GET", $storeUrl, $payload);
-            $storeStatusCode = $response->getStatusCode();
 
-            if ($storeStatusCode == 200) {
-                $stores = json_decode($storeResponse->getBody())->data->stores;
+            // get response from Http request
+            $statusCode = $response->getStatusCode();
 
+            if ($statusCode == 200) {
+
+                // get data from respone
+                $stores_data = json_decode($response->getBody())->data->stores;
+                // dd($stores_data);
+
+                // start pagination
                 $perPage = 12;
                 $page = $request->get('page', 1);
                 if ($page > count($stores_data) or $page < 1) {
                     $page = 1;
                 }
                 $offset = ($page * $perPage) - $perPage;
+                
                 $articles = array_slice($stores_data, $offset, $perPage);
                 $stores = new Paginator($articles, count($stores_data), $perPage);
-
+                
                 return view('backend.stores.index')->with('stores', $stores->withPath('/' . $request->path()));
-            } else if ($storeStatusCode == 401 && $transacStatusCode == 401) {
+            } else if ($statusCode == 401) {
                 return redirect()->route('login')->with('message', "Please Login Again");
             }
         } catch (\Exception $e) {
@@ -87,7 +95,7 @@ class StoreController extends Controller
      */
     public function store(Request $request)
     {
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store/new';
+        $url = $this->host . '/store/new';
 
         if ($request->isMethod('post')) {
             $request->validate([
@@ -160,40 +168,35 @@ class StoreController extends Controller
      */
     public function show(Request $request, $id)
     {
-        // return view('backend.stores.index');
+        $url = $this->host . '/store'.'/'.$id;
+        $transactions_url = $this->host . '/transaction/store'.'/'.$id;
 
-        // API updated
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store/' . $id;
-        $transactions_url = env('API_URL', 'https://dev.api.customerpay.me') . '/transaction/store/' . $id;
         try {
             $client = new Client;
             $payload = [
                 'headers' => [
                     'x-access-token' => Cookie::get('api_token')
                 ],
-                'form_params' => [
-                    'current_user' => Cookie::get('user_id'),
-                ]
             ];
-            $response = $client->request("GET", $url, $payload);
-            $transaction_response =  $client->request("GET", $transactions_url, $payload);
-            $statusCode = $response->getStatusCode();
-            $transaction_statusCode = $transaction_response->getStatusCode();
-            $body = $response->getBody();
-            $transactions_body = $transaction_response->getBody();
+            $store_response = $client->request("GET", $url, $payload);
+            $store_status_code = $store_response->getStatusCode();
 
-            $store_transactions = json_decode($transactions_body)->data->transactions;
-            $StoreData = json_decode($body)->data->store;
-            $store = json_decode($body)->data->transactionChart;
-            $StoreData = [
-                'storeData' => $StoreData,
-                "transactions" => $store_transactions
-            ];
-                // return print_r($StoreData);
-                // die();
-            if ($statusCode == 200  && $transaction_statusCode == 200) {
+            $transaction_response =  $client->request("GET", $transactions_url, $payload);
+            $transaction_status_code = $transaction_response->getStatusCode();
+
+            $stores_data = $store_response->getBody();
+            $transactions_data = $transaction_response->getBody();
+
+            $store = json_decode($stores_data)->data->store;
+            $store_customer = json_decode($stores_data)->data->store->customers;
+            $transactions = json_decode($transactions_data)->data->transactions;
+            $chart = json_decode($stores_data)->data->transactionChart;
+
+            // dd($store_customer);
               
-                return view('backend.stores.show')->with('response', $StoreData)->with('chart', $store)->with('number', 1);
+            if ($store_status_code == 200  && $transaction_status_code == 200) {
+                return view('backend.stores.show', compact(['transactions', 'store', 'store_customer', 'chart']))
+                ->with('number', 1);
             }
         } catch (RequestException $e) {
             Log::info('Catch error: LoginController - ' . $e->getMessage());
@@ -204,7 +207,7 @@ class StoreController extends Controller
             } else if ($e->getResponse()->getStatusCode() >= 401) {
                 $request->session()->flash('alert-class', 'alert-danger');
                 Session::flash('message', "Your Session Has Expired, Please Login Again");
-                return redirect()->route('store.index');
+                return redirect()->route('logout');
             }
             // get response to catch 4xx errors
             $response = json_decode($e->getResponse()->getBody());
@@ -227,45 +230,55 @@ class StoreController extends Controller
      */
     public function edit($id)
     {
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store/' . $id;
 
-        try {
-            $client = new Client;
-            $payload = [
-                'headers' => [
-                    'x-access-token' => Cookie::get('api_token')
-                ],
-                'form_params' => [
-                    'current_user' => Cookie::get('user_id'),
-                ]
-            ];
-            $response = $client->request("GET", $url, $payload);
-            $statusCode = $response->getStatusCode();
-            $body = $response->getBody();
-            $StoreData = json_decode($body)->data->store;
-            if ($statusCode == 200) {
+        // $request->validate([
+        //     'store_name' => 'required|min:2|max:25',
+        //     'phone_number' => ["required", "numeric", "digits_between:6,16", new DoNotAddIndianCountryCode, new DoNotPutCountryCode],
+        //     'shop_address' =>  'required|min:5|max:100',
+        //     'tagline' =>  'required|min:4|max:50'
+        // ]);
 
-                return view('backend.stores.edit')->with('response', $StoreData);
-            }
-        } catch (RequestException $e) {
+        // try {
+        //     $client = new Client;
+        //     $payload = [
+        //         'headers' => [
+        //             'x-access-token' => Cookie::get('api_token')
+        //         ],
+        //         'form_params' => [
+        //             'current_user' => Cookie::get('user_id'),
+        //         ]
+        //     ];
+        //     $response = $client->request("GET", $url, $payload);
+        //     $statusCode = $response->getStatusCode();
+        //     $body = $response->getBody();
+        //     if ($statusCode == 200) {
+                
+        //         $StoreData = json_decode($body)->data->store;
+        //         // return->back()->with('response', $StoreData);
 
-            Log::info('Catch error: LoginController - ' . $e->getMessage());
+        //         // return view('backend.stores.edit')->with('response', $StoreData);
+        //     }
+        // } catch (RequestException $e) {
 
-            // check for 5xx server error
-            if ($e->getResponse()->getStatusCode() >= 500) {
-                return view('errors.500');
-            }
-            // get response to catch 4xx errors
-            $response = json_decode($e->getResponse()->getBody());
-            Session::flash('alert-class', 'alert-danger');
+        //     Log::info('Catch error: LoginController - ' . $e->getMessage());
 
-            Session::flash('message', $response->message);
-            return redirect()->route('store.index', ['response' => []]);
-        } catch (\Exception $e) {
-            //log error;
-            Log::error('Catch error: StoreController - ' . $e->getMessage());
-            return redirect()->route('store.index', ['response' => []]);
-        }
+        //     // check for 5xx server error
+        //     if ($e->getResponse()->getStatusCode() >= 500) {
+        //         return view('errors.500');
+        //     }
+        //     // get response to catch 4xx errors
+        //     $response = json_decode($e->getResponse()->getBody());
+        //     $respone = [];
+        //     Session::flash('alert-class', 'alert-danger');
+
+        //     Session::flash('message', $response->message);
+        //     return back()->with('response');
+        //     // return redirect()->route('store.index', ['response' => []]);
+        // } catch (\Exception $e) {
+        //     //log error;
+        //     Log::error('Catch error: StoreController - ' . $e->getMessage());
+        //     return redirect()->route('store.index', ['response' => []]);
+        // }
     }
 
     /**
@@ -277,7 +290,8 @@ class StoreController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store/update/' . $id;
+        $url = $this->host . '/store/update'.'/'.$id;
+
         $request->validate([
             'store_name' => 'required|min:3',
             'shop_address' =>  'required',
@@ -307,14 +321,13 @@ class StoreController extends Controller
 
             if ($status == 200 || $status == 201) {
                 $body = $response->getBody()->getContents();
-                // $res = json_encode($body);
                 $request->session()->flash('alert-class', 'alert-success');
                 Session::flash('message', "Update Successful");
-                return redirect()->route('store.index');
+                redirect()->back();
             } else {
-                $request->session()->flash('alert-class', 'alert-danger');
-                Session::flash('message', "Update Failed");
-                return back();
+                $request->session()->flash('alert-class', 'alert-success');
+                Session::flash('message', "OOPS, Something Went Wrong");
+                return redirect()->back();
             }
 
         } catch (\Exception $e) {
@@ -324,7 +337,6 @@ class StoreController extends Controller
             }
             $request->session()->flash('alert-class', 'alert-danger');
             $request->session()->flash('message', 'An Error Occured. Please Try Again Later');
-
             return redirect()->back();
         }
     }
