@@ -71,17 +71,15 @@ class HomeController extends Controller
             'name' => ['required', 'string'],
             'email' => ['required', 'email'],
             'message' => ['required', 'string'],
-            'g-recaptcha-response' => ['required'],
+            'g-recaptcha-response' => ['required','captcha'],
         ];
 
         $messages = [
             'name' => 'Please enter your Full Name',
             'message' => 'Please enter your message',
             'email.*' => 'Please enter a valid email address',
-            'g-recaptcha-response' => [
-                'required' => 'Please verify that you are not a robot.',
-                'captcha' => 'Captcha error! try again later or contact site admin.',
-            ],
+            'g-recaptcha-response.required' => 'Please verify that you are not a robot.',
+            'g-recaptcha-response.captcha' => 'reCaptcha error! try again later or contact site admin.',
         ];
 
         return $this->validate($request, $rules, $messages);
