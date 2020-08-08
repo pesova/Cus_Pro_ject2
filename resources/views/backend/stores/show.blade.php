@@ -222,8 +222,7 @@ $total_interestReceivables += $each_interestReceivables;
     <div class="col-lg-8">
         <div class="card">
             <div class="card-body">
-                <h6 class="card-title mb-4 float-sm-left">Transaction Overview {{date('Y')}}</h6>
-                <div class="clearfix"></div>
+                <h6 class="card-title mb-4">Total Transactions {{date('Y')}}</h6>
                 <div id="transactionchart"></div>
             </div>
         </div>
@@ -338,6 +337,72 @@ $total_interestReceivables += $each_interestReceivables;
 </script>
 <script src="{{ asset('/backend/assets/js/textCounter.js')}}"></script>
 <script src="{{ asset('/backend/assets/js/toggleStatus.js')}}"></script>
+
+<script>
+    $(document).ready(function () {
+        // start of transaction charts
+        var options = {
+            series: [{
+                name: 'Transaction',
+                data: {{json_encode($chart)}},
+            }],
+            chart: {
+                height: 350,
+                type: 'line',
+            },
+            stroke: {
+                width: 7,
+                curve: 'smooth'
+            },
+            xaxis: {
+                type: 'text',
+                categories: ['JAN', 'FEB', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUG',
+                    'SEPT', 'OCT', 'NOV', 'DEC'
+                ],
+            },
+            title: {
+                text: '',
+                align: 'left',
+                style: {
+                    fontSize: "16px",
+                    color: '#666'
+                }
+            },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    shade: 'dark',
+                    gradientToColors: ['#FDD835'],
+                    shadeIntensity: 1,
+                    type: 'horizontal',
+                    opacityFrom: 1,
+                    opacityTo: 1,
+                    stops: [0, 100, 100, 100]
+                },
+            },
+            markers: {
+                size: 4,
+                colors: ["#FFA41B"],
+                strokeColors: "#fff",
+                strokeWidth: 2,
+                hover: {
+                    size: 7,
+                }
+            },
+            yaxis: {
+                //min: -10,
+                // max: 40,
+                title: {
+                    text: 'Transaction',
+                },
+            }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#transactionchart"), options);
+        chart.render();
+
+    });
+</script>
 
 <script>
     $(document).ready(function () {
@@ -456,73 +521,4 @@ $total_interestReceivables += $each_interestReceivables;
 
 </script>
 
-<script>
-    $(document).ready(function () {
-
-        // start of transaction charts
-
-        var options = {
-
-            series: [{
-                name: 'Transaction',
-                data: {{json_encode($chart)}},
-            }],
-            chart: {
-                height: 350,
-                type: 'line',
-            },
-            stroke: {
-                width: 7,
-                curve: 'smooth'
-            },
-            xaxis: {
-                type: 'text',
-                categories: ['JAN', 'FEB', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUG',
-                    'SEPT', 'OCT', 'NOV', 'DEC'
-                ],
-            },
-
-            title: {
-                text: '',
-                align: 'left',
-                style: {
-                    fontSize: "16px",
-                    color: '#666'
-                }
-            },
-            fill: {
-                type: 'gradient',
-                gradient: {
-                    shade: 'dark',
-                    gradientToColors: ['#FDD835'],
-                    shadeIntensity: 1,
-                    type: 'horizontal',
-                    opacityFrom: 1,
-                    opacityTo: 1,
-                    stops: [0, 100, 100, 100]
-                },
-            },
-            markers: {
-                size: 4,
-                colors: ["#FFA41B"],
-                strokeColors: "#fff",
-                strokeWidth: 2,
-                hover: {
-                    size: 7,
-                }
-            },
-            yaxis: {
-
-                title: {
-                    text: "{{ ucfirst($store->store_name) }}'s Amount",
-                },
-            }
-        };
-
-        var chart = new ApexCharts(document.querySelector("#transactionchart"), options);
-        chart.render();
-
-    });
-
-</script>
 @stop

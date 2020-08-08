@@ -20,8 +20,8 @@
                         Delete
                     </button>
                 </form>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">No,
-                    I changed my mind
+                <button type="button" class="btn btn-warning" data-dismiss="modal">
+                    Cancel
                 </button>
             </div>
         </div>

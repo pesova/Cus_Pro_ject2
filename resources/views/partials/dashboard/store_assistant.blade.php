@@ -5,8 +5,8 @@
                 <div class="row">
                     <div class="col-7">
                         <div class="text-primary p-3">
-                            <h5 class="text-primary">{{$data->storeName}}</h5>
-                            <p>{{$data->storeAddress}}</p>
+                            <h5 class="text-primary">{{ $data->storeName }}</h5>
+                            <p>{{ $data->storeAddress }}</p>
                         </div>
                     </div>
                     <div class="col-5 align-self-end">
@@ -30,51 +30,22 @@
 
                             <div class="row">
                                 <div class="col-6">
-                                    <h5 class="font-size-15">{{$data->customerCount}}</h5>
+                                    <h5 class="font-size-15">{{ $data->customerCount }}</h5>
                                     <p class="text-muted mb-0">Customers</p>
                                 </div>
                                 <div class="col-6">
-                                    <h5 class="font-size-15">{{format_money($data->revenueAmount)}}</h5>
+                                    <h5 class="font-size-15">{{ format_money($data->revenueAmount )}}</h5>
                                     <p class="text-muted mb-0">Revenue</p>
                                 </div>
                             </div>
                             @if(\Cookie::get('user_role') != 'store_assistant')
                             <div class="mt-4">
-                                <a href="#" class="btn btn-primary waves-effect waves-light btn-sm" data-toggle="modal"
-                                    data-target="#DeleteModal">Delete
-                                    Assistant
+                                <a href="#" class="btn btn-danger waves-effect waves-light btn-sm" data-toggle="modal"
+                                    data-target="#deleteModal-{{$assistant->_id}}">Delete Assistant
                                 </a>
                             </div>
-                            <div id="DeleteModal" class="modal fade bd-example-modal-sm" tabindex="-2" role="dialog"
-                                aria-labelledby="DeleteModal" aria-hidden="true">
-                                <div class="modal-dialog modal-sm">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="Title">
-                                                Delete Assistant </h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            Do you want to delete {{$data->name}}?
-                                        </div>
-                                        <div class="modal-footer">
-                                            <form action="{{ route('assistants.destroy', $data->_id) }}" method="POST"
-                                                id="form">
-                                                @method('DELETE')
-                                                @csrf
-                                                <button type="submit" class="btn btn-primary btn-danger">
-                                                    Delete
-                                                </button>
-                                            </form>
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No,
-                                                I changed my mind
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            {{-- delete assitant modal --}}
+                            @include('backend.assistant.modals.deleteAssistant')
                             @endif
                         </div>
                     </div>
@@ -91,15 +62,15 @@
                         <tbody>
                             <tr>
                                 <th scope="row">Full Name :</th>
-                                <td>{{$data->user->name}}</td>
+                                <td>{{ $assistant->name }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Mobile :</th>
-                                <td>{{$data->phone_number}}</td>
+                                <td>{{ $assistant->phone_number }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">E-mail :</th>
-                                <td>{{$data->email}}</td>
+                                <td>{{ $assistant->email }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -111,7 +82,6 @@
     </div>
 
     <div class="col-xl-8">
-
         <div class="row">
             <div class="col-md-4">
                 <div class="card mini-stats-wid">
@@ -171,7 +141,7 @@
 
         <div class="card">
             <div class="card-body">
-                <h6 class="card-title mb-4">Total Transactions</h6>
+                <h6 class="card-title mb-4">Total Transactions {{date('Y')}}</h6>
                 <div id="transactionchart"></div>
             </div>
         </div>
@@ -179,7 +149,6 @@
     </div>
 </div>
 <!-- end row -->
-
 
 <div class="row">
     <div class="col-lg-12">
@@ -302,9 +271,7 @@
         var chart = new ApexCharts(document.querySelector("#transactionchart"), options);
         chart.render();
 
-
     });
-
 </script>
 
 <script>
