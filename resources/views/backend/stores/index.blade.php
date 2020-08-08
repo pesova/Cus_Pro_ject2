@@ -98,7 +98,7 @@
 
             @endforeach
             {{-- Pagination link --}}
-            <div class="ml-auto">
+            <div class="ml-auto mx-2">
                 {{$stores->links()}}
             </div>
         </div>

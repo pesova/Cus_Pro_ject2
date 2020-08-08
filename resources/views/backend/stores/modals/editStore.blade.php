@@ -29,7 +29,7 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputPhoneNumber">Phone Number*</label>
-                                <input type="tel" id="phone" name="phone_number" class="form-control phone" value="{{ old('phone_number', $store->phone_number) }}" required>
+                                <input type="tel" id="phone_number" name="phone_number" class="form-control phone" value="{{ old('phone_number', $store->phone_number) }}" required>
                                 <small id="helpPhone" class="form-text text-muted">
                                     Enter your number without country code
                                 </small>
