@@ -135,7 +135,6 @@
                                         View More
                                     </a>
                                     @endif
-                                    @endif
                                 </td>
                             </tr>
                             @endforeach
