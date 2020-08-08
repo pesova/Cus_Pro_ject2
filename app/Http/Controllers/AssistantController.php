@@ -209,7 +209,7 @@ class AssistantController extends Controller
         $store_url = $this->host . '/store';
         $client = new Client();
 
-        // try {
+        try {
 
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
 
@@ -256,12 +256,12 @@ class AssistantController extends Controller
 
             //     return view('backend.assistant.show', compact('data'));
 
-        // } catch (\Exception $e) {
-        //     if ($e->getCode() >= 401) {
-        //         return redirect()->route('logout');
-        //     }
-        //     return view('errors.500');
-        // }
+        } catch (\Exception $e) {
+            if ($e->getCode() >= 401) {
+                return redirect()->route('logout');
+            }
+            return view('errors.500');
+        }
 
     }
 
