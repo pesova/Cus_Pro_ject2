@@ -1583,6 +1583,7 @@ img {
     transform: scale(1.9);
   }
 }
+
 /* 
 header {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
@@ -1633,3 +1634,9 @@ footer .row {
 .menubar {
   background-color: #fff !important;
 } */
+
+.nav__brand__logo img {
+  height: 48px;
+  width: 100%;
+  object-fit: contain;
+}

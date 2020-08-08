@@ -1,10 +1,10 @@
 <!-- Footer -->
 <footer class="page-footer font-small unique-color-dark">
 
-    <div style="background-color: #ff8c5f">
-      <div class="container">
-  
-        {{-- <!-- Grid row-->
+  <div style="background-color: #ff8c5f">
+    <div class="container">
+
+      {{-- <!-- Grid row-->
         <div class="row py-4 d-flex align-items-center">
   
           <!-- Grid column -->
@@ -31,70 +31,71 @@
   
         </div>
         <!-- Grid row--> --}}
-  
-      </div>
+
     </div>
-  
-    <!-- Footer Links -->
-    <div class="container text-center text-md-left mt-5">
-  
-      <!-- Grid row -->
-      <div class="row mt-3">
-  
-        <!-- Grid column -->
-        <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
-  
-          <!-- Content -->
-          <a href="#" class="nav__brand__logo"><p class="footer__brand">MyCustomer</p>
-          <a href="/" class="nav__brand__tagline"f>customerpay.me</a>
-  
-        </div>
-        <!-- Grid column -->
-  
-  
-        <!-- Grid column -->
-        <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
-  
-          <!-- Links -->
-          <h6 class="text-uppercase font-weight-bold" style="color: #ffffff">Menu links</h6>
-          <hr class="accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;background-color:#ff8c5f">
-          <p>
-            <a href="{{ route('home') }}" class="footer__menu__list__link">Home</a>
-          </p>
-          <p>
-            <a href="{{ route('about') }}" class="footer__menu__list__link">About</a>
-          </p>
-          <p>
-            <a href="{{ route('faq') }}" class="footer__menu__list__link">FAQ</a>
-          </p>
-          <p>
-            <a href="{{ route('contact') }}" class="footer__menu__list__link">Contact</a>
-          </p>
-  
-        </div>
-        <!-- Grid column -->
-  
-        <!-- Grid column -->
-        <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
-  
-          <!-- Links -->
-          <h6 class="text-uppercase font-weight-bold" style="color: #ffffff">Contact</h6>
-          <hr class="accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;background-color:#ff8c5f">
-          <p style="display: flex;flex-direction:row;justify-content:center">
-            <i class="fas fa-home mr-3"></i> <span>HNG 3 Birrel Ave, Sabo yaba 100001, Lagos, Nigeria.</span></p>
-          <p>
-            <i class="fas fa-envelope mr-3"></i> Help@mycustomer.com </p>
-          <p>
-            <i class="fas fa-phone mr-3"></i> 09096823115</p>
-  
-        </div>
-        <!-- Grid column -->
-  
+  </div>
+
+  <!-- Footer Links -->
+  <div class="container text-center text-md-left mt-5">
+
+    <!-- Grid row -->
+    <div class="row mt-3">
+
+      <!-- Grid column -->
+      <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+
+        <!-- Content -->
+        <a href="#" class="nav__brand__logo">
+          <p class="footer__brand">MyCustomer</p>
+          <a href="/" class="nav__brand__tagline" f>customerpay.me</a>
+
       </div>
-      <!-- Grid row -->
-  
+      <!-- Grid column -->
+
+
+      <!-- Grid column -->
+      <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+
+        <!-- Links -->
+        <h6 class="text-uppercase font-weight-bold" style="color: #ffffff">Menu links</h6>
+        <hr class="accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;background-color:#ff8c5f">
+        <p>
+          <a href="{{ route('home') }}" class="footer__menu__list__link">Home</a>
+        </p>
+        <p>
+          <a href="{{ route('about') }}" class="footer__menu__list__link">About</a>
+        </p>
+        <p>
+          <a href="{{ route('faq') }}" class="footer__menu__list__link">FAQ</a>
+        </p>
+        <p>
+          <a href="{{ route('contact') }}" class="footer__menu__list__link">Contact</a>
+        </p>
+
+      </div>
+      <!-- Grid column -->
+
+      <!-- Grid column -->
+      <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+
+        <!-- Links -->
+        <h6 class="text-uppercase font-weight-bold" style="color: #ffffff">Contact</h6>
+        <hr class="accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;background-color:#ff8c5f">
+        <p style="display: flex;flex-direction:row;justify-content:center">
+          <i class="fas fa-home mr-3"></i> <span>HNG 3 Birrel Ave, Sabo yaba 100001, Lagos, Nigeria.</span></p>
+        <p>
+          <i class="fas fa-envelope mr-3"></i> hello@customerpay.me </p>
+        {{-- <p>
+            <i class="fas fa-phone mr-3"></i> 09096823115</p> --}}
+
+      </div>
+      <!-- Grid column -->
+
     </div>
-    <!-- Footer Links -->
-  
-  </footer>
-  <!-- Footer -->
+    <!-- Grid row -->
+
+  </div>
+  <!-- Footer Links -->
+
+</footer>
+<!-- Footer -->

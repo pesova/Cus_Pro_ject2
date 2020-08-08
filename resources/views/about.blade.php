@@ -16,15 +16,16 @@
             <section id="about-header">
                 <div class="about-content">
                     <div class="about-heading">
-                        <h1>Helping small businesses <br>collect Money</h1>
-                        <p class="about-heading-caption">We help small businesses collect money and automatically send
-                            them reminders when it's time to pay.</p>
+                        <h1>Helping small businesses track payments and collect debt quickly and efficiently.</h1>
+                        {{-- <p class="about-heading-caption">CustomerPayMe helps business owners send overdue invoice
+                            reminders, manage daily transactions/debt collection, and
+                            provides a unique way of pushing unique sales messaging directly to their customers.</p> --}}
                     </div>
                     <div class="p-b-40 text-center">
                         <a class="welcome-btn play-store-btn mr-2 mb-2" href="#"><img
                                 src="/frontend/assets/img/bg-img/bt-1.png" alt=""></a>
 
-                     <!--    <a class="welcome-btn app-store-btn mr-2 mb-2" href="#"><img
+                        <!--    <a class="welcome-btn app-store-btn mr-2 mb-2" href="#"><img
                                 src="/frontend/assets/img/bg-img/bt-2.png" alt=""></a> -->
                     </div>
                 </div>
@@ -45,22 +46,22 @@
             </div>
             <div class="about-profile-content">
                 <h2 class="about-profile-content-heading">Our Company</h2>
-                <p> Voluptatibus, necessitatibus vitae impedit tempora quidem dolores at ad mollitia. Odit, unde
-                    obcaecati. Culpa, tempore aperiam? Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sit
-                    egestas enim massa urna varius. Cursus etiam sem nec enim et vitae.</p>
+                <p> CustomerPayMe helps business owners send overdue invoice
+                    reminders, manage daily transactions/debt collection, and
+                    provides a unique way of pushing unique sales messaging directly to their customers.</p>
             </div>
         </section>
     </div>
 
-    <!-- Feature Area -->
     <div class="feature-area section-padding-100-50" id="feature">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-7">
                     <div class="section-heading text-center">
-                        <h4>myCustomer features</h4>
-                        <p>Aliquid qui tempore aspernatur earum, Qui dolores molestias minus esse cumque deleniti
-                            impedit quo nostrum omnis et delectus.</p>
+                        <h4>CustomerPayMe Features</h4>
+                        <p>This solution helps business owners send overdue invoice reminders, manage daily
+                            transactions/debt collection, and
+                            provides a unique way of pushing unique sales messaging directly to their customers.</p>
                     </div>
                 </div>
             </div>
@@ -68,49 +69,99 @@
             <div class="row justify-content-center">
                 <!-- Single Feature area -->
                 <div class="col-md-6 col-lg-4">
-                    <div class="single-feature-area text-center wow fadeInUp" data-wow-delay="0.4s">
+                    <div class="single-feature-area text-center wow fadeInUp" data-wow-delay="0.4s" data-aos="flip-left"
+                        data-aos-duration="1500">
                         <!-- Feature Icon -->
                         <div class="feature-icon">
                             <img src="/frontend/assets/img/icon-img/4.svg" alt="">
                         </div>
                         <!-- Single Feature Text -->
                         <div class="feature-content-text">
-                            <h4>Trustworthy</h4>
-                            <p class="mb-0">Our apps are trusted by over 1000 users across the globe</p>
+                            <h4>Multi-Lingual</h4>
+                            <p class="mb-0">Our app is available in various languages. Trusted by over various users
+                                across
+                                the globe</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Single Feature area -->
                 <div class="col-md-6 col-lg-4">
-                    <div class="single-feature-area text-center wow fadeInUp" data-wow-delay="0.4s">
+                    <div class="single-feature-area text-center wow fadeInUp" data-wow-delay="0.4s" data-aos="flip-up"
+                        data-aos-duration="1500">
                         <!-- Feature Icon -->
                         <div class="feature-icon">
                             <img src="/frontend/assets/img/icon-img/5.svg" alt="">
                         </div>
                         <!-- Single Feature Text -->
                         <div class="feature-content-text">
-                            <h4>Easy to use</h4>
-                            <p class="mb-0">We created software in such a way that it is easy to use and navigate</p>
+                            <h4>Quick Ledgers</h4>
+                            <p class="mb-0">Save precious hours by updating daily business accounts in minutes.</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Single Feature area -->
                 <div class="col-md-6 col-lg-4">
-                    <div class="single-feature-area text-center wow fadeInUp" data-wow-delay="0.8s">
+                    <div class="single-feature-area text-center wow fadeInUp" data-wow-delay="0.8s"
+                        data-aos="flip-right" data-aos-duration="1500">
                         <!-- Feature Icon -->
                         <div class="feature-icon">
                             <img src="/frontend/assets/img/icon-img/9.svg" alt="">
                         </div>
                         <!-- Single Feature Text -->
                         <div class="feature-content-text">
-                            <h4>Fast</h4>
-                            <p class="mb-0">With state of the art servers we introduce you to a new level of speed</p>
+                            <h4>Free SMS Reminders</h4>
+                            <p class="mb-0">Manage daily transactions/debt collections and send customers quick SMS
+                                reminders</p>
                         </div>
                     </div>
                 </div>
 
+                <!-- Single Feature area -->
+                <!-- <div class="col-md-6 col-lg-4">
+                  <div class="single-feature-area text-center wow fadeInUp" data-wow-delay="0.4s">
+                      <!-- Feature Icon
+                      <div class="feature-icon">
+                          <img src="assets/img/icon-img/6.svg" alt="">
+                      </div>
+                      <!-- Single Feature Text
+                      <div class="feature-content-text">
+                          <h4>Drag &amp; Drop Building</h4>
+                          <p class="mb-0">Add, delete and move elements around on the front end of your website.</p>
+                      </div>
+                  </div>
+              </div> -->
+
+                <!-- Single Feature area -->
+                <!-- <div class="col-md-6 col-lg-4">
+                  <div class="single-feature-area text-center wow fadeInUp" data-wow-delay="0.8s">
+                      <!-- Feature Icon
+                      <div class="feature-icon">
+                          <img src="assets/img/icon-img/7.svg" alt="">
+                      </div>
+                      <!-- Single Feature Text
+                      <div class="feature-content-text">
+                          <h4>Drag &amp; Drop Building</h4>
+                          <p class="mb-0">Add, delete and move elements around on the front end of your website.</p>
+                      </div>
+                  </div>
+              </div> -->
+
+                <!-- Single Feature area -->
+                <!-- <div class="col-md-6 col-lg-4">
+                  <div class="single-feature-area text-center wow fadeInUp" data-wow-delay="0.8s">
+                      <!-- Feature Icon
+                      <div class="feature-icon">
+                          <img src="assets/img/icon-img/8.svg" alt="">
+                      </div>
+                      <!-- Single Feature Text
+                      <div class="feature-content-text">
+                          <h4>Drag &amp; Drop Building</h4>
+                          <p class="mb-0">Add, delete and move elements around on the front end of your website.</p>
+                      </div>
+                  </div>
+              </div> -->
             </div>
         </div>
     </div>
@@ -149,14 +200,14 @@
     </div>
 
     <!-- Client Feedback Area -->
-    <div class="client-feedback-area section-padding-100 bg-gray" id="client">
+    <div class="client-feedback-area section-padding-100" id="client">
         <div class="container">
-            <div class="row justify-content-center">
+            <div class="row justify-content-center mb-0">
                 <div class="col-lg-7">
-                    <div class="section-heading text-center">
+                    <div class="section-heading text-center testimonials">
                         <h4>Testimonials</h4>
-                        <p>Our users are happy with us. Here are some of the countless feedback we have gotten so far
-                        </p>
+                        <p>Our users are happy with us. Here are some of the feedback we have gotten so far</p>
+                        <hr class="testimonial-line">
                     </div>
                 </div>
             </div>
@@ -170,14 +221,16 @@
                                 <!-- Client Content -->
                                 <div class="testimonial-img-container">
                                     <img src="/frontend/assets/images/kadet pic.jpeg" alt=""
-                                        class="testimonial-img">
+                                        class="testimonial-img img-fluid">
                                 </div>
                                 <div class="client-desc client-mt-50 testimonial__text">
-                                    <p>I must explain to you how all this mistaken idea of will give you a complete
-                                        denouncing pleasure and praising pain was born and I will give you a complete
-                                        account of the system</p>
+                                    <p>I have been using this app for three months now and i must confess, it has really
+                                        changed
+                                        the way and see and manage my stores, assistants and customers. The analytics
+                                        feature gets me
+                                        the most. I never knew running multiple store could be this easy</p>
 
-                                    <h4>Angel Diha - <span>England</span></h4>
+                                    <h4>Angel Collins - <span>Nigeria</span></h4>
                                 </div>
                             </div>
                         </div>
@@ -187,15 +240,16 @@
                             <div class="col-sm-8">
                                 <!-- Client Content -->
                                 <div class="testimonial-img-container">
-                                    <img src="/frontend/assets/images/kadet pic.jpeg" alt=""
-                                        class="testimonial-img">
+                                    {{-- <img src="/frontend/assets/images/kadet pic.jpeg" alt=""
+                                    class="testimonial-img img-fluid"> --}}
                                 </div>
                                 <div class="client-desc client-mt-50 testimonial__text">
-                                    <p>I must explain to you how all this mistaken idea of will give you a complete
-                                        denouncing pleasure and praising pain was born and I will give you a complete
-                                        account of the system</p>
+                                    <p>Remotely control my stores and store assistants is a feature I have really been
+                                        looking for.
+                                        I have finally found an app that meets all my needs. Thanks makers of MyCustomer
+                                    </p>
 
-                                    <h4>Angel Diha - <span>England</span></h4>
+                                    <h4>Bitrus Samuel - <span>Nigeria</span></h4>
                                 </div>
                             </div>
                         </div>
