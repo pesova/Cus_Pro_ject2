@@ -108,9 +108,6 @@ class DashboardController extends Controller
                 if ($response->getStatusCode() == 200) {
                     $assistant = json_decode($response->getBody());
                     $assistant = $assistant->data;
-                    $assistant->phone_number = $assistant->user->phone_number;
-                    $assistant->email = $assistant->user->email;
-
                     return view('backend.dashboard.index')->with('assistant', $assistant);
 
                 } else {
