@@ -30,50 +30,36 @@ class AssistantController extends Controller
      */
     public function index(Request $request)
     {
-    // TODO: Cleanup codes
+        $url = $this->host . '/assistant';
+        $store_url = $this->host . '/store';
+        $client = new Client();
+
         try {
-            $url = env('API_URL', 'https://dev.api.customerpay.me') . '/assistant';
-            $client = new Client();
 
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
-            $user_response = $client->request('GET', $url, $headers);
-            //dd(json_decode($user_response->getBody()));
 
-            $statusCode = $user_response->getStatusCode();
+            $assistant_response = $client->request('GET', $url, $headers);
+            $assitant_status_code = $assistant_response->getStatusCode();
 
+            // get all stores
+            $store_response = $client->request('GET', $store_url, $headers);
+            $store_status_code = $store_response->getStatusCode();
+            
+            if ($assitant_status_code == 200 && $store_status_code == 200) {
+                $assistants = json_decode($assistant_response->getBody())->data->assistants;
+                $stores = json_decode($store_response->getBody())->data->stores;
 
-            if ($statusCode == 200) {
-                $assistants = json_decode($user_response->getBody());
-                $assistants = $assistants->data->assistants;
+                return view('backend.assistant.index', compact(['assistants', 'stores']));
 
-                // get all stores
-                $url = env('API_URL', 'https://dev.api.customerpay.me') . '/store';
-                $client = new Client();
-                $user_response = $client->request('GET', $url, $headers);
-                //dd(json_decode($user_response->getBody()));
-
-                $statusCode = $user_response->getStatusCode();
-
-
-                if ($statusCode == 200) {
-                    $stores = json_decode($user_response->getBody());
-                    // dd($stores);
-                    $stores = $stores->data->stores;
-                    return view('backend.assistant.index')->withAssistants($assistants)->withStores($stores);
-                }
-
-                if ($statusCode == 500) {
-                    return view('errors.500');
-                }
-            }
-
-            if ($statusCode == 500) {
+            } else if($statusCode >= 400) {
+                return redirect()->route('logout');
+            } else if($statusCode >= 500) {
                 return view('errors.500');
             }
+
         } catch (RequestException $e) {
             $statusCode = $e->getResponse()->getStatusCode();
-            $data = json_decode($e->getResponse()->getBody()->getContents());
-            if ($statusCode == 401) { //401 is error code for invalid token
+            if ($statusCode == 401) { 
                 return redirect()->route('logout');
             }
 
@@ -141,9 +127,7 @@ class AssistantController extends Controller
 
     public function store(Request $request)
     {
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/assistant/new';
-
-        //return dd($request->all());
+        $url = $this->host . '/assistant/new';
 
         $request->validate([
             'name' => "required|min:3",
@@ -175,11 +159,11 @@ class AssistantController extends Controller
             if ($statusCode == 201 || $statusCode == 200) {
                 $request->session()->flash('alert-class', 'alert-success');
                 Session::flash('message', $data->message);
-                return redirect()->route('assistants.index');
+                return redirect()->back();
             } else {
                 $request->session()->flash('alert', 'alert-waring');
                 Session::flash('message', $data->message);
-                return redirect()->route('assistants.index');
+                return redirect()->back();
             }
         } catch (ClientException $e) {
             $response = $e->getResponse();
@@ -195,7 +179,7 @@ class AssistantController extends Controller
             $data = json_decode($response->getBody());
             $request->session()->flash('alert-class', 'alert-danger');
             Session::flash('message', $data->message);
-            return redirect()->route('assistants.index');
+            return redirect()->back();
             //return back();
         } catch (Exception $e) {
             // dd($e);
@@ -204,7 +188,7 @@ class AssistantController extends Controller
             }
 
             Session::flash('message', "An error occured. Please try again later");
-            return redirect()->route('assistants.index');
+            return redirect()->back();
             //return back();
         }
 
@@ -221,44 +205,62 @@ class AssistantController extends Controller
 
     public function show($id)
     {
-        // todo: get the user from the api and pass to the veiw
+        $url = $this->host . '/assistant'.'/'.$id;
+        $store_url = $this->host . '/store';
+        $client = new Client();
+
         try {
-            // Get all stores first
 
-
-            $url = env('API_URL', 'https://dev.api.customerpay.me') . '/assistant/' . $id;
-            $client = new Client();
             $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
-            $response = $client->request("GET", $url, $headers);
 
-            if ($response->getStatusCode() == 200) {
-                $data = json_decode($response->getBody());
-                $data = $data->data;
+            $assistant_response = $client->request('GET', $url, $headers);
+            $assitant_status_code = $assistant_response->getStatusCode();
 
-                $data->_id = $data->user->_id;
-                $data->name = isset($data->user->first_name) ? $data->user->first_name : $data->user->name;
-                $data->phone_number = $data->user->phone_number;
-                $data->email = $data->user->email;
+            // get all stores
+            $store_response = $client->request('GET', $store_url, $headers);
+            $store_status_code = $store_response->getStatusCode();
 
-                // dd($data);
-                return view('backend.assistant.show')->withData($data);
+            if ($assitant_status_code == 200 && $store_status_code == 200) {
+                $assistant = json_decode($assistant_response->getBody())->data->user;
+                
+                // data provides every other item such as
+                // storeName, storeAddress, customerCount, transactionCount, recentTransaction[]
+                // debtCount, debtAmount, revenueCount, revenueAmount, receivablesAmount
+                // amountForCurrentMonth, amountForPreviousMonth
+                $data = json_decode($assistant_response->getBody())->data;
 
+                // store information, this is for the edit assistant modal
+                $stores = json_decode($store_response->getBody())->data->stores;
 
+                return view('backend.assistant.show', compact(['assistant', 'stores', 'data']));
+
+            } else if($statusCode >= 400) {
+                return redirect()->route('logout');
+            } else if($statusCode >= 500) {
+                return view('errors.500');
             } else {
-                // return view('errors.500');
                 Session::flash('alert-class', 'alert-danger');
                 Session::flash('message', "An Error occured please try again later");
                 return back();
             }
 
+            // if ($assistant_response->getStatusCode() == 200) {
+
+            //     $data = json_decode($response->getBody());
+            //     $data = $data->data;
+
+            //     $data->_id = $data->user->_id;
+            //     $data->name = isset($data->user->first_name) ? $data->user->first_name : $data->user->name;
+            //     $data->phone_number = $data->user->phone_number;
+            //     $data->email = $data->user->email;
+
+            //     return view('backend.assistant.show', compact('data'));
 
         } catch (\Exception $e) {
-            // dd($e->getCode());
-            if ($e->getCode() == 401) {
+            if ($e->getCode() >= 401) {
                 return redirect()->route('logout');
             }
             return view('errors.500');
-            //return $response->getStatusCode();
         }
 
     }

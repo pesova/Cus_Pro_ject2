@@ -24,3 +24,7 @@
 .float:hover {
     background: #fff;
 }
+.full-div{
+    height: 100%;
+    width: 100%;
+}
