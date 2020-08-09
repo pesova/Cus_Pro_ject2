@@ -21,29 +21,13 @@ use Illuminate\Support\Facades\Crypt;
 
 // Unauthenticated Routes
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
-
-Route::get('/about', function () {
-    return view('about');
-})->name('about');
-
-Route::get('/faq', function () {
-    return view('faq');
-})->name('faq');
-
-Route::get('/contact', function () {
-    return view('contact');
-})->name('contact');
-
-Route::get('/privacy', function () {
-    return view('privacy');
-})->name('privacy');
-
-Route::get('/blog', function () {
-    return view('blog');
-})->name('blog');
+Route::get('/', 'HomeController@home')->name('home');
+Route::get('/about', 'HomeController@about')->name('about');
+Route::get('/faq', 'HomeController@faq')->name('faq');
+Route::get('/contact', 'HomeController@contact')->name('contact');
+Route::post('/contact', 'HomeController@contact')->name('contact.send');
+Route::get('/privacy', 'HomeController@privacy')->name('privacy');
+Route::get('/blog', 'HomeController@blog')->name('blog');
 
 Route::get('/admin', function () {
     return redirect()->route('dashboard');
