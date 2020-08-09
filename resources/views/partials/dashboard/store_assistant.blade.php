@@ -5,8 +5,8 @@
                 <div class="row">
                     <div class="col-7">
                         <div class="text-primary p-3">
-                            <h5 class="text-primary">{{ $data->storeName }}</h5>
-                            <p>{{ $data->storeAddress }}</p>
+                            <h5 class="text-primary">{{ $assistant->storeName }}</h5>
+                            <p>{{ $assistant->storeAddress }}</p>
                         </div>
                     </div>
                     <div class="col-5 align-self-end">
@@ -30,11 +30,11 @@
 
                             <div class="row">
                                 <div class="col-6">
-                                    <h5 class="font-size-15">{{ $data->customerCount }}</h5>
+                                    <h5 class="font-size-15">{{ $assistant->customerCount }}</h5>
                                     <p class="text-muted mb-0">Customers</p>
                                 </div>
                                 <div class="col-6">
-                                    <h5 class="font-size-15">{{ format_money($data->revenueAmount )}}</h5>
+                                    <h5 class="font-size-15">{{ format_money($assistant->revenueAmount )}}</h5>
                                     <p class="text-muted mb-0">Revenue</p>
                                 </div>
                             </div>
@@ -62,15 +62,15 @@
                         <tbody>
                             <tr>
                                 <th scope="row">Full Name :</th>
-                                <td>{{ $assistant->name }}</td>
+                                <td>{{$assistant->user->name}}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Mobile :</th>
-                                <td>{{ $assistant->phone_number }}</td>
+                                <td>{{$assistant->user->phone_number}}</td>
                             </tr>
                             <tr>
                                 <th scope="row">E-mail :</th>
-                                <td>{{ $assistant->email }}</td>
+                                <td>{{$assistant->user->email}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -89,7 +89,7 @@
                         <div class="media">
                             <div class="media-body">
                                 <p class="text-muted font-weight-medium">Revenue</p>
-                                <h4 class="mb-0">{{ format_money($data->revenueAmount) }}</h4>
+                                <h4 class="mb-0">{{ format_money($assistant->revenueAmount) }}</h4>
                             </div>
 
                             <div class="mini-stat-icon avatar-sm align-self-center rounded-circle bg-primary">
@@ -107,7 +107,7 @@
                         <div class="media">
                             <div class="media-body">
                                 <p class="text-muted font-weight-medium">Debt</p>
-                                <h4 class="mb-0">{{format_money($data->debtAmount)}}</h4>
+                                <h4 class="mb-0">{{format_money($assistant->debtAmount)}}</h4>
                             </div>
 
                             <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
@@ -125,7 +125,7 @@
                         <div class="media">
                             <div class="media-body">
                                 <p class="text-muted font-weight-medium">Receivables</p>
-                                <h4 class="mb-0">{{format_money($data->receivablesAmount)}}</h4>
+                                <h4 class="mb-0">{{format_money($assistant->receivablesAmount)}}</h4>
                             </div>
 
                             <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
@@ -167,12 +167,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if(count($data->recentTransactions) == 0)
+                            @if(count($assistant->recentTransactions) == 0)
                             <tr>
                                 <td colspan="4" class="text-center"> No Recent Transactions</td>
                             </tr>
                             @else
-                            @foreach($data->recentTransactions as $transaction)
+                            @foreach($assistant->recentTransactions as $transaction)
 
                             <tr>
                                 <th scope="row">{{$transaction->_id}}</th>
@@ -214,7 +214,7 @@
         var options = {
             series: [{
                 name: 'Transaction',
-                data: {{json_encode($data->chart)}},
+                data: {{json_encode($assistant->chart)}},
             }],
             chart: {
                 height: 350,
