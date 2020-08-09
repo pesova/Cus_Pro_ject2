@@ -28,7 +28,7 @@
     <div class="col-12">
         <div class="card ">
             <div class="card-body">
-                <h5 class="card-title"><span id="store-name">{{ucfirst($storeData->store_name) }}</span>  Revenue Overview</h5>
+                <h5 class="card-title"><span id="store-name">{{ucfirst($response['storeData']->store_name) }}</span>  Revenue Overview</h5>
                 <div class="btn-group dropdown float-left">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
@@ -69,7 +69,7 @@
                                             </th>
                                             <td>{{ format_money($transaction->amount, $transaction->currency) }}</td>
                                             <td>{{ $transaction->type }}</td>
-                                            <td>{{ app_format_date($transaction->date_recorded, true) }}</td>
+                                            <td>{{ app_format_date($transaction->date_recorded) }}</td>
                                         </tr> 
                                         @endif
                                         @endforeach

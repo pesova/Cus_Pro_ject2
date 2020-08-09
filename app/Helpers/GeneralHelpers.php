@@ -65,6 +65,40 @@ if (!function_exists('api_token')) {
     }
 }
 
+if (!function_exists('get_full_name')) {
+
+    /**
+     * gets logged in users full name
+     *
+     * @return string
+     */
+    function get_full_name()
+    {
+        if (is_store_assistant()) {
+            return Cookie::get('name');
+        }
+        return Cookie::get('first_name') . ' ' . Cookie::get('last_name');
+    }
+}
+
+if (!function_exists('get_profile_picture')) {
+
+    /**
+     * gets logged in users profile picture
+     *
+     * @return string
+     */
+    function get_profile_picture()
+    {
+        $profile_picture = Cookie::get('profile_picture');
+        $profile_picture = rtrim($profile_picture);
+        $profile_picture_path = str_replace(" ", "/", $profile_picture);
+
+        return 'https://res.cloudinary.com/' . $profile_picture_path;
+    }
+}
+
+
 if (!function_exists('purify_input')) {
 
     /**

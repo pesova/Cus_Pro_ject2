@@ -5,17 +5,13 @@
                 <div class="row">
                     <div class="col-7">
                         <div class="text-primary p-3">
+                            {{ dd($assistant) }}
                             <h5 class="text-primary">{{ $assistant->storeName }}</h5>
                             <p>{{ $assistant->storeAddress }}</p>
                         </div>
                     </div>
                     <div class="col-5 align-self-end">
-                        @php
-                        $profile_picture = Cookie::get('profile_picture');
-                        $profile_picture = rtrim($profile_picture);
-                        $profile_picture_path = str_replace(" ","/", $profile_picture);
-                        @endphp
-                        <object data="https://res.cloudinary.com/{{ $profile_picture_path }}" type="image/jpg"
+                        <object data="{{ get_profile_picture() }}" type="image/jpg"
                             class="img-thumbnail rounded-circle mt-2" data-toggle="modal" data-target="#profilePhoto">
                             <img src="/backend/assets/images/users/default.png"
                                 class="img-thumbnail rounded-circle mt-2" alt="Profile Picture" />
@@ -178,7 +174,7 @@
                                 <th scope="row">{{$transaction->_id}}</th>
                                 <td>Customer Name <br> <span class="font-size-14">
                                         {{$transaction->customer_ref_id}}</span></td>
-                                <td>{{$transaction->total_amount}}</td>
+                                <td>{{ format_money($transaction->total_amount), $transaction->currency }}</td>
                                 <td>Debt</td>
                                 <td>
                                     <div class="btn-group mt-2 mr-1">

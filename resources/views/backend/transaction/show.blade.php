@@ -5,10 +5,6 @@
 @stop
 @section('content')
 
-@php
-$currency = isset($transaction->store_admin_ref->currencyPreference) ?
-            $transaction->store_admin_ref->currencyPreference : null;
-@endphp
 <div class="account-pages my-2">
     <div class="container-fluid">
         <div class="row-justify-content-center">
@@ -219,7 +215,7 @@ $currency = isset($transaction->store_admin_ref->currencyPreference) ?
                                         {{ $debt->message }}
                                     </td>
                                     <td><span class="badge badge-success">{{ $debt->status }}</span></td>
-                                    <td>{{ app_format_date($debt->date_recorded) }}</td>
+                                    <td>{{ app_format_date($debt->createdAt) }}</td>
                                     @if($transaction->status != true)
                                     <td>
                                         <a href="" data-toggle="modal"

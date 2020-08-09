@@ -53,7 +53,17 @@ class StoreController extends Controller
 
                 // get data from respone
                 $stores_data = json_decode($response->getBody())->data->stores;
-                // dd($stores_data);
+
+                // loop added because returns two nested arrays for superadmin. - doug
+                if (is_super_admin()) {
+                    $stores = [];
+                    foreach ($stores_data as $stores_array) {
+                        foreach ($stores_array as $store ) {
+                            $stores[] = $store;
+                        }
+                    }
+                    $stores_data = $stores;
+                }
 
                 // start pagination
                 $perPage = 12;
@@ -62,10 +72,10 @@ class StoreController extends Controller
                     $page = 1;
                 }
                 $offset = ($page * $perPage) - $perPage;
-                
+
                 $articles = array_slice($stores_data, $offset, $perPage);
                 $stores = new Paginator($articles, count($stores_data), $perPage);
-                
+
                 return view('backend.stores.index')->with('stores', $stores->withPath('/' . $request->path()));
             } else if ($statusCode == 401) {
                 return redirect()->route('login')->with('message', "Please Login Again");
@@ -167,8 +177,8 @@ class StoreController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $url = $this->host . '/store'.'/'.$id;
-        $transactions_url = $this->host . '/transaction/store'.'/'.$id;
+        $url = $this->host . '/store' . '/' . $id;
+        $transactions_url = $this->host . '/transaction/store' . '/' . $id;
 
         try {
             $client = new Client;
@@ -193,7 +203,7 @@ class StoreController extends Controller
 
             if ($store_status_code == 200  && $transaction_status_code == 200) {
                 return view('backend.stores.show', compact(['transactions', 'store', 'store_customer', 'chart']))
-                ->with('number', 1);
+                    ->with('number', 1);
             }
         } catch (RequestException $e) {
             Log::info('Catch error: LoginController - ' . $e->getMessage());
@@ -249,7 +259,7 @@ class StoreController extends Controller
         //     $statusCode = $response->getStatusCode();
         //     $body = $response->getBody();
         //     if ($statusCode == 200) {
-                
+
         //         $StoreData = json_decode($body)->data->store;
         //         // return->back()->with('response', $StoreData);
 
@@ -287,7 +297,7 @@ class StoreController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $url = $this->host . '/store/update'.'/'.$id;
+        $url = $this->host . '/store/update' . '/' . $id;
 
         $request->validate([
             'store_name' => 'required|min:3',
@@ -295,7 +305,7 @@ class StoreController extends Controller
             'email' => "required|email",
             'tagline' =>  'required',
             'phone_number' => ["required", "numeric", "digits_between:6,16", new DoNotAddIndianCountryCode, new DoNotPutCountryCode],
-            ]);
+        ]);
 
         try {
 
@@ -326,7 +336,6 @@ class StoreController extends Controller
                 Session::flash('message', "OOPS, Something Went Wrong");
                 return redirect()->back();
             }
-
         } catch (\Exception $e) {
 
             if ($e->getCode() == 401) {
@@ -505,7 +514,7 @@ class StoreController extends Controller
         }
     }
 
-     /**
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
