@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Cookie;
 use Stevebauman\Purify\Facades\Purify;
 
@@ -76,5 +77,37 @@ if (!function_exists('purify_input')) {
     {
         $cleaned = Purify::clean($input);
         return $cleaned;
+    }
+}
+
+
+if (!function_exists('app_format_date')) {
+
+    /**
+     * converts datetime to diffForhumans
+     *
+     * @param string $dateTime
+     * @param boolean $html if to be returned with html formatted colors eg, success,warning,danger
+     * @return string  human date
+     */
+    function app_format_date($dateTime, $style = false)
+    {
+        $formatted = Carbon::parse($dateTime)->diffForhumans();
+
+        if (!$style) {
+            return $formatted;
+        }
+
+        $styled = '<span class="badge badge-soft-';
+        if (Carbon::parse($dateTime)->isPast()) {
+            $styled .= 'danger">' . $formatted;
+        } elseif (Carbon::parse($dateTime)->isToday()) {
+            $styled .= 'warning">' . $formatted;
+        } else {
+            $styled .= 'success">' . $formatted;
+        }
+        $styled .= '</span>';
+
+        return $styled;
     }
 }
