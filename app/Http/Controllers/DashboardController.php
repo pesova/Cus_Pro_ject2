@@ -106,14 +106,12 @@ class DashboardController extends Controller
                 // First get the assistant details
 
                 if ($response->getStatusCode() == 200) {
-                    $data = json_decode($response->getBody());
-                    $data = $data->data;
-                    $data->name = isset($data->user->first_name) ? $data->user->first_name : $data->user->name;
+                    $assistant = json_decode($response->getBody());
+                    $assistant = $assistant->data;
+                    $assistant->phone_number = $assistant->user->phone_number;
+                    $assistant->email = $assistant->user->email;
 
-                    $data->phone_number = $data->user->phone_number;
-                    $data->email = $data->user->email;
-
-                    return view('backend.dashboard.index')->withData($data);
+                    return view('backend.dashboard.index')->with('assistant', $assistant);
 
                 } else {
                     return view('errors.500');
