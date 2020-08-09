@@ -111,3 +111,21 @@ if (!function_exists('app_format_date')) {
         return $styled;
     }
 }
+
+if (!function_exists('app_get_acronym')) {
+    /**
+     * Get acronym of string passed
+     *
+     * @param string
+     * @return string cleaned string
+     */
+    function app_get_acronym($name)
+    {
+        $name = explode(" ", strtoupper($name));
+        $acronym = "";
+        foreach ($name as $name) {
+            $acronym .= $name[0];
+        }
+        return $acronym;
+    }
+}
