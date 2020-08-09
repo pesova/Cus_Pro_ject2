@@ -28,7 +28,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title"><span id="store-name">{{ucfirst($storeData->store_name) }}</span> Debit Overview
+                <h5 class="card-title"><span id="store-name">{{ucfirst($response['storeData']->store_name) }}</span> Debit Overview
                 </h5>
                 <div class="btn-group dropdown float-left">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
@@ -72,9 +72,9 @@
                                 <td class="font-light">{{$customers->phone_number}}</td>
                                 <td>{{ format_money($transaction->amount, $transaction->currency) }}</td>
                                 <td>{{$transaction->type}}</td>
-                                <td>{!! app_format_date($transaction->date_recorded, true) !!}</td>
+                                <td>{{ app_format_date($transaction->date_recorded) }}</td>
                                 <td><a href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id.'-'.$transaction->customer_ref_id) }}"
-                                        class="btn btn-warning mr-3"><i class="far mr-2 fa-edit"></i>Send Reminder</a>
+                                        class="btn btn-info btn-sm mr-3"><i class="far mr-2 fa-edit"></i>Send Reminder</a>
                                 </td>
                             </tr>
                             @endif
