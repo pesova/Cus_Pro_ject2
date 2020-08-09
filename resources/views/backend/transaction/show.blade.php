@@ -219,7 +219,7 @@ $currency = isset($transaction->store_admin_ref->currencyPreference) ?
                                         {{ $debt->message }}
                                     </td>
                                     <td><span class="badge badge-success">{{ $debt->status }}</span></td>
-                                    <td>{{ \Carbon\Carbon::parse($debt->date_recorded)->diffForhumans() }}</td>
+                                    <td>{{ app_format_date($debt->date_recorded) }}</td>
                                     @if($transaction->status != true)
                                     <td>
                                         <a href="" data-toggle="modal"
