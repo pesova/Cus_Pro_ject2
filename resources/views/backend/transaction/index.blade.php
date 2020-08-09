@@ -12,7 +12,7 @@
     <div class="container-fluid">
         <div class="mb-0 d-flex justify-content-between align-items-center page-title">
             <div class="h6"><i data-feather="file-text" class="icon-dual"></i> Transaction Center</div>
-            @if(Cookie::get('user_role') != 'store_assistant')
+            @if(!is_store_assistant())
             <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#addTransactionModal">
                 New &nbsp;<i class="fa fa-plus my-float"></i>
             </a>
@@ -64,10 +64,6 @@
                         </thead>
                         <tbody>
                             @foreach ($transactions as $index => $transaction )
-                            @php
-                            $currency = isset($transaction->store_admin_ref->currencyPreference) ?
-                            $transaction->store_admin_ref->currencyPreference : null;
-                            @endphp
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>
@@ -85,37 +81,26 @@
                                     @endif
                                     @endif
                                 </td>
-                                <td>{{ format_money($transaction->amount, $currency) }}</td>
+                                <td>{{ format_money($transaction->amount, $transaction->currency) }}</td>
                                 <td>{{ $transaction->interest == null ? '0' : $transaction->interest }} %</td>
-                                <td>{{ format_money($transaction->total_amount, $currency) }} </td>
+                                <td>{{ format_money($transaction->total_amount, $transaction->currency) }} </td>
                                 <td>{{ $transaction->type }}</td>
 
                                 <td>
-                                    {{-- @isset($transaction->expected_pay_date) --}}
-                                    @if ( \Carbon\Carbon::parse($transaction->expected_pay_date)->isPast())
-                                    <span
-                                        class="badge badge-soft-danger">{{ \Carbon\Carbon::parse($transaction->expected_pay_date)->diffForhumans() }}</span>
-                                    @else
-                                    @if (\Carbon\Carbon::parse($transaction->expected_pay_date)->isToday())
-                                    <span
-                                        class="badge badge-soft-warning">{{ \Carbon\Carbon::parse($transaction->expected_pay_date)->diffForhumans() }}</span>
-                                    @else
-                                    <span
-                                        class="badge badge-soft-success">{{ \Carbon\Carbon::parse($transaction->expected_pay_date)->diffForhumans() }}</span>
-                                    @endif
-                                    @endif
+                                    {!! app_format_date($transaction->expected_pay_date, true) !!}
                                 </td>
-                                <td> {{ \Carbon\Carbon::parse($transaction->createdAt)->diffForhumans() }}</td>
+                                <td> {{ app_format_date($transaction->date_recorded) }} </td>
                                 <td>
                                     <label class="switch">
-                                        @if ($transaction->customer_ref_id != null)
-                                        <input class="togBtn" type="checkbox" id="togBtn"
-                                            {{ $transaction->status == true ? 'checked' : '' }}
-                                            data-id="{{ $transaction->_id }}"
-                                            data-store="{{ $transaction->store_ref_id->_id }}"
-                                            data-customer="{{ $transaction->customer_ref_id->_id}}">
-                                        @else
-                                        @if (is_store_admin())
+                                        @if(is_super_admin())
+                                            @if ($transaction->customer_ref_id != null)
+                                            <input class="togBtn" type="checkbox" id="togBtn"
+                                                {{ $transaction->status == true ? 'checked' : '' }}
+                                                data-id="{{ $transaction->_id }}"
+                                                data-store="{{ $transaction->store_ref_id->_id }}"
+                                                data-customer="{{ $transaction->customer_ref_id->_id}}">
+                                            @endif
+                                        @elseif (is_store_admin())
                                         <input class="togBtn" type="checkbox" id="togBtn"
                                             {{ $transaction->status == true ? 'checked' : '' }}
                                             data-id="{{ $transaction->_id }}"
@@ -124,7 +109,6 @@
                                         @else
                                         <input type="checkbox" id="togBtn"
                                             {{ $transaction->status == true ? 'checked' : '' }} disabled>
-                                        @endif
                                         @endif
                                         <div class="slider round">
                                             <span class="on">Paid</span><span class="off">Pending</span>
@@ -138,18 +122,18 @@
                                 <td style="display: none">{{ $transaction->status == true ? 'paid' : 'pending' }}</td>
 
                                 <td>
-                                    @if ($transaction->customer_ref_id != null)
-                                    <a class="btn btn-primary btn-sm py-1 px-2"
-                                        href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id->_id.'-'.$transaction->customer_ref_id->_id) }}">
-                                        More
-                                    </a>
-                                    @else
-                                    @if (is_store_admin())
+                                    @if(is_super_admin())
+                                        @if ($transaction->customer_ref_id != null)
+                                        <a class="btn btn-primary btn-sm py-1 px-2"
+                                            href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id->_id.'-'.$transaction->customer_ref_id->_id) }}">
+                                            More
+                                        </a>
+                                        @endif
+                                    @elseif (is_store_admin())
                                     <a class="btn btn-primary btn-sm py-1 px-2"
                                         href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id.'-'.$transaction->customer_ref_id) }}">
                                         More
                                     </a>
-                                    @endif
                                     @endif
                                 </td>
                             </tr>

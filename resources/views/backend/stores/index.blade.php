@@ -2,7 +2,7 @@
 @section("custom_css")
 <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
-<link rel="stylesheet" href="{{asset('backend/assets/css/store_list.css')}}">
+<link rel="stylesheet" href="{{ asset('backend/assets/css/store_list.css') }}">
 @stop
 
 @section('content')
@@ -39,27 +39,17 @@
 
     <div class="container-fluid">
         <div class="row" style="margin-top:20px;">
-            @foreach ($stores as $store_index)
-            @php
-            $store = $store_index[0];
-            @endphp
+            @foreach ($stores as $store)
             <div class="col-xl-3 col-sm-6" style="margin-bottom: 20px;">
                 <div id="idd" class="card text-center">
                     <div class="card-body">
                         <div class="avatar-sm mx-auto mb-4">
                             <span class="avatar-title rounded-circle bg-soft-primary text-primary font-size-16">
-                                @php
-                                $names = explode(" ", strtoupper($store->store_name));
-                                $ch = "";
-                                foreach ($names as $name) {
-                                $ch .= $name[0];
-                                }
-                                echo $ch;
-                                @endphp
+                                {{ app_get_acronym($store->store_name) }}
                             </span>
                         </div>
                         <h5 class="font-size-15"><a href="{{ route('store.show', $store->_id) }}"
-                                class="text-dark search-name">{{$store->store_name }}</a>
+                                class="text-dark search-name">{{ $store->store_name  }}</a>
                         </h5>
                         <p class="text-muted">{{ $store->email ?? ''}}</p>
                         <p class="text-muted">{{ $store->shop_address ?? ''}}</p>
