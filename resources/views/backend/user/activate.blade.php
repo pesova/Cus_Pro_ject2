@@ -35,7 +35,7 @@
                                         </div>
                                         <div class="alert alert-success alert-dismissible" id="success" style="display: none">
                                             <span id="success-message">Your account has been activated.
-                                                <a href="{{ route('dashboard') }}}">Click Here if you were not redirected</a>
+                                                <a href="{{ route('dashboard') }}">Click Here if you were not redirected</a>
                                             </span>
 
                                         </div>
@@ -126,9 +126,8 @@
             verifying.show();
             const data = {
                 api_token: '{{$apiToken}}',
-                // token: $("#code").val(),
-                verify: $("#code").val()
-                , phone_number: '{{$phoneNumber}}'
+                verify: $("#code").val(),
+                phone_number: '{{$phoneNumber}}'
             };
             $.ajax({
                 url: "{{env('API_URL') }}/otp/verify"
@@ -169,9 +168,9 @@
                 verify.hide();
                 verifying.show();
                 const data = {
-                    api_token: '{{$apiToken}}'
-                    , phone_number: '{{$phoneNumber}}'
-                , };
+                    api_token: '{{$apiToken}}',
+                    phone_number: '{{$phoneNumber}}'
+                };
                 $.ajax({
                     url: "{{ env('API_URL') }}/otp/send"
                     , headers: {
