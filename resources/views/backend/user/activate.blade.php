@@ -125,15 +125,10 @@
             $(this).hide();
             verifying.show();
             const data = {
-                api_token: '{{$apiToken}}',
                 verify: $("#code").val(),
-                phone_number: '{{$phoneNumber}}'
             };
             $.ajax({
-                url: "{{env('API_URL') }}/otp/verify"
-                , headers: {
-                    'x-access-token': '{{$apiToken}}'
-                }
+                url: "{{route('activate.save')}}"
                 , data: data
                 , type: "POST"
             }).done((data) => {

@@ -57,10 +57,37 @@ class ActivateController extends Controller
 
     public function activate(Request $request)
     {
-        Cookie::queue('is_active', true);
-        if ($request->has('skip')) {
-            return redirect()->route('dashboard');
+        try {
+            $url = env('API_URL', 'https://api.customerpay.me') . '/otp/verify';
+            $payload = [
+                'headers' => ['x-access-token' => Cookie::get('api_token')],
+                'form_params' => [
+                    'phone_number' => $request->input('phone_number'),
+                    'verify' => $request->input('code')
+                ],
+            ];
+
+            $client = new Client();
+            $response = $client->post($url, $payload);
+
+            if ($response->success) {
+                return response()->json(['response' => 'success']);
+            } else {
+                return response()->json(['response' => 'failed']);
+            }
+        } catch (RequestException $e) {
+            if ($e->hasResponse()) {
+                $response = json_decode($e->getResponse()->getBody());
+                Session::flash('message', $response->message);
+            }
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
         }
-        return 'done'; // this method will be called via ajax. returning "done" is just a placeholder text for the callback function of the calling script
+
+        // Cookie::queue('is_active', true);
+        // if ($request->has('skip')) {
+        //     return redirect()->route('dashboard');
+        // }
+        // return 'done';
     }
 }
