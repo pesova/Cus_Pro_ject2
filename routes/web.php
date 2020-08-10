@@ -65,7 +65,8 @@ Route::prefix('/app')->group(function () {
 
     // activation
     Route::get('/activate', 'ActivateController@index')->name('activate.index');
-    Route::post('/activate', 'ActivateController@activate')->name('activate.save');
+    Route::get('/activate/send', 'ActivateController@sendOTP')->name('activate.send');
+    Route::post('/activate', 'ActivateController@activate')->name('activate.verify');
 
     //theme
     Route::get('/theme/{theme}', 'ThemeController@changeTheme')->name('theme.change');
