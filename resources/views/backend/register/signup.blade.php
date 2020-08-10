@@ -3,6 +3,13 @@
 
 <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
 <link href="/backend/assets/css/sign-up-valid.css" rel="stylesheet" type="text/css" />
+<style>
+    .navlogo img {
+        height: 64px;
+        width: 100%;
+        object-fit: contain
+    }
+</style>
 
 @stop
 
@@ -21,8 +28,9 @@
                                 <div class="row">
                                     <div class="col-12 p-5">
                                         <div class="mx-auto mb-5">
-                                            <a href="{{ route('home') }}">
-                                                <img src="{{ ('/frontend/assets/images/fulllogo.png') }}" alt class ="img img-fluid" /> </a>
+                                            <a href="{{ route('home') }}" class="navlogo">
+                                                <img src="{{ ('/frontend/assets/images/fulllogo.png') }}" alt
+                                                    class="img img-fluid" /> </a>
                                         </div>
                                         <h3 class="h3 mb-0 mt-4 text-center">Register</h3>
 
