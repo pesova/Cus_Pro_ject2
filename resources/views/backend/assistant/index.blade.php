@@ -3,7 +3,15 @@
 <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
 <link rel="stylesheet" href="/backend/assets/build/css/all_users.css">
+
+<style>
+    #edit_phone{
+        padding-left: 89px !important;
+    }
+</style>
 @stop
+
+{{-- {{dd($assistants)}} --}}
 @section('content')
 <div class="content">
     @include('partials.alert.message')
@@ -81,30 +89,43 @@
                                 </div>
     
                                 <div class="flex-fill">
-                                    <a href="#" data-toggle="modal" data-target="#editAssistant-{{ $assistant->_id }}">
+                                    <a href="#" data-toggle="modal" 
+                                    onclick="open_edit_assistant(this)"
+                                    data-store_id="{{$assistant->store_id}}"
+                                    data-assistant_id="{{ $assistant->_id }}"
+                                    data-assistant_name="{{$assistant->name }}"
+                                    data-assistant_email="{{$assistant->email }}"
+                                    data-assistant_phone="{{$assistant->phone_number}}"
+                                    data-target="#editAssistant">
                                         <i data-feather="edit"></i>
                                     </a>
                                 </div>
     
                                 <div class="flex-fill">
-                                    <a class="" href="#" data-toggle="modal" data-target="#deleteModal-{{$assistant->_id}}">
+                                    <a class="" href="#" 
+                                    data-toggle="modal" 
+                                    onclick="deleteAssistant(this)"
+                                    data-assistant_id="{{$assistant->_id}}"
+                                    data-assistant_name="{{$assistant->name}}"
+                                    data-target="#deleteModal">
                                         <i data-feather="trash-2"></i></a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                {{-- edit assitant modal --}}
-                @include('backend.assistant.modals.editAssistant')
+                
                 {{-- delete assitant modal --}}
-                @include('backend.assistant.modals.deleteAssistant')
+               
                 @endforeach
             </div>
         </div>
     </div>
     {{-- Add assitant modal --}}
     @include('backend.assistant.modals.addAssistant')
-
+    {{-- edit assitant modal --}}
+    @include('backend.assistant.modals.editAssistant')
+    @include('backend.assistant.modals.deleteAssistant')
 </div>
 @endsection
 
@@ -268,4 +289,10 @@
 
 </script>
 {{-- @else --}}
+
+@include('backend.assistant.script.editAssistant')
+
+@include('backend.assistant.script.deleteAssistant')
+
+
 @stop

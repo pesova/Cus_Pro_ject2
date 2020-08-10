@@ -35,8 +35,13 @@
                             </div>
                             @if(\Cookie::get('user_role') != 'store_assistant')
                             <div class="mt-4">
-                                <a href="#" class="btn btn-danger waves-effect waves-light btn-sm" data-toggle="modal"
-                                    data-target="#deleteModal-{{$assistant->_id}}">Delete Assistant
+                                <a href="#" 
+                                class="btn btn-danger waves-effect waves-light btn-sm" 
+                                data-toggle="modal"
+                                data-assistant_id="{{$assistant->_id}}"
+                                onclick="deleteAssistant(this)"
+                                data-assistant_name="{{$assistant->user->name}}"
+                                data-target="#deleteModal">Delete Assistant
                                 </a>
                             </div>
                             {{-- delete assitant modal --}}
@@ -202,6 +207,8 @@
 </div>
 
 @section("javascript")
+<script src="/backend/assets/build/js/intlTelInput.js"></script>
+
 {{-- <script src="/backend/assets/js/pages/dashboard.js"></script> --}}
 <script>
     $(document).ready(function () {
@@ -306,4 +313,10 @@
     }
 
 </script>
+
+@if (Cookie::get('user_role') == "store_admin" || Cookie::get('user_role') == 'super_admin')
+@include('backend.assistant.script.editAssistant');
+@include('backend.assistant.script.deleteAssistant')
+@endif
+
 @endsection
