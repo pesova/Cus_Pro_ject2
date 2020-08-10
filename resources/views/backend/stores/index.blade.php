@@ -3,7 +3,15 @@
 <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
 <link rel="stylesheet" href="{{ asset('backend/assets/css/store_list.css') }}">
+
+<style>
+    #editphone{
+        padding-left: 89px !important;
+    }
+</style>
+
 @stop
+
 
 @section('content')
 <div class="content">
@@ -182,7 +190,7 @@
     });
 
     var edit_test = window.intlTelInput(edit_input, {
-                // separateDialCode: true,
+                separateDialCode: true,
                 // autoHideDialCode:true,
                
 
@@ -202,7 +210,7 @@
 
             $("#edit_store_name").val(store_name);
             $("#edit_tagline").val(store_tagline);
-            //$("#editphone").val(element.dataset.store_phone_full);
+            // $("#editphone").val(store_phone);
             // $("#edit_phone_number").val(store_phone);
             $("#edit_email").val(store_email);
             $("#edit_shop_address").val(store_address);
