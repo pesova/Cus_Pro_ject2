@@ -82,7 +82,8 @@
         <h6 class="text-uppercase font-weight-bold" style="color: #ffffff">Contact</h6>
         <hr class="accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;background-color:#ff8c5f">
         <p style="display: flex;flex-direction:row;justify-content:center">
-          <i class="fas fa-home mr-3"></i> <span>HNG 3 Birrel Ave, Sabo yaba 100001, Lagos, Nigeria.</span></p>
+          <i class="fas fa-home mr-3"></i> <span>2711 Centreville Road, Suite 400, Wilmington, New castle County, DE
+            New castle County, Delaware, DE 19808</span></p>
         <p>
           <i class="fas fa-envelope mr-3"></i> hello@customerpay.me </p>
         {{-- <p>

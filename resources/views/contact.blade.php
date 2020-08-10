@@ -55,7 +55,8 @@
                         </select>
                     </div>
                     <textarea name="Message" id="Message" placeholder="Your Message Here" required></textarea>
-                    <div class="button"><a href=""><img src="frontend/assets/img/icon-img/send.svg" alt="icon"class="send">Send</a></div>
+                    <div class="button"><a href=""><img src="frontend/assets/img/icon-img/send.svg" alt="icon"
+                                class="send">Send</a></div>
                 </form>
             </div>
             <div class="col-lg-6">
@@ -88,7 +89,7 @@
 
 @section("javascript")
 <script>
-  document.querySelector('form .button').addEventListener('click', (e) => {
+    document.querySelector('form .button').addEventListener('click', (e) => {
     let name = document.querySelector('.name-input')
     let email = document.querySelector('#Email')
     let message = document.querySelector('#Message')

@@ -787,7 +787,7 @@ img {
   justify-content: center;
   align-items: center;
   height: 100%;
-  padding: 15% 0 24%;
+  padding: 10% 0 10%;
 }
 
 .welcome-area .owl-nav .owl-prev,
@@ -1094,9 +1094,7 @@ img {
 }
 
 .single-feature-area:hover .feature-icon {
-  -webkit-transform: rotate(-360deg);
-  -ms-transform: rotate(-360deg);
-  transform: rotate(-360deg);
+
 }
 
 .feature-content-text h4 {
