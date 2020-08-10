@@ -13,7 +13,7 @@
 </style>
 @stop
 @section('content')
-<section id="main">
+<section id="">
     <!-- About: Heading Section -->
     <div class="about_main">
         <div class="about-background-left">
