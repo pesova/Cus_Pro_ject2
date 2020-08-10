@@ -38,7 +38,7 @@
                                             <div class="alert alert-success alert-dismissible" id="success"
                                                  style="display: none">
                                             <span id="success-message">Your account has been activated.
-                                                <a href="{{ route('dashboard') }}}">Click Here if you were not redirected</a>
+                                                <a href="{{ route('dashboard') }}">Click Here if you were not redirected</a>
                                             </span>
 
                                             </div>

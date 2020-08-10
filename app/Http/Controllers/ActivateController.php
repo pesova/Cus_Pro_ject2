@@ -32,15 +32,11 @@ class ActivateController extends Controller
                     'phone_number' => Cookie::get('phone_number'),
                 ]
             ]);
-
-            if ($response->getStatusCode() == 200) {
-                $response = json_decode($response->getBody());
-                $data = $response->data;
-            }
+            
             if ($response->success) {
                 // set alert
                 $request->session()->flash('alert-class', 'alert-success');
-                $request->session()->flash('message', 'kindly check your Phone for verification code');
+                $request->session()->flash('message', 'Kindly check your Phone for verification code');
             } else {
                 $message = $response->message;
                 $request->session()->flash('message', $message);
