@@ -238,7 +238,7 @@
 
                         <tbody class="my-transactionsb">
                             @if(isset($data->recentTransaction))
-                            @foreach($data->recentTransaction as $rt)
+                            @forelse($data->recentTransaction as $rt)
                             <tr>
                                 <td>{{$rt->store_name}}</td>
                                 <td>{{$rt->type}}</td>
@@ -248,12 +248,11 @@
                                         href="{{ route('transaction.show', $rt->_id.'-'.$rt->store_ref_id.'-'.$rt->customer_ref_id) }}">View</a>
                                 </td>
                             </tr>
-                            @endforeach
-                            @else
+                            @empty
                             <tr>
                                 <td colspan="4" class="text-center">No Recent Transaction</td>
                             </tr>
-                            @endif
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -285,8 +284,7 @@
                         </thead>
 
                         <tbody class="my-transactionsb">
-                            @if(isset($data->latestDebt))
-                            @foreach($data->latestDebt as $ld)
+                            @forelse($data->latestDebt as $ld)
                             <tr>
                                 <td>{{$ld->store_name}}</td>
                                 <td>
@@ -302,12 +300,11 @@
                                         href="{{ route('debtor.show', $ld->_id) }}">View</a>
                                 </td>
                             </tr>
-                            @endforeach
-                            @else
+                            @empty
                             <tr>
                                 <td colspan="4" class="text-center">No Recent Debts</td>
                             </tr>
-                            @endif
+                            @endforelse
                         </tbody>
                     </table>
                 </div>

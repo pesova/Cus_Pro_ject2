@@ -22,7 +22,7 @@
                                         {{ app_format_date($transaction->date_recorded) }}</h6>
                                 </div>
                                 <div class="col-md-8 row text-center">
-                                    @if($transaction->status != true)
+                                    @if($transaction->status != true && $transaction->type == 'debt')
                                     <a href="" data-toggle="modal" data-target="#sendReminderModal"
                                         class="col-md-3 offset-1 mt-1 btn btn-sm btn-warning">
                                         Send Debt Reminder <i data-feather="send"></i>
