@@ -51,9 +51,9 @@ class AssistantController extends Controller
 
                 return view('backend.assistant.index', compact(['assistants', 'stores']));
 
-            } else if($statusCode >= 400) {
+            } else if($assitant_status_code >= 400) {
                 return redirect()->route('logout');
-            } else if($statusCode >= 500) {
+            } else if($assitant_status_code >= 500) {
                 return view('errors.500');
             }
 
@@ -229,9 +229,9 @@ class AssistantController extends Controller
                 // dd($assistant);
                 return view('backend.assistant.show')->with('assistant', $assistant)->with('stores', $store_data->data->stores);
 
-            } else if($statusCode >= 400) {
+            } else if($assitant_status_code >= 400) {
                 return redirect()->route('logout');
-            } else if($statusCode >= 500) {
+            } else if($assitant_status_code >= 500) {
                 return view('errors.500');
             } else {
                 Session::flash('alert-class', 'alert-danger');

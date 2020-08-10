@@ -10,6 +10,8 @@
     }
 </style>
 @stop
+
+{{-- {{dd($assistants)}} --}}
 @section('content')
 <div class="content">
     @include('partials.alert.message')
