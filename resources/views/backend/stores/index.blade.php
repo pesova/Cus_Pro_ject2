@@ -84,7 +84,6 @@
                                 data-store_tagline= "{{$store->tagline}}"
                                 data-store_email="{{$store->email}}"
                                 data-store_address="{{$store->shop_address}}"
-                                {{-- data-store_phone="{{substr($store->phone_number,3) }}" --}}
                                 data-store_phone_full="{{$store->phone_number}}"
                                 title="" 
                                 data-original-title="Edit">
@@ -180,7 +179,7 @@
 
 {{-- Edit store Js --}}
 
-<script>
+{{-- <script>
     var edit_input = document.querySelector("#editphone");
 
     $("#editphone").keyup(() => {
@@ -236,5 +235,7 @@
         $("#edit_phone_number").val(dialCode + $("#editphone").val());
         $("#editStore_form").off('submit').submit();
     });
-</script>
+</script> --}}
+
+@include('backend.stores.scripts.editStore')
 @stop
