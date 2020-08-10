@@ -313,11 +313,14 @@ class TransactionController extends Controller
             'status' => 'required',
         ]);
 
+        $total_amount = (($request->input('interest') / 100) * $request->input('amount') + $request->input('amount'));
+
         $payload = [
             'headers' => ['x-access-token' => Cookie::get('api_token')],
             'form_params' => [
                 'amount' => $request->input('amount'),
                 'interest' => $request->input('interest'),
+                'total_amount' => $total_amount,
                 'description' => $request->input('description'),
                 'type' => $request->input('type'),
                 'store_id' => $request->input('store'),
