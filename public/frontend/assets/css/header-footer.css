@@ -158,11 +158,10 @@ nav {
     font-size: 14px;
 }
 
-.btn-nav-active:hover {
-    color: #fff;
-    transform: scale(1.1);
-    background-color: var(--primary);
-    border-color: var(--primary);
+.btn-nav-active:hover, .mobile__nav__h1 a:hover {
+    color: #333;
+    background-color: transparent !important;
+    border: 1px solid var(--tetiary);
 }
 
 .nav__button__link {

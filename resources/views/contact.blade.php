@@ -13,7 +13,7 @@
 </style>
 @stop
 @section('content')
-<section id="main">
+<section id="">
     <!-- About: Heading Section -->
     <div class="about_main">
         <div class="about-background-left">
@@ -31,7 +31,6 @@
                     {{-- <div class="p-b-40 text-center">
                         <a class="welcome-btn play-store-btn mr-2 mb-2" href="#"><img
                                 src="/frontend/assets/img/bg-img/bt-1.png" alt=""></a>
-
                         <a class="welcome-btn app-store-btn mr-2 mb-2" href="#"><img
                                 src="/frontend/assets/img/bg-img/bt-2.png" alt=""></a>
                     </div> --}}
@@ -54,7 +53,7 @@
 
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
-                          </button>
+                        </button>
                     </div>
                 </div>
                 @endif
@@ -94,11 +93,14 @@
                         </p>
                         <p class="subhead">Working Hours: 9 AM - 11 PM</p>
                         <div class="map-area">
-                            <iframe class=" map-iframe" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3067.312858599401!2d-75.628452985209!3d39.755083503537165!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c6fe0b62f2ae5b%3A0xe8a497f5a5daa390!2s2711%20Centerville%20Rd%20%23400%2C%20Wilmington%2C%20DE%2019808%2C%20USA!5e0!3m2!1sen!2sng!4v1596921181218!5m2!1sen!2sng" 
-                            rameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                            <iframe class=" map-iframe"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3067.312858599401!2d-75.628452985209!3d39.755083503537165!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c6fe0b62f2ae5b%3A0xe8a497f5a5daa390!2s2711%20Centerville%20Rd%20%23400%2C%20Wilmington%2C%20DE%2019808%2C%20USA!5e0!3m2!1sen!2sng!4v1596921181218!5m2!1sen!2sng"
+                                rameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false"
+                                tabindex="0"></iframe>
                         </div>
                         <p class="subhead">Find us at,</p>
-                        <p class="subhead-text subhead-address">2711 Centreville Road, Suite 400, Wilmington, <br />New castle County,<br />
+                        <p class="subhead-text subhead-address">2711 Centreville Road, Suite 400, Wilmington, <br />New
+                            castle County,<br />
                             Delaware, DE 19808</p>
                     </div>
                 </div>

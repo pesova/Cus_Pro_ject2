@@ -20,20 +20,21 @@
                         Keep track of your <span class="welcome-span">debtors</span>
                     </h3>
                     <p class="wow fadeInUp" data-wow-delay="0.6s">
-                        MyCustomer is an on-demand, scalable ledger solution for small and medium sized businesses
+                        CustomerPayMe is an on-demand, scalable ledger solution for small and medium sized businesses
                         globally.
                     </p>
 
                     {{-- App store download link commented by @Jeremiahiro --}}
-                    {{-- <div class="top-button-container">
-                        <a class="welcome-btn play-store-btn mr-2 mb-2" href="https://play.google.com/store/apps/details?id=me.customerpay.hngsentry&hl=en">
+                    <div class="top-button-container">
+                        <a class="welcome-btn play-store-btn mr-2 mb-2"
+                            href="https://play.google.com/store/apps/details?id=me.customerpay.hngsentry&hl=en">
                             <img src="/frontend/assets/img/bg-img/bt-1.png" alt="">
-                            </a>
-
-                        <a class="welcome-btn app-store-btn mr-2 mb-2" href="#">
-                            <img src="/frontend/assets/img/bg-img/bt-2.png" alt="">
                         </a>
-                    </div> --}}
+
+                        {{-- <a class="welcome-btn app-store-btn mr-2 mb-2" href="#">
+                            <img src="/frontend/assets/img/bg-img/bt-2.png" alt="">
+                        </a> --}}
+                    </div>
 
                     <!-- <div class="slider-btn mt-30">
                             <a class="welcome-btn play-store-btn mr-2 mb-2" href="#"><imgs
@@ -61,7 +62,7 @@
         <div class="col-lg-12">
             <div class="feature-heading-container">
                 <h2 class="feature__heading">
-                    Here’s everything myCustomer offers just for you!
+                    Here’s everything CustomerPayMe offers just for you!
                 </h2>
             </div>
         </div>
@@ -114,11 +115,11 @@
         <div class="row">
             <div class="col-12">
                 <div class="app-shot">
-                    <div><img src="/frontend/assets/img/bg-img/21.png" alt=""></div>
-                    <div><img src="/frontend/assets/img/bg-img/22.png" alt=""></div>
-                    <div><img src="/frontend/assets/img/bg-img/23.png" alt=""></div>
-                    <div><img src="/frontend/assets/img/bg-img/18.png" alt=""></div>
-                    <div><img src="/frontend/assets/img/bg-img/19.png" alt=""></div>
+                    <div><img src="/frontend/assets/img/bg-img/1.png" alt=""></div>
+                    <div><img src="/frontend/assets/img/bg-img/2.png" alt=""></div>
+                    <div><img src="/frontend/assets/img/bg-img/3.png" alt=""></div>
+                    <div><img src="/frontend/assets/img/bg-img/4.png" alt=""></div>
+                    <div><img src="/frontend/assets/img/bg-img/5.png" alt=""></div>
                 </div>
             </div>
         </div>
@@ -152,9 +153,10 @@
         <div class="row justify-content-center">
             <div class="col-lg-7">
                 <div class="section-heading text-center">
-                    <h4>myCustomer features</h4>
-                    <p>Aliquid qui tempore aspernatur earum, Qui dolores molestias minus esse cumque deleniti
-                        impedit quo nostrum omnis et delectus.</p>
+                    <h4>CustomerPayMe Features</h4>
+                    <p>This solution helps business owners send overdue invoice reminders, manage daily
+                        transactions/debt collection, and provides a unique way of pushing unique sales messaging
+                        directly to their customers.</p>
                 </div>
             </div>
         </div>
@@ -162,48 +164,47 @@
         <div class="row justify-content-center">
             <!-- Single Feature area -->
             <div class="col-md-6 col-lg-4">
-                <div class="single-feature-area text-center wow fadeInUp" data-wow-delay="0.4s" data-aos="flip-left"
-                    data-aos-duration="1500">
+                <div class="single-feature-area text-center">
                     <!-- Feature Icon -->
                     <div class="feature-icon">
                         <img src="/frontend/assets/img/icon-img/4.svg" alt="">
                     </div>
                     <!-- Single Feature Text -->
                     <div class="feature-content-text">
-                        <h4>Trustworthy</h4>
-                        <p class="mb-0">Our apps are trusted by over 1000 users across the globe</p>
+                        <h4>Multi-Lingual</h4>
+                        <p class="mb-0">Our app is available in various languages. Trusted by over various users across
+                            the globe</p>
                     </div>
                 </div>
             </div>
 
             <!-- Single Feature area -->
             <div class="col-md-6 col-lg-4">
-                <div class="single-feature-area text-center wow fadeInUp" data-wow-delay="0.4s" data-aos="flip-up"
-                    data-aos-duration="1500">
+                <div class="single-feature-area text-center">
                     <!-- Feature Icon -->
                     <div class="feature-icon">
                         <img src="/frontend/assets/img/icon-img/5.svg" alt="">
                     </div>
                     <!-- Single Feature Text -->
                     <div class="feature-content-text">
-                        <h4>Easy to use</h4>
-                        <p class="mb-0">We created software in such a way that it is easy to use and navigate</p>
+                        <h4>Quick Ledgers</h4>
+                        <p class="mb-0">Save precious hours by updating daily business accounts in minutes.</p>
                     </div>
                 </div>
             </div>
 
             <!-- Single Feature area -->
             <div class="col-md-6 col-lg-4">
-                <div class="single-feature-area text-center wow fadeInUp" data-wow-delay="0.8s" data-aos="flip-right"
-                    data-aos-duration="1500">
+                <div class="single-feature-area text-center">
                     <!-- Feature Icon -->
                     <div class="feature-icon">
                         <img src="/frontend/assets/img/icon-img/9.svg" alt="">
                     </div>
                     <!-- Single Feature Text -->
                     <div class="feature-content-text">
-                        <h4>Fast</h4>
-                        <p class="mb-0">With state of the art servers we introduce you to a new level of speed</p>
+                        <h4>Free SMS Reminders</h4>
+                        <p class="mb-0">Manage daily transactions/debt collections and send customers quick SMS
+                            reminders</p>
                     </div>
                 </div>
             </div>
@@ -262,15 +263,20 @@
     <div class="container">
         <div class="row align-items-center justify-content-center">
             <div class="col-md-7">
-                <div class="why-we-content-text mb-50" data-aos="fade-right" data-aos-duration="1500">
-                    <h3>See how myCustomer is impacting lives</h3>
+                <div class="why-we-content-text mb-50">
+                    <h3>CustomerPayMe is impacting lives</h3>
                     <p>We have reached a wide number of small buisness owners in NIgeria and our goal is to reach small
                         buisness
                         owners all over Africa and keep impacting on their lives
                     </p>
 
                     <div class="button-area mt-50">
-                        <a class="btn feature__action__btn boxed-btn" href="{{ route('about') }}">Read More</a>
+                        {{-- <a class="btn feature__action__btn boxed-btn" href="{{ route('about') }}">Read More</a>
+                        --}}
+                        <a class="welcome-btn play-store-btn mr-2 mb-2"
+                            href="https://play.google.com/store/apps/details?id=me.customerpay.hngsentry&hl=en">
+                            <img src="/frontend/assets/img/bg-img/bt-1.png" alt="">
+                        </a>
                     </div>
                 </div>
             </div>
@@ -325,26 +331,6 @@
 <!-- Call to action area end -->
 
 
-<!-- App Screen Shot Area -->
-<div class="app-screen-shot-area section-padding-100" id="work" style="background: #f1f6fd;">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="app-shot">
-                    <div><img src="/frontend/assets/img/bg-img/21.png" alt=""></div>
-                    <div><img src="/frontend/assets/img/bg-img/22.png" alt=""></div>
-                    <div><img src="/frontend/assets/img/bg-img/23.png" alt=""></div>
-                    <div><img src="/frontend/assets/img/bg-img/18.png" alt=""></div>
-                    <div><img src="/frontend/assets/img/bg-img/19.png" alt=""></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- App Screen Shot Area -->
-
-
-
 <!-- Client Feedback Area -->
 <div class="client-feedback-area section-padding-100" id="client">
     <div class="container">
@@ -365,10 +351,10 @@
                     <div class="row align-items-center">
                         <div class="col-sm-8">
                             <!-- Client Content -->
-                            <div class="testimonial-img-container">
+                            {{-- <div class="testimonial-img-container">
                                 <img src="/frontend/assets/images/kadet pic.jpeg" alt=""
                                     class="testimonial-img img-fluid">
-                            </div>
+                            </div> --}}
                             <div class="client-desc client-mt-50 testimonial__text">
                                 <p>I have been using this app for three months now and i must confess, it has really
                                     changed
@@ -376,7 +362,7 @@
                                     feature gets me
                                     the most. I never knew running multiple store could be this easy</p>
 
-                                <h4>Angel Collins - <span>Nigeria</span></h4>
+                                <h4>Angel Collins</h4>
                             </div>
                         </div>
                     </div>
@@ -385,16 +371,16 @@
                     <div class="row align-items-center">
                         <div class="col-sm-8">
                             <!-- Client Content -->
-                            <div class="testimonial-img-container">
+                            {{-- <div class="testimonial-img-container">
                                 <img src="/frontend/assets/images/kadet pic.jpeg" alt=""
                                     class="testimonial-img img-fluid">
-                            </div>
+                            </div> --}}
                             <div class="client-desc client-mt-50 testimonial__text">
-                                <p>Remote control of my stores and store assistants is a feature I have really been
+                                <p>Remotely control my stores and store assistants is a feature I have really been
                                     looking for.
                                     I have finally found an app that meets all my needs. Thanks makers of MyCustomer</p>
 
-                                <h4>Bitrus Samuel - <span>England</span></h4>
+                                <h4>Bitrus Samuel</h4>
                             </div>
                         </div>
                     </div>
