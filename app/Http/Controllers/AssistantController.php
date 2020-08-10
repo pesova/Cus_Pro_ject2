@@ -215,24 +215,19 @@ class AssistantController extends Controller
 
             $assistant_response = $client->request('GET', $url, $headers);
             $assitant_status_code = $assistant_response->getStatusCode();
+            $store_data = $client->request('GET', $store_url, $headers);
+            $store_status_code = $store_data->getStatusCode();
+            if ($assitant_status_code == 200) {
+                $assistant = json_decode($assistant_response->getBody());
+                $assistant = $assistant->data;
 
-            // get all stores
-            $store_response = $client->request('GET', $store_url, $headers);
-            $store_status_code = $store_response->getStatusCode();
+                $assistant->_id = $assistant->user->_id;
+                $assistant->name = isset($assistant->user->first_name) ? $assistant->user->first_name : $assistant->user->name;
+                $assistant->phone_number = $assistant->user->phone_number;
+                $assistant->email = $assistant->user->email;
 
-            if ($assitant_status_code == 200 && $store_status_code == 200) {
-                $assistant = json_decode($assistant_response->getBody())->data->user;
-                
-                // data provides every other item such as
-                // storeName, storeAddress, customerCount, transactionCount, recentTransaction[]
-                // debtCount, debtAmount, revenueCount, revenueAmount, receivablesAmount
-                // amountForCurrentMonth, amountForPreviousMonth
-                $data = json_decode($assistant_response->getBody())->data;
-
-                // store information, this is for the edit assistant modal
-                $stores = json_decode($store_response->getBody())->data->stores;
-
-                return view('backend.assistant.show', compact(['assistant', 'stores', 'data']));
+                // dd($assistant);
+                return view('backend.assistant.show')->with('assistant', $assistant)->with('stores', $store_data);
 
             } else if($statusCode >= 400) {
                 return redirect()->route('logout');
