@@ -304,12 +304,11 @@ class ComplaintController extends Controller
             }
             return view('backend.complaintlog.update')->with('error', "Complaint not found");
         } catch (Exception $e) {
-            /*if ($e->getCode() == 401) {
+            if ($e->getCode() == 401) {
                 return redirect()->route('logout');
-            }*/
+            }
 
             Log::error('Catch error: ComplaintController - ' . $e->getMessage());
-dd($e);
             return back()->withErrors(['Opps something went wrong. Please try again later']);/// view('errors.500');
         }
     }
