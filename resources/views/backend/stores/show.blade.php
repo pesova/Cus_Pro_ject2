@@ -8,6 +8,13 @@
 <link href="/backend/assets/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 <link href="/backend/assets/css/select.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+
+<style>
+    #editphone{
+        padding-left: 89px !important;
+    }
+</style>
+
 @stop
 
 
@@ -74,8 +81,17 @@ $total_interestReceivables += $each_interestReceivables;
                 data-target="#deleteStore-{{$store->_id}}">
                 Delete
             </a>
-            <a href="#" data-toggle="modal" data-target="#editStore-{{ $store->_id }}"
-                class="mr-3 btn btn-primary float-right btn-sm">
+            <a href="#" 
+            data-toggle="modal" 
+            data-target="#editStore"
+            onclick="open_edit_store(this)"
+            data-store_name="{{$store->store_name}}"
+            data-store_id="{{$store->_id}}"
+            data-store_tagline= "{{$store->tagline}}"
+            data-store_email="{{$store->email}}"
+            data-store_address="{{$store->shop_address}}"
+            data-store_phone_full="{{$store->phone_number}}"
+            class="mr-3 btn btn-primary float-right btn-sm">
                 Edit Store
             </a>
             {{-- Delete Store Modal --}}
@@ -520,5 +536,14 @@ $total_interestReceivables += $each_interestReceivables;
     })
 
 </script>
+
+
+
+@if (Cookie::get('user_role') == "store_admin" || Cookie::get('user_role') == 'super_admin')
+
+@include('backend.stores.scripts.editStore')
+
+@endif
+
 
 @stop
