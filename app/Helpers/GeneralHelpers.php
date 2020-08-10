@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Cookie;
 use Stevebauman\Purify\Facades\Purify;
 
@@ -64,6 +65,40 @@ if (!function_exists('api_token')) {
     }
 }
 
+if (!function_exists('get_full_name')) {
+
+    /**
+     * gets logged in users full name
+     *
+     * @return string
+     */
+    function get_full_name()
+    {
+        if (is_store_assistant()) {
+            return Cookie::get('name');
+        }
+        return Cookie::get('first_name') . ' ' . Cookie::get('last_name');
+    }
+}
+
+if (!function_exists('get_profile_picture')) {
+
+    /**
+     * gets logged in users profile picture
+     *
+     * @return string
+     */
+    function get_profile_picture()
+    {
+        $profile_picture = Cookie::get('profile_picture');
+        $profile_picture = rtrim($profile_picture);
+        $profile_picture_path = str_replace(" ", "/", $profile_picture);
+
+        return 'https://res.cloudinary.com/' . $profile_picture_path;
+    }
+}
+
+
 if (!function_exists('purify_input')) {
 
     /**
@@ -76,5 +111,55 @@ if (!function_exists('purify_input')) {
     {
         $cleaned = Purify::clean($input);
         return $cleaned;
+    }
+}
+
+
+if (!function_exists('app_format_date')) {
+
+    /**
+     * converts datetime to diffForhumans
+     *
+     * @param string $dateTime
+     * @param boolean $html if to be returned with html formatted colors eg, success,warning,danger
+     * @return string  human date
+     */
+    function app_format_date($dateTime, $style = false)
+    {
+        $formatted = Carbon::parse($dateTime)->diffForhumans();
+
+        if (!$style) {
+            return $formatted;
+        }
+
+        $styled = '<span class="badge badge-soft-';
+        if (Carbon::parse($dateTime)->isPast()) {
+            $styled .= 'danger">' . $formatted;
+        } elseif (Carbon::parse($dateTime)->isToday()) {
+            $styled .= 'warning">' . $formatted;
+        } else {
+            $styled .= 'success">' . $formatted;
+        }
+        $styled .= '</span>';
+
+        return $styled;
+    }
+}
+
+if (!function_exists('app_get_acronym')) {
+    /**
+     * Get acronym of string passed
+     *
+     * @param string
+     * @return string cleaned string
+     */
+    function app_get_acronym($name)
+    {
+        $name = explode(" ", strtoupper($name));
+        $acronym = "";
+        foreach ($name as $name) {
+            $acronym .= $name[0];
+        }
+        return $acronym;
     }
 }

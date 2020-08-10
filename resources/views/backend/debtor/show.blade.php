@@ -5,10 +5,6 @@
 @endsection
 
 @section('content')
-@php
-    $currency = isset($debtor->store_admin_ref->currencyPreference) ?
-                    $debtor->store_admin_ref->currencyPreference : null;
-@endphp
 <div class="account-pages my-2">
     <div class="container-fluid">
         @include('partials.alert.message')
@@ -18,7 +14,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <h6 class="card-title">Debtor Overview - Created
-                                {{ \Carbon\Carbon::parse($debtor->createdAt)->diffForhumans() }}</h5>
+                                {{ app_format_date($debtor->date_recorded) }}</h5>
                         </div>
                         <div class="col-md-8 row text-center">
                             <a href="{{ route('markpaid', $debtor->_id) }}"
@@ -101,7 +97,7 @@
                                             <tbody>
                                                 <tr>
                                                     <th scope="row">Amount</th>
-                                                    <td colspan="2">{{ format_money($debtor->amount, $currency) }}</td>
+                                                    <td colspan="2">{{ format_money($debtor->amount, $debtor->currency) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">Interest</th>
@@ -109,7 +105,7 @@
                                                 </tr>
                                                 <tr class="font-weight-bolder">
                                                     <th scope="row">Total Amount</th>
-                                                    <td colspan="2">{{ format_money($debtor->total_amount, $currency) }}</td>
+                                                    <td colspan="2">{{ format_money($debtor->total_amount, $debtor->currency) }}</td>
                                                 </tr>
                                             </tbody>
                                         </table>

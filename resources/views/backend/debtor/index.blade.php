@@ -12,7 +12,7 @@
             <div class="h6"><i data-feather="file-text" class="icon-dual"></i> Debtors Center</div>
         </div>
         @include('partials.alert.message')
-        @if(Cookie::get('user_role') != 'super_admin')
+        @if(!is_super_admin())
         <div class="card">
             <div class="card-body">
                 <p class="sub-header">
@@ -77,11 +77,6 @@
                         <tbody>
                             @isset($debtors)
                             @foreach ($debtors as $index => $debtor )
-                            @php
-                            $currency = isset($debtor->store_admin_ref->currencyPreference) ?
-                                            $debtor->store_admin_ref->currencyPreference : null;
-                            @endphp
-
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>
@@ -99,9 +94,8 @@
                                     @endif
                                 </td>
                                 <td>{{ $debtor->description }}</td>
-                                <td>{{ format_money($debtor->total_amount, $currency) }}</td>
-
-                                <td> {{ \Carbon\Carbon::parse($debtor->createdAt)->diffForhumans() }}</td>
+                                <td>{{ format_money($debtor->total_amount, $debtor->currency) }}</td>
+                                <td> {!! app_format_date($debtor->date_recorded) !!}</td>
                                 <td>
                                     <a class="btn btn-info btn-small py-1 px-2"
                                         href="{{ route('debtor.show', $debtor->_id) }}">
@@ -160,7 +154,6 @@
 
 </script>
 
-{{-- @if (\Illuminate\Support\Facades\Cookie::get('is_first_time_user') == true) --}}
 <script>
     var debtors_intro_shown = localStorage.getItem('debtors_intro_shown');
 

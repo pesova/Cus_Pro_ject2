@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.4",
+        "anhskohbo/no-captcha": "^3.2",
         "barryvdh/laravel-snappy": "^0.4.7",
         "browner12/helpers": "^3.1",
         "fideloper/proxy": "^4.0",

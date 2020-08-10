@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Session;
 
 class DashboardController extends Controller
 {
@@ -20,124 +21,23 @@ class DashboardController extends Controller
     public function index()
     {
         // API updated
-        if (Cookie::get('user_role') === 'super_admin') {
-
-            $allInfo_url = env('API_URL', 'https://dev.api.customerpay.me') . '/dashboard/all';
-            try {
-                $client = new Client;
-                $payload = [
-                    'headers' => [
-                        'x-access-token' => Cookie::get('api_token')
-                    ]
-                ];
-                // Transaction endpoint is having issues
-                $allInfoResponse = $client->request('GET', $allInfo_url, $payload);
-
-                // Transaction endpoint is having issues
-                $status_code_all_info = $allInfoResponse->getStatusCode();
-
-                if ($status_code_all_info == 200) {
-                    $allInfo_response_body = json_decode($allInfoResponse->getBody());
-                    $allInfo_response_body = $allInfo_response_body->data;
-
-                    if ($allInfo_response_body->totalDebt > 1000000) {
-                        $allInfo_response_body->totalDebt = sprintf("%0.2fM", $allInfo_response_body->totalDebt / 1000000);
-                    }
-                    if ($allInfo_response_body->totalDebt > 1000) {
-                        $allInfo_response_body->totalDebt = sprintf("%0.2fK", $allInfo_response_body->totalDebt / 1000);
-                    }
-
-                    // dd($allInfo_response_body);
-                    return view('backend.dashboard.index')->with('data', $allInfo_response_body);
-                }
-            } catch (RequestException $e) {
-
-                return view('backend.dashboard.index')->with('data', null);
-            } catch (\Exception $e) {
-                return view('errors.500');
-            }
-
-        } elseif (Cookie::get('user_role') === 'store_admin') {
-            $url = env('API_URL', 'https://dev.api.customerpay.me') . '/dashboard/';
-
-            try {
-                $client = new Client;
-                $payload = [
-                    'headers' => [
-                        'x-access-token' => Cookie::get('api_token')
-                    ]
-                ];
-                $response = $client->request('GET', $url, $payload);
-
-                if ($response->getStatusCode() == 200) {
-                    $data = json_decode($response->getBody());
-                    $data = $data->data;
-                    $thisMonth = $data->amountForCurrentMonth;
-                    $lastMonth = $data->amountForPreviousMonth;
-                    $diff = $thisMonth - $lastMonth;
-                    // (Current period's revenue - prior period's revenue) ÷ by prior period's revenue x 100
-                    $profit = ($thisMonth > $lastMonth) ? true : false;
-                    $percentage = ($lastMonth == 0) ? '-' : sprintf("%.2f", ($diff / $lastMonth) * 100);
-
-                    return view('backend.dashboard.index')->withData($data)->withProfit(['profit' => $profit, 'percentage' => $percentage]);
-                }
-            } catch (RequestException $e) {
-                Log::info('Catch error: DashboardController - ' . $e->getMessage());
-                // check for 5xx server error
-                if ($e->getResponse()->getStatusCode() >= 500) {
-                    return view('errors.500');
-                } else {
-                    return redirect()->route('logout');
-                }
-
-            } catch (\Exception $e) {
-                Log::error('Catch error: StoreController - ' . $e->getMessage());
-                return view('errors.500');
-            }
-        } else { // Todo: remove this when dashboard API is available
-            //die();
-            try {
-                // Get all stores first
-                $url = env('API_URL', 'https://dev.api.customerpay.me') . '/dashboard/assistant/';// . Cookie::get('user_id');
-                $client = new Client();
-                $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
-                $response = $client->request("GET", $url, $headers);
-
-                // First get the assistant details
-
-                if ($response->getStatusCode() == 200) {
-                    $data = json_decode($response->getBody());
-                    $data = $data->data;
-                    $data->name = isset($data->user->first_name) ? $data->user->first_name : $data->user->name;
-
-                    $data->phone_number = $data->user->phone_number;
-                    $data->email = $data->user->email;
-
-                    return view('backend.dashboard.index')->withData($data);
-
-                } else {
-                    return view('errors.500');
-                    // return back()->withErrors("An Error Occured. Please try again later");
-                }
-
-            } catch (\Exception $e) {
-                if ($e->getCode() == 401) {
-                    return redirect()->route('logout');
-                }
-                return view('errors.500');
-                //return $response->getStatusCode();
-            }
+        if (is_super_admin()) {
+            return $this->superAdminDashboard();
+        } elseif (is_store_admin()) {
+            return $this->storeAdminDashboard();
+        } else {
+            return $this->storeAssistantDashboard();
         }
     }
 
     public function notification()
     {
-        $phone_number = Cookie::get('phone_number');
-        $user = User::where('phone_number', $phone_number)->first();
-        return view('backend.dashboard.notification')->with([
-            'notifications' => $user->notifications,
-            'user' => $user
-        ]);
+        // $phone_number = Cookie::get('phone_number');
+        // $user = User::where('phone_number', $phone_number)->first();
+        // return view('backend.dashboard.notification')->with([
+        //     'notifications' => $user->notifications,
+        //     'user' => $user
+        // ]);
     }
 
     public function creditor()
@@ -148,5 +48,120 @@ class DashboardController extends Controller
     public function analytics()
     {
         return view('backend.dashboard.analytics');
+    }
+
+    public function superAdminDashboard()
+    {
+
+        $allInfo_url = env('API_URL', 'https://dev.api.customerpay.me') . '/dashboard/all';
+        try {
+            $client = new Client;
+            $payload = [
+                'headers' => [
+                    'x-access-token' => Cookie::get('api_token')
+                ]
+            ];
+            // Transaction endpoint is having issues
+            $allInfoResponse = $client->request('GET', $allInfo_url, $payload);
+
+            // Transaction endpoint is having issues
+            $status_code_all_info = $allInfoResponse->getStatusCode();
+
+            if ($status_code_all_info == 200) {
+                $response = json_decode($allInfoResponse->getBody())->data;;
+
+                if ($response->totalDebt > 1000000) {
+                    $response->totalDebt = sprintf("%0.2fM", $response->totalDebt / 1000000);
+                }elseif ($response->totalDebt > 1000) {
+                    $response->totalDebt = sprintf("%0.2fK", $response->totalDebt / 1000);
+                }
+
+                return view('backend.dashboard.index')->with('data', $response);
+            }
+        } catch (RequestException $e) {
+            Log::info('Catch error: DashboardController - ' . $e->getMessage());
+
+            if ($e->getCode() == 401) {
+                Session::flash('message', 'session expired');
+                return redirect()->route('logout');
+            }
+
+            Session::flash('error', "something went wrong, refresh after few minutes.");
+            return view('errors.500');
+        } catch (\Exception $e) {
+            Log::error('Catch error:  DashboardController - ' . $e->getMessage());
+            return view('errors.500');
+        }
+    }
+
+    public function storeAdminDashboard()
+    {
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/dashboard/';
+
+        try {
+            $client = new Client;
+            $payload = [
+                'headers' => [
+                    'x-access-token' => Cookie::get('api_token')
+                ]
+            ];
+            $response = $client->request('GET', $url, $payload);
+
+            if ($response->getStatusCode() == 200) {
+                $data = json_decode($response->getBody())->data;
+
+                $thisMonth = $data->amountForCurrentMonth;
+                $lastMonth = $data->amountForPreviousMonth;
+                $diff = $thisMonth - $lastMonth;
+                // (Current period's revenue - prior period's revenue) ÷ by prior period's revenue x 100
+                $profit = ($thisMonth > $lastMonth) ? true : false;
+                $percentage = ($lastMonth == 0) ? '-' : sprintf("%.2f", ($diff / $lastMonth) * 100);
+                return view('backend.dashboard.index', compact('data', 'profit', 'percentage'));
+            }
+        } catch (RequestException $e) {
+            Log::info('Catch error: DashboardController - ' . $e->getMessage());
+
+            if ($e->getCode() == 401) {
+                Session::flash('message', 'session expired');
+                return redirect()->route('logout');
+            }
+
+            Session::flash('error', "something went wrong, refresh after few minutes.");
+            return view('errors.500');
+        } catch (\Exception $e) {
+            Log::error('Catch error:  DashboardController - ' . $e->getMessage());
+            return view('errors.500');
+        }
+    }
+
+    public function storeAssistantDashboard()
+    {
+        try {
+            // Get all stores first
+            $url = env('API_URL', 'https://dev.api.customerpay.me') . '/dashboard/assistant/'; // . Cookie::get('user_id');
+            $client = new Client();
+            $headers = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+            $response = $client->request("GET", $url, $headers);
+
+            if ($response->getStatusCode() == 200) {
+                $assistant = json_decode($response->getBody())->data;
+                return view('backend.dashboard.index', compact('assistant'));
+            }
+
+            return view('errors.500');
+        } catch (RequestException $e) {
+            Log::info('Catch error: DashboardController - ' . $e->getMessage());
+
+            if ($e->getCode() == 401) {
+                Session::flash('message', 'session expired');
+                return redirect()->route('logout');
+            }
+
+            Session::flash('error', "something went wrong, refresh after few minutes.");
+            return view('errors.500');
+        } catch (\Exception $e) {
+            Log::error('Catch error:  DashboardController - ' . $e->getMessage());
+            return view('errors.500');
+        }
     }
 }
