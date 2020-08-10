@@ -1,27 +1,6 @@
 <div class="row">
     <div class="col-xl-4">
         <div class="card overflow-hidden">
-            {{-- <div class="bg-soft-primary">
-                <div class="row">
-                    <div class="col-7">
-                        <div class="text-primary p-3">
-                            <h5 class="text-primary">Welcome Back !</h5>
-                        </div>
-                    </div>
-                    <div class="col-5 align-self-end">
-                        @php
-                        $profile_picture = Cookie::get('profile_picture');
-                        $profile_picture = rtrim($profile_picture);
-                        $profile_picture_path = str_replace(" ","/", $profile_picture);
-                        @endphp
-                        <object data="https://res.cloudinary.com/{{ $profile_picture_path }}" type="image/jpg"
-            class="img-thumbnail img-small rounded-circle mt-2">
-            <img src="/backend/assets/images/users/default.png" class="img-thumbnail rounded-circle mt-2"
-                alt="Profile Picture" />
-            </object>
-        </div>
-    </div>
-</div> --}}
 <div class="bg-soft-primary">
     <div class="row">
         <div class="col-7">
@@ -40,19 +19,11 @@
     <div class="row">
         <div class="col-sm-4">
             <div class="avatar-md profile-user-wid mb-4">
-                @php
-                $profile_picture = Cookie::get('profile_picture');
-                $profile_picture = rtrim($profile_picture);
-                $profile_picture_path = str_replace(" ","/", $profile_picture);
-                @endphp
-                <object data="https://res.cloudinary.com/{{ $profile_picture_path }}" type="image/jpg"
+                <object data="{{ get_profile_picture() }}" type="image/jpg"
                     class="img-thumbnail rounded-circle mt-2" data-toggle="modal" data-target="#profilePhoto">
                     <img src="/backend/assets/images/users/default.png" class="img-thumbnail rounded-circle mt-2"
                         alt="Profile Picture" />
                 </object>
-
-                {{-- <img src="/backend/assets/images/users/avatar-1.jpg" alt=""
-                                class="img-thumbnail rounded-circle"> --}}
             </div>
             <h5 class="font-size-15 text-truncate">{{ Cookie::get('first_name') }}</h5>
             <p class="text-muted mb-0 text-truncate">Store Admin</p>
@@ -243,7 +214,7 @@
 
 <!-- products -->
 <div class="row">
-    <div class="col-xl-7">
+    <div class="col-xl-6">
         <div class="card">
             <div class="card-body pt-2">
                 <h5 class="mb-4 header-title">Recent Transactions</h5>
@@ -267,26 +238,21 @@
 
                         <tbody class="my-transactionsb">
                             @if(isset($data->recentTransaction))
-                            @foreach($data->recentTransaction as $rt)
-                            @php
-                                $currency = isset($rt->store_admin_ref->currencyPreference) ?
-                                                $rt->store_admin_ref->currencyPreference : null;
-                            @endphp
+                            @forelse($data->recentTransaction as $rt)
                             <tr>
                                 <td>{{$rt->store_name}}</td>
                                 <td>{{$rt->type}}</td>
-                                <td>{{ format_money($rt->amount, $currency) }}</td>
+                                <td>{{ format_money($rt->amount, $rt->currency) }}</td>
                                 <td>
                                     <a class="btn btn-primary btn-sm"
                                         href="{{ route('transaction.show', $rt->_id.'-'.$rt->store_ref_id.'-'.$rt->customer_ref_id) }}">View</a>
                                 </td>
                             </tr>
-                            @endforeach
-                            @else
+                            @empty
                             <tr>
                                 <td colspan="4" class="text-center">No Recent Transaction</td>
                             </tr>
-                            @endif
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -298,7 +264,7 @@
     </div>
     <!-- end col-->
 
-    <div class="col-xl-5">
+    <div class="col-xl-6">
         <div class="card">
             <div class="card-body pt-2">
                 <h5 class="mb-4 header-title">Latest Debts</h5>
@@ -318,12 +284,7 @@
                         </thead>
 
                         <tbody class="my-transactionsb">
-                            @if(isset($data->latestDebt))
-                            @foreach($data->latestDebt as $ld) 
-                            @php
-                                $currency = isset($ld->store_admin_ref->currencyPreference) ?
-                                                $ld->store_admin_ref->currencyPreference : null;
-                            @endphp
+                            @forelse($data->latestDebt as $ld)
                             <tr>
                                 <td>{{$ld->store_name}}</td>
                                 <td>
@@ -333,18 +294,17 @@
                                     <span class="badge badge-danger">Unpaid</span>
                                     @endif
                                 </td>
-                                <td>{{ format_money($ld->amount, $currency) }}</td>
+                                <td>{{ format_money($ld->amount, $ld->currency) }}</td>
                                 <td>
                                     <a class="btn btn-primary btn-sm"
                                         href="{{ route('debtor.show', $ld->_id) }}">View</a>
                                 </td>
                             </tr>
-                            @endforeach
-                            @else
+                            @empty
                             <tr>
                                 <td colspan="4" class="text-center">No Recent Debts</td>
                             </tr>
-                            @endif
+                            @endforelse
                         </tbody>
                     </table>
                 </div>

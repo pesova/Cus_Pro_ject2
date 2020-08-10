@@ -55,32 +55,3 @@
         </div>
     </div>
 </div>
-@section("javascript")
-<script src="/backend/assets/build/js/intlTelInput.js"></script>
-<script>
-    //phone Number format
-    var input = document.querySelector("#phone");
-    var test = window.intlTelInput(input, {
-        separateDialCode: true,
-        // any initialisation options go here
-    });
-
-    $("#phone").keyup(() => {
-        if ($("#phone").val().charAt(0) == 0) {
-            $("#phone").val($("#phone").val().substring(1));
-        }
-    });
-
-    $("#submitForm").submit((e) => {
-        e.preventDefault();
-        const dialCode = test.getSelectedCountryData().dialCode;
-        if ($("#phone").val().charAt(0) == 0) {
-            $("#phone").val($("#phone").val().substring(1));
-        }
-        $("#phone_number").val(dialCode + $("#phone").val());
-        $("#submitForm").off('submit').submit();
-    });
-
-</script>
-
-@stop

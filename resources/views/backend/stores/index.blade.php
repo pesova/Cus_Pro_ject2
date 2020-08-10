@@ -2,8 +2,16 @@
 @section("custom_css")
 <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
-<link rel="stylesheet" href="{{asset('backend/assets/css/store_list.css')}}">
+<link rel="stylesheet" href="{{ asset('backend/assets/css/store_list.css') }}">
+
+<style>
+    #editphone{
+        padding-left: 89px !important;
+    }
+</style>
+
 @stop
+
 
 @section('content')
 <div class="content">
@@ -39,27 +47,17 @@
 
     <div class="container-fluid">
         <div class="row" style="margin-top:20px;">
-            @foreach ($stores as $store_index)
-            @php
-            $store = $store_index[0];
-            @endphp
+            @foreach ($stores as $store)
             <div class="col-xl-3 col-sm-6" style="margin-bottom: 20px;">
                 <div id="idd" class="card text-center">
                     <div class="card-body">
                         <div class="avatar-sm mx-auto mb-4">
                             <span class="avatar-title rounded-circle bg-soft-primary text-primary font-size-16">
-                                @php
-                                $names = explode(" ", strtoupper($store->store_name));
-                                $ch = "";
-                                foreach ($names as $name) {
-                                $ch .= $name[0];
-                                }
-                                echo $ch;
-                                @endphp
+                                {{ app_get_acronym($store->store_name) }}
                             </span>
                         </div>
                         <h5 class="font-size-15"><a href="{{ route('store.show', $store->_id) }}"
-                                class="text-dark search-name">{{$store->store_name }}</a>
+                                class="text-dark search-name">{{ $store->store_name  }}</a>
                         </h5>
                         <p class="text-muted">{{ $store->email ?? ''}}</p>
                         <p class="text-muted">{{ $store->shop_address ?? ''}}</p>
@@ -74,9 +72,25 @@
                             </div>
 
                             <div class="flex-fill">
-                                <a href="#" data-toggle="modal" data-target="#editStore-{{ $store->_id }}"
-                                    data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit">
-                                    <i data-feather="edit"></i>
+                                <a href="#" 
+                                data-toggle="modal" 
+                                class="open_edit_store"
+                                data-target="#editStore"
+                                data-toggle="tooltip" 
+                                data-placement="top" 
+                                onclick="open_edit_store(this)"
+                                data-store_name="{{$store->store_name}}"
+                                data-store_id="{{$store->_id}}"
+                                data-store_tagline= "{{$store->tagline}}"
+                                data-store_email="{{$store->email}}"
+                                data-store_address="{{$store->shop_address}}"
+                                {{-- data-store_phone="{{substr($store->phone_number,3) }}" --}}
+                                data-store_phone_full="{{$store->phone_number}}"
+                                title="" 
+                                data-original-title="Edit">
+                                <i data-feather="edit"
+                      
+                                ></i>
                                 </a>
                             </div>
 
@@ -91,7 +105,7 @@
             </div>
 
             {{-- Edit Store Modal --}}
-            @include('backend.stores.modals.editStore')
+            {{-- @include('backend.stores.modals.editStore') --}}
 
             {{-- Delete Store Modal --}}
             @include('backend.stores.modals.deleteStore')
@@ -106,11 +120,14 @@
 
     {{-- Add Store Modal --}}
     @include('backend.stores.modals.addStore')
+    @include('backend.stores.modals.editStore')
 </div>
+
+
 @endsection
 
 @section("javascript")
-
+<script src="/backend/assets/build/js/intlTelInput.js"></script>
 <script>
     //for search bar
     let storeName = $('#store-name');
@@ -132,5 +149,92 @@
         });
     });
 
+</script>
+
+{{-- add store js --}}
+<script>
+    //phone Number format
+    var input = document.querySelector("#phone");
+    var test = window.intlTelInput(input, {
+        // separateDialCode: true,
+        // any initialisation options go here
+    });
+
+    $("#phone").keyup(() => {
+        if ($("#phone").val().charAt(0) == 0) {
+            $("#phone").val($("#phone").val().substring(1));
+        }
+    });
+
+    $("#submitForm").submit((e) => {
+        e.preventDefault();
+        const dialCode = test.getSelectedCountryData().dialCode;
+        if ($("#phone").val().charAt(0) == 0) {
+            $("#phone").val($("#phone").val().substring(1));
+        }
+        $("#phone_number").val(dialCode + $("#phone").val());
+        $("#submitForm").off('submit').submit();
+    });
+
+</script>
+
+{{-- Edit store Js --}}
+
+<script>
+    var edit_input = document.querySelector("#editphone");
+
+    $("#editphone").keyup(() => {
+        if ($("#editphone").val().charAt(0) == 0) {
+            $("#editphone").val($("#editphone").val().substring(1));
+        }
+    });
+
+    var edit_test = window.intlTelInput(edit_input, {
+                separateDialCode: true,
+                // autoHideDialCode:true,
+               
+
+
+             });
+
+    // $(".open_edit_store").click(function(event){
+        function open_edit_store(element){
+        
+             edit_test.setNumber("+" + (element.dataset.store_phone_full));
+            let store_name = element.dataset.store_name;
+            let store_tagline = element.dataset.store_tagline;
+            let store_email = element.dataset.store_email;
+            let store_address = element.dataset.store_address;
+            // let store_phone = element.dataset.store_phone;
+            let store_id = element.dataset.store_id;
+
+            $("#edit_store_name").val(store_name);
+            $("#edit_tagline").val(store_tagline);
+            // $("#editphone").val(store_phone);
+            // $("#edit_phone_number").val(store_phone);
+            $("#edit_email").val(store_email);
+            $("#edit_shop_address").val(store_address);
+
+
+            let form_url = "{{route('store.update','1')}}";
+            let formatted_url = form_url.replace('1',store_id);
+            $("#editStore_form").attr('action',formatted_url);
+
+            // console.log(formatted_url);
+        }
+       
+    // })
+
+
+    $("#editStore_form").submit((e) => {
+        e.preventDefault();
+        const dialCode = edit_test.getSelectedCountryData().dialCode;
+        if ($("#editphone").val().charAt(0) == 0) {
+            $("#editphone").val($("#editphone").val().substring(1));
+        }
+        console.log(dialCode);
+        $("#edit_phone_number").val(dialCode + $("#editphone").val());
+        $("#editStore_form").off('submit').submit();
+    });
 </script>
 @stop
