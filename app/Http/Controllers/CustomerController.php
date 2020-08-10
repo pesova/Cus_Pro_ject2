@@ -431,7 +431,7 @@ class CustomerController extends Controller
                 $request->session()->flash('alert-class', 'alert-success');
                 $request->session()->flash('message', 'Customer deleted successfully');
 
-                return redirect()->back();
+                return view('backend.customer.index');
             } else {
                 $request->session()->flash('alert-class', 'alert-danger');
                 $request->session()->flash('message', 'Customer deleting failed');
