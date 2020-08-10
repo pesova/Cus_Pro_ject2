@@ -108,7 +108,7 @@ class ComplaintController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'subject' => 'required',
+            'subject' => 'required|max:150|min:5',
             'message' => 'required|max:500|min:10'
         ]);
 

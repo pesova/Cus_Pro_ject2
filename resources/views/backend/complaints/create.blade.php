@@ -7,12 +7,10 @@
 @section('content')
     <div class="content">
         <div class="container-fluid">
-
+                @include('partials.alert.message')
             <div class="row page-title">
                 <div class="col-md-12">
                     <nav aria-label="breadcrumb" class="float-right mt-1"></nav>
-                    @include('partials.alert.message')
-
                     <h4 class="mb-1 mt-0">Submit a Complaint</h4>
                 </div>
             </div>
@@ -34,7 +32,7 @@
                                     <div class="form-group row">
                                         <label class="col-lg-2 col-form-label">Subject</label>
                                         <div class="col-lg-10">
-                                            <input type="text" name="subject" class="form-control" required value="{{old('subject')}}" placeholder="Subject"/>
+                                            <input type="text" name="subject" class="form-control" maxlength="150" required value="{{old('subject')}}" placeholder="Subject"/>
                                         </div>
                                     </div>
 
