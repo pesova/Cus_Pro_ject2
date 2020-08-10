@@ -1,10 +1,17 @@
 {{-- inherits base markup --}}
 {{-- got my page working im so excited --}}
+
 @extends('layout.base')
 {{-- add in the basic styling : check the contents of these stylesheets later --}}
 @section("custom_css")
 <link rel="stylesheet" href="{{asset('backend/assets/css/singleCustomer.css')}}">
 <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
+
+<style>
+    #edit_phone{
+        padding-left: 89px !important;
+    }
+</style>
 @stop
 
 
@@ -21,7 +28,16 @@
                 <a href="{{ url()->previous() }}" class="btn btn-primary float-right btn-sm">
                     Go Back
                 </a>
-                <a href="#" data-toggle="modal" data-target="#editAssistant-{{ $assistant->_id }}" class="mr-3 btn btn-success float-right btn-sm">
+                <a href="#" 
+                data-toggle="modal"
+                 data-target="#editAssistant" 
+                 onclick="open_edit_assistant(this)"
+                 data-store_id="{{$assistant->user->store_id}}"
+                 data-assistant_id="{{ $assistant->_id }}"
+                 data-assistant_name="{{$assistant->user->name }}"
+                 data-assistant_email="{{$assistant->email }}"
+                 data-assistant_phone="{{$assistant->phone_number}}"
+                 class="mr-3 btn btn-success float-right btn-sm">
                     Edit Assistant
                 </a>
             </div>

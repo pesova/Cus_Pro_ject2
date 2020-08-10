@@ -37,7 +37,7 @@
                                                 <div class="input-group input-group-merge">
                                                     <div class="input-group-prepend">
                                                     </div>
-                                                    <input type="number" id="phone" name="" class="form-control"
+                                                    <input type="tel" id="phone" name="" class="form-control"
                                                         value="" aria-describedby="helpPhone" placeholder="813012345"
                                                         required>
                                                     <input type="hidden" name="phone_number" id="phone_number"

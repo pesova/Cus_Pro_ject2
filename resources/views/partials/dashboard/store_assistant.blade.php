@@ -202,6 +202,8 @@
 </div>
 
 @section("javascript")
+<script src="/backend/assets/build/js/intlTelInput.js"></script>
+
 {{-- <script src="/backend/assets/js/pages/dashboard.js"></script> --}}
 <script>
     $(document).ready(function () {
@@ -306,4 +308,9 @@
     }
 
 </script>
+
+@if (Cookie::get('user_role') == "store_admin")
+@include('backend.assistant.script.editAssistant');
+@endif
+
 @endsection

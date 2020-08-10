@@ -215,19 +215,19 @@ class AssistantController extends Controller
 
             $assistant_response = $client->request('GET', $url, $headers);
             $assitant_status_code = $assistant_response->getStatusCode();
-            $store_data = $client->request('GET', $store_url, $headers);
-            $store_status_code = $store_data->getStatusCode();
+            $store_response = $client->request('GET', $store_url, $headers);
+            $store_status_code = $store_response->getStatusCode();
             if ($assitant_status_code == 200) {
                 $assistant = json_decode($assistant_response->getBody());
                 $assistant = $assistant->data;
-
+                $store_data = json_decode($store_response->getBody());
                 $assistant->_id = $assistant->user->_id;
                 $assistant->name = isset($assistant->user->first_name) ? $assistant->user->first_name : $assistant->user->name;
                 $assistant->phone_number = $assistant->user->phone_number;
                 $assistant->email = $assistant->user->email;
 
                 // dd($assistant);
-                return view('backend.assistant.show')->with('assistant', $assistant)->with('stores', $store_data);
+                return view('backend.assistant.show')->with('assistant', $assistant)->with('stores', $store_data->data->stores);
 
             } else if($statusCode >= 400) {
                 return redirect()->route('logout');
@@ -376,7 +376,7 @@ class AssistantController extends Controller
             if ($e->getCode() == 400) {
                 $request->session()->flash('alert-class', 'alert-danger');
                 Session::flash('message', "Phone number already exists");
-                return redirect()->route('assistants.index');
+                return redirect()->back();
             }
             $request->session()->flash('alert-class', 'alert-danger');
             $request->session()->flash('message', 'An Error Occured. Please Try Again Later');
