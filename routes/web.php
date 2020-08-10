@@ -21,29 +21,13 @@ use Illuminate\Support\Facades\Crypt;
 
 // Unauthenticated Routes
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
-
-Route::get('/about', function () {
-    return view('about');
-})->name('about');
-
-Route::get('/faq', function () {
-    return view('faq');
-})->name('faq');
-
-Route::get('/contact', function () {
-    return view('contact');
-})->name('contact');
-
-Route::get('/privacy', function () {
-    return view('privacy');
-})->name('privacy');
-
-Route::get('/blog', function () {
-    return view('blog');
-})->name('blog');
+Route::get('/', 'HomeController@home')->name('home');
+Route::get('/about', 'HomeController@about')->name('about');
+Route::get('/faq', 'HomeController@faq')->name('faq');
+Route::get('/contact', 'HomeController@contact')->name('contact');
+Route::post('/contact', 'HomeController@contact')->name('contact.send');
+Route::get('/privacy', 'HomeController@privacy')->name('privacy');
+Route::get('/blog', 'HomeController@blog')->name('blog');
 
 Route::get('/admin', function () {
     return redirect()->route('dashboard');
@@ -59,7 +43,7 @@ Route::get('/pay/failed', "PaymentController@failedResp")->name('pay.failed');
 // Route::post('/pay', "PaymentController@store")->name('pay.proceed');
 
 // backend codes
-Route::prefix('/admin')->group(function () {
+Route::prefix('/app')->group(function () {
 
     // ------------ AUTH ROUTES ------------------------ //
     // auth routes
@@ -81,7 +65,8 @@ Route::prefix('/admin')->group(function () {
 
     // activation
     Route::get('/activate', 'ActivateController@index')->name('activate.index');
-    Route::post('/activate', 'ActivateController@activate')->name('activate.save');
+    Route::get('/activate/send', 'ActivateController@sendOTP')->name('activate.send');
+    Route::post('/activate', 'ActivateController@activate')->name('activate.verify');
 
     //theme
     Route::get('/theme/{theme}', 'ThemeController@changeTheme')->name('theme.change');
@@ -121,7 +106,9 @@ Route::prefix('/admin')->group(function () {
 
             // customer crud
             Route::resource('customer', 'CustomerController');
-            // });
+
+            //Activity log
+            Route::resource('activities', 'ActivityController');
         }
         // ------------ SUPER ADMIN PROTECTED ROUTES ENDS HERE------------------------ //
 
@@ -142,6 +129,9 @@ Route::prefix('/admin')->group(function () {
             Route::resource('customer', 'CustomerController');
 
             Route::post('/verify/bank', 'SettingsController@verify_bank')->name('verify.bank');
+
+            // //Activity log
+            // Route::resource('activities', 'ActivityController');
         }
 
         // ------------ STORE ADMIN PROTECTED ROUTES ENDS HERE------------------------ //
@@ -220,6 +210,9 @@ Route::prefix('/admin')->group(function () {
         Route::post('/preview/{id}', "BusinessCard@preview_card")->name('preview');
         Route::post('/download/{id}', "BusinessCard@download_card")->name('download');
 
+        // Routes for complaints
+        Route::get('/complaint/feedbacks/{id}', 'ComplaintController@get_messages')->name('feedbacks.get');
+        Route::post('/complaint/feedbacks/{id}', 'ComplaintController@post_message')->name('feedbacks.post');
     });
     // ------------ GENERAL ROUTES ENDS HERE ------------------------ //
 

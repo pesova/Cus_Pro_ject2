@@ -16,7 +16,7 @@
         <div class="container-fluid">
             @include('partials.alert.message')
            
-            @if ( \Cookie::get('user_role') == "super_admin")
+            @if (is_super_admin())
             <div class="row mt-4">
                 <div class="col-md-4">
                     <div class="card mini-stats-wid">
@@ -101,19 +101,19 @@
                                                 <th>Subject</th>
                                                 <th>Status</th>
                                                 <th style="min-width: 90px;">Date</th>
-                                                @if ( \Cookie::get('user_role') == "super_admin")
+                                                @if (is_super_admin())
                                                 <th>Action</th>
                                                 @endif
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @if ( \Cookie::get('user_role') == "super_admin")
+                                            @if (is_super_admin())
                                             
                                             @foreach($responses->data as $index => $response)
                                             
                                             <tr>
                                                 <td>{{ $index + 1 }}</td>
-                                                <td><a href="{{ route('complaint.show', $response->_id) }}">{{ $response->_id}}
+                                                <td><a href="{{ route('complaint.show', $response->_id) }}">{{ $response->_id}}</a>
                                                 </td>
                                                 <td>{{ $response->subject}}</td>
                                                 <td>
@@ -137,14 +137,12 @@
                                                             <a id="downloadLink" href="{{ route('complaint.edit', $response->_id) }}" class=" dropdown-item notify-item">
                                                                 <span>Update Status</span>
                                                             </a>
-                                                            <form action="{{ route('complaint.destroy', $response->_id) }}" method="POST">
-                                                                <button id="downloadLink" class="dropdown-item notify-item">
-                                                                    <input type="hidden" name="_method" value="DELETE">
-                                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                                    <span>Delete</span>
-                                                            </form>
-                                                            </button>
+                                                            <a  href="#" data-toggle="modal"
+                                                               data-target="#deleteModal-{{$response->_id}}" class="text-danger dropdown-item notify-item">
+                                                                <span>Delete</span>
+                                                            </a>
                                                         </div>
+                                                        @include('partials.modal.complaint.deleteComplaint')
                                                     </div>
                                                 </td>
                                             </tr>
@@ -153,7 +151,7 @@
                                             @foreach($responses->data->complaints as $index => $response)
                                             <tr>
                                                 <td>{{ $index + 1 }}</td>
-                                                <td><a href="{{ route('complaint.show', $response->_id) }}">{{ $response->_id}}
+                                                <td><a href="{{ route('complaint.show', $response->_id) }}">{{ $response->_id}}</a>
                                                 </td>
                                                 <td>{{ $response->subject}}</td>
                                                 <td>

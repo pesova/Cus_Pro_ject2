@@ -1,5 +1,3 @@
-
-
 <div class="row">
     <div class="col-xl-4">
         <div class="card overflow-hidden">
@@ -11,7 +9,6 @@
                         </div>
                     </div>
                     <div class="col-5 align-self-end">
-
                         <img src="/backend/assets/images/profile-img.png" alt="" class="img-fluid">
                     </div>
                 </div>
@@ -19,45 +16,34 @@
             <div class="card-body pt-0">
                 <div class="row">
                     <div class="col-sm-4">
-                        <div class="avatar-md profile-user-wid mb-4">
-                            @php
-                            $profile_picture = Cookie::get('profile_picture');
-                            $profile_picture = rtrim($profile_picture);
-                            $profile_picture_path = str_replace(" ","/", $profile_picture);
-                            @endphp
-                            <object data="https://res.cloudinary.com/{{ $profile_picture_path }}" type="image/jpg"
-                                class="img-thumbnail rounded-circle mt-2" data-toggle="modal" data-target="#profilePhoto">
-                                <img src="/backend/assets/images/users/default.png"
-                                    class="img-thumbnail rounded-circle mt-2" alt="Profile Picture" />
-                            </object>
-                        </div>
-                        <h5 class="font-size-15 text-truncate">{{ Cookie::get('first_name') }}</h5>
-                        <p class="text-muted mb-0 text-truncate">Store Admin</p>
+                        <object data="{{ get_profile_picture() }}" type="image/jpg"
+                            class="img-thumbnail rounded-circle mt-2">
+                            <img src="/backend/assets/images/users/default.png"
+                                class="img-thumbnail rounded-circle mt-2" alt="Profile Picture" />
+                        </object>
                     </div>
-
                     <div class="col-sm-8">
-                        <div class="pt-4">
-
-                            <div class="row">
-                                <div class="col-6">
-                                    <h5 class="font-size-15">{{ $data->customerCount }}</h5>
-                                    <p class="text-muted mb-0">Customer(s)</p>
-                                </div>
-                                <div class="col-6">
-                                    <h5 class="font-size-15">{{ $data->storeCount }}</h5>
-                                    <p class="text-muted mb-0">Store(s)</p>
-                                </div>
+                        <div class="row text-center">
+                            <div class="col-6">
+                                <h5 class="font-size-15">{{ $data->customerCount }}</h5>
+                                <p class="text-muted mb-0">Customer(s)</p>
                             </div>
-                            @if(\Cookie::get('user_role') == 'store_admin')
-                            <div class="mt-4">
-                                <a href="{{route('setting')}}"
-                                    class="btn btn-primary waves-effect waves-light btn-sm">View
-                                    Profile
-                                    <i class="uil-arrow-right ml-1"></i>
-                                </a>
+                            <div class="col-6">
+                                <h5 class="font-size-15">{{ $data->storeCount }}</h5>
+                                <p class="text-muted mb-0">Store(s)</p>
                             </div>
-                            @endif
                         </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h5 class="font-size-15">{{ get_full_name() }}</h5>
+                        <p class="text-muted mb-0">Store Admin</p>
+                    </div>
+                    <div class="col-sm-6 mt-4">
+                        <a href="{{route('setting')}}" class="btn btn-primary btn-sm">View Profile
+                            <i class="uil-arrow-right ml-1"></i>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -69,13 +55,14 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <p class="text-muted">This month</p>
+                        {{-- doug - todo - sort by currency --}}
                         <h3>{{ format_money($data->amountForCurrentMonth) }}</h3>
-                        <p class="text-muted"><span class="text-{{$profit['profit']? 'success':'danger'}} mr-2">
-                                {{$profit['percentage']}}
+                        <p class="text-muted"><span class="text-{{ $profit ? 'success':'danger'}} mr-2">
+                                {{ $percentage }}
                                 % <i class="mdi mdi-arrow-down"></i>
                             </span> From
                             previous month</p>
-                        @if(\Cookie::get('user_role') == 'store_admin')
+                        @if(is_store_admin())
                         <div class="mt-4">
                             <a href="{{route('transaction.index')}}"
                                 class="btn btn-primary waves-effect waves-light btn-sm">
@@ -97,10 +84,9 @@
                         <div class="media">
                             <div class="media-body">
                                 <p class="text-muted font-weight-medium">Debt</p>
+                                {{-- doug - todo - sort by currency --}}
                                 <h4 class="mb-0">{{ format_money($data->debtAmount) }}
-                               
                             </div>
-
                             <div class="mini-stat-icon avatar-sm rounded-circle bg-primary align-self-center">
                                 <span class="avatar-title">
                                     <i class="uil-atm-card font-size-14"></i>
@@ -116,10 +102,9 @@
                         <div class="media">
                             <div class="media-body">
                                 <p class="text-muted font-weight-medium">Revenue</p>
-                            <h4 class="mb-0">{{ format_money($data->revenueAmount) }}
-                                
+                                {{-- doug - todo - sort by currency --}}
+                                <h4 class="mb-0">{{ format_money($data->revenueAmount) }}
                             </div>
-
                             <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
                                 <span class="avatar-title rounded-circle bg-primary">
                                     <i class="uil-atm-card font-size-14"></i>
@@ -135,11 +120,8 @@
                         <div class="media">
                             <div class="media-body">
                                 <p class="text-muted font-weight-medium">Receivables</p>
-                     <h4 class="mb-0">{{ format_money($data->receivablesAmount) }}
-                             
-                                
+                                <h4 class="mb-0">{{ format_money($data->receivablesAmount) }}
                             </div>
-
                             <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
                                 <span class="avatar-title rounded-circle bg-primary">
                                     <i class="uil-atm-card font-size-14"></i>
@@ -150,8 +132,6 @@
                 </div>
             </div>
         </div>
-        <!-- end row -->
-
         <div class="card">
             <div class="card-body">
                 <h6 class="card-title mb-4 float-sm-left">Transaction Overview {{date('Y')}}</h6>
@@ -187,23 +167,21 @@
                         </thead>
 
                         <tbody class="my-transactionsb">
-                            @if(count($data->recentTransactions) > 0)
-                            @foreach($data->recentTransactions as $recentTransaction)
+                            @forelse($data->recentTransactions  as $rtx)
                             <tr>
-                                <td>{{$recentTransaction->storeName}}</td>
-                                <td>{{$recentTransaction->transaction->type}}</td>
-                                <td>{{ format_money($recentTransaction->transaction->amount) }}</td>
+                                <td>{{$rtx->transaction->store_name}}</td>
+                                <td>{{$rtx->transaction->type}}</td>
+                                <td>{{ format_money($rtx->transaction->amount, $rtx->transaction->currency) }}</td>
                                 <td>
                                     <a class="btn btn-primary btn-sm"
-                                        href="{{ route('transaction.show', $recentTransaction->transaction->_id.'-'.$recentTransaction->transaction->store_ref_id.'-'.$recentTransaction->transaction->customer_ref_id) }}">View</a>
+                                        href="{{ route('transaction.show', $rtx->transaction->_id.'-'.$rtx->transaction->store_ref_id.'-'.$rtx->transaction->customer_ref_id) }}">View</a>
                                 </td>
                             </tr>
-                            @endforeach
-                            @else
+                            @empty
                             <tr>
                                 <td colspan="4" class="text-center">No Recent Transaction</td>
                             </tr>
-                            @endif
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -246,7 +224,7 @@
                                     <span class="badge badge-danger">Unpaid</span>
                                     @endif
                                 </td>
-                                <td>{{ format_money($recentDebt->debt->amount) }}</td>
+                                <td>{{ format_money($recentDebt->debt->amount, $recentDebt->debt->currency) }}</td>
                                 <td>
                                     <a class="btn btn-primary btn-sm"
                                         href="{{ route('debtor.show', $recentDebt->debt->_id) }}">View</a>

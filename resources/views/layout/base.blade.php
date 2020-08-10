@@ -4,14 +4,14 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>mycustomer - Welcome</title>
+    <title>CustomerPayMe - Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="MyCustomer - JusticeLeague" name="description" />
-    <meta content="JusticeLeague" name="author" />
+    <meta content="An easy to use web app that helps you record and track daily transactions, Send debt reminders and send offers to your customers" name="description" />
+    <meta content="CustomerPayMe" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="/frontend/assets/favicon.ico">
+    <link rel="shortcut icon" href="/frontend/assets/favicon1.ico">
 
     <!-- plugins -->
     <link href="/backend/assets/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />

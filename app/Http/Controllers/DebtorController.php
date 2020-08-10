@@ -54,7 +54,6 @@ class DebtorController extends Controller
 
             if ($storeStatusCode == 200 && $debtorStatusCode == 200) {
                 $stores = json_decode($storeResponse->getBody())->data->stores;
-
                 if (Cookie::get('user_role') != 'super_admin') {
                     $debtors = json_decode($debtorResponse->getBody())->data->debts;
                 } else {
@@ -250,7 +249,7 @@ class DebtorController extends Controller
                 'headers' => ['x-access-token' => Cookie::get('api_token')],
                 'form_params' => [
                     'transaction_id' => $transactionID,
-                    'message' => $request->message,
+                    'message' => purify_input($request->message),
                 ],
             ];
 
@@ -314,7 +313,7 @@ class DebtorController extends Controller
                 'form_params' => [
                     'scheduleDate' => $request->scheduleDate,
                     'time' => $request->time,
-                    'message' => $request->message,
+                    'message' => purify_input($request->message),
                 ],
             ];
 

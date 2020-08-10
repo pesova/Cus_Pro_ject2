@@ -5,17 +5,12 @@
                 <div class="row">
                     <div class="col-7">
                         <div class="text-primary p-3">
-                            <h5 class="text-primary">{{$data->storeName}}</h5>
-                            <p>{{$data->storeAddress}}</p>
+                            <h5 class="text-primary">{{ $assistant->storeName }}</h5>
+                            <p>{{ $assistant->storeAddress }}</p>
                         </div>
                     </div>
                     <div class="col-5 align-self-end">
-                        @php
-                        $profile_picture = Cookie::get('profile_picture');
-                        $profile_picture = rtrim($profile_picture);
-                        $profile_picture_path = str_replace(" ","/", $profile_picture);
-                        @endphp
-                        <object data="https://res.cloudinary.com/{{ $profile_picture_path }}" type="image/jpg"
+                        <object data="{{ get_profile_picture() }}" type="image/jpg"
                             class="img-thumbnail rounded-circle mt-2" data-toggle="modal" data-target="#profilePhoto">
                             <img src="/backend/assets/images/users/default.png"
                                 class="img-thumbnail rounded-circle mt-2" alt="Profile Picture" />
@@ -30,51 +25,22 @@
 
                             <div class="row">
                                 <div class="col-6">
-                                    <h5 class="font-size-15">{{$data->customerCount}}</h5>
+                                    <h5 class="font-size-15">{{ $assistant->customerCount }}</h5>
                                     <p class="text-muted mb-0">Customers</p>
                                 </div>
                                 <div class="col-6">
-                                    <h5 class="font-size-15">{{format_money($data->revenueAmount)}}</h5>
+                                    <h5 class="font-size-15">{{ format_money($assistant->revenueAmount )}}</h5>
                                     <p class="text-muted mb-0">Revenue</p>
                                 </div>
                             </div>
                             @if(\Cookie::get('user_role') != 'store_assistant')
                             <div class="mt-4">
-                                <a href="#" class="btn btn-primary waves-effect waves-light btn-sm" data-toggle="modal"
-                                    data-target="#DeleteModal">Delete
-                                    Assistant
+                                <a href="#" class="btn btn-danger waves-effect waves-light btn-sm" data-toggle="modal"
+                                    data-target="#deleteModal-{{$assistant->_id}}">Delete Assistant
                                 </a>
                             </div>
-                            <div id="DeleteModal" class="modal fade bd-example-modal-sm" tabindex="-2" role="dialog"
-                                aria-labelledby="DeleteModal" aria-hidden="true">
-                                <div class="modal-dialog modal-sm">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="Title">
-                                                Delete Assistant </h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            Do you want to delete {{$data->name}}?
-                                        </div>
-                                        <div class="modal-footer">
-                                            <form action="{{ route('assistants.destroy', $data->_id) }}" method="POST"
-                                                id="form">
-                                                @method('DELETE')
-                                                @csrf
-                                                <button type="submit" class="btn btn-primary btn-danger">
-                                                    Delete
-                                                </button>
-                                            </form>
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No,
-                                                I changed my mind
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            {{-- delete assitant modal --}}
+                            @include('backend.assistant.modals.deleteAssistant')
                             @endif
                         </div>
                     </div>
@@ -91,15 +57,15 @@
                         <tbody>
                             <tr>
                                 <th scope="row">Full Name :</th>
-                                <td>{{$data->user->name}}</td>
+                                <td>{{$assistant->user->name}}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Mobile :</th>
-                                <td>{{$data->phone_number}}</td>
+                                <td>{{$assistant->user->phone_number}}</td>
                             </tr>
                             <tr>
                                 <th scope="row">E-mail :</th>
-                                <td>{{$data->email}}</td>
+                                <td>{{$assistant->user->email}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -111,7 +77,6 @@
     </div>
 
     <div class="col-xl-8">
-
         <div class="row">
             <div class="col-md-4">
                 <div class="card mini-stats-wid">
@@ -119,7 +84,7 @@
                         <div class="media">
                             <div class="media-body">
                                 <p class="text-muted font-weight-medium">Revenue</p>
-                                <h4 class="mb-0">{{ format_money($data->revenueAmount) }}</h4>
+                                <h4 class="mb-0">{{ format_money($assistant->revenueAmount) }}</h4>
                             </div>
 
                             <div class="mini-stat-icon avatar-sm align-self-center rounded-circle bg-primary">
@@ -137,7 +102,7 @@
                         <div class="media">
                             <div class="media-body">
                                 <p class="text-muted font-weight-medium">Debt</p>
-                                <h4 class="mb-0">{{format_money($data->debtAmount)}}</h4>
+                                <h4 class="mb-0">{{format_money($assistant->debtAmount)}}</h4>
                             </div>
 
                             <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
@@ -155,7 +120,7 @@
                         <div class="media">
                             <div class="media-body">
                                 <p class="text-muted font-weight-medium">Receivables</p>
-                                <h4 class="mb-0">{{format_money($data->receivablesAmount)}}</h4>
+                                <h4 class="mb-0">{{format_money($assistant->receivablesAmount)}}</h4>
                             </div>
 
                             <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
@@ -171,7 +136,7 @@
 
         <div class="card">
             <div class="card-body">
-                <h6 class="card-title mb-4">Total Transactions</h6>
+                <h6 class="card-title mb-4">Total Transactions {{date('Y')}}</h6>
                 <div id="transactionchart"></div>
             </div>
         </div>
@@ -179,7 +144,6 @@
     </div>
 </div>
 <!-- end row -->
-
 
 <div class="row">
     <div class="col-lg-12">
@@ -198,18 +162,18 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if(count($data->recentTransactions) == 0)
+                            @if(count($assistant->recentTransactions) == 0)
                             <tr>
                                 <td colspan="4" class="text-center"> No Recent Transactions</td>
                             </tr>
                             @else
-                            @foreach($data->recentTransactions as $transaction)
+                            @foreach($assistant->recentTransactions as $transaction)
 
                             <tr>
                                 <th scope="row">{{$transaction->_id}}</th>
                                 <td>Customer Name <br> <span class="font-size-14">
                                         {{$transaction->customer_ref_id}}</span></td>
-                                <td>{{$transaction->total_amount}}</td>
+                                <td>{{ format_money($transaction->total_amount), $transaction->currency }}</td>
                                 <td>Debt</td>
                                 <td>
                                     <div class="btn-group mt-2 mr-1">
@@ -245,7 +209,7 @@
         var options = {
             series: [{
                 name: 'Transaction',
-                data: {{json_encode($data->chart)}},
+                data: {{json_encode($assistant->chart)}},
             }],
             chart: {
                 height: 350,
@@ -302,9 +266,7 @@
         var chart = new ApexCharts(document.querySelector("#transactionchart"), options);
         chart.render();
 
-
     });
-
 </script>
 
 <script>

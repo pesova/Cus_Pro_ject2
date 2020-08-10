@@ -155,7 +155,7 @@ class CustomerController extends Controller
                     'form_params' => [
                         'store_id' => $request->input('store_id'),
                         'phone_number' => $request->input('phone_number'),
-                        'name' => $request->input('name'),
+                        'name' => purify_input($request->input('name')),
                     ],
                 ];
                 $response = $client->request("POST", $url, $payload);
@@ -356,7 +356,7 @@ class CustomerController extends Controller
                 'headers' => ['x-access-token' => Cookie::get('api_token')],
                 'form_params' => [
                     'phone_number' => $request->input('phone_number'),
-                    'name' => $request->input('name'),
+                    'name' => purify_input($request->input('name')),
                     'store_id' => $store_id,
                 ],
             ];
@@ -431,7 +431,7 @@ class CustomerController extends Controller
                 $request->session()->flash('alert-class', 'alert-success');
                 $request->session()->flash('message', 'Customer deleted successfully');
 
-                return view('backend.customer.index');
+                return redirect()->route('customer.index');
             } else {
                 $request->session()->flash('alert-class', 'alert-danger');
                 $request->session()->flash('message', 'Customer deleting failed');
@@ -453,7 +453,7 @@ class CustomerController extends Controller
                 Session::flash('message', $message);
             }
 
-            return redirect()->back();
+            return redirect()->route('customer.index');
         } catch (Exception $e) {
             // token expired
             if ($e->getCode() == 401) {
