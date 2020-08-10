@@ -95,6 +95,7 @@ class StoreController extends Controller
      */
     public function store(Request $request)
     {
+        
         $url = $this->host . '/store/new';
 
         if ($request->isMethod('post')) {
@@ -286,15 +287,16 @@ class StoreController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
+    {   
+        // return $request->input();
         $url = $this->host . '/store/update'.'/'.$id;
-
+       
         $request->validate([
-            'store_name' => 'required|min:3',
-            'shop_address' =>  'required',
-            'email' => "required|email",
-            'tagline' =>  'required',
-            'phone_number' => ["required", "numeric", "digits_between:6,16", new DoNotAddIndianCountryCode, new DoNotPutCountryCode],
+            'edit_store_name' => 'required|min:3',
+            'edit_shop_address' =>  'required',
+            'edit_email' => "required|email",
+            'edit_tagline' =>  'required',
+            'edit_phone_number' => ["required", "numeric", "digits_between:6,16", new DoNotAddIndianCountryCode, new DoNotPutCountryCode],
             ]);
 
         try {
@@ -305,11 +307,11 @@ class StoreController extends Controller
                 $headers,
                 'form_params' => [
                     'token' => Cookie::get('api_token'),
-                    'store_name' => purify_input($request->input('store_name')),
-                    'shop_address' => purify_input($request->input('shop_address')),
-                    'phone_number' => $request->input('phone_number'),
-                    'email' => $request->input('email'),
-                    'tagline' => purify_input($request->input('tagline'))
+                    'store_name' => purify_input($request->input('edit_store_name')),
+                    'shop_address' => purify_input($request->input('edit_shop_address')),
+                    'phone_number' => $request->input('edit_phone_number'),
+                    'email' => $request->input('edit_email'),
+                    'tagline' => purify_input($request->input('edit_tagline'))
                 ],
             ];
 
@@ -320,11 +322,11 @@ class StoreController extends Controller
                 $body = $response->getBody()->getContents();
                 $request->session()->flash('alert-class', 'alert-success');
                 Session::flash('message', "Update Successful");
-                redirect()->back();
+                return redirect()->route('store.index');
             } else {
                 $request->session()->flash('alert-class', 'alert-success');
                 Session::flash('message', "OOPS, Something Went Wrong");
-                return redirect()->back();
+                return redirect()->route('store.index');
             }
 
         } catch (\Exception $e) {
@@ -334,7 +336,7 @@ class StoreController extends Controller
             }
             $request->session()->flash('alert-class', 'alert-danger');
             $request->session()->flash('message', 'An Error Occured. Please Try Again Later');
-            return redirect()->back();
+            return redirect()->route('store.index');
         }
     }
 
