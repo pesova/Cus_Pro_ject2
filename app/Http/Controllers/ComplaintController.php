@@ -279,14 +279,12 @@ class ComplaintController extends Controller
     public function update(Request $request, $id)
     {
         $url = env('API_URL', 'https://dev.api.customerpay.me') . "/complaint/update/" . $id;
+        $request->validate([
+            'status' => 'required',
+        ]);
 
         try {
             $client = new Client();
-
-            $request->validate([
-                'status' => 'required',
-            ]);
-
             $payload = [
                 'headers' => [
                     'x-access-token' => Cookie::get('api_token')
@@ -300,16 +298,19 @@ class ComplaintController extends Controller
             $statusCode = $req->getStatusCode();
 
             if ($statusCode == 200) {
-                return redirect()->route('complaint.index')->with('success', 'Complaint Status Changed');
+                Session::flash('alert-class', 'alert-success');
+                Session::flash('message', "Update Successful");
+                return redirect()->route('complaint.index');
             }
             return view('backend.complaintlog.update')->with('error', "Complaint not found");
         } catch (Exception $e) {
-            if ($e->getCode() == 401) {
+            /*if ($e->getCode() == 401) {
                 return redirect()->route('logout');
-            }
+            }*/
 
             Log::error('Catch error: ComplaintController - ' . $e->getMessage());
-            return view('errors.500');
+dd($e);
+            return back()->withErrors(['Opps something went wrong. Please try again later']);/// view('errors.500');
         }
     }
 

@@ -47,6 +47,9 @@ Route::prefix('/app')->group(function () {
 
     // ------------ AUTH ROUTES ------------------------ //
     // auth routes
+    Route::get('/', function () {
+        return redirect()->route('dashboard');
+    });
     Route::get('/login', ['uses' => "Auth\LoginController@index"])->name('login');
 
     Route::post('/login/authenticate', ['uses' => "Auth\LoginController@authenticate"])->name('login.authenticate');
@@ -123,7 +126,7 @@ Route::prefix('/app')->group(function () {
             Route::resource('store', 'StoreController');
 
             // complaint crud
-            Route::resource('complaint', 'ComplaintController')->only(['index', 'show', 'store', 'create']);
+            Route::resource('complaint', 'ComplaintController')->only(['index', 'show', 'store', 'create', 'update']);
 
             // customer crud
             Route::resource('customer', 'CustomerController');
