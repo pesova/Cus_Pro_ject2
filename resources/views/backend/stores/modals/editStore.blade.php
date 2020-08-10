@@ -1,4 +1,4 @@
-<div id="editStore-{{ $store->_id }}" class="modal fade" tabindex="-1" role="dialog"
+<div id="editStore" class="modal fade" tabindex="-1" role="dialog"
     aria-labelledby="editStoreModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -10,41 +10,48 @@
             </div>
             <div class="card">
                 <div class="card-body">
-                    <form id="editStore" action="{{ route('store.update', $store->_id) }}" method="POST">
+                    <form id="editStore_form"   method="POST" >
                         @csrf
                         @method('PUT')
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="store name">Store Name*</label>
-                                <input type="text" name="store_name" class="form-control"
-                                    value="{{ old('store_name', $store->store_name) }}" placeholder="XYZ Stores"
+                                <label for="edit_store_name">Store Name*</label>
+                                <input type="text" name="edit_store_name" class="form-control"
+                                     placeholder="XYZ Stores" id="edit_store_name"
                                     required minlength="2" maxlength="16">
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="inputTagline">Tagline*</label>
-                                <input type="text" name="tagline" class="form-control" id="inputTagline"
-                                    value="{{ old('tagline', $store->tagline) }}" required minlength="4" maxlength="50">
+                                <label for="edit_Tagline">Tagline*</label>
+                                <input type="text" name="edit_tagline" class="form-control" id="edit_tagline"
+                                    required minlength="4" maxlength="50">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="inputPhoneNumber">Phone Number*</label>
-                                <input type="tel" id="phone_number" name="phone_number" class="form-control phone" value="{{ old('phone_number', $store->phone_number) }}" required>
-                                <small id="helpPhone" class="form-text text-muted">
-                                    Enter your number without country code
-                                </small>
+                                <label class="form-control-label">Phone Number</label>
+                                <div class="input-group input-group-merge">
+                                <div class="input-group-prepend">
+                                    </div>
+                                    <input type="tel" id="editphone" name="" class="form-control" style="width: 100%; max-width:100%;"
+                                                        value="" aria-describedby="helpPhone" placeholder="813012345"
+                                                        required>
+                                    <input type="hidden" name="edit_phone_number" id="edit_phone_number"
+                                                        class="form-control">
+                                </div>
+                                <small id="helpPhone" class="form-text text-muted">Enter your number
+                                                    without the starting 0, eg 813012345</small>
                             </div>
 
                             <div class="form-group col-md-6">
                                 <label for="inputEmailAddress"> Email Address*</label>
-                                <input type="email" name="email" class="form-control" required
-                                    value="{{ old('email', $store->email) }}">
+                                <input type="email" id="edit_email" name="edit_email" class="form-control" required
+                                    >
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="inputAddress">Address*</label>
-                            <input type="text" name="shop_address" class="form-control"
-                                value="{{ old('shop_address', $store->shop_address) }}" required minlength="5"
+                            <input type="text" name="edit_shop_address" class="form-control"
+                                 required minlength="5" id="edit_shop_address"
                                 maxlength="50">
                         </div>
                         <button type="submit" class="btn btn-success text-white">
@@ -56,32 +63,3 @@
         </div>
     </div>
 </div>
-@section("javascript")
-<script src="/backend/assets/build/js/intlTelInput.js"></script>
-<script>
-    // var input = document.querySelector("#phone");
-    // var test = window.intlTelInput(input, {
-    //     separateDialCode: true,
-    //     //initialCountry: "de",
-    //     // any initialisation options go here
-    // });
-
-    // test.setNumber("+" + ($("#phone").val()));
-
-    // $("#phone").keyup(() => {
-    //     if ($("#phone").val().charAt(0) == 0) {
-    //         $("#phone").val($("#phone").val().substring(1));
-    //     }
-    // });
-    // $("#editStore").submit((e) => {
-    //     e.preventDefault();
-    //     const dialCode = test.getSelectedCountryData().dialCode;
-    //     if ($("#phone").val().charAt(0) == 0) {
-    //         $("#phone").val($("#phone").val().substring(1));
-    //     }
-    //     $("#phone_number").val(dialCode + $(".phone").val());
-    //     $("#submitForm").off('submit').submit();
-    // });
-
-</script>
-@stop
