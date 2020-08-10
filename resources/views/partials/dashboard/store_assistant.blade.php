@@ -5,7 +5,6 @@
                 <div class="row">
                     <div class="col-7">
                         <div class="text-primary p-3">
-                            {{ dd($assistant) }}
                             <h5 class="text-primary">{{ $assistant->storeName }}</h5>
                             <p>{{ $assistant->storeAddress }}</p>
                         </div>
