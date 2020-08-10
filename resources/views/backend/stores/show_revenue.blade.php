@@ -2,20 +2,12 @@
 @section("custom_css")
 <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
-<link rel="stylesheet" href="{{asset('backend/assets/css/store_list.css')}}">
+<link rel="stylesheet" href="{{ asset('backend/assets/css/store_list.css') }}">
 <link href="/backend/assets/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 <link href="/backend/assets/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 <link href="/backend/assets/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 <link href="/backend/assets/css/select.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 @stop
-
-
-@php
-$storeData = $response['storeData'];
-$transactions = $response['transactions'];
-$currency = isset($storeData->store_admin_ref->currencyPreference) ?
-                $storeData->store_admin_ref->currencyPreference : null;
-@endphp
 
 @section('content')
 
@@ -36,7 +28,7 @@ $currency = isset($storeData->store_admin_ref->currencyPreference) ?
     <div class="col-12">
         <div class="card ">
             <div class="card-body">
-                <h5 class="card-title"><span id="store-name">{{ucfirst($storeData->store_name) }}</span>  Revenue Overview</h5>
+                <h5 class="card-title"><span id="store-name">{{ucfirst($response['storeData']->store_name) }}</span>  Revenue Overview</h5>
                 <div class="btn-group dropdown float-left">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
@@ -71,13 +63,13 @@ $currency = isset($storeData->store_admin_ref->currencyPreference) ?
                                         @foreach ($customers->transactions as $index => $transaction)  
                                         @if ($transaction->type == "paid" || $transaction->type == "Paid")
                                         <tr>
-                                            <td>{{$number++ }}</td>
-                                            <th>{{$customers->name}}<span class="co-name"></span>
+                                            <td>{{ $index }}</td>
+                                            <th>{{ $customers->name }}<span class="co-name"></span>
                                                 <br> <span class="font-light">{{$customers->phone_number}}</span>
                                             </th>
-                                            <td>{{ format_money($transaction->amount, $currency) }}</td>
-                                            <td>{{$transaction->type}}</td>
-                                            <td>{{ \Carbon\Carbon::parse($transaction->createdAt)->diffForhumans() }}</td>
+                                            <td>{{ format_money($transaction->amount, $transaction->currency) }}</td>
+                                            <td>{{ $transaction->type }}</td>
+                                            <td>{{ app_format_date($transaction->date_recorded) }}</td>
                                         </tr> 
                                         @endif
                                         @endforeach
@@ -93,8 +85,8 @@ $currency = isset($storeData->store_admin_ref->currencyPreference) ?
 
             </div>
         </div>
-    </div> <!-- end col -->
-</div> <!-- end row -->
+    </div> 
+</div> 
 
 @endsection
 

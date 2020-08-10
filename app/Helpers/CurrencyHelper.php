@@ -14,21 +14,14 @@ if (!function_exists('format_money')) {
     function format_money($amount, $currency = null)
     {
         $formatted = number_format($amount);
-        $user_role = Cookie::get('user_role');
-        if ($user_role == 'store_admin' || $user_role == 'store_assistant') {
-            if (is_numeric($amount)) {
-                if ($currency == null) {
-                    // currency is set already otherwise use NGN the default
-                    $currency = (Cookie::get('currency') != '') ? Cookie::get('currency') : 'NGN';
-                }
-                $format_amount = number_format($amount, 2);
-                $currency = get_currency_symbol($currency);
-                $formatted = $currency . ' ' . $format_amount;
-            }
-        } else {
-            $currency = get_currency_symbol($currency);
-            $formatted = $currency . ' ' . $formatted;
+        if (is_numeric($amount)) {
+
+            $currency = (!is_null($currency)) ? $currency : Cookie::get('currency');
+            $currencySymbol = get_currency_symbol($currency);
+
+            $formatted = $currencySymbol . ' ' . $formatted;
         }
+
         return html_entity_decode($formatted);
     }
 }

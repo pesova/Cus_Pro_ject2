@@ -5,10 +5,6 @@
 @stop
 @section('content')
 
-@php
-$currency = isset($transaction->store_admin_ref->currencyPreference) ?
-            $transaction->store_admin_ref->currencyPreference : null;
-@endphp
 <div class="account-pages my-2">
     <div class="container-fluid">
         <div class="row-justify-content-center">
@@ -23,7 +19,7 @@ $currency = isset($transaction->store_admin_ref->currencyPreference) ?
                             <div class="row px-4 py-2 border-bottom align-items-center">
                                 <div class="col-md-4">
                                     <h6 class="card-title">Transaction Overview - Created
-                                        {{ \Carbon\Carbon::parse($transaction->createdAt)->diffForhumans() }}</h6>
+                                        {{ app_format_date($transaction->date_recorded) }}</h6>
                                 </div>
                                 <div class="col-md-8 row text-center">
                                     @if($transaction->status != true)
@@ -125,7 +121,7 @@ $currency = isset($transaction->store_admin_ref->currencyPreference) ?
                                                         <tbody>
                                                             <tr>
                                                                 <th scope="row">Amount</th>
-                                                                <td colspan="2">{{ format_money($transaction->amount, $currency) }}</td>
+                                                                <td colspan="2">{{ format_money($transaction->amount, $transaction->currency) }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <th scope="row">Interest</th>
@@ -134,7 +130,7 @@ $currency = isset($transaction->store_admin_ref->currencyPreference) ?
                                                             <tr class="font-weight-bolder">
                                                                 <th scope="row">Total Amount</th>
                                                                 <td colspan="2">
-                                                                    {{ format_money($transaction->total_amount) }}
+                                                                    {{ format_money($transaction->total_amount, $transaction->currency) }}
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -219,7 +215,7 @@ $currency = isset($transaction->store_admin_ref->currencyPreference) ?
                                         {{ $debt->message }}
                                     </td>
                                     <td><span class="badge badge-success">{{ $debt->status }}</span></td>
-                                    <td>{{ \Carbon\Carbon::parse($debt->createdAt)->diffForhumans() }}</td>
+                                    <td>{{ app_format_date($debt->createdAt) }}</td>
                                     @if($transaction->status != true)
                                     <td>
                                         <a href="" data-toggle="modal"
