@@ -19,7 +19,7 @@
 
 @section('content')
 <div class="content">
-
+    @include('partials.alert.message')
     <div class="container-fluid">
         {{-- start of page title --}}
         <div class="row page-title">

@@ -361,6 +361,7 @@ class AssistantController extends Controller
                 // $res = json_encode($body);
                 $request->session()->flash('alert-class', 'alert-success');
                 Session::flash('message', "Update Successful");
+                return redirect()->back();
                 return redirect()->route('assistants.index');
             } else {
                 $request->session()->flash('alert-class', 'alert-danger');
