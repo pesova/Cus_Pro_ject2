@@ -84,7 +84,7 @@
                                 data-store_tagline= "{{$store->tagline}}"
                                 data-store_email="{{$store->email}}"
                                 data-store_address="{{$store->shop_address}}"
-                                data-store_phone="{{substr($store->phone_number,3) }}"
+                                {{-- data-store_phone="{{substr($store->phone_number,3) }}" --}}
                                 data-store_phone_full="{{$store->phone_number}}"
                                 title="" 
                                 data-original-title="Edit">
@@ -151,7 +151,7 @@
 
 </script>
 
-//add store js
+{{-- add store js --}}
 <script>
     //phone Number format
     var input = document.querySelector("#phone");
@@ -178,7 +178,7 @@
 
 </script>
 
-//edit store js
+{{-- Edit store Js --}}
 
 <script>
     var edit_input = document.querySelector("#editphone");
@@ -205,7 +205,7 @@
             let store_tagline = element.dataset.store_tagline;
             let store_email = element.dataset.store_email;
             let store_address = element.dataset.store_address;
-            let store_phone = element.dataset.store_phone;
+            // let store_phone = element.dataset.store_phone;
             let store_id = element.dataset.store_id;
 
             $("#edit_store_name").val(store_name);
