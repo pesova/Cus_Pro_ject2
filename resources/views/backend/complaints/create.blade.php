@@ -34,16 +34,15 @@
                                     <div class="form-group row">
                                         <label class="col-lg-2 col-form-label">Subject</label>
                                         <div class="col-lg-10">
-                                            <input type="text" name="subject" class="form-control"
-                                                   placeholder="Subject"/>
+                                            <input type="text" name="subject" class="form-control" required value="{{old('subject')}}" placeholder="Subject"/>
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                         <label class="col-lg-2 col-form-label">Message</label>
                                         <div class="col-lg-10">
-                                            <textarea class="form-control" name="message" rows="5" maxlength="500" onkeyup="countChar(this)" placeholder="Please enter your complaint here">{{old('message')}}</textarea>
-                                                      <div class="text-danger" id="charNum"></div>
+                                            <textarea class="counter form-control" required name="message" rows="5" maxlength="500" placeholder="Please enter your complaint here">{{old('message')}}</textarea>
+                                            <div class="charNum"></div>
                                         </div>
                                     </div>
                                     <div class="float-right">
@@ -67,13 +66,22 @@
 @section("javascript")
     <script type="text/javascript" src="/backend/assets/js/materialize.min.js"></script>
     <script>
-        function countChar(val) {
-      var len = val.value.length;
-      if (len >= 500) {
-        val.value = val.value.substring(0, 500);
-      } else {
-        $('#charNum').text((500 - len)+(' characters left'));
-      }
-    };
+        var counter = $('.charNum');
+        counter.hide();
+            $('.counter').keyup(function () {
+                counter.show();
+                var max = 500;
+                var len = $(this).val().length;
+                if (len >= max) {
+                    counter.text(' You reached text limit!').addClass('text-danger');
+                } else {
+                    var char = max - len;
+                    counter.text(char + ' characters left').addClass('text-success');
+                }
+            });
+
+            $('.counter').blur(function () {
+                counter.hide();
+            });
     </script>
 @stop
