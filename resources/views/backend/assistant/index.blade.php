@@ -102,7 +102,10 @@
                                 <div class="flex-fill">
                                     <a class="" href="#" 
                                     data-toggle="modal" 
-                                    data-target="#deleteModal-{{$assistant->_id}}">
+                                    onclick="deleteAssistant(this)"
+                                    data-assistant_id="{{$assistant->_id}}"
+                                    data-assistant_name="{{$assistant->name}}"
+                                    data-target="#deleteModal">
                                         <i data-feather="trash-2"></i></a>
                                 </div>
                             </div>
@@ -111,7 +114,7 @@
                 </div>
                 
                 {{-- delete assitant modal --}}
-                @include('backend.assistant.modals.deleteAssistant')
+               
                 @endforeach
             </div>
         </div>
@@ -120,7 +123,7 @@
     @include('backend.assistant.modals.addAssistant')
     {{-- edit assitant modal --}}
     @include('backend.assistant.modals.editAssistant')
-
+    @include('backend.assistant.modals.deleteAssistant')
 </div>
 @endsection
 
@@ -285,5 +288,9 @@
 </script>
 {{-- @else --}}
 
-@include('backend.assistant.script.editAssistant');
+@include('backend.assistant.script.editAssistant')
+
+@include('backend.assistant.script.deleteAssistant')
+
+
 @stop

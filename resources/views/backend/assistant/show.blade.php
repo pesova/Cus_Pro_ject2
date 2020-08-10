@@ -1,6 +1,6 @@
 {{-- inherits base markup --}}
 {{-- got my page working im so excited --}}
-
+{{-- {{dd($assistant)}} --}}
 @extends('layout.base')
 {{-- add in the basic styling : check the contents of these stylesheets later --}}
 @section("custom_css")
