@@ -328,14 +328,14 @@ class AssistantController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+        // return $request->input();
         $url = env('API_URL', 'https://dev.api.customerpay.me') . '/assistant/update/' . $id;
 
         $request->validate([
-            'name' => "required|min:3",
-            'phone_number' => ["required", "numeric", "digits_between:6,16", new DoNotAddIndianCountryCode, new DoNotPutCountryCode],
-            'email' => "required|email",
-            'store_id' => "required"
+            'edit_name' => "required|min:3",
+            'edit_phone_number' => ["required", "numeric", "digits_between:6,16", new DoNotAddIndianCountryCode, new DoNotPutCountryCode],
+            'edit_email' => "required|email",
+            'edit_store_id' => "required"
         ]);
 
         try {
@@ -346,10 +346,10 @@ class AssistantController extends Controller
                 $headers,
                 'form_params' => [
                     'token' => Cookie::get('api_token'),
-                    'name' => purify_input($request->input('name')),
-                    'email' => $request->input('email'),
-                    'phone_number' => $request->input('phone_number'),
-                    'store_id' => $request->input('store_id')
+                    'name' => purify_input($request->input('edit_name')),
+                    'email' => $request->input('edit_email'),
+                    'phone_number' => $request->input('edit_phone_number'),
+                    'store_id' => $request->input('edit_store_id')
                 ],
             ];
 
@@ -372,6 +372,11 @@ class AssistantController extends Controller
 
             if ($e->getCode() == 401) {
                 return redirect()->route('logout')->withErrors("Please Login Again");
+            }
+            if ($e->getCode() == 400) {
+                $request->session()->flash('alert-class', 'alert-danger');
+                Session::flash('message', "Phone number already exists");
+                return redirect()->route('assistants.index');
             }
             $request->session()->flash('alert-class', 'alert-danger');
             $request->session()->flash('message', 'An Error Occured. Please Try Again Later');

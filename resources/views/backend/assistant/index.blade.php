@@ -3,6 +3,12 @@
 <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
 <link rel="stylesheet" href="/backend/assets/build/css/all_users.css">
+
+<style>
+    #edit_phone{
+        padding-left: 89px !important;
+    }
+</style>
 @stop
 @section('content')
 <div class="content">
@@ -81,21 +87,29 @@
                                 </div>
     
                                 <div class="flex-fill">
-                                    <a href="#" data-toggle="modal" data-target="#editAssistant-{{ $assistant->_id }}">
+                                    <a href="#" data-toggle="modal" 
+                                    onclick="open_edit_assistant(this)"
+                                    data-store_id="{{$assistant->store_id}}"
+                                    data-assistant_id="{{ $assistant->_id }}"
+                                    data-assistant_name="{{$assistant->name }}"
+                                    data-assistant_email="{{$assistant->email }}"
+                                    data-assistant_phone="{{$assistant->phone_number}}"
+                                    data-target="#editAssistant">
                                         <i data-feather="edit"></i>
                                     </a>
                                 </div>
     
                                 <div class="flex-fill">
-                                    <a class="" href="#" data-toggle="modal" data-target="#deleteModal-{{$assistant->_id}}">
+                                    <a class="" href="#" 
+                                    data-toggle="modal" 
+                                    data-target="#deleteModal-{{$assistant->_id}}">
                                         <i data-feather="trash-2"></i></a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                {{-- edit assitant modal --}}
-                @include('backend.assistant.modals.editAssistant')
+                
                 {{-- delete assitant modal --}}
                 @include('backend.assistant.modals.deleteAssistant')
                 @endforeach
@@ -104,6 +118,8 @@
     </div>
     {{-- Add assitant modal --}}
     @include('backend.assistant.modals.addAssistant')
+    {{-- edit assitant modal --}}
+    @include('backend.assistant.modals.editAssistant')
 
 </div>
 @endsection
@@ -268,4 +284,56 @@
 
 </script>
 {{-- @else --}}
+
+
+<script>
+  var edit_input = document.querySelector("#edit_phone");
+
+$("#edit_phone").keyup(() => {
+    if ($("#edit_phone").val().charAt(0) == 0) {
+        $("#edit_phone").val($("#edit_phone").val().substring(1));
+    }
+});
+
+var edit_test = window.intlTelInput(edit_input, {
+    separateDialCode: true,
+ });
+
+ $("#editForm").submit((e) => {
+        e.preventDefault();
+        const dialCode = edit_test.getSelectedCountryData().dialCode;
+        if ($("#edit_phone").val().charAt(0) == 0) {
+            $("#edit_phone").val($("#edit_phone").val().substring(1));
+        }
+        $("#edit_phone_number").val(dialCode + $("#edit_phone").val());
+        $("#editForm").off('submit').submit();
+    });
+
+
+    function open_edit_assistant(element){
+
+        edit_test.setNumber("+" + (element.dataset.assistant_phone));
+        let store_id = element.dataset.store_id;
+        let assistant_id = element.dataset.assistant_id;
+
+        $("#edit_name").val(element.dataset.assistant_name);
+        $("#edit_email").val('');
+        $("#edit_email").val(element.dataset.assistant_email);
+
+
+        $('#edit_store_id > option').each(function() {
+         if($(this).val() == store_id){
+             $(this).attr('selected','selected');
+         };
+        });
+
+
+        
+        let form_url = "{{route('assistants.update','1')}}";
+        let formatted_url = form_url.replace('1',assistant_id);
+        $("#editForm").attr('action',formatted_url);
+        // console.log(formatted_url);
+        
+    }
+</script>
 @stop
