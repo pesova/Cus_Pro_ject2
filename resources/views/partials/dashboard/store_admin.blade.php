@@ -38,7 +38,7 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <h5 class="font-size-15">{{ get_full_name() }}</h5>
-                        <p class="text-muted mb-0">Store Admin</p>
+                        <p class="text-muted mb-0">{{format_role_name()}}</p>
                     </div>
                     <div class="col-sm-6 mt-4">
                         <a href="{{route('setting')}}" class="btn btn-primary btn-sm">View Profile
