@@ -539,7 +539,7 @@ $total_interestReceivables += $each_interestReceivables;
 
 
 
-@if (Cookie::get('user_role') == "store_admin" || Cookie::get('user_role') == 'super_admin')
+@if (Cookie::get('user_role') == "store_admin")
 
 @include('backend.stores.scripts.editStore')
 
