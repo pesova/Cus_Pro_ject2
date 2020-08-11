@@ -4,7 +4,13 @@
 @stop
 
 @section('content')
-
+<style>
+    @media only screen and (max-width: 600px) {
+    #our_company{
+        text-align: center;
+    }
+    }
+</style>
 <section id="main ">
     <!-- About: Heading Section -->
     <div class="about_main">
@@ -39,7 +45,7 @@
                 <img src="/frontend/assets/images/Happy-Market-Woman 1.png" alt="our_company">
             </div>
             <div class="about-profile-content">
-                <h2 class="about-profile-content-heading">Our Company</h2>
+                <h2 class="about-profile-content-heading" id="our_company">Our Company</h2>
                 <p> CustomerPayMe helps business owners send overdue invoice
                     reminders, manage daily transactions/debt collection, and
                     provides a unique way of pushing unique sales messaging directly to their customers.</p>
