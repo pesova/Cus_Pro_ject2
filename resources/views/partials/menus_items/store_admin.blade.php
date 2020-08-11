@@ -30,9 +30,9 @@
         <li>
             <a href="{{ route('transaction.index') }}">Manage Transactions</a>
         </li>
-        {{---<li>
+        <li>
             <a href="{{ route('debtor.index') }}">Manage Debtors</a>
-        </li>---}}
+        </li>
 
     </ul>
 </li>

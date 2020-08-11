@@ -164,21 +164,40 @@ if (!function_exists('app_get_acronym')) {
     }
 }
 
-if (!function_exists('user_type')) {
+// if (!function_exists('get_user_role')) {
+
+//     /**
+//      * Check the type of user logged in and assign a name to the user
+//      *
+//      * @return boolean
+//      */
+//     function format_role_name($user_role = ""){
+//         if ($user_role == "") {
+//          $user_role = is_store_admin();
+//         }
+//                return 'Owner';
+//          }
+
+// }
+
+if (!function_exists('format_role_name')) {
 
     /**
      * Check the type of user logged in and assign a name to the user
      *
      * @return boolean
      */
-    function user_type()
-    {
-        if (Cookie::get('user_role') == 'super_admin') {
-            return 'Super Admin';
+    function format_role_name($user_role = ""){
+        if ($user_role == "") {
+            $user_role = Cookie::get('user_role');
         }
-        elseif (Cookie::get('user_role') == 'store_admin') {
-            return 'Owner';
-        }
-        return 'Assistant';
-    }
+              if($user_role == 'store_admin'){
+                  return 'Owner';
+              }elseif($user_role == 'super_admin'){
+                  return 'Super Admin';
+              }else{
+                  return 'Assistant';
+              }
+         }
+
 }
