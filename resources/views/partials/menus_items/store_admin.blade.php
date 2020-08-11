@@ -9,12 +9,12 @@
         <li>
             <a href="{{ route('store.index') }}">Manage Stores</a>
         </li>
-        <!-- <li>
+        {{---<li>
             <a href="{{ route('assistants.index') }}">Manage Store Assistant</a>
-        </li> -->
+        </li>
         <li>
             <a href="{{ route('debtor.index') }}">Manage Debts</a>
-        </li>
+        </li>---}}
     </ul>
 </li>
 
