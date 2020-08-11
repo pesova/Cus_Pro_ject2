@@ -163,3 +163,22 @@ if (!function_exists('app_get_acronym')) {
         return $acronym;
     }
 }
+
+if (!function_exists('user_type')) {
+
+    /**
+     * Check if logged in user is a super admin
+     *
+     * @return boolean
+     */
+    function user_type()
+    {
+        if (Cookie::get('user_role') == 'super_admin') {
+            return 'Super Admin';
+        }
+        elseif (Cookie::get('user_role') == 'store_admin') {
+            return 'Owner';
+        }
+        return 'Assistant';
+    }
+}

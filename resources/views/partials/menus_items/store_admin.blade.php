@@ -1,18 +1,20 @@
 <li>
     <a href="javascript: void(0);">
         <i class="uil uil-shop"></i>
-        <span class = 'second'> Store </span>
+        <span class = 'second'> Business </span>
         <span class="menu-arrow"></span>
     </a>
 
     <ul class="nav-second-level" aria-expanded="false">
         <li>
-            <a href="{{ route('store.index') }}">Manage Store</a>
+            <a href="{{ route('store.index') }}">Manage Stores</a>
         </li>
-        <li>
+        <!-- <li>
             <a href="{{ route('assistants.index') }}">Manage Store Assistant</a>
+        </li> -->
+        <li>
+            <a href="{{ route('debtor.index') }}">Manage Debts</a>
         </li>
-
     </ul>
 </li>
 
@@ -28,9 +30,9 @@
         <li>
             <a href="{{ route('transaction.index') }}">Manage Transactions</a>
         </li>
-        <li>
+        {{---<li>
             <a href="{{ route('debtor.index') }}">Manage Debtors</a>
-        </li>
+        </li>---}}
 
     </ul>
 </li>

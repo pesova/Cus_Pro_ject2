@@ -28,7 +28,7 @@
                             </object>
                         </div>
                         <h5 class="font-size-15 text-truncate">{{ Cookie::get('first_name') }}</h5>
-                        <p class="text-muted mb-0 text-truncate">Store Admin</p>
+                        <p class="text-muted mb-0 text-truncate">{{user_type()}}</p>
                     </div>
 
                     <div class="col-sm-8">
