@@ -32,7 +32,7 @@
 
                                         <h6 class="h5 mb-0 mt-4">Welcome back!</h6>
                                         <p class="text-muted mt-1 mb-4">Enter your phone number and password to
-                                            access admin panel.</p>
+                                            Login.</p>
 
                                         @include('partials.alert.message')
 
