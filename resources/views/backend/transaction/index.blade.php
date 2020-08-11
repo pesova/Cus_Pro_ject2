@@ -84,7 +84,11 @@
                                 <td>{{ format_money($transaction->amount, $transaction->currency) }}</td>
                                 <td>{{ $transaction->interest == null ? '0' : $transaction->interest }} %</td>
                                 <td>{{ format_money($transaction->total_amount, $transaction->currency) }} </td>
-                                <td>{{ $transaction->type }}</td>
+                                @if ($transaction->status)
+                                    <td id="transaction-status">Paid</td>
+                                @else
+                                    <td id="transaction-status">Debt</td>
+                                @endif
 
                                 <td>
                                     {!! app_format_date($transaction->expected_pay_date, true) !!}
@@ -234,8 +238,10 @@
             var store = $(this).data('store');
             let _status = $(this).is(':checked') ? 1 : 0;
             let _customer_id = $(this).data('customer');
+            let tr = $(this).parents('tr').find('#transaction-status');
 
             $('#statusSpiner').removeClass('d-none');
+            $(this).is(':checked') ? tr.html('Paid') : tr.html('Debt');
 
             $.ajax({
                 url: `${host}/transaction/update/${id}`,

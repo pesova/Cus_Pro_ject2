@@ -28,12 +28,11 @@
 
     <ul class="nav-second-level" aria-expanded="false">
         <li>
-            <a href="{{ route('transaction.index') }}">Manage Transactions</a>
+            <a href="{{ route('debtor.index') }}">Debt</a>
         </li>
         <li>
-            <a href="{{ route('debtor.index') }}">Manage Debtors</a>
+            <a href="{{ route('transaction.index') }}">Payment</a>
         </li>
-
     </ul>
 </li>
 
