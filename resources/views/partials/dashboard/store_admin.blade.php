@@ -97,7 +97,7 @@
                 </div>
                 </a>                
             </div>
-            <div class="col-md-4"> <a href="">
+            <div class="col-md-4">
                 <div class="card mini-stats-wid">
                     <div class="card-body">
                         <div class="media">
@@ -114,7 +114,7 @@
                         </div>
                     </div>
                 </div>
-                </a>
+
             </div>
             <div class="col-md-4">
                 <div class="card mini-stats-wid">
