@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Http\Response;
 
 class ActivateController extends Controller
 {
@@ -31,15 +32,11 @@ class ActivateController extends Controller
                     'phone_number' => Cookie::get('phone_number'),
                 ]
             ]);
-
-            if ($response->getStatusCode() == 200) {
-                $response = json_decode($response->getBody());
-                $data = $response->data;
-            }
+            
             if ($response->success) {
                 // set alert
                 $request->session()->flash('alert-class', 'alert-success');
-                $request->session()->flash('message', 'kindly check your Phone for verification code');
+                $request->session()->flash('message', 'Kindly check your Phone for verification code');
             } else {
                 $message = $response->message;
                 $request->session()->flash('message', $message);
@@ -50,6 +47,9 @@ class ActivateController extends Controller
                 Session::flash('message', $response->message);
             }
         } catch (Exception $e) {
+            if ($e->getCode() == 401) {
+                return redirect()->route('logout');
+            }
             Log::error($e->getMessage());
         }
 
@@ -61,10 +61,56 @@ class ActivateController extends Controller
 
     public function activate(Request $request)
     {
-        Cookie::queue('is_active', true);
+
         if ($request->has('skip')) {
+            Cookie::queue('is_active', true);
             return redirect()->route('dashboard');
         }
-        return 'done'; // this method will be called via ajax. returning "done" is just a placeholder text for the callback function of the calling script
+
+        try {
+            $url = env('API_URL', 'https://api.customerpay.me') . '/otp/verify';
+            $client = new Client();
+            $response = $client->post($url, [
+                'form_params' => [
+                    'phone_number' => Cookie::get('phone_number'),
+                    'verify' => $request->input('verify'),
+                ]
+            ]);
+
+            if ($response->getStatusCode() == 200) {
+                Cookie::queue('is_active', true);
+                return response()->json('activated', 200);
+            } else {
+                return response()->json(['message' => 'The verification code you have entered is incorrect. please try again'], 400);
+            }
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json(['message' => 'The verification code you have entered is incorrect. please try again'], 400);
+        }
+
+    }
+
+    public function sendOTP(Request $request)
+    {
+        try {
+            $url = env('API_URL', 'https://api.customerpay.me') . '/otp/send';
+            $client = new Client();
+            $response = $client->post($url, [
+                'form_params' => [
+                    'phone_number' => Cookie::get('phone_number'),
+                ]
+            ]);
+
+            if ($response->getStatusCode() == 200) {
+                $response = json_decode($response->getBody());
+                $data = $response->data;
+                return response()->json($data, 200);
+            } else {
+                return response()->json(['message' => 'An error occured. Please try again later'], 400);
+            }
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json(['message' => 'An error occured. Please try again later'], 400);
+        }
     }
 }

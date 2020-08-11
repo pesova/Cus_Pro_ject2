@@ -12,7 +12,7 @@
     <div class="container-fluid">
         <div class="mb-0 d-flex justify-content-between align-items-center page-title">
             <div class="h6"><i data-feather="file-text" class="icon-dual"></i> Transaction Center</div>
-            @if(Cookie::get('user_role') != 'store_assistant')
+            @if(!is_store_assistant())
             <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#addTransactionModal">
                 New &nbsp;<i class="fa fa-plus my-float"></i>
             </a>
@@ -28,7 +28,8 @@
         <div class="card mt-0">
             <div class="card-header">
                 <div class="btn-group dropdown float-left">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
                         <i class='uil uil-file-alt mr-1'></i>Export
                         <i class="icon"><span data-feather="chevron-down"></span></i></button>
                     <div class="dropdown-menu">
@@ -63,10 +64,6 @@
                         </thead>
                         <tbody>
                             @foreach ($transactions as $index => $transaction )
-                            @php
-                            $currency = isset($transaction->store_admin_ref->currencyPreference) ?
-                            $transaction->store_admin_ref->currencyPreference : null;
-                            @endphp
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>
@@ -74,67 +71,69 @@
                                     <a class="" href="{{ route('store.show', $transaction->store_ref_id->_id) }}">
                                         {{ $transaction->store_ref_id->store_name }}
                                     </a>
-                                    @elseif(is_store_admin())
+                                    @else
+                                    @if(is_store_admin())
                                     <a class="" href="{{ route('store.show', $transaction->store_ref_id) }}">
                                         {{ $transaction->store_name }}
                                     </a>
                                     @else
                                     {{ $transaction->store_name }}
                                     @endif
+                                    @endif
                                 </td>
-                                <td>{{ format_money($transaction->amount, $currency) }}</td>
-                                <td>{{ $transaction->interest }} %</td>
-                                <td>{{ format_money($transaction->total_amount, $currency) }} </td>
+                                <td>{{ format_money($transaction->amount, $transaction->currency) }}</td>
+                                <td>{{ $transaction->interest == null ? '0' : $transaction->interest }} %</td>
+                                <td>{{ format_money($transaction->total_amount, $transaction->currency) }} </td>
                                 <td>{{ $transaction->type }}</td>
 
                                 <td>
-                                    @isset($transaction->expected_pay_date)
-                                    @if ( \Carbon\Carbon::parse($transaction->expected_pay_date)->isPast())
-                                    <span class="badge badge-soft-danger">{{ \Carbon\Carbon::parse($transaction->expected_pay_date)->diffForhumans() }}</span>
-                                    @else
-                                    @if (\Carbon\Carbon::parse($transaction->expected_pay_date)->isToday())
-                                    <span class="badge badge-soft-warning">{{ \Carbon\Carbon::parse($transaction->expected_pay_date)->diffForhumans() }}</span>
-                                    @endif
-                                    <span class="badge badge-soft-success">{{ \Carbon\Carbon::parse($transaction->expected_pay_date)->diffForhumans() }}</span>
-                                    @endif
-                                    @endif
+                                    {!! app_format_date($transaction->expected_pay_date, true) !!}
                                 </td>
-                                <td> {{ \Carbon\Carbon::parse($transaction->createdAt)->diffForhumans() }}</td>
+                                <td> {{ app_format_date($transaction->date_recorded) }} </td>
                                 <td>
                                     <label class="switch">
-                                        @if(is_store_admin())
-                                        <input class="togBtn" type="checkbox" id="togBtn" {{ $transaction->status == true ? 'checked' : '' }} data-id="{{ $transaction->_id }}" data-store="{{ $transaction->store_ref_id }}" data-customer="{{ $transaction->customer_ref_id}}">
-                                        @elseif(is_super_admin())
-                                        @if($transaction->customer_ref_id != null)
-                                        <input class="togBtn" type="checkbox" id="togBtn" {{ $transaction->status == true ? 'checked' : '' }} data-id="{{ $transaction->_id }}" data-store="{{ $transaction->store_ref_id->_id }}" data-customer="{{ $transaction->customer_ref_id->_id}}">
-                                        @endif
+                                        @if(is_super_admin())
+                                            @if ($transaction->customer_ref_id != null)
+                                            <input class="togBtn" type="checkbox" id="togBtn"
+                                                {{ $transaction->status == true ? 'checked' : '' }}
+                                                data-id="{{ $transaction->_id }}"
+                                                data-store="{{ $transaction->store_ref_id->_id }}"
+                                                data-customer="{{ $transaction->customer_ref_id->_id}}">
+                                            @endif
+                                        @elseif (is_store_admin())
+                                        <input class="togBtn" type="checkbox" id="togBtn"
+                                            {{ $transaction->status == true ? 'checked' : '' }}
+                                            data-id="{{ $transaction->_id }}"
+                                            data-store="{{ $transaction->store_ref_id }}"
+                                            data-customer="{{ $transaction->customer_ref_id }}">
                                         @else
-                                        <input type="checkbox" id="togBtn" {{ $transaction->status == true ? 'checked' : '' }} disabled>
+                                        <input type="checkbox" id="togBtn"
+                                            {{ $transaction->status == true ? 'checked' : '' }} disabled>
                                         @endif
                                         <div class="slider round">
                                             <span class="on">Paid</span><span class="off">Pending</span>
                                         </div>
                                     </label>
-                                    <div id="statusSpiner" class="spinner-border spinner-border-sm text-primary d-none" role="status">
-                                        <span class="sr-only">Loading...</span>
-                                    </div>
-                                    </label>
-                                    <div id="statusSpiner" class="spinner-border spinner-border-sm text-primary d-none" role="status">
+                                    <div id="statusSpiner" class="spinner-border spinner-border-sm text-primary d-none"
+                                        role="status">
                                         <span class="sr-only">Loading...</span>
                                     </div>
                                 </td>
                                 <td style="display: none">{{ $transaction->status == true ? 'paid' : 'pending' }}</td>
 
                                 <td>
-                                    @if($transaction->customer_ref_id != null)
-                                    <a class="btn btn-primary btn-small py-1 px-2" href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref->_id.'-'.$transaction->customer_ref->_id) }}">
-                                        View More
+                                    @if(is_super_admin())
+                                        @if ($transaction->customer_ref_id != null)
+                                        <a class="btn btn-primary btn-sm py-1 px-2"
+                                            href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id->_id.'-'.$transaction->customer_ref_id->_id) }}">
+                                            More
+                                        </a>
+                                        @endif
+                                    @elseif (is_store_admin())
+                                    <a class="btn btn-primary btn-sm py-1 px-2"
+                                        href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id.'-'.$transaction->customer_ref_id) }}">
+                                        More
                                     </a>
-                                    @else
-                                    <a class="btn btn-info btn-small py-1 px-2" href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref->_id.'-'.$transaction->customer_ref->_id) }}">
-                                        View More
-                                    </a>
-                                    @endif
                                     @endif
                                 </td>
                             </tr>
@@ -157,14 +156,15 @@
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-html5-1.6.2/datatables.min.js">
+<script type="text/javascript"
+    src="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-html5-1.6.2/datatables.min.js">
 </script>
 <script src="{{ asset('/backend/assets/js/textCounter.js')}}"></script>
 <script src="{{ asset('/backend/assets/js/toggleStatus.js')}}"></script>
 
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         var export_filename = 'MycustomerTransactions';
         $('#transactionTable').DataTable({
             dom: 'frtipB',
@@ -182,21 +182,22 @@
                 }
             }]
         });
-        $("#ExportReporttoExcel").on("click", function() {
+        $("#ExportReporttoExcel").on("click", function () {
             $('.buttons-excel').trigger('click');
         });
-        $("#ExportReporttoPdf").on("click", function() {
+        $("#ExportReporttoPdf").on("click", function () {
             $('.buttons-pdf').trigger('click');
         });
     });
+
 </script>
 
 <script>
-    jQuery(function($) {
+    jQuery(function ($) {
         const token = "{{Cookie::get('api_token')}}"
         const host = "{{ env('API_URL', 'https://dev.api.customerpay.me') }}";
 
-        $('select[name="store"]').on('change', function() {
+        $('select[name="store"]').on('change', function () {
             var storeID = $(this).val();
             var host = "{{ env('API_URL', 'https://dev.api.customerpay.me') }}";
 
@@ -210,7 +211,7 @@
                     headers: {
                         'x-access-token': token
                     },
-                    success: function(data) {
+                    success: function (data) {
                         var new_data = data.data.store.customers;
                         var i;
                         new_data.forEach(customer => {
@@ -225,7 +226,7 @@
             }
         });
 
-        $('.togBtn').change(function() {
+        $('.togBtn').change(function () {
             $(this).attr("disabled", true);
 
             var id = $(this).data('id');
@@ -267,13 +268,14 @@
 
 
         function removeAlertMessage() {
-            setTimeout(function() {
+            setTimeout(function () {
                 $(".alert").remove();
             }, 2000);
         }
 
         function showAlertMessage(type, message) {
-            const alertMessage = ' <div id="transaction_js_alert" class="alert alert-' + type + ' show" role="alert">\n' +
+            const alertMessage = ' <div id="transaction_js_alert" class="alert alert-' + type +
+                ' show" role="alert">\n' +
                 '                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
                 '                        <span aria-hidden="true" class="">&times;</span>\n' +
                 '                    </button>\n' +
@@ -283,6 +285,7 @@
             removeAlertMessage();
         }
     });
+
 </script>
 {{-- @if ( Cookie::get('is_first_time_user') == true) --}}
 <script>
@@ -321,6 +324,7 @@
         tour.start();
         localStorage.setItem('transaction_intro_shown', 1);
     }
+
 </script>
 {{-- @endif --}}
 @stop

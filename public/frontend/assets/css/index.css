@@ -98,7 +98,7 @@ h1,h2,h3,h4,h5,h6 {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 10% 27% 7%;
+  padding: 5% 27% 5%;
   text-align: center;
 }
 
@@ -112,7 +112,7 @@ h1,h2,h3,h4,h5,h6 {
 .feature__text h3{
   font-size: 24px;
   line-height: 124.8%;
-  padding: 10% 30%;
+  padding: 0% 10%;
   text-align: center;
 }
 

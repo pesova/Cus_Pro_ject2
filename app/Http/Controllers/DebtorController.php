@@ -54,7 +54,6 @@ class DebtorController extends Controller
 
             if ($storeStatusCode == 200 && $debtorStatusCode == 200) {
                 $stores = json_decode($storeResponse->getBody())->data->stores;
-
                 if (Cookie::get('user_role') != 'super_admin') {
                     $debtors = json_decode($debtorResponse->getBody())->data->debts;
                 } else {

@@ -2,12 +2,14 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, shrink-to-fit=no">
-    <meta content="An easy to use web app that helps you record and track daily transactions, Send debt reminders and send offers to your customers" name="description" />
+    <meta charset="utf-8" />
+    <title>CustomerPayMe - Welcome</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        content="An easy to use web app that helps you record and track daily transactions, Send debt reminders and send offers to your customers"
+        name="description" />
     <meta content="CustomerPayMe" name="author" />
-    <title>CustomerPayMe</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="/frontend/assets/img/favicon.png">
@@ -59,7 +61,7 @@
     <script src="/frontend/assets/js/header-footer.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-      AOS.init();
+        AOS.init();
     </script>
 
 

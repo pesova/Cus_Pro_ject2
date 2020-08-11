@@ -787,7 +787,7 @@ img {
   justify-content: center;
   align-items: center;
   height: 100%;
-  padding: 15% 0 24%;
+  padding: 10% 0 10%;
 }
 
 .welcome-area .owl-nav .owl-prev,
@@ -1094,9 +1094,7 @@ img {
 }
 
 .single-feature-area:hover .feature-icon {
-  -webkit-transform: rotate(-360deg);
-  -ms-transform: rotate(-360deg);
-  transform: rotate(-360deg);
+
 }
 
 .feature-content-text h4 {
@@ -1583,6 +1581,7 @@ img {
     transform: scale(1.9);
   }
 }
+
 /* 
 header {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
@@ -1633,3 +1632,9 @@ footer .row {
 .menubar {
   background-color: #fff !important;
 } */
+
+.nav__brand__logo img {
+  height: 48px;
+  width: 100%;
+  object-fit: contain;
+}

@@ -3,120 +3,129 @@
 <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
 <link rel="stylesheet" href="/backend/assets/build/css/all_users.css">
+
+<style>
+    #edit_phone{
+        padding-left: 89px !important;
+    }
+</style>
 @stop
+
+{{-- {{dd($assistants)}} --}}
 @section('content')
 <div class="content">
-    
+    @include('partials.alert.message')
+
     <div class="container-fluid">
-        <div class="row page-title">
-            <div class="col-md-12">
-                <div class="customer-heading-container">
-                    <button class="add-customer-button btn btn-primary" data-toggle="modal"
-                        data-target="#addAssistantModal">
-                        Add New Assistant <i class="fa fa-plus add-new-icon"></i>
-                    </button>
+        <div class="page-title d-flex justify-content-between align-items-center">
+            <div>
+                <h4 class="">Assistants</h4>
+            </div>
+            <div>
+                <button class=" btn btn-primary btn-sm" data-toggle="modal">
+                    <a href="" data-toggle="modal" data-target="#addAssistantModal" class="text-white">
+                        New Assistant <i class="fa fa-plus add-new-icon"></i>
+                    </a>
+                </button>
+            </div>
+        </div>
+
+        <div class="container-fluid card">
+            <div class="row card-body">
+                <label class="form-control-label">Search Assistants</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="search-assistant">
+                            <i class="icon-dual icon-xs" data-feather="search"></i>
+                        </span>
+                    </div>
+                    <input type="search" class="form-control" id="assistant-name" placeholder="Search"
+                        aria-label="search-assistant" aria-describedby="search-assistant">
                 </div>
             </div>
         </div>
-        @include('partials.alert.message')
-        <div class="row page-title">
-            <div class="col-md-12">
-                <h4 class="mb-1 mt-0">Assistants</h4>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <p class="sub-header">
-                            Find Assistant
-                        </p>
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="form-group col-lg-12 mt-4">
-                                    <div class="row">
-                                        <label class="form-control-label">Search Assistants</label>
-                                        <div class="input-group input-group-merge">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">
-                                                    <i class="icon-dual" data-feather="search"></i>
-                                                </span>
-                                            </div>
-                                            <input type="text" class="form-control" id="assistant-name">
-                                        </div>
-                                    </div>
+
+        <div class="container-fluid">
+            <div class="row row-eq-height my-2">
+                @foreach ($assistants as $assistant)
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div id="idd" class="card text-center full-div">
+                        <div class="card-body">
+                            <div class="avatar-sm mx-auto mb-4">
+                                <span class="avatar-title rounded-circle bg-soft-primary text-primary font-size-16">
+                                    @php
+                                    $names = explode(" ", strtoupper($assistant->name));
+                                    $ch = "";
+                                    foreach ($names as $name) {
+                                    $ch .= $name[0];
+    
+                                    }
+                                    echo $ch;
+                                    @endphp
+                                </span>
+                            </div>
+                            <h5 class="font-size-15"><a href="{{ route('assistants.show', $assistant->_id) }}"
+                                    class="text-dark">{{$assistant->name }}</a></h5>
+                            <p class="text-muted">{{$assistant->phone_number}} | {{$assistant->email ?? ''}}</p>
+    
+                            <div>
+                                @if ($assistant->user_role == "store_admin")
+                                @endif
+                                @if($assistant->is_active)
+                                <span class="badge badge-success">Activated</span>
+    
+                                @else
+                                <span class="badge badge-secondary">Not activated</span>
+    
+                                @endif
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent border-top">
+                            <div class="contact-links d-flex font-size-20">
+                                <div class="flex-fill">
+                                    <a href="{{ route('assistants.show', $assistant->_id) }}" data-toggle="tooltip"
+                                        data-placement="top" title="" data-original-title="View User"><i
+                                            data-feather="eye"></i></a>
+                                </div>
+    
+                                <div class="flex-fill">
+                                    <a href="#" data-toggle="modal" 
+                                    onclick="open_edit_assistant(this)"
+                                    data-store_id="{{$assistant->store_id}}"
+                                    data-assistant_id="{{ $assistant->_id }}"
+                                    data-assistant_name="{{$assistant->name }}"
+                                    data-assistant_email="{{$assistant->email }}"
+                                    data-assistant_phone="{{$assistant->phone_number}}"
+                                    data-target="#editAssistant">
+                                        <i data-feather="edit"></i>
+                                    </a>
+                                </div>
+    
+                                <div class="flex-fill">
+                                    <a class="" href="#" 
+                                    data-toggle="modal" 
+                                    onclick="deleteAssistant(this)"
+                                    data-assistant_id="{{$assistant->_id}}"
+                                    data-assistant_name="{{$assistant->name}}"
+                                    data-target="#deleteModal">
+                                        <i data-feather="trash-2"></i></a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                
+                {{-- delete assitant modal --}}
+               
+                @endforeach
             </div>
-        </div>
-
-
-        <div class="row">
-            @foreach ($assistants as $assistant)
-            <div class="col-xl-3 col-sm-6">
-                <div id="idd" class="card text-center">
-                    <div class="card-body">
-                        <div class="avatar-sm mx-auto mb-4">
-                            <span class="avatar-title rounded-circle bg-soft-primary text-primary font-size-16">
-                                @php
-                                $names = explode(" ", strtoupper($assistant->name));
-                                $ch = "";
-                                foreach ($names as $name) {
-                                $ch .= $name[0];
-
-                                }
-                                echo $ch;
-                                @endphp
-                            </span>
-                        </div>
-                        <h5 class="font-size-15"><a href="{{ route('assistants.show', $assistant->_id) }}" class="text-dark">{{$assistant->name }}</a></h5>
-                        <p class="text-muted">{{$assistant->phone_number}} | {{$assistant->email ?? ''}}</p>
-
-                        <div>
-                            @if ($assistant->user_role == "store_admin")
-                            @endif
-                            @if($assistant->is_active)
-                            <span class="badge badge-success">Activated</span>
-
-                            @else
-                            <span class="badge badge-secondary">Not activated</span>
-
-                            @endif
-                        </div>
-                    </div>
-                    <div class="card-footer bg-transparent border-top">
-                        <div class="contact-links d-flex font-size-20">
-                            <div class="flex-fill">
-                                <a href="{{ route('assistants.show', $assistant->_id) }}" data-toggle="tooltip"
-                                    data-placement="top" title="" data-original-title="View User"><i
-                                        data-feather="eye"></i></a>
-                            </div>
-
-                            <div class="flex-fill">
-                                <a href="{{route('assistants.edit', $assistant->_id) }}" data-toggle="tooltip"
-                                    data-placement="top" title="" data-original-title="Edit"><i
-                                        data-feather="edit"></i></a>
-                            </div>
-
-                            <div class="flex-fill">
-                                <a class="" href="#" data-toggle="modal"
-                                    data-target="#deleteModal-{{$assistant->_id}}"><i data-feather="trash-2"></i></a>
-
-                                @include('partials.modal.assistant.deleteAssistant')
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @endforeach
         </div>
     </div>
-    @include('partials.modal.assistant.addAssistant')
-
+    {{-- Add assitant modal --}}
+    @include('backend.assistant.modals.addAssistant')
+    {{-- edit assitant modal --}}
+    @include('backend.assistant.modals.editAssistant')
+    @include('backend.assistant.modals.deleteAssistant')
 </div>
 @endsection
 
@@ -126,8 +135,7 @@
 <script src="/backend/assets/build/js/intlTelInput.js"></script>
 <script>
     var input = document.querySelector("#phone");
-    var test = window.intlTelInput(input, {
-    });
+    var test = window.intlTelInput(input, {});
 
     if ($("#phone").val().trim() != '')
         test.setNumber("+" + ($("#phone").val()));
@@ -146,11 +154,6 @@
         $("#phone_number").val(dialCode + $("#phone").val());
         $("#submitForm").off('submit').submit();
     });
-
-    // function showModal() {
-    //     $('#phone').css('paddingLeft', "unset");
-    //     $("#AssistantModal").modal('show');
-    // }
 
     let assistantName = $('#assistant-name');
     let assistantEmail = $('#assistant-email');
@@ -243,21 +246,6 @@
         $("#pagin li").removeClass("active").eq(pagination).addClass("active");
     };
 
-    // Go to Left
-    // $(".prev").click(function () {
-    // showPage($("#pagin ul .active").index() - 1);
-    // });
-
-    // // Go to Right
-    // $(".next").click(function () {
-    // showPage($("#pagin .active").index() + 1);
-    // });
-
-    // $("#pagin ul a").click(function (e) {
-    // e.preventDefault();
-    // showPage($(this).parent().index());
-    // });
-
     showPage(0);
 
 </script>
@@ -301,4 +289,10 @@
 
 </script>
 {{-- @else --}}
+
+@include('backend.assistant.script.editAssistant')
+
+@include('backend.assistant.script.deleteAssistant')
+
+
 @stop

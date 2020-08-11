@@ -2,7 +2,13 @@
 @section("custom_css")
 
 <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
-
+<style>
+    .navlogo img {
+        height: 64px;
+        width: 100%;
+        object-fit: contain
+    }
+</style>
 @stop
 
 
@@ -19,8 +25,9 @@
                                 <div class="row">
                                     <div class="col-12 p-5">
                                         <div class="mx-auto mb-5">
-                                            <a href="{{ url('/') }}">
-                                                <img src="{{ ('/frontend/assets/images/fulllogo.png') }}" alt class ="img img-fluid" /> </a>
+                                            <a href="{{ url('/') }}" class="navlogo">
+                                                <img src="{{ ('/frontend/assets/images/fulllogo.png') }}" alt
+                                                    class="img img-fluid" /> </a>
                                         </div>
 
                                         <h6 class="h5 mb-0 mt-4">Welcome back!</h6>
@@ -37,7 +44,7 @@
                                                 <div class="input-group input-group-merge">
                                                     <div class="input-group-prepend">
                                                     </div>
-                                                    <input type="number" id="phone" name="" class="form-control"
+                                                    <input type="tel" id="phone" name="" class="form-control"
                                                         value="" aria-describedby="helpPhone" placeholder="813012345"
                                                         required>
                                                     <input type="hidden" name="phone_number" id="phone_number"
@@ -103,7 +110,7 @@
 
                         <div class="row mt-3">
                             <div class="col-12 text-center">
-                                <p class="text-muted">Dont have an account <a href="/admin/register"
+                                <p class="text-muted">Dont have an account? <a href="/app/register"
                                         class="text-primary font-weight-bold ml-1">Sign
                                         Up</a></p>
                             </div> <!-- end col -->
