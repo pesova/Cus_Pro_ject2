@@ -39,7 +39,7 @@
                 <img src="/frontend/assets/images/Happy-Market-Woman 1.png" alt="our_company">
             </div>
             <div class="about-profile-content">
-                <h2 class="about-profile-content-heading">Our Company</h2>
+                <h2 class="about-profile-content-heading d-flex justify-content-center justify-content-md-start">Our Company</h2>
                 <p> CustomerPayMe helps business owners send overdue invoice
                     reminders, manage daily transactions/debt collection, and
                     provides a unique way of pushing unique sales messaging directly to their customers.</p>
