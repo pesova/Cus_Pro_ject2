@@ -167,7 +167,7 @@ if (!function_exists('app_get_acronym')) {
 if (!function_exists('user_type')) {
 
     /**
-     * Check if logged in user is a super admin
+     * Check the type of user logged in and assign a name to the user
      *
      * @return boolean
      */
