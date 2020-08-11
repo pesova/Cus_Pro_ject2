@@ -164,22 +164,6 @@ if (!function_exists('app_get_acronym')) {
     }
 }
 
-// if (!function_exists('get_user_role')) {
-
-//     /**
-//      * Check the type of user logged in and assign a name to the user
-//      *
-//      * @return boolean
-//      */
-//     function format_role_name($user_role = ""){
-//         if ($user_role == "") {
-//          $user_role = is_store_admin();
-//         }
-//                return 'Owner';
-//          }
-
-// }
-
 if (!function_exists('format_role_name')) {
 
     /**
