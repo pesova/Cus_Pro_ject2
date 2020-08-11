@@ -4,6 +4,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<style>
+    #phone{
+        padding-left: 89px !important;
+    }
+</style>
 @stop
 @section('content')
 <div class="container-fluid">
@@ -284,7 +290,7 @@
 
             var input = document.querySelector("#phone");
             var test = window.intlTelInput(input, {
-                // separateDialCode: true,
+                separateDialCode: true,
             });
 
             $("#phone").keyup(() => {

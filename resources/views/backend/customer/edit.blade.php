@@ -3,8 +3,14 @@
 
 {{-- add in the basic styling : check the contents of these stylesheets later --}}
 @section("custom_css")
-<link rel="stylesheet" href="{{asset('backend/assets/css/singleCustomer.css')}}">
 <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="{{asset('backend/assets/css/singleCustomer.css')}}">
+
+<style>
+    #phone{
+        padding-left: 89px !important;
+    }
+</style>
 @stop
 
 
@@ -19,7 +25,7 @@
         {{-- start of page title --}}
         <div class="row page-title">
             <div class="col-md-12">
-                <h4 class="mb-1 mt-0 float-left">Edit Profile Page</h4>
+                <h4 class="mb-1 mt-0 float-left">Edit Customer Page</h4>
                 <a href="{{ route('customer.index') }}" class="btn btn-primary float-right">
                     Go Back {{-- &nbsp;<i class="fa fa-plus my-float"></i> --}}
                 </a>
@@ -127,16 +133,12 @@
 <script>
     var input = document.querySelector("#phone");
     window.intlTelInput(input, {
-        // any initialisation options go here
+        separateDialCode: true,
     });
 
 
     //phone Number format
 
-    var input = document.querySelector("#phone");
-    var test = window.intlTelInput(input, {
-        // any initialisation options go here
-    });
 
     $("#phone").keyup(() => {
         if ($("#phone").val().charAt(0) == 0) {

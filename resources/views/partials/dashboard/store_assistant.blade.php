@@ -314,7 +314,7 @@
 
 </script>
 
-@if (Cookie::get('user_role') == "store_admin" || Cookie::get('user_role') == 'super_admin')
+@if (Cookie::get('user_role') == "store_admin")
 @include('backend.assistant.script.editAssistant');
 @include('backend.assistant.script.deleteAssistant')
 @endif
