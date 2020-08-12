@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="/backend/assets/build/css/all_users.css">
 
 <style>
-    #edit_phone{
+    #edit_phone,#phone{
         padding-left: 89px !important;
     }
 </style>
@@ -87,29 +87,35 @@
                                         data-placement="top" title="" data-original-title="View User"><i
                                             data-feather="eye"></i></a>
                                 </div>
-    
-                                <div class="flex-fill">
-                                    <a href="#" data-toggle="modal" 
-                                    onclick="open_edit_assistant(this)"
-                                    data-store_id="{{$assistant->store_id}}"
-                                    data-assistant_id="{{ $assistant->_id }}"
-                                    data-assistant_name="{{$assistant->name }}"
-                                    data-assistant_email="{{$assistant->email }}"
-                                    data-assistant_phone="{{$assistant->phone_number}}"
-                                    data-target="#editAssistant">
-                                        <i data-feather="edit"></i>
-                                    </a>
-                                </div>
-    
-                                <div class="flex-fill">
-                                    <a class="" href="#" 
-                                    data-toggle="modal" 
-                                    onclick="deleteAssistant(this)"
-                                    data-assistant_id="{{$assistant->_id}}"
-                                    data-assistant_name="{{$assistant->name}}"
-                                    data-target="#deleteModal">
-                                        <i data-feather="trash-2"></i></a>
-                                </div>
+                                
+                                @if (Cookie::get('user_role') == "store_admin")
+
+                                    <div class="flex-fill">
+                                        <a href="#" data-toggle="modal" 
+                                        onclick="open_edit_assistant(this)"
+                                        data-store_id="{{$assistant->store_id}}"
+                                        data-assistant_id="{{ $assistant->_id }}"
+                                        data-assistant_name="{{$assistant->name }}"
+                                        data-assistant_email="{{$assistant->email }}"
+                                        data-assistant_phone="{{$assistant->phone_number}}"
+                                        data-target="#editAssistant">
+                                            <i data-feather="edit"></i>
+                                        </a>
+                                    </div>
+        
+                                    <div class="flex-fill">
+                                        <a class="" href="#" 
+                                        data-toggle="modal" 
+                                        onclick="deleteAssistant(this)"
+                                        data-assistant_id="{{$assistant->_id}}"
+                                        data-assistant_name="{{$assistant->name}}"
+                                        data-target="#deleteModal">
+                                            <i data-feather="trash-2"></i></a>
+                                    </div>
+
+                                @endif
+
+                               
                             </div>
                         </div>
                     </div>
@@ -135,7 +141,9 @@
 <script src="/backend/assets/build/js/intlTelInput.js"></script>
 <script>
     var input = document.querySelector("#phone");
-    var test = window.intlTelInput(input, {});
+    var test = window.intlTelInput(input, {
+        separateDialCode: true,
+    });
 
     if ($("#phone").val().trim() != '')
         test.setNumber("+" + ($("#phone").val()));
