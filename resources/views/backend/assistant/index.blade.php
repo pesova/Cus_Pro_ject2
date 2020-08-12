@@ -273,7 +273,7 @@
 
 </script>
 {{-- @if (\Illuminate\Support\Facades\Cookie::get('is_first_time_user') == true) --}}
-<script>
+{{-- <script>
     var assistant_intro_shown = localStorage.getItem('assistant_intro_shown');
 
     if (!assistant_intro_shown) {
@@ -310,7 +310,7 @@
         localStorage.setItem('assistant_intro_shown', 1);
     }
 
-</script>
+</script> --}}
 {{-- @else --}}
 
 @include('backend.assistant.script.editAssistant')

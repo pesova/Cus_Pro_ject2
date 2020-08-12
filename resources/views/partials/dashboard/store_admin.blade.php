@@ -281,7 +281,7 @@
     </script>
 
     {{-- @if ( Cookie::get('is_first_time_user') == true) --}}
-    <script>
+    {{-- <script>
         var dashboard_intro_shown = localStorage.getItem('dashboard_intro_shown');
 
         if (!dashboard_intro_shown) {
@@ -377,7 +377,7 @@
             localStorage.setItem('dashboard_intro_shown', 1);
         }
 
-    </script>
+    </script> --}}
     {{-- @endif --}}
 
     <script>
