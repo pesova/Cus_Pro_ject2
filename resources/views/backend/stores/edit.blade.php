@@ -43,7 +43,7 @@
                             <input type="tel" id="phone" name="" class="form-control"
                                 value="{{ old('phone_number',$response->phone_number) }}" required>
                             <input type="hidden" name="phone_number" id="phone_number" class="form-control">
-                            <small id="helpPhone" class="form-text text-muted">Enter your number without the starting 0, eg 813012345</small>
+                            <small id="helpPhone" class="form-text text-muted">Enter your number without the country code</small>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="inputEmailAddress"> Email Address </label>
