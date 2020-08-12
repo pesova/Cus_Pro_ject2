@@ -49,8 +49,7 @@
                                                         class="form-control">
                                                     <div class="red-warn">Please enter a valid phone number</div>
                                                 </div>
-                                                <small id="helpPhone" class="form-text text-muted">Enter your number
-                                                    without the starting 0, eg 813012345</small>
+                                                <small id="helpPhone" class="form-text text-muted">Enter your phone number without the country code</small>
                                                 <label class="form-control-label mt-2 mb-2">Password</label>
                                                 <div class="input-group input-group-merge">
                                                     <input type="password" id="password" name="password"
