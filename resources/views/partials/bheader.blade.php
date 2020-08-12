@@ -50,13 +50,7 @@
                             </h6>
                         @endif
                         <span class="pro-user-desc">
-                            @if ( \Cookie::get('user_role') == "store_admin")
-                                STORE ADMIN
-                            @elseif ( \Cookie::get('user_role') == "super_admin")
-                                SUPER ADMIN
-                            @elseif ( \Cookie::get('user_role') == "store_assistant")
-                                STORE ASSISTANT
-                            @endif
+                           {{format_role_name()}}
                         </span>
                     </div>
                     <div class="dropdown align-self-center profile-dropdown-menu">
