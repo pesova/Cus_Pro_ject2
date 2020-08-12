@@ -43,7 +43,7 @@
                             <input type="tel" id="phone" name="" class="form-control"
                                 value="{{ old('phone_number',$response->phone_number) }}" required>
                             <input type="hidden" name="phone_number" id="phone_number" class="form-control">
-                            <small id="helpPhone" class="form-text text-muted">Enter your number without the starting 0, eg 813012345</small>
+                            <small id="helpPhone" class="form-text text-muted">Enter your number without the country code</small>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="inputEmailAddress"> Email Address </label>
@@ -73,8 +73,21 @@
     var input = document.querySelector("#phone");
     var test = window.intlTelInput(input, {
         separateDialCode: true,
-        //initialCountry: "de",
-        // any initialisation options go here
+        initialCountry: "auto",
+        geoIpLookup: function (success) {
+            // Get your api-key at https://ipdata.co/
+            fetch("https://ipinfo.io?token={{env('GEOLOCATION_API_KEY')}}")
+                .then(function (response) {
+                    if (!response.ok) return success("");
+                    return response.json();
+                })
+                .then(function (ipdata) {
+                    success(ipdata.country);
+                }).catch(function () {
+                success("NG");
+            });
+        },
+        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/js/utils.min.js",
     });
 
     test.setNumber("+" + ($("#phone").val()));

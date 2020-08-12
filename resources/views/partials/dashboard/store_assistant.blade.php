@@ -24,10 +24,7 @@
                                     <h5 class="font-size-15">{{ $assistant->customerCount }}</h5>
                                     <p class="text-muted mb-0">Customers</p>
                                 </div>
-                                <div class="col-6">
-                                    <h5 class="font-size-15">{{ format_money($assistant->revenueAmount )}}</h5>
-                                    <p class="text-muted mb-0">Revenue</p>
-                                </div>
+
                             </div>
                             @if(\Cookie::get('user_role') != 'store_assistant')
                             <div class="mt-4">
@@ -79,24 +76,7 @@
 
     <div class="col-xl-8">
         <div class="row">
-            <div class="col-md-4">
-                <div class="card mini-stats-wid">
-                    <div class="card-body">
-                        <div class="media">
-                            <div class="media-body">
-                                <p class="text-muted font-weight-medium">Revenue</p>
-                                <h4 class="mb-0">{{ format_money($assistant->revenueAmount) }}</h4>
-                            </div>
 
-                            <div class="mini-stat-icon avatar-sm align-self-center rounded-circle bg-primary">
-                                <span class="avatar-title">
-                                    <i class="uil-atm-card font-size-14"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="col-md-4">
                 <div class="card mini-stats-wid">
                     <div class="card-body">
@@ -104,24 +84,6 @@
                             <div class="media-body">
                                 <p class="text-muted font-weight-medium">Debt</p>
                                 <h4 class="mb-0">{{format_money($assistant->debtAmount)}}</h4>
-                            </div>
-
-                            <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
-                                <span class="avatar-title">
-                                    <i class="uil-atm-card font-size-14"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card mini-stats-wid">
-                    <div class="card-body">
-                        <div class="media">
-                            <div class="media-body">
-                                <p class="text-muted font-weight-medium">Receivables</p>
-                                <h4 class="mb-0">{{format_money($assistant->receivablesAmount)}}</h4>
                             </div>
 
                             <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
