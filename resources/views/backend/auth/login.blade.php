@@ -141,8 +141,19 @@
     var input = document.querySelector("#phone");
     var test = window.intlTelInput(input, {
         separateDialCode: true,
-        // any initialisation options go here
-    });
+        initialCountry: "auto",
+        geoIpLookup: function(success) {
+            // Get your api-key at https://ipdata.co/
+            fetch("http://api.ipstack.com/check?access_key=0bdde606fb7b27eded8a28bf2800fdcd")
+                .then(function(response) {
+                    if (!response.ok) return success("");
+                    return response.json();
+                })
+                .then(function(ipdata) {
+                    success(ipdata.country_code);
+                });
+        },
+        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/js/utils.min.js",
 
     $("#phone").keyup(() => {
         if ($("#phone").val().charAt(0) == 0) {
