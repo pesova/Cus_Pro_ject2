@@ -291,7 +291,11 @@ $total_interestReceivables += $each_interestReceivables;
                                 <th>{{ $customer->name }}<span class="co-name">
                                 </th>
                                 <td class="font-light">{{ $customer->phone_number}}</td>
-                                <td>{{$transaction->type}}</td>
+                                @if ($transaction->status)
+                                    <td id="transaction-status">Paid</td>
+                                @else
+                                    <td id="transaction-status">Debt</td>
+                                @endif
                                 <td>{{format_money($transaction->amount, $currency, $currency)}}</td>
                                 <td>
                                     <label class="switch">
@@ -464,6 +468,10 @@ $total_interestReceivables += $each_interestReceivables;
             var store = $(this).data('store');
             let _status = $(this).is(':checked') ? 1 : 0;
             let _customer_id = $(this).data('customer');
+            let _type = $(this).is(':checked') ? 'Paid' : 'Debt';
+            let tr = $(this).parents('tr').find('#transaction-status');
+
+            $(this).is(':checked') ? tr.html('Paid') : tr.html('Debt');
 
             $.ajax({
                 url: `${host}/transaction/update/${id}`,
@@ -473,6 +481,7 @@ $total_interestReceivables += $each_interestReceivables;
                 data: {
                     store_id: store,
                     status: _status,
+                    type: _type,
                     customer_id: _customer_id,
                 },
                 type: 'PATCH',
