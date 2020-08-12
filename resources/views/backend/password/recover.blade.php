@@ -84,7 +84,21 @@
     var input = document.querySelector("#phone");
     var test = window.intlTelInput(input, {
         separateDialCode: true,
-        // any initialisation options go here
+        initialCountry: "auto",
+        geoIpLookup: function (success) {
+            // Get your api-key at https://ipdata.co/
+            fetch("https://ipinfo.io?token={{env('GEOLOCATION_API_KEY')}}")
+                .then(function (response) {
+                    if (!response.ok) return success("");
+                    return response.json();
+                })
+                .then(function (ipdata) {
+                    success(ipdata.country);
+                }).catch(function () {
+                success("NG");
+            });
+        },
+        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/js/utils.min.js",
     });
 
     $("#phone").keyup(() => {
