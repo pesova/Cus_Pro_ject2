@@ -17,19 +17,6 @@
 
             <div class="card-body pt-0">
                 <div class="row">
-                    <div class="col-sm-4">
-                        <div class="avatar-md profile-user-wid mb-4">
-                            <object data="{{ get_profile_picture() }}" type="image/jpg"
-                                    class="img-thumbnail rounded-circle mt-2" data-toggle="modal"
-                                    data-target="#profilePhoto">
-                                <img src="/backend/assets/images/users/default.png"
-                                     class="img-thumbnail rounded-circle mt-2"
-                                     alt="Profile Picture"/>
-                            </object>
-                        </div>
-                        <h5 class="font-size-15 text-truncate">{{ Cookie::get('first_name') }}</h5>
-                        <p class="text-muted mb-0 text-truncate">{{format_role_name()}}</p>
-                    </div>
 
                     <div class="col-sm-8">
                         <div class="pt-4">
@@ -45,10 +32,7 @@
                                 </div>
                             </div>
                             <div class="mt-4">
-                                <a href="{{route('setting')}}" class="btn btn-primary waves-effect waves-light btn-sm">View
-                                    Profile
-                                    <i class="uil-arrow-right ml-1"></i>
-                                </a>
+
                             </div>
                         </div>
                     </div>
@@ -216,57 +200,8 @@
 
 <!-- products -->
 <div class="row">
-    <div class="col-xl-6">
-        <div class="card">
-            <div class="card-body pt-2">
-                <h5 class="mb-4 header-title">Recent Transactions</h5>
-                <div style="display:flex; justify-content:center; text-align:center; width:100%"
-                     class='mt-2 mb-3 trans-error'>
 
-                </div>
-
-                <div class="table-responsive mt-4 trans-table">
-
-                    <table class="table table-hover table-nowrap mb-0">
-                        <thead>
-                        <tr>
-                            <th scope="col">Store Name</th>
-
-                            <th scope="col">Type</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col"></th>
-                        </tr>
-                        </thead>
-
-                        <tbody class="my-transactionsb">
-
-                        @forelse($data->recentTransaction as $rt)
-                            <tr>
-                                <td>{{$rt->store_name}}</td>
-                                <td>{{$rt->type}}</td>
-                                <td>{{ format_money($rt->amount, $rt->currency) }}</td>
-                                <td>
-                                    <a class="btn btn-primary btn-sm"
-                                       href="{{ route('transaction.show', $rt->_id.'-'.$rt->store_ref_id.'-'.$rt->customer_ref_id) }}">View</a>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="4" class="text-center">No Recent Transaction</td>
-                            </tr>
-                        @endforelse
-                        </tbody>
-                    </table>
-                </div>
-                <!-- end table-responsive-->
-            </div>
-            <!-- end card-body-->
-        </div>
-        <!-- end card-->
-    </div>
-    <!-- end col-->
-
-    <div class="col-xl-6">
+    <div class="col-12">
         <div class="card">
             <div class="card-body pt-2">
                 <h5 class="mb-4 header-title">Latest Debts</h5>
@@ -275,38 +210,53 @@
                 </div>
 
                 <div class="debts-table">
-                    <table class="table table-hover table-nowrap mb-0 table-responsive">
+                    <table id="debtorsTable" class="table table-striped table-bordered">
                         <thead>
                         <tr>
-                            <th scope="col" width="35%">Store Name</th>
-                            <th scope="col" width="15%">Status</th>
-                            <th scope="col" width="25%">Amount</th>
-                            <th scope="col" width="25%"></th>
+                            <th>ID</th>
+                            <th>Transaction Ref ID</th>
+                            <th>Status</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Created</th>
+                            <th>Actions</th>
                         </tr>
                         </thead>
-
-                        <tbody class="my-transactionsb">
-                        @forelse($data->latestDebt as $ld)
-                            <tr>
-                                <td>{{$ld->store_name}}</td>
-                                <td>
-                                    @if($ld->status)
-                                        <span class="badge badge-success">Paid</span>
-                                    @else
-                                        <span class="badge badge-danger">Unpaid</span>
-                                    @endif
-                                </td>
-                                <td>{{ format_money($ld->amount, $ld->currency) }}</td>
-                                <td>
-                                    <a class="btn btn-primary btn-sm"
-                                       href="{{ route('debtor.show', $ld->_id) }}">View</a>
-                                </td>
-                            </tr>
-                        @empty
+                        <tbody>
+                        @if(count($data->latestDebt) > 0)
+                            @foreach ($data->latestDebt as $index => $debtor )
+                                <tr>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>
+                                        <a class=""
+                                           href="{{ route('debtor.show', $debtor->_id) }}">
+                                            {{ $debtor->_id }}
+                                        </a>
+                                    </td>
+                                    </td>
+                                    <td>
+                                        @if($debtor->status == false)
+                                            <span class="badge badge-danger">Unpaid</span>
+                                        @else
+                                            <span class="badge badge-success">Paid</span>
+                                        @endif
+                                    </td>
+                                    <td>{{ $debtor->description }}</td>
+                                    <td>{{ format_money($debtor->total_amount, $debtor->currency) }}</td>
+                                    <td> {!! app_format_date($debtor->date_recorded) !!}</td>
+                                    <td>
+                                        <a class="btn btn-info btn-small py-1 px-2"
+                                           href="{{ route('debtor.show', $debtor->_id) }}">
+                                            More
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @else
                             <tr>
                                 <td colspan="4" class="text-center">No Recent Debts</td>
                             </tr>
-                        @endforelse
+                        @endif
                         </tbody>
                     </table>
                 </div>
@@ -318,6 +268,9 @@
 
 @section("javascript")
     {{-- <script src="/backend/assets/js/pages/dashboard.js"></script> --}}
+    <script type="text/javascript"
+            src="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-html5-1.6.2/datatables.min.js">
+    </script>
     <script>
         $(document).ready(function () {
             let income_per_month = <?php echo json_encode($data->incomePerMonth);?>;
@@ -457,6 +410,27 @@
 
             var revenueChart = new ApexCharts(document.querySelector("#revenueChart"), revenueOptions);
             revenueChart.render();
+
+            var export_filename = 'Mycustomerdebts';
+            $('#debtorsTable').DataTable({
+                dom: 'frtipB',
+                buttons: [{
+                    extend: 'excel',
+                    className: 'd-none',
+                    title: export_filename,
+                }, {
+                    extend: 'pdf',
+                    className: 'd-none',
+                    title: export_filename,
+                    extension: '.pdf'
+                }]
+            });
+            $("#ExportReporttoExcel").on("click", function () {
+                $('.buttons-excel').trigger('click');
+            });
+            $("#ExportReporttoPdf").on("click", function () {
+                $('.buttons-pdf').trigger('click');
+            });
         });
 
     </script>
