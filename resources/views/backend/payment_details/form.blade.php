@@ -19,7 +19,7 @@
                 <label for="amount">Amount</label>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text">{{ $currency }}</span>
+                        <span class="input-group-text font-weight-bold">{{ Str::upper($currency) }}</span>
                     </div>
                     <input type="number" class="form-control" name="amount" id="amount" placeholder="7000">
                 </div>
@@ -32,7 +32,7 @@
             <input type="hidden" name="customer[email]" value="{{ env('APP_EMAIL') }}" />
             <input type="hidden" name="customer[phone_number]" />
             <input type="hidden" name="tx_ref" value="{{ $transactionID }}" />
-            <input type="hidden" name="currency" class="text-uppercase" value="{{ $currency }}" />
+            <input type="hidden" name="currency" class="text-uppercase" value="{{ Str::upper($currency) }}" />
             <input type="hidden" name="redirect_url" value="{{ url('/payment/callback') }}" />
             <input type="hidden" name="country" value="NG" />
             <input type="hidden" name="logo" value="{{ url('/').'/frontend/assets/images/payment/logo.svg' }}" />
