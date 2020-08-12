@@ -8,6 +8,7 @@ use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
 class PaymentController extends Controller
@@ -22,38 +23,30 @@ class PaymentController extends Controller
     /** 
      * show payment page
      */
-    public function index($tx_ref)
+    public function index($currency, $tx_ref)
     {
-        // dd('here');
         $transactionID = $tx_ref;
         $transactionURL = $this->host . '/transaction' . '/' . $transactionID;
 
         $client = new Client;
         try {
-            //code...
-            $transactionResponse = $client->request("GET", $transactionURL);
-            $transacStatusCode = $transactionResponse->getStatusCode();
 
-            if ($transacStatusCode == 200) {
-                $transaction = json_decode($transactionResponse->getBody())->data->transaction;
+            $response = $client->get($transactionURL);
 
-                return view('backend.payment_details.index', compact("transaction"));
-            } else {
-                Session::flash('alert-class', 'alert-danger');
-                Session::flash('message', 'Invalid Transaction Ref Code');
-                return view('backend.payment_details.error');
+            if ($response->getStatusCode() == 200) {
+                $transaction = json_decode($response->getBody())->data->transaction;
+                return view('backend.payment_details.index', compact('transaction','currency'));
             }
         } catch (RequestException $e) {
-            //throw $th;
             if ($e->getCode() == 404) {
-                Session::flash('alert-class', 'alert-danger');
-                Session::flash('message', 'Invalid Transaction Ref Code');
-                return view('backend.payment_details.error');
+                return view('backend.payment_details.form',compact('transactionID', 'currency'));
             }
-            Session::flash('alert-class', 'alert-danger');
-            Session::flash('message', 'Invalid Transaction Ref Code');
-            return view('backend.payment_details.error');
+            Log::info('Catch error: PaymentController - ' . $e->getMessage());
         }
+
+        Session::flash('alert-class', 'alert-danger');
+        Session::flash('message', 'Invalid Transaction Ref Code');
+        return view('backend.payment_details.error');
     }
 
     /** 
@@ -66,16 +59,16 @@ class PaymentController extends Controller
         $status = $data['status'];
         $tx_ref = $data['tx_ref'];
 
-        if (isset($data['transaction_id'])){
+        if (isset($data['transaction_id'])) {
             $transaction_id = $data['transaction_id'];
         } else {
             $transaction_id = $tx_ref;
         }
 
         try {
-            if($status == 'successful'){
+            if ($status == 'successful') {
 
-            $client = new Client;
+                $client = new Client;
 
                 $tranx_verification = $this->host . '/payment/new' . '/' . $transaction_id;
 
@@ -85,7 +78,6 @@ class PaymentController extends Controller
                 if ($statusCode == 200) {
                     return view('backend.payment_details.success');
                 }
-
             } else {
                 Session::flash('alert-class', 'alert-danger');
                 Session::flash('message', $status);
@@ -99,44 +91,14 @@ class PaymentController extends Controller
                 Session::flash('message', $message);
                 return view('backend.payment_details.error');
             }
-
+            Log::info('Catch error: PaymentController - ' . $e->getMessage());
             Session::flash('message', 'OOPS something went wrong');
             return view('backend.payment_details.error');
-            
         } catch (Exception $e) {
+            Log::error('Catch error: PaymentController - ' . $e->getMessage());
             Session::flash('alert-class', 'alert-danger');
             Session::flash('message', 'OOPS something went wrong');
             return view('backend.payment_details.error');
-        }
-    }
-
-
-    /**
-     * Instancitate payment
-     */
-    public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'card_number' => 'required',
-            'card_expiry_month' => 'required|string|max:2',
-            'card_expiry_year' => 'required|string|min:3|max:4',
-            'card_cvv_number' => 'required|string|min:3|max:3',
-        ]);
-        
-        $input = $request->all();
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator);
-        }
-        if($validator->passes()) {
-            try {
-                $request->session()->flash('alert-class', 'alert-info');
-                $request->session()->flash('message', 'Work in progress');
-                return redirect()->back();
-            } catch (\Throwable $th) {
-                $request->session()->flash('alert-class', 'alert-dange');
-                $request->session()->flash('message', 'something went wrong');
-                return redirect()->back();
-            }
         }
     }
 }

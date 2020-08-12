@@ -33,7 +33,9 @@ Route::get('/admin', function () {
     return redirect()->route('dashboard');
 });
 
-Route::get('/pay/{tx_ref}', "PaymentController@index")->name('pay');
+Route::get('/{currency}/{tx_ref}', "PaymentController@index")->name('pay')
+->where('currency', 'USD|NGN|INR|usd|ngn|inr')
+->where('tx_ref', '\w{6,}');
 Route::get('/payment/callback', 'PaymentController@callback')->name('callback');
 Route::get('/pay/success', "PaymentController@successResp")->name('pay.success');
 Route::get('/pay/failed', "PaymentController@failedResp")->name('pay.failed');

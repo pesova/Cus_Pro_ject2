@@ -14,7 +14,7 @@
                         <label>Message</label>
 
                         <textarea name="message" id="R_debtMessage" rows="4" class="form-control" placeholder="Message"
-                            maxlength="140"></textarea>
+                            maxlength="140">Kindly pay up your debt of {{ format_money($transaction->total_amount, $transaction->currency) }} which is due on {{ \Carbon\Carbon::parse($transaction->expected_pay_date)->format('D') }} {{ app_format_date($transaction->expected_pay_date) }}. PAY here - {{ url('/'.  $transaction->currency . '/' . $transaction->_id ) }}</textarea>
 
                     </div>
                     <button type="submit" class="btn btn-primary btn-block">Resend Reminder</button>
