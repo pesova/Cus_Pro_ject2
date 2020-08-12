@@ -10,11 +10,7 @@
                         </div>
                     </div>
                     <div class="col-5 align-self-end">
-                        <object data="{{ get_profile_picture() }}" type="image/jpg"
-                            class="img-thumbnail rounded-circle mt-2" data-toggle="modal" data-target="#profilePhoto">
-                            <img src="/backend/assets/images/users/default.png"
-                                class="img-thumbnail rounded-circle mt-2" alt="Profile Picture" />
-                        </object>
+                        <img src="/backend/assets/images/profile-img.png" alt="" class="img-fluid">
                     </div>
                 </div>
             </div>

@@ -67,13 +67,6 @@
     </a>
 
     <ul class="nav-second-level" aria-expanded="false">
-        <li><a href="{{ route('setting') }}">
-                <span class='seventh'> Edit Profile </span>
-            </a>
-        </li>
-        <li>
-            <a href="{{ route('assistants.index') }}">Manage Assistants</a>
-        </li>
         @if(is_super_admin())
             <li>
                 <a href="{{ route('users.index') }}">
@@ -81,5 +74,12 @@
                 </a>
             </li>
         @endif
+        <li>
+            <a href="{{ route('assistants.index') }}">Manage Assistants</a>
+        </li>
+        <li><a href="{{ route('setting') }}">
+                <span class='seventh'> Edit Profile </span>
+            </a>
+        </li>
     </ul>
 </li>
