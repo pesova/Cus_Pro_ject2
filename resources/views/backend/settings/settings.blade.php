@@ -84,9 +84,9 @@
         @include('partials.alert.message')
 
         <div class="row-justify-content-center">
-            <div class="h2"><i data-feather="file-text" class="icon-dual"></i> Settings Page</div>
+            <div class="h2"><i data-feather="file-text" class="icon-dual"></i> Edit Profile Page</div>
             <div class="row">
-                <div class="col-md-4">
+                {{--<div class="col-md-4">
                     <div class="card p-3">
                         <h4 class="line-head h5 pb-2">Personal Data</h4>
                         <div class="profile-content">
@@ -144,14 +144,14 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>--}}
 
-                <div class="col-md-8">
+                <div class="col-md-12">
                     <div class="card p-3">
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
                                 <a class="nav-link hash-candidate active edit-profile" href="#edit-profile">Edit
-                                    Profile</a>
+                                    Profile Info</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link hash-candidate change-password" href="#change-password">Change
