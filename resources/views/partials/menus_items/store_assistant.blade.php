@@ -35,3 +35,9 @@
         <span class="fourth"> Customers </span>
     </a>
 </li>
+<li>
+    <a href="{{ route('setting') }}">
+        <i class="uil  uil-cog"></i>
+        <span class ='seventh'> Edit Profile </span>
+    </a>
+</li>

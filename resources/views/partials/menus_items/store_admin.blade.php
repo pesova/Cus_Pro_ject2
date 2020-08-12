@@ -1,7 +1,7 @@
 <li>
     <a href="javascript: void(0);">
         <i class="uil uil-shop"></i>
-        <span class = 'second'> Business </span>
+        <span class='second'> Business </span>
         <span class="menu-arrow"></span>
     </a>
 
@@ -48,13 +48,38 @@
 <li>
     <a href="{{ route('broadcast.index') }}">
         <i data-feather="message-square"></i>
-        <span class ='fifth'> Broadcast Message </span>
+        <span class='fifth'> Broadcast Message </span>
     </a>
 </li>
 
 <li>
     <a href="{{ route('complaint.index') }}">
         <i data-feather="book"></i>
-        <span class ='sixth'> Complaint</span>
+        <span class='sixth'> Complaint</span>
     </a>
+</li>
+
+<li>
+    <a href="javascript: void(0);">
+        <i class="uil  uil-cog"></i>
+        <span class='seventh'> Settings </span>
+        <span class="menu-arrow"></span>
+    </a>
+
+    <ul class="nav-second-level" aria-expanded="false">
+        @if(is_super_admin())
+            <li>
+                <a href="{{ route('users.index') }}">
+                    <span> Manage Users </span>
+                </a>
+            </li>
+        @endif
+        <li>
+            <a href="{{ route('assistants.index') }}">Manage Assistants</a>
+        </li>
+        <li><a href="{{ route('setting') }}">
+                <span class='seventh'> Edit Profile </span>
+            </a>
+        </li>
+    </ul>
 </li>

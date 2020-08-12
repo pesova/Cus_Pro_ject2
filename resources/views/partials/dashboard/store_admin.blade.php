@@ -96,16 +96,17 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-6 col-sm-12">
+    <div class="col-md-12 col-sm-12">
         <div class="card">
             <div class="card-body">
-                <h6 class="card-title mb-4 float-sm-left">Paid Transaction Overview {{date('Y')}}</h6>
+                <h6 class="card-title mb-4 float-sm-left">Transaction Overview {{date('Y')}}</h6>
                 <div class="clearfix"></div>
                 <div id="transactionchart"></div>
             </div>
         </div>
     </div>
-    <div class="col-md-6 col-sm-12">
+    {{--TODO: uncomment debts chart when API returns the data for it--}}
+    {{--<div class="col-md-6 col-sm-12">
         <div class="card">
             <div class="card-body">
                 <h6 class="card-title mb-4 float-sm-left">Debts Overview {{date('Y')}}</h6>
@@ -113,7 +114,7 @@
                 <div id="debtschart"></div>
             </div>
         </div>
-    </div>
+    </div>--}}
 </div>
 
 <!-- products -->
@@ -251,9 +252,6 @@
 
             var chart = new ApexCharts(document.querySelector("#transactionchart"), options);
             chart.render();
-
-            var debtschart = new ApexCharts(document.querySelector("#debtschart"), options);
-            debtschart.render();
 
 
             var export_filename = 'Mycustomerdebts';

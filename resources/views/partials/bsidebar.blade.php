@@ -30,13 +30,6 @@
                     @include('partials.menus_items.store_assistant')
                 @endif
 
-                <li>
-                    <a href="{{ route('setting') }}">
-                        <i class="uil  uil-cog"></i>
-                        <span class ='seventh'> Settings </span>
-                    </a>
-                </li>
-
             </ul>
         </div>
         <!-- End Sidebar -->

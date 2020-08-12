@@ -84,62 +84,33 @@
         @include('partials.alert.message')
 
         <div class="row-justify-content-center">
-            <div class="h2"><i data-feather="file-text" class="icon-dual"></i> Settings Page</div>
+            <div class="h2"><i data-feather="file-text" class="icon-dual"></i> Edit Profile</div>
             <div class="row">
                 <div class="col-md-4">
                     <div class="card p-3">
-                        <h4 class="line-head h5 pb-2">Personal Data</h4>
+                        <h4 class="line-head h5 pb-2"></h4>
                         <div class="profile-content">
                             <div class="row">
-                                <div class="col-3">
-                                    @php
-                                    $profile_picture = Cookie::get('profile_picture');
-                                    $profile_picture = rtrim($profile_picture);
-                                    $profile_picture_path = str_replace(" ","/", $profile_picture);
-                                    @endphp
-                                    <object data="https://res.cloudinary.com/{{ $profile_picture_path }}"
-                                        type="image/jpg" class="avatar-sm rounded-circle mr-2">
-                                        <img src="/backend/assets/images/users/default.png"
-                                            class="avatar-sm rounded-circle mr-2" alt="Profile Picture" />
-                                    </object>
-                                </div>
-                                <div class="col-9 pt-1" style="margin-left: -25px;padding-left: 0;">
-                                @if(is_store_assistant())
-                                    <p class="mb-1">
-                                            <b>
-                                                {{ isset($user_details['name']) ? $user_details['name']: "please update your name" }}
-                                            </b>
-                                    </p>
-                                @else
-                                    <p class="mb-1">
-                                        <b>
-                                            {{ isset($user_details['first_name'])  &&  isset($user_details['last_name']) ? $user_details['first_name'] ." ". $user_details['last_name']: "please update your name" }}
-                                        </b>
-                                    </p>
-                                @endif
-                                    <p class="my-0">
-                                        {{ isset($user_details['email']) ? $user_details['email'] : "plese update your email"}}
-                                    </p>
-                                    @if ( \Cookie::get('user_role') == "store_admin")
-                                    <p class="my-1">
-                                        {{ isset($user_details['account_name']) ? $user_details['account_name'] : "plese update your your account name"}}
-                                    </p>
-                                    <p class="my-2">
-                                        {{ isset($user_details['account_number']) ? $user_details['account_number'] : "plese update your your account number"}}
-                                    </p>
-                                    <p class="my-3">
-                                        {{ isset($user_details['account_bank']) ? $user_details['account_bank'] : "plese update your bank"}}
-                                    </p>
+                                <div class="col-12">
+                                <ul class="nav nav-tabs flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link hash-candidate active edit-profile" href="#edit-profile">Edit
+                                            Profile Info</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link hash-candidate change-password" href="#change-password">Change
+                                            Password</a>
+                                    </li>
+                                    @if(Cookie::get('user_role') == 'store_admin')
+                                        <li class="nav-item">
+                                            <a class="nav-link hash-candidate finance" href="#finance">Finance</a>
+                                        </li>
                                     @endif
-                                    @php if (isset($user_details['is_active'])): @endphp
-                                    <p class="my-0 text-success">
-                                        Active
-                                    </p>
-                                    @php else: @endphp
-                                    <p class="my-0 text-danger">
-                                        Inactive
-                                    </p>
-                                    @php endif; @endphp
+                                    <li class="nav-item">
+                                        <a class="nav-link hash-candidate displaypicture" href="#displaypicture">Display
+                                            Picture</a>
+                                    </li>
+                                </ul>
                                 </div>
                             </div>
                         </div>
@@ -148,25 +119,7 @@
 
                 <div class="col-md-8">
                     <div class="card p-3">
-                        <ul class="nav nav-tabs">
-                            <li class="nav-item">
-                                <a class="nav-link hash-candidate active edit-profile" href="#edit-profile">Edit
-                                    Profile</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link hash-candidate change-password" href="#change-password">Change
-                                    Password</a>
-                            </li>
-                            @if(Cookie::get('user_role') == 'store_admin')
-                            <li class="nav-item">
-                                <a class="nav-link hash-candidate finance" href="#finance">Finance</a>
-                            </li>
-                            @endif
-                            <li class="nav-item">
-                                <a class="nav-link hash-candidate displaypicture" href="#displaypicture">Display
-                                    Picture</a>
-                            </li>
-                        </ul>
+
                         <div class="content pt-3">
                             <div id="edit-profile" class="screen hash-candidate active">
                                 <form method="POST" action="{{ route('setting') }}" class="profile-form">
