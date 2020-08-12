@@ -11,7 +11,7 @@
             <div class="row page-title">
                 <div class="col-md-12">
                     <nav aria-label="breadcrumb" class="float-right mt-1"></nav>
-                    <h4 class="mb-1 mt-0">Submit a Complaint</h4>
+                    <h4 class="mb-1 mt-0">Submit a Ticket</h4>
                 </div>
             </div>
 
@@ -19,14 +19,14 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="header-title mt-0 mb-1">Complaint Submission</h4>
+                            <h4 class="header-title mt-0 mb-1">Ticket Submission</h4>
                             <p class="sub-header">
                                 Please enter your details carefully and click send to submit your complaint
                             </p>
 
                             <form method="post" action="{{route('complaint.store')}}">
                                 @csrf
-                                <h5>Log your Complaint</h5>
+                                <h5>Log your Ticket</h5>
                                 <br/>
                                 <div class="col">
                                     <div class="form-group row">

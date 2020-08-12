@@ -23,7 +23,7 @@
                         <div class="card-body">
                             <div class="media">
                                 <div class="media-body">
-                                    <p class="text-muted font-weight-medium">Complaints</p>
+                                    <p class="text-muted font-weight-medium">Tickets</p>
                                     <h4 class="mb-0">{{count($responses->data)}}</h4>
                                 </div>
 
@@ -87,17 +87,17 @@
                                 <div class="card-body">
 
                                     <a href="{{ route('complaint.create') }}" class="btn btn-primary float-right">
-                                        Add Complaint &nbsp;<i class="fa fa-plus my-float"></i>
+                                        new Ticket &nbsp;<i class="fa fa-plus my-float"></i>
                                     </a>
-                                    <h4 class="header-title mt-0 mb-1">Complaints Submitted</h4>
+                                    <h4 class="header-title mt-0 mb-1">Tickets Submitted</h4>
                                     <p class="sub-header">
-                                        This is the list of all complaints submitted:
+                                        This is the list of all tickets submitted:
                                     </p>
                                     <table id="basic-datatable" class="table dt-responsive">
                                         <thead>
                                             <tr>
                                                 <th>S/N</th>
-                                                <th style="max-width: 120px;">Complaint ID</th>
+                                                <th style="max-width: 120px;">Ticket ID</th>
                                                 <th>Subject</th>
                                                 <th>Status</th>
                                                 <th style="min-width: 90px;">Date</th>
