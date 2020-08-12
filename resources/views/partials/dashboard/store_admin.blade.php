@@ -95,6 +95,7 @@
                         </div>
                     </div>
                 </div>
+                                
             </div>
             <div class="col-md-4">
                 <div class="card mini-stats-wid">
@@ -113,6 +114,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
             <div class="col-md-4">
                 <div class="card mini-stats-wid">
