@@ -11,12 +11,12 @@
 <div class="content">
     <div class="container-fluid">
         <div class="mb-0 d-flex justify-content-between align-items-center page-title">
-            <div class="h6"><i data-feather="file-text" class="icon-dual"></i> Transaction Center</div>
+            <div class="h6"><i data-feather="file-text" class="icon-dual"></i> Payments Center</div>
             @if(!is_store_assistant())
             <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#addTransactionModal">
                 New &nbsp;<i class="fa fa-plus my-float"></i>
             </a>
-            @include('partials.modal.addTransaction')
+            @include('partials.modal.addTransaction',['title'=>'Add New Payment','type'=>'transaction','buttonText'=>'Add Payment'])
             @endif
         </div>
 

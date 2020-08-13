@@ -80,7 +80,7 @@
                                     <p class="text-muted">Return to <a href="{{ route('logout') }}"
                                             class="text-primary font-weight-bold ml-1">Login</a>
                                     </p>
-                                    @if (App::environment('production'))
+                                    @if (!App::environment('production'))
                                     <form action="{{route('activate.verify')}}" method="POST">
                                         @csrf
                                         <p class="text-muted">
@@ -89,9 +89,10 @@
                                                 class="btn text-primary font-weight-bold ml-1">Skip for
                                                 now
                                             </button>
+                                        </p>
                                     </form>
                                     @endif
-                                    </p>
+
                                 </div> <!-- end col -->
                             </div>
                             <!-- end row -->

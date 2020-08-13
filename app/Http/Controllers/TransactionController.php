@@ -75,7 +75,7 @@ class TransactionController extends Controller
                 $transactions = [];
                 $stores = [];
 
-                return view('backend.transaction.index',  compact('transactions', 'stores', 'api_token'));
+                return view('backend.transaction.index', compact('transactions', 'stores', 'api_token'));
             }
             return view('backend.transaction.show')->with('errors.500');
         } catch (\Exception $e) {
@@ -98,7 +98,7 @@ class TransactionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function report($id)
@@ -109,7 +109,7 @@ class TransactionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -126,9 +126,10 @@ class TransactionController extends Controller
         $total_amount = (($request->input('interest') / 100) * $request->input('amount') + $request->input('amount'));
 
         if ($validator->fails()) {
-            return redirect()->route('transaction.index')->withErrors($validator);
+            return back()->withErrors($validator);
         }
 
+        $type = $request->input('type') == 'debt' ? 'Debt' : 'Transaction';
         $url = env('API_URL', 'https://dev.api.customerpay.me') . '/transaction/new';
         $client = new Client();
         $payload = [
@@ -148,25 +149,25 @@ class TransactionController extends Controller
         try {
             $response = $client->request("POST", $url, $payload);
             $request->session()->flash('alert-class', 'alert-success');
-            $request->session()->flash('message', 'Transaction successfully created');
-            return redirect()->route('transaction.index');
+            $request->session()->flash('message', "$type successfully created");
+            return back();
         } catch (ClientException    $e) {
             $statusCode = $e->getCode();
             if ($statusCode == 400) {
                 $request->session()->flash('alert-class', 'alert-danger');
                 $request->session()->flash('message', 'store or customer is not created');
-                return redirect()->route('transaction.index');
+                return back();
             }
             $request->session()->flash('alert-class', 'alert-danger');
             $request->session()->flash('message', 'an error occurred. Please try again later');
-            return redirect()->route('transaction.index');
+            return back();
         } catch (RequestException $e) {
             $response = $e->getResponse();
             $statusCode = $response->getStatusCode();
-            if ($statusCode  == 500) {
+            if ($statusCode == 500) {
                 $request->session()->flash('alert-class', 'alert-danger');
                 $request->session()->flash('message', 'Oops! something went wrong, Try Again');
-                return redirect()->route('transaction.index');
+                return back();
             }
         }
     }
@@ -174,7 +175,7 @@ class TransactionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -189,7 +190,7 @@ class TransactionController extends Controller
         $customerID = explode('-', $id)[2];
 
         $getTransUrl = $this->host . '/transaction' . '/' . $transactionID . '/' . $storeID . '/' . $customerID;
-                
+
         $storeUrl = $this->host . '/store';
         $customerUrl = $this->host . '/customer';
 
@@ -239,7 +240,7 @@ class TransactionController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -290,8 +291,8 @@ class TransactionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -345,7 +346,7 @@ class TransactionController extends Controller
         } catch (RequestException $e) {
             $res = $e->getResponse();
             $statusCode = $res->getStatusCode();
-            if ($statusCode  == 500) {
+            if ($statusCode == 500) {
                 $request->session()->flash('alert-class', 'alert-danger');
                 $request->session()->flash('message', 'Oops! something went wrong, Try Again');
                 return redirect()->route('transaction.index');
@@ -394,7 +395,7 @@ class TransactionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, $id)
