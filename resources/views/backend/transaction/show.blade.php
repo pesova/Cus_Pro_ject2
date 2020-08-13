@@ -167,11 +167,28 @@
                                                 </div>
                                                 @if($transaction->type == 'debt')
                                                 <div class="col-md-12">
-                                                    <h6 class="">Update Debt </h6>
-                                                    <a href="{{ route('markpaid', $transaction->_id) }}"
-                                                        class="mt-1 btn btn-success">
-                                                        Mark as paid <i class="feather-16" data-feather="check"></i>
-                                                    </a>
+                                                    <h6 class="">Transaction Status:
+                                                    </h6>
+                                                    <label class="switch">
+                                                        @if(Cookie::get('user_role') != 'store_assistant') disabled
+                                                        <input type="checkbox" id="togBtn"
+                                                            {{ $transaction->type == 'paid' ? 'checked' : '' }}
+                                                            data-id="{{ $transaction->_id }}"
+                                                            data-store="{{ $transaction->store_ref_id }}"
+                                                            data-customer="{{ $transaction->customer_ref_id}}">
+                                                        @else
+                                                        <input type="checkbox" id="togBtn"
+                                                            {{ $transaction->type == 'paid' ? 'checked' : '' }} disabled>
+                                                        @endif
+                                                        <div class="slider round">
+                                                            <span class="on">Paid</span><span class="off">Debt</span>
+                                                        </div>
+                                                    </label>
+                                                    <div id="statusSpiner"
+                                                        class="spinner-border spinner-border-sm text-primary d-none"
+                                                        role="status">
+                                                        <span class="sr-only">Loading...</span>
+                                                    </div>
                                                 </div>
                                                 @endif
                                             </div>
