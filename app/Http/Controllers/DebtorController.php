@@ -378,7 +378,7 @@ class DebtorController extends Controller
 
             if (($statusCode == 200 || $statusCode == 201)) {
                 $request->session()->flash('alert-class', 'alert-success');
-                $request->session()->flash('message', 'Transaction successfully updated');
+                $request->session()->flash('message', 'updated successfully');
                 return back();
             } else {
                 $request->session()->flash('alert-class', 'alert-warning');
