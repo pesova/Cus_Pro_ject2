@@ -90,7 +90,7 @@
                                                 now
                                             </button>
                                     </form>
-                                    @endiif
+                                    @endif
                                     </p>
                                 </div> <!-- end col -->
                             </div>
