@@ -26,7 +26,7 @@
                                 Send Reminder
                                 <i class="feather-16" data-feather="send"></i>
                             </a>
-                            <a href="/app/debtor" class="col-md-3 offset-1 mt-1 btn btn-sm btn-primary go-back">
+                            <a href="{{route('debtor.index')}}" class="col-md-3 offset-1 mt-1 btn btn-sm btn-primary go-back">
                                 Go Back <i class="feather-16" data-feather="arrow-left"></i>
                             </a>
                         </div>
