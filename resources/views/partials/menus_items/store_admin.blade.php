@@ -31,7 +31,7 @@
             <a href="{{ route('debtor.index') }}">Debts</a>
         </li>
         <li>
-            <a href="{{ route('transaction.index') }}">Payments</a>
+            <a href="{{ route('transaction.index') }}">Credits</a>
         </li>
     </ul>
 </li>
