@@ -54,7 +54,7 @@ class RegisterController extends Controller
         if (Cookie::get('api_token')) {
             return redirect()->route('dashboard');
         }
-        return view('backend.register.signup');
+        return view('backend.auth.signup');
     }
 
     /**

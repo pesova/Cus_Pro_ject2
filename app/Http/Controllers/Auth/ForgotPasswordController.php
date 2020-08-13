@@ -40,7 +40,7 @@ class ForgotPasswordController extends Controller
 
     public function index()
     {
-        return view('backend.password.recover');
+        return view('backend.auth.recover');
     }
 
     public function authenticate(Request $request)
@@ -61,7 +61,7 @@ class ForgotPasswordController extends Controller
                     // set alert
                     $request->session()->flash('alert-class', 'alert-success');
                     $request->session()->flash('message', 'kindly check your Phone for verification code');
-                    return view('backend.password.reset', [
+                    return view('backend.auth.reset', [
                         'data' => $data,
                         'phoneNumber' => $request->input('phone_number'), 
                     ]);
