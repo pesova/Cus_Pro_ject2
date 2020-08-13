@@ -10,6 +10,12 @@
     <div class="container-fluid">
         <div class="mb-0 d-flex justify-content-between align-items-center page-title">
             <div class="h6"><i data-feather="file-text" class="icon-dual"></i> Debtors Center</div>
+            @if(!is_store_assistant())
+                <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#addTransactionModal">
+                    New &nbsp;<i class="fa fa-plus my-float"></i>
+                </a>
+                @include('partials.modal.addTransaction',['title'=>'Add New Debt','type'=>'debt','buttonText'=>'Add Debt'])
+            @endif
         </div>
         @include('partials.alert.message')
         @if(!is_super_admin())
@@ -66,7 +72,7 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Transaction Ref ID</th>
+                                <th>Debt ID</th>
                                 <th>Status</th>
                                 <th>Description</th>
                                 <th>Amount</th>
@@ -149,6 +155,38 @@
         });
         $("#ExportReporttoPdf").on("click", function () {
             $('.buttons-pdf').trigger('click');
+        });
+
+        const token = "{{Cookie::get('api_token')}}"
+        const host = "{{ env('API_URL', 'https://dev.api.customerpay.me') }}";
+
+        $('select[name="store"]').on('change', function () {
+            var storeID = $(this).val();
+            var host = "{{ env('API_URL', 'https://dev.api.customerpay.me') }}";
+
+            if (storeID) {
+                $('select[name="customer"]').empty();
+                jQuery.ajax({
+                    url: host + "/store/" + encodeURI(storeID),
+                    type: "GET",
+                    dataType: "json",
+                    contentType: 'json',
+                    headers: {
+                        'x-access-token': token
+                    },
+                    success: function (data) {
+                        var new_data = data.data.store.customers;
+                        var i;
+                        new_data.forEach(customer => {
+                            $('select[name="customer"]').append('<option value="' +
+                                customer._id + '">' +
+                                customer.name + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('select[name="store"]').empty();
+            }
         });
     });
 
