@@ -13,7 +13,7 @@
                 <nav aria-label="breadcrumb" class="float-right mt-1">
                     <a href="/admin/store" class="btn btn-primary">Go Back</a>
                 </nav>
-                <h4 class="mt-2">Edit My Store</h4>
+                <h4 class="mt-2">Edit My Business</h4>
             </div>
         </div>
 
@@ -26,7 +26,7 @@
                     @method('PUT')
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="store name">Store Name</label>
+                            <label for="store name">Business Name</label>
                             <input type="text" name="store_name" class="form-control"
                                 value="{{old('store_name', $response->store_name)}}" placeholder="XYZ Stores" required
                                 minlength="2" maxlength="25" minlength="2">

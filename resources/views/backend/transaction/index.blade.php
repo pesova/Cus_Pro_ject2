@@ -50,7 +50,7 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Store</th>
+                                <th>Business</th>
                                 <th>Amount</th>
                                 <th>Interest</th>
                                 <th>Total Amount</th>

@@ -16,13 +16,13 @@
         <div class="card">
             <div class="card-body">
                 <p class="sub-header">
-                    Find debtors by store name
+                    Find debtors by business name
                 </p>
                 <div class="container-fluid">
                     @isset($stores)
                     <form action="{{ route('debtor.index') }}" method="GET">
                         <div class="form-group col-lg-6 mt-4">
-                            <label class="form-control-label">Store Name</label>
+                            <label class="form-control-label">Business Name</label>
                             <div class="input-group input-group-merge">
                                 <select name="store_id" class="form-control">
                                     <option value="" selected disabled>None selected</option>

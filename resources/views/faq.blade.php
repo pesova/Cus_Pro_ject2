@@ -51,7 +51,7 @@
                     <div class="card-body">
                         <p class="faq__content">CustomerPayMe is solution that helps business owners send overdue
                             invoice reminders, manage debt collection and provides a unique way of documenting sales
-                            directly from single or multiple stores</p>
+                            directly from single or multiple busineses</p>
                     </div>
                 </div>
             </div>

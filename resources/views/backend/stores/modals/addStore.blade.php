@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addStoreModalLabel">Add New Store</h5>
+                <h5 class="modal-title" id="addStoreModalLabel">Add New Business</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -14,7 +14,7 @@
                         @csrf
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="store name">Store Name*</label>
+                                <label for="store name">Business Name*</label>
                                 <input type="text" name="store_name" class="form-control"
                                     value="{{ old('store_name') }}" placeholder="XYZ Stores" required minlength="3"
                                     maxlength="16">
@@ -47,7 +47,7 @@
                                 value="{{ old('shop_address') }}" required minlength="5" maxlength="50">
                         </div>
                         <button type="submit" class="btn btn-success text-white">
-                            Create Store
+                            Create Business
                         </button>
                     </form>
                 </div>

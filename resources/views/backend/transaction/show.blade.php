@@ -140,7 +140,7 @@
                                             </div>
                                             <div class="col-md-5 row">
                                             <div class="col-md-12">
-                                                <h6 class="">Store Name:</h6>
+                                                <h6 class="">Business Name:</h6>
                                                 <p>
                                                     @if(Cookie::get('user_role') != 'store_assistant')
                                                     <a href="{{ route('store.show', $transaction->store_ref_id)}}"

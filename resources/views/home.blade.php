@@ -358,9 +358,9 @@
                             <div class="client-desc client-mt-50 testimonial__text">
                                 <p>I have been using this app for three months now and i must confess, it has really
                                     changed
-                                    the way and see and manage my stores, assistants and customers. The analytics
+                                    the way and see and manage my businesses, assistants and customers. The analytics
                                     feature gets me
-                                    the most. I never knew running multiple store could be this easy</p>
+                                    the most. I never knew running multiple business could be this easy</p>
 
                                 <h4>Angel Collins</h4>
                             </div>
@@ -376,7 +376,7 @@
                                     class="testimonial-img img-fluid">
                             </div> --}}
                             <div class="client-desc client-mt-50 testimonial__text">
-                                <p>Remotely control my stores and store assistants is a feature I have really been
+                                <p>Remotely control my businesses and business assistants is a feature I have really been
                                     looking for.
                                     I have finally found an app that meets all my needs. Thanks makers of MyCustomer</p>
 

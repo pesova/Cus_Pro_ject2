@@ -14,7 +14,7 @@
                 <a href="/admin/assistants" class="btn btn-primary">Go Back</a>
             </nav>
             <h4 class="mb-1 mt-0"><i data-feather="users" style="font-size: 5px; margin-right: 7px"></i>Edit
-                store assistant</h4>
+                business assistant</h4>
         </div>
     </div>
 
@@ -72,11 +72,11 @@
                             </div>
                         </div>
                         <div class="form-group row mb-3">
-                            <label for="number" class="col-md-2 col-sm-12 col-form-label my-label">Store:</label>
+                            <label for="number" class="col-md-2 col-sm-12 col-form-label my-label">Business:</label>
                             <br>
                             <div class="col-md-10 col-sm-12">
                                 <select name="store_id" id="store_id" class="form-control">
-                                    <option value=""> Select Store</option>
+                                    <option value=""> Select Business</option>
                                     @foreach($stores as $store)
                                     @if(is_array($store))
                                     <option value="{{$store[0]->_id}}"

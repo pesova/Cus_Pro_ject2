@@ -85,7 +85,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-lg-3 control-label">Store Name:</label>
+                                <label class="col-lg-3 control-label">Business Name:</label>
                                 <div class="col-lg-8">
                                     <select name="store_name" class="form-control" disabled required>
                                         @if ( isset($stores) )
