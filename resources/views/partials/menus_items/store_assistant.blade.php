@@ -15,10 +15,11 @@
 
     </ul>
 </li>
+
 <li>
-    <a href="{{ route('complaint.index') }}">
-        <i data-feather="book"></i>
-        <span> Complaint</span>
+    <a href="{{ route('customer.index') }}">
+        <i class='uil uil-chat-bubble-user'></i>
+        <span class="fourth"> Customers </span>
     </a>
 </li>
 
@@ -29,12 +30,14 @@
     </a>
 </li>
 
+
 <li>
-    <a href="{{ route('customer.index') }}">
-        <i class='uil uil-chat-bubble-user'></i>
-        <span class="fourth"> Customers </span>
+    <a href="{{ route('complaint.index') }}">
+        <i data-feather="book"></i>
+        <span> Support</span>
     </a>
 </li>
+
 <li>
     <a href="{{ route('setting') }}">
         <i class="uil  uil-cog"></i>

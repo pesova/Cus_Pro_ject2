@@ -11,11 +11,11 @@
         </li>
         {{---<li>
             <a href="{{ route('assistants.index') }}">Manage Store Assistant</a>
-        </li>
-        <li>
-            <a href="{{ route('debtor.index') }}">Manage Debts</a>
-        </li>---}}
-    </ul>
+</li>
+<li>
+    <a href="{{ route('debtor.index') }}">Manage Debts</a>
+</li>---}}
+</ul>
 </li>
 
 
@@ -55,7 +55,7 @@
 <li>
     <a href="{{ route('complaint.index') }}">
         <i data-feather="book"></i>
-        <span class='sixth'> Complaint</span>
+        <span class='sixth'>Support</span>
     </a>
 </li>
 
@@ -68,11 +68,11 @@
 
     <ul class="nav-second-level" aria-expanded="false">
         @if(is_super_admin())
-            <li>
-                <a href="{{ route('users.index') }}">
-                    <span> Manage Users </span>
-                </a>
-            </li>
+        <li>
+            <a href="{{ route('users.index') }}">
+                <span> Manage Users </span>
+            </a>
+        </li>
         @endif
         <li>
             <a href="{{ route('assistants.index') }}">Manage Assistants</a>
