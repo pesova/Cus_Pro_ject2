@@ -16,7 +16,8 @@
             <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#addTransactionModal">
                 New &nbsp;<i class="fa fa-plus my-float"></i>
             </a>
-            @include('partials.modal.addTransaction',['title'=>'Add New Payment','type'=>'transaction','buttonText'=>'Add Payment'])
+            @include('partials.modal.addTransaction',['title'=>'Add New
+            Payment','type'=>'transaction','buttonText'=>'Add Payment'])
             @endif
         </div>
 
@@ -49,13 +50,14 @@
                     <table id="transactionTable" class="table table-striped table-bordered" style="width:100%">
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>#</th>
                                 <th>Store</th>
+                                <th>Customer</th>
                                 <th>Amount</th>
                                 <th>Interest</th>
-                                <th>Total Amount</th>
+                                {{-- <th>Total Amount</th> --}}
                                 <th>Type</th>
-                                <th>Due</th>
+                                {{-- <th>Due</th> --}}
                                 <th>Created</th>
                                 <th>Status</th>
                                 <th style="display: none">Status</th>
@@ -81,29 +83,40 @@
                                     @endif
                                     @endif
                                 </td>
+                                <td>
+                                    @if(is_super_admin())
+                                    @if ($transaction->customer_ref_id != null)
+                                    <a
+                                        href="{{ route('customer.show', $transaction->store_ref_id->_id .'-' .$transaction->customer_ref_id->_id) }}">
+                                        {{ $transaction->customer_ref_id->name }}</a>
+                                    @endif
+                                    @else
+                                    <a
+                                        href="{{ route('customer.show', $transaction->store_ref->_id .'-' .$transaction->customer_ref->_id) }}">
+                                        {{ $transaction->customer_ref->name }}</a>
+                                    @endif
+                                </td>
                                 <td>{{ format_money($transaction->amount, $transaction->currency) }}</td>
                                 <td>{{ $transaction->interest == null ? '0' : $transaction->interest }} %</td>
-                                <td>{{ format_money($transaction->total_amount, $transaction->currency) }} </td>
                                 @if ($transaction->status)
-                                    <td id="transaction-status">Paid</td>
+                                <td id="transaction-status">Paid</td>
                                 @else
-                                    <td id="transaction-status">Debt</td>
+                                <td id="transaction-status">Debt</td>
                                 @endif
-
-                                <td>
+                                {{-- <td>
                                     {!! app_format_date($transaction->expected_pay_date, true) !!}
-                                </td>
+                                </td> --}}
                                 <td> {{ app_format_date($transaction->date_recorded) }} </td>
                                 <td>
                                     <label class="switch">
                                         @if(is_super_admin())
-                                            @if ($transaction->customer_ref_id != null)
-                                            <input class="togBtn" type="checkbox" id="togBtn"
-                                                {{ $transaction->status == true ? 'checked' : '' }}
-                                                data-id="{{ $transaction->_id }}"
-                                                data-store="{{ $transaction->store_ref_id->_id }}"
-                                                data-customer="{{ $transaction->customer_ref_id->_id}}">
-                                            @endif
+                                        @if ($transaction->customer_ref_id != null)
+                                        <input class="togBtn" type="checkbox" id="togBtn"
+                                            {{ $transaction->status == true ? 'checked' : '' }}
+                                            data-id="{{ $transaction->_id }}"
+                                            data-store="{{ $transaction->store_ref_id->_id }}"
+                                            data-customer="{{ $transaction->customer_ref_id->_id}}">
+                                        @endif
                                         @elseif (is_store_admin())
                                         <input class="togBtn" type="checkbox" id="togBtn"
                                             {{ $transaction->status == true ? 'checked' : '' }}
@@ -124,19 +137,18 @@
                                     </div>
                                 </td>
                                 <td style="display: none">{{ $transaction->status == true ? 'paid' : 'pending' }}</td>
-
                                 <td>
                                     @if(is_super_admin())
-                                        @if ($transaction->customer_ref_id != null)
-                                        <a class="btn btn-primary btn-sm py-1 px-2"
-                                            href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id->_id.'-'.$transaction->customer_ref_id->_id) }}">
-                                            More
-                                        </a>
-                                        @endif
-                                    @elseif (is_store_admin())
+                                    @if ($transaction->customer_ref_id != null)
+                                    <a class="btn btn-primary btn-sm py-1 px-2"
+                                        href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id->_id.'-'.$transaction->customer_ref_id->_id) }}">
+                                        View
+                                    </a>
+                                    @endif
+                                    @else
                                     <a class="btn btn-primary btn-sm py-1 px-2"
                                         href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id.'-'.$transaction->customer_ref_id) }}">
-                                        More
+                                        View
                                     </a>
                                     @endif
                                 </td>

@@ -62,7 +62,7 @@ class DebtorController extends Controller
 
                     foreach ($transactions as $transaction) {
 
-                        if ($transaction->type == 'debt' || $transaction->type == 'Debt' ) {
+                        if ($transaction->type == 'debt' || $transaction->type == 'Debt') {
                             $debtors[] = $transaction;
                         }
                     }
@@ -241,7 +241,7 @@ class DebtorController extends Controller
         $customerID = $request->customer_id;
         $transactionID = $request->transaction_id;
 
-        $url = env('API_URL', 'https://dev.api.customerpay.me') .'/debt'. '/send'.'/'.$storeID.'/'.$customerID.'/'.$transactionID;
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt' . '/send' . '/' . $storeID . '/' . $customerID . '/' . $transactionID;
 
         try {
             $client =  new Client();
@@ -304,7 +304,7 @@ class DebtorController extends Controller
         $customerId = $request->customer_id;
         $transactionID = $request->transaction_id;
 
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt/schedule' .'/'. $storeID .'/'. $customerId .'/'. $transactionID;
+        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/debt/schedule' . '/' . $storeID . '/' . $customerId . '/' . $transactionID;
 
         try {
             $client =  new Client();
@@ -376,9 +376,9 @@ class DebtorController extends Controller
             $body = $response->getBody();
             $data = json_decode($body);
 
-            if ($statusCode == 200  && $data->success) {
+            if (($statusCode == 200 || $statusCode == 201)) {
                 $request->session()->flash('alert-class', 'alert-success');
-                Session::flash('message', $data->message);
+                $request->session()->flash('message', 'Transaction successfully updated');
                 return back();
             } else {
                 $request->session()->flash('alert-class', 'alert-warning');

@@ -83,11 +83,11 @@
                             <label for="transaction_type" class="col-md-3 col-form-label">Transaction Type</label>
                             <div class="col-md-9">
                                 <select id="type" name="type" class="form-control">
+                                    <option value="paid" {{ old('type') == 'paid' ? 'selected' : ' ' }}>Payment</option>
                                     <option value="debt" {{ old('type') == 'debt' ? 'selected' : ' ' }}>Debt</option>
-                                    <option value="paid" {{ old('type') == 'paid' ? 'selected' : ' ' }}>Paid</option>
-                                    <option value="receivables" {{ old('type') == 'receivables' ? 'selected' : ' ' }}>
+                                    {{-- <option value="receivables" {{ old('type') == 'receivables' ? 'selected' : ' ' }}>
                                         Receivables
-                                    </option>
+                                    </option> --}}
                                 </select>
                             </div>
                         </div>
