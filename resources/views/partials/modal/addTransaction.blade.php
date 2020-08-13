@@ -42,6 +42,7 @@
                                    required min="0" value="{{ old('amount') }}">
                         </div>
                     </div>
+                    @if($type == 'debt')
                     <div class="form-group row mb-3">
                         <label for="interest" class="col-md-3 col-form-label">Interest</label>
                         <div class="col-md-9">
@@ -49,7 +50,7 @@
                                    value="{{ old('interest') }}">
                         </div>
                     </div>
-
+                    @endif
                     <div class="form-group row mb-3">
                         <label for="description" class="col-md-3 col-form-label">Description</label>
                         <div class="col-md-9">
@@ -58,7 +59,7 @@
                             <p class="charNum m-0 p-0 h6 text-capitalize"></p>
                         </div>
                     </div>
-
+                    @if($type == 'debt')
                     <div class="form-group row mb-3">
                         <label for="pay_date" class="col-md-3 col-form-label">Expected Pay Date</label>
                         <div class="col-md-9">
@@ -66,7 +67,7 @@
                                    min="2019-02-06" value="{{ old('expected_pay_date') }}">
                         </div>
                     </div>
-
+                    @endif
                     <div class="form-group row mb-3">
                         <label for="customer" class="col-md-3 col-form-label">Customer</label>
                         <div class="col-md-9">
@@ -83,11 +84,11 @@
                             <label for="transaction_type" class="col-md-3 col-form-label">Transaction Type</label>
                             <div class="col-md-9">
                                 <select id="type" name="type" class="form-control">
+                                    <option value="paid" {{ old('type') == 'paid' ? 'selected' : '' }}>Payment</option>
                                     <option value="debt" {{ old('type') == 'debt' ? 'selected' : ' ' }}>Debt</option>
-                                    <option value="paid" {{ old('type') == 'paid' ? 'selected' : ' ' }}>Paid</option>
-                                    <option value="receivables" {{ old('type') == 'receivables' ? 'selected' : ' ' }}>
+                                    {{-- <option value="receivables" {{ old('type') == 'receivables' ? 'selected' : ' ' }}>
                                         Receivables
-                                    </option>
+                                    </option> --}}
                                 </select>
                             </div>
                         </div>

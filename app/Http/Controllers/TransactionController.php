@@ -334,7 +334,7 @@ class TransactionController extends Controller
 
             $res = $client->request("PATCH", $url, $payload);
             $request->session()->flash('alert-class', 'alert-success');
-            $request->session()->flash('message', 'Transaction successfully updated');
+            $request->session()->flash('message', 'successfully updated');
             return redirect()->back();
         } catch (ClientException $e) {
             $statusCode = $e->getCode();
