@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="{{ asset('backend/assets/css/store_list.css') }}">
 
 <style>
-    #editphone{
+    #editphone, #phone {
         padding-left: 89px !important;
     }
 </style>

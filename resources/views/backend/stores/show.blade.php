@@ -291,7 +291,7 @@ $total_interestReceivables += $each_interestReceivables;
                                 <th>{{ $customer->name }}<span class="co-name">
                                 </th>
                                 <td class="font-light">{{ $customer->phone_number}}</td>
-                                @if ($transaction->status)
+                                @if ($transaction->type == 'paid')
                                     <td id="transaction-status">Paid</td>
                                 @else
                                     <td id="transaction-status">Debt</td>
@@ -301,13 +301,13 @@ $total_interestReceivables += $each_interestReceivables;
                                     <label class="switch">
                                         @if(Cookie::get('user_role') != 'store_assistant') disabled
                                         <input class="togBtn" type="checkbox" id="togBtn"
-                                            {{ $transaction->status == true ? 'checked' : '' }}
+                                            {{ $transaction->type == 'paid' ? 'checked' : '' }}
                                             data-id="{{ $transaction->_id }}"
                                             data-store="{{ $transaction->store_ref_id }}"
                                             data-customer="{{ $transaction->customer_ref_id}}">
                                         @else
                                         <input type="checkbox" id="togBtn"
-                                            {{ $transaction->status == true ? 'checked' : '' }} disabled>
+                                            {{ $transaction->type == 'paid' ? 'checked': '' }} disabled>
                                         @endif
                                         <div class="slider round">
                                             <span class="on">Paid</span><span class="off">Pending</span>
@@ -468,7 +468,7 @@ $total_interestReceivables += $each_interestReceivables;
             var store = $(this).data('store');
             let _status = $(this).is(':checked') ? 1 : 0;
             let _customer_id = $(this).data('customer');
-            let _type = $(this).is(':checked') ? 'Paid' : 'Debt';
+            let _type = $(this).is(':checked') ? 'paid' : 'debt';
             let tr = $(this).parents('tr').find('#transaction-status');
 
             $(this).is(':checked') ? tr.html('Paid') : tr.html('Debt');

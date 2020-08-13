@@ -25,7 +25,7 @@
                                     @if($transaction->status != true && $transaction->type == 'debt')
                                     <a href="" data-toggle="modal" data-target="#sendReminderModal"
                                         class="col-md-3 offset-1 mt-1 btn btn-sm btn-warning">
-                                        Send Debt Reminder <i data-feather="send"></i>
+                                        Send Reminder <i data-feather="send"></i>
                                     </a>
                                     @endif
                                     @if(Cookie::get('user_role') == 'store_admin')
@@ -105,10 +105,21 @@
 
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-6">
-                                        <h6 class="mt-0 ">Description</h6>
-                                        <textarea name="" readonly id="" cols="auto" rows="3" sty
-                                            class="form-control w-100 flex-1">{{ $transaction->description }}</textarea>
+                                    <div class="col-md-6 row">
+                                        @if($transaction->type == 'debt')
+                                        <div class="col-12">
+                                            <span class="mb-0 font-size-18 font-weight-bolder">Expected Payment Date:</span>
+                                            <span>
+                                                {{ \Carbon\Carbon::parse($transaction->expected_pay_date)->format('Y-m-d') }} 
+                                                <span class="ml-2 font-size-16">{!! app_format_date($transaction->expected_pay_date, true) !!}</span>
+                                            </span>
+                                        </div>
+                                        @endif
+                                        <div class=" col-12">
+                                            <h6 class="mt-1">Description</h6>
+                                            <textarea name="" readonly id="" cols="auto" rows="3" sty
+                                                class="form-control w-100 flex-1">{{ $transaction->description }}</textarea>
+                                        </div>
                                     </div>
 
                                     <div class="col-md-6">
@@ -121,7 +132,9 @@
                                                         <tbody>
                                                             <tr>
                                                                 <th scope="row">Amount</th>
-                                                                <td colspan="2">{{ format_money($transaction->amount, $transaction->currency) }}</td>
+                                                                <td colspan="2">
+                                                                    {{ format_money($transaction->amount, $transaction->currency) }}
+                                                                </td>
                                                             </tr>
                                                             <tr>
                                                                 <th scope="row">Interest</th>
@@ -145,40 +158,38 @@
                                                     @if(Cookie::get('user_role') != 'store_assistant')
                                                     <a href="{{ route('store.show', $transaction->store_ref_id)}}"
                                                         class="mr-2 text-uppercase">
+
                                                         {{ $transaction->store_ref->store_name }}
-                                                    </a>
-                                                    @else
-                                                    {{ $transaction->store_ref->store_name }}
-                                                    @endif
-                                                </p>
-                                            </div>
-
-                                            <div class="col-md-12">
-                                                <h6 class="">Transaction Status:
-                                                </h6>
-                                                <label class="switch">
-                                                    @if(Cookie::get('user_role') != 'store_assistant') disabled
-                                                    <input type="checkbox" id="togBtn"
-                                                        {{ $transaction->status == true ? 'checked' : '' }}
-                                                        data-id="{{ $transaction->_id }}"
-                                                        data-store="{{ $transaction->store_ref_id }}"
-                                                        data-customer="{{ $transaction->customer_ref_id}}">
-                                                    @else
-                                                    <input type="checkbox" id="togBtn"
-                                                        {{ $transaction->status == true ? 'checked' : '' }} disabled>
-                                                    @endif
-
-                                                    <div class="slider round">
-                                                        <span class="on">Paid</span><span class="off">Pending</span>
-                                                    </div>
-                                                </label>
-                                                <div id="statusSpiner"
-                                                    class="spinner-border spinner-border-sm text-primary d-none"
-                                                    role="status">
-                                                    <span class="sr-only">Loading...</span>
+                                                        @endif
+                                                    </p>
                                                 </div>
+                                                @if($transaction->type == 'debt')
+                                                <div class="col-md-12">
+                                                    <h6 class="">Transaction Status:
+                                                    </h6>
+                                                    <label class="switch">
+                                                        @if(Cookie::get('user_role') != 'store_assistant') disabled
+                                                        <input type="checkbox" id="togBtn"
+                                                            {{ $transaction->type == 'paid' ? 'checked' : '' }}
+                                                            data-id="{{ $transaction->_id }}"
+                                                            data-store="{{ $transaction->store_ref_id }}"
+                                                            data-customer="{{ $transaction->customer_ref_id}}">
+                                                        @else
+                                                        <input type="checkbox" id="togBtn"
+                                                            {{ $transaction->type == 'paid' ? 'checked' : '' }} disabled>
+                                                        @endif
+                                                        <div class="slider round">
+                                                            <span class="on">Paid</span><span class="off">Debt</span>
+                                                        </div>
+                                                    </label>
+                                                    <div id="statusSpiner"
+                                                        class="spinner-border spinner-border-sm text-primary d-none"
+                                                        role="status">
+                                                        <span class="sr-only">Loading...</span>
+                                                    </div>
+                                                </div>
+                                                @endif
                                             </div>
-                                        </div>
                                         </div>
                                     </div>
                                 </div>
@@ -190,10 +201,9 @@
             {{-- end --}}
 
             <div class="card mt-0">
-                <div class="card-header">
-                    <div class="">History: Debt Reminder Messages</div>
-                </div>
                 <div class="card-body">
+                    <h6 class="">Debt Reminder History</h6>
+                    <hr />
                     <div class="table-responsive table-data">
                         <table id="debtReminders" class="table table-striped table-bordered" style="width:100%">
                             <thead>
