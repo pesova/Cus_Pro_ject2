@@ -73,7 +73,7 @@
                                             <h5 class="font-size-15">
                                                 {{-- doug - we need to specify currency concerned --}}
                                                 {{ format_money($result->total_revenue) }}</h5>
-                                            <p class="text-muted mb-0">Revenue</p>
+                                            <p class="text-muted mb-0">Payments</p>
                                         </div>
                                     </div>
                                     @if(is_store_admin())
@@ -107,8 +107,7 @@
                                                             </button>
                                                         </form>
                                                         <button type="button" class="btn btn-secondary"
-                                                            data-dismiss="modal">No,
-                                                            I changed my mind
+                                                            data-dismiss="modal">Cancel
                                                         </button>
                                                     </div>
                                                 </div>
@@ -147,7 +146,6 @@
                 <!-- end card -->
 
             </div>
-
             <div class="col-xl-8">
                 <div class="row">
 
@@ -157,12 +155,31 @@
                                 <div class="media">
                                     <div class="media-body" data-toggle="tooltip" data-placement="bottom"
                                         title="Total amount includes interest">
-                                        <p class="text-muted font-weight-medium">Debt</p>
+                                        <p class="text-muted font-weight-medium">Total Debts</p>
                                         {{-- we need to calculate by currency --}}
                                         <h4 class="mb-0">{{ format_money($result->total_debt ) }}</h4>
                                     </div>
 
-                                    <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
+                                    <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-warning">
+                                        <span class="avatar-title">
+                                            <i class="uil-atm-card font-size-14"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card mini-stats-wid">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <p class="text-muted font-weight-medium">Total Payments</p>
+                                        {{-- we need to calculate by currency --}}
+                                        <h4 class="mb-0">{{ format_money($result->total_revenue ) }}</h4>
+                                    </div>
+
+                                    <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-success">
                                         <span class="avatar-title">
                                             <i class="uil-atm-card font-size-14"></i>
                                         </span>
