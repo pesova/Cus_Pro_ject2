@@ -327,7 +327,7 @@
 
 </script>
 {{-- @if ( Cookie::get('is_first_time_user') == true) --}}
-<script>
+{{-- <script>
     var customer_intro_shown = localStorage.getItem('customer_intro_shown');
 
         if (!customer_intro_shown) {
@@ -363,6 +363,6 @@
             tour.start();
             localStorage.setItem('customer_intro_shown', 1);
         }
-</script>
+</script> --}}
 {{-- @endif --}}
 @stop

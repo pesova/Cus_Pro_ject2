@@ -334,7 +334,7 @@
     });
 </script>
  {{-- @if ( Cookie::get('is_first_time_user') == true) --}}
-    <script>
+  {{-- <script>
         var broadcast_intro_shown = localStorage.getItem('broadcast_intro_shown');
 
         if (!broadcast_intro_shown) {
@@ -370,6 +370,6 @@
             tour.start();
             localStorage.setItem('broadcast_intro_shown', 1);
         }
-    </script>
+    </script> --}}
     {{-- @endif --}}
 @stop

@@ -205,7 +205,7 @@
 <!-- Datatables init -->
 <script src="/backend/assets/js/pages/datatables.init.js"></script>
 {{-- @if (\Illuminate\Support\Facades\Cookie::get('is_first_time_user') == true) --}}
-<script>
+{{-- <script>
     var complaints_intro_shown = localStorage.getItem('complaints_intro_shown');
 
     if (!complaints_intro_shown) {
@@ -241,6 +241,6 @@
         tour.start();
         localStorage.setItem('complaints_intro_shown', 1);
     }
-</script>
+</script> --}}
 {{-- @else --}}
 @stop

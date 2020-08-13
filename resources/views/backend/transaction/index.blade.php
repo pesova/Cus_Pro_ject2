@@ -296,7 +296,7 @@
 
 </script>
 {{-- @if ( Cookie::get('is_first_time_user') == true) --}}
-<script>
+{{-- <script>
     var transaction_intro_shown = localStorage.getItem('transaction_intro_shown');
 
     if (!transaction_intro_shown) {
@@ -333,6 +333,6 @@
         localStorage.setItem('transaction_intro_shown', 1);
     }
 
-</script>
+</script> --}}
 {{-- @endif --}}
 @stop

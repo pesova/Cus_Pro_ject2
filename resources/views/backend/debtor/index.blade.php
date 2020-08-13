@@ -154,7 +154,7 @@
 
 </script>
 
-<script>
+{{-- <script>
     var debtors_intro_shown = localStorage.getItem('debtors_intro_shown');
 
     if (!debtors_intro_shown) {
@@ -177,6 +177,6 @@
         localStorage.setItem('debtors_intro_shown', 1);
     }
 
-</script>
+</script> --}}
 {{-- @else --}}
 @stop
