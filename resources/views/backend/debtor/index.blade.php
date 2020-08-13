@@ -9,7 +9,7 @@
 <div class="content">
     <div class="container-fluid">
         <div class="mb-0 d-flex justify-content-between align-items-center page-title">
-            <div class="h6"><i data-feather="file-text" class="icon-dual"></i> Debtors Center</div>
+            <div class="h6"><i data-feather="file-text" class="icon-dual"></i> Debts Center</div>
             @if(!is_store_assistant())
                 <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#addTransactionModal">
                     New &nbsp;<i class="fa fa-plus my-float"></i>
@@ -22,7 +22,7 @@
         <div class="card">
             <div class="card-body">
                 <p class="sub-header">
-                    Find debtors by business name
+                    Find debts by business name
                 </p>
                 <div class="container-fluid">
                     @isset($stores)
@@ -38,7 +38,7 @@
                                     @endforeach
                                 </select>
                                 <button type="search" class="mx-2 btn btn-primary">Search</button>
-                                <a href="{{ route('debtor.index') }}" class="btn btn-primary">All Debtors</a>
+                                <a href="{{ route('debtor.index') }}" class="btn btn-primary">All Debts</a>
                             </div>
                         </div>
                     </form>

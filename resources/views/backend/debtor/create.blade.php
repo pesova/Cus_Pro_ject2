@@ -15,7 +15,7 @@
                                     Go Back {{-- &nbsp;<i class="fa fa-plus my-float"></i> --}}
                                 </a>
                                 <div class="card mb-3 mt-5 creditor-card">
-                                    <h4 class="pl-3 float-left text-white"> Add Debtor Page</h4>
+                                    <h4 class="pl-3 float-left text-white"> Add Debt Page</h4>
                                 </div>
                                 
                                 <div class="card">

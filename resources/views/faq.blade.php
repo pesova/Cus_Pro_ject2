@@ -355,7 +355,7 @@
                     <button class="faq__btn collapsed" type="button" data-toggle="collapse"
                         data-target="#questionTwentythree" aria-expanded="false" aria-controls="questionTwentythree">
                         <h2 class="faq__title mb-0">
-                            How do I know who is on my list of debtors?
+                            How do I know who is on my list of debts?
                         </h2>
                         <i class="fas fa-angle-up"></i>
                     </button>
