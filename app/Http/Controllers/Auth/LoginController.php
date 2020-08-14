@@ -135,7 +135,6 @@ class LoginController extends Controller
                     if ($data->is_active == false) {
                         return redirect()->route('activate.index');
                     }
-                    return redirect()->route('select');
                 } else {
                     $request->session()->flash('message', 'Invalid Credentials');
                     return redirect()->route('login');
@@ -158,10 +157,11 @@ class LoginController extends Controller
                 }
             }
             // check for 500 server error
+            dd($e);
             return view('errors.500');
         } catch (\Exception $e) {
             //log error;
-
+dd($e);
             Log::error('Catch error: LoginController - ' . $e->getMessage());
             return view('errors.500');
         }
