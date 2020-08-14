@@ -51,7 +51,7 @@
                                     @else
                                     <h5 class="text-primary">{{ $customer->storeName }}</h5>
                                     @endif
-                                    <p>Store Name</p>
+                                    <p>Business Name</p>
                                 </div>
                             </div>
                             <div class="col-5 align-self-end">

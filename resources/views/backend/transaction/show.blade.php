@@ -152,15 +152,13 @@
 
                                             </div>
                                             <div class="col-md-5 row">
-                                                <div class="col-md-12">
-                                                    <h6 class="">Store Name</h6>
-                                                    <p>
-                                                        @if(Cookie::get('user_role') != 'store_assistant')
-                                                        <a href="{{ route('store.show', $transaction->store_ref_id)}}"
-                                                            class="mr-2 text-uppercase">
-                                                            {{ $transaction->store_ref->store_name }}
-                                                        </a>
-                                                        @else
+                                            <div class="col-md-12">
+                                                <h6 class="">Business Name:</h6>
+                                                <p>
+                                                    @if(Cookie::get('user_role') != 'store_assistant')
+                                                    <a href="{{ route('store.show', $transaction->store_ref_id)}}"
+                                                        class="mr-2 text-uppercase">
+
                                                         {{ $transaction->store_ref->store_name }}
                                                         @endif
                                                     </p>

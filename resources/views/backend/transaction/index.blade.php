@@ -50,8 +50,9 @@
                     <table id="transactionTable" class="table table-striped table-bordered" style="width:100%">
                         <thead>
                             <tr>
+
                                 <th>#</th>
-                                <th>Store</th>
+                                <th>Business</th>
                                 <th>Customer</th>
                                 <th>Amount</th>
                                 <th>Interest</th>

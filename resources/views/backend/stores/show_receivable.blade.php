@@ -18,7 +18,7 @@
         <nav aria-label="breadcrumb" class="float-right mt-1">
             <a href="{{ url()->previous() }}" class="btn btn-primary go-back">Go Back</a>
         </nav>
-        <h4 class="mt-2">My Store</h4>
+        <h4 class="mt-2">My Business</h4>
     </div>
 </div>
 

@@ -92,7 +92,7 @@ $total_interestReceivables += $each_interestReceivables;
             data-store_address="{{$store->shop_address}}"
             data-store_phone_full="{{$store->phone_number}}"
             class="mr-3 btn btn-primary float-right btn-sm">
-                Edit Store
+                Edit Business
             </a>
             {{-- Delete Store Modal --}}
             @include('backend.stores.modals.deleteStore')
@@ -101,7 +101,7 @@ $total_interestReceivables += $each_interestReceivables;
             @include('backend.stores.modals.editStore')
         </nav>
         {{-- @endif --}}
-        <h4 class="mt-2">My Store</h4>
+        <h4 class="mt-2">My Business</h4>
     </div>
 </div>
 

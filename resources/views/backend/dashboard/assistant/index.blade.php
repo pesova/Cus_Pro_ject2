@@ -16,7 +16,7 @@
             <div class="card-body p-2">
                 <div class="d-flex justify-content-between px-4 py-2 border-bottom align-items-center">
                     <div>
-                        <h4 class="card-title">Store Assistant Dashboard</h4>
+                        <h4 class="card-title">Business Assistant Dashboard</h4>
                     </div>
                 </div>
                 <div class="d-flex justify-content-between p-3">
@@ -25,7 +25,7 @@
                             <i data-feather="grid" class="align-self-center icon-dual icon-sm mr-2"></i>
                             <div class="media-body">
                                 <h5 class="mt-0 mb-0">{{ $assistant->store->store_name }}</h5>
-                                <span class="text-muted font-size-13">Store</span>
+                                <span class="text-muted font-size-13">Business</span>
                             </div>
                         </div>
                     </div>
@@ -208,7 +208,7 @@
                         </div>
                     </div>
                     <div class="form-group row mb-3">
-                        <label for="inputPassword3" class="col-3 col-form-label">Store Name</label>
+                        <label for="inputPassword3" class="col-3 col-form-label">Business Name</label>
                         <div class="col-9">
                             <!-- <input type="text" class="form-control" id="inputPassword3" placeholder="Store name"
                                 name="store_name"> -->

@@ -42,11 +42,11 @@
                     </div>
 
                     <div class="form-group row mb-2">
-                        <label for="number" class="col-md-3 col-form-label my-label">Store:</label>
+                        <label for="number" class="col-md-3 col-form-label my-label">Business:</label>
                         <br>
                         <div class="col-md-9">
                             <select name="store_id" id="store_id" class="form-control">
-                                <option value=""> Select Store</option>
+                                <option value=""> Select Business</option>
                                 @foreach($stores as $store)
                                 @if(is_array($store))
                                 <option value="{{$store[0]->_id}}">{{$store[0]->store_name}}</option>
