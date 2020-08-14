@@ -54,7 +54,7 @@
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Tel</th>
-                                <th>Store Name</th>
+                                <th>Business Name</th>
                                 <th>Actions</th>
                             </tr>
                         <tbody>
@@ -122,7 +122,7 @@
                         </div>
                     </div>
                     <div class="form-group row mb-3">
-                        <label for="inputPassword3" class="col-3 col-form-label">Store Name</label>
+                        <label for="inputPassword3" class="col-3 col-form-label">Business Name</label>
                         <div class="col-9">
                             <!-- <input type="text" class="form-control" id="inputPassword3" placeholder="Store name"
                                         name="store_name"> -->
@@ -133,7 +133,7 @@
                                 <option value="{{$store->_id}}">{{$store->store_name}}</option>
                                 @endforeach
                                 @else
-                                <option disabled selected value="">-- You have not registered a store yet
+                                <option disabled selected value="">-- You have not registered a business yet
                                     --
                                 </option>
                                 @endif

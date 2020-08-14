@@ -41,7 +41,7 @@
                             <form action="{{ route('broadcast.store') }}" method="post" class="col-12">
                                 @csrf
                                 <div class="form-group">
-                                    <label>Store</label>
+                                    <label>Business</label>
                                     <select class="form-control col-12" name="store" id="store" required>
                                         <option value="" selected disabled>None selected</option>
                                         @if ( \Cookie::get('user_role') == "super_admin")

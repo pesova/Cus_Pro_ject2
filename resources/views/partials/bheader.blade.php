@@ -62,7 +62,7 @@
 
                             <a href="{{ route('setting') }}" class="dropdown-item notify-item">
                                 <i data-feather="user" class="icon-dual icon-xs mr-2"></i>
-                                <span>My Account</span>
+                                <span>Edit Profile</span>
                             </a>
 
                             <div class="dropdown-divider"></div>

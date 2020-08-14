@@ -84,7 +84,9 @@
             @include('partials.alert.message')
 
             <div class="row-justify-content-center">
-                <div class="h2"><i data-feather="file-text" class="icon-dual"></i> Edit Profile</div>
+                <div>
+                    <h4 class=""><i data-feather="user" class="icon-dual"></i> Edit Profile</h4>
+                </div>
                 <div class="row">
                     <div class="col-md-4">
                         <div class="card p-3">

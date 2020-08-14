@@ -55,7 +55,7 @@
                     </div>
 
                     <div class="form-group row mb-3">
-                        <label for="store" class="col-3 col-form-label">Store</label>
+                        <label for="store" class="col-3 col-form-label">Business</label>
                         <div class="col-9">
                             <select name="store" class="form-control">
                                 @foreach($stores as $store)

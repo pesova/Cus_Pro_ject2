@@ -15,7 +15,7 @@
                                     Go Back {{-- &nbsp;<i class="fa fa-plus my-float"></i> --}}
                                 </a>
                                 <div class="card mb-3 mt-5 creditor-card">
-                                    <h4 class="pl-3 float-left text-white"> Add Debtor Page</h4>
+                                    <h4 class="pl-3 float-left text-white"> Add Debt Page</h4>
                                 </div>
                                 
                                 <div class="card">
@@ -50,7 +50,7 @@
                                                 </div>--}}
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label for="phonenumber">Store Name</label>
+                                                        <label for="phonenumber">Business Name</label>
                                                         <select name="" class="form-control">
                                                             @foreach ($response as $index => $store )
                                                                 <option value="{{ $store->store_name }}">{{ $store->store_name }}</option>

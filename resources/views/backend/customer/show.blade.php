@@ -51,7 +51,7 @@
                                     @else
                                     <h5 class="text-primary">{{ $customer->storeName }}</h5>
                                     @endif
-                                    <p>Store Name</p>
+                                    <p>Business Name</p>
                                 </div>
                             </div>
                             <div class="col-5 align-self-end">
@@ -150,25 +150,7 @@
 
             <div class="col-xl-8">
                 <div class="row">
-                    <div class="col-md-4">
-                        <div class="card mini-stats-wid">
-                            <div class="card-body">
-                                <div class="media">
-                                    <div class="media-body">
-                                        <p class="text-muted font-weight-medium">Revenue</p>
-                                        {{-- doug - we need to calculate by currency --}}
-                                        <h4 class="mb-0">{{ format_money($result->total_revenue ) }}</h4>
-                                    </div>
 
-                                    <div class="mini-stat-icon avatar-sm align-self-center rounded-circle bg-primary">
-                                        <span class="avatar-title">
-                                            <i class="uil-atm-card font-size-14"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="col-md-4">
                         <div class="card mini-stats-wid">
                             <div class="card-body">
@@ -189,25 +171,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="card mini-stats-wid">
-                            <div class="card-body">
-                                <div class="media">
-                                    <div class="media-body">
-                                        <p class="text-muted font-weight-medium">Receivables</p>
-                                        {{-- doug - we need to calculate by currency --}}
-                                        <h4 class="mb-0">{{ format_money($result->total_receivables) }}</h4>
-                                    </div>
 
-                                    <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
-                                        <span class="avatar-title">
-                                            <i class="uil-atm-card font-size-14"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 <div class="card">

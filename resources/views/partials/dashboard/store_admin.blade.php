@@ -24,7 +24,7 @@
                             </div>
                             <div class="col-6">
                                 <h5 class="font-size-15">{{ $data->storeCount }}</h5>
-                                <p class="text-muted mb-0">Store(s)</p>
+                                <p class="text-muted mb-0">Business(es)</p>
                             </div>
                         </div>
                     </div>

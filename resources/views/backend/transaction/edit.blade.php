@@ -64,7 +64,7 @@
                                         </div>
                                     </div>
                                      <div class="form-group row mb-3">
-                                        <label for="store_name" class="col-3 col-form-label">Store Name</label>
+                                        <label for="store_name" class="col-3 col-form-label">Business Name</label>
                                         <div class="col-9">
                                             <input type="text" class="form-control" id="store_name" name="store_name" value="" placeholder="Store Name">
                                         </div>

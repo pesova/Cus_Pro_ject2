@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>CustomerPayMe - Welcome</title>
+    <title>CustomerPayMe</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta
         content="An easy to use web app that helps you record and track daily transactions, Send debt reminders and send offers to your customers"

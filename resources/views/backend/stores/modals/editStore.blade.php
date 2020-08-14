@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editStoreModalLabel">Edit Store</h5>
+                <h5 class="modal-title" id="editStoreModalLabel">Edit Business</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -15,7 +15,7 @@
                         @method('PUT')
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="edit_store_name">Store Name*</label>
+                                <label for="edit_store_name">Business Name*</label>
                                 <input type="text" name="edit_store_name" class="form-control"
                                      placeholder="XYZ Stores" id="edit_store_name"
                                     required minlength="2" maxlength="16">
@@ -55,7 +55,7 @@
                                 maxlength="50">
                         </div>
                         <button type="submit" class="btn btn-success text-white">
-                            Update Store
+                            Update Business
                         </button>
                     </form>
                 </div>

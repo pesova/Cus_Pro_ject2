@@ -51,7 +51,7 @@
                     <div class="card-body">
                         <p class="faq__content">CustomerPayMe is solution that helps business owners send overdue
                             invoice reminders, manage debt collection and provides a unique way of documenting sales
-                            directly from single or multiple stores</p>
+                            directly from single or multiple busineses</p>
                     </div>
                 </div>
             </div>
@@ -355,7 +355,7 @@
                     <button class="faq__btn collapsed" type="button" data-toggle="collapse"
                         data-target="#questionTwentythree" aria-expanded="false" aria-controls="questionTwentythree">
                         <h2 class="faq__title mb-0">
-                            How do I know who is on my list of debtors?
+                            How do I know who is on my list of debts?
                         </h2>
                         <i class="fas fa-angle-up"></i>
                     </button>

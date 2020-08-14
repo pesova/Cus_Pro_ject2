@@ -32,7 +32,7 @@
                                                 <img src="{{ ('/frontend/assets/images/fulllogo.png') }}" alt
                                                     class="img img-fluid" /> </a>
                                         </div>
-                                        <h3 class="h3 mb-0 mt-4 text-center">Register</h3>
+                                        <h3 class="h3 my-4 text-center">Register</h3>
 
                                         <form action="{{route('register')}}" class="authentication-form" method="POST"
                                             id="submitForm">
@@ -73,7 +73,7 @@
 
                         <div class="row mt-3">
                             <div class="col-12 text-center">
-                                <p class="text-muted">Back to <a href="{{ route('login') }}"
+                                <p class="text-muted">Already have an account? <a href="{{ route('login') }}"
                                         class="text-primary font-weight-bold ml-1">Login</a>
                                 </p>
                             </div> <!-- end col -->
