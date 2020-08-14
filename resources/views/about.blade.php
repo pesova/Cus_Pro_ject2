@@ -175,18 +175,17 @@
 
     <div class="container">
         <section id="about-collage">
-            <div class="about-collage-images">
-                <img id="collage_1" src="/frontend/assets/images/collage_1.svg" alt="collage_1">
-
-                <img id="collage_4" src="/frontend/assets/images/collage_4.svg" alt="collage_4">
+        <div class="about-collage-images">
+                <img id="collage_2" src="/frontend/assets/images/collage_4.jpg" alt="collage_2">
+                <img id="collage_5" src="/frontend/assets/images/collage_6.jpg" alt="collage_5">
             </div>
             <div class="about-collage-images">
-                <img id="collage_2" src="/frontend/assets/images/collage_2.svg" alt="collage_2">
-                <img id="collage_5" src="/frontend/assets/images/collage_5.svg" alt="collage_5">
+                <img id="collage_2" src="/frontend/assets/images/collage_2.jpg" alt="collage_2">
+                <img id="collage_5" src="/frontend/assets/images/collage_1.jpg" alt="collage_5">
             </div>
             <div class="about-collage-images">
-                <img id="collage_3" src="/frontend/assets/images/collage_3.svg" alt="collage_3">
-                <img id="collage_6" src="/frontend/assets/images/collage_6.svg" alt="collage_6">
+                <img id="collage_2" src="/frontend/assets/images/collage_3.jpg" alt="collage_2">
+                <img id="collage_5" src="/frontend/assets/images/collage_5.jpg" alt="collage_5">
             </div>
         </section>
     </div>
