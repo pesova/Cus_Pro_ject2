@@ -104,12 +104,12 @@
                     <div class="form-group row mb-3">
                         <label for="inputphone" class="col-3 col-form-label">Phone Number</label>
                         <div class="col-9">
-                            <input type="tel" class="form-control" id="phone" placeholder="Phone Number"
-                                aria-describedby="helpPhone" name="" required pattern=".{6,16}"
+                            <input type="tel" class="form-control" id="phone"
+                                aria-describedby="helpPhone" name="" required pattern=".{5,16}"
                                 title="Phone number must be between 6 to 16 characters">
                             <input type="hidden" name="phone_number" id="phone_number" class="form-control">
                             <small id="helpPhone" class="form-text text-muted">Enter phone number without the
-                                starting 0.
+                                country code
                             </small>
                         </div>
                     </div>
@@ -292,6 +292,7 @@
             var test = window.intlTelInput(input, {
                 separateDialCode: true,
                 initialCountry: "auto",
+                placeholder: true,
                 geoIpLookup: function (success) {
                     // Get your api-key at https://ipdata.co/
                     fetch("https://ipinfo.io?token={{env('GEOLOCATION_API_KEY')}}")

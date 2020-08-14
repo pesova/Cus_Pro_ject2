@@ -34,7 +34,7 @@
                         <label for="inputphone" class="col-md-3 col-form-label my-label">Phone Number:</label>
                         <br>
                         <div class="col-md-9">
-                            <input type="tel" class="form-control" id="phone" placeholder="Phone Number"
+                            <input type="tel" class="form-control" id="phone"
                                 aria-describedby="helpPhone" name="" required pattern=".{6,16}"
                                 title="Phone number must be between 6 to 16 characters">
                             <input type="hidden" name="phone_number" id="phone_number" class="form-control">

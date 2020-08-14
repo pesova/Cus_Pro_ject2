@@ -10,6 +10,7 @@
   
   var edit_test = window.intlTelInput(edit_input, {
       separateDialCode: true,
+      placeholder: true,
    });
   
    $("#editForm").submit((e) => {
