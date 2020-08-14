@@ -135,7 +135,7 @@ class LoginController extends Controller
                     if ($data->is_active == false) {
                         return redirect()->route('activate.index');
                     }
-                    return redirect()->route('dashboard');
+                    return redirect()->route('select');
                 } else {
                     $request->session()->flash('message', 'Invalid Credentials');
                     return redirect()->route('login');
