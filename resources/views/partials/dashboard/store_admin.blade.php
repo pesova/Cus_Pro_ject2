@@ -99,8 +99,8 @@
     <div class="col-md-12 col-sm-12">
         <div class="card">
             <div class="card-body">
-                <h6 class="card-title mb-4 float-sm-left">Transaction Overview {{date('Y')}}</h6>
                 <div class="clearfix"></div>
+                <h6 class="card-title mb-4 float-sm-left">Transaction Overview {{date('Y')}}</h6>
                 <div id="transactionchart"></div>
             </div>
         </div>
@@ -173,7 +173,7 @@
                             @endforeach
                         @else
                             <tr>
-                                <td colspan="4" class="text-center">No Recent Debts</td>
+                                <td colspan="7" class="text-center">No Recent Debts</td>
                             </tr>
                         @endif
                         </tbody>
