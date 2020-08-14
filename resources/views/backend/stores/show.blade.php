@@ -236,9 +236,10 @@ $total_interestReceivables += $each_interestReceivables;
         </div>
     </div>
     <div class="col-lg-8">
-        <div class="card">
+    <div class="card">
             <div class="card-body">
-                <h6 class="card-title mb-4">Total Transactions {{date('Y')}}</h6>
+                <div class="clearfix"></div>
+                <h6 class="card-title mb-4 float-sm-left">Transaction Overview {{date('Y')}}</h6>
                 <div id="transactionchart"></div>
             </div>
         </div>
