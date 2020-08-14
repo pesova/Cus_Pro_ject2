@@ -157,7 +157,6 @@ class LoginController extends Controller
                 }
             }
             // check for 500 server error
-            dd($e);
             return view('errors.500');
         } catch (\Exception $e) {
             //log error;
