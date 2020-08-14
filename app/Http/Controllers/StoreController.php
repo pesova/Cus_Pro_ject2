@@ -53,7 +53,6 @@ class StoreController extends Controller
 
                 // get data from respone
                 $stores_data = json_decode($response->getBody())->data->stores;
-
                 // loop added because returns two nested arrays for superadmin. - doug
                 if (is_super_admin()) {
                     $stores = [];

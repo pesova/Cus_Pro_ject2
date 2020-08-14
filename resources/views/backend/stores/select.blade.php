@@ -22,8 +22,8 @@
         <div class="container-fluid">
 
             <div class="row" style="margin-top:20px;">
-                @foreach ($stores as $store)
 
+                @foreach ($stores as $store)
                     <div class="col-xl-3 col-sm-6" style="margin-bottom: 20px;max-height:225px;">
 
                         <div id="idd" class="card text-center">
