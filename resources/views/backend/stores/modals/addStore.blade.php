@@ -28,11 +28,11 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputPhoneNumber">Phone Number*</label>
-                                <input type="tel" class="form-control" id="phone" placeholder="8127737643"
-                                    aria-describedby="helpPhone" name="" value="{{ old('phone_number') }}" required
-                                    pattern=".{6,16}" title="Phone number must be between 6 to 16 characters">
+                                <input type="tel" class="form-control" id="phone" aria-describedby="helpPhone" name=""
+                                    value="{{ old('phone_number') }}" required pattern=".{6,16}"
+                                    title="Phone number must be between 6 to 16 characters">
                                 <input type="hidden" name="phone_number" id="phone_number" class="form-control">
-                                <small id="helpPhone" class="form-text text-muted">Enter your number without country
+                                <small id="helpPhone" class="form-text text-muted">Enter your number without the country
                                     code</small>
                             </div>
                             <div class="form-group col-md-6">

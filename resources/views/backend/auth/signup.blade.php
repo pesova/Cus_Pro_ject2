@@ -43,8 +43,7 @@
                                                     <div class="input-group-prepend">
                                                     </div>
                                                     <input type="number" id="phone" name="" class="form-control"
-                                                        value="" aria-describedby="helpPhone" placeholder="813012345"
-                                                        required>
+                                                        value="" aria-describedby="helpPhone" required>
                                                     <input type="hidden" name="phone_number" id="phone_number"
                                                         class="form-control">
                                                     <div class="red-warn">Please enter a valid phone number</div>
@@ -107,6 +106,7 @@
         var test = window.intlTelInput(input, {
             separateDialCode: true,
             initialCountry: "auto",
+            placeholder: true,
             geoIpLookup: function (success) {
                 // Get your api-key at https://ipdata.co/
                 fetch("https://ipinfo.io?token={{env('GEOLOCATION_API_KEY')}}")
