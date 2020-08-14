@@ -96,29 +96,58 @@ class DashboardController extends Controller
 
     public function storeAdminDashboard()
     {
-        $url = env('API_URL', 'https://dev.api.customerpay.me') . '/dashboard/';
+        $id = Cookie::get('store_id');
+        // $url = env('API_URL', 'https://dev.api.customerpay.me') . '/dashboard/';
+        $url = $this->host . '/store' . '/' . $id;
+        $transactions_url = $this->host . '/transaction/store' . '/' . $id;
 
         try {
-            $client = new Client;
+        //     $client = new Client;
+        //     $payload = [
+        //         'headers' => [
+        //             'x-access-token' => Cookie::get('api_token')
+        //         ]
+        //     ];
+        //     $response = $client->request('GET', $url, $payload);
+
+        //     if ($response->getStatusCode() == 200) {
+        //         $data = json_decode($response->getBody())->data;
+
+        //         $thisMonth = $data->amountForCurrentMonth;
+        //         $lastMonth = $data->amountForPreviousMonth;
+        //         $diff = $thisMonth - $lastMonth;
+        //         // (Current period's revenue - prior period's revenue) ÷ by prior period's revenue x 100
+        //         $profit = ($thisMonth > $lastMonth) ? true : false;
+        //         $percentage = ($lastMonth == 0) ? '-' : sprintf("%.2f", ($diff / $lastMonth) * 100);
+        //         return view('backend.dashboard.index', compact('data', 'profit', 'percentage'));
+        $client = new Client;
             $payload = [
                 'headers' => [
                     'x-access-token' => Cookie::get('api_token')
-                ]
+                ],
             ];
-            $response = $client->request('GET', $url, $payload);
+            $store_response = $client->request("GET", $url, $payload);
+            $store_status_code = $store_response->getStatusCode();
 
-            if ($response->getStatusCode() == 200) {
-                $data = json_decode($response->getBody())->data;
+            $transaction_response = $client->request("GET", $transactions_url, $payload);
+            $transaction_status_code = $transaction_response->getStatusCode();
 
-                $thisMonth = $data->amountForCurrentMonth;
-                $lastMonth = $data->amountForPreviousMonth;
-                $diff = $thisMonth - $lastMonth;
-                // (Current period's revenue - prior period's revenue) ÷ by prior period's revenue x 100
-                $profit = ($thisMonth > $lastMonth) ? true : false;
-                $percentage = ($lastMonth == 0) ? '-' : sprintf("%.2f", ($diff / $lastMonth) * 100);
-                return view('backend.dashboard.index', compact('data', 'profit', 'percentage'));
+            $stores_data = $store_response->getBody();
+            $transactions_data = $transaction_response->getBody();
+
+            $store = json_decode($stores_data)->data->store;
+            $store_customer = json_decode($stores_data)->data->store->customers;
+            $transactions = json_decode($transactions_data)->data->transactions;
+            $chart = json_decode($stores_data)->data->transactionChart;
+
+            if ($store_status_code == 200 && $transaction_status_code == 200) {
+                return view('backend.dashboard.index', compact(['transactions', 'store', 'store_customer', 'chart']))
+                    ->with('number', 1);
             }
-        } catch (RequestException $e) {
+        $id = Cookie::get('store_id');
+        return $id;
+            }
+         catch (RequestException $e) {
             Log::info('Catch error: DashboardController - ' . $e->getMessage());
 
             if ($e->getCode() == 401) {
