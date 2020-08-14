@@ -34,8 +34,8 @@ Route::get('/admin', function () {
 });
 
 Route::get('/{currency}/{tx_ref}', "PaymentController@index")->name('pay')
-->where('currency', 'USD|NGN|INR|usd|ngn|inr')
-->where('tx_ref', '[\w\-]{15,}');
+    ->where('currency', 'USD|NGN|INR|usd|ngn|inr')
+    ->where('tx_ref', '[\w\-]{15,}');
 Route::get('/payment/callback', 'PaymentController@callback')->name('callback');
 Route::get('/pay/success', "PaymentController@successResp")->name('pay.success');
 Route::get('/pay/failed', "PaymentController@failedResp")->name('pay.failed');
@@ -126,6 +126,7 @@ Route::prefix('/app')->group(function () {
 
             // store crud
             Route::resource('store', 'StoreController');
+            Route::get('/business/select/', 'StoreController@selectStore')->name('store.select');
 
             // complaint crud
             Route::resource('complaint', 'ComplaintController')->only(['index', 'show', 'store', 'create', 'update']);
@@ -160,7 +161,6 @@ Route::prefix('/app')->group(function () {
 
 
         // dashboard, creditor, debtor
-        Route::get('/select', 'StoreController@index')->name('select');
         Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
         Route::get('/creditor', 'DashboardController@creditor')->name('creditor');
         Route::get('/analytics', 'DashboardController@analytics')->name('analytics');

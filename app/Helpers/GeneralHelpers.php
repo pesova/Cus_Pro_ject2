@@ -20,6 +20,22 @@ if (!function_exists('is_super_admin')) {
     }
 }
 
+if (!function_exists('has_selected_store')) {
+
+    /**
+     * Check if a user has selected a store
+     *
+     * @return boolean
+     */
+    function has_selected_store()
+    {
+        if (Cookie::get('store_id')) {
+            return true;
+        }
+        return false;
+    }
+}
+
 if (!function_exists('is_store_admin')) {
 
     /**
@@ -171,17 +187,18 @@ if (!function_exists('format_role_name')) {
      *
      * @return boolean
      */
-    function format_role_name($user_role = ""){
+    function format_role_name($user_role = "")
+    {
         if ($user_role == "") {
             $user_role = Cookie::get('user_role');
         }
-              if($user_role == 'store_admin'){
-                  return 'Owner';
-              }elseif($user_role == 'super_admin'){
-                  return 'Super Admin';
-              }else{
-                  return 'Assistant';
-              }
-         }
+        if ($user_role == 'store_admin') {
+            return 'Owner';
+        } elseif ($user_role == 'super_admin') {
+            return 'Super Admin';
+        } else {
+            return 'Assistant';
+        }
+    }
 
 }

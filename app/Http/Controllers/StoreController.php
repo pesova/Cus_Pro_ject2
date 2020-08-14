@@ -58,7 +58,7 @@ class StoreController extends Controller
                 if (is_super_admin()) {
                     $stores = [];
                     foreach ($stores_data as $stores_array) {
-                        foreach ($stores_array as $store ) {
+                        foreach ($stores_array as $store) {
                             $stores[] = $store;
                         }
                     }
@@ -75,8 +75,11 @@ class StoreController extends Controller
 
                 $articles = array_slice($stores_data, $offset, $perPage);
                 $stores = new Paginator($articles, count($stores_data), $perPage);
-
-                return view('backend.stores.index')->with('stores', $stores->withPath('/' . $request->path()));
+                if (is_super_admin()) {
+                    return view('backend.stores.index')->with('stores', $stores->withPath('/' . $request->path()));
+                } else {
+                    return view('backend.stores.select')->with('stores', $stores->withPath('/' . $request->path()));
+                }
             } else if ($statusCode == 401) {
                 return redirect()->route('login')->with('message', "Please Login Again");
             }
@@ -100,25 +103,24 @@ class StoreController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        
         $url = $this->host . '/store/new';
 
         if ($request->isMethod('post')) {
             $request->validate([
                 'store_name' => 'required|min:2|max:25',
                 'phone_number' => ["required", "numeric", "digits_between:6,16", new DoNotAddIndianCountryCode, new DoNotPutCountryCode],
-                'shop_address' =>  'required|min:5|max:100',
-                'tagline' =>  'required|min:4|max:50'
+                'shop_address' => 'required|min:5|max:100',
+                'tagline' => 'required|min:4|max:50'
             ]);
 
             try {
 
-                $client =  new Client();
+                $client = new Client();
                 $payload = [
                     'headers' => ['x-access-token' => Cookie::get('api_token')],
                     'form_params' => [
@@ -136,7 +138,7 @@ class StoreController extends Controller
                 $body = $response->getBody();
                 $data = json_decode($body);
 
-                if ($statusCode == 201  && $data->success) {
+                if ($statusCode == 201 && $data->success) {
                     $request->session()->flash('alert-class', 'alert-success');
                     Session::flash('message', $data->message);
                     return redirect()->route('store.index');
@@ -153,8 +155,8 @@ class StoreController extends Controller
                 $response = $e->getResponse();
                 $statusCode = $response->getStatusCode();
 
-                if ($statusCode  == 500) {
-                    Log::error((string) $response->getBody());
+                if ($statusCode == 500) {
+                    Log::error((string)$response->getBody());
                     return view('errors.500');
                 }
 
@@ -162,7 +164,7 @@ class StoreController extends Controller
                 Session::flash('message', $data->message);
                 return back();
             } catch (Exception $e) {
-                Log::error((string) $response->getBody());
+                Log::error((string)$response->getBody());
                 return view('errors.500');
             }
         }
@@ -173,7 +175,7 @@ class StoreController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, $id)
@@ -191,7 +193,7 @@ class StoreController extends Controller
             $store_response = $client->request("GET", $url, $payload);
             $store_status_code = $store_response->getStatusCode();
 
-            $transaction_response =  $client->request("GET", $transactions_url, $payload);
+            $transaction_response = $client->request("GET", $transactions_url, $payload);
             $transaction_status_code = $transaction_response->getStatusCode();
 
             $stores_data = $store_response->getBody();
@@ -202,7 +204,7 @@ class StoreController extends Controller
             $transactions = json_decode($transactions_data)->data->transactions;
             $chart = json_decode($stores_data)->data->transactionChart;
 
-            if ($store_status_code == 200  && $transaction_status_code == 200) {
+            if ($store_status_code == 200 && $transaction_status_code == 200) {
                 return view('backend.stores.show', compact(['transactions', 'store', 'store_customer', 'chart']))
                     ->with('number', 1);
             }
@@ -233,7 +235,7 @@ class StoreController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -292,23 +294,23 @@ class StoreController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
 
-    {   
+    {
         // return $request->input();
-        $url = $this->host . '/store/update'.'/'.$id;
-       
+        $url = $this->host . '/store/update' . '/' . $id;
+
         $request->validate([
             'edit_store_name' => 'required|min:3',
-            'edit_shop_address' =>  'required',
+            'edit_shop_address' => 'required',
             'edit_email' => "required|email",
-            'edit_tagline' =>  'required',
+            'edit_tagline' => 'required',
             'edit_phone_number' => ["required", "numeric", "digits_between:6,16", new DoNotAddIndianCountryCode, new DoNotPutCountryCode],
-            ]);
+        ]);
 
         try {
 
@@ -353,7 +355,7 @@ class StoreController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, $id)
@@ -395,7 +397,7 @@ class StoreController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function debt(Request $request, $id)
@@ -415,7 +417,7 @@ class StoreController extends Controller
                 ]*/
             ];
             $response = $client->request("GET", $url, $payload);
-            $transaction_response =  $client->request("GET", $transactions_url, $payload);
+            $transaction_response = $client->request("GET", $transactions_url, $payload);
             $statusCode = $response->getStatusCode();
             $transaction_statusCode = $transaction_response->getStatusCode();
             $body = $response->getBody();
@@ -428,7 +430,7 @@ class StoreController extends Controller
                 "transactions" => $store_transactions
             ];
 
-            if ($statusCode == 200  && $transaction_statusCode == 200) {
+            if ($statusCode == 200 && $transaction_statusCode == 200) {
 
                 return view('backend.stores.show_debt')->with('response', $StoreData)->with('number', 1);
             }
@@ -460,7 +462,7 @@ class StoreController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function receivable(Request $request, $id)
@@ -475,7 +477,7 @@ class StoreController extends Controller
                 ]
             ];
             $response = $client->request("GET", $url, $payload);
-            $transaction_response =  $client->request("GET", $transactions_url, $payload);
+            $transaction_response = $client->request("GET", $transactions_url, $payload);
             $statusCode = $response->getStatusCode();
             $transaction_statusCode = $transaction_response->getStatusCode();
             $body = $response->getBody();
@@ -488,7 +490,7 @@ class StoreController extends Controller
                 "transactions" => $store_transactions
             ];
 
-            if ($statusCode == 200  && $transaction_statusCode == 200) {
+            if ($statusCode == 200 && $transaction_statusCode == 200) {
 
                 return view('backend.stores.show_receivable')->with('response', $StoreData)->with('number', 1);
             }
@@ -520,7 +522,7 @@ class StoreController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function revenue(Request $request, $id)
@@ -535,7 +537,7 @@ class StoreController extends Controller
                 ]
             ];
             $response = $client->request("GET", $url, $payload);
-            $transaction_response =  $client->request("GET", $transactions_url, $payload);
+            $transaction_response = $client->request("GET", $transactions_url, $payload);
             $statusCode = $response->getStatusCode();
             $transaction_statusCode = $transaction_response->getStatusCode();
             $body = $response->getBody();
@@ -548,7 +550,7 @@ class StoreController extends Controller
                 "transactions" => $store_transactions
             ];
 
-            if ($statusCode == 200  && $transaction_statusCode == 200) {
+            if ($statusCode == 200 && $transaction_statusCode == 200) {
 
                 return view('backend.stores.show_revenue')->with('response', $StoreData)->with('number', 1);
             }
@@ -575,5 +577,11 @@ class StoreController extends Controller
             Log::error('Catch error: StoreController - ' . $e->getMessage());
             return view('errors.500');
         }
+    }
+
+    public function selectStore(Request $request)
+    {
+        Cookie::queue('store_id', $request->input('store_id'));
+        return redirect()->route('dashboard');
     }
 }
