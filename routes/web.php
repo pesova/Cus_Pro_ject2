@@ -160,6 +160,7 @@ Route::prefix('/app')->group(function () {
 
 
         // dashboard, creditor, debtor
+        Route::get('/select', 'StoreController@index')->name('select');
         Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
         Route::get('/creditor', 'DashboardController@creditor')->name('creditor');
         Route::get('/analytics', 'DashboardController@analytics')->name('analytics');
