@@ -556,4 +556,48 @@ $total_interestReceivables += $each_interestReceivables;
 @endif
 
 
+<script>
+
+    $.ajax({
+        method:"GET",
+        url: "{{route('businesses')}}",
+    })
+    .done(function(data){
+        let stores = JSON.parse(data);
+        
+        let list = '';
+        if(stores.length > 0){
+                stores.forEach(element => {
+                let url = "{{ route('store.select', ['store_id'=>1]) }}";
+                let formatted_url = url.replace('1',element._id);
+
+                let current_store = "{{$store->_id}}"
+                if(element._id == current_store){
+                        list += `
+                            <li>
+                                <a href="${formatted_url}" class="active">
+                                ${element.store_name}</a>
+                            </li>
+                            `
+                }else{
+                    list += `
+                    <li>
+                        <a href="${formatted_url}">
+                        ${element.store_name}</a>
+                    </li>
+                    ` 
+                }
+                
+                
+            });
+        }else{
+            list ="<p>No store to display</p>"
+        }
+        
+        $('#store_list_spinner').css('display','none');
+        $("#store_lists").text('');
+        $("#store_lists").append(list);
+    })
+</script>
+
 @stop
