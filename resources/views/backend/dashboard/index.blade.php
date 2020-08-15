@@ -1,7 +1,14 @@
 @extends('layout.base')
 
 @section("custom_css")
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+<link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="{{ asset('/backend/assets/css/transac.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
+<link rel="stylesheet" href="{{asset('backend/assets/css/store_list.css')}}">
+<link href="/backend/assets/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<link href="/backend/assets/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<link href="/backend/assets/css/select.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
     
 <style>
     /*
@@ -57,6 +64,15 @@
         align-items: center;
     }
 
+    #editphone{
+        padding-left: 89px !important;
+    }
+
+    #active-store{
+        border-left: 3px solid #5369f8;
+        color: #5369f8;
+    }
+
 </style>
 @stop
 
@@ -81,4 +97,10 @@
         @endif
     </div>
 @endsection
+
+
+{{-- @section("javascript")
+
+
+@endsection --}}
 
