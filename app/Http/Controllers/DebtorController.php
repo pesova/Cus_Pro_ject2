@@ -29,10 +29,10 @@ class DebtorController extends Controller
     {
         $store_id = Cookie::get('store_id');
         $user_role = Cookie::get('user_role');
-        if($user_role == 'store_admin'){
+        if(is_store_admin()){
             $url = $this->host . '/store' . '/' . $store_id;
             $transactions_url = $this->host . '/transaction/store/' . $store_id;
-        }elseif($user_role == 'store_assistant'){
+        }elseif(is_store_assistant()){
             $storeUrl = $this->host . '/store';
             $debtorUrl = $this->host . '/debt';
 
@@ -48,7 +48,7 @@ class DebtorController extends Controller
         try {
             $client = new Client();
             $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
-            if($user_role == 'store_admin'){
+            if(is_store_admin()){
                 $response = $client->request("GET", $url, $payload);
             $transaction_response = $client->request("GET", $transactions_url, $payload);
             $statusCode = $response->getStatusCode();

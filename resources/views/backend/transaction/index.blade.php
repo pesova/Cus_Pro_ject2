@@ -8,9 +8,11 @@
 @stop
 
 @section('content')
+@if(is_store_admin())
 @php
 $store_id = Cookie::get('store_id');
 @endphp
+@endif
     <div class="content">
         <div class="container-fluid">
             <div class="mb-0 d-flex justify-content-between align-items-center page-title">
@@ -56,7 +58,10 @@ $store_id = Cookie::get('store_id');
                             <tr>
 
                                 <th>#</th>
-                           {{-- <th>Business</th>  --}}
+                                @if(is_super_admin())
+                                <th>Business</th>
+                                @endif
+                               
                                 <th>Customer</th>
                                 <th>Amount</th>
                                 <th>Interest</th>
@@ -71,10 +76,13 @@ $store_id = Cookie::get('store_id');
                             </thead>
                             <tbody>
                             @foreach ($transactions as $index => $transaction )
+                            @if(is_super_admin())
                             @if ($transaction->store_ref_id == $store_id)
+                            @endif
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
-                                    {{--<td>
+                                    @if(is_super_admin())
+                                    <td>
                                         @if(is_super_admin())
                                             <a class=""
                                                href="{{ route('store.show', $transaction->store_ref_id->_id) }}">
@@ -90,7 +98,8 @@ $store_id = Cookie::get('store_id');
                                                 {{ $transaction->store_name }}
                                             @endif
                                         @endif
-                                    </td> --}}
+                                    </td>
+                                    @endif
                                     <td>
                                         @if(is_super_admin())
                                             @if ($transaction->customer_ref_id != null)
