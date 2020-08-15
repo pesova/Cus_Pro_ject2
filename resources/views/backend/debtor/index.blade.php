@@ -9,12 +9,12 @@
 <div class="content">
     <div class="container-fluid">
         <div class="mb-0 d-flex justify-content-between align-items-center page-title">
-            <div class="h6"><i data-feather="file-text" class="icon-dual"></i> Debtors Center</div>
+            <div class="h6"><i data-feather="file-text" class="icon-dual"></i> Debts Center</div>
             @if(!is_store_assistant())
-                <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#addTransactionModal">
-                    New &nbsp;<i class="fa fa-plus my-float"></i>
-                </a>
-                @include('partials.modal.addTransaction',['title'=>'Add New Debt','type'=>'debt','buttonText'=>'Add Debt'])
+            <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#addTransactionModal">
+                New &nbsp;<i class="fa fa-plus my-float"></i>
+            </a>
+            @include('partials.modal.addTransaction',['title'=>'Add New Debt','type'=>'debt','buttonText'=>'Add Debt'])
             @endif
         </div>
         @include('partials.alert.message')
@@ -22,13 +22,13 @@
         <div class="card">
             <div class="card-body">
                 <p class="sub-header">
-                    Find debtors by store name
+                    Find debts by business name
                 </p>
                 <div class="container-fluid">
                     @isset($stores)
                     <form action="{{ route('debtor.index') }}" method="GET">
                         <div class="form-group col-lg-6 mt-4">
-                            <label class="form-control-label">Store Name</label>
+                            <label class="form-control-label">Business Name</label>
                             <div class="input-group input-group-merge">
                                 <select name="store_id" class="form-control">
                                     <option value="" selected disabled>None selected</option>
@@ -38,7 +38,7 @@
                                     @endforeach
                                 </select>
                                 <button type="search" class="mx-2 btn btn-primary">Search</button>
-                                <a href="{{ route('debtor.index') }}" class="btn btn-primary">All Debtors</a>
+                                <a href="{{ route('debtor.index') }}" class="btn btn-primary">All Debts</a>
                             </div>
                         </div>
                     </form>
@@ -71,13 +71,14 @@
                     <table id="debtorsTable" class="table table-striped table-bordered">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Debt ID</th>
-                                <th>Status</th>
-                                <th>Description</th>
+                                <th>#</th>
+                                <th>Store</th>
+                                <th>customer</th>
                                 <th>Amount</th>
+                                <th>Interest</th>
+                                <th>Due</th>
                                 <th>Created</th>
-                                <th>Actions</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -86,27 +87,53 @@
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>
-                                    <a class=""
-                                        href="{{ route('debtor.show', $debtor->_id) }}">
-                                        {{ $debtor->_id }}
+                                    @if(is_super_admin())
+                                    <a class="" href="{{ route('store.show', $debtor->store_ref_id->_id) }}">
+                                        {{ $debtor->store_ref_id->store_name }}
                                     </a>
-                                </td>
-                                </td>
-                                <td>
-                                    @if($debtor->status == false)
-                                    <span class="badge badge-danger">Unpaid</span>
                                     @else
-                                    <span class="badge badge-success">Paid</span>
+                                    @if(is_store_admin())
+                                    <a class="" href="{{ route('store.show', $debtor->store_ref_id) }}">
+                                        {{ $debtor->store_name }}
+                                    </a>
+                                    @else
+                                    {{ $debtor->store_name }}
+                                    @endif
                                     @endif
                                 </td>
-                                <td>{{ $debtor->description }}</td>
-                                <td>{{ format_money($debtor->total_amount, $debtor->currency) }}</td>
-                                <td> {!! app_format_date($debtor->date_recorded) !!}</td>
                                 <td>
-                                    <a class="btn btn-info btn-small py-1 px-2"
-                                        href="{{ route('debtor.show', $debtor->_id) }}">
-                                        More
+                                    @if(is_super_admin())
+                                    @if ($debtor->customer_ref_id != null)
+                                    <a
+                                        href="{{ route('customer.show', $debtor->store_ref_id->_id .'-' .$debtor->customer_ref_id->_id) }}">
+                                        {{ $debtor->customer_ref_id->name }}</a>
+                                    @endif
+                                    @else
+                                    <a
+                                        href="{{ route('customer.show', $debtor->store_ref->_id .'-' .$debtor->customer_ref->_id) }}">
+                                        {{ $debtor->customer_ref->name }}</a>
+                                    @endif
+                                </td>
+                                <td>{{ format_money($debtor->total_amount, $debtor->currency) }}</td>
+                                <td>
+                                    {{ $debtor->interest }}%
+                                </td>
+                                <td>{!! app_format_date($debtor->expected_pay_date, true) !!}</td>
+                                <td> {{ app_format_date($debtor->date_recorded) }}</td>
+                                <td>
+                                    @if(is_super_admin())
+                                    @if ($debtor->customer_ref_id != null)
+                                    <a class="btn btn-primary btn-sm py-1 px-2"
+                                        href="{{ route('transaction.show', $debtor->_id.'-'.$debtor->store_ref_id->_id.'-'.$debtor->customer_ref_id->_id) }}">
+                                        View
                                     </a>
+                                    @endif
+                                    @else
+                                    <a class="btn btn-primary btn-sm py-1 px-2"
+                                        href="{{ route('transaction.show', $debtor->_id.'-'.$debtor->store_ref_id.'-'.$debtor->customer_ref_id) }}">
+                                        View
+                                    </a>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach

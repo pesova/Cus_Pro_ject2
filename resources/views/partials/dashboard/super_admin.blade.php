@@ -28,7 +28,7 @@
                                 </div>
                                 <div class="col-6">
                                     <h5 class="font-size-15">{{ $data->storesCount }}</h5>
-                                    <p class="text-muted mb-0">Store(s)</p>
+                                    <p class="text-muted mb-0">Business(es)</p>
                                 </div>
                             </div>
                             <div class="mt-4">
@@ -48,7 +48,7 @@
                         <div class="card-body">
                             <div class="media">
                                 <div class="media-body">
-                                    <p class="text-muted font-weight-medium">Store Admin</p>
+                                    <p class="text-muted font-weight-medium">Business Admin</p>
                                     <h4 class="mb-0">{{$data->storeAdminCount}}</h4>
                                 </div>
 

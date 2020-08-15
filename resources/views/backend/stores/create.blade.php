@@ -13,7 +13,7 @@
                         <nav aria-label="breadcrumb" class="float-right mt-1">
                             <a href="{{ route('store.index') }}" class="btn btn-primary">Go Back</a>
                         </nav>
-                        <h4 class="mt-2">Create A Store</h4>
+                        <h4 class="mt-2">Create A Business</h4>
                     </div>
                 </div>
 

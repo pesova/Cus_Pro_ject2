@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addStoreModalLabel">Add New Store</h5>
+                <h5 class="modal-title" id="addStoreModalLabel">Add New Business</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -14,7 +14,7 @@
                         @csrf
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="store name">Store Name*</label>
+                                <label for="store name">Business Name*</label>
                                 <input type="text" name="store_name" class="form-control"
                                     value="{{ old('store_name') }}" placeholder="XYZ Stores" required minlength="3"
                                     maxlength="16">
@@ -28,11 +28,11 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputPhoneNumber">Phone Number*</label>
-                                <input type="tel" class="form-control" id="phone" placeholder="8127737643"
-                                    aria-describedby="helpPhone" name="" value="{{ old('phone_number') }}" required
-                                    pattern=".{6,16}" title="Phone number must be between 6 to 16 characters">
+                                <input type="tel" class="form-control" id="phone" aria-describedby="helpPhone" name=""
+                                    value="{{ old('phone_number') }}" required pattern=".{6,16}"
+                                    title="Phone number must be between 6 to 16 characters">
                                 <input type="hidden" name="phone_number" id="phone_number" class="form-control">
-                                <small id="helpPhone" class="form-text text-muted">Enter your number without country
+                                <small id="helpPhone" class="form-text text-muted">Enter your number without the country
                                     code</small>
                             </div>
                             <div class="form-group col-md-6">
@@ -47,7 +47,7 @@
                                 value="{{ old('shop_address') }}" required minlength="5" maxlength="50">
                         </div>
                         <button type="submit" class="btn btn-success text-white">
-                            Create Store
+                            Create Business
                         </button>
                     </form>
                 </div>

@@ -7,7 +7,7 @@
 
     <ul class="nav-second-level" aria-expanded="false">
         <li>
-            <a href="{{ route('store.index') }}">Manage Stores</a>
+            <a href="{{ route('store.index') }}">Manage Businesses</a>
         </li>
         {{---<li>
             <a href="{{ route('assistants.index') }}">Manage Store Assistant</a>
@@ -77,9 +77,9 @@
         <li>
             <a href="{{ route('assistants.index') }}">Manage Assistants</a>
         </li>
-        <li><a href="{{ route('setting') }}">
+        {{-- <li><a href="{{ route('setting') }}">
                 <span class='seventh'> Edit Profile </span>
             </a>
-        </li>
+        </li> --}}
     </ul>
 </li>

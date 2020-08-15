@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="{{ asset('backend/assets/css/store_list.css') }}">
 
 <style>
-    #editphone{
+    #editphone, #phone {
         padding-left: 89px !important;
     }
 </style>
@@ -19,7 +19,7 @@
     <div class="container-fluid">
         <div class="page-title d-flex justify-content-between align-items-center">
             <div>
-                <h4 class="">All Stores</h4>
+                <h4 class="">All Businesses</h4>
             </div>
             <div>
                 <button class=" btn btn-primary btn-sm" data-toggle="modal">
@@ -32,7 +32,7 @@
     </div>
     <div class="container-fluid card">
         <div class="row card-body">
-            <label class="form-control-label">Search Stores</label>
+            <label class="form-control-label">Search Businesses</label>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon1">
@@ -157,6 +157,7 @@
     var test = window.intlTelInput(input, {
         separateDialCode: true,
         initialCountry: "auto",
+        placeholder: true,
         geoIpLookup: function (success) {
             // Get your api-key at https://ipdata.co/
             fetch("https://ipinfo.io?token={{env('GEOLOCATION_API_KEY')}}")

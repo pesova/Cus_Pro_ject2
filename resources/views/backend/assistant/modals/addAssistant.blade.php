@@ -34,7 +34,7 @@
                         <label for="inputphone" class="col-md-3 col-form-label my-label">Phone Number:</label>
                         <br>
                         <div class="col-md-9">
-                            <input type="tel" class="form-control" id="phone" placeholder="Phone Number"
+                            <input type="tel" class="form-control" id="phone"
                                 aria-describedby="helpPhone" name="" required pattern=".{6,16}"
                                 title="Phone number must be between 6 to 16 characters">
                             <input type="hidden" name="phone_number" id="phone_number" class="form-control">
@@ -42,11 +42,11 @@
                     </div>
 
                     <div class="form-group row mb-2">
-                        <label for="number" class="col-md-3 col-form-label my-label">Store:</label>
+                        <label for="number" class="col-md-3 col-form-label my-label">Business:</label>
                         <br>
                         <div class="col-md-9">
                             <select name="store_id" id="store_id" class="form-control">
-                                <option value=""> Select Store</option>
+                                <option value=""> Select Business</option>
                                 @foreach($stores as $store)
                                 @if(is_array($store))
                                 <option value="{{$store[0]->_id}}">{{$store[0]->store_name}}</option>

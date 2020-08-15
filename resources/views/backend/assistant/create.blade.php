@@ -18,7 +18,7 @@
                 <nav aria-label="breadcrumb" class="float-right mt-1">
                 </nav>
                 <h4 class="mb-1 mt-0"><i data-feather="users" style="font-size: 5px; margin-right: 7px"></i>Add new
-                    store assistant</h4>
+                    business assistant</h4>
             </div>
         </div>
 
@@ -63,10 +63,10 @@
                                 </div>
                             </div>
                             <div class="form-group row mb-3">
-                                <label for="number" class="col-2 col-sm-3 col-form-label my-label">Store:</label> <br>
+                                <label for="number" class="col-2 col-sm-3 col-form-label my-label">Business:</label> <br>
                                 <div class="col-10 col-sm-7">
                                     <select name="store_id" id="store_id" class="form-control">
-                                        <option value=""> Select Store</option>
+                                        <option value=""> Select Business</option>
                                         @foreach($stores as $store)
                                             <option value="{{$store->_id}}">{{$store->store_name}}</option>
                                         @endforeach

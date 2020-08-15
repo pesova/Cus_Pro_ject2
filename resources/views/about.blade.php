@@ -175,18 +175,17 @@
 
     <div class="container">
         <section id="about-collage">
-            <div class="about-collage-images">
-                <img id="collage_1" src="/frontend/assets/images/collage_1.svg" alt="collage_1">
-
-                <img id="collage_4" src="/frontend/assets/images/collage_4.svg" alt="collage_4">
+        <div class="about-collage-images">
+                <img id="collage_2" src="/frontend/assets/images/collage_4.jpg" alt="collage_2">
+                <img id="collage_5" src="/frontend/assets/images/collage_6.jpg" alt="collage_5">
             </div>
             <div class="about-collage-images">
-                <img id="collage_2" src="/frontend/assets/images/collage_2.svg" alt="collage_2">
-                <img id="collage_5" src="/frontend/assets/images/collage_5.svg" alt="collage_5">
+                <img id="collage_2" src="/frontend/assets/images/collage_2.jpg" alt="collage_2">
+                <img id="collage_5" src="/frontend/assets/images/collage_1.jpg" alt="collage_5">
             </div>
             <div class="about-collage-images">
-                <img id="collage_3" src="/frontend/assets/images/collage_3.svg" alt="collage_3">
-                <img id="collage_6" src="/frontend/assets/images/collage_6.svg" alt="collage_6">
+                <img id="collage_2" src="/frontend/assets/images/collage_3.jpg" alt="collage_2">
+                <img id="collage_5" src="/frontend/assets/images/collage_5.jpg" alt="collage_5">
             </div>
         </section>
     </div>
@@ -218,9 +217,9 @@
                                 <div class="client-desc client-mt-50 testimonial__text">
                                     <p>I have been using this app for three months now and i must confess, it has really
                                         changed
-                                        the way and see and manage my stores, assistants and customers. The analytics
+                                        the way and see and manage my businesses, assistants and customers. The analytics
                                         feature gets me
-                                        the most. I never knew running multiple store could be this easy</p>
+                                        the most. I never knew running multiple business could be this easy</p>
 
                                     <h4>Angel Collins</h4>
                                 </div>
@@ -236,7 +235,7 @@
                                     class="testimonial-img img-fluid">
                             </div> --}}
                                 <div class="client-desc client-mt-50 testimonial__text">
-                                    <p>Remotely control my stores and store assistants is a feature I have really been
+                                    <p>Remotely control my businesses and business assistants is a feature I have really been
                                         looking for.
                                         I have finally found an app that meets all my needs. Thanks makers of MyCustomer
                                     </p>
