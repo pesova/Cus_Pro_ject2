@@ -99,6 +99,7 @@ class DashboardController extends Controller
         $id = Cookie::get('store_id');
         // $url = env('API_URL', 'https://dev.api.customerpay.me') . '/dashboard/';
         $url = $this->host . '/store' . '/' . $id;
+      
         $transactions_url = $this->host . '/transaction/store' . '/' . $id;
 
         try {
@@ -131,6 +132,9 @@ class DashboardController extends Controller
 
             $transaction_response = $client->request("GET", $transactions_url, $payload);
             $transaction_status_code = $transaction_response->getStatusCode();
+            
+
+
 
             $stores_data = $store_response->getBody();
             $transactions_data = $transaction_response->getBody();
@@ -139,7 +143,7 @@ class DashboardController extends Controller
             $store_customer = json_decode($stores_data)->data->store->customers;
             $transactions = json_decode($transactions_data)->data->transactions;
             $chart = json_decode($stores_data)->data->transactionChart;
-
+            
             if ($store_status_code == 200 && $transaction_status_code == 200) {
                 return view('backend.dashboard.index', compact(['transactions', 'store', 'store_customer', 'chart']))
                     ->with('number', 1);
@@ -192,5 +196,27 @@ class DashboardController extends Controller
             Log::error('Catch error:  DashboardController - ' . $e->getMessage());
             return view('errors.500');
         }
+    }
+
+
+    public function getAllStores(){
+        $client = new Client;
+        $payload = [
+            'headers' => [
+                'x-access-token' => Cookie::get('api_token')
+            ],
+        ];
+        $all_stores_url =$this->host . '/store';
+        
+        $all_store_response = $client->request("GET", $all_stores_url, $payload);
+        $all_stores_data = $all_store_response->getBody();
+        $status_code = $all_store_response->getStatusCode();
+        $stores = json_decode($all_stores_data)->data->stores;
+        if ($status_code == 200 ) {
+            return json_encode($stores);
+        }else{
+            return json_encode(array());
+        }
+        
     }
 }
