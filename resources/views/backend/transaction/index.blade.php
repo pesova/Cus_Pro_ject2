@@ -8,6 +8,9 @@
 @stop
 
 @section('content')
+@php
+$store_id = Cookie::get('store_id');
+@endphp
     <div class="content">
         <div class="container-fluid">
             <div class="mb-0 d-flex justify-content-between align-items-center page-title">
@@ -53,7 +56,7 @@
                             <tr>
 
                                 <th>#</th>
-                                <th>Business</th>
+                           {{-- <th>Business</th>  --}}
                                 <th>Customer</th>
                                 <th>Amount</th>
                                 <th>Interest</th>
@@ -68,9 +71,10 @@
                             </thead>
                             <tbody>
                             @foreach ($transactions as $index => $transaction )
+                            @if ($transaction->store_ref_id == $store_id)
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
-                                    <td>
+                                    {{--<td>
                                         @if(is_super_admin())
                                             <a class=""
                                                href="{{ route('store.show', $transaction->store_ref_id->_id) }}">
@@ -86,7 +90,7 @@
                                                 {{ $transaction->store_name }}
                                             @endif
                                         @endif
-                                    </td>
+                                    </td> --}}
                                     <td>
                                         @if(is_super_admin())
                                             @if ($transaction->customer_ref_id != null)
@@ -158,6 +162,7 @@
                                         @endif
                                     </td>
                                 </tr>
+                                @endif
                             @endforeach
                             </tbody>
                         </table>
