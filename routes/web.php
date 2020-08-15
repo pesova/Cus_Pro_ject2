@@ -168,6 +168,7 @@ Route::prefix('/app')->group(function () {
         Route::get('/creditor', 'DashboardController@creditor')->name('creditor');
         Route::get('/analytics', 'DashboardController@analytics')->name('analytics');
         Route::get('/notification', 'DashboardController@notification')->name('notification');
+        Route::get('/all_businesses', 'DashboardController@getAllStores')->name('businesses');
 
         // notifications
         Route::get('/notification/read-all', 'NotificationsController@readAll')->name('read.all');
