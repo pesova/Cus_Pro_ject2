@@ -9,7 +9,7 @@
                 @if(is_store_admin())
                     <li>
                         <a href="javascript: void(0);">
-                            <span class='seventh'> {{ ucfirst($store->store_name) }}</span>
+                            <span class='seventh'> {{ Cookie::get('store_name') }}</span>
                             <span class="menu-arrow"></span>
                         </a>
                     
