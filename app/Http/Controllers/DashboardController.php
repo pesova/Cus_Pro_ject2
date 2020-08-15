@@ -72,7 +72,7 @@ class DashboardController extends Controller
 
                 if ($response->totalDebt > 1000000) {
                     $response->totalDebt = sprintf("%0.2fM", $response->totalDebt / 1000000);
-                }elseif ($response->totalDebt > 1000) {
+                } elseif ($response->totalDebt > 1000) {
                     $response->totalDebt = sprintf("%0.2fK", $response->totalDebt / 1000);
                 }
 
@@ -99,29 +99,29 @@ class DashboardController extends Controller
         $id = Cookie::get('store_id');
         // $url = env('API_URL', 'https://dev.api.customerpay.me') . '/dashboard/';
         $url = $this->host . '/store' . '/' . $id;
-      
+
         $transactions_url = $this->host . '/transaction/store' . '/' . $id;
 
         try {
-        //     $client = new Client;
-        //     $payload = [
-        //         'headers' => [
-        //             'x-access-token' => Cookie::get('api_token')
-        //         ]
-        //     ];
-        //     $response = $client->request('GET', $url, $payload);
+            //     $client = new Client;
+            //     $payload = [
+            //         'headers' => [
+            //             'x-access-token' => Cookie::get('api_token')
+            //         ]
+            //     ];
+            //     $response = $client->request('GET', $url, $payload);
 
-        //     if ($response->getStatusCode() == 200) {
-        //         $data = json_decode($response->getBody())->data;
+            //     if ($response->getStatusCode() == 200) {
+            //         $data = json_decode($response->getBody())->data;
 
-        //         $thisMonth = $data->amountForCurrentMonth;
-        //         $lastMonth = $data->amountForPreviousMonth;
-        //         $diff = $thisMonth - $lastMonth;
-        //         // (Current period's revenue - prior period's revenue) ÷ by prior period's revenue x 100
-        //         $profit = ($thisMonth > $lastMonth) ? true : false;
-        //         $percentage = ($lastMonth == 0) ? '-' : sprintf("%.2f", ($diff / $lastMonth) * 100);
-        //         return view('backend.dashboard.index', compact('data', 'profit', 'percentage'));
-        $client = new Client;
+            //         $thisMonth = $data->amountForCurrentMonth;
+            //         $lastMonth = $data->amountForPreviousMonth;
+            //         $diff = $thisMonth - $lastMonth;
+            //         // (Current period's revenue - prior period's revenue) ÷ by prior period's revenue x 100
+            //         $profit = ($thisMonth > $lastMonth) ? true : false;
+            //         $percentage = ($lastMonth == 0) ? '-' : sprintf("%.2f", ($diff / $lastMonth) * 100);
+            //         return view('backend.dashboard.index', compact('data', 'profit', 'percentage'));
+            $client = new Client;
             $payload = [
                 'headers' => [
                     'x-access-token' => Cookie::get('api_token')
@@ -132,8 +132,6 @@ class DashboardController extends Controller
 
             $transaction_response = $client->request("GET", $transactions_url, $payload);
             $transaction_status_code = $transaction_response->getStatusCode();
-            
-
 
 
             $stores_data = $store_response->getBody();
@@ -143,15 +141,14 @@ class DashboardController extends Controller
             $store_customer = json_decode($stores_data)->data->store->customers;
             $transactions = json_decode($transactions_data)->data->transactions;
             $chart = json_decode($stores_data)->data->transactionChart;
-            
+            Cookie::queue('store_name', $store->store_name);
             if ($store_status_code == 200 && $transaction_status_code == 200) {
                 return view('backend.dashboard.index', compact(['transactions', 'store', 'store_customer', 'chart']))
                     ->with('number', 1);
             }
-        $id = Cookie::get('store_id');
-        return $id;
-            }
-         catch (RequestException $e) {
+            $id = Cookie::get('store_id');
+            return $id;
+        } catch (RequestException $e) {
             Log::info('Catch error: DashboardController - ' . $e->getMessage());
 
             if ($e->getCode() == 401) {
@@ -199,24 +196,25 @@ class DashboardController extends Controller
     }
 
 
-    public function getAllStores(){
+    public function getAllStores()
+    {
         $client = new Client;
         $payload = [
             'headers' => [
                 'x-access-token' => Cookie::get('api_token')
             ],
         ];
-        $all_stores_url =$this->host . '/store';
-        
+        $all_stores_url = $this->host . '/store';
+
         $all_store_response = $client->request("GET", $all_stores_url, $payload);
         $all_stores_data = $all_store_response->getBody();
         $status_code = $all_store_response->getStatusCode();
         $stores = json_decode($all_stores_data)->data->stores;
-        if ($status_code == 200 ) {
+        if ($status_code == 200) {
             return json_encode($stores);
-        }else{
+        } else {
             return json_encode(array());
         }
-        
+
     }
 }
