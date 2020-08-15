@@ -14,25 +14,29 @@
                       action="{{ route('transaction.store') }}">
                     @csrf
                     <div class="form-group row mb-3">
-                        <label for="store" class="col-md-3 col-form-label">Store</label>
-                        <div class="col-md-9">
-                            <select class="form-control" name="store" id="store" required>
-                                <option value="" selected disabled>None selected</option>
-                                @isset($stores)
-                                    @if(Cookie::get('user_role') != 'super_admin')
-                                        @foreach ($stores as $store)
-                                            <option value="{{ $store->_id }}">{{ $store->store_name }}</option>
-                                        @endforeach
-                                    @else
-                                        @foreach ($stores as $userStores)
-                                            @foreach($userStores as $store)
+                        @if(is_store_admin())
+                            <input type="hidden" name="store" value="{{Cookie::get('store_id')}}">
+                        @else
+                            <label for="store" class="col-md-3 col-form-label">Store</label>
+                            <div class="col-md-9">
+                                <select class="form-control" name="store" id="store" required>
+                                    <option value="" selected disabled>None selected</option>
+                                    @isset($stores)
+                                        @if(Cookie::get('user_role') != 'super_admin')
+                                            @foreach ($stores as $store)
                                                 <option value="{{ $store->_id }}">{{ $store->store_name }}</option>
                                             @endforeach
-                                        @endforeach
-                                    @endif
-                                @endisset
-                            </select>
-                        </div>
+                                        @else
+                                            @foreach ($stores as $userStores)
+                                                @foreach($userStores as $store)
+                                                    <option value="{{ $store->_id }}">{{ $store->store_name }}</option>
+                                                @endforeach
+                                            @endforeach
+                                        @endif
+                                    @endisset
+                                </select>
+                            </div>
+                        @endif
                     </div>
 
                     <div class="form-group row mb-3">
@@ -43,13 +47,13 @@
                         </div>
                     </div>
                     @if($type == 'debt')
-                    <div class="form-group row mb-3">
-                        <label for="interest" class="col-md-3 col-form-label">Interest</label>
-                        <div class="col-md-9">
-                            <input type="number" class="form-control" id="interest" name="interest" placeholder="0%"
-                                   value="{{ old('interest') }}">
+                        <div class="form-group row mb-3">
+                            <label for="interest" class="col-md-3 col-form-label">Interest</label>
+                            <div class="col-md-9">
+                                <input type="number" class="form-control" id="interest" name="interest" placeholder="0%"
+                                       value="{{ old('interest') }}">
+                            </div>
                         </div>
-                    </div>
                     @endif
                     <div class="form-group row mb-3">
                         <label for="description" class="col-md-3 col-form-label">Description</label>
@@ -60,13 +64,13 @@
                         </div>
                     </div>
                     @if($type == 'debt')
-                    <div class="form-group row mb-3">
-                        <label for="pay_date" class="col-md-3 col-form-label">Expected Pay Date</label>
-                        <div class="col-md-9">
-                            <input type="date" class="form-control" id="expected_pay_date" name="expected_pay_date"
-                                   min="2019-02-06" value="{{ old('expected_pay_date') }}">
+                        <div class="form-group row mb-3">
+                            <label for="pay_date" class="col-md-3 col-form-label">Expected Pay Date</label>
+                            <div class="col-md-9">
+                                <input type="date" class="form-control" id="expected_pay_date" name="expected_pay_date"
+                                       min="2019-02-06" value="{{ old('expected_pay_date') }}">
+                            </div>
                         </div>
-                    </div>
                     @endif
                     <div class="form-group row mb-3">
                         <label for="customer" class="col-md-3 col-form-label">Customer</label>
