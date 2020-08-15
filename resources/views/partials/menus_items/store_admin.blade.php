@@ -67,13 +67,6 @@
     </a>
 
     <ul class="nav-second-level" aria-expanded="false">
-        @if(is_super_admin())
-        <li>
-            <a href="{{ route('users.index') }}">
-                <span> Manage Users </span>
-            </a>
-        </li>
-        @endif
         <li>
             <a href="{{ route('assistants.index') }}">Manage Assistants</a>
         </li>
@@ -82,4 +75,10 @@
             </a>
         </li> --}}
     </ul>
+</li>
+<li>
+    <a href="{{ route('store.index') }}">
+        <i data-feather="activity"></i>
+        <span> Switch Store </span>
+    </a>
 </li>
