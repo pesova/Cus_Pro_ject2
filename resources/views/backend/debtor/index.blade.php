@@ -19,7 +19,7 @@
                 @endif
             </div>
             @include('partials.alert.message')
-            @if(!is_super_admin())
+            @if(!is_store_assistant())
                 <div class="card">
                     <div class="card-body">
                         <p class="sub-header">
@@ -99,7 +99,7 @@
                                                         {{ $debtor->store_name }}
                                                     </a>
                                                 @else
-                                                    {{-- $debtor->store_ref_id --}}
+                                                    {{ $debtor->store_name }}
                                                 @endif
                                             @endif
                                         </td>
@@ -113,7 +113,7 @@
                                             @else
                                                 <a
                                                         href="{{ route('customer.show', $debtor->store_ref->_id .'-' .$debtor->customer_ref->_id) }}">
-                                                    {{ $debtor->customer_ref }}</a>
+                                                    {{ $debtor->customer_ref->name }}</a>
                                             @endif
                                         </td>
                                         <td>{{ format_money($debtor->total_amount, $debtor->currency) }}</td>
