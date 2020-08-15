@@ -13,6 +13,12 @@
     #editphone{
         padding-left: 89px !important;
     }
+
+    #active-store{
+        border-left: 3px solid #5369f8;
+    color: #5369f8;
+    background-color: #f7f7ff;
+    }
 </style>
 
 @stop
@@ -575,7 +581,7 @@ $total_interestReceivables += $each_interestReceivables;
                 if(element._id == current_store){
                         list += `
                             <li>
-                                <a href="${formatted_url}" class="active">
+                                <a href="${formatted_url}" id="active-store">
                                 ${element.store_name}</a>
                             </li>
                             `
