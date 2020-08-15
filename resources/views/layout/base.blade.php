@@ -89,6 +89,57 @@
     <script src="/backend/assets/js/alert.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"
         integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
+
+    {{-- Checks if a store is selected --}}
+    @if(Cookie::get('store_id') !== null)
+            <script>
+        let store_list = document.getElementById('store_lists');
+        if(store_list){
+            $.ajax({
+            method:"GET",
+            url: "{{route('businesses')}}",
+        })
+        .done(function(data){
+            let stores = JSON.parse(data);
+            
+            let list = '';
+            if(stores.length > 0){
+                    stores.forEach(element => {
+                    let url = "{{ route('store.select', ['store_id'=>1]) }}";
+                    let formatted_url = url.replace('1',element._id);
+
+                    let current_store = "{{Cookie::get('store_id')}}"
+                    if(element._id == current_store){
+                            list += `
+                                <li>
+                                    <a href="${formatted_url}" id="active-store">
+                                    ${element.store_name}</a>
+                                </li>
+                                `
+                    }else{
+                        list += `
+                        <li>
+                            <a href="${formatted_url}">
+                            ${element.store_name}</a>
+                        </li>
+                        ` 
+                    }
+                    
+                    
+                });
+            }else{
+                list ="<p>No store to display</p>"
+            }
+            
+            $('#store_list_spinner').css('display','none');
+            $("#store_lists").text('');
+            $("#store_lists").append(list);
+        })
+        }
+    </script>
+    @endif
+   
     @yield('javascript')
 </body>
 
