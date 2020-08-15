@@ -76,7 +76,7 @@ $store_id = Cookie::get('store_id');
                             </thead>
                             <tbody>
                             @foreach ($transactions as $index => $transaction )
-                            @if(is_super_admin())
+                            @if(is_store_admin())
                             @if ($transaction->store_ref_id == $store_id)
                             @endif
                                 <tr>
