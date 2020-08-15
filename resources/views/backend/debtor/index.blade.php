@@ -99,7 +99,7 @@
                                                         {{ $debtor->store_name }}
                                                     </a>
                                                 @else
-                                                    {{ $debtor->store_name }}
+                                                    {{-- $debtor->store_ref_id --}}
                                                 @endif
                                             @endif
                                         </td>
@@ -113,7 +113,7 @@
                                             @else
                                                 <a
                                                         href="{{ route('customer.show', $debtor->store_ref->_id .'-' .$debtor->customer_ref->_id) }}">
-                                                    {{ $debtor->customer_ref->name }}</a>
+                                                    {{ $debtor->customer_ref }}</a>
                                             @endif
                                         </td>
                                         <td>{{ format_money($debtor->total_amount, $debtor->currency) }}</td>
