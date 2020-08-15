@@ -19,7 +19,7 @@
                 @endif
             </div>
             @include('partials.alert.message')
-            @if(!is_super_admin())
+            @if(!is_store_assistant())
                 <div class="card">
                     <div class="card-body">
                         <p class="sub-header">

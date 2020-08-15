@@ -60,6 +60,7 @@
                                 <th data-priority="3"> </th>
                             </tr>
                         </thead>
+                        @if(is_super_admin())
                         <tbody>
                             @foreach ($response['storeData']->customers as $customers)
 
@@ -81,6 +82,29 @@
                             @endforeach
                             @endforeach
                         </tbody>
+                        @else
+                        <tbody>
+                            @foreach ($response['storeData']->customers as $customers)
+
+                            @foreach ($customers->transactions as $index => $transaction)
+                            
+                            <tr>
+                                <td>{{ $index }}</td>
+                                <th>{{$customers->name}}<span class="co-name"></span>
+                                </th>
+                                <td class="font-light">{{$customers->phone_number}}</td>
+                                <td>{{ format_money($transaction->amount, $transaction->currency) }}</td>
+                                <td>{{$transaction->type}}</td>
+                                <td>{{ app_format_date($transaction->date_recorded) }}</td>
+                                <td><a href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id.'-'.$transaction->customer_ref_id) }}"
+                                        class="btn btn-info btn-sm mr-3"><i class="far mr-2 fa-edit"></i>Send Reminder</a>
+                                </td>
+                            </tr>
+                            
+                            @endforeach
+                            @endforeach
+                        </tbody>
+                        @endif
                     </table>
                 </div>
             </div>

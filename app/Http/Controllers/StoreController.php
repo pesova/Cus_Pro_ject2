@@ -421,14 +421,12 @@ class StoreController extends Controller
             $transaction_statusCode = $transaction_response->getStatusCode();
             $body = $response->getBody();
             $transactions_body = $transaction_response->getBody();
-
             $store_transactions = json_decode($transactions_body)->data->transactions;
             $StoreData = json_decode($body)->data->store;
             $StoreData = [
                 'storeData' => $StoreData,
                 "transactions" => $store_transactions
             ];
-
             if ($statusCode == 200 && $transaction_statusCode == 200) {
 
                 return view('backend.stores.show_debt')->with('response', $StoreData)->with('number', 1);
