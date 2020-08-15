@@ -76,9 +76,3 @@
         </li> --}}
     </ul>
 </li>
-<li>
-    <a href="{{ route('store.index') }}">
-        <i data-feather="activity"></i>
-        <span> Switch Store </span>
-    </a>
-</li>

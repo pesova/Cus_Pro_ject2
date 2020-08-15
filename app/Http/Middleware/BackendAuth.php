@@ -27,8 +27,8 @@ class BackendAuth
             }
 
             // makes sure a store admin selects a store before seeing the dashboard
-            if (is_store_admin() && !has_selected_store() && $request->url() !== route('store.index') && $request->url() !== route('store.select')) {
-                return redirect()->route('store.index');
+            if (is_store_admin() && !has_selected_store() && $request->url() !== route('store.create') && $request->url() !== route('store.store')) {
+                return redirect()->route('store.create');
             }
             return $next($request);
         }

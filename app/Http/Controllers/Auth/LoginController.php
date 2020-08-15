@@ -78,13 +78,13 @@ class LoginController extends Controller
 
                     $data = $response->data->user->local;
 
-                    $image_path =  $response->data->user->image->path;
+                    $image_path = $response->data->user->image->path;
                     $image = explode('/', $image_path);
                     $c = (count($image) - 1);
 
                     $profile_picture = "";
-                    for ($j = 3; $j <= $c; $j++){
-                        $profile_picture .= $image[$j]. ' ';
+                    for ($j = 3; $j <= $c; $j++) {
+                        $profile_picture .= $image[$j] . ' ';
                     }
 
                     // store data to cookie
@@ -102,9 +102,9 @@ class LoginController extends Controller
 
                     //Check for Store Assistant to set Name
                     $userRole = $response->data->user->local->user_role;
-                    if($userRole == 'store_assistant'){
+                    if ($userRole == 'store_assistant') {
                         Cookie::queue('name', isset($response->data->user->local->name) ? $response->data->user->local->name : '');
-                    }                   
+                    }
                     // Financial info 
                     $userRole = $response->data->user->local->user_role;
                     if ($userRole == 'store_admin') {
@@ -112,7 +112,7 @@ class LoginController extends Controller
                             $bank_details = $response->data->user->bank_details;
                             $accoun_name = isset($bank_details->account_name) ? $bank_details->account_name : '';
                             $account_number = isset($bank_details->account_number) ? $bank_details->account_number : '';
-                            $bank =  isset($bank_details->bank) ? $bank_details->bank : '';
+                            $bank = isset($bank_details->bank) ? $bank_details->bank : '';
 
                             Cookie::queue('account_name', $accoun_name);
                             Cookie::queue('account_number', $account_number);
@@ -122,9 +122,9 @@ class LoginController extends Controller
                             Cookie::queue('account_number', '');
                             Cookie::queue('account_bank', '');
                         }
-                        Cookie::queue('currency',  $response->data->user->currencyPreference);
+                        Cookie::queue('currency', $response->data->user->currencyPreference);
                     } elseif ($userRole == 'store_assistant') {
-                        Cookie::queue('currency',  $response->data->user->currencyPreference);
+                        Cookie::queue('currency', $response->data->user->currencyPreference);
                     }
 
                     //show success message
@@ -134,6 +134,11 @@ class LoginController extends Controller
                     //check if active
                     if ($data->is_active == false) {
                         return redirect()->route('activate.index');
+                    }
+
+                    // we need to get the number of stores of store admin before letting him in. if request fails, we log him out
+                    if (!$this->getStores($response->data->user->api_token)) {
+                        return redirect()->route('logout', ['message' => 'An error occured. Please login again']);
                     }
                 } else {
                     $request->session()->flash('message', 'Invalid Credentials');
@@ -180,5 +185,48 @@ class LoginController extends Controller
         ];
 
         $this->validate($request, $rules, $messages);
+    }
+
+    /**
+     * Get's all stores belonging to the store_admin, sets the first as selected store
+     */
+    private function getStores($api_token)
+    {
+
+        $storeUrl = $this->host . '/store';
+
+        try {
+            //code...
+
+            // initiate new GuzzleHttp Client
+            $client = new Client;
+
+            // pass access token
+            $payload = ['headers' => ['x-access-token' => $api_token]];
+
+            // make Http request
+            $response = $client->request("GET", $storeUrl, $payload);
+
+            // get response from Http request
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode == 200) {
+                // get data from respone
+                $stores_data = json_decode($response->getBody())->data->stores;
+                // loop added because returns two nested arrays for superadmin. - doug
+                if (count($stores_data) > 0) {
+                    Cookie::queue("store_id", $stores_data[0]->_id);
+                    Cookie::queue("store_name", $stores_data[0]->store_name);
+                }
+                return true;
+            } else {
+                return false;
+            }
+        } catch (\Exception $e) {
+            //log error;
+            Log::error('Catch error: StoreController - ' . $e->getMessage());
+            return false;
+
+        }
     }
 }

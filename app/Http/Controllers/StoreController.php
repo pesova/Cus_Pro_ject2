@@ -74,11 +74,9 @@ class StoreController extends Controller
 
                 $articles = array_slice($stores_data, $offset, $perPage);
                 $stores = new Paginator($articles, count($stores_data), $perPage);
-                if (is_super_admin()) {
-                    return view('backend.stores.index')->with('stores', $stores->withPath('/' . $request->path()));
-                } else {
-                    return view('backend.stores.select')->with('stores', $stores->withPath('/' . $request->path()));
-                }
+
+                return view('backend.stores.index')->with('stores', $stores->withPath('/' . $request->path()));
+
             } else if ($statusCode == 401) {
                 return redirect()->route('login')->with('message', "Please Login Again");
             }
@@ -136,10 +134,14 @@ class StoreController extends Controller
                 $statusCode = $response->getStatusCode();
                 $body = $response->getBody();
                 $data = json_decode($body);
-
                 if ($statusCode == 201 && $data->success) {
                     $request->session()->flash('alert-class', 'alert-success');
                     Session::flash('message', $data->message);
+                    if ($request->has('first_user')) {
+                        Cookie::queue("store_id", $data->data->store->_id);
+                        Cookie::queue("store_name", $data->data->store->store_name);
+                        return redirect()->route('dashboard');
+                    }
                     return redirect()->route('store.index');
                 } else if ($statusCode == 401) {
                     $request->session()->flash('alert-class', 'alert-danger');

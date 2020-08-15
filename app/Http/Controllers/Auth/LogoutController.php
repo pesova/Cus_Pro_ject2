@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 // use Illuminate\Support\Facades\Http;
 
@@ -37,6 +38,10 @@ class LogoutController extends Controller
         Cookie::queue(Cookie::forget('store_name'));
 
         $request->session()->invalidate();
+        if ($request->has('message')) {
+            Session::flash('message', $request->input('message'));
+            Session::flash('alert-class', 'alert-danger');
+        }
         return redirect()->route('login');
     }
 }
