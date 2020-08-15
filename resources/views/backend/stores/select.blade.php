@@ -12,6 +12,25 @@
         .content {
             padding-top: 80px !important;
         }
+       .card.text-center{
+            
+            cursor: pointer;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+        }
+
+
+        .col-xl-3.col-sm-6.new{
+            position: relative;
+        }
+
+       .card.text-center:hover{
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        }
+
+        .store-links{
+            display: block;
+        }
     </style>
 
 @stop
@@ -22,11 +41,13 @@
         <div class="container-fluid">
 
             <div class="row" style="margin-top:20px;">
-
                 @foreach ($stores as $store)
-                    <div class="col-xl-3 col-sm-6" style="margin-bottom: 20px;max-height:225px;">
+                <a class="col-xl-3 col-sm-6"  href="{{ route('store.select', ['store_id'=>$store->_id]) }}">
+                    <div  style="margin-bottom: 20px;
+                    max-height:225px;">
 
-                        <div id="idd" class="card text-center">
+                        <div class="card text-center">
+
 
                             <div class="card-body">
 
@@ -35,8 +56,7 @@
                                 {{ app_get_acronym($store->store_name) }}
                             </span>
                                 </div>
-                                <h5 class="font-size-15"><a
-                                            href="{{ route('store.select', ['store_id'=>$store->_id]) }}">{{ $store->store_name  }}</a>
+                                <h5 class="font-size-15">{{ $store->store_name  }}
                                 </h5>
                                 <p class="text-muted">{{ $store->email ?? ''}}</p>
                                 <p class="text-muted">{{ $store->shop_address ?? ''}}</p>
@@ -46,8 +66,9 @@
                         </div>
 
                     </div>
-
+                </a>
                 @endforeach
+              
                 {{-- Pagination link --}}
                 <div class="ml-auto mx-2">
                     {{$stores->links()}}
