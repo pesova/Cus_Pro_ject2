@@ -555,9 +555,10 @@ $total_interestReceivables += $each_interestReceivables;
 @endif
 
 
-<script>
-
-    $.ajax({
+{{-- <script>
+    let store_list = document.getElementById('store_lists');
+    if(store_list){
+         $.ajax({
         method:"GET",
         url: "{{route('businesses')}}",
     })
@@ -597,6 +598,8 @@ $total_interestReceivables += $each_interestReceivables;
         $("#store_lists").text('');
         $("#store_lists").append(list);
     })
-</script>
+    }
+   
+</script> --}}
 
 @stop
