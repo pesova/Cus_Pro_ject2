@@ -27,7 +27,12 @@ class DebtorController extends Controller
      */
     public function index(Request $request)
     {
-        if (Cookie::get('user_role') != 'super_admin') {
+        $store_id = Cookie::get('store_id');
+        $user_role = Cookie::get('user_role');
+        if($user_role == 'store_admin'){
+            $url = $this->host . '/store' . '/' . $store_id;
+            $transactions_url = $this->host . '/transaction/store/' . $store_id;
+        }elseif($user_role == 'store_assistant'){
             $storeUrl = $this->host . '/store';
             $debtorUrl = $this->host . '/debt';
 
@@ -35,7 +40,7 @@ class DebtorController extends Controller
                 $storeID = $request->store_id;
                 $debtorUrl = $this->host . '/debt' . '/' . $storeID;
             }
-        } else {
+        }else{
             $storeUrl = $this->host . '/store/all';
             $debtorUrl = $this->host . '/transaction/all';
         }
@@ -43,8 +48,26 @@ class DebtorController extends Controller
         try {
             $client = new Client();
             $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
+            if($user_role == 'store_admin'){
+                $response = $client->request("GET", $url, $payload);
+            $transaction_response = $client->request("GET", $transactions_url, $payload);
+            $statusCode = $response->getStatusCode();
+            $transaction_statusCode = $transaction_response->getStatusCode();
+            $body = $response->getBody();
+            $transactions_body = $transaction_response->getBody();
+            $store_transactions = json_decode($transactions_body)->data->transactions;
+            $StoreData = json_decode($body)->data->store;
+            $StoreData = [
+                'storeData' => $StoreData,
+                "transactions" => $store_transactions
+            ];
 
-            // fetch all stores
+            if ($statusCode == 200 && $transaction_statusCode == 200) {
+
+                return view('backend.stores.show_debt')->with('response', $StoreData)->with('number', 1);
+            }
+            }else{
+                // fetch all stores
             $storeResponse = $client->request("GET", $storeUrl, $payload);
             $storeStatusCode = $storeResponse->getStatusCode();
 
@@ -73,7 +96,8 @@ class DebtorController extends Controller
             }
             Session::flash('message', "Temporarily unable to get all stores");
             return view('backend.debtor.index', []);
-        } catch (RequestException $e) {
+            }
+        }catch (RequestException $e) {
             Log::info('Catch error: DebtorController - ' . $e->getMessage());
             if ($e->hasResponse()) {
                 $response = $e->getResponse()->getBody();
