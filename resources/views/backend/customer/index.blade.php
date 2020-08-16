@@ -55,7 +55,9 @@
                                     <th>ID</th>
                                     <th>Name</th>
                                     <th>Tel</th>
+                                    @if(!is_store_admin())
                                     <th>Business Name</th>
+                                    @endif
                                     <th>Actions</th>
                                 </tr>
                                 <tbody>
@@ -64,7 +66,9 @@
                                         <td>{{$i + 1}}</td>
                                         <td>{{ ucfirst($customer->name) }}</td>
                                         <td>{{ $customer->phone_number }}</td>
+                                        @if(!is_store_admin())
                                         <td>{{ $customer->store_name }}</td>
+                                        @endif
                                         <td>
                                             <a class="btn btn-primary btn-sm py-1 px-2"
                                                href="{{ route('customer.show', $customer->store_id.'-'.$customer->_id) }}">

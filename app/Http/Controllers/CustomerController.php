@@ -33,11 +33,15 @@ class CustomerController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
+    {   
+        $store_id = Cookie::get('store_id');
         if (Cookie::get('user_role') == 'super_admin') {
             $url = $this->host . '/customer/all';
             $store_url = $this->host . '/store/all';
-        } else {
+        } elseif(is_store_admin()) {
+            $url = $this->host . '/store' . '/' . $store_id;
+            $store_url = $this->host . '/store';
+        }else {
             $url = $this->host . '/customer';
             $store_url = $this->host . '/store';
         }
@@ -71,7 +75,18 @@ class CustomerController extends Controller
                         }
                     }
                     $stores = $_stores;
-                } else {
+                } elseif(is_store_admin()) {
+                    $userData = json_decode($user_response->getBody())->data->store;
+                    // dd($userData);
+                    foreach ($userData->customers as $customer) {
+                        
+                        
+                            $customer->store_id  = $customer->store_ref_id;
+                            $allCustomers[] = $customer;
+                        
+                        
+                    }
+                }else {
                     $userData = json_decode($user_response->getBody())->data->customer;
                     foreach ($userData as $store) {
                         foreach ($store->customers as $customer) {
