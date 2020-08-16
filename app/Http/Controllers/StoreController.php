@@ -335,6 +335,9 @@ class StoreController extends Controller
             if ($status == 200 || $status == 201) {
                 $body = $response->getBody()->getContents();
                 $request->session()->flash('alert-class', 'alert-success');
+                if($id == Cookie::get('store_id')){
+                    Cookie::queue("store_name", $request->input('edit_store_name'));
+                }
                 Session::flash('message', "Update Successful");
                 return redirect()->route('store.index');
             } else {
@@ -373,6 +376,13 @@ class StoreController extends Controller
             ]
         ];
         try {
+
+            if($id == Cookie::get('store_id')){
+                $request->session()->flash('alert-class', 'alert-danger');
+                Session::flash('message', "Sorry you can not delete selected store, please switch or create another store");
+               return  back();
+            }
+
             $delete = $client->delete($url, $payload);
 
             if ($delete->getStatusCode() == 200 || $delete->getStatusCode() == 201) {
