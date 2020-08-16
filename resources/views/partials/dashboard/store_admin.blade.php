@@ -51,6 +51,11 @@ $total_interestReceivables += $each_interestReceivables;
 @section('content')
 
 <!-- Start Content-->
+<div class="row page-title align-items-center">
+    <div class="col-sm-4 col-xl-6">
+        <h4 class="mb-1 mt-0">Dashboard</h4>
+    </div>
+</div>
 @include('partials.alert.message')
 <div id="transaction_js">
     {{-- These are also found in the alert.message partial. I had to repeat it for the sake of JS see showAlertMessage() below--}}
