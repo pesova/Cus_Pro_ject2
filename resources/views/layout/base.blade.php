@@ -38,6 +38,10 @@
         border-left: 3px solid #5369f8;
         color: #5369f8;
     }
+        .pointer { 
+            cursor: pointer; 
+            }
+
     </style>
 
     <!-- Other Style CSS -->
