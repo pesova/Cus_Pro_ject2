@@ -63,10 +63,11 @@ class StoreController extends Controller
                 return redirect()->route('login')->with('message', "Please Login Again");
             }
         } catch (RequestException $e) {
-
+            
             if ($e->getCode() == 401) {
-                Log::error((string)$response->getBody());
-                return view('errors.500');
+                $request->session()->flash('alert-class', 'alert-danger');
+                Session::flash('message', "Your Session Has Expired, Please Login Again");
+                return redirect()->route('logout');
             }
 
             Log::error('Catch error: StoreController - ' . $e->getMessage());
