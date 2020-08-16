@@ -1,107 +1,28 @@
 @extends('layout.base')
 
-
-
-@php
-$currency = isset($store->store_admin_ref->currencyPreference) ?
-$store->store_admin_ref->currencyPreference : null;
-@endphp
-
-@php
-$totalDept = 0;
-$total_interest = 0;
-$total_Revenue = 0;
-$total_interestRevenue = 0;
-$total_Receivables = 0;
-$total_interestReceivables = 0;
-@endphp
-
-@foreach ($store_customer as $customer)
-@foreach ($customer->transactions as $index => $transaction)
-
-@php
-//get for all debts
-if ($transaction->type == "debt") {
-$eachDept = $transaction->amount;
-$totalDept += $eachDept;
-$each_interest = $transaction->interest;
-$total_interest += $each_interest;
-}
-
-//get for all revenues
-if ($transaction->type == "paid") {
-$eachRevenue = $transaction->amount;
-$total_Revenue += $eachRevenue;
-$each_interestRevenue = $transaction->interest;
-$total_interestRevenue += $each_interestRevenue;
-}
-
-//get for all Receivables
-if ($transaction->type == "receivables") {
-$eachReceivables = $transaction->amount;
-$total_Receivables += $eachReceivables;
-$each_interestReceivables = $transaction->interest;
-$total_interestReceivables += $each_interestReceivables;
-}
-@endphp
-@endforeach
-@endforeach
-
-
 @section('content')
 
 <!-- Start Content-->
-<div class="row page-title align-items-center">
+{{-- <div class="row page-title align-items-center">
     <div class="col-sm-4 col-xl-6">
         <h4 class="mb-1 mt-0">Dashboard</h4>
     </div>
-</div>
+</div> --}}
 @include('partials.alert.message')
 <div id="transaction_js">
     {{-- These are also found in the alert.message partial. I had to repeat it for the sake of JS see showAlertMessage() below--}}
 </div>
 
-{{-- <div class="row page-title">
-    <div class="col-md-12">
-        <nav aria-label="breadcrumb" class="float-right mt-1">
-
-            <a href="" class="btn btn-danger float-right btn-sm" data-toggle="modal"
-                data-target="#deleteStore-{{$store->_id}}">
-                Delete
-            </a>
-            <a href="#" 
-            data-toggle="modal" 
-            data-target="#editStore"
-            onclick="open_edit_store(this)"
-            data-store_name="{{$store->store_name}}"
-            data-store_id="{{$store->_id}}"
-            data-store_tagline= "{{$store->tagline}}"
-            data-store_email="{{$store->email}}"
-            data-store_address="{{$store->shop_address}}"
-            data-store_phone_full="{{$store->phone_number}}"
-            class="mr-3 btn btn-primary float-right btn-sm">
-                Edit Business
-            </a>
-            {{-- Delete Store Modal --}}
-            {{-- @include('backend.stores.modals.deleteStore') --}}
-
-            {{-- Edit Store Modal --}}
-            {{-- @include('backend.stores.modals.editStore') --}}
-        {{-- </nav>
-        <h4 class="mt-2">My Business</h4>
-    </div>
-</div> --}}
-
-<div class="row mb-4">
+<div class="row my-4">
     <div class="col-xl-4">
         <div class=" card bg-soft-primary">
             <div class="row">
                 <div class="col-7">
-                    <div class="text-primary p-3">
-                        <h5 class="text-primary" id="store-name">{{ ucfirst($store->store_name) }}</h5>
+                    <div class="text-primary pl-3">
+                        <h5 class="text-primary" id="store-name">{{ ucfirst($store->store_name) }} - Dashboard</h5>
                         <ul class="pl-3 mb-0">
-                            <li class="py-1">Assistants: {{ count( $store->assistants)}}</li>
-                            <li class="py-1">Customers: {{ count( $store->customers)}}</li>
+                            <li class="py-1">Assistants: {{ $total_assistants }}</li>
+                            <li class="pt-1">Customers: {{ $total_customers }}</li>
                         </ul>
                     </div>
                 </div>
@@ -120,7 +41,7 @@ $total_interestReceivables += $each_interestReceivables;
                         <div class="media">
                             <div class="media-body">
                                 <p class="text-muted font-weight-medium">Total Debts</p>
-                                <h4 class="mb-0">{{ format_money($total_Receivables, $currency) }}
+                                <h4 class="mb-0">{{ format_money($total_debts, $currency) }}
                             </div>
 
                             <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
@@ -128,15 +49,14 @@ $total_interestReceivables += $each_interestReceivables;
                                     <i class="uil-atm-card font-size-14"></i>
                                 </span>
                             </div>
-
                         </div>
                         <br>
                         <div class="d-flex">
                             <span class="badge badge-soft-primary font-size-12">
-                                {{ $total_interest }}%
+                                {{ $interest_debts }}%
                             </span>
                             <span class="ml-2 text-truncate text-primary">
-                                From Previous Month
+                                total interest
                             </span>
                         </div>
                     </div>
@@ -149,7 +69,7 @@ $total_interestReceivables += $each_interestReceivables;
                         <div class="media">
                             <div class="media-body">
                                 <p class="text-muted font-weight-medium">Total Payments</p>
-                                <h4 class="mb-0">{{ format_money($total_Revenue, $currency) }}
+                                <h4 class="mb-0">{{ format_money($total_revenues, $currency) }}
                             </div>
 
                             <div class="mini-stat-icon avatar-sm align-self-center rounded-circle bg-primary">
@@ -161,44 +81,15 @@ $total_interestReceivables += $each_interestReceivables;
                         <br>
                         <div class="d-flex">
                             <span class="badge badge-soft-primary font-size-12">
-                                {{ $total_interestRevenue }}%
+                                {{ $interest_revenues }}%
                             </span>
                             <span class="ml-2 text-truncate text-primary">
-                                From Previous Month
+                                total interest
                             </span>
                         </div>
                     </div>
                 </a>
             </div>
-{{-- 
-            <div class="col-sm-4">
-                <a href="{{ route('store_receivable', $store->_id) }}" class="card">
-                    <div class="card-body">
-                        <div class="media">
-                            <div class="media-body">
-                                <p class="text-muted font-weight-medium">Receivables</p>
-                                <h4 class="mb-0">{{ format_money($total_Receivables, $currency) }}
-                            </div>
-
-                            <div class="mini-stat-icon avatar-sm align-self-center rounded-circle bg-primary">
-                                <span class="avatar-title">
-                                    <i class="uil-atm-card font-size-14"></i>
-                                </span>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="d-flex">
-                            <span class="badge badge-soft-primary font-size-12">
-                                {{ $total_interestReceivables }}%
-                            </span>
-                            <span class="ml-2 text-truncate text-primary">
-                                From Previous Month
-                            </span>
-                        </div>
-                    </div>
-                </a>
-            </div>
- --}}
         </div>
     </div>
 </div>
@@ -206,9 +97,9 @@ $total_interestReceivables += $each_interestReceivables;
 <div class="row mb-4">
     <div class="col-lg-4">
         <div class="card">
-            <div class="card-body pl-3 pr-3 padup">
+            <div class="card-body px-3 ">
                 <div class="text-center">
-                    <h6>Choose Business Card</h6>
+                    <h6>Business Card</h6>
                 </div>
                 <div class="row" id="gallery" data-toggle="modal" data-target="#businessCard1">
                     <div class="col-6 col-md-4 col-lg-12">
@@ -224,7 +115,7 @@ $total_interestReceivables += $each_interestReceivables;
         </div>
     </div>
     <div class="col-lg-8">
-    <div class="card">
+        <div class="card">
             <div class="card-body">
                 <div class="clearfix"></div>
                 <h6 class="card-title mb-4 float-sm-left">Transaction Overview {{date('Y')}}</h6>
@@ -273,18 +164,19 @@ $total_interestReceivables += $each_interestReceivables;
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($store_customer as $customer)
-                            @foreach ($customer->transactions as $index => $transaction)
+                            @foreach ($transactions as $index => $transaction)
                             <tr>
-                                <td>{{ $index++ }}</td>
-                                <th>{{ $customer->name }}<span class="co-name">
+                                <td>{{ $index + 1 }}</td>
+                                <th>{{ $transaction->customer_ref->name }}<span class="co-name">
                                 </th>
-                                <td class="font-light">{{ $customer->phone_number}}</td>
-                                @if ($transaction->type == 'paid')
-                                    <td id="transaction-status">Paid</td>
-                                @else
-                                    <td id="transaction-status">Debt</td>
-                                @endif
+                                <td class="font-light">{{  $transaction->customer_ref->phone_number}}</td>
+                                <td id="transaction-status">
+                                    @if ($transaction->type == 'paid')
+                                    Paid
+                                    @elseif($transaction->type == 'debt')
+                                    Debt
+                                    @endif
+                                </td>
                                 <td>{{format_money($transaction->amount, $currency, $currency)}}</td>
                                 <td>
                                     <label class="switch">
@@ -314,7 +206,6 @@ $total_interestReceivables += $each_interestReceivables;
                                         class="btn btn-primary waves-effect waves-light btn-sm"> View</a>
                                 </td>
                             </tr>
-                            @endforeach
                             @endforeach
                         </tbody>
                     </table>
@@ -535,60 +426,7 @@ $total_interestReceivables += $each_interestReceivables;
 
 </script>
 
-
-
-@if (Cookie::get('user_role') == "store_admin")
-
+@if (is_super_admin())
 @include('backend.stores.scripts.editStore')
-
 @endif
-
-
-{{-- <script>
-    let store_list = document.getElementById('store_lists');
-    if(store_list){
-         $.ajax({
-        method:"GET",
-        url: "{{route('businesses')}}",
-    })
-    .done(function(data){
-        let stores = JSON.parse(data);
-        
-        let list = '';
-        if(stores.length > 0){
-                stores.forEach(element => {
-                let url = "{{ route('store.select', ['store_id'=>1]) }}";
-                let formatted_url = url.replace('1',element._id);
-
-                let current_store = "{{$store->_id}}"
-                if(element._id == current_store){
-                        list += `
-                            <li>
-                                <a href="${formatted_url}" id="active-store">
-                                ${element.store_name}</a>
-                            </li>
-                            `
-                }else{
-                    list += `
-                    <li>
-                        <a href="${formatted_url}">
-                        ${element.store_name}</a>
-                    </li>
-                    ` 
-                }
-                
-                
-            });
-        }else{
-            list ="<p>No store to display</p>"
-        }
-        
-        $('#store_list_spinner').css('display','none');
-        $("#store_lists").text('');
-        $("#store_lists").append(list);
-    })
-    }
-   
-</script> --}}
-
 @stop
