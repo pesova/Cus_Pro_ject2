@@ -33,6 +33,10 @@
         .dissapear {
             display: none !important;
         }
+        .pointer { 
+            cursor: pointer; 
+            }
+
     </style>
 
     <!-- Other Style CSS -->
