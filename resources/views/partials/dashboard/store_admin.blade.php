@@ -1,20 +1,5 @@
 @extends('layout.base')
-@section("custom_css")
 
-
-<style>
-    #editphone{
-        padding-left: 89px !important;
-    }
-
-    #active-store{
-        border-left: 3px solid #5369f8;
-    color: #5369f8;
-    background-color: #f7f7ff;
-    }
-</style>
-
-@stop
 
 
 @php
@@ -555,9 +540,10 @@ $total_interestReceivables += $each_interestReceivables;
 @endif
 
 
-<script>
-
-    $.ajax({
+{{-- <script>
+    let store_list = document.getElementById('store_lists');
+    if(store_list){
+         $.ajax({
         method:"GET",
         url: "{{route('businesses')}}",
     })
@@ -597,6 +583,8 @@ $total_interestReceivables += $each_interestReceivables;
         $("#store_lists").text('');
         $("#store_lists").append(list);
     })
-</script>
+    }
+   
+</script> --}}
 
 @stop
