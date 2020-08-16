@@ -2,7 +2,7 @@
 
 @section("custom_css")
 
-@if (!is_store_assistant())
+@if (is_store_admin())
  <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="{{ asset('/backend/assets/css/transac.css') }}">   
 <link rel="stylesheet" href="{{asset('backend/assets/css/store_list.css')}}">
