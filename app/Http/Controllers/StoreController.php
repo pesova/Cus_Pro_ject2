@@ -109,7 +109,7 @@ class StoreController extends Controller
 
         if ($request->isMethod('post')) {
             $request->validate([
-                'store_name' => 'required|min:2|max:25',
+                'store_name' => 'required|min:2|max:100',
                 'phone_number' => ["required", "numeric", "digits_between:6,16", new DoNotAddIndianCountryCode, new DoNotPutCountryCode],
                 'shop_address' => 'required|min:5|max:100',
                 'tagline' => 'required|min:4|max:50'
