@@ -159,8 +159,9 @@ class CustomerController extends Controller
         if ($request->isMethod('post')) {
             $request->validate([
                 'store_id' => 'required',
+                'email'      => 'nullable|email',
                 'phone_number' => ["required", "numeric", "digits_between:6,16", new DoNotAddIndianCountryCode, new DoNotPutCountryCode],
-                'name' => 'required | min:5 | max:30',
+                'name' => 'required | min:3 | max:50',
             ]);
 
             try {
@@ -171,6 +172,7 @@ class CustomerController extends Controller
                         'store_id' => $request->input('store_id'),
                         'phone_number' => $request->input('phone_number'),
                         'name' => purify_input($request->input('name')),
+                        'email' => $request->input('email'),
                     ],
                 ];
                 $response = $client->request("POST", $url, $payload);
