@@ -98,7 +98,7 @@
 
     {{-- Checks if a store is selected --}}
 
-    @if (!is_store_assistant())
+    @if (is_store_admin())
             @if(Cookie::get('store_id') !== null)
                 <script>
             let store_list = document.getElementById('store_lists');
