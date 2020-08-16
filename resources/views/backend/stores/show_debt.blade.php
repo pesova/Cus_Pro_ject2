@@ -88,6 +88,7 @@
                             @foreach ($response['storeData']->customers as $customers)
 
                             @foreach ($customers->transactions as $index => $transaction)
+                            @if($transaction->type == 'debt')
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <th><a href="{{ route('customer.show', $transaction->store_ref_id .'-' .$transaction->customer_ref_id) }}">{{$customers->name}}</a><span class="co-name"></span>
@@ -101,7 +102,7 @@
                                         class="btn btn-info btn-sm mr-3">View</a>
                                 </td>
                             </tr>
-                            
+                            @endif
                             @endforeach
                             @endforeach
                         </tbody>
