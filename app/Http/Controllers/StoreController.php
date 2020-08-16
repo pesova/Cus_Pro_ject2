@@ -581,6 +581,7 @@ class StoreController extends Controller
     public function selectStore(Request $request)
     {
         Cookie::queue('store_id', $request->input('store_id'));
+        Cookie::queue('store_name', $request->input('store_name'));
         return redirect()->route('dashboard');
     }
 }
