@@ -15,10 +15,14 @@
 
 <div class="row page-title">
     <div class="col-md-12">
-        <nav aria-label="breadcrumb" class="float-right mt-1">
-            <a href="{{ url()->previous() }}" class="btn btn-primary go-back">Go Back</a>
-        </nav>
-        <h4 class="mt-2">My Business</h4>
+        <h4 class="mt-2">My Business </h4>
+        @if(!is_store_assistant())
+            <a href="#" class="btn btn-primary float-right" data-toggle="modal"
+               data-target="#addTransactionModal">
+                New &nbsp;<i class="fa fa-plus my-float"></i>
+            </a>
+            @include('partials.modal.addTransaction',['title'=>'Add New Debt','type'=>'debt','buttonText'=>'Add Debt'])
+        @endif
     </div>
 </div>
 
@@ -125,6 +129,38 @@
 <script type="text/javascript"
     src="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-html5-1.6.2/datatables.min.js">
 </script>
+@if(is_store_admin())
+    <script>
+        jQuery(function ($) {
+            get_customers("{{Cookie::get('store_id')}}");
+        });
+    </script>
+@endif
+<script>
+    function get_customers(storeID) {
+        const token = "{{Cookie::get('api_token')}}";
+        const host = "{{ env('API_URL', 'https://dev.api.customerpay.me') }}";
+        jQuery.ajax({
+            url: host + "/store/" + encodeURI(storeID),
+            type: "GET",
+            dataType: "json",
+            contentType: 'json',
+            headers: {
+                'x-access-token': token
+            },
+            success: function (data) {
+                var new_data = data.data.store.customers;
+                var i;
+                new_data.forEach(customer => {
+                    $('select[name="customer"]').append('<option value="' +
+                        customer._id + '">' +
+                        customer.name + '</option>');
+                });
+            }
+        });
+    }
+</script>
+
 <script>
     $(document).ready(function() {
         let store_name = $("#store-name").text().trim();
