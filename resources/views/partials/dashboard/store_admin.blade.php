@@ -56,9 +56,8 @@ $total_interestReceivables += $each_interestReceivables;
     {{-- These are also found in the alert.message partial. I had to repeat it for the sake of JS see showAlertMessage() below--}}
 </div>
 
-<div class="row page-title">
+{{-- <div class="row page-title">
     <div class="col-md-12">
-        {{-- @if(Cookie::get('user_role') == 'store_admin') --}}
         <nav aria-label="breadcrumb" class="float-right mt-1">
 
             <a href="" class="btn btn-danger float-right btn-sm" data-toggle="modal"
@@ -79,15 +78,14 @@ $total_interestReceivables += $each_interestReceivables;
                 Edit Business
             </a>
             {{-- Delete Store Modal --}}
-            @include('backend.stores.modals.deleteStore')
+            {{-- @include('backend.stores.modals.deleteStore') --}}
 
             {{-- Edit Store Modal --}}
-            @include('backend.stores.modals.editStore')
-        </nav>
-        {{-- @endif --}}
+            {{-- @include('backend.stores.modals.editStore') --}}
+        {{-- </nav>
         <h4 class="mt-2">My Business</h4>
     </div>
-</div>
+</div> --}}
 
 <div class="row mb-4">
     <div class="col-xl-4">
@@ -111,12 +109,41 @@ $total_interestReceivables += $each_interestReceivables;
 
     <div class="col-xl-8">
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-6">
+                <a href="{{ route('store_debt', $store->_id) }}" class="card">
+                    <div class="card-body">
+                        <div class="media">
+                            <div class="media-body">
+                                <p class="text-muted font-weight-medium">Total Debts</p>
+                                <h4 class="mb-0">{{ format_money($total_Receivables, $currency) }}
+                            </div>
+
+                            <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
+                                <span class="avatar-title">
+                                    <i class="uil-atm-card font-size-14"></i>
+                                </span>
+                            </div>
+
+                        </div>
+                        <br>
+                        <div class="d-flex">
+                            <span class="badge badge-soft-primary font-size-12">
+                                {{ $total_interest }}%
+                            </span>
+                            <span class="ml-2 text-truncate text-primary">
+                                From Previous Month
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-sm-6">
                 <a href="{{ route('store_revenue', $store->_id) }}" class="card">
                     <div class="card-body">
                         <div class="media">
                             <div class="media-body">
-                                <p class="text-muted font-weight-medium">Revenue</p>
+                                <p class="text-muted font-weight-medium">Total Payments</p>
                                 <h4 class="mb-0">{{ format_money($total_Revenue, $currency) }}
                             </div>
 
@@ -138,7 +165,7 @@ $total_interestReceivables += $each_interestReceivables;
                     </div>
                 </a>
             </div>
-
+{{-- 
             <div class="col-sm-4">
                 <a href="{{ route('store_receivable', $store->_id) }}" class="card">
                     <div class="card-body">
@@ -166,35 +193,7 @@ $total_interestReceivables += $each_interestReceivables;
                     </div>
                 </a>
             </div>
-
-            <div class="col-sm-4">
-                <a href="{{ route('store_debt', $store->_id) }}" class="card">
-                    <div class="card-body">
-                        <div class="media">
-                            <div class="media-body">
-                                <p class="text-muted font-weight-medium">Debt</p>
-                                <h4 class="mb-0">{{ format_money($total_Receivables, $currency) }}
-                            </div>
-
-                            <div class="avatar-sm align-self-center mini-stat-icon rounded-circle bg-primary">
-                                <span class="avatar-title">
-                                    <i class="uil-atm-card font-size-14"></i>
-                                </span>
-                            </div>
-
-                        </div>
-                        <br>
-                        <div class="d-flex">
-                            <span class="badge badge-soft-primary font-size-12">
-                                {{ $total_interest }}%
-                            </span>
-                            <span class="ml-2 text-truncate text-primary">
-                                From Previous Month
-                            </span>
-                        </div>
-                    </div>
-                </a>
-            </div>
+ --}}
         </div>
     </div>
 </div>
