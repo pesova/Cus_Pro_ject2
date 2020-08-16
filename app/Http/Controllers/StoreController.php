@@ -373,6 +373,13 @@ class StoreController extends Controller
             ]
         ];
         try {
+
+            if($id == Cookie::get('store_id')){
+                $request->session()->flash('alert-class', 'alert-danger');
+                Session::flash('message', "Sorry you can not delete selected store, please switch or create another store");
+               return  back();
+            }
+
             $delete = $client->delete($url, $payload);
 
             if ($delete->getStatusCode() == 200 || $delete->getStatusCode() == 201) {
