@@ -114,6 +114,9 @@ Route::prefix('/app')->group(function () {
 
             //Activity log
             Route::resource('activities', 'ActivityController');
+
+            //Payment Log
+            Route::resource('PaymentLog', 'PaymentLogController');
         }
         // ------------ SUPER ADMIN PROTECTED ROUTES ENDS HERE------------------------ //
 

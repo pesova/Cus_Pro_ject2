@@ -307,6 +307,7 @@
             var test = window.intlTelInput(input, {
                 separateDialCode: true,
                 initialCountry: "auto",
+                placeholder: true,
                 geoIpLookup: function (success) {
                     // Get your api-key at https://ipdata.co/
                     fetch("https://ipinfo.io?token={{env('GEOLOCATION_API_KEY')}}")
