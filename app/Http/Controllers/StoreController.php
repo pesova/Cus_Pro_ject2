@@ -335,6 +335,9 @@ class StoreController extends Controller
             if ($status == 200 || $status == 201) {
                 $body = $response->getBody()->getContents();
                 $request->session()->flash('alert-class', 'alert-success');
+                if($id == Cookie::get('store_id')){
+                    Cookie::queue("store_name", $request->input('edit_store_name'));
+                }
                 Session::flash('message', "Update Successful");
                 return redirect()->route('store.index');
             } else {
