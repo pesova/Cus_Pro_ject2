@@ -1,14 +1,16 @@
 @extends('layout.base')
 
 @section("custom_css")
+
 @if (!is_store_assistant())
-  <link rel="stylesheet" href="{{asset('backend/assets/css/store_list.css')}}">
+ <link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="{{ asset('/backend/assets/css/transac.css') }}">   
+<link rel="stylesheet" href="{{asset('backend/assets/css/store_list.css')}}">
 <link href="/backend/assets/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 <link href="/backend/assets/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 <link href="/backend/assets/css/select.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">  
-<link href="/backend/assets/build/css/intlTelInput.css" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" href="{{ asset('/backend/assets/css/transac.css') }}">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+
 @endif
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">

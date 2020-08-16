@@ -33,6 +33,15 @@
         .dissapear {
             display: none !important;
         }
+
+        #active-store{
+        border-left: 3px solid #5369f8;
+        color: #5369f8;
+    }
+        .pointer { 
+            cursor: pointer; 
+            }
+
     </style>
 
     <!-- Other Style CSS -->
@@ -92,53 +101,59 @@
 
 
     {{-- Checks if a store is selected --}}
-    @if(Cookie::get('store_id') !== null)
-            <script>
-        let store_list = document.getElementById('store_lists');
-        if(store_list){
-            $.ajax({
-            method:"GET",
-            url: "{{route('businesses')}}",
-        })
-        .done(function(data){
-            let stores = JSON.parse(data);
-            
-            let list = '';
-            if(stores.length > 0){
-                    stores.forEach(element => {
-                    let url = "{{ route('store.select', ['store_id'=>1]) }}";
-                    let formatted_url = url.replace('1',element._id);
 
-                    let current_store = "{{Cookie::get('store_id')}}"
-                    if(element._id == current_store){
+    @if (is_store_admin())
+            @if(Cookie::get('store_id') !== null)
+                <script>
+            let store_list = document.getElementById('store_lists');
+            if(store_list){
+                $.ajax({
+                method:"GET",
+                url: "{{route('businesses')}}",
+            })
+            .done(function(data){
+                let stores = JSON.parse(data);
+                
+                let list = '';
+                if(stores.length > 0){
+                        stores.forEach(element => {
+                        let url = "{{ route('store.select', ['store_id'=>1, 'store_name' =>'store-name']) }}";
+                        let formatted_url = url.replace('1',element._id);
+                        formatted_url = formatted_url.replace('store-name',element.store_name);
+
+                        let current_store = "{{Cookie::get('store_id')}}"
+                        if(element._id == current_store){
+                                list += `
+                                    <li>
+                                        <a href="${formatted_url}" id="active-store">
+                                        ${element.store_name}</a>
+                                    </li>
+                                    `
+                        }else{
                             list += `
-                                <li>
-                                    <a href="${formatted_url}" id="active-store">
-                                    ${element.store_name}</a>
-                                </li>
-                                `
-                    }else{
-                        list += `
-                        <li>
-                            <a href="${formatted_url}">
-                            ${element.store_name}</a>
-                        </li>
-                        ` 
-                    }
-                    
-                    
-                });
-            }else{
-                list ="<p>No store to display</p>"
+                            <li>
+                                <a href="${formatted_url}">
+                                ${element.store_name}</a>
+                            </li>
+                            ` 
+                        }
+                        
+                        
+                    });
+                }else{
+                    list ="<p>No store to display</p>"
+                }
+                
+                $('#store_list_spinner').css('display','none');
+                $("#store_lists").text('');
+                $("#store_lists").append(list);
+            })
             }
-            
-            $('#store_list_spinner').css('display','none');
-            $("#store_lists").text('');
-            $("#store_lists").append(list);
-        })
-        }
-    </script>
+        </script>
+        @endif
     @endif
+
+    
    
     @yield('javascript')
 </body>
