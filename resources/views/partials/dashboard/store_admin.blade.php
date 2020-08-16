@@ -1,20 +1,5 @@
 @extends('layout.base')
-@section("custom_css")
 
-
-<style>
-    #editphone{
-        padding-left: 89px !important;
-    }
-
-    #active-store{
-        border-left: 3px solid #5369f8;
-    color: #5369f8;
-    background-color: #f7f7ff;
-    }
-</style>
-
-@stop
 
 
 @php
