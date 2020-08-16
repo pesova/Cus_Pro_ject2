@@ -135,10 +135,11 @@ class LoginController extends Controller
                     if ($data->is_active == false) {
                         return redirect()->route('activate.index');
                     }
-
-                    // we need to get the number of stores of store admin before letting him in. if request fails, we log him out
-                    if (!$this->getStores($response->data->user->api_token)) {
-                        return redirect()->route('logout', ['message' => 'An error occured. Please login again']);
+                    if ($userRole == 'store_admin') {
+                        // we need to get the number of stores of store admin before letting him in. if request fails, we log him out
+                        if (!$this->getStores($response->data->user->api_token)) {
+                            return redirect()->route('logout', ['message' => 'An error occured. Please login again']);
+                        }
                     }
                 } else {
                     $request->session()->flash('message', 'Invalid Credentials');
@@ -226,7 +227,6 @@ class LoginController extends Controller
             //log error;
             Log::error('Catch error: StoreController - ' . $e->getMessage());
             return false;
-
         }
     }
 }
