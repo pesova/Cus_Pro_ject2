@@ -7,6 +7,7 @@
             <ul class="metismenu" id="menu-bar">
 
                 @if(is_store_admin())
+                    <li class="menu-title">Switch Store</li>
                     <li>
                         <a href="javascript: void(0);">
                             <span class='seventh'> {{ Cookie::get('store_name') }}</span>
