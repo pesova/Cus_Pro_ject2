@@ -30,9 +30,16 @@
         <li>
             <a href="{{ route('debtor.index') }}">Debts</a>
         </li>
+        @if(!is_store_admin())
         <li>
             <a href="{{ route('transaction.index') }}">Payments</a>
         </li>
+        @endif
+        @if(is_store_admin())
+        <li>
+            <a href="{{ route('store_revenue', Cookie::get('store_id')) }}">Payments</a>
+        </li>
+        @endif
     </ul>
 </li>
 

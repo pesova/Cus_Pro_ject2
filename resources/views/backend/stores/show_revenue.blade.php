@@ -54,6 +54,7 @@
                                             <th>Customer Name </th>
                                             <th data-priority="1">Amount</th>
                                             <th data-priority="3">Transaction Type</th>
+                                            <th>Due</th>
                                             <th data-priority="3">Created</th>
                                         </tr>
                                         </thead>
@@ -62,14 +63,23 @@
                                         
                                         @foreach ($customers->transactions as $index => $transaction)  
                                         @if ($transaction->type == "paid" || $transaction->type == "Paid")
-                                        <tr>
+                                        
+                                        <tr>{{-- <a
+                                        href="{{ route('customer.show', $customers->store_ref_id .'-' .$customers->customer_ref_id) }}">
+                                        {{ $customers->name }}</a> --}}
                                             <td>{{ $index }}</td>
-                                            <th>{{ $customers->name }}<span class="co-name"></span>
-                                                <br> <span class="font-light">{{$customers->phone_number}}</span>
+                                            <th><a
+                                        href="{{ route('customer.show', $customers->store_ref_id .'-' .$transaction->customer_ref_id) }}">
+                                        {{ $customers->name }}</a><span class="co-name"></span>
                                             </th>
                                             <td>{{ format_money($transaction->amount, $transaction->currency) }}</td>
                                             <td>{{ $transaction->type }}</td>
+                                            <td>{!! app_format_date($transaction->expected_pay_date, true) !!}</td>
                                             <td>{{ app_format_date($transaction->date_recorded) }}</td>
+                                            <td><a class="btn btn-primary btn-sm py-1 px-2"
+                                        href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id.'-'.$transaction->customer_ref_id) }}">
+                                        View
+                                    </a></td>
                                         </tr> 
                                         @endif
                                         @endforeach

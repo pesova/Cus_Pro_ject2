@@ -56,6 +56,7 @@
                                 <th>Phone Number </th>
                                 <th data-priority="1">Amount</th>
                                 <th data-priority="3">Transaction Type</th>
+                                <th>Due</th>
                                 <th data-priority="3">Created</th>
                                 <th data-priority="3"> </th>
                             </tr>
@@ -87,20 +88,21 @@
                             @foreach ($response['storeData']->customers as $customers)
 
                             @foreach ($customers->transactions as $index => $transaction)
-                            
+                            @if($transaction->type == 'debt')
                             <tr>
-                                <td>{{ $index }}</td>
-                                <th>{{$customers->name}}<span class="co-name"></span>
+                                <td>{{ $index + 1 }}</td>
+                                <th><a href="{{ route('customer.show', $transaction->store_ref_id .'-' .$transaction->customer_ref_id) }}">{{$customers->name}}</a><span class="co-name"></span>
                                 </th>
                                 <td class="font-light">{{$customers->phone_number}}</td>
                                 <td>{{ format_money($transaction->amount, $transaction->currency) }}</td>
                                 <td>{{$transaction->type}}</td>
+                                <td>{!! app_format_date($transaction->expected_pay_date, true) !!}</td>
                                 <td>{{ app_format_date($transaction->date_recorded) }}</td>
                                 <td><a href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id.'-'.$transaction->customer_ref_id) }}"
-                                        class="btn btn-info btn-sm mr-3"><i class="far mr-2 fa-edit"></i>Send Reminder</a>
+                                        class="btn btn-info btn-sm mr-3">View</a>
                                 </td>
                             </tr>
-                            
+                            @endif
                             @endforeach
                             @endforeach
                         </tbody>
