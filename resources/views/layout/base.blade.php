@@ -33,6 +33,11 @@
         .dissapear {
             display: none !important;
         }
+
+        #active-store{
+        border-left: 3px solid #5369f8;
+        color: #5369f8;
+    }
         .pointer { 
             cursor: pointer; 
             }

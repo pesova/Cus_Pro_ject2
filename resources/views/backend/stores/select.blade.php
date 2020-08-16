@@ -41,11 +41,13 @@
         <div class="container-fluid">
 
             <div class="row" style="margin-top:20px;">
-
                 @foreach ($stores as $store)
-                    <div class="col-xl-3 col-sm-6" style="margin-bottom: 20px;max-height:225px;">
+                <a class="col-xl-3 col-sm-6"  href="{{ route('store.select', ['store_id'=>$store->_id]) }}">
+                    <div  style="margin-bottom: 20px;
+                    max-height:225px;">
 
-                        <div id="idd" class="card text-center">
+                        <div class="card text-center">
+
 
                             <div class="card-body">
 
