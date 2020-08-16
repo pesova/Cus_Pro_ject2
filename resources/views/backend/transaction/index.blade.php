@@ -79,6 +79,7 @@ $store_id = Cookie::get('store_id');
                             @if(is_store_admin())
                             @if ($transaction->store_ref_id == $store_id)
                             @endif
+                            @if($transaction->type != 'debt')
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
                                     @if(is_super_admin())
@@ -171,6 +172,7 @@ $store_id = Cookie::get('store_id');
                                         @endif
                                     </td>
                                 </tr>
+                                @endif
                                 @endif
                             @endforeach
                             </tbody>
