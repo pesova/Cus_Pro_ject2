@@ -79,8 +79,14 @@
                                         aria-describedby="helpPhone" name='' pattern=".{6,16}"
                                         title="Phone number must be between 6 to 16 characters" required>
                                     <input type="hidden" name="phone_number" id="phone_number" class="form-control">
-                                    <small id="helpPhone" class="form-text text-muted">Enter your number without the
-                                        starting 0, eg 813012345</small>
+                                    <small id="helpPhone" class="form-text text-muted">Enter your number in internationa; format</small>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">Customer Email</label>
+                                <div class="col-lg-8">
+                                    <input type="email" class="form-control" value="{{old('name', isset($response->customer->email) ? $response->customer->email : '')}}" name="email">
                                 </div>
                             </div>
 
