@@ -103,24 +103,6 @@ class DashboardController extends Controller
         $transactions_url = $this->host . '/transaction/store' . '/' . $id;
 
         try {
-            //     $client = new Client;
-            //     $payload = [
-            //         'headers' => [
-            //             'x-access-token' => Cookie::get('api_token')
-            //         ]
-            //     ];
-            //     $response = $client->request('GET', $url, $payload);
-
-            //     if ($response->getStatusCode() == 200) {
-            //         $data = json_decode($response->getBody())->data;
-
-            //         $thisMonth = $data->amountForCurrentMonth;
-            //         $lastMonth = $data->amountForPreviousMonth;
-            //         $diff = $thisMonth - $lastMonth;
-            //         // (Current period's revenue - prior period's revenue) ÷ by prior period's revenue x 100
-            //         $profit = ($thisMonth > $lastMonth) ? true : false;
-            //         $percentage = ($lastMonth == 0) ? '-' : sprintf("%.2f", ($diff / $lastMonth) * 100);
-            //         return view('backend.dashboard.index', compact('data', 'profit', 'percentage'));
             $client = new Client;
             $payload = [
                 'headers' => [
@@ -134,17 +116,14 @@ class DashboardController extends Controller
             $transaction_status_code = $transaction_response->getStatusCode();
 
 
-            $stores_data = $store_response->getBody();
-            $transactions_data = $transaction_response->getBody();
+            $store_data = json_decode($store_response->getBody())->data;
+            $transactions = json_decode($transaction_response->getBody())->data->transactions;
 
-            $store = json_decode($stores_data)->data->store;
-            $store_customer = json_decode($stores_data)->data->store->customers;
-            $transactions = json_decode($transactions_data)->data->transactions;
-            $chart = json_decode($stores_data)->data->transactionChart;
-            Cookie::queue('store_name', $store->store_name);
+            $data = prepare_store_data($store_data, $transactions);
+
+            Cookie::queue('store_name', $store_data->store->store_name);
             if ($store_status_code == 200 && $transaction_status_code == 200) {
-                return view('backend.dashboard.index', compact(['transactions', 'store', 'store_customer', 'chart']))
-                    ->with('number', 1);
+                return view('backend.dashboard.index', $data)->with('number', 1);
             }
             $id = Cookie::get('store_id');
             return $id;
@@ -215,6 +194,5 @@ class DashboardController extends Controller
         } else {
             return json_encode(array());
         }
-
     }
 }

@@ -108,10 +108,12 @@
                                     <div class="col-md-6 row">
                                         @if($transaction->type == 'debt')
                                         <div class="col-12">
-                                            <span class="mb-0 font-size-18 font-weight-bolder">Expected Payment Date:</span>
+                                            <span class="mb-0 font-size-18 font-weight-bolder">Expected Payment
+                                                Date:</span>
                                             <span>
-                                                {{ \Carbon\Carbon::parse($transaction->expected_pay_date)->format('Y-m-d') }} 
-                                                <span class="ml-2 font-size-16">{!! app_format_date($transaction->expected_pay_date, true) !!}</span>
+                                                {{ \Carbon\Carbon::parse($transaction->expected_pay_date)->format('Y-m-d') }}
+                                                <span class="ml-2 font-size-16">{!!
+                                                    app_format_date($transaction->expected_pay_date, true) !!}</span>
                                             </span>
                                         </div>
                                         @endif
@@ -152,14 +154,14 @@
 
                                             </div>
                                             <div class="col-md-5 row">
-                                            <div class="col-md-12">
-                                                <h6 class="">Business Name:</h6>
-                                                <p>
-                                                    @if(Cookie::get('user_role') != 'store_assistant')
-                                                    <a href="{{ route('store.show', $transaction->store_ref_id)}}"
-                                                        class="mr-2 text-uppercase">
-
-                                                        {{ $transaction->store_ref->store_name }}
+                                                <div class="col-md-12">
+                                                    <h6 class="">Business Name:</h6>
+                                                    <p>
+                                                        @if(Cookie::get('user_role') != 'store_assistant')
+                                                        <a href="{{ route('store.show', $transaction->store_ref_id)}}"
+                                                            class="mr-2 text-uppercase">
+                                                            {{ $transaction->store_ref->store_name }}
+                                                        </a>
                                                         @endif
                                                     </p>
                                                 </div>
@@ -176,7 +178,8 @@
                                                             data-customer="{{ $transaction->customer_ref_id}}">
                                                         @else
                                                         <input type="checkbox" id="togBtn"
-                                                            {{ $transaction->type == 'paid' ? 'checked' : '' }} disabled>
+                                                            {{ $transaction->type == 'paid' ? 'checked' : '' }}
+                                                            disabled>
                                                         @endif
                                                         <div class="slider round">
                                                             <span class="on">Paid</span><span class="off">Debt</span>
