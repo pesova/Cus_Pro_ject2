@@ -15,10 +15,14 @@
 
 <div class="row page-title">
     <div class="col-md-12">
-        <nav aria-label="breadcrumb" class="float-right mt-1">
-            <a href="{{ url()->previous() }}" class="btn btn-primary go-back">Go Back</a>
-        </nav>
         <h4 class="mt-2">My Business</h4>
+        @if(!is_store_assistant())
+            <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#addTransactionModal">
+                New &nbsp;<i class="fa fa-plus my-float"></i>
+            </a>
+            @include('partials.modal.addTransaction',['title'=>'Add New
+            Payment','type'=>'transaction','buttonText'=>'Add Payment'])
+        @endif
     </div>
 </div>
 
@@ -54,6 +58,7 @@
                                             <th>Customer Name </th>
                                             <th data-priority="1">Amount</th>
                                             <th data-priority="3">Transaction Type</th>
+                                            <th>Due</th>
                                             <th data-priority="3">Created</th>
                                         </tr>
                                         </thead>
@@ -62,14 +67,23 @@
                                         
                                         @foreach ($customers->transactions as $index => $transaction)  
                                         @if ($transaction->type == "paid" || $transaction->type == "Paid")
-                                        <tr>
+                                        
+                                        <tr>{{-- <a
+                                        href="{{ route('customer.show', $customers->store_ref_id .'-' .$customers->customer_ref_id) }}">
+                                        {{ $customers->name }}</a> --}}
                                             <td>{{ $index }}</td>
-                                            <th>{{ $customers->name }}<span class="co-name"></span>
-                                                <br> <span class="font-light">{{$customers->phone_number}}</span>
+                                            <th><a
+                                        href="{{ route('customer.show', $customers->store_ref_id .'-' .$transaction->customer_ref_id) }}">
+                                        {{ $customers->name }}</a><span class="co-name"></span>
                                             </th>
                                             <td>{{ format_money($transaction->amount, $transaction->currency) }}</td>
                                             <td>{{ $transaction->type }}</td>
+                                            <td>{!! app_format_date($transaction->expected_pay_date, true) !!}</td>
                                             <td>{{ app_format_date($transaction->date_recorded) }}</td>
+                                            <td><a class="btn btn-primary btn-sm py-1 px-2"
+                                        href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id.'-'.$transaction->customer_ref_id) }}">
+                                        View
+                                    </a></td>
                                         </tr> 
                                         @endif
                                         @endforeach
@@ -97,6 +111,37 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-html5-1.6.2/datatables.min.js">
+</script>
+@if(is_store_admin())
+    <script>
+        jQuery(function ($) {
+            get_customers("{{Cookie::get('store_id')}}");
+        });
+    </script>
+@endif
+<script>
+    function get_customers(storeID) {
+        const token = "{{Cookie::get('api_token')}}";
+        const host = "{{ env('API_URL', 'https://dev.api.customerpay.me') }}";
+        jQuery.ajax({
+            url: host + "/store/" + encodeURI(storeID),
+            type: "GET",
+            dataType: "json",
+            contentType: 'json',
+            headers: {
+                'x-access-token': token
+            },
+            success: function (data) {
+                var new_data = data.data.store.customers;
+                var i;
+                new_data.forEach(customer => {
+                    $('select[name="customer"]').append('<option value="' +
+                        customer._id + '">' +
+                        customer.name + '</option>');
+                });
+            }
+        });
+    }
 </script>
 <script>
    $(document).ready(function() {

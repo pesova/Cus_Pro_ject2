@@ -33,11 +33,15 @@ class CustomerController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
+    {   
+        $store_id = Cookie::get('store_id');
         if (Cookie::get('user_role') == 'super_admin') {
             $url = $this->host . '/customer/all';
             $store_url = $this->host . '/store/all';
-        } else {
+        } elseif(is_store_admin()) {
+            $url = $this->host . '/store' . '/' . $store_id;
+            $store_url = $this->host . '/store';
+        }else {
             $url = $this->host . '/customer';
             $store_url = $this->host . '/store';
         }
@@ -71,7 +75,18 @@ class CustomerController extends Controller
                         }
                     }
                     $stores = $_stores;
-                } else {
+                } elseif(is_store_admin()) {
+                    $userData = json_decode($user_response->getBody())->data->store;
+                    // dd($userData);
+                    foreach ($userData->customers as $customer) {
+                        
+                        
+                            $customer->store_id  = $customer->store_ref_id;
+                            $allCustomers[] = $customer;
+                        
+                        
+                    }
+                }else {
                     $userData = json_decode($user_response->getBody())->data->customer;
                     foreach ($userData as $store) {
                         foreach ($store->customers as $customer) {
@@ -144,8 +159,9 @@ class CustomerController extends Controller
         if ($request->isMethod('post')) {
             $request->validate([
                 'store_id' => 'required',
+                'email'      => 'nullable|email',
                 'phone_number' => ["required", "numeric", "digits_between:6,16", new DoNotAddIndianCountryCode, new DoNotPutCountryCode],
-                'name' => 'required | min:5 | max:30',
+                'name' => 'required | min:3 | max:50',
             ]);
 
             try {
@@ -156,6 +172,7 @@ class CustomerController extends Controller
                         'store_id' => $request->input('store_id'),
                         'phone_number' => $request->input('phone_number'),
                         'name' => purify_input($request->input('name')),
+                        'email' => $request->input('email'),
                     ],
                 ];
                 $response = $client->request("POST", $url, $payload);

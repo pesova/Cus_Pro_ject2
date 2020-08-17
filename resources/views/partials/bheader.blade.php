@@ -26,16 +26,14 @@
 
         <ul class="navbar-nav flex-row ml-auto d-flex list-unstyled topnav-menu float-right mb-0">
 
-            <li>
-                <div class="media user-profile mt-2 mb-2">
+            <li class="pointer">
 
-                    @php
-                        $profile_picture = Cookie::get('profile_picture');
-                        $profile_picture = rtrim($profile_picture);
-                        $profile_picture_path = str_replace(" ","/", $profile_picture);
-                    @endphp
-                    <object data="https://res.cloudinary.com/{{ $profile_picture_path }}" type="image/jpg"
-                            class="avatar-sm rounded-circle mr-2">
+                <div class="media user-profile mt-2 mb-2">
+                    <div data-toggle="dropdown" href="#" role="button" aria-haspopup="false"
+                         aria-expanded="false"
+                         style="position:absolute;top:0; width: 100%; height:100%;">
+                    </div>
+                    <object data="{{ get_profile_picture() }}" type="image/jpg" class="avatar-sm rounded-circle mr-2">
                         <img src="/backend/assets/images/users/default.png" class="avatar-sm rounded-circle mr-2"
                              alt="Profile Picture"/>
                     </object>
@@ -46,11 +44,13 @@
                             </h6>
                         @else
 
-                            <h6 class="pro-user-name mt-0 mb-0">{{Cookie::get('first_name') == 'Not set'? '':Cookie::get('first_name')}} {{Cookie::get('last_name')== 'Not set'? '':Cookie::get('last_name')}}
+                            <h6 class="pro-user-name mt-0 mb-0">
+                                {{Cookie::get('first_name') == 'Not set'? '':Cookie::get('first_name')}}
+                                {{Cookie::get('last_name')== 'Not set'? '':Cookie::get('last_name')}}
                             </h6>
                         @endif
                         <span class="pro-user-desc">
-                           {{format_role_name()}}
+                            {{format_role_name()}}
                         </span>
                     </div>
                     <div class="dropdown align-self-center profile-dropdown-menu">

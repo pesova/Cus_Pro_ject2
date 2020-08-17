@@ -6,7 +6,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 <style>
-    #phone{
+    #phone {
         padding-left: 89px !important;
     }
 </style>
@@ -54,7 +54,9 @@
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Tel</th>
+                                @if(!is_store_admin())
                                 <th>Business Name</th>
+                                @endif
                                 <th>Actions</th>
                             </tr>
                         <tbody>
@@ -63,7 +65,9 @@
                                 <td>{{$i + 1}}</td>
                                 <td>{{ ucfirst($customer->name) }}</td>
                                 <td>{{ $customer->phone_number }}</td>
+                                @if(!is_store_admin())
                                 <td>{{ $customer->store_name }}</td>
+                                @endif
                                 <td>
                                     <a class="btn btn-primary btn-sm py-1 px-2"
                                         href="{{ route('customer.show', $customer->store_id.'-'.$customer->_id) }}">
@@ -104,28 +108,37 @@
                     <div class="form-group row mb-3">
                         <label for="inputphone" class="col-3 col-form-label">Phone Number</label>
                         <div class="col-9">
-                            <input type="tel" class="form-control" id="phone"
-                                aria-describedby="helpPhone" name="" required pattern=".{5,16}"
+                            <input type="tel" class="form-control" id="phone" placeholder="Phone Number"
+                                aria-describedby="helpPhone" name="" required pattern=".{6,16}"
                                 title="Phone number must be between 6 to 16 characters">
                             <input type="hidden" name="phone_number" id="phone_number" class="form-control">
-                            <small id="helpPhone" class="form-text text-muted">Enter phone number without the
-                                country code
+                            <small id="helpPhone" class="form-text text-muted">Enter phone number without the country
+                                code
                             </small>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label class="col-3 col-form-label" for="email">Customer Email</label>
+                        <div class="col-9">
+                            <input type="email" class="form-control" name="email" id="email" placeholder="customer@example.com">
                         </div>
                     </div>
                     <div class="form-group row mb-3">
                         <label for="inputPassword3" class="col-3 col-form-label">Customer Name</label>
                         <div class="col-9">
                             <input type="text" class="form-control" id="inputPassword3" placeholder="Customer name"
-                                name="name" required pattern=".{5,30}"
+                                name="name" required pattern=".{3,50}"
                                 title="Customer name must be at least 5 characters and not more than 30 characters">
                         </div>
                     </div>
                     <div class="form-group row mb-3">
+                        @if(is_store_admin())
+                        <input type="hidden" name="store_id" value="{{Cookie::get('store_id')}}">
+                        @else
                         <label for="inputPassword3" class="col-3 col-form-label">Business Name</label>
                         <div class="col-9">
                             <!-- <input type="text" class="form-control" id="inputPassword3" placeholder="Store name"
-                                        name="store_name"> -->
+                                                    name="store_name"> -->
                             <select name="store_id" class="form-control" required>
                                 @if ( isset($stores) && count($stores) )
                                 <option disabled selected value="">-- Select store --</option>
@@ -133,19 +146,21 @@
                                 <option value="{{$store->_id}}">{{$store->store_name}}</option>
                                 @endforeach
                                 @else
-                                <option disabled selected value="">-- You have not registered a business yet
+                                <option disabled selected value="">-- You have not registered a business
+                                    yet
                                     --
                                 </option>
                                 @endif
                             </select>
                         </div>
+                        @endif
                     </div>
                     <!-- <div class="form-group row mb-3">
-                                    <label for="inputPassword5" class="col-3 col-form-label">Re Password</label>
-                                    <div class="col-9">
-                                        <input type="password" class="form-control" id="inputPassword5" placeholder="Retype Password" name="repassword">
-                                    </div>
-                                </div> -->
+                                            <label for="inputPassword5" class="col-3 col-form-label">Re Password</label>
+                                            <div class="col-9">
+                                                <input type="password" class="form-control" id="inputPassword5" placeholder="Retype Password" name="repassword">
+                                            </div>
+                                        </div> -->
                     <div class="form-group mb-0 justify-content-end row">
                         <div class="col-9">
                             <button type="submit" class="btn btn-primary btn-block ">Create Customer</button>
@@ -276,7 +291,7 @@
                         title: export_filename,
                         extension: '.pdf',
                         exportOptions: {
-                            columns: [0,1,2,3]
+                            columns: [0, 1, 2, 3]
                         }
                     }
                 ]
@@ -329,41 +344,41 @@
 </script>
 {{-- @if ( Cookie::get('is_first_time_user') == true) --}}
 {{-- <script>
-    var customer_intro_shown = localStorage.getItem('customer_intro_shown');
+        var customer_intro_shown = localStorage.getItem('customer_intro_shown');
 
-        if (!customer_intro_shown) {
+            if (!customer_intro_shown) {
 
-            const tour = new Shepherd.Tour({
-                defaults: {
-                    classes: "shepherd-theme-arrows"
-                }
-            });
+                const tour = new Shepherd.Tour({
+                    defaults: {
+                        classes: "shepherd-theme-arrows"
+                    }
+                });
 
-            tour.addStep("step", {
-                text: "Welcome to Customer Page, here you can create your customers",
-                buttons: [{
-                    text: "Next",
-                    action: tour.next
-                }]
-            });
+                tour.addStep("step", {
+                    text: "Welcome to Customer Page, here you can create your customers",
+                    buttons: [{
+                        text: "Next",
+                        action: tour.next
+                    }]
+                });
 
-            // tour.addStep("step2", {
-            //     text: "First thing you do is create a store",
-            //     attachTo: { element: ".second", on: "right" },
-            //     buttons: [
-            //         {
-            //             text: "Next",
-            //             action: tour.next
-            //         }
-            //     ],
-            //     beforeShowPromise: function() {
-            //         document.body.className += ' sidebar-enable';
-            //         document.getElementById('sidebar-menu').style.height = 'auto';
-            //     },
-            // });
-            tour.start();
-            localStorage.setItem('customer_intro_shown', 1);
-        }
-</script> --}}
+                // tour.addStep("step2", {
+                //     text: "First thing you do is create a store",
+                //     attachTo: { element: ".second", on: "right" },
+                //     buttons: [
+                //         {
+                //             text: "Next",
+                //             action: tour.next
+                //         }
+                //     ],
+                //     beforeShowPromise: function() {
+                //         document.body.className += ' sidebar-enable';
+                //         document.getElementById('sidebar-menu').style.height = 'auto';
+                //     },
+                // });
+                tour.start();
+                localStorage.setItem('customer_intro_shown', 1);
+            }
+    </script> --}}
 {{-- @endif --}}
 @stop
