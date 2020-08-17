@@ -169,12 +169,12 @@ if (!function_exists('app_get_acronym')) {
      * @param string
      * @return string cleaned string
      */
-    function app_get_acronym($name)
+    function app_get_acronym($store_name)
     {
-        $name = explode(" ", strtoupper($name));
+        $names = explode(" ", strtoupper($store_name));
         $acronym = "";
-        foreach ($name as $name) {
-            $acronym .= $name[0];
+        foreach ($names as $name) {
+            $acronym .= isset($name[0]) ? $name[0] : $name;
         }
         return $acronym;
     }
