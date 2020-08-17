@@ -19,10 +19,6 @@ class BackendAuth
         $request_url = str_replace('https://', 'http://', $request->url());
         $store_create_url = str_replace('https://', 'http://', route('store.create'));
         $store_save_url = str_replace('https://', 'http://', route('store.store'));
-        echo $request_url . '| ';
-        echo $store_create_url . '| ';
-        echo $store_save_url . '| ';
-        die();
         $expires = $request->cookie('expires');
         $expires = intval($expires);
 
@@ -33,7 +29,7 @@ class BackendAuth
             }
 
             // makes sure a store admin selects a store before seeing the dashboard
-            if (is_store_admin() && !has_selected_store() && $request->url() !== route('store.create') && $request->url() !== route('store.store')) {
+            if (is_store_admin() && !has_selected_store() && $request_url !== $store_create_url && $request_url !== $store_save_url) {
                 return redirect()->route('store.create');
             }
             return $next($request);
