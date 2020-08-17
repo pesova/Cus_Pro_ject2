@@ -16,6 +16,7 @@ class BackendAuth
      */
     public function handle($request, Closure $next)
     {
+        // $request->url() and route() returns same link but route() returns link with https while $request->url() does not.
         $request_url = str_replace('https://', 'http://', $request->url());
         $store_create_url = str_replace('https://', 'http://', route('store.create'));
         $store_save_url = str_replace('https://', 'http://', route('store.store'));
