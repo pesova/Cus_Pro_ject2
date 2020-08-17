@@ -16,9 +16,12 @@ class BackendAuth
      */
     public function handle($request, Closure $next)
     {
-        echo $request->url().'| ';
-        echo $request->isSecure()? "yes": "no". '| ';
-        echo route('store.create');
+        $request_url = str_replace('https://', 'http://', $request->url());
+        $store_create_url = str_replace('https://', 'http://', route('store.create'));
+        $store_save_url = str_replace('https://', 'http://', route('store.store'));
+        echo $request_url . '| ';
+        echo $store_create_url . '| ';
+        echo $store_save_url . '| ';
         die();
         $expires = $request->cookie('expires');
         $expires = intval($expires);
