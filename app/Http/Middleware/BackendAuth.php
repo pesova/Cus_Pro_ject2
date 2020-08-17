@@ -17,7 +17,7 @@ class BackendAuth
     public function handle($request, Closure $next)
     {
         echo $request->url().'| ';
-        echo $request->isSecure(). '| ';
+        echo $request->isSecure()? "yes": "no". '| ';
         echo route('store.create');
         die();
         $expires = $request->cookie('expires');
