@@ -14,6 +14,7 @@
         "browner12/helpers": "^3.1",
         "fideloper/proxy": "^4.0",
         "guzzlehttp/guzzle": "^7.0",
+        "jenssegers/mongodb": "^3.6",
         "kingflamez/laravelrave": "^2.0",
         "laravel/framework": "^6.2",
         "laravel/tinker": "^2.0",
