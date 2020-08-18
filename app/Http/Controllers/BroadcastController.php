@@ -100,6 +100,7 @@ class BroadcastController extends Controller
                     
                 }else {
                     $userData = json_decode($eachStore_response->getBody())->data->customer;
+                    
                     foreach ($userData as $user) {
                         foreach ($user->customers as $customer) {
             
@@ -107,7 +108,7 @@ class BroadcastController extends Controller
                         }
                     }
                 }
-
+                
 
                 return view('backend.broadcasts.index', compact('stores', 'broadcasts', 'allCustomers', 'userData'));
             }

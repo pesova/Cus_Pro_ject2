@@ -58,8 +58,10 @@
                                         
                                     </select>
                                 </div>
-                                @else
+                                @elseif( \Cookie::get('user_role') == "store_admin")
                                     <input type="hidden" value="{{$userData->_id}}" name="store">
+                                @else
+                                    <input type="hidden" value="{{$userData[0]->storeId}}" name="store">
                                 @endif
                                 <div class="form-group">
                                     <label>Send To</label>
