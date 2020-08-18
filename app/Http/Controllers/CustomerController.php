@@ -309,6 +309,7 @@ class CustomerController extends Controller
 
             $data = json_decode($response->getBody());
             $stores = json_decode($store_response->getBody());
+            // dd($data->data);
             if ($response->getStatusCode() == 200 && $store_response->getStatusCode() == 200) {
                 $stores = $stores->data->stores;
                 return view('backend.customer.edit')->with(['response' => $data->data, 'stores' => $stores]);
@@ -374,6 +375,7 @@ class CustomerController extends Controller
                 'form_params' => [
                     'phone_number' => $request->input('phone_number'),
                     'name' => purify_input($request->input('name')),
+                    'email' => purify_input($request->input('email')),
                     'store_id' => $store_id,
                 ],
             ];
