@@ -62,13 +62,17 @@ class ReceiptController extends Controller
     try{
         $transaction_details =[
             'customer_name' => $request->input('customer_name'),
-            'customer_email' => $request->input('customer_email'),
+            'email' => $request->input('customer_email'),
             'transaction_amount' => $request->input('transaction_amount'),
             'transaction_date' => $request->input('transaction_date'),
             'transaction_description' => $request->input('transaction_description'),
             'transaction_id' => $id
         ];
-
+        if($transaction_details['email'] == '' || $transaction_details['email'] == 'Not Set'){
+            $request->session()->flash('alert-class', 'alert-danger');
+            $request->session()->flash('message', 'Sorry can not send receipt to customer without a valid email');
+            return back();
+        }
         $data = [
             'name' => $request->input('customer_name'),
             'store_name' => Cookie::get('store_name')
@@ -77,12 +81,11 @@ class ReceiptController extends Controller
             "transaction" =>$transaction_details
         ]);
         $pdf_data = $pdf->output();
-        Mail::to($transaction_details['customer_email'])->send(new ReceiptMail($pdf_data,$data));
+        Mail::to($transaction_details['email'])->send(new ReceiptMail($pdf_data,$data));
         $request->session()->flash('alert-class', 'alert-success');
         $request->session()->flash('message', 'sent to customer mail');
         return back();
     }catch(Exception $e){
-        return $e;
         $request->session()->flash('alert-class', 'alert-danger');
         $request->session()->flash('message', 'Oops! something went wrong, Try Again');
         return back();
