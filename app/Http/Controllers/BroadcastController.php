@@ -113,7 +113,7 @@ class BroadcastController extends Controller
                 return view('backend.broadcasts.index', compact('stores', 'broadcasts', 'allCustomers', 'userData'));
             }
         } catch (RequestException $e) {
-            dd('here');
+            // dd('here');
             Log::error('Catch error: Create Broadcast' . $e->getMessage());
             $request->session()->flash('message', 'Failed to fetch customer, please try again');
             return view('backend.broadcasts.index');
