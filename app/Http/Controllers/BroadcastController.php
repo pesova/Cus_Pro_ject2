@@ -75,7 +75,7 @@ class BroadcastController extends Controller
 
 
                 if (Cookie::get('user_role') == 'super_admin') {
-                    $userData = json_decode($response->getBody())->data->customers;
+                    $userData = json_decode($response->getBody())->data->stores;
                     $_stores = [];
                     foreach ($stores as $adminStores) {
                         foreach ($adminStores as $store) {
@@ -88,6 +88,7 @@ class BroadcastController extends Controller
                         }
                     }
                     $stores = $_stores;
+                    
                 } elseif(is_store_admin()) {
                     $userData = json_decode($eachStore_response->getBody())->data->store;
                     

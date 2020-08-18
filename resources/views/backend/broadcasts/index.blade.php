@@ -48,7 +48,7 @@
                                         <option value="" selected disabled>None selected</option>
                                         @if ( \Cookie::get('user_role') == "super_admin")
                                         @foreach ($stores as $index => $store)
-                                            <option value="{{$store[0]->_id}}">{{$store[0]->store_name}}</option>
+                                            <option value="{{$store->_id}}">{{$store->store_name}}</option>
                                         @endforeach
                                         @else
                                         @foreach ($stores as $index => $store)
