@@ -21,7 +21,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text font-weight-bold">{{ Str::upper($currency) }}</span>
                     </div>
-                    <input type="number" class="form-control" name="amount" id="amount" placeholder="7000">
+                    <input type="number" class="form-control" name="amount" id="amount" placeholder="Enter amount">
                 </div>
 
             </div>
