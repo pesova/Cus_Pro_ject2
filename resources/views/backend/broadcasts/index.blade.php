@@ -40,6 +40,8 @@
                         <div class="row col-lg-7 col-md-12 ">
                             <form action="{{ route('broadcast.store') }}" method="post" class="col-12">
                                 @csrf
+
+                                @if ( \Cookie::get('user_role') == "super_admin")
                                 <div class="form-group">
                                     <label>Business</label>
                                     <select class="form-control col-12" name="store" id="store" required>
@@ -56,6 +58,9 @@
                                         
                                     </select>
                                 </div>
+                                @else
+                                    <input type="hidden" value="{{$userData->_id}}" name="store">
+                                @endif
                                 <div class="form-group">
                                     <label>Send To</label>
                                     <select class="form-control col-12" name="send_to" id="send_to" required>
@@ -63,11 +68,25 @@
                                         <option value="2" selected> Selected Customers</option>
                                     </select>
                                 </div>
+
+                                @if ( \Cookie::get('user_role') == "super_admin")
                                 <div class="form-group" id='customersGroup'>
                                     <label>Customer(s)</label>
                                     <select class="form-control col-12 jstags" multiple name="customer[]" id="customerNumbers">
                                     </select>
                                 </div>
+                                @else
+                                <div class="form-group" id='customersGroup'>
+                                    <label>Customer(s)</label>
+                                    <select class="form-control col-12 jstags" multiple name="customer[]" id="customerNumbers">
+                                    @foreach ($allCustomers as $customer)
+                                        <option value="{{$customer->phone_number}}">{{$customer->name}}</option>
+                                    @endforeach
+                                    </select>
+                                </div>
+                                @endif
+
+                                    
                                 <div class="form-group">
                                     <label>Message</label>
                                     <select class="form-control col-12" name="message" id="msgselect" required>

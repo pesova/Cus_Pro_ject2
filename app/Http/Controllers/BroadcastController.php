@@ -34,7 +34,20 @@ class BroadcastController extends Controller
     public function index(Request $request)
     {
 
-        $storeUrl = $this->host . '/store';
+        //$storeUrl = $this->host . '/store';
+
+        // get for the particular store selected
+        $store_id = Cookie::get('store_id');
+        if (Cookie::get('user_role') == 'super_admin') {
+            $url = $this->host . '/customer/all';
+            $storeUrl = $this->host . '/store/all';
+        } elseif(is_store_admin()) {
+            $url = $this->host . '/store' . '/' . $store_id;
+            $storeUrl = $this->host . '/store';
+        }else {
+            $url = $this->host . '/customer';
+            $storeUrl = $this->host . '/store';
+        }
         $all_messages_url = $this->host . '/message/get';
 
         try {
@@ -43,9 +56,11 @@ class BroadcastController extends Controller
             $payload = ['headers' => ['x-access-token' => Cookie::get('api_token')]];
 
             $response = $client->request("GET", $storeUrl, $payload);
+            $eachStore_response = $client->request('GET', $url, $payload);
             $all_messages_response = $client->request("GET", $all_messages_url, $payload);
 
             $statusCode = $response->getStatusCode();
+            $statusCode2 = $eachStore_response->getStatusCode();
             $stores_body = json_decode($response->getBody());
 
             $boradcast_status_code = $all_messages_response->getStatusCode();
@@ -53,9 +68,47 @@ class BroadcastController extends Controller
 
             $broadcasts = $broadcasts_body->data->broadcasts;
             $stores = $stores_body->data->stores;
+            $allCustomers = [];
+            //dd($stores);
 
-            if ($statusCode == 200) {
-                return view('backend.broadcasts.index', compact('stores', 'broadcasts'));
+            if ($statusCode == 200 && $statusCode2 == 200) {
+
+
+                if (Cookie::get('user_role') == 'super_admin') {
+                    $userData = json_decode($response->getBody())->data->customers;
+                    $_stores = [];
+                    foreach ($stores as $adminStores) {
+                        foreach ($adminStores as $store) {
+                            foreach ($store->customers as $customer) {
+                                $customer->store_name = $store->store_name;
+                                $customer->store_id  = $store->_id;
+                                $allCustomers[] = $customer;
+                            }
+                            $_stores[] = $store;
+                        }
+                    }
+                    $stores = $_stores;
+                } elseif(is_store_admin()) {
+                    $userData = json_decode($eachStore_response->getBody())->data->store;
+                    
+                    foreach ($userData->customers as $customer) {
+                        
+                            $allCustomers[] = $customer;            
+                    }
+                    
+                    
+                }else {
+                    $userData = json_decode($eachStore_response->getBody())->data->customer;
+                    foreach ($userData as $user) {
+                        foreach ($user->customers as $customer) {
+            
+                            $allCustomers[] = $customer;
+                        }
+                    }
+                }
+
+
+                return view('backend.broadcasts.index', compact('stores', 'broadcasts', 'allCustomers', 'userData'));
             }
         } catch (RequestException $e) {
             dd('here');
