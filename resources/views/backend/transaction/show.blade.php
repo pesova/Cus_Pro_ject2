@@ -400,6 +400,7 @@
     })
 
     $("#preview-receipt").click(function(){
+        $("#request-type").val('default');
         $("#receipt-form").attr("action","{{route('preview_receipt',$transaction->_id)}}")
         $("#receipt-form").submit();
     })

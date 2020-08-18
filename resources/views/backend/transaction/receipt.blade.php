@@ -20,7 +20,7 @@
         text-decoration: none;
         line-height: 1.5;
         box-sizing: border-box;
-        /* font-family: 'Gilroy'; */
+        font-family: 'Gilroy';
     }
     #logo-container{
         width: 25%;
