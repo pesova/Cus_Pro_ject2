@@ -189,6 +189,10 @@ Route::prefix('/app')->group(function () {
         // transaction crud
         Route::resource('transaction', 'TransactionController');
 
+        Route::post('preview_receipt/{id}', "ReceiptController@preview")->name('preview_receipt');
+        Route::post('send_receipt/{id}', "ReceiptController@send")->name('send_receipt');
+
+
         // broadcast crud
         Route::resource('broadcast', 'BroadcastController');
         Route::post('resend/{id}', "BroadcastController@resend")->name('resend_broadcast');

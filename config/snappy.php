@@ -50,7 +50,7 @@ return [
     'image' => [
         'enabled' => true,
         'binary'  => env('WKHTML_IMG_BINARY', '/usr/local/bin/wkhtmltoimage'),
-        // 'binary' => '"C:\Program Files\wkhtmltopdf\bin\wkhtmltoimage"',
+         'binary' => '"C:\Program Files\wkhtmltopdf\bin\wkhtmltoimage"',
         'timeout' => false,
         'options' => [
             'images' => true,
