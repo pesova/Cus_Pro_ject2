@@ -33,16 +33,21 @@
                                         data-toggle="modal" data-target="#editTransactionModal">
                                         Edit <i data-feather="edit-3"></i>
                                     </a>
-                                    
+                                    @if($transaction->type == 'paid')
                                     <a href="#" class="col-md-3 offset-1 mt-1 btn btn-sm btn-primary"
                                     data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false"
                                     >
+
                                     Receipt <i data-feather="printer"></i>
                                     <div class="dropdown-menu">
                                         <button id="preview-receipt" class="dropdown-item notify-item">       
                                             <i data-feather="film" class="icon-dual icon-xs mr-2"></i>
                                             <span>Preview</span>
+                                        </button>
+                                        <button id="download-receipt" class="dropdown-item notify-item">       
+                                            <i data-feather="download" class="icon-dual icon-xs mr-2"></i>
+                                            <span>Download</span>
                                         </button>
                                         <button id="send-receipt" class="dropdown-item notify-item">
                                             <i data-feather="mail" class="icon-dual icon-xs mr-2"></i>
@@ -53,6 +58,7 @@
 
                                 <form  method="post" id="receipt-form">
                                      @csrf   
+                                     <input type="hidden" name="type" value="default" id="request-type">
                                      <input type="hidden" name="customer_email" value="{{$transaction->customer_ref->email}}">
                                      <input type="hidden" name="customer_name" value="{{$transaction->customer_ref->name}}">
                                      <input type="hidden" name="transaction_amount" value="{{ format_money($transaction->amount, $transaction->currency) }}">
@@ -65,6 +71,7 @@
                                         class="col-md-3 offset-1 mt-1 btn btn-sm btn-danger">
                                         Delete <i data-feather="delete"></i>
                                     </a>
+                                    @endif
                                     @endif
                                 </div>
                             </div>
@@ -396,6 +403,14 @@
         $("#receipt-form").attr("action","{{route('preview_receipt',$transaction->_id)}}")
         $("#receipt-form").submit();
     })
+
+
+    $("#download-receipt").click(function(){
+        $("#request-type").val('download');
+        $("#receipt-form").attr("action","{{route('preview_receipt',$transaction->_id)}}")
+        $("#receipt-form").submit();
+    })
+    
 </script>
 @endif
 

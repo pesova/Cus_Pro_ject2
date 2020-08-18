@@ -7,6 +7,12 @@
 </head>
 
 <style>
+
+@font-face {
+    font-family: Gilroy;
+    src: url("{{public_path()}}/backend/assets/fonts/Gilroy-Regular.ttf");
+}
+
     *{
         margin: 0;
         -webkit-box-sizing: border-box;
@@ -14,7 +20,7 @@
         text-decoration: none;
         line-height: 1.5;
         box-sizing: border-box;
-        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        /* font-family: 'Gilroy'; */
     }
     #logo-container{
         width: 25%;
@@ -30,15 +36,12 @@
         border: 1.2px solid #00098A;
         border-radius: 8px;
         background: #fafafa;
-        background-image: url("{{public_path()}}/backend/assets/images/Group_1400.png");
+        background-image: url("{{public_path('backend/assets/images/Group_1400.png')}}");
         background-position: right bottom;
         background-size: 300px 300px;
         background-repeat: no-repeat;
         background-origin: padding-box;
-         -webkit-background-position: right bottom;
-         -webkit-background-size: 300px 300px;
-         -webkit-background-repeat: no-repeat;
-         -webkit-background-origin: padding-box;
+     
        
     }
 
@@ -159,7 +162,11 @@
     }
 </style>
 <body>
-    <div id="wrapper">
+    @php
+          $format = strtotime($transaction['transaction_date']);
+        $date = date("D d M Y h:i:sa", $format);
+    @endphp 
+    <div id="wrapper" >
         <div id="logo-container">
                 <img src="{{public_path('backend/assets/images/fulllogo.png')}}" alt="" class="logo">
         </div>
@@ -183,7 +190,7 @@
                                     Date Recorded  
                                 </td>
                                 <td class="details-value date">
-                                    {{$transaction['transaction_date']}}
+                                    {{$date}}
                                 </td>
                             </tr>
                             <tr class="details-table">
@@ -194,14 +201,14 @@
                                     {{$transaction['transaction_amount']}}
                                 </td>
                             </tr>
-                            <tr class="details-table">
+                            {{-- <tr class="details-table">
                                 <td class="detail-text">
                                     Amount Owing  
                                 </td>
                                 <td class="details-value owing">
                                     Amount Owing here
                                 </td>
-                            </tr>  
+                            </tr>   --}}
                             </tbody>
                             
                         </table>

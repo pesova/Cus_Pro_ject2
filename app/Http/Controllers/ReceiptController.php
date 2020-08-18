@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ReceiptMail;
 use PDF;
 
 use SnappyImage;
@@ -21,6 +24,42 @@ class ReceiptController extends Controller
 
     public function preview(Request $request,$id){
        
+        try{
+            $transaction_details =[
+                'customer_name' => $request->input('customer_name'),
+                'customer_email' => $request->input('customer_email'),
+                'transaction_amount' => $request->input('transaction_amount'),
+                'transaction_date' => $request->input('transaction_date'),
+                'transaction_description' => $request->input('transaction_description'),
+                'transaction_id' => $id
+            ];
+
+            if($request->input('type') == 'default'){
+                $image = SnappyImage::loadView('backend.transaction.receipt',[
+                    "transaction" =>$transaction_details
+                ] );  
+                return $image->inline('transaction_receipt.jpg');
+            }
+
+            if($request->input('type') == 'download'){
+                $pdf = PDF::loadView('backend.transaction.receipt',[
+                    "transaction" =>$transaction_details
+                ]);  
+                return $pdf->download('transaction_receipt.pdf');
+            }
+            
+           
+        }catch(Exception $e){
+            $request->session()->flash('alert-class', 'alert-danger');
+            $request->session()->flash('message', 'Oops! something went wrong, Try Again');
+            return back();
+        }
+        
+    }
+
+    public function send(Request $request,$id){
+
+    try{
         $transaction_details =[
             'customer_name' => $request->input('customer_name'),
             'customer_email' => $request->input('customer_email'),
@@ -29,16 +68,25 @@ class ReceiptController extends Controller
             'transaction_description' => $request->input('transaction_description'),
             'transaction_id' => $id
         ];
-        $image = SnappyImage::loadView('backend.transaction.receipt',[
+
+        $data = [
+            'name' => $request->input('customer_name'),
+            'store_name' => Cookie::get('store_name')
+        ];
+        $pdf = PDF::loadView('backend.transaction.receipt',[
             "transaction" =>$transaction_details
-        ] );
-        return $image->inline('transaction_receipt.jpg');
+        ]);
+        $pdf_data = $pdf->output();
+        Mail::to($transaction_details['customer_email'])->send(new ReceiptMail($pdf_data,$data));
+        $request->session()->flash('alert-class', 'alert-success');
+        $request->session()->flash('message', 'sent to customer mail');
+        return back();
+    }catch(Exception $e){
+        return $e;
+        $request->session()->flash('alert-class', 'alert-danger');
+        $request->session()->flash('message', 'Oops! something went wrong, Try Again');
+        return back();
     }
-
-    public function send(Request $request,$id){
-
-
-
     }
     
 }
