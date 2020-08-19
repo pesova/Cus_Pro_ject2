@@ -20,6 +20,7 @@ class CustomersController extends Controller
 
     public function index()
     {
-        dd(Customers::first());
+
+        // dd(Customers::first());
     }
 }
