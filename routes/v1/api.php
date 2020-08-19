@@ -20,10 +20,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::middleware('api.auth')->group(function () {
     Route::group('/store', function () {
-        Route::post('/customers/{store_id}', 'CustomersController@index');
-        Route::post('/debts/{store_id}', 'CustomersController@index');
-        Route::post('/payments/{store_id}', 'CustomersController@index');
-        Route::post('/credits/{store_id}', 'CustomersController@index');
+        Route::get('/customers/{store_id}', 'CustomersController@index');
+        Route::get('/debts/{store_id}', 'CustomersController@index');
+        Route::get('/payments/{store_id}', 'CustomersController@index');
+        Route::get('/credits/{store_id}', 'CustomersController@index');
     });
 
     // Route::get('stores', '');
