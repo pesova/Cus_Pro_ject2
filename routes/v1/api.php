@@ -19,7 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::middleware('api.auth')->group(function () {
-    Route::group('/store', function () {
+    Route::prefix('/store')->group(function () {
         Route::get('/customers/{store_id}', 'CustomersController@index');
         Route::get('/debts/{store_id}', 'CustomersController@index');
         Route::get('/payments/{store_id}', 'CustomersController@index');
