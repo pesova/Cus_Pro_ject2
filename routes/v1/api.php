@@ -18,4 +18,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/activities', 'TestController@index');
+Route::middleware('api.auth')->group(function () {
+    Route::prefix('/store')->group(function () {
+        Route::get('/customers/{store_id}', 'CustomersController@index');
+        Route::get('/debts/{store_id}', 'CustomersController@index');
+        Route::get('/payments/{store_id}', 'CustomersController@index');
+        Route::get('/credits/{store_id}', 'CustomersController@index');
+    });
+
+    // Route::get('stores', '');
+    // Route::get('/customer/{customer_id}', '');
+    // Route::get('/payment/{payment_id}', '');
+    // Route::get('/debt/{debt_id}', '');
+    // Route::get('/credit/{credit_id}', '');
+});
