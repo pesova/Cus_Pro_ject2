@@ -40,13 +40,15 @@
                         <div class="row col-lg-7 col-md-12 ">
                             <form action="{{ route('broadcast.store') }}" method="post" class="col-12">
                                 @csrf
+
+                                @if ( \Cookie::get('user_role') == "super_admin")
                                 <div class="form-group">
                                     <label>Business</label>
                                     <select class="form-control col-12" name="store" id="store" required>
                                         <option value="" selected disabled>None selected</option>
                                         @if ( \Cookie::get('user_role') == "super_admin")
                                         @foreach ($stores as $index => $store)
-                                            <option value="{{$store[0]->_id}}">{{$store[0]->store_name}}</option>
+                                            <option value="{{$store->_id}}">{{$store->store_name}}</option>
                                         @endforeach
                                         @else
                                         @foreach ($stores as $index => $store)
@@ -56,6 +58,11 @@
                                         
                                     </select>
                                 </div>
+                                @elseif( \Cookie::get('user_role') == "store_admin")
+                                    <input type="hidden" value="{{$userData->_id}}" name="store">
+                                @else
+                                    <input type="hidden" value="{{$userData[0]->storeId}}" name="store">
+                                @endif
                                 <div class="form-group">
                                     <label>Send To</label>
                                     <select class="form-control col-12" name="send_to" id="send_to" required>
@@ -63,11 +70,25 @@
                                         <option value="2" selected> Selected Customers</option>
                                     </select>
                                 </div>
+
+                                @if ( \Cookie::get('user_role') == "super_admin")
                                 <div class="form-group" id='customersGroup'>
                                     <label>Customer(s)</label>
                                     <select class="form-control col-12 jstags" multiple name="customer[]" id="customerNumbers">
                                     </select>
                                 </div>
+                                @else
+                                <div class="form-group" id='customersGroup'>
+                                    <label>Customer(s)</label>
+                                    <select class="form-control col-12 jstags" multiple name="customer[]" id="customerNumbers">
+                                    @foreach ($allCustomers as $customer)
+                                        <option value="{{$customer->phone_number}}">{{$customer->name}}</option>
+                                    @endforeach
+                                    </select>
+                                </div>
+                                @endif
+
+                                    
                                 <div class="form-group">
                                     <label>Message</label>
                                     <select class="form-control col-12" name="message" id="msgselect" required>
