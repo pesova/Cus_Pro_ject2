@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 use MongoDB\BSON\ObjectId;
+
 class Customers extends Eloquent
 {
     protected $connection = 'mongodb';
@@ -25,6 +26,10 @@ class Customers extends Eloquent
 
     public function scopeSearch($query, $value)
     {
-        return $query->where('name','like', '%'. $value . '%');
+        if (trim($value) == "") {
+            return $query;
+        }
+
+        return $query->where('name', 'like', '%' . $value . '%');
     }
 }
