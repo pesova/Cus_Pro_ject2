@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CustomerCollection;
 use App\Models\Customers;
+use Exception;
 use Illuminate\Http\Request;
 
 class CustomersController extends Controller
@@ -20,23 +21,31 @@ class CustomersController extends Controller
 
     public function index(Request $request, $store_id)
     {
-        $start      =  $request->get('page') ?? 0;
-        $length     = $request->get('length') ?? 10;
-        $draw       = $request->get('draw') ?? 1;
-        $search     = $request->get('search');
+        $start          =  $request->get('page') ?? 0;
+        $length         = $request->get('length') ?? 10;
+        $draw           = $request->get('draw') ?? 1;
+        $search         = $request->get('search');
 
-        $result = Customers::ofStore($store_id)
-            ->search($search['value'])
-            ->skip($start)
-            ->take($length)
-            ->get();
+        try {
+            $result = Customers::ofStore($store_id)
+                ->search($search['value'])
+                ->skip($start)
+                ->take($length)
+                ->get();
 
-        $recordsTotal = Customers::ofStore($store_id)->count();
+            $recordsTotal = Customers::ofStore($store_id)->count();
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'failed to get resources',
+                'data'    => ['description' => $e->getMessage()]
+            ], 400);
+        }
 
-        $result = (new CustomerCollection($result))
+        $result = (new CustomerCollection($result ?? []))
             ->additional([
                 'draw' => $draw + 1,
-                'recordsTotal' => $recordsTotal,
+                'recordsTotal' => $recordsTotal ?? 0,
             ]);
         return $result;
     }
