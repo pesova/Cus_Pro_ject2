@@ -41,11 +41,11 @@
 
                                     Receipt <i data-feather="printer"></i>
                                     <div class="dropdown-menu">
-                                        <button id="preview-receipt" class="dropdown-item notify-item">       
+                                        <button id="preview-receipt" class="dropdown-item notify-item">
                                             <i data-feather="film" class="icon-dual icon-xs mr-2"></i>
                                             <span>Preview</span>
                                         </button>
-                                        <button id="download-receipt" class="dropdown-item notify-item">       
+                                        <button id="download-receipt" class="dropdown-item notify-item">
                                             <i data-feather="download" class="icon-dual icon-xs mr-2"></i>
                                             <span>Download</span>
                                         </button>
@@ -57,7 +57,7 @@
                                     </a>
 
                                 <form  method="post" id="receipt-form">
-                                     @csrf   
+                                     @csrf
                                      <input type="hidden" name="type" value="default" id="request-type">
                                      <input type="hidden" name="customer_email" value="{{$transaction->customer_ref->email}}">
                                      <input type="hidden" name="customer_name" value="{{$transaction->customer_ref->name}}">
@@ -66,7 +66,7 @@
                                      <input type="hidden" name="transaction_description" value="{{$transaction->description}}">
                                 </form>
 
-                
+
                                     <a data-toggle="modal" data-target="#deleteModal" href=""
                                         class="col-md-3 offset-1 mt-1 btn btn-sm btn-danger">
                                         Delete <i data-feather="delete"></i>
@@ -321,6 +321,7 @@
             var id = $(this).data('id');
             var store = $(this).data('store');
             let _status = $(this).is(':checked') ? 1 : 0;
+            let _type = $(this).is(':checked') ? 'paid' : 'debt';
             let _customer_id = $(this).data('customer');
 
             $.ajax({
@@ -331,6 +332,7 @@
                 data: {
                     store_id: store,
                     status: _status,
+                    type: _type,
                     customer_id: _customer_id,
                 },
                 type: 'PATCH',
@@ -411,7 +413,7 @@
         $("#receipt-form").attr("action","{{route('preview_receipt',$transaction->_id)}}")
         $("#receipt-form").submit();
     })
-    
+
 </script>
 @endif
 
