@@ -22,7 +22,7 @@ class ApiAuth
      */
     public function handle($request, Closure $next)
     {
-        if (!$request->headers->has('x-access-token')) {
+        if ($request->headers->has('x-access-token')) {
             $api_token = $request->header('x-access-token');
         } elseif ($request->cookies->has('api_token')) {
             $api_token = $request->cookie('api_token');
