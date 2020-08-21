@@ -99,6 +99,7 @@
 
 
 @section("javascript")
+<script src="/backend/assets/js/pages/sign-up-valid.js"></script>
 <script src="/backend/assets/build/js/intlTelInput.js"></script>
 <script>
     $(document).ready(function () {
@@ -142,7 +143,7 @@
     });
 
 </script>
-<script src="/backend/assets/js/pages/sign-up-valid.js"></script>
+
 
 
 @stop
