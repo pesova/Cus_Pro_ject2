@@ -21,6 +21,10 @@ class Customers extends Eloquent
      */
     public function scopeOfStore($query, $store_id)
     {
+        if (trim($store_id) == "") {
+            return $query;
+        }
+
         return $query->where('store_ref_id', new ObjectId($store_id));
     }
 
@@ -30,11 +34,8 @@ class Customers extends Eloquent
             return $query;
         }
 
-        return $query->where('name', 'like', '%' . $value . '%');
-    }
-
-    public function transactions()
-    {
-        return $this->embedsMany(Transactions::class);
+        return $query->orWhere('name', 'like', '%' . $value . '%')
+            ->orWhere('email', 'like', '%' . $value . '%')
+            ->orWhere('phone_number', 'like', '%' . $value . '%');
     }
 }

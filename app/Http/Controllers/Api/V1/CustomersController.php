@@ -21,10 +21,15 @@ class CustomersController extends Controller
 
     public function index(Request $request, $store_id)
     {
-        $start          = (int) $request->get('page') ?? 0;
+        if ($this->user_role == 'super_admin') {
+            $store_id = '';
+        }
+
+        $start          = (int) $request->get('start') ?? 0;
         $length         = (int) $request->get('length') ?? 10;
         $draw           = (int) $request->get('draw') ?? 1;
-        $search         = (string) $request->get('search')['value'] ?? '';
+        $search         = $request->get('search');
+        $search         = isset($search['value']) ? (string) $search['value'] : '';;
 
         try {
             $result = Customers::ofStore($store_id)

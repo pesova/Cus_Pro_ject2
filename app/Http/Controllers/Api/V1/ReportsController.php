@@ -12,7 +12,6 @@ use Illuminate\Http\Request;
 
 class ReportsController extends Controller
 {
-    //
     public function StoreReport(Request $request, $store_id)
     {
 

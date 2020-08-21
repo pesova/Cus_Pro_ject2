@@ -18,6 +18,11 @@ class TransactionCollection extends ResourceCollection
             return (new Transaction($transaction))->additional($this->additional);
         });
 
-        return parent::toArray($request);
+        return [
+            'status' => 'success',
+            'message' => 'ok. Successful',
+            'data' => $this->collection,
+            'recordsFiltered' => $this->collection->count(),
+        ];
     }
 }
