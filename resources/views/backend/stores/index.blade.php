@@ -186,6 +186,7 @@
                 $("#phone").val($("#phone").val().substring(1));
             }
             $("#phone_number").val(dialCode + $("#phone").val());
+            localStorage.removeItem('stores');
             $("#submitForm").off('submit').submit();
         });
 

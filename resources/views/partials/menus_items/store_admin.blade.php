@@ -47,7 +47,7 @@
 <li>
     <a href="{{ route('customer.index') }}">
         <i class='uil uil-chat-bubble-user'></i>
-        <span class='third'> Customers </span>
+        <span class='second'> Customers </span>
     </a>
 </li>
 
@@ -55,14 +55,17 @@
    
     <a href="{{ route('debtor.index') }}">
         <i class='uil uil-money-withdraw'></i>
-        Debts</a>
+       
+        <span class="third"> Debts</span>
+    </a>
 </li>
 @if(!is_store_admin())
 <li>
    
     <a href="{{ route('transaction.index') }}">
          <i class='uil uil-money-insert'></i>
-        Payments</a>
+       <span class='fourth'>Payments</span> 
+    </a>
 </li>
 @endif
 @if(is_store_admin())
@@ -70,7 +73,8 @@
     
     <a href="{{ route('store_revenue', Cookie::get('store_id')) }}">
         <i class='uil uil-money-insert'></i>
-        Payments</a>
+        <span class='fourth'>Payments</span>
+    </a>
 </li>
 @endif
 

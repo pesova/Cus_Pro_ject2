@@ -90,7 +90,7 @@ class RegisterController extends Controller
 
                     if ($res->success) {
 
-                        $request->session()->flash('message', 'You have registered Successfully');
+                        $request->session()->flash('message', 'You have registered successfully');
                         $request->session()->flash('alert-class', 'alert-success');
 
                         $data = $res->data->user->local;

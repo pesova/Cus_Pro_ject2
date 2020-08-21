@@ -16,7 +16,7 @@
 
 @section('content')
 <div class="container-fluid">
-    @include('partials.alert.message')
+    
 
     <div class="row ">
         <div class="col-lg-4 bg-white">
@@ -33,7 +33,7 @@
                                                     class="img img-fluid" /> </a>
                                         </div>
                                         <h3 class="h3 my-4 text-center">Register</h3>
-
+                                        @include('partials.alert.message')
                                         <form action="{{route('register')}}" class="authentication-form" method="POST"
                                             id="submitForm">
                                             @csrf
@@ -99,6 +99,7 @@
 
 
 @section("javascript")
+<script src="/backend/assets/js/pages/sign-up-valid.js"></script>
 <script src="/backend/assets/build/js/intlTelInput.js"></script>
 <script>
     $(document).ready(function () {
@@ -142,7 +143,7 @@
     });
 
 </script>
-<script src="/backend/assets/js/pages/sign-up-valid.js"></script>
+
 
 
 @stop

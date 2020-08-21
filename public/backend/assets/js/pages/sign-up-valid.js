@@ -6,51 +6,25 @@ let numAlert = document.querySelector('.red-warn');
 let password = document.querySelector('#password')
 let passAlert = document.querySelector('.pass-feedback')
 
-form.addEventListener('click', (e) => {
-  if (userNumber.value.length < 7) {
-    
-    e.preventDefault();
 
-    numAlert.style.display = 'block';
 
-    userNumber.classList.add('invalid');
 
-    userNumber.addEventListener('keyup', () => {
-      numAlert.style.display = 'none';
-      userNumber.classList.remove('invalid');
-    })
-  }
 
-  if (password.value.length < 7) {
-    e.preventDefault()
+  userNumber.addEventListener('keyup', () => {
+    if (userNumber.value.length < 7) {
+      numAlert.style.display = 'block';
+      userNumber.classList.add('invalid');
+    }else{
+        numAlert.style.display = 'none';
+    userNumber.classList.remove('invalid');
+    }
 
-    passAlert.style.display = 'block'
+  
+  })
 
-    password.classList.remove('medium');
-    password.classList.remove('maximum');
+  
 
-    passAlert.classList.remove('strength-mid')
-    passAlert.classList.remove('strength-maximum')
 
-    password.classList.add('invalid');
-    passAlert.innerText = 'Please input a valid password'
-
-  } else if (password.value.indexOf(' ') !== -1) {
-    e.preventDefault()
-
-    passAlert.style.display = 'block'
-
-    password.classList.remove('medium');
-    password.classList.remove('maximum');
-
-    passAlert.classList.remove('strength-mid')
-    passAlert.classList.remove('strength-maximum')
-
-    password.classList.add('invalid');
-    passAlert.innerText = 'Opps! passwords cannot contain spaces'
-  }
-
-});
 
 password.addEventListener('keyup', () => {
   if (password.value.length < 7) {
@@ -117,9 +91,3 @@ password.addEventListener('keyup', () => {
   }
 })
 
-if (password.value.length == 0) {
-  passAlert.style.display = 'none';
-  password.classList.remove('invalid');
-  password.classList.remove('medium');
-  password.classList.remove('maximum');
-}
