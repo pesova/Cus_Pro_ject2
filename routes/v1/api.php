@@ -34,6 +34,6 @@ Route::middleware('api.auth')->group(function () {
 
     Route::prefix('/report')->group(function () {
         Route::get('/store/{store_id}', 'ReportsController@StoreReport');
-        // Route::get('/customer/{store_id}', 'ReportsController@CustomerReport');
+        Route::get('/customer/{customer_id}', 'ReportsController@CustomerReport');
     });
 });
