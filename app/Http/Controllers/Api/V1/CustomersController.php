@@ -21,14 +21,14 @@ class CustomersController extends Controller
 
     public function index(Request $request, $store_id)
     {
-        $start          =  $request->get('page') ?? 0;
-        $length         = $request->get('length') ?? 10;
-        $draw           = $request->get('draw') ?? 1;
-        $search         = $request->get('search');
+        $start          = (int) $request->get('page') ?? 0;
+        $length         = (int) $request->get('length') ?? 10;
+        $draw           = (int) $request->get('draw') ?? 1;
+        $search         = (string) $request->get('search')['value'] ?? '';
 
         try {
             $result = Customers::ofStore($store_id)
-                ->search($search['value'])
+                ->search($search)
                 ->skip($start)
                 ->take($length)
                 ->get();
@@ -36,7 +36,7 @@ class CustomersController extends Controller
             $recordsTotal = Customers::ofStore($store_id)->count();
         } catch (Exception $e) {
             return response()->json([
-                'status' => 'failed',
+                'status'  => 'failed',
                 'message' => 'failed to get resources',
                 'data'    => ['description' => $e->getMessage()]
             ], 400);
