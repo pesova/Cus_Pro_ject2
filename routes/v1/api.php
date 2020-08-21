@@ -30,5 +30,9 @@ Route::middleware('api.auth')->group(function () {
     // Route::get('/customer/{customer_id}', '');
     // Route::get('/payment/{payment_id}', '');
     // Route::get('/debt/{debt_id}', '');
-    // Route::get('/credit/{credit_id}', '');
+    // Route::get('/credit/{credit_id}', '')
+
+    Route::prefix('/report')->group(function () {
+        Route::get('/store/{store_id}', 'ReportsController@StoreReport');
+    });
 });

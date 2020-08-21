@@ -32,4 +32,9 @@ class Customers extends Eloquent
 
         return $query->where('name', 'like', '%' . $value . '%');
     }
+
+    public function transactions()
+    {
+        return $this->embedsMany(Transactions::class);
+    }
 }
