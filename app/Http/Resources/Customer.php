@@ -21,6 +21,7 @@ class Customer extends JsonResource
             'name' => $this->name,
             'phone_number' => $this->phone_number,
             'email' => $this->email,
+            'store_id' => $this->store_ref_id->__toString(),
             'createdAt' => Carbon::createFromTimestamp($this->createdAt->__toString())->toDateTimeString(),
         ];
     }
