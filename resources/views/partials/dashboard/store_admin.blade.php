@@ -9,12 +9,12 @@
     </div>
 </div> --}}
 @include('partials.alert.message')
-<div id="transaction_js">
+{{-- <div id="transaction_js"> --}}
     {{-- These are also found in the alert.message partial. I had to repeat it for the sake of JS see showAlertMessage() below--}}
-</div>
+{{-- </div> --}}
 
 <div class="row my-4">
-    <div class="col-xl-4">
+    {{-- <div class="col-xl-4">
         <div class=" card bg-soft-primary">
             <div class="row">
                 <div class="col-7">
@@ -31,7 +31,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <div class="col-xl-8">
         <div class="row">
@@ -94,7 +94,7 @@
     </div>
 </div>
 
-<div class="row mb-4">
+{{-- <div class="row mb-4">
     <div class="col-lg-4">
         <div class="card">
             <div class="card-body px-3 ">
@@ -123,7 +123,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 
 <div class="row">
     <div class="col-12">
