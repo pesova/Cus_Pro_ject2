@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Customer;
 use App\Http\Resources\ReportCollection;
 use App\Http\Resources\TransactionCollection;
+use App\Models\Customers;
 use App\Models\Stores;
 use App\Models\Transactions;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ReportsController extends Controller
 {
@@ -19,10 +22,10 @@ class ReportsController extends Controller
         $result = [];
 
         try {
-            $paidTransactionReport = Transactions::groupby('currency')->perCurrency('paid');
-            $debtTransactionReport = Transactions::groupby('currency')->perCurrency('debt');
-            $creditTransactionReport = Transactions::groupby('currency')->perCurrency('credit');
-            // $creditDebtTransactionReport = Transactions::groupby('currency')->perCurrency('credit_ebt');
+            $paidTransactionReport = Transactions::groupby('currency')->perStoreCurrency('paid', $store_id);
+            $debtTransactionReport = Transactions::groupby('currency')->perStoreCurrency('debt', $store_id);
+            $creditTransactionReport = Transactions::groupby('currency')->perStoreCurrency('credit', $store_id);
+            // $creditDebtTransactionReport = Transactions::groupby('currency')->perStoreCurrency('credit_ebt', $store_id);
 
             $latestTransactions = Transactions::orderBy('date_recorded', 'desc')
                 ->take($length)
@@ -36,11 +39,8 @@ class ReportsController extends Controller
                 'latest_transactions' => (new TransactionCollection($latestTransactions)),
             ];
         } catch (Exception $e) {
-            return response()->json([
-                'status'  => 'failed',
-                'message' => 'failed to get resources',
-                'data'    => ['description' => $e->getMessage()]
-            ], 400);
+            Log::error('API ReportsController - ' . $e->getMessage());
+            return api_error_response($e);
         }
 
         return (new ReportCollection($result))->additional([
@@ -51,5 +51,38 @@ class ReportsController extends Controller
             'phone_number' => $store->phone_number,
             'email' => $store->email,
         ]);
+    }
+
+    public function CustomerReport(Request $request, $customer_id)
+    {
+        $length = (int) $request->get('length') ?? 10;
+        $result = [];
+
+        try {
+            $paidTransactionReport = Transactions::groupby('currency')->perCustomerCurrency('paid', $customer_id);
+            $debtTransactionReport = Transactions::groupby('currency')->perCustomerCurrency('debt', $customer_id);
+            $creditTransactionReport = Transactions::groupby('currency')->perCustomerCurrency('credit', $customer_id);
+            // $creditDebtTransactionReport = Transactions::groupby('currency')->perCustomerCurrency('credit_ebt', $store_id);
+
+            $latestTransactions = Transactions::orderBy('date_recorded', 'desc')
+                ->ofCustomer($customer_id)
+                ->take($length)
+                ->get();
+
+            $customer = Customers::find($customer_id);
+            $result = [
+                'debts' => $debtTransactionReport,
+                'paids' => $paidTransactionReport,
+                'credits' => $creditTransactionReport,
+                'latest_transactions' => (new TransactionCollection($latestTransactions)),
+            ];
+        } catch (Exception $e) {
+            Log::error('Reports Controller - ' . $e->getMessage());
+            return api_error_response($e);
+        }
+
+        $customer = (new Customer($customer))->toArray($customer);
+
+        return (new ReportCollection($result))->additional($customer);
     }
 }

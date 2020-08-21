@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\CustomerCollection;
-use App\Models\Customers;
+use App\Http\Resources\TransactionCollection;
+use App\Models\Transactions;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class CustomersController extends Controller
+class TransactionsController extends Controller
 {
     protected $user_id;
     protected $user_role;
@@ -20,7 +20,7 @@ class CustomersController extends Controller
         $this->user_role = $request['request_user_role'];
     }
 
-    public function index(Request $request, $store_id)
+    public function index(Request $request, $store_id, $type)
     {
         if ($this->user_role == 'super_admin') {
             $store_id = '';
@@ -30,27 +30,41 @@ class CustomersController extends Controller
         $length         = (int) $request->get('length') ?? 10;
         $draw           = (int) $request->get('draw') ?? 1;
         $search         = $request->get('search');
-        $search         = isset($search['value']) ? (string) $search['value'] : '';;
+        $search         = isset($search['value']) ? (string) $search['value'] : '';
 
         try {
-            $result = Customers::ofStore($store_id)
+            $result = Transactions::ofStore($store_id)
+                ->ofType($type)
                 ->search($search)
                 ->skip($start)
                 ->take($length)
                 ->get();
 
-            $recordsTotal = Customers::ofStore($store_id)->count();
+            $recordsTotal = Transactions::ofStore($store_id)->count();
         } catch (Exception $e) {
-            Log::error('API CustomersController - ' . $e->getMessage());
+            Log::error('API TransactionsController - ' . $e->getMessage());
             return api_error_response($e);
-
         }
 
-        $result = (new CustomerCollection($result ?? []))
+        return (new TransactionCollection($result ?? []))
             ->additional([
                 'draw' => $draw + 1,
                 'recordsTotal' => $recordsTotal ?? 0,
             ]);
-        return $result;
+    }
+
+    public function debts(Request $request, $store_id)
+    {
+        return $this->index($request, $store_id, 'debt');
+    }
+
+    public function payments(Request $request, $store_id)
+    {
+        return $this->index($request, $store_id, 'paid');
+    }
+
+    public function credits(Request $request, $store_id)
+    {
+        return $this->index($request, $store_id, 'credit');
     }
 }
