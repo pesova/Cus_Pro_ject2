@@ -42,6 +42,10 @@
             cursor: pointer; 
             }
 
+            #store_list_spinner.invisible{
+                display: none !important;
+            }
+
     </style>
 
     <!-- Other Style CSS -->
@@ -105,51 +109,69 @@
     @if (is_store_admin())
             @if(Cookie::get('store_id') !== null)
                 <script>
-            let store_list = document.getElementById('store_lists');
-            if(store_list){
-                $.ajax({
-                method:"GET",
-                url: "{{route('businesses')}}",
-            })
-            .done(function(data){
-                let stores = JSON.parse(data);
-                
-                let list = '';
-                if(stores.length > 0){
-                        stores.forEach(element => {
-                        let url = "{{ route('store.select', ['store_id'=>1, 'store_name' =>'store-name']) }}";
-                        let formatted_url = url.replace('1',element._id);
-                        formatted_url = formatted_url.replace('store-name',element.store_name);
-
-                        let current_store = "{{Cookie::get('store_id')}}"
-                        if(element._id == current_store){
-                                list += `
-                                    <li>
-                                        <a href="${formatted_url}" id="active-store">
-                                        ${element.store_name}</a>
-                                    </li>
-                                    `
+                    let store_list = document.getElementById('store_lists');
+                    let stores;
+                    if(store_list){
+                        if(!localStorage.getItem('stores')){
+                            $('#store_list_spinner').removeClass('invisible');
+                            $.ajax({
+                                method:"GET",
+                                url: "{{route('businesses')}}",
+                            })
+                            .done(function(data){
+                                localStorage.setItem('stores',data);
+                                stores = JSON.parse(data);
+                                populate_store_list(stores);
+                            })
                         }else{
-                            list += `
-                            <li>
-                                <a href="${formatted_url}">
-                                ${element.store_name}</a>
-                            </li>
-                            ` 
+                            stores = JSON.parse(localStorage.getItem('stores')); 
+                            populate_store_list(stores);
                         }
+                      
+                   
                         
-                        
-                    });
-                }else{
-                    list ="<p>No store to display</p>"
-                }
-                
-                $('#store_list_spinner').css('display','none');
-                $("#store_lists").text('');
-                $("#store_lists").append(list);
-            })
-            }
-        </script>
+                    }
+
+                    $("#logout-btn").click(function(){
+                        localStorage.removeItem('stores');
+                    })
+
+                    function populate_store_list(stores){
+                        let list = '';
+                    if(stores.length > 0){
+                            stores.forEach(element => {
+                            let url = "{{ route('store.select', ['store_id'=>1, 'store_name' =>'store-name']) }}";
+                            let formatted_url = url.replace('1',element._id);
+                            formatted_url = formatted_url.replace('store-name',element.store_name);
+
+                            let current_store = "{{Cookie::get('store_id')}}"
+                            if(element._id == current_store){
+                                    list += `
+                                        <li>
+                                            <a href="${formatted_url}" id="active-store">
+                                            ${element.store_name}</a>
+                                        </li>
+                                        `
+                            }else{
+                                list += `
+                                <li>
+                                    <a href="${formatted_url}">
+                                    ${element.store_name}</a>
+                                </li>
+                                ` 
+                            }
+                            
+                            
+                        });
+                    }else{
+                        list ="<p>No store to display</p>"
+                    }
+                                
+                                $('#store_list_spinner').addClass('invisible');
+                                $("#store_lists").text('');
+                                $("#store_lists").append(list);
+                    }
+                </script>
         @endif
     @endif
 

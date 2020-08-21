@@ -16,7 +16,7 @@
                     
                         <ul class="nav-second-level" aria-expanded="false" id="store_lists">
                            
-                        <div class="d-flex align-items-center" id="store_list_spinner">
+                        <div class="d-flex align-items-center invisible" id="store_list_spinner">
                                 <strong>Getting Stores...</strong>
                             <div  class="spinner-border spinner-border-sm text-primary"
                             role="status">

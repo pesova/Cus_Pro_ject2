@@ -46,7 +46,7 @@
                             <input type="text" name="shop_address" class="form-control"
                                 value="{{ old('shop_address') }}" required minlength="5" maxlength="50">
                         </div>
-                        <button type="submit" class="btn btn-success text-white">
+                        <button type="submit" class="btn btn-success text-white" id="create-store">
                             Create Business
                         </button>
                     </form>
