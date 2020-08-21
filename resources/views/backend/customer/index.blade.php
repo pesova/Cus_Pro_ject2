@@ -20,12 +20,6 @@
             <div class="row page-title">
                 <div class="col-md-12">
                     <h4 class="card-header mb-1 mt-0 float-left h5">List of Registered Customers</h4>
-                    @if(!is_store_assistant())
-                    <a href="#" class="btn btn-primary float-right btn-sm" data-toggle="modal"
-                        data-target="#CustomerModal">
-                        New &nbsp;<i class="fa fa-plus my-float"></i>
-                    </a>
-                    @endif
                     <div class="btn-group float-right mr-2">
                         <button type="button" class="btn btn-warning dropdown-toggle btn-sm" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
@@ -47,7 +41,14 @@
 
             @if ( isset($response) && count($response) > 0 )
             <div class="card-body p-1 card">
+                
                 <div class="table-responsive table-data" style="padding: 10px">
+                    @if(is_store_admin())
+                    <a href="#" class="btn btn-primary float-left btn-sm" data-toggle="modal"
+                        data-target="#CustomerModal">
+                        New &nbsp;<i class="fa fa-plus my-float"></i>
+                    </a>
+                    @endif
                     <table id="customerTable" class="table dt-responsive nowrap table table-striped table-bordered">
                         <thead>
                             <tr>

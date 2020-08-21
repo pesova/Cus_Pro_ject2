@@ -16,13 +16,23 @@
 <div class="row page-title">
     <div class="col-md-12">
         <h4 class="mt-2">My Business </h4>
-        @if(!is_store_assistant())
-            <a href="#" class="btn btn-primary float-right" data-toggle="modal"
-               data-target="#addTransactionModal">
-                New &nbsp;<i class="fa fa-plus my-float"></i>
-            </a>
-            @include('partials.modal.addTransaction',['title'=>'Add New Debt','type'=>'debt','buttonText'=>'Add Debt'])
-        @endif
+        <div class="btn-group dropdown float-right">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <i class='uil uil-file-alt mr-1'></i>Export
+                <i class="icon"><span data-feather="chevron-down"></span></i></button>
+            <div class="dropdown-menu">
+                <button id="ExportReporttoExcel" class="dropdown-item notify-item">
+                    <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
+                    <span>Excel</span>
+                </button>
+                <button id="ExportReporttoPdf" class="dropdown-item notify-item">
+                    <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
+                    <span>PDF</span>
+                </button>
+            </div>
+        </div>
+
     </div>
 </div>
 
@@ -34,24 +44,16 @@
             <div class="card-body">
                 <h5 class="card-title"><span id="store-name">{{ucfirst($response['storeData']->store_name) }}</span> Debit Overview
                 </h5>
-                <div class="btn-group dropdown float-left">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
-                        <i class='uil uil-file-alt mr-1'></i>Export
-                        <i class="icon"><span data-feather="chevron-down"></span></i></button>
-                    <div class="dropdown-menu">
-                        <button id="ExportReporttoExcel" class="dropdown-item notify-item">
-                            <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
-                            <span>Excel</span>
-                        </button>
-                        <button id="ExportReporttoPdf" class="dropdown-item notify-item">
-                            <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
-                            <span>PDF</span>
-                        </button>
-                    </div>
-                </div>
+
                 <div class="clear-fix"></div>
                 <div class="table-responsive table-data">
+                    @if(!is_store_assistant())
+                    <a href="#" class="btn btn-primary float-left btn-sm" data-toggle="modal"
+                       data-target="#addTransactionModal">
+                        New &nbsp;<i class="fa fa-plus my-float"></i>
+                    </a>
+                    @include('partials.modal.addTransaction',['title'=>'Add New Debt','type'=>'debt','buttonText'=>'Add Debt'])
+                @endif
                     <table id="debtTable" class="table table-striped table-bordered" style="width:100%">
                         <thead>
                             <tr>

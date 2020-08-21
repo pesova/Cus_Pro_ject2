@@ -16,13 +16,23 @@
 <div class="row page-title">
     <div class="col-md-12">
         <h4 class="mt-2">My Business</h4>
-        @if(!is_store_assistant())
-            <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#addTransactionModal">
-                New &nbsp;<i class="fa fa-plus my-float"></i>
-            </a>
-            @include('partials.modal.addTransaction',['title'=>'Add New
-            Payment','type'=>'transaction','buttonText'=>'Add Payment'])
-        @endif
+        <div class="btn-group dropdown float-right">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                <i class='uil uil-file-alt mr-1'></i>Export
+                <i class="icon"><span data-feather="chevron-down"></span></i></button>
+            <div class="dropdown-menu">
+                <button id="ExportReporttoExcel" class="dropdown-item notify-item">
+                    <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
+                    <span>Excel</span>
+                </button>
+                <button id="ExportReporttoPdf" class="dropdown-item notify-item">
+                    <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
+                    <span>PDF</span>
+                </button>
+            </div>
+        </div>
+        
     </div>
 </div>
 
@@ -33,26 +43,18 @@
         <div class="card ">
             <div class="card-body">
                 <h5 class="card-title"><span id="store-name">{{ucfirst($response['storeData']->store_name) }}</span>  Revenue Overview</h5>
-                <div class="btn-group dropdown float-left">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                        <i class='uil uil-file-alt mr-1'></i>Export
-                        <i class="icon"><span data-feather="chevron-down"></span></i></button>
-                    <div class="dropdown-menu">
-                        <button id="ExportReporttoExcel" class="dropdown-item notify-item">
-                            <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
-                            <span>Excel</span>
-                        </button>
-                        <button id="ExportReporttoPdf" class="dropdown-item notify-item">
-                            <i data-feather="file" class="icon-dual icon-xs mr-2"></i>
-                            <span>PDF</span>
-                        </button>
-                    </div>
-                </div>
+                
                 <div class="clear-fix"></div>
-                            <div class="table-responsive table-data">
-                                    <table id="revenueTable" class="table table-striped table-bordered" style="width:100%">
-                                        <thead>
+                    <div class="table-responsive table-data">
+                        @if(!is_store_assistant())
+                    <a href="#" class="btn btn-primary float-left btn-sm" data-toggle="modal" data-target="#addTransactionModal">
+                        New &nbsp;<i class="fa fa-plus my-float"></i>
+                    </a>
+                    @include('partials.modal.addTransaction',['title'=>'Add New
+                    Payment','type'=>'transaction','buttonText'=>'Add Payment'])
+                @endif
+                        <table id="revenueTable" class="table table-striped table-bordered" style="width:100%">
+                                    <thead>
                                         <tr>
                                             <th>S/N</th>
                                             <th>Customer Name </th>
@@ -60,8 +62,9 @@
                                             <th data-priority="3">Transaction Type</th>
                                             <th>Due</th>
                                             <th data-priority="3">Created</th>
+                                            <th data-priority="3"> </th>
                                         </tr>
-                                        </thead>
+                                    </thead>
                                         <tbody>
                                         @foreach ($response['storeData']->customers as $customers)
                                         
@@ -83,7 +86,7 @@
                                             <td><a class="btn btn-primary btn-sm py-1 px-2"
                                         href="{{ route('transaction.show', $transaction->_id.'-'.$transaction->store_ref_id.'-'.$transaction->customer_ref_id) }}">
                                         View
-                                    </a></td>
+                                         </a></td>
                                         </tr> 
                                         @endif
                                         @endforeach
@@ -110,7 +113,8 @@
 <script src="/backend/assets/build/js/intlTelInput.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-html5-1.6.2/datatables.min.js">
+<script type="text/javascript"
+    src="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.10.21/b-1.6.2/b-html5-1.6.2/datatables.min.js">
 </script>
 @if(is_store_admin())
     <script>
@@ -148,19 +152,20 @@
         let store_name = $("#store-name").text().trim();
         var export_filename = `${store_name} Revenue`;
         $('#revenueTable').DataTable({
-            dom: 'frtipB'
-            , buttons: [{
-                extend: 'excel'
-                , className: 'd-none'
-                , title: export_filename
-            , }, {
-                extend: 'pdf'
-                , className: 'd-none'
-                , title: export_filename
-                , extension: '.pdf'
-                , exportOptions: {
-                    columns: [0, 1, 2, 3, 4]
-                }
+            dom: 'frtipB',
+            buttons: [{
+                    extend: 'excel',
+                    className: 'd-none',
+                    title: export_filename,
+                },
+                {
+                    extend: 'pdf',
+                    className: 'd-none',
+                    title: export_filename,
+                    extension: '.pdf'
+                    // exportOptions: {
+                    //     columns: [0, 1, 2, 3, 4]
+                    // }
             }]
         });
         $("#ExportReporttoExcel").on("click", function() {
