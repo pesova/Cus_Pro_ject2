@@ -54,7 +54,7 @@
 <li>
    
     <a href="{{ route('debtor.index') }}">
-        <i class='uil uil-money-withdraw'></i>
+        <i class='uil uil-money-insert'></i>
        
         <span class="third"> Debts</span>
     </a>
@@ -63,7 +63,7 @@
 <li>
    
     <a href="{{ route('transaction.index') }}">
-         <i class='uil uil-money-insert'></i>
+         <i class='uil uil-money-withdraw'></i>
        <span class='fourth'>Payments</span> 
     </a>
 </li>
