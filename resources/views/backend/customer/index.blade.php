@@ -69,34 +69,11 @@
                                 @if(!is_store_admin())
                                 <td>{{ $customer->store_name }}</td>
                                 @endif
-                                <td> 
-                                    <div class="btn-group mt-2 mr-1">
-                                    <button type="button" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                    Actions<i class="icon"><span data-feather="chevron-down"></span></i>
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item notify-item text-primary"
-                                            href="{{ route('customer.show', $customer->store_id.'-'.$customer->_id) }}">
-                                            View Profile
-                                        </a>
-                                        @if(is_store_admin())
-                                        <a href="{{ route('customer.edit', $customer->store_id.'-'.$customer->_id ) }}"
-                                            class="dropdown-item notify-item text-primary">
-                                            Edit Customer
-                                        </a>
-                                        <a href="#" data-toggle="modal" 
-                                        data-target="#DeleteModal"
-                                        data-customer_name="{{ ucfirst($customer->name) }}"
-                                        data-customer_id="{{ ucfirst($customer->_id) }}"
-                                        class="dropdown-item notify-item text-danger delete-customer">Delete Customer
-
-                                        </a>
-                                    @endif
-                                    </div>
-                                    </div>
-                                  
-
+                                <td>
+                                    <a class="btn btn-primary btn-sm py-1 px-2"
+                                        href="{{ route('customer.show', $customer->store_id.'-'.$customer->_id) }}">
+                                        View Profile
+                                    </a>
                                 </td>
                             </tr>
                             @endforeach
@@ -105,8 +82,19 @@
                 </div>
             </div>
             @else
+
+
             <div class="card-body p-1 card">
                 <h3 style="font-style: italic; text-align: center;">No registered customers</h3>
+
+                <h4 style="font-style: italic; text-align: center;"> 
+                    @if(is_store_admin())
+                    <a href="#" class="btn btn-primary btn-md" data-toggle="modal"
+                        data-target="#CustomerModal">
+                        Add Customer &nbsp;<i class="fa fa-plus my-float"></i>
+                    </a>
+                    @endif 
+                </h4>
             </div>
             @endif
             <!-- end card -->
@@ -287,40 +275,6 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
-
-<div id="DeleteModal" class="modal fade bd-example-modal-sm" tabindex="-2"
-role="dialog" aria-labelledby="DeleteModal" aria-hidden="true">
-<div class="modal-dialog modal-sm">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="Title">
-                Delete Customer </h5>
-            <button type="button" class="close" data-dismiss="modal"
-                aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            Do you want to delete <span id="customer-name">customer name</span> ?
-        </div>
-        <div class="modal-footer">
-            <form
-                {{-- action="{{ route('customer.destroy', $customer->customer->_id) }}" --}}
-                method="POST" id="delete-form">
-                @method('DELETE')
-                @csrf
-                <button type="submit" class="btn btn-primary btn-danger">
-                    Delete
-                </button>
-            </form>
-            <button type="button" class="btn btn-secondary"
-                data-dismiss="modal">Cancel
-            </button>
-        </div>
-    </div>
-</div>
-</div>
 @endsection
 
 
@@ -399,6 +353,11 @@ role="dialog" aria-labelledby="DeleteModal" aria-hidden="true">
             });
         });
 
+    //Makes table Clickable
+    jQuery("tr").on("click", function (e) {
+    location = jQuery(this).find("a").attr("href");
+    });
+
 </script>
 {{-- @if ( Cookie::get('is_first_time_user') == true) --}}
 {{-- <script>
@@ -439,16 +398,4 @@ role="dialog" aria-labelledby="DeleteModal" aria-hidden="true">
             }
     </script> --}}
 {{-- @endif --}}
-
-
-<script>
-    $('.delete-customer').click(function(e){
-        // console.log()
-        $("#customer-name").text(e.target.dataset.customer_name)
-        let customer_id = e.target.dataset.customer_id;
-        let form_url = "{{route('customer.destroy','1')}}";
-        let formatted_url = form_url.replace('1',customer_id);
-        $("#delete-form").attr('action',formatted_url);
-    })
-</script>
 @stop
