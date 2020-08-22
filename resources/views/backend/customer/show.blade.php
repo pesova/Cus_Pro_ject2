@@ -14,6 +14,7 @@
 
     <div class="container-fluid">
         {{-- start of page title --}}
+        @include('partials.alert.message')
         <div class="page-title">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
@@ -208,11 +209,19 @@
                     <div class="card-body">
                         <div class="mb-4">
                              <a href="#"
-                                class="mr-2 btn btn-primary btn-sm float-right">
-                                <i class='uil uil-money-insert'></i>
+                                class="mr-2 btn btn-primary btn-sm float-right"
+                                data-toggle="modal"
+                                data-target="#debtModal"
+                                
+                                >
+                                <i class='uil uil-money-insert'
+                                ></i>
+                                
                                 Add Debt
                             </a>
                             <a href="#"
+                            data-toggle="modal"
+                            data-target="#paymentModal"
                                 class="mr-2 btn btn-primary btn-sm float-right">
                                 <i class='uil uil-money-withdraw'></i>
                                 Add Payment
@@ -262,6 +271,133 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="debtModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addTransactionModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addTransactionModalLabel">Add Debt</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form class="form-horizontal" id="add-debt" method="POST"
+                      action="{{ route('transaction.store') }}">
+                    @csrf
+                    <div class="form-group row mb-3">
+                        @if(is_store_admin())
+                            <input type="hidden" name="store" value="{{Cookie::get('store_id')}}">
+                        @endif
+                    <input type="hidden" name="customer" value="{{$customer->customer->_id}}">
+                    </div>
+
+
+                    <div class="form-group row mb-3">
+                        <label for="amount" class="col-md-3 col-form-label">Amount</label>
+                        <div class="col-md-9">
+                            <input type="number" class="form-control" id="amount" name="amount" placeholder="0000"
+                                   required min="0" value="{{ old('amount') }}">
+                        </div>
+                    </div>
+                    
+                        <div class="form-group row mb-3">
+                            <label for="interest" class="col-md-3 col-form-label">Interest</label>
+                            <div class="col-md-9">
+                                <input type="number" class="form-control" id="interest" name="interest" placeholder="0%"
+                                       value="{{ old('interest') }}">
+                            </div>
+                        </div>
+                    <div class="form-group row mb-3">
+                        <label for="description" class="col-md-3 col-form-label">Description</label>
+                        <div class="col-md-9">
+                            <textarea name="description" class="counter form-control" id="description"
+                                      placeholder="description..." maxlength="140">{{ old('description') }}</textarea>
+                            <p class="charNum m-0 p-0 h6 text-capitalize"></p>
+                        </div>
+                    </div>
+                        <div class="form-group row mb-3">
+                            <label for="pay_date" class="col-md-3 col-form-label">Expected Pay Date</label>
+                            <div class="col-md-9">
+                                <input type="date" class="form-control" id="expected_pay_date" name="expected_pay_date"
+                                       min="2019-02-06" value="{{ old('expected_pay_date') }}">
+                            </div>
+                        </div>
+                        <input id="type" name="type" value="debt" type="hidden"/>
+                   
+
+                    <div class="form-group mb-0 justify-content-end row">
+                        <div class="col-md-9">
+                            <button type="submit" class="btn btn-primary btn-block ">Add Debt</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="paymentModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addTransactionModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h5 class="modal-title" >Add Payment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form class="form-horizontal" id="add-payment" method="POST"
+                      action="{{ route('transaction.store') }}">
+                    @csrf
+                    <div class="form-group row mb-3">
+                        @if(is_store_admin())
+                            <input type="hidden" name="store" value="{{Cookie::get('store_id')}}">
+                        @endif
+                    <input type="hidden" name="customer" value="{{$customer->customer->_id}}">
+                    </div>
+
+
+                    <div class="form-group row mb-3">
+                        <label for="amount" class="col-md-3 col-form-label">Amount</label>
+                        <div class="col-md-9">
+                            <input type="number" class="form-control" id="amount" name="amount" placeholder="0000"
+                                   required min="0" value="{{ old('amount') }}">
+                        </div>
+                    </div>
+                
+                    <div class="form-group row mb-3">
+                        <label for="description" class="col-md-3 col-form-label">Description</label>
+                        <div class="col-md-9">
+                            <textarea name="description" class="counter form-control" id="description"
+                                      placeholder="description..." maxlength="140">{{ old('description') }}</textarea>
+                            <p class="charNum m-0 p-0 h6 text-capitalize"></p>
+                        </div>
+                    </div>
+
+                        <input id="type" name="type" value="paid" type="hidden"/>
+                   
+
+                    <div class="form-group mb-0 justify-content-end row">
+                        <div class="col-md-9">
+                            <button type="submit" class="btn btn-primary btn-block ">Add Payment</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
             </div>
         </div>
     </div>
